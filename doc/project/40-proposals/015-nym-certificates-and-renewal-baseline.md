@@ -163,6 +163,12 @@ underlying participant.
 It is optional in the overall system, but required for the public-continuation
 path of Phase 1 renewal.
 
+Limitation (2026-10-27): v1 is a one-sided declaration that works after expiry
+only until `leniency-until`. This remains the current schema baseline until
+P015-004 closes; it is planned to be replaced by the narrow
+[`nym-succession.v2`](#succession-after-expiry-and-the-narrow-successor-2026-10-27)
+(`P015-004`, MVP scope).
+
 ### 4. `nym-renew-request.v1`
 
 The participant asks the council to accept a public continuation into the next
@@ -317,6 +323,215 @@ adds private exchange, cumulative source revocation, backend-proven publication
 time, lazy renewal and bounded issuer erasure. It supersedes public-continuation
 as the default only for that Whisper profile; the generic baseline and historical
 evidence retain their scope. Its two runtime gates remain pending.
+
+## Succession After Expiry and the Narrow Successor (2026-10-27)
+
+### Current State
+
+- **Fact.** `nym-succession.v1` carries `old-nym/id`, `new-nym/id`, `epoch` and
+  one signature by the old nym. Its signing preimage is not defined, and the
+  example signature is a placeholder. It has no successor confirmation, scope,
+  purpose, identifier, nonce, validity bound, audience or binding to the
+  predecessor's certificate or records, and it allows additional properties.
+- **Fact.** After `expires-at` the old nym may sign only succession work, and
+  only until `leniency-until`. Without that field there is no grace at all. The
+  contextual verifier bounds `leniency-until` to at most 24 hours after expiry
+  and to the end of the epoch (`node:nym-core/src/status.rs`).
+- **Fact.** The contextual Whisper profile publishes no succession: routine
+  renewal keeps the source, and a private reset names no successor.
+- **Fact.** Node validates the v1 shape in Schema Gate; no semantic succession
+  verifier or renewal flow exists yet.
+- **Inference.** Succession after the grace window, for example a year later,
+  is impossible today, and v1 cannot express succession limited to one case.
+
+### Decision
+
+The planned narrow `nym-succession.v2` will replace v1 without a compatibility
+path before the first release, when P015-004 closes. That single migration will
+remove the v1 schema, example and acceptance, move `line/succession` in
+`nym-certificate.v1` and `succession` in `nym-renew-request.v1` to v2, and update
+all references, generated COVERAGE/schema pages and Node acceptance together.
+The existing v1 artifacts and section 3 are the current baseline, not evidence
+that this migration has happened.
+
+v2 proves that the holder of an authorized predecessor key and the holder of
+the successor key agree on one transition. It does not prove that one person
+controls both keys: the two signatures may come from one participant or from
+two people agreeing to hand over control. No v2 purpose therefore identifies
+sources, and no counting authority merges two sources on the basis of a
+succession. Source equivalence would need a separate attestation by the
+issuer.
+
+| Field | Meaning |
+|---|---|
+| `schema` | Constant schema id |
+| `succession/id` | A random identifier; the replay key, and the `request/id` of a `case` succession |
+| `succession/scope` | `line` (public continuation of a pseudonym line) or `case` (one matter) |
+| `succession/purpose` | A closed enum: `continue-line` or `continue-case` |
+| `predecessor/nym` | The predecessor nym id |
+| `predecessor/certificate` | The predecessor certificate digest; required for scope `line` and forbidden for scope `case` |
+| `authorization/mode` | `nym-key` or `continuity-key` |
+| `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the `case/anchor` record |
+| `successor/nym` | The successor nym id |
+| `successor/certificate` | The digest of the successor's current certificate |
+| `case/anchor` | The original signed record digest, from the shared case request header of P013; required for scope `case` and forbidden for scope `line`. The order of a `case` succession comes from the case authority's acceptance, not from this artifact |
+| `audience` | The named recipients; `line` successions are public by nature |
+| `issued-at`, `not-after` | A short validity window |
+| `signatures` | Exactly two semantic authorizations: predecessor authorization and successor acceptance; both Ed25519 in Phase 1 |
+
+- **Suite boundary.** The first wire profile uses strict Ed25519 for both
+  authorizations and the continuity key. P081 separates verification from its
+  suite, but does not make this artifact algorithm-agile. No free-form `alg`
+  field is admitted; another suite needs a versioned, allowlisted profile and
+  new golden/refusal vectors. The two-authorization semantics stay independent
+  of that choice.
+- **Preimage.** Both signatures cover the same bytes: the ASCII domain
+  `orbiplex.nym-succession.v2`, one NUL byte and the JCS of the artifact
+  without `signatures`, following the contextual profile's signing rules and
+  strict Ed25519 verification. The successor signature is also its proof of
+  possession.
+- **Authorization modes.** `nym-key` is valid only for scope `line` and only
+  until the predecessor's `leniency-until`; it preserves Phase 1 public
+  continuation. `continuity-key` uses a key committed in advance and remains
+  usable after the grace window, for scope `case`
+  ([P013 case-bound succession](013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)).
+- **Successor.** The successor performs a new operation, so its certificate
+  must be valid now.
+- **Signature uses.** The successor's signature is a proof of possession inside
+  this domain-separated protocol. Only the succession verifier accepts it, with
+  a currently valid certificate; it is not a publication and needs no Agora
+  scope, and a publication verifier never accepts it. Any new nym publication,
+  such as a Whisper correlation notice, needs its bound kind/schema/topic/scope
+  tuple explicitly authorized by the post-MVP P015-005 profile
+  ([P013 signature uses](013-whisper-social-signal-exchange/long-lived-rumors.md#signature-uses-and-certificate-scope)).
+- **Currency.** Offline verification shows that a `case` succession is
+  authentic, not that it is still the effective succession of its case. That
+  requires the case status of
+  [P013 case state](013-whisper-social-signal-exchange/long-lived-rumors.md#case-state-and-currency),
+  whose `case/current-succession` must name this event.
+- **Narrow schema.** No additional properties, closed enums and negative
+  fixtures.
+- **Limits.** Succession renews no certificate, does not make the
+  predecessor's records valid now (historical verification is separate), never
+  adds a counted source and never merges two sources.
+
+| Predecessor state | Treatment |
+|---|---|
+| Certificate expired, key still controlled | `nym-key` within grace; afterwards only `continuity-key` succession |
+| Key lost or deleted | No direct proof. With a retained continuity key, `case` succession still works; otherwise there is no succession, because the council keeps no mapping after its retention |
+| Key compromised or authority revoked | A signature by the predecessor nym key never suffices. A separate continuity key is required, and a closed or conflicted case status blocks succession |
+
+Disclosure is deliberate. A recipient of a succession proof learns the link
+between the two nyms, and a scope limits the permitted effects, not that
+knowledge. `case` successions therefore travel only to their audience over the
+private exchange path.
+
+### Succession and Scope: Implementation Recommendations
+
+Planned refinement, 2026-10-28; implementation status is unchanged. Use the
+[P013 reuse dispositions](013-whisper-social-signal-exchange.md#implementation-reuse)
+and the existing `node:nym-core` owner instead of separate succession verifiers
+in Whisper, Vault and relay code. The MVP verifier remains pure and does not
+acquire a dependency on post-MVP case storage or delivery.
+
+[P013-LLR-009 owns the portable case-succession presentation](013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification).
+It supplies verified anchor/certificate inputs to this verifier, then checks
+ordered acceptance and current case status separately. Reuse the existing nym
+certificate representation and
+[P032's cross-artifact verification contract](032-key-delegation-passports.md#shared-verification-operations);
+P076 is one consumer precedent. Do not wrap
+Whisper succession in a Messaging passport or accept its grant status as case
+currency. A detached ADC manifest plus a P035 receipt can establish the anchor's
+key/authority/lifetime binding under an admitted profile without disclosing the
+private body; its result records reliance on that receipt signer. A missing
+safe anchor proof is unresolved, not permission to fetch the private signal.
+Presentation limits, safe assembly and network-denied host acceptance are
+post-MVP LLR work, not additional completion conditions for P015-004.
+
+The [Whisper family matrix](013-whisper-social-signal-exchange.md#portable-verification-profiles)
+also applies that contract to signals, notices and manifest signatures through
+their existing nym adapters. P015-005 freezes the minimum certificate/profile
+evidence for both publication and auxiliary use, including their disclosure and
+resource bounds; the common byte verifier does not turn one use into another.
+
+Reuse `nym-core`'s canonical parsing, NFC refusal, canonical base64 decoding and
+per-use signing-byte pattern, backed by `canonical-json` and
+`crypto::verify_message_strict_base64url`. Add a closed succession signing-use
+wrapper that removes only `signatures` and applies the prescribed domain; no
+caller supplies an arbitrary domain or list of unsigned fields. Preserve the
+existing certificate preimage, including its existing domain treatment. A
+cleanup must not rewrite already signed artifacts or historical verifier rules.
+
+The narrow verifier consumes the artifact, verified certificate/anchor inputs,
+an admitted profile, expected audience and explicit evaluation time. In order:
+
+1. Enforce byte/depth bounds, Schema Gate, canonical encoding, closed field
+   combinations, and the scope/mode/purpose matrix.
+2. Select the predecessor authorization from the verified line certificate or
+   the verified anchor's continuity-key commitment; never infer it from a key
+   presented in the request. Check the appropriate validity/grace bound and,
+   for case scope, the verified anchor's case lifetime.
+3. Resolve the successor key from its current verified certificate, check the
+   artifact window and audience, and build the preimage once.
+4. Verify both named signature roles over those same bytes using the closed
+   Phase 1 suite. Return a typed authentic succession binding, not a publication
+   permit or a statement that the case is current.
+
+Keep three results separate: `AuthenticSuccession` (this verifier),
+`AcceptedCaseSuccession` (LLR's ordered acceptance) and current authorization
+(fresh LLR case status). An idempotency owner stores the verified artifact
+digest under its scoped succession id: equal bytes replay, different bytes
+conflict. A pure verifier alone cannot detect replay across process restarts.
+P015-004 qualifies the replay decision with supplied prior state; LLR-007/008
+own durable case replay. Do not put an in-memory seen-id cache inside the crypto
+verifier and call it durable protection.
+
+For P015-005, use one typed publication-use tuple and one matching operation
+through issuance request, issuer narrowing, certificate and receiver checks:
+
+```text
+PublicationUse = (record_kind, schema, topic, disclosure_scope)
+AuxiliaryUse = (signing_domain, declared_publication_context)
+```
+
+Match a whole admitted tuple using the owning profile's topic rules. Never
+match four independent sets or infer auxiliary permission from publication
+permission. The new closed profile must adapt at its boundary; the old
+signal-only profile keeps its exact validation. Golden and negative fixtures
+are shared by producer and consumers, including crossed tuple fields, altered
+signature roles/preimages, a manifest presented as publication, wrong audience
+and missing anchor proof. The two uses share cryptographic mechanics, not grants.
+
+### Succession Tracker
+
+`P015-004` is MVP scope: it must close before the MVP release, not as a
+post-MVP follow-up.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id` with different bytes, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. Follow the pure verifier sequence and shared byte-law fixtures in the implementation recommendations; supplied replay state remains separate from durable LLR runtime. |
+
+### Embargo Authorship Scope Tracker
+
+Post-MVP; independent of the narrow MVP verifier in P015-004. The existing
+contextual profile remains restricted to `whisper-signal`/`whisper-signal.v2`.
+A key's ability to sign is not permission to publish another kind.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-005 | Issue and verify explicit notice and manifest scopes | todo | P015-001 | Freeze and version a closed contextual profile with authorized **tuples** of `(record/kind, schema, topic, disclosure/scope)`, never independent lists granting their Cartesian product. Issuance requests, issuer policy, certificates and receiving verifiers preserve the same tuple. A separate domain-bound auxiliary use permits `whisper-embargo-manifest.v1`, checked against its declared publication context, key and validity at admission; it grants no Agora publication by itself. Reuse P015/P081 signature and scope verifiers. Negative fixtures substitute kind/schema/topic/scope, present a manifest signature as publication, and use an ordinary signal-only certificate for notice or manifest. Positive fixtures admit an explicitly scoped notice and manifest while keeping the predecessor narrow profile unchanged. ADC consumes this grant; this task does not depend on ADC runtime. Use one typed tuple matcher across request, issuer and receiver, with separate auxiliary-use admission; preserve the old profile's golden/refusal vectors. |
+
+P015-005's gate also freezes bounded certificate/profile evidence for the notice
+and manifest uses under the [P032 contract](032-key-delegation-passports.md#shared-verification-operations).
+Network-denied producer/consumer fixtures cover both uses, wrong scope, missing
+evidence and self-supplied authority; valid cryptography never widens a grant.
+
+Both tracker rows include the shared primitive/refusal fixtures and the
+[milestone convergence gate](013-whisper-social-signal-exchange.md#milestone-convergence-gate),
+within their own MVP or post-MVP scope.
+
+The profile contract is owned here and detailed in the
+[contextual continuation](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#notice-and-embargo-manifest-scope-extension).
 
 ## P081 Scoped-Claim Adoption
 

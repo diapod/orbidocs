@@ -18,6 +18,12 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_each_sync_allowlist_names_each_artifact_once(self) -> None:
+        for name, values in vars(SYNC).items():
+            if name.endswith("_WHITELIST"):
+                with self.subTest(allowlist=name):
+                    self.assertEqual(len(values), len(set(values)))
+
     def test_contextual_whisper_operator_contracts_copy_to_node_not_middleware(self) -> None:
         # Exercise the actual command from an empty destination. Manually
         # present mirrors must not hide an incorrectly selected whitelist.

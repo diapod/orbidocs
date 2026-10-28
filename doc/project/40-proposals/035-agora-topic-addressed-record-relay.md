@@ -1739,6 +1739,100 @@ S039 notification owners rather than a new storage-owned scheduler:
   retire evidence or repair storage automatically, and do not block emergency
   retrieval of intact bytes on healthy-topology checks.
 
+### Predictable evidence retirement contract (2026-10-26)
+
+**Status:** accepted design; Node local operator implementation is qualified under P035-015. This
+extends P035-009's reviewed-retirement rule without changing any historical
+evidence identity, qualification result, release claim or active hold.
+
+Retirement uses three distinct operations:
+
+- `purge-derived` removes reconstructible runtime views or cache bytes
+  that are not members of an immutable evidence inventory;
+- `retire-replica` removes one retained location while the remaining verified
+  locations still satisfy the adopted protection policy;
+- `retire-evidence` removes the last retrievable representation of a bundle and
+  therefore also retires, rebinds or makes unavailable every dependent claim.
+
+Every managed object has exactly one closed retention class: `evidence-member`,
+`authority-asset`, `reproducible-derivative`, `cache` or `unknown`. Replica count
+and failure-domain topology are separate state, not classes. Inventory membership,
+content identity and the object's role determine the class; directory placement,
+age, size, a `failed`/`refused` result or an operator's informal usefulness
+judgement do not. Classification follows the closed precedence below; `unknown`
+is protected and fails closed.
+
+The class/action matrix is closed: `purge-derived` accepts only
+`reproducible-derivative` or `cache`; `retire-replica` and `retire-evidence`
+accept only `evidence-member` or `authority-asset`; `unknown` accepts no action.
+Incomplete or contradictory coverage yields `unknown`. Otherwise evidence
+inventory membership takes precedence, then a proven interpretation/retrieval/
+qualification dependency yields `authority-asset`; only material excluded from
+both sets may be classified as a derivative or cache.
+
+The retention catalogue records the exact bundle or object identity, owner,
+class, locations, dependent cases/claims/releases, active holds, earliest review
+time, replacement relation and policy revision. An earliest review time queues a
+review; it is never deletion authority. A candidate is eligible only when all
+operation-specific predicates hold:
+
+1. `purge-derived` requires proof that the object is absent from every evidence
+   inventory, has an exact reconstruction source and recipe, has no active hold,
+   and is covered by an explicit cleanup policy.
+2. `retire-replica` requires a fresh read and integrity check of the remaining
+   locations plus proof that their current topology still meets the adopted
+   protection policy.
+3. `retire-evidence` requires every dependency to be closed or rebound to a
+   freshly retrieved and ordinarily qualified replacement. Without a replacement,
+   the owning claim/release surface must first record that its acceptance is
+   unavailable. An open case, current release, unresolved incident, legal/policy
+   hold or explicit manual hold refuses retirement.
+4. Execution rechecks exact inventory, policy, dependency snapshot, store/media
+   identity and active-use/lease state. Missing, stale, changed or contradictory
+   facts refuse the operation; absence is not inferred as successful deletion.
+
+The lifecycle is represented by append-only facts whose current projection is:
+
+```text
+protected -> proposed -> reviewed-eligible -> authorized -> executed -> verified
+
+protected -> proposed -> reviewed-eligible -> authorized
+          -> quarantined -> quarantine-verified
+
+quarantine-verified -> proposed (new final-delete plan)
+                    -> reviewed-eligible -> authorized -> executed -> verified
+```
+
+`Refused`, `expired` and `cancelled` terminate the corresponding plan or
+decision. `Partial` or executed-without-verification is an incident requiring a
+fresh reconciliation; it is never a successful retirement.
+`Quarantine-verified` proves only the reversible move and recovery path. It does
+not retire the logical identity or authorize final deletion.
+
+The candidate plan binds the operation, exact identities, dependency snapshot,
+policy and tool revisions, estimated bytes and a finite approval expiry. Private
+locators remain outside public metadata. A separate reviewed decision identifies
+the accountable owner/reviewer, reason, holds discharged, replacement or explicit
+claim-unavailability action, and approved plan digest. Approval expires on any
+identity, policy, dependency, topology or lease change. The execution receipt
+records the immutable decision/plan digests, before/after inventories, checks
+performed, partial or complete outcome and exact logical bytes/files affected.
+Any physical-space measurement remains best-effort because clones, reflinks,
+snapshots, compression and filesystem accounting may share storage. Quarantine
+is reversible staging, not proof of retirement or reclaimed capacity; final
+deletion requires a fresh plan after its policy-bound `final-delete-not-before`.
+
+The public-evidence retention maintainer may catalogue objects and propose exact
+plans. Claim/release owners control their dependencies and holds. A reviewed local
+operator decision authorizes one exact plan; the executor has no wider selection
+authority. S020 or another scheduler may launch bounded catalogue and dry-run work,
+but may not classify evidence, release a hold, approve a plan or infer deletion.
+A recurring policy may automatically propose explicitly classified `cache` or
+`reproducible-derivative` material, and a scheduler may invoke an already approved
+exact plan within its validity window. Policy match and elapsed time never become
+standing deletion authority. Generic cleanup must exclude evidence, authority
+assets and `unknown` objects.
+
 ### Current-primary integration checkpoint (2026-10-23)
 
 The next operator-authorized integration joins Node primary `606800b7` and
@@ -1817,6 +1911,7 @@ or required dependency was relaxed. Evidence:
 | P035-012 | Qualify a retained-evidence replica and verification procedure | done | P035-009; P035-011; operator-adopted protection profile | Qualified 2026-10-20: clean Node dc996b24 / Orbidocs 83c77609, eight exact bundles and 32517795 original file bytes per logical store, OS-enforced primary/previous-capture denial and identical fresh secondary qualifications. Operator explicitly adopted an overlapping mirror with a separate second member; no disjoint-media/host claim. Clean 70d507cb release rehearsal freshly verifies both locations, binds the exact candidate/attempt/policy/inventory and is accepted by the v2 outer gate; another attempt refuses and other release checks stay unqualified. Small custody/procedure proofs qualify equally after extraction. Auxiliary originals deduplicate without deletion or outcome changes; oversized refused input stays private. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`. Global partial scope, shared risks and existing budgets remain. |
 | P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | done | P035-010; S039; S020; P072 | Qualified 2026-10-23 at 885a78fd/b16312f6: 12 focused Synapse cases, four SQLite runtime and one conformance; real S039/API/private UI, no-JS redacted controls, original CAS/current authority, durable receipts, crash/restart/replay and dual-store retention. Full historical transport, OS notifications and global readiness are unchanged; see the focused qualification above. |
 | P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | done | P035-012; S020; S039; reviewed operator job policy | Qualified 2026-10-23 at clean Node 62bea078 / Orbidocs c43352b6: eleven real background/S020/S039/UI cases, eighteen fresh pairs, periodic topology, stale checks, failures, restart/replay and exact dual-store retained qualification. See node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md. Opt-in session-bound scope; mandatory manual release verification, private locators and accepted overlapping-mirror limits remain unchanged.  Portable identity/OS-access review adds a separately qualified three-case delta and fresh stable-media dual reads; the original eleven-case proof remains historical. |
+| P035-015 | Implement predictable public-evidence retirement | done | P035-009; P035-012; retention and claim/release owners | Qualified 2026-10-26 for the explicitly adopted local operator profile: complete reviewed fixture sources, deterministic catalogue/dry-run/exact plans, inventory-derived classification, real owner/reviewer signatures, OS-bound executor authority and a pinned append-only single-use journal. Real derivative, replica and last-copy retirement, exclusive quarantine/restore, ordinary replacement retrieval/qualification and independent post-action reads pass. Authority renewal preserves consumption and rejects superseded trust; expiry, holds, inventory/replica drift, partial unlink, destination races, deadline exhaustion and process death refuse or require reconciliation. The dated report pins exact working sources rather than claiming a clean checkout: `node:docs/evidence/evidence-retirement/README.md`. Final-delete policy time is controlled; filesystem effects, signatures and crash/restart inspection are real on the recorded macOS host. Legacy production stores still require their own complete source, trust adoption and exact signed decisions. The result grants no standing cleanup authority and does not qualify hostile root/same-uid writers, hardware power loss, unmeasured platforms, global Agora or release readiness. The pre-production review fixes false completion after a failed final replacement check and adds automatic protected producer metadata to shared archive/capsule/store helpers; see `node:docs/audits/EVIDENCE-RETIREMENT-REVIEW-2026-10-26.md`. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
@@ -2666,6 +2761,128 @@ links here rather than maintaining duplicate task status.
 | P035-001 | Freeze producer-to-AD publication binding | todo | Existing S023 `agora-default` | Inventory UI, Dator, Seed Directory and other direct publishers; classify local-only/test clients separately; pin caller/authority propagation, exact signed bytes, intent/delivery correlation, timeout semantics and ownership of every existing outbox. Contract fixtures cover policy refusal before effects and recovery after submission ambiguity. |
 | P035-002 | Migrate Node-owned publishers | todo | P035-001 | P026 compose/opinion/comment authoring, P067 Dator offer snapshots and accepted Seed facts use the same host delivery seam with explicit route configuration. UI reports pending versus confirmed publication. No duplicate sends or component-private transport retries; raw/unaccepted Seed requests are never published. Domain state survives delivery failure. |
 | P035-003 | Retain local and remote relay acceptance | todo | P035-002 | Exercise actual producer -> signer -> AD -> local/remote Agora -> query with unchanged record id/signature/about fields; outage, remote-accepted/lost-response, restart, duplicate retry, expired/revoked authority and denied topic fixtures pass. Private fallback is refused; Matrix federation and direct relay API compatibility remain intact. |
+
+## Decorrelated Bucket Pull (2026-10-27)
+
+Planned continuation for
+[P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
+exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
+The relay stays semantics-blind (section 1.1). Whisper owns the decorrelation
+vocabulary that selects topic keys.
+
+A reader that wants to discover rumors without revealing private interests
+pulls whole topic buckets: every record under one topic key within one time
+window. Section 5.1 already lists records by topic with an opaque cursor, but a
+cursor alone does not tell the reader that a time slice is complete, and the
+reader has no cheap way to decide whether pulling a whole prefix fits its
+budget.
+
+- **Windowed complete slices.** The topic listing accepts a half-open window
+  over relay receipt time (`relay/received-at`). Authored time is not trusted
+  and is not used. Pagination within a window is complete and stable, and
+  `agora-query-attestation.v1` binds the window and states completeness or
+  pruning.
+- **No fine filters required.** A relay MUST NOT require content filters for a
+  bucket pull and SHOULD NOT offer facet filtering for Whisper topics; `kind`
+  remains an admissible coarse filter.
+- **Volume summaries and prefix enumeration.** The relay reports record counts
+  and byte totals per topic key and window, and enumerates topic keys under a
+  prefix, so a reader can choose pull-all mode in a small federation. A summary
+  reveals the same bucket as the pull it precedes.
+- **Mirrors.** A reader may pull the same slice from several relays; record ids
+  deduplicate the results.
+- **Deferred.** Compact per-slice facet filters published by the relay and
+  tested locally, in the manner of BIP157/158 client-side filtering, may reduce
+  bandwidth later. They need a separate privacy review.
+
+### Decorrelated Pull Tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P035-016 | Windowed complete topic slices | todo | P013-DFR-001 | Listing by topic key and receipt-time window with complete, stable pagination; the attestation binds the window and states completeness or pruning. Fixtures cover empty, pruned and concurrently ingested windows, and the reference relays agree on slice contents. |
+| P035-017 | Slice volume summaries and prefix enumeration | todo | P035-016 | Per-topic and per-window counts and bytes; bounded enumeration of keys under `ai.orbiplex.whispers/`; budgets and typed refusals. A reader fixture chooses pull-all below its threshold. |
+| P035-018 | Compact slice facet filters | deferred | P035-016; privacy review | Relay-published per-slice filters matched locally. Reopen only after a measured bandwidth need. |
+
+## Portable Admission Receipts (2026-10-27)
+
+Planned continuation for
+[P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
+`relay/received-at` is relay metadata outside the author's signature, so it
+cannot by itself show when a record was admitted, or that its nym proof was
+valid then. P015 already relies on an allowlisted relay's signed durable
+admission receipt as publication-time evidence. This section makes that
+receipt a portable artifact instead of adding a second format.
+
+`agora-admission-receipt.v1`, signed by the admitting relay, binds:
+
+- the `record/id` and the digest of the exact author bytes;
+- the digest of the nym certificate or passport used, and its issuer;
+- the verification outcome and the ingest gate policy that applied;
+- the relay identity and the acceptance time.
+
+The relay acts as an explicitly admitted time authority for the profiles that
+accept its receipts; no verifier infers that authority from a relay label. The
+receipt never enters the signed record. It travels beside the byte-identical
+envelope: in readback metadata, in custodial redelivery requests and in local
+Memarium storage. A verified Matrix PDU remains an equivalent proof under P015.
+
+### Detached Embargo Manifest Binding
+
+Planned consumer profile (2026-10-28), qualified by P035-019 and
+[P013-ADC-001](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
+For a private Whisper anchor, the counting authority verifies the complete
+signal and its separately nym-signed embargo manifest, then signs a receipt
+binding the signal's `record/id`, the exact author-byte digest **and** the
+manifest digest and verified signing-use profile. The manifest precedes the
+signal and never hashes the signal back. No generic Agora signature is checked
+against a body with omitted fields.
+
+The profile's verified outcome includes equality of the continuity-key digest,
+case status authority and `case/not-after` in the manifest and private signal.
+This check allows the same receipt and manifest to establish the original
+binding for [P013-LLR-009's portable succession profile](013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification).
+Both digests being present is insufficient without this declared, checked
+admission outcome. The receipt establishes historical admission; fresh case
+authority and the successor certificate remain separate LLR/P015 inputs.
+
+A recipient given only the public manifest and this receipt can verify the
+manifest and the authority's private-admission claim. It explicitly trusts the
+admitted receipt signer for the hidden publication; it does not independently
+verify the hidden body's signature. The receipt profile's closed public fields
+must not expose correlation text, source lists, contact routes or unapproved
+private facets. Wrong manifest binding or absent profile authorization refuses.
+This reuses the portable receipt carrier, not another timestamp service.
+
+### Admission Receipt Implementation Recommendations
+
+Use `PublicationTimeVerifier` in `node:nym-core/src/lib.rs` as the existing behavior
+port for a record digest plus exact author-byte digest yielding a verified time
+and evidence digest. It currently has pure/test consumers; a portable production
+adapter is still P035-019 work. Matrix PDU and signed-receipt verification must
+share binding-law fixtures, not duplicate historical validation in every relay,
+Memarium reader and Whisper consumer.
+
+The existing `AdmissionEvidence` in `node:agora-matrix/src/recovery.rs` is a local
+policy/evaluation fact. Neither that struct nor a row retained by
+`retain_local_admission` is automatically a portable signed time proof. The
+adapter must verify an admitted signer, exact byte bindings and the profile's
+time claim before producing the port's result. Keep immutable evidence beside
+the envelope; projection rebuild does not turn today's evaluation into the
+original admission time.
+
+The detached-manifest adapter additionally returns a verified manifest/admission
+binding after checking its closed profile. It shares the receipt verifier but
+does not synthesize `SignalBinding` for unseen private text. Bounded offline
+resolution reports missing evidence explicitly and performs no private-body
+fetch. See the [P013 reuse contract](013-whisper-social-signal-exchange.md#implementation-reuse)
+and [ADC proof paths](013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations).
+P035-019's gate includes these adapter-law and local-fact-is-not-proof cases.
+
+### Admission Receipt Tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 

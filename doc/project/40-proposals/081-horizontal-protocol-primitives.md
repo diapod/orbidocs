@@ -884,6 +884,16 @@ Persist per `(profile-id, dataset-id, source-node-id)`:
 
 ### Scoped-Claim Core Shapes
 
+The [P032 cross-artifact verification rule](032-key-delegation-passports.md#shared-verification-operations)
+is broader than scoped claims. Its new
+[Whisper profiles](013-whisper-social-signal-exchange.md#portable-verification-profiles)
+reuse bounded evidence and the separation of verification from admission, but
+do not make every stored signature a `scoped-claim-presentation.v1`. The existing
+`ScopedClaimSuiteVerifier` owns request/nonce-bound predicates; P015 owns the
+two-signature succession verifier, and LLR owns its accepted/current case effect.
+Share lower-level byte/binding checks where their laws match. No new suite,
+predicate, replay policy or P081 completion claim follows from that reuse.
+
 Illustrative interfaces:
 
 ```rust

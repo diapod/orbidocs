@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-viewer-list:v1",
+  "title": "assessment-viewer-list.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "offset": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000000
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-viewer-grants.md"
+  ]
+}

@@ -167,7 +167,23 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :story-005-public-signal-smoke
+ [{:cap/id :local-assessment-exposure
+   :title "Local Assessment Exposure"
+   :kind :projection
+   :based-on ["doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+              "doc/project/60-solutions/008-agora/008-agora.md"]
+   :schemas ["assessment-exposure-profile.v1"
+             "assessment-exposure-fact.v1"
+             "assessment-exposure-command.v1"
+             "resource-assessment-view.v1"]
+   :responsibilities
+   ["Compose current topic admission, local exposure policy and rendering for an authenticated viewer"
+    "Persist private encounter/unlock/release facts separately from rebuildable Agora projections using S028 recovery mechanics"
+    "Return a bounded common own/released-peer view without hidden peer counts, cursors, ETags or ordering effects"
+    "Fail closed on unavailable policy or unsupported profiles; qualify wider consumers separately from the local-SQLite display pilot"]
+   :status :partial}
+
+  {:cap/id :story-005-public-signal-smoke
    :title "Story-005 Public Signal Smoke"
    :kind :e2e
    :based-on ["doc/project/30-stories/story-005-whisper-rumor-intake.md"
@@ -272,6 +288,7 @@
 
  :produces
  ["agora-record.v1"
+  "resource-assessment-view.v1"
   "agora-vault-entry.v1"
   "agora-vault-ref.v1"]
 

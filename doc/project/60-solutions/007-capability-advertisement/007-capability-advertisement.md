@@ -519,9 +519,23 @@ advertisement, settlement or generic dispatch authority. V1 request responses
 remain unchanged. A verified observation is an input to later current
 authorization, not a durable authorization result.
 
+[P076-037](../../40-proposals/076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal)
+adds a separate exact-passport V2 renewal request on the established peer
+request/response pair. It is bound to the original handoff peer and local
+disclosure decision; it does not extend advertisements or V1 requests.
+
 The pre-release direct-handoff contract requires a receiver supporting V2 even
 when the status is omitted. Older V1-only receivers refuse the carrier; mixed
 version negotiation is outside this gate. A focused compatibility-contract test
 models that V1 Schema Gate refusal without claiming an old-binary runtime run.
 Observed/deferred/refused outcomes are inspectable separately from transport
 handling, including typed warnings and local metadata-only observation receipts.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+P076-038 qualified the bounded V2 Messaging presentation and peer-renewal path
+across two physical hosts. Presented material supplies verification inputs;
+independent expected subject/route context and local root admission remain
+consumer responsibilities. No generic advertisement carrier or trust admission
+was added. See P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for source pins and evidence.

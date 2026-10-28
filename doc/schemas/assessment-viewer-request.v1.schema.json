@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-viewer-request:v1",
+  "title": "assessment-viewer-request.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "executor/ref",
+    "subjects"
+  ],
+  "properties": {
+    "executor/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "subjects": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "resource/kind",
+          "resource/id"
+        ],
+        "properties": {
+          "resource/kind": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "resource/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        }
+      }
+    },
+    "ttl/seconds": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 3600,
+      "default": 900
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-viewer-grants.md"
+  ]
+}

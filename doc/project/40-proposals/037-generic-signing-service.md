@@ -1006,6 +1006,13 @@ artifact's canonical signing contract; attaching evidence does not silently
 change historical signed bytes. Consumer-specific offline acceptance verifies
 signature, authority and freshness outcomes separately.
 
+The [shared verification operations](032-key-delegation-passports.md#shared-verification-operations)
+also apply to P013/P015's new Whisper families. Artifact adapters assemble the
+bounded public evidence after selecting the permitted signing use; `HostSigner`
+still only performs its existing authorized cryptographic operation. Proof
+assembly and verification do not move trust admission, case state, historical
+publication-time checks or evidence acquisition into the signing engine.
+
 ### Proposal 035 (Agora Topic-Addressed Record Relay)
 
 Consumer. Agora's UI compose flow (P8 in Agora TODO) is now implemented in the

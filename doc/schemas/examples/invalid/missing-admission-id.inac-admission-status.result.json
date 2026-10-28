@@ -1,0 +1,5 @@
+{
+  "schema": "inac-admission-status.result.v1",
+  "outcome": "accepted",
+  "observed/at": "2026-10-28T00:00:00Z"
+}

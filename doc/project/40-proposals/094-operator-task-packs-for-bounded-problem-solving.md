@@ -3081,8 +3081,8 @@ bypass, firewall disablement or SSH domain payload proxy. Every failed report
 remains failed; no historical bytes acquire new assertions.
 
 Historical physical checkpoint (2026-10-05): `s13-1791194095-ddff55` passes with
-`distinct-physical-hosts` and `profile-defined` evidence on `self.local` and
-`turbo.local`. Initial connection refusal recovered through the ordinary peer
+`distinct-physical-hosts` and `profile-defined` evidence on `host-A.local` and
+`host-B.local`. Initial connection refusal recovered through the ordinary peer
 backoff, without resetting it. Result delivery completed in its first attempt.
 The profile explicitly admits a 60-second result AD exchange and a 65-second
 Dator host waiter, after an earlier run exhausted the local-only 10-second
@@ -3656,7 +3656,7 @@ promote the remaining tasks.
 `012c6`, `023e` and `012c1–012c5` remain in progress until their respective
 clean-source operator criteria pass. The remaining composed run
 uses installed/conformant/active package prerequisites, local MLX/vfkit on
-self.local, a second isolated buyer and explicitly local SQLite relay. It
+host-A.local, a second isolated buyer and explicitly local SQLite relay. It
 requires a real order before passages, unfinished-candidate adoption, fresh
 Reviewer/Chair, observation then repair, distinct publication approval, measured
 periodic Arca refresh and checked cleanup. Delegated receipts are not independent
@@ -4039,3 +4039,11 @@ P094 may be promoted only when:
 - task-pack composition from multiple signing authorities;
 - automated reputation projection for task-pack providers;
 - task classes requiring physical actuators beyond the first P083 integration.
+
+## Host pseudonyms
+
+Host names in this document use stable documentation pseudonyms. The private
+reverse mapping is maintained at `orbidocs:local/host-pseudonyms.json` and is not
+distributed. See the [documentation pseudonym convention](../../ops/howto/documentation-pseudonyms-howto.md).
+Original evidence bytes, signatures and digests remain unchanged; these labels
+only change the documentary presentation.

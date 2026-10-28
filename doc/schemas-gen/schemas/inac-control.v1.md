@@ -9,7 +9,7 @@ Control-plane frame for Inter-Node Artifact Channel offer/request/push/response 
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `inac-control.v1` |  |
-| [`operation`](#field-operation) | `yes` | enum: `offer`, `request`, `push`, `accept`, `decline`, `defer`, `ingested`, `already-present`, `refused`, `partial` |  |
+| [`operation`](#field-operation) | `yes` | enum: `offer`, `request`, `push`, `accept`, `decline`, `defer`, `ingested`, `already-present`, `refused`, `partial`, `admission-status`, `admission-status-result` |  |
 | [`correlation/id`](#field-correlation-id) | `no` | string |  |
 | [`idempotency/key`](#field-idempotency-key) | `no` | string |  |
 | [`artifact`](#field-artifact) | `no` | ref: `#/$defs/artifact` |  |
@@ -18,6 +18,7 @@ Control-plane frame for Inter-Node Artifact Channel offer/request/push/response 
 | [`authorization`](#field-authorization) | `no` | ref: `#/$defs/authorization` |  |
 | [`response`](#field-response) | `no` | ref: `#/$defs/response` |  |
 | [`meta`](#field-meta) | `no` | object |  |
+| [`admission/status`](#field-admission-status) | `no` | unspecified |  |
 
 ## Definitions
 
@@ -210,6 +211,175 @@ Then:
 }
 ```
 
+### Rule 5
+
+When:
+
+```json
+{
+  "properties": {
+    "operation": {
+      "const": "admission-status"
+    }
+  },
+  "required": [
+    "operation"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "correlation/id",
+    "admission/status"
+  ],
+  "properties": {
+    "admission/status": {
+      "properties": {
+        "kind": {
+          "const": "query"
+        }
+      }
+    }
+  },
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "artifact"
+        ]
+      },
+      {
+        "required": [
+          "request"
+        ]
+      },
+      {
+        "required": [
+          "authorization"
+        ]
+      },
+      {
+        "required": [
+          "transfer"
+        ]
+      },
+      {
+        "required": [
+          "response"
+        ]
+      },
+      {
+        "required": [
+          "meta"
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Rule 6
+
+When:
+
+```json
+{
+  "properties": {
+    "operation": {
+      "const": "admission-status-result"
+    }
+  },
+  "required": [
+    "operation"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "correlation/id",
+    "admission/status"
+  ],
+  "properties": {
+    "admission/status": {
+      "properties": {
+        "kind": {
+          "const": "result"
+        }
+      }
+    }
+  },
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "artifact"
+        ]
+      },
+      {
+        "required": [
+          "request"
+        ]
+      },
+      {
+        "required": [
+          "authorization"
+        ]
+      },
+      {
+        "required": [
+          "transfer"
+        ]
+      },
+      {
+        "required": [
+          "response"
+        ]
+      },
+      {
+        "required": [
+          "meta"
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Rule 7
+
+When:
+
+```json
+{
+  "required": [
+    "admission/status"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "operation": {
+      "enum": [
+        "admission-status",
+        "admission-status-result"
+      ]
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -222,7 +392,7 @@ Then:
 ## `operation`
 
 - Required: `yes`
-- Shape: enum: `offer`, `request`, `push`, `accept`, `decline`, `defer`, `ingested`, `already-present`, `refused`, `partial`
+- Shape: enum: `offer`, `request`, `push`, `accept`, `decline`, `defer`, `ingested`, `already-present`, `refused`, `partial`, `admission-status`, `admission-status-result`
 
 <a id="field-correlation-id"></a>
 ## `correlation/id`
@@ -271,6 +441,12 @@ Then:
 
 - Required: `no`
 - Shape: object
+
+<a id="field-admission-status"></a>
+## `admission/status`
+
+- Required: `no`
+- Shape: unspecified
 
 ## Definition Semantics
 

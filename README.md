@@ -110,6 +110,21 @@ Representative files:
 
 ## Build and Validation
 
+### Documentation privacy
+
+Use stable host/address pseudonyms and keep the reverse map local. See the
+[convention and review rules](doc/ops/howto/documentation-pseudonyms-howto.md).
+
+```sh
+make test-document-privacy
+make check-no-absolute-local-paths
+```
+
+After `make html-i18n`, run `make check-published-privacy` before publication. The
+validation workflow runs both commands on `main` and pull requests affecting
+documentation or its build inputs, without uploading or deploying the site.
+Deployment remains in the separate Pages workflow for `public`.
+
 ### JSON Schema syntax only
 
 ```sh

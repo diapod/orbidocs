@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-agent-run-result:v2",
+  "title": "assessment-agent-run-result.v2",
+  "description": "P026-012b-r1 successor. Historical versions are unchanged; private commitments have explicit HMAC labels.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer-r1.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "replayed",
+    "outcome",
+    "manifest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "assessment-agent-run-result.v2"
+    },
+    "status": {
+      "const": "completed"
+    },
+    "replayed": {
+      "type": "boolean"
+    },
+    "outcome": {
+      "$ref": "agent.outcome.v4.schema.json"
+    },
+    "manifest": {
+      "$ref": "agent.supplied-input-manifest.v3.schema.json"
+    },
+    "step": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "replayed": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "step"
+        ]
+      }
+    }
+  ]
+}

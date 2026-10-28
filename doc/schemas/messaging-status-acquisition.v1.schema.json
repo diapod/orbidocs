@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-status-acquisition:v1",
+  "title": "MessagingStatusAcquisition v1",
+  "description": "Node-scope P091 live policy for observed Messaging issuance status acquisition.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+  ],
+  "type": "string",
+  "enum": [
+    "online",
+    "scheduled-only",
+    "no-observed-grant-query"
+  ]
+}

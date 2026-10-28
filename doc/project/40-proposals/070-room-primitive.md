@@ -22,6 +22,12 @@ Extended by:
 
 - `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
 
+Exercised by:
+
+- `doc/project/30-stories/story-014-dormant-contest-entry.md` (association
+  room after dormant-fact resonance; the handoff is
+  [P013-DFR-006](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27))
+
 ## Status
 
 `promoted`
@@ -2026,6 +2032,24 @@ checks do not qualify every carrier, captured product or fresh physical topology
 - [ ] Add policy and UI projection tests for deny, warn, allow, and filter behavior;
   local plus non-local, non-local plus unknown, provider redaction, legacy absence,
   participant runtime changes, and a receiver that must not upgrade peer evidence.
+
+## Whisper Embargo Release Consumer
+
+Planned (2026-10-28), owned and qualified by
+[P013-ADC-005/000](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
+Reuse the existing Room identity, membership checks, history policy and AD
+handoff. A release audience is a concrete canonical descriptor containing the
+room identity and consented history-access policy revision; its identity excludes
+transport routes. The same room reached through two routes consumes one release
+slot, whereas two rooms require separately consented descriptors and slots.
+
+Before accepting the release, verify the detached author manifest/admission
+package, payload, release-intent digest and authority commit receipt. No protected
+correlation text is fetched. Room membership does not authorize a broader release.
+History access, including later members, must stay within the consented descriptor;
+a changed history policy needs a fresh compatible authorization, never implicit
+reuse of old consent. ADC acceptance covers two rooms, route aliasing, unauthorized
+membership/history access and offline proof failure. This adds no Room protocol.
 
 ## Open Questions
 

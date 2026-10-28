@@ -1,0 +1,23 @@
+{
+  "schema": "agent.supplied-input-manifest.v3",
+  "manifest/ref": "agent-input-manifest-v3:sha256:ajntCm7yWPlwyKdVLDL7uFaJYaEDXfioIj73im7WwSQ",
+  "agent/id": "agent:fixture-module",
+  "agent-binding/ref": "binding:fixture-module",
+  "passage/ref": "agent-passage:agent:fixture-module:1",
+  "request/ref": "request:fixture-one",
+  "request/digest": "hmac-sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "context/authority-dependencies": [
+    "activation:fixture-source",
+    "consent:fixture-consumer"
+  ],
+  "inputs": [
+    {
+      "input/ref": "observation:fixture",
+      "content/digest": "hmac-sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "context/authority-dependencies": [
+        "activation:fixture-source",
+        "consent:fixture-consumer"
+      ]
+    }
+  ]
+}

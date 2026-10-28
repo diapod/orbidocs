@@ -1785,6 +1785,44 @@ Return typed unavailability or refusal when no authorized continuation is bound.
 | --- | --- | --- | --- |
 | P066-GUIDE-001 | Bind Assistant catalog use to the shared controller contract. | todo | After P072-GUIDE-003; prove same-session isolation, no implicit Agent escalation, no repeated turn effects and no ambient tool execution; report Assistant-specific evidence separately from the first Agent slice. |
 
+## Dormant-Fact Capture and Rumor Suggestions (2026-10-27)
+
+Planned follow-up for
+[P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
+exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
+It preserves the
+[S045 invariants](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md#channel-not-counterparty):
+the assistant is a channel, not a counterparty, and it advises while
+host-owned paths perform effects.
+
+- **Recipient picker affordance** (`P066-DFR-001`). In Story 014 the
+  participant chooses the assistant from the contact list. The UI may render
+  the assistant affordance in the recipient picker beside contacts, visibly
+  marked as a channel. Selecting it opens an Assistant Channel turn and creates
+  no contact record, nym, Messaging envelope or route.
+- **File references** (`P066-DFR-002`). When a turn names a local file, the
+  host asks for a one-shot read grant. It then computes the SHA-256 digest,
+  media type, size and a bounded text representation with a host-owned
+  extractor. The model receives only what context grants and classification
+  admit.
+- **Capture proposals** (`P066-DFR-003`). The assistant returns an inert
+  proposal to record a `memarium-personal-record.v1` draft
+  ([P036-007](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)),
+  including the default or requested retention horizon. The UI shows the draft
+  and any clamp warning. On acceptance the host writes the record under the
+  participant's authority; the assistant never writes Memarium.
+- **Rumor suggestions** (`P066-DFR-004`). When a participant voices doubts or
+  confirms a resonance link, the assistant may propose drafting a rumor.
+  Acceptance opens the Story 005 redaction flow with any explicit relation
+  prefilled; the channel publishes nothing.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P066-DFR-001 | Render the assistant in the recipient picker without a contact record. | todo | The picker entry is visibly a channel; fixtures prove that selection and turns create no contact, nym, route or Messaging dispatch. |
+| P066-DFR-002 | Resolve file references through host-owned grants. | todo | A one-shot read grant; digest, media type, size and bounded text extraction by the host; refusal without a grant; path and content absent from traces. |
+| P066-DFR-003 | Propose personal-record capture as an inert control proposal. | todo | After P036-004 and P036-007; the host writes only after acceptance, the clamp warning is shown, and replayed turns do not write twice. |
+| P066-DFR-004 | Propose rumor drafting into the Story 005 flow. | todo | After P013-DFR-004; a relation is prefilled only from a confirmed link; the channel publishes nothing and redaction review stays mandatory. |
+
 ## Implementation Tracking
 
 Status values:
@@ -1878,3 +1916,34 @@ They are intentionally excluded from the MVP readiness percentage.
 | `assistant-model-provider-key-federation-endorsement` | Allow a federation root to endorse a provider release public key for model-package distribution. | `done` | The accepted `inquirium.model-package.provider-key-endorsement.v1` contract is closed, domain-separated, expiring, revocable, and bound to one exact federation-root version and digest plus purpose `model-package-distribution`. The installer reuses the canonical sovereign participant/org signature-threshold verifier and projects the exact `(provider/ref, key/id, public/key)` tuple. The daemon requires an endorsed-only release entry to retain the same `provider/ref`, intersects that scope with the exact approved-release catalog, and re-evaluates it at activation, rollback, and planned-transition recovery; manually trusted keys remain the only explicit host-wide override. Bounded metadata-only denial diagnostics retain at most 32 inactive reasons plus an omitted count without signatures or public keys. Tests prove equal/reversed validity-window refusal, cross-provider and unscoped-release denial, mixed active/inactive aggregation, diagnostic truncation, whole-snapshot refusal for one integrity-invalid endorsement, root mismatch, expiry, endorsement revocation, key revocation, bad signatures, purpose mismatch, service-endorsement substitution, missing active root, key conflict, and endorsement-without-catalog denial. Federation membership remains non-authorizing. |
 | `assistant-model-mlx-profile` | Evaluate and, if conformant, ship an MLX-family Apple Silicon companion profile. | `in-progress` | The host-owned family registry, Apple Silicon platform gate and MLX-first default, shared direct-Inquirium/NSE selection order, deterministic managed-llama fallback, direct supervised `http_local` mapping, provider-native `default_model` selector below the semantic model identity, `/health` readiness, cleared child environment with exact `PEX_ROOT`, immutable flat multi-asset model materialization, activation/conformance quarantine, memory-bound manifest generator, pure Rust manifest validation, provider-neutral acceptance-report v2, and complete local-import lifecycle runner are implemented. A strict hash-locked PEX/scie builder pins portable CPython 3.12.14, MLX-LM 0.30.2, MLX/MLX-Metal 0.30.1, and produces byte-identical launchers; the managed stderr sink now survives daemon loss so the exact worker can be adopted after dirty restart. Linux x86_64/CPU retains managed llama as its default. The retained 2026-08-26 native report passes all ten lifecycle checks on the exact nine-file Qwen revision, generation 3, no-egress transport, install 36,913 ms, cold warmup 58,150 ms, and first inference 589 ms; file SHA-256 is `086fd22b0cb3abcf93be98e79003642e7c7d4d91bcb04ee56f84ef1fa1cdea99`. The mapped structural matrix proves missing, non-array, empty, non-object, and blank-role/content messages are refused before HTTP I/O, containing rather than repairing the bare upstream defect. The row remains `in-progress` only because independent retained evidence for streaming, batching, prompt cache, KV-cache quantization, tool calls, JSON-Schema output, and speculative decoding is still absent; all seven report facts remain `not-probed`, no optional capability is advertised, and `llama-server` remains the required portable baseline. |
 | `assistant-model-package-release-gate` | Add supply-chain, rollback, security, and platform acceptance gates. | `in-progress` | The host-side gate binds exact manifest/receipt/profile values, current manifest authority, and exact duplicate-free asset sets, then checks platform, verified asset descriptors, the configured model-size ceiling, loopback-only binding, empty egress, offline capability, and fresh passing conformance. Activation re-reads every referenced CAS object and re-resolves current distributor/operator authority before creating a profile transition and immediately before durable commit; install-time receipt authority cannot survive provider-key endorsement expiry, revocation, federation-root rotation, or exact-catalog removal. The same revalidation runs for rollback and planned-transition recovery. The daemon derives OS, architecture, backend, bind host, egress, offline policy, and asset ceiling from trusted runtime/config state; activation and rollback requests cannot supply these values or conformance evidence. A stale `expected-current` is rejected before candidate startup and checked again by the lifecycle transaction. Candidate publication and retirement of the prior runtime share one supervisor lock; a prior process that cannot stop remains quarantined and its cleanup failure is reported without turning the already committed activation into a false conflict. Dynamic candidates remain non-routable until process health and conformance pass and the profile transition commits. Managed package transports require `no_egress`; macOS Seatbelt and Linux x86_64 seccomp tests prove outbound connection refusal while retaining loopback bind/listen, conformance asserts the launch mode, and dirty-restart adoption requires exact durable isolated-launch evidence. Manual HTTPS redirect handling rejects downgrades, protocol-relative targets, and unapproved changed origins while accepting an explicitly allowlisted HTTPS origin; each hop retains public-address pinning. Exact release-catalog and offline signing tests reject substituted manifests/keys and revoked keys. Real lifecycle evidence now covers both supported platforms, with the Linux report retained under the acceptance pack. Publication of the production distributor artifact remains open. |
+
+### P026-012a assessment viewer activation
+
+The accepted [012a contract](026-assessment-viewer-grants.md) reuses P066 proposals, decisions, allow-once consumption and revocation as the sole durable authority. Allow-once activates one exact boot/launch-bound bounded read grant, not one read. The pending question deadline and the frozen grant deadline are distinct; question expiry after activation does not truncate it. No additional persistent grant registry or historical auto-activation is authorized. Implementation and measured acceptance remain separate tracker claims.
+
+P026-012a integration clarification (2026-10-25): the P066 question reference survives deny/timeout, while the scope-specific approval reference can be rekeyed. The identity projection follows the stable question and publishes only an exact granted/consumed allow-once activation. This records existing P066 semantics, not a new grant store or a change to archived evidence.
+
+P026-012a measured checkpoint (2026-10-25): eight ordinary-daemon/application/browser cases and separate component fault/session proofs qualify only the bounded ChannelJson module grant. P066 remains the sole durable consent/consumption/revoke owner. See [the grant checkpoint](026-assessment-viewer-grants.md#measured-checkpoint-2026-10-25) and `node:docs/evidence/agent-runtime/2026-10-24-p026-012a/README.md`. P026-012b positive P073 consumer policy/observation/final inference admission remains todo; parent P026-012/P073 stay partial.
+
+
+P026-012a critical-review checkpoint (2026-10-25): clean Node `9b2e3b47` / Orbidocs `298671c5` qualifies eight ordinary-daemon/application/browser cases after repairing terminal clock loss on P066 failure, post-consumption activation/status admission and fresh source checks. Sixteen owner and nine source-pin tests pass; normal/-O and loose/extracted verification agrees with 67 negative controls per location. Four older verifier gaps and initial failures remain retained. Native clock/SQLite/queued-origin proofs remain separate from ordinary-process observations. See `node:docs/evidence/agent-runtime/2026-10-25-p026-012a-review/README.md` and `node:docs/audits/REVIEW-P026-012A-2026-10-25.md`. This enforces the accepted contract without adding authority; old receipts are not retroactively promoted to stronger source-freshness claims. P026-012a stays done within the local profile; parent P026-012/P073 remain partial and 012b remains todo.
+
+
+### P026-012b closed consumer design (2026-10-25)
+
+The accepted [closed assessment consumer](026-assessment-agent-consumer.md) adds a separately consumed P066 consent for an exact P073 binding and live 012a activation. It freezes authority dependencies, witness-only final admission, a fresh host-constructed passage and RAM-only delivery to its authenticated module holder. Contract acceptance is not implementation or runtime evidence. Memory/recall/history, inherited forks and other recipients remain P026-012c; parent P026-012/P073 remain partial.
+
+
+### P026-012b bounded measured checkpoint (2026-10-25)
+
+The [closed consumer checkpoint](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25) qualifies separate P066 consumption, exact ChannelJson holder/session, P073 binding and fresh context, final witness admission and module-private RAM results. Nine ordinary cases pass at Node ea9138ba / Orbidocs 6097c43b; the current inert-data verifier rejects 77 controls normally/optimized before and after extraction. Owner faults and queued clocks remain component evidence. P066 keeps sole durable consent ownership; authority dependencies do not promote P090 genealogy. No actual model or product module is qualified. Only the closed 012b profile closes; 012c remains deferred, while parent P026-012/P073 and release readiness remain partial. Historical Q-02/012a evidence is unchanged.
+
+
+### Assessment Agent first-use correction (P026-012b-r1)
+
+[Intent v2](026-assessment-agent-consumer-r1.md) explicitly says unmetered, without
+a zero monetary budget. Listing approved consent is read-only. Only the exact
+authenticated channel holder may consume it on first use; witness publication
+occurs after durable consumption and fresh admission. Approval and activation are
+one-to-one within the frozen boot/launch/Agent descriptor, not a generic P066
+identity rule. The [measured r1 checkpoint](026-assessment-agent-consumer-r1.md#measured-checkpoint-2026-10-25) verifies the changed wire and first-use consumption, including read-only approved inspection and a complete bounded question projection.

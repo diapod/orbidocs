@@ -18,6 +18,7 @@ Source schema: [`doc/schemas/messaging-readiness.local.v2.schema.json`](../../sc
 | [`roles`](#field-roles) | `yes` | object |  |
 | [`setup/status`](#field-setup-status) | `yes` | enum: `ready`, `blocked`, `unknown`, `not-requested` |  |
 | [`observed_at`](#field-observed-at) | `yes` | string |  |
+| [`issuance/status-refresh`](#field-issuance-status-refresh) | `no` | object |  |
 | [`federation_issuer_status`](#field-federation-issuer-status) | `yes` | enum: `ready`, `blocked`, `unknown`, `not-requested` |  |
 | [`onboarding_deferred`](#field-onboarding-deferred) | `yes` | boolean |  |
 | [`evidence`](#field-evidence) | `yes` | object |  |
@@ -61,6 +62,12 @@ Source schema: [`doc/schemas/messaging-readiness.local.v2.schema.json`](../../sc
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-issuance-status-refresh"></a>
+## `issuance/status-refresh`
+
+- Required: `no`
+- Shape: object
 
 <a id="field-federation-issuer-status"></a>
 ## `federation_issuer_status`

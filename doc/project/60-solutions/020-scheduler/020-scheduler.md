@@ -875,3 +875,67 @@ Regression results belong to
 These are implementation/integration checks, not renewal of P035-014's historical
 session-bound runtime proof or Responsibility Q, and they do not qualify release
 readiness, native OS preemption or off-session supervision.
+
+## P076-037 Messaging status refresh
+
+S020 owns the `messaging-issuance-status-refresh` job: a 60-second interval,
+60-second initial delay, stable jitter up to five seconds, skip-missed and
+skip-overlap behavior, rotating batches and at most four parallel status-source
+calls. The P091 Messaging acquisition policy is checked by the source on each
+call. Pausing or disabling this job is visible in Messaging readiness and does
+not revoke a signed lease that is still valid. Signed parent/child withdrawal
+publication has a distinct bounded retry worker outside S020 so that pausing
+status refresh cannot suppress protective publication. See
+[P076-037](../../40-proposals/076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+
+P076-038 keeps this job active during physical mode windows and attributes its
+status queries by the owner-recorded acquisition reason. A scheduled query is
+separate from the send-triggered peer preflight, so a window can have zero
+holder queries on demand even when S020 performs its allowed refresh.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+P076-038 left S020 refresh active in physical policy windows and attributed its
+HTTP attempts by acquisition reason. The scheduled-only holder's exact observed
+grant was blocked at its forwarder while own-grant refresh remained available.
+Child/parent withdrawals each passed counted publication failure and independent
+worker retry with refresh paused. This preserves the two lifecycle owners; see
+P076-038 and `node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for exact pins.
+
+## Dormant-fact resonance jobs
+
+Planned (2026-10-27). [Story 014](../../30-stories/story-014-dormant-contest-entry.md)
+and its follow-ups need three consumer-owned jobs. S020 owns only their clock
+and launch policy; each owner keeps its budgets, refusal reasons and readiness
+reporting.
+
+| Job | Owner | Cadence | Task |
+|---|---|---|---|
+| Retention expiry | Memarium | Daily, skip-missed | [P036-005](../../40-proposals/036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27) |
+| Dormant-fact scan, generalization and scoring | Weak Signal Harvester module | Per epoch; scoring after a completed pull | [P078-010–012](../../40-proposals/078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27) |
+| Bucket pull | Whisper | Open the epoch window, skip-overlap; execute persisted Whisper-owned offsets | [P013-DFR-002](../../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27) |
+
+The pull job reads the interest profile and vocabulary resolution current at
+the epoch boundary, so writing a fact never triggers network activity.
+Pausing any of these jobs is visible in its owner's readiness; pausing expiry
+postpones erasure rather than skipping it.
+
+The bucket pull executes the compiled jobs for all plan entries, whatever their
+`need`, `decoy` or `cover` origin, at a time drawn by the shared `cover-schedule/v1` rule
+([P013-CIM-003](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)).
+Whisper coalesces duplicate bucket/window requests before sampling and persisting
+one offset per executable job, as specified in its
+[plan recommendations](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#implementation-recommendations).
+The S020 launch only opens the epoch's pull window; these offsets belong to the
+Whisper job, so the scheduler sees no origin.
+
+No second jitter or offset draw is applied by S020 on replay or retry.
+
+## Artifact Delivery maintenance jobs
+
+Minimal-trace cleanup is an AD retention obligation, independent of dormant-fact
+resonance. S020 dispatches the due work; AD owns holds, erasure and diagnostics.
+
+| Job | Owner | Cadence | Task |
+|---|---|---|---|
+| Minimal-trace purge | Artifact Delivery | After the retry horizon, skip-missed | [S023-002](../023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) |

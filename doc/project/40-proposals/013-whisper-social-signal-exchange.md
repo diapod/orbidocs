@@ -8,14 +8,19 @@ Based on:
 Related:
 - `doc/project/40-proposals/078-weak-signal-harvester.md`
 - `doc/project/40-proposals/079-cross-federation-alliance.md`
+- `doc/project/30-stories/story-014-dormant-contest-entry.md` (acceptance story
+  for [dormant-fact resonance](#dormant-fact-resonance-2026-10-27))
 
 ## Status
 
-Proposed (Draft)
+Proposed (Draft). Baseline and post-MVP continuations have separate trackers;
+none of the continuations below claims runtime completion.
 
 ## Date
 
 2026-03-23
+
+Revision: 2026-10-28 ([contract review and F-01–F-24 disposition](013-whisper-social-signal-exchange/contract-review-2026-10-28.md)).
 
 ## Executive Summary
 
@@ -541,7 +546,12 @@ ingest policy both remain authoritative at each reship.
 
 ### Assessment Exposure Profile
 
-**Planned continuation, 2026-10-23; not covered by the existing M4 qualification.**
+**Partial local continuation, 2026-10-24; separate from the existing M4
+qualification.** The [P026 local checkpoint](026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+records the bounded common-view implementation and its real local host/browser
+acceptance. The runtime fixture preserves rumor-shaped credibility/rejection
+fields on a generic open resource reference. It does not qualify a new standalone
+rumor-overlay schema or the full Whisper curation and propagation workflow.
 Rumor credibility/rejection judgments already use `resource-opinion.v1` with
 rumor-specific fields. They therefore select the shared
 [P026 exposure contract](026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds),
@@ -847,7 +857,7 @@ association-room lifecycle policy as post-MVP questions.
 
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
-| P013-AE-001 | Bind rumor curation to the common local gate | todo | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. |
+| P013-AE-001 | Bind rumor curation to the common local gate | partial | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. The 2026-10-24 P026 local checkpoint proves withholding and later rendering of rumor extension fields through the shared view. Standalone overlay admission and the complete real Whisper curation/Agent/attention/propagation matrix remain outside that qualification; existing M4 evidence is unchanged. Review run 01 requalifies bounded rumor fields through the common view; complete Whisper workflow scope remains unchanged. |
 | P013-AE-002 | Optional sealed rumor-assessment profile | todo | P026-010/011 | Select an admitted round/opener policy and reuse the four Agora kinds; test missing reveal, duplicates, partial history and independent propagation. This is separate from local-gate completion and not an alpha dependency. |
 
 ## Next Actions
@@ -876,7 +886,8 @@ association-room lifecycle policy as post-MVP questions.
    `ai.orbiplex.whispers/<topic-class>` as the conventional
    public/federated topic-key prefix, and reserve `private/<name>`
    for direct-only INAC artefacts outside Agora.
-9. Define the direct node-to-node exchange contract as a thin binding
+9. Under [P013-PEX-001](#private-exchange-tracker), define the direct
+   node-to-node exchange contract as a thin binding
    over the same `agora-record.v1` envelope, consuming the outbound
    privacy capability for transport and the attestation gate for
    peer admission, with Memarium as the sole persistent store on both
@@ -922,6 +933,139 @@ association-room lifecycle policy as post-MVP questions.
     and verifies in smoke that public and private traces use their declared
     Agora and INAC carriers without private projection leakage.
 
+## Implementation Recommendations: Shared Mechanisms {#implementation-reuse}
+
+Design refinement, 2026-10-28. The reusable-data-abstraction and retrospective
+convergence rules in `node:DEV-GUIDELINES.md` apply to the contextual, DFR, ADC,
+CIM and LLR continuations together. The decisions below reuse inspected Node
+primitives or consolidate two named consumers in the proposed design. They do
+not claim that the continuations are implemented or reopen historical M4 evidence.
+
+The objective is a small vocabulary with several operations over it. Keep pure
+Whisper rules in `whisper-core`, nym verification in `nym-core`, and effects in
+the existing hosted component/adapters. A common function or a small internal
+module is preferable to a new crate or universal record hierarchy. Dependency
+direction must remain valid; a pure owner must not import an issuer service,
+database, transport or UI to obtain a helper.
+
+### Reuse Dispositions
+
+| Shared mechanism and evidence | Receiving abstraction and preserved boundary | Consumers and completion owner |
+|---|---|---|
+| `node:canonical-json/src/lib.rs`, `node:crypto/src/lib.rs` and the existing per-use signing functions in `node:nym-core/src/lib.rs` | Canonical bytes and strict signature verification, with a closed per-artifact preimage/signing-use wrapper. Preserve the exact domain, omitted signature fields, key role and byte bounds; cryptographic validity adds no authority. | P015-004/005 and ADC-001/004: reuse the primitives and one set of byte-law fixtures; keep purpose-specific admission. |
+| `nym-core::PublicationTimeVerifier`, `PublicationAnchor` and `SignalBinding` | A verified record/author-byte/time binding behind a small behavior port. Matrix PDU and portable-receipt adapters must satisfy the same binding laws. Only a port and test implementations exist in `nym-core`; production backend qualification remains open. | P035-019, LLR-002 and ADC-004: share proof verification, with the detached-manifest extension owned by P035. Never fabricate a full-signal binding from a public manifest. |
+| P032's cross-artifact verification contract; existing inline-proof consumers and P076's qualified carrier as examples | Bounded exact evidence, independent local trust, separate historical/current results and zero-fetch acceptance. The shared operations are below family adapters; case authority and freshness remain Whisper-owned. | [The Whisper profile matrix](#portable-verification-profiles) applies across signal, embargo and case artifacts. LLR-009 composes P015-004, P035-019 and LLR-008; ADC-005 is the other proof-package consumer. No private-body disclosure or P076-038 scope expansion. |
+| P015 contextual eligibility and the two P013 consumers of source counts | One bounded per-context/epoch contribution view, followed by separate coordination and disclosure decisions. Preserve source identity and evidence; reduce repeated copies to one eligible source. No truth claim, cross-epoch identity or consent follows from that reduction. | P015 Gate B and ADC-004: one contribution evaluator, separate emission latch and release-commit policy; [counting details](013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations). |
+| Scope/revision/digest comparison inside `node:nym-core/src/status.rs` (`StatusCursor::advance`) and LLR's case-status high-water rule | A small pure authenticated-head comparison, reused by two domain cursors. Preserve scope, equality, rollback and equivocation laws; leave cumulative revocations, chain continuity, freshness and terminal effects with their owners. | LLR-008 extracts only that comparison when adding the second consumer, retaining P015 regression vectors; [case details](013-whisper-social-signal-exchange/long-lived-rumors.md#implementation-recommendations). |
+| LLR case succession/control and ADC amendments, confirmations and release commits | One case request header, acceptance record, fold and transactional acceptance owner. Typed operation bodies keep distinct signers and preconditions. A common revision orders effects; it does not authorize them. | LLR-008 owns ordering and replay; ADC-005 contributes the release transition to that owner, not a second state store. |
+| DFR need/decoy plans and CIM accepted cover requests | One local plan-entry abstraction and one executable bucket-job shape. Local causes inform planning but are discarded at the network boundary; only the coarse topic/window survives. | DFR-002 owns the executor; CIM-001/003 add inputs and scheduling through it; [plan details](013-whisper-social-signal-exchange/cooperative-interest-masking.md#implementation-recommendations). |
+| `node:nym-issuer-service/src/prepared_exchange.rs` (`PreparedPhase`, `prepare`), plus AD's `InboundArtifactAcceptor` | Reuse AD's acceptor/runtime directly. Reuse the prepared-output law: exact input identity binds one retained byte sequence before hand-over. `PreparedPhase` itself is issuance-family-specific, not a generic Whisper carrier. | PEX-001 and ADC-005 reuse the law and recovery fixtures. Consider extracting only storage mechanics when both concrete adapters exist; no copy of the issuer's key-custody policy or second retry owner. |
+
+PEX-001 also starts from `node:whisper-intake/src/lib.rs`'s
+`artifact_delivery_envelope_for_private_record` and `admit_private_agora_record`,
+and its existing host-mediated AD acceptor invocation. These are concrete seams
+for the current private signal/trace families, not admission for v2 embargo,
+case or cover payloads. Extend family-specific adapters and refusal fixtures
+behind that boundary; preserve old-family behavior and do not route arbitrary
+new messages through a permissive legacy signal parser.
+
+The last row intentionally retains separate domain records. Its extraction
+checkpoint is PEX-001/ADC-005 implementation: either share a transaction-borrowing
+primitive with both adapters, or record the concrete contract/cost reason for
+separation. The issuer's `RevisionStore` also couples its SQL journal to an
+independent key-provider fence; it is a recovery precedent, not a ready-made
+case database. A database revision, signed source-status revision and case
+revision are different counters.
+
+### Portable Verification Profiles {#portable-verification-profiles}
+
+The owner of the general rule is
+[P032's shared verification contract](032-key-delegation-passports.md#shared-verification-operations),
+also referenced by S014 and `node:DEV-GUIDELINES.md`. Whisper applies it to each
+signed family, not only to succession. Existing public keys, nym certificates,
+delegation proofs and receipts remain the vocabulary. Prefer a family adapter
+over a new wrapper for every artifact; reuse an enclosing admitted bundle when
+it already carries the exact required evidence within the same audience.
+
+| Family / completion owner | Minimum portable verification material | Claim that remains separate |
+|---|---|---|
+| Contextual signals and correlation notices (P015-001/005, P013-ADC-007) | Existing nym-authorship/certificate material with the permitted publication-use tuple; council verification material under local admission. Add the existing P035 admission proof when claiming historical validity. | A valid nym publication does not make its content true or count it as a current distinct source. A private signal cannot be attached to a public notice. |
+| Embargo manifests and released records (P013-ADC-001/004/005, P035-019) | Nym-signed manifest and its certificate/use proof, signed admission binding, approved release payload, count attestation and accepted release commit; public signer/delegation evidence only as permitted by each artifact's profile. | The admitted counter attests hidden inputs; the receiver does not independently verify the private body. Historical commit validity is distinct from today's case status and AD delivery. |
+| Case control requests and accepted events (P013-LLR-006/008) | The continuity public key with the verified original anchor binding; each request's own signed bytes. Accepted events additionally carry the authority's exact request-bound acceptance and its permitted public signer evidence. | A valid command signature is not ordered acceptance. The case owner still checks current state and operation-specific preconditions; portable proof never commits a transition. |
+| Case succession (P013-LLR-007/009, P015-004) | The bounded [succession presentation](013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification): anchor binding, both signatures, successor certificate/source evidence, exact acceptance and fresh case status. | Historical authorship, authentic succession and current case authority are independent results. No source-identity merge or reputation transfer follows. |
+| Cooperative cover requests (P013-CIM-001) | Existing authenticated private exchange/session evidence; the request remains unsigned at the application/nym layer. | The general preference for portable signatures does not require adding a public signature or durable identity link to an intentionally session-authenticated request. |
+
+Freeze each new family's byte/item/depth/work limits, supported evidence forms,
+disclosure rule and typed missing/stale outcomes in its owning contract task.
+Current M4 wire bytes and qualifications stay unchanged. The same pure operations
+can serve several representations: exact local resolution, budget accounting,
+canonical signature checks and verified binding comparison. Before duplicating
+these operations in ADC and LLR, use the P032 convergence checkpoint and retain
+shared law fixtures. Current authority, counting, freshness policy, retained
+negative knowledge and permission to disclose remain domain decisions.
+
+P081's `ScopedClaimSuiteVerifier` is appropriate when a caller actually asks for
+its request/nonce-bound predicates. It is not a generic verifier of arbitrary
+stored signatures; succession is not silently converted into a new scoped claim.
+P076's tests provide one useful zero-fetch precedent, while Agora's inline nym
+and delegation verifiers provide others. None requires a dependency on Messaging.
+
+### Small Operations, Explicit Evidence
+
+Suggested internal operations are `verify_publication_evidence`,
+`evaluate_epoch_sources`, `evaluate_disclosure_condition`, `fold_case_event`
+and `compile_pull_jobs`. These are design names, not claims about existing APIs.
+Use ordinary functions over validated values/iterators; introduce a trait only
+where actual representations need the same operations, as with publication-time
+evidence. Give ids distinct types where confusing a case, condition, audience,
+request or delivery would violate a contract. Do not model all artifacts as one
+map with optional authority fields.
+
+Schema Gate remains at wire/middleware boundaries. Pure operations receive
+explicit evaluation time, admitted policy and verified evidence; they neither
+fetch missing proof nor read the clock. Their outputs bind the evaluated inputs
+and distinguish refusal, insufficient evidence and a satisfied predicate. A
+satisfied predicate is not an authorized external effect. Owners recheck time
+and relevant revisions at the effect's specified commit point.
+
+Do not consolidate these apparent similarities:
+
+- M4 `WhisperContributor.node_id` and contextual `source/ref`: distinct units
+  of counting. Reuse collection operations, never substitute one identity for
+  the other or reinterpret retained threshold ids.
+- Full-private publication proof and detached-public receipt: the latter
+  trusts an admitted authority for hidden content. It cannot claim independent
+  verification of that content's signature.
+- Certificate validity, counting epoch, retention, consent deadline and AD
+  hand-over deadline: reuse time arithmetic, keep separate policy fields.
+- Nym/source status, case status and AD delivery status: independent authority
+  and recovery domains. A newer status or a delivery receipt is not consent.
+- P015 sealed issuance and CIM cover requests: the former uses signed private
+  exchanges, the latter deliberately avoids a transferable application signature.
+  Reusing AD must not silently add one or broaden an issuance crypto domain.
+
+### Milestone Convergence Gate
+
+Before closing P015-004, DFR-000, ADC-000, CIM-000 or LLR-000, review the delivered
+functions and data abstractions against this table and their existing counterparts.
+Record consolidation, an intentional difference, or an owned deferred extraction
+in that milestone's evidence. Run shared law fixtures for each participating
+adapter, including wrong scope/purpose, changed bytes under one id, replay after
+restart and missing evidence. Domain refusal fixtures remain mandatory. This is
+an implementation-closeout check, not an additional runtime service or an alpha
+dependency on the post-MVP continuations.
+
+## Private Exchange Tracker
+
+Proposed carrier integration; no new transport. This task makes Next Actions 9
+executable. Application profiles own payload/custody/authority; reuse S023 AD,
+S017 INAC, Schema Gate and P015 recipient-bound encrypted exchange. Transport
+success never means case acceptance, source admission or consent to disclose.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P013-PEX-001 | Recipient-bound private Whisper exchange | todo | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+
 ## Contextual participant-source authorship (2026-10-25)
 
 The accepted [P015 contextual profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md)
@@ -930,3 +1074,311 @@ council-admitted participant sources within one rumor context and epoch, with
 no fallback to a source node, author string or record/about. This is a new
 qualification; historical node-counting M4 results remain unchanged. Runtime
 Gate A (certification) and Gate B (ordinary host authoring) remain pending.
+
+## Dormant-Fact Resonance (2026-10-27)
+
+Status: proposed post-MVP feature; no runtime claim. This section owns the
+feature and its grouping task `P013-DFR-000`. Mechanism tasks stay in the
+documents that own each mechanism. The acceptance scenario is
+[Story 014](../30-stories/story-014-dormant-contest-entry.md).
+
+### Summary
+
+People record ordinary facts without any social tension, such as "I sent my
+poem to a contest". Such a fact is neither a rumor nor an opinion. It may gain
+social significance later, when other people publish a rumor that the fact
+corroborates. Dormant-fact resonance lets a node discover that connection
+without publishing the fact or any query derived from its details:
+
+1. the fact is kept as a neutral personal record in Memarium;
+2. a local job generalizes it to terms of a closed decorrelation vocabulary;
+3. once per epoch, the node pulls complete coarse topic buckets from rumor
+   relays;
+4. the node scores pulled rumors against the full private fact, locally;
+5. the participant decides whether the rumor concerns the fact, and any
+   disclosure uses the existing Whisper paths.
+
+The guiding rule: bring shared questions to private memory rather than send
+private memory out as questions.
+
+### Context and Problem
+
+- **Fact.** Memarium can hold such records today, but personal facts have no
+  per-fact time horizon
+  ([P036](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)),
+  and nothing connects a later rumor to an earlier record.
+- **Inference.** Publishing every fact as a rumor adds noise and discloses
+  personal history. Push delivery requires the network to know who is
+  interested. Queries built from free keywords of a rare fact are fingerprints,
+  and digests of low-entropy fields such as institution and date can be
+  reversed by dictionary, as S022 already notes for derived data.
+- **Background, not verified in this repository.** The pattern resembles
+  information escrow (Ayres and Unkovic, 2012) and Callisto-style matching,
+  where a privately held report gains meaning when an independent report
+  matches it. Exposure-notification key download and BIP157/158 client-side
+  block filters illustrate that the safest query is a download of public data
+  that is matched locally.
+
+### Model
+
+| Layer | Owner | Resolution | Content | Leaves the node |
+|---|---|---|---|---|
+| 0. Personal record | Memarium ([P036-007](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)) | full | kind, counterparty, times, title, attachments, retention horizon | never through this feature |
+| 1. Interest profile | Harvester ([P078-011](078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27)) | coarse | vocabulary term ids derived from current records | never |
+| 2. Pull plan | Whisper (`P013-DFR-002`) | bucket | per-epoch real terms, decoys, windows, byte budget | term ids, window ids, cursors |
+| 3. Local match | Harvester ([P078-012](078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27)) | full | scores, explanations, link-candidate findings | never |
+| 4. Decision | Memarium and notifications ([P036-008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27), [P057-015](057-user-and-operator-notifications.md#tracking)) | full | confirmed, rejected or deferred link | never |
+| 5. Disclosure | Whisper with Story 005, P015 and P070 | chosen by the participant | related rumor, interest, room participation | only after an explicit act |
+
+#### Decorrelation Vocabulary
+
+Whisper owns the semantics of `topic/class`; the vocabulary makes a coarse,
+shared subset of it explicit. `whisper-decorrelation-vocabulary.v1`
+(`P013-DFR-001`) is a JSON document validated by JSON Schema, versioned, and
+digested over its JCS form. JSON matches P091 configuration files, the schema
+gate and the existing canonical digests. It is a node-scoped
+[P091 setting](091-file-backed-configuration-and-explainable-composition.md#p013-decorrelation-vocabulary-consumer):
+
+- **Factory source.** The Node distribution ships a versioned vocabulary as
+  the factory source of the setting. An upgrade replaces that source, never
+  local layers.
+- **Local layers.** Operators and power users override it through ordinary
+  P091 layers. The vocabulary is an identified collection keyed by term id with
+  keyed composition. A layer may add terms; change labels, aliases or parents;
+  and retire a term through an explicit `term/status` of `retired`, because
+  `null` deletes nothing. A layer may also declare an empty base to build an
+  entirely own vocabulary. Each layer names the factory version it was written
+  against. After an upgrade, overrides of vanished terms produce a typed
+  diagnostic rather than a silent drop.
+- **Stable bindings.** A local layer cannot change the topic key of an
+  existing term id; that is refused, and a new id must be used instead. Local
+  term ids carry a local namespace prefix such as `local.`, so a later factory
+  term cannot collide with them.
+- **Application.** A changed resolution applies at the next epoch boundary,
+  and the pull plan records the `resolution/id` it used. An unavailable
+  resolution stops pull planning instead of falling back to a stale copy.
+
+Each term has an id, labels, aliases, an optional parent, its Agora topic key
+under the `ai.orbiplex.whispers/` prefix (P046) and its origin (`factory` or
+`local`; a federation-provided layer may follow later). Factory terms also carry
+a coarse population hint and a flag stating whether they meet the cardinality
+floor for pull plans.
+
+Customization has privacy consequences that the contract makes explicit:
+
+- The resolved vocabulary, its version and its digest stay local. They never
+  appear in pull requests or rumor records, because the digest of a customized
+  vocabulary would be a fingerprint. Rumors carry only the term id in
+  `topic/class`.
+- Local terms have no trusted population hint, so they are unrated. Pull plans
+  exclude unrated terms unless the operator admits them explicitly after a
+  warning that such pulls may identify the node. In pull-all mode the
+  restriction is moot.
+- Decoys are drawn only from rated terms.
+- Authoring with a local term warns that readers who use the factory
+  vocabulary will not pull that bucket.
+
+The same resolution serves both sides:
+
+- Authors label a rumor's `topic/class` with one term and keep the specific
+  details in `signal/text`, `context/facets` and `signal/similarity-key`. The
+  burden of specificity sits with the rumor, not with its readers.
+- Readers select term ids only. A local model may help choose ids but never
+  emits free-text queries. A term below the floor is replaced by its parent.
+
+#### Pull Plan and Buckets
+
+The pull plan (`P013-DFR-002`) is recomputed at epoch boundaries, not when a
+fact is written. It contains a bounded number of real terms and decoys sampled
+from the population hints, so every plan has the same shape. The node pulls
+complete `(term, window)` slices through the Agora listing extended by
+[P035-016](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27).
+An oversized bucket is split by time window or by vocabulary child, never by a
+private facet. When the whole Whisper prefix fits the budget, the node pulls
+everything and expresses no interest at all (P035-017).
+
+#### Conjunctions on the Wire
+
+Story 014 asks whether terms may be combined with AND. The v1 default is a
+union of single terms, with conjunctions applied locally after the pull:
+
+- in a bucket pull, AND saves bandwidth only if the relay filters inside the
+  buckets, and that requires sending the conjunction;
+- a conjunction denotes a smaller population than each of its terms, and the
+  same conjunction repeated across epochs eases intersection attacks;
+- a pre-composed vocabulary term that denotes an intersection is an ordinary
+  term with its own floor, so that option remains available.
+
+`P013-DFR-005` measures OR-only against pre-composed conjunction terms on a
+fixture corpus and records the decision here.
+
+#### Decisions and Disclosure
+
+A match is a hypothesis of relevance, recorded as a `weak-signal-finding.v1`
+candidate. It is not evidence and never counts toward a threshold. The
+participant confirms it, rejects it for this rumor or for the whole rumor
+context, or defers it. Memarium records the decision once, and both the record
+view and the rumor view project it. A confirmed link appears in a local "My
+rumors" view (`P013-DFR-003`) beside the participant's own rumors.
+
+Every further step is an ordinary disclosure: a related rumor authored through
+the Story 005 redaction flow under the P015 contextual profile
+(`P013-DFR-004`), an interest registration, or joining an association room and
+sharing material there (`P013-DFR-006`). A related rumor inherits `topic/class`
+and `signal/similarity-key` from the visible signal or optional public notice.
+Its relation binds that record/id and target kind, never a hidden signal behind
+a notice. It joins the context and contributes at most one qualified source;
+a relation itself adds no count.
+
+### Invariants
+
+1. During discovery, no fact text, fine facet, attachment, path or digest of
+   fact fields leaves the node.
+2. The interest expression is epoch-bound and independent of the time a fact
+   is recorded.
+3. Discovery fetches complete slices. It never requests individual records
+   selected by a local match.
+4. Dormant facts never derive Agora topic-interest records
+   (see "Interest discovery and bounded private dissemination"); those records
+   are public eligibility statements.
+5. Matches are findings for review, never threshold input.
+6. Derived artifacts (terms, plans, scores, link candidates) expire no later
+   than their source record.
+7. Each disclosure is a separate explicit act through an existing path with
+   its own authorship, classification and consent controls.
+
+### Trade-offs
+
+- Coarse terms raise privacy and recall but cost bandwidth and local work;
+  budgets and the pull-all threshold make that cost explicit.
+- Epoch cadence delays discovery by hours or days. That suits weak signals;
+  this is not an emergency path.
+- The vocabulary becomes a coordination point. A poor vocabulary fragments
+  correlation, local customization can split readers from authors, and
+  mislabeled rumors land in buckets that readers may not pull.
+- Relays still learn coarse interests and their timing; decoys spend bandwidth
+  to blur them.
+- Authoring a related rumor reveals the participant's membership in that rumor
+  context to the contextual-authorship issuer, as already accepted by P015.
+
+### Failure Modes and Mitigations
+
+| Failure | Effect | Mitigation |
+|---|---|---|
+| A rare or local term identifies a participant | A relay links a node to a niche subject | Cardinality floor, parent fallback, unrated local terms excluded by default, pull-all mode |
+| A stable term set across epochs | Intersection fingerprint | Bounded plan size, decoys, slow plan change |
+| Distinguishable decoys | Real interests exposed | Decoys sampled from rated population hints with identical fetch behaviour |
+| Vocabulary digest sent on the wire | Customized nodes become unique | Version and digest stay local; records carry term ids only |
+| Alert fatigue | The participant ignores or disables the feature | Score threshold, batched notices, per-epoch cap, suppression after rejection |
+| Spurious model-assisted link | False alarm | Findings are advisory, explanations are shown, confirmation is required |
+| Crafted bait rumor | Elicits disclosures | Nothing is sent on a match; Story 005 redaction; relay and source labels shown |
+| Expired record still matched | Retention violated | Derived artifacts expire with their source; the matcher reads only current records |
+| The assistant records facts silently | Covert memory | Capture is an inert proposal executed by the host after acceptance (P066-DFR-003) |
+
+### Open Questions
+
+1. Population hints: how factory and later federation vocabularies estimate
+   them without surveilling readers, and how often they are revised.
+2. Cardinality floor values, the default epoch length and the pull-all
+   threshold.
+3. The conjunction rule, pending `P013-DFR-005`.
+4. Whether sources joined through an explicit relation should weigh
+   differently from independent discovery in production thresholds.
+
+### Dormant-Fact Resonance Tracker
+
+All rows are post-MVP `todo`. Mechanism rows close on their own evidence in
+their owning documents; the grouping row closes only on the composed Story 014
+run.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
+| P013-DFR-001 | Freeze the decorrelation vocabulary | todo | P091; P046 | `whisper-decorrelation-vocabulary.v1` JSON Schema and a factory JSON shipped with the Node distribution. A P091 descriptor provides keyed composition, explicit retirement, an empty-base replacement and immutable id-to-topic-key bindings; local ids are namespaced. Typed diagnostics follow factory upgrades, resolutions apply at epoch boundaries, and no vocabulary version or digest appears on the wire. Authoring and pulling validate against the same resolution; golden fixtures cover each rule. |
+| P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `whisper-pull-plan.local.v1` per epoch, one entry abstraction whose local `origin` is `need`, `decoy` or `cover` ([P013-CIM-001](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)): a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. Compile coalesced jobs once per epoch; keep local causes outside the executor, persist sampled offsets and cover mixed-origin/restart/incomplete-slice fixtures from the shared implementation recommendations. |
+| P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P095 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. |
+| P013-DFR-004 | Related-rumor authoring | todo | P015 Gate B; Story 005 | The v2 signal carries a bounded `signal/related-to` list, set only by an explicit author action. Each relation binds a public record/id and a closed target kind (`whisper-signal` or `whisper-correlation-notice`). A notice-only reader targets the notice, never a hidden signal id. A related draft inherits `topic/class` and `signal/similarity-key`, so its context digest matches. The relation adds no weight beyond one source, and derivation rules prevent counting a rumor's own derived records. |
+| P013-DFR-005 | Decide the wire conjunction rule | todo | P013-DFR-001; P078-011–012 | A fixture-corpus comparison of OR-only and pre-composed conjunction terms reports local match recall and precision, bytes per epoch and an estimated anonymity-set size per query. The decision is recorded in this section; OR-only remains the default until then. |
+| P013-DFR-006 | Association-room handoff with work sharing | todo | P070; S018; P036-007 | After opt-in, the Room handoff offers pasted text, a linked message thread and external links. Sharing a Memarium attachment requires explicit per-share declassification and shows the Room audience; external links carry an outside-guarantees warning. Joining a room shares nothing automatically. |
+
+## Author Disclosure Conditions {#author-disclosure-conditions}
+
+Proposed post-MVP continuation; no runtime claim. The
+[owning design and tracker](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
+now live in a sidecar. The domain, decisions and task ids are unchanged.
+
+<!-- Compatibility anchors for the former inline section and its subheadings. -->
+<a id="author-disclosure-conditions-2026-10-27"></a>
+<a id="summary_1"></a>
+<a id="context-and-problem_1"></a>
+<a id="roles-and-payloads"></a>
+<a id="same-matter-descriptor-grouping-rule-and-key"></a>
+<a id="ambiguous-reports-proposals-not-merges"></a>
+<a id="counting-rule"></a>
+<a id="attestation-and-verification"></a>
+<a id="release"></a>
+<a id="amendments-and-withdrawal"></a>
+<a id="custody-obligations"></a>
+<a id="coordination-independence"></a>
+<a id="optional-public-notice"></a>
+<a id="confidentiality-from-correlators"></a>
+<a id="condition-states"></a>
+<a id="condition-proposal-and-execution-states"></a>
+<a id="invariants_1"></a>
+<a id="trade-offs_2"></a>
+<a id="failure-modes-and-mitigations_1"></a>
+<a id="open-questions_2"></a>
+<a id="author-disclosure-condition-tracker"></a>
+
+[Continue to the complete section](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
+
+## Cooperative Interest Masking {#cooperative-interest-masking}
+
+Proposed post-MVP continuation; no runtime claim. The
+[owning design and tracker](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)
+now live in a sidecar. The domain, decisions and task ids are unchanged.
+
+<!-- Compatibility anchors for the former inline section and its subheadings. -->
+<a id="cooperative-interest-masking-2026-10-27"></a>
+<a id="summary_2"></a>
+<a id="context-and-problem_2"></a>
+<a id="one-plan-three-origins"></a>
+<a id="cover-requests"></a>
+<a id="delivery-through-artifact-delivery"></a>
+<a id="shared-timing"></a>
+<a id="multi-epoch-cover"></a>
+<a id="participation-and-budgets"></a>
+<a id="not-memory-not-support"></a>
+<a id="effect-recovery-classes"></a>
+<a id="effectiveness-must-be-measured"></a>
+<a id="invariants_2"></a>
+<a id="trade-offs_3"></a>
+<a id="failure-modes-and-mitigations_2"></a>
+<a id="open-questions_3"></a>
+<a id="cooperative-interest-masking-tracker"></a>
+
+[Continue to the complete section](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking).
+
+## Long-Lived Rumors and Historical Authorship {#long-lived-rumors-and-historical-authorship}
+
+Proposed post-MVP continuation; no runtime claim. The
+[owning design and tracker](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)
+now live in a sidecar. The domain, decisions and task ids are unchanged.
+
+<!-- Compatibility anchors for the former inline section and its subheadings. -->
+<a id="long-lived-rumors-and-historical-authorship-2026-10-27"></a>
+<a id="summary_3"></a>
+<a id="context-and-problem_3"></a>
+<a id="four-periods"></a>
+<a id="historical-admission-evidence"></a>
+<a id="meeting-a-twin-after-a-year"></a>
+<a id="case-continuity-key-and-case-bound-succession"></a>
+<a id="case-state-and-currency"></a>
+<a id="signature-uses-and-certificate-scope"></a>
+<a id="invariants_3"></a>
+<a id="trade-offs_4"></a>
+<a id="failure-modes-and-mitigations_3"></a>
+<a id="open-questions_4"></a>
+<a id="long-lived-rumor-tracker"></a>
+
+[Continue to the complete section](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).

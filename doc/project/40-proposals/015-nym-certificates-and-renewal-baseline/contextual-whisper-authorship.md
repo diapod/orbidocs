@@ -63,6 +63,27 @@ The council is a dependency for a first context and for certificate renewal;
 an already usable certificate does not need a fresh issuance round trip.
 Acceptance records the complete request-to-decision latency, not just AD ACK.
 
+### Notice and embargo manifest scope extension
+
+Planned post-MVP (2026-10-28), owned by
+[P015-005](../015-nym-certificates-and-renewal-baseline.md#embargo-authorship-scope-tracker).
+The current signal-only profile does not authorize correlation notices or
+separately signed embargo manifests. Its replacement/extension must bind exact
+`(record/kind, schema, topic, disclosure/scope)` tuples; independent kind, schema
+and topic arrays must never produce an implicit Cartesian product of grants.
+Issuance and receiving-side verification both enforce the tuple and the issuer's
+admitted profile. Unsupported profiles refuse instead of silently downgrading.
+
+The manifest is a separately domain-bound auxiliary signing use, explicitly
+listed by this profile, with the same certified key/context and authenticated
+admission-time bounds. It does not grant a new publication kind. The full
+protected signal references its digest; the admission receipt binds the two.
+The recipient verifies the manifest and receipt without retrieving that signal.
+This does not let a detached signature stand in for the full envelope signature.
+P015-005 owns positive and cross-kind/cross-scope refusal fixtures; ADC-001/007
+own application use. None of this expands the existing narrow signal-only
+profile or qualifies Gate B.
+
 ### Publication time and status freshness
 
 Certificate, request and presentation validity are checked at an authenticated
@@ -570,10 +591,9 @@ Nym-only grants do not make Messaging issuance/readiness ready and cannot issue
 Messaging send or receive passports. This is the narrow P015 exception to P076's
 original Messaging-only decision, not an expansion of its historical evidence.
 
-
 ### Qualification blockers found during implementation review (2026-10-26)
 
-The current private exchange draft requires another correction before Gate A.
+The reviewed private exchange draft required another correction before Gate A.
 A still-live global bootstrap recipient can open historical first-leg metadata;
 that metadata must not contain the participant, actual nym, context or real
 signed-request digest. Use an independently random exchange handle and an
@@ -591,7 +611,7 @@ signed-request digest inside that private boundary. No pool of random handles
 or transport receipt grants council authority.
 
 A positive software attack probe reproduced the old bootstrap/checkpoint join.
-The current baseline also generated a public status revision for every request,
+The reviewed baseline also generated a public status revision for every request,
 which exposed a reset through the new certificate's unique minimum revision.
 Neither software conformance nor a passing workspace gate qualifies these
 privacy properties. Gate A remains pending until both counterexamples fail on
@@ -661,7 +681,46 @@ The 2026-10-28 status/ownership review is implemented at Node `d69a5fec`:
 118 issuer and 58 host tests pass, including pre/post-commit allocation recovery,
 deadline priority/backpressure, cumulative-checkpoint rollback, atomic cleanup
 refusal, and capacity reuse after a full 1024-watch epoch. Strict all-target
-Clippy and documentation checks pass. Full/light workspace gates still refuse
-on the independently owned Sensorium evidence-history budget. This is software
+Clippy and documentation checks pass. At that source revision, full/light
+workspace gates refused on the independently owned Sensorium evidence-history
+budget. This is software
 conformance, not the runtime qualification of either Gate A or Gate B; the
 P015-001–003 tracker and the aggregate authorship slice remain incomplete.
+
+## Consumer: author disclosure conditions (2026-10-27)
+
+[P013 author disclosure conditions](../013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
+count this profile's sources without changing the profile. They evaluate one
+epoch at a time and never sum epochs. In the protected signal's epoch they
+exclude the author's `source/ref` exactly; in later epochs they require one
+additional source, because the author cannot be recognized there. They use the
+same status freshness, revocation and publication-time rules as first emission.
+Implement these consumers over one revision-bound contribution evaluator, with
+separate coordination participation/latch and disclosure-consent decisions;
+[P013's implementation recommendations](../013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations)
+own its count/evidence shape and replay fixtures. The existing M4 node-counting
+path is not a contextual-source implementation and keeps its historical ids.
+Privately carried v2 signals reach the counting authority without a relay, so
+their publication-time evidence must come from that authority's durable
+admission receipt. Gate B qualifies Agora carriage only; the private carriage
+belongs to `P013-ADC-004`.
+
+## Consumer: long-lived rumors (2026-10-27)
+
+[P013 long-lived rumors](../013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)
+keep certificates short. The SQLite admission receipt used above as
+publication-time evidence becomes an instance of the portable
+[`agora-admission-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
+so other nodes can verify later that a record was admitted while its nym proof
+was valid. That historical validity grants no current authority and does not
+extend this profile's epoch or counting rules.
+
+Case-bound succession adds no public succession to this profile. Routine
+renewal still keeps the source without any succession artifact, and a private
+reset still publishes no successor. A participant who wants a later nym to
+continue one case uses
+[`nym-succession.v2`](../015-nym-certificates-and-renewal-baseline.md#succession-after-expiry-and-the-narrow-successor-2026-10-27)
+with scope `case`, authorized by a continuity key committed in the case's first
+signal and delivered privately to a named audience
+([P013-LLR-007](../013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)).
+The predecessor nym key is not kept for that purpose.

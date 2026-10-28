@@ -719,7 +719,7 @@ See `node:daemon/docs/SENSORIUM-ACQUISITION-CONTROL.md` and the dated Node revie
 ### Native safety candidate preparation (2026-10-19)
 
 Clean `af692fed` production source `4fc1405e` and release image `56fa8251` are
-frozen on turbo.local. The create-only ad-hoc GUI capsule has distinct signed
+frozen on host-B.local. The create-only ad-hoc GUI capsule has distinct signed
 image `e8989103` and handoff `8c00d7d4`; exact closure/signature checks and actual
 rootless LaunchServices `launchd` preflight pass. All 51 frozen-client tests pass
 on target Python 3.13.15, including closed optional audit diagnostics that never
@@ -746,7 +746,7 @@ authentication or OS/TCC attestation. Current custody, exact source/image/boot,
 worker absence, idle resources and partial-publication fencing remain mandatory.
 
 Pinned admin `ba73dc1d`/source `b7553f0f`/image `171b658b` and its exact manager-free
-process observer completed review `4cdd860b` on turbo.local. Same-scope controller/
+process observer completed review `4cdd860b` on host-B.local. Same-scope controller/
 discovery expiry is **2026-10-20 00:59:45 CEST**. Independent before/after checks
 preserve twelve protected sources, journal 81/twelve Cases, expired registered
 p21 revision 5, zero claims and no pending transition. Two pure and three normal-
@@ -793,7 +793,7 @@ remain separate in this checkpoint.
 ### Corrected nearby preparation (2026-10-19)
 
 Node clean `3775bf56` freezes the reviewed source `cbb85050` as production release
-`dfcf60f5` and a separate signed GUI `d153b457`/handoff `5205c163` on turbo.local.
+`dfcf60f5` and a separate signed GUI `d153b457`/handoff `5205c163` on host-B.local.
 Exact closure/signature checks, 52 frozen-client tests and rootless actual
 `launchd` preflight pass. All 248 previous root files, controller namespace,
 journal 81/twelve Cases and zero claims are preserved; only the new capsule's
@@ -808,7 +808,7 @@ branches remain separate. See
 ### Merged-source preparation (2026-10-20)
 
 Node clean merged `a176fdd2` freezes source `7a500816` as final signed deployment
-`92f7ba9b` and GUI `0baa4846`/handoff `83f75e0d` on turbo.local. The oversized
+`92f7ba9b` and GUI `0baa4846`/handoff `83f75e0d` on host-B.local. The oversized
 compiler image was refused; explicit signing-container normalization preserves
 the original and independently verifies payload equivalence within the unchanged
 128-MiB deployment bound. All 52 frozen-client checks, signatures and rootless
@@ -824,7 +824,7 @@ branches continue separately after the earlier merge. See
 
 ### Merged-source authority renewal (2026-10-20)
 
-Exact delegated review `60ea3f0d` completed on turbo.local using merged commit
+Exact delegated review `60ea3f0d` completed on host-B.local using merged commit
 `a176fdd2`, source `7a500816` and deployment image `92f7ba9b`. The declared
 `operator/control` is `delegated-ssh`; its 14400-second TTL was fixed at prepare,
 with absolute controller/discovery expiry **2026-10-20 05:27:23 CEST**
@@ -1505,3 +1505,11 @@ claim remains quarantined; no new hardware, reset, recovery, renewal, migration
 or merge occurred. Preparation manifest
 sha256:93a87ec5420aebcee4648d5ca952755d8a4a7e23fe8e8518382344fd26bc6063.
 P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-OPERATION-RETRIES-2026-10-21.md.
+
+## Host pseudonyms
+
+Host names in this document use stable documentation pseudonyms. The private
+reverse mapping is maintained at `orbidocs:local/host-pseudonyms.json` and is not
+distributed. See the [documentation pseudonym convention](../../../ops/howto/documentation-pseudonyms-howto.md).
+Original evidence bytes, signatures and digests remain unchanged; these labels
+only change the documentary presentation.

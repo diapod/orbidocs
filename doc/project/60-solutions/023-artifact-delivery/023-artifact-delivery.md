@@ -62,8 +62,8 @@ owner.
 
 ### Planned Consumer Profiles and Single-Source Trackers
 
-The following 2026-10-11 continuations reuse this plane. They are planned
-consumer bindings, not additional implemented adapters or a new universal wire
+The following continuations, first collected on 2026-10-11, reuse this plane.
+They are planned consumer bindings, not additional implemented adapters or a new universal wire
 protocol. Each owner freezes exact artifact/admission shapes before runtime
 exposure; new public contracts go through Schema Gate and normal compatibility
 review. Existing completed delivery profiles retain their status.
@@ -77,6 +77,8 @@ review. Existing completed delivery profiles retain their status.
 | Template sharing | Private INAC or explicit public profile; inert template acceptor | [P029-001–003](../../40-proposals/029-workflow-template-catalog.md#sharing-integration-tracker) |
 | Outbound privacy provider | Privacy-aware route selection; no assumed INAC anonymity | [S010-001–003](../010-anon/010-anon.md#privacy-integration-tracker) |
 | Alliance policy distribution | Independent bootstrap grant; private INAC or admitted acquisition | [P079-005a–005c](../../40-proposals/079-cross-federation-alliance.md#implementation-tracker) |
+| Whisper cooperative cover requests | Private AD `inac-direct`; one cover acceptor; the [minimal-trace profile](#minimal-trace-delivery-profile) | [P013-CIM-001–008](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking), [S023-001–002](#minimal-trace-delivery-profile) |
+| Messaging consent-loss recovery | Frozen attempts; typed INAC outcomes and body-free historical reconciliation; one retry owner | [S027-009-01–05](../027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker), registered 2026-10-28 |
 
 Shared implementation constraints:
 
@@ -1112,6 +1114,30 @@ bound to a concrete JSON-e Flow instance/template. A valid schema alone never
 injects an artifact into JSON-e Flow. The operator-visible route table must show
 which instance accepts a given schema/content-type class.
 
+### Planned Messaging Delivery Recovery {#messaging-delivery-recovery}
+
+[S027-009](../027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
+owns the planned Messaging binding. S027-009-01/03 carry existing INAC refusal,
+retryability and retry-after fields through durable AD outcomes and the proposed
+`artifact.delivery.reconcile` port; a missing local delivery record is unknown,
+not proof of non-delivery. A handle, Matrix publication or object-store write
+cannot stand in for recipient domain admission.
+
+S027-009-02/04 reuse immutable prepared artifact bytes and generation idempotency
+before submission; bind the AD ID when known and recover lost replies by that
+identity. AD alone owns transient pushes within a generation (the Messaging
+profile allows at most five in 15 minutes, with stricter host policy winning).
+Persist budgets/deadlines across restart; Messaging creates only explicit new
+generations through its owner, with current authority/consent checks. Historical
+acceptance does not authorize another push. This differs from the authority of an
+accepted Whisper release commit even where prepared-byte recovery can be reused.
+
+The [S027 retention profile](../027-messaging-middleware/027-messaging-middleware.md#retention-and-failure-boundaries)
+protects outcomes and keys through safe reconciliation; neither generic cleanup
+nor a retry worker may turn missing history into a fresh send. Qualification must
+correlate producer, AD, INAC and domain outcomes, including late results and crashes.
+Task status remains in S027, and existing AD qualifications are unchanged.
+
 ### Arca/Dator Service-Order Transport Consumer
 
 The first marketplace consumer pair for Artifact Delivery is Arca/Dator remote
@@ -1742,6 +1768,46 @@ Status:
 
 - `optional`
 
+### Minimal-Trace Delivery Profile
+
+Based on:
+
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+  (cooperative interest masking)
+- `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`
+
+Planned (2026-10-27). Delivery leaves durable state: the sender's delivery
+ledger, the receiver's admission and refusal ledger, the peer artifact cache,
+object-store payloads and deferred-operation status. A request TTL does not
+erase any of them. Some consumers, first the Whisper cover requests of
+[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking),
+need a declared profile that minimizes these traces. The profile is a route
+property chosen by the domain owner, not a per-call flag.
+
+Responsibilities:
+
+- accept only inline payloads within a small bound, with no object-store
+  indirection and no peer artifact cache entry;
+- keep payload bytes only until the acceptor's decision, and keep ledger rows
+  reduced to delivery or admission id, schema id, outcome class and times;
+- purge those rows on a scheduled, indexed cleanup after the retry horizon, so
+  that cleanup never removes active work;
+- restrict observers and logs to metadata without payload, sender lists or
+  domain correlation;
+- report the profile, its bounds and the time of the last purge in AD status.
+
+Validity and retention stay distinct: a payload's expiry does not erase its
+traces, and only the scheduled purge does.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| S023-001 | Define the minimal-trace route profile | todo | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no peer-cache or object-store writes occur; ledger rows carry only the reduced fields; schema-gated fixtures cover refusal paths. |
+| S023-002 | Scheduled purge of minimal-trace rows | todo | S023-001; S020 | An S020 job purges delivery and admission rows after the retry horizon using indexed cleanup that spares active work; restart is idempotent; status shows the last purge; a disk scan after purge finds no request payload in AD stores. |
+
+Status:
+
+- `future`
+
 ## Out of Scope
 
 - Replacing INAC, Agora, Seed Directory, or Memarium.
@@ -1835,3 +1901,20 @@ Status:
 ## Related Capability Data
 
 - `023-artifact-delivery-caps.edn`
+
+## Planned Whisper Embargo Execution Consumer
+
+[P013-PEX-001](../../40-proposals/013-whisper-social-signal-exchange.md#private-exchange-tracker)
+qualifies the private carrier; [P013-ADC-005](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
+owns the immutable release intent, authority commit and executor journal. AD
+receives the final receipt-bearing envelope as frozen bytes with one delivery id.
+It neither counts sources nor re-evaluates the author's domain consent. Its own
+recipient/transport authority, expiry and resource checks still apply: a commit
+receipt is not a transport capability.
+
+Reuse existing submission, status/readback and phase recovery. Unknown delivery
+outcome never proves no submission. Abandonment requires authoritative absence;
+it leaves the logical release slot consumed. The protected-holder union includes
+a separately named counting authority, but transport budget never admits a new
+holder. PEX-001 and ADC-005 acceptance cover recipient refusal, lost reply,
+restart before submission and exact-byte/id replay, without a new AD retry owner.

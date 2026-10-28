@@ -1,0 +1,8 @@
+{
+  "schema": "inac-admission-status.query.v1",
+  "idempotency/key": "message:example:1",
+  "artifact/id": "message-envelope:example",
+  "artifact/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "message/commitment": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "resume/until": "2026-11-27T00:00:00Z"
+}

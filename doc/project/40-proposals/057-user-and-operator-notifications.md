@@ -472,7 +472,7 @@ TTL to prevent replay across browser tabs.
 
 ### Assessment Exposure at Rendering Boundaries
 
-**Planned continuation, 2026-10-23, P057-014.** Notifications about opinions,
+**Partial local continuation, 2026-10-24, P057-014.** Notifications about opinions,
 rumor assessments, panel judgments and Corpus rounds consume the recipient-bound
 [P026 exposure view](026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection).
 Reuse caller binding, registered rendering, sealed storage and existing action
@@ -492,6 +492,19 @@ enough: event frequency, inbox counts, version changes and digests also matter.
 Ordinary rumor delivery and necessary protective notices remain distinct lanes.
 Validate protective exceptions by admitted kind contract/authority; never infer
 one from arbitrary sender text. S039 owns this binding, not the sender or UI.
+
+The first registered `resource-assessment.v1` adapter accepts an Agora-owned
+subject reference and renders from the current recipient view. Withheld notices
+produce no queue/idempotency/rate/SSE effect. Legacy sender content, actions and
+urgency are removed during rendering. Assessment notices are informational and
+polling-only; generic unread/priority counts and the global SSE bus exclude them
+even after release. Existing typed protective notification paths remain available.
+
+Focused store/renderer and synthetic-owner host fixtures cover this adapter. The
+[P026 local checkpoint](026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+records the separate real Agora host/browser view acceptance. An automatic notice
+producer, a recipient-partitioned event bus and the wider cross-recipient/end-to-end
+matrix remain open; P057-014 stays partial.
 
 ### Event Stream
 
@@ -903,4 +916,7 @@ The first implementation should include tests for:
 | P057-011 | Cross-recipient user inboxes | partial | Recipient class/id are first-class in model and store; daemon exposes user and pod-user scoped read/action routes; Node UI has user and pod-user inbox list surfaces; Store v3 seals notification payload per recipient; daemon read/action routes now require a matching authenticated caller binding and fail closed without one. First-run operator bindings created after daemon startup can be refreshed from the durable participant/operator store into the shared in-memory caller-binding resolver, so notification reads/actions do not require a restart after wizard setup; missing durable bindings still fail closed. Remaining work: first-class pod-user session/auth UX. |
 | P057-012 | OS notifications | deferred | Explicitly post-MVP; no desktop-shell adapter is implemented. |
 | P057-013 | Registered Inquirium operator-question widgets | done | Notification detail rehydrates the validated operator-question request from the dedicated registry instead of persisting raw `body/input`. Node UI renders confirm, single-choice, multi-choice, and allowlisted-text controls only for the registered `inquirium.operator-question.respond` target, sends typed answers through the existing notification action API, and daemon validation rejects answers outside the stored widget contract. |
-| P057-014 | Assessment-exposure-aware rendering and attention | todo | Depends on P026-005/006/007. Reuse recipient resolution, kind renderers, sealed store and event bus; enforce the current host projection at enqueue/delivery/read without sender-controlled bypass. Retain negative fixtures for body/title/action previews, unread counts, SSE frequency, stale queued content, exports and unavailable policy; authorized protective notices remain reachable. Feed scoped runtime evidence into P026-008; existing minimal-SSE evidence does not close this gate. |
+| P057-014 | Assessment-exposure-aware rendering and attention | partial | Depends on P026-005/006/007. Reuse recipient resolution, kind renderers, sealed store and event bus; enforce the current host projection at enqueue/delivery/read without sender-controlled bypass. Retain negative fixtures for body/title/action previews, unread counts, SSE frequency, stale queued content, exports and unavailable policy; authorized protective notices remain reachable. Feed scoped runtime evidence into P026-008; existing minimal-SSE evidence does not close this gate. The 2026-10-24 registered adapter and focused synthetic-owner host fixtures implement bounded polling-only rendering and suppress generic counters/global SSE. Original P026 run 04 qualifies the common Agora view separately. No automatic producer or complete cross-recipient/end-to-end attention qualification is claimed. The review centralizes generic counter/SSE exclusions and preserves synthetic-owner restart/refusal coverage; no real producer or multi-user promotion follows. |
+| P057-015 | Fact–rumor resonance attention item | todo | Depends on P078-012 and P036-008; part of [P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27) and exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md). A registered kind addresses a link candidate to the owning participant. Title and preview carry only a neutral label, never record or rumor details; the body is sealed. Registered actions (related, not related for the pair or the rumor context, later) dispatch to the host link-decision writer. Notices are batched with a per-epoch cap, and SSE stays privacy-minimal. |
+| P057-016 | Retention clamp and pre-expiry notices | todo | Depends on [P036-004 and P036-005](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27). A clamp notice for automatic capture; a batched pre-expiry digest whose extend action writes a new retention decision bounded by the ceiling. Notices carry no record content. |
+| P057-017 | Disclosure-condition prompts and state notices | todo | Depends on P013-ADC-004 and P013-ADC-005; part of [P013 author disclosure conditions](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions). A confirm-mode prompt shows the rendered criterion, requested and effective epoch threshold, attested count, concrete audience, public proof disclosure and deadline; registered confirm/decline actions dispatch to the owning condition service (confirmation uses the case key). Decline records proposal suppression across restart; no automatic re-prompt without an explicit bounded policy. The view distinguishes condition, proposal and per-slot execution states. Pre-authorized releases, expiry and withdrawal produce notices afterwards. Bodies are sealed, and titles and previews carry no protected text. |

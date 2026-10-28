@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+  ],
+  "$id": "urn:orbiplex:schema:assessment-exposure-command:v1",
+  "title": "Authenticated assessment exposure request v1",
+  "description": "Host-bound viewer read/monotone transition. Client key correlates a command, not a lifetime request-result receipt. An exact probe-only request returns only the inactive refusal or a closed/active refusal, never a viewer projection.",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject"
+      ],
+      "properties": {
+        "subject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resource/kind",
+            "resource/id"
+          ],
+          "properties": {
+            "resource/kind": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-z][a-z0-9-]*$"
+            },
+            "resource/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          }
+        },
+        "event": {
+          "enum": [
+            "encounter",
+            "explicit-skip",
+            "own-first-judgment"
+          ]
+        },
+        "idempotency/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "cause/record-id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "profile/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "description": "Optional expected profile identity; a transition carrying it refuses before effects if the active policy differs. UI and CLI bind explicit choices to this value."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "event"
+            ]
+          },
+          "then": {
+            "required": [
+              "idempotency/key"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "event"
+            ],
+            "properties": {
+              "event": {
+                "const": "own-first-judgment"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "cause/record-id"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "probe"
+      ],
+      "properties": {
+        "probe": {
+          "const": true
+        }
+      }
+    }
+  ]
+}

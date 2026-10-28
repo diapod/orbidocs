@@ -712,10 +712,21 @@ The closed `capability-passport-present.v2` carrier adds optional complete signe
 issuance status to delegated Messaging receive-consent handoff. It changes no
 signed passport/grant/status preimage. Local root/custody, exact scope and original
 leases still establish authority. V1 remains open and accepts its existing
-passport versions; present-request responses remain V1. This does not add V2
+passport versions; legacy present-request responses remain V1. P076-037 adds an
+explicit exact-passport V2 renewal request whose response must be V2 or a typed
+refusal. It does not change generic advertisement or grant authority. See
+[P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+This does not add V2
 installers for generic dispatch, AD, references, batches or network-ledger. Those
 consumers refuse the new carrier, including declared-schema/content mismatches.
 See [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance).
+
+P076-038 qualifies that narrow V2 Messaging carrier across two independently
+admitted hosts. A signed status at most five seconds ahead of the evaluating
+clock contributes durable negative knowledge, but it cannot authorize before
+`as_of`; local renewal evaluation resumes at the signed time. This changes no
+passport preimage, generic advertisement or V1 interpretation. See
+[P076-038](076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).
 
 ### Presentation budget follow-up — 2026-10-24
 
@@ -740,3 +751,11 @@ bytes for both inline and file-backed artifacts. These are fixture measurements,
 not a maximum for arbitrary extension-bearing V1 documents. Every configured
 producer must respect the enforced budget. Delegated handoff requires the new
 receiver carrier implementation; no implicit downgrade is introduced.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+The focused P076-038 physical gate passed on 2026-10-28. Attached and fetched
+status still share one verifier and durable revision/revocation knowledge;
+independent local root admission remains required. See P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for the exact qualified
+carrier and pins. This does not qualify every capability advertisement.

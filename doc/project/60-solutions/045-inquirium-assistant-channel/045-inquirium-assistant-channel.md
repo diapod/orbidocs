@@ -91,6 +91,12 @@ Relationship and Messaging remain uninvolved. A UI may render it beside
 conversation-like surfaces, but it must not mint a peer identity, contact
 record, delivery route, or relationship state.
 
+A recipient picker may list the affordance beside contacts when it is visibly
+marked as a channel. Selecting it opens a channel turn and creates nothing in
+Relationship or Messaging. [Story 014](../../30-stories/story-014-dormant-contest-entry.md)
+exercises this through
+[P066-DFR-001](../../40-proposals/066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27).
+
 ### Advise First, Effects Elsewhere
 
 Assistant responses carry content, epistemic posture, and admitted inert control

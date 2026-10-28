@@ -1,0 +1,101 @@
+{
+  "schema": "document-privacy-exceptions.v1",
+  "exceptions": [
+    {
+      "path": "doc/ops/howto/sensorium-howto.en.md",
+      "value": "sensorium.read.local",
+      "context": "\"default_consumer_scopes\": [\"sensorium.read.local\"]",
+      "reason": "Sensorium source-policy scope identifier; not a hostname."
+    },
+    {
+      "path": "doc/ops/manuals/artifact-delivery-manual.en.md",
+      "value": "contact-request.local",
+      "context": "`contact-request.local`",
+      "reason": "Built-in acceptor identifier in the receiver table; not a hostname."
+    },
+    {
+      "path": "doc/ops/howto/sensorium-howto.pl.md",
+      "value": "sensorium.read.local",
+      "context": "\"default_consumer_scopes\": [\"sensorium.read.local\"]",
+      "reason": "Sensorium source-policy scope identifier; not a hostname."
+    },
+    {
+      "path": "doc/ops/manuals/artifact-delivery-manual.pl.md",
+      "value": "contact-request.local",
+      "context": "`contact-request.local`",
+      "reason": "Built-in acceptor identifier in the receiver table; not a hostname."
+    },
+    {
+      "path": "doc/project/30-stories/story-009-bielik-blog-arca.md",
+      "value": "node-a.local",
+      "context": "\"relay_domain\": \"node-a.local\"",
+      "reason": "Illustrative relay domain in the Story template; not a private deployment binding."
+    },
+    {
+      "path": "doc/project/30-stories/story-009-bielik-blog-arca.pl.md",
+      "value": "node-a.local",
+      "context": "\"relay_domain\": \"node-a.local\"",
+      "reason": "Illustrative relay domain in the Story template; not a private deployment binding."
+    },
+    {
+      "path": "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+      "value": "sensorium.weather.local",
+      "context": "`sensorium.weather.local`",
+      "reason": "Example connector identifier; not a DNS hostname."
+    },
+    {
+      "path": "doc/project/40-proposals/082-sensorium-interfaces.md",
+      "value": "sensorium.read.local",
+      "context": "`sensorium.read.local`",
+      "reason": "Source adapter scope identifier; not a DNS hostname or caller authority."
+    },
+    {
+      "path": "doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md",
+      "value": "192.0.2.10",
+      "context": "\"product/bind-address\": \"192.0.2.10\"",
+      "reason": "Illustrative topology with example.test hosts; IP-typed bind-address must remain syntactically valid."
+    },
+    {
+      "path": "doc/schemas/examples/fish-water.corpus-reasoning-answer.json",
+      "value": "orbiplex.local",
+      "context": "\"room/id\": \"!story011-fish:orbiplex.local\"",
+      "reason": "Synthetic Matrix room authority in a retained contract fixture; preserve example bytes."
+    },
+    {
+      "path": "doc/schemas/examples/fixture.operator-task-order-completion.json",
+      "value": "orbiplex.local",
+      "context": "\"room/id\": \"!story011-fish:orbiplex.local\"",
+      "reason": "Synthetic Matrix room authority in a retained contract fixture; preserve example bytes."
+    },
+    {
+      "path": "doc/schemas/examples/mdns.deferred-operation-status-v2.json",
+      "value": "fixture.local",
+      "context": "\"value\": \"fixture.local.\"",
+      "reason": "Synthetic discovery hostname fixture; preserve example bytes."
+    },
+    {
+      "path": "doc/schemas/examples/mdns.sensorium-device-discovery-candidate.json",
+      "value": "fixture.local",
+      "context": "\"value\": \"fixture.local.\"",
+      "reason": "Synthetic discovery hostname fixture; preserve example bytes."
+    },
+    {
+      "path": "doc/schemas/examples/mdns.sensorium-device-discovery-request.json",
+      "value": "_sensorium._tcp.local",
+      "context": "\"mdns/service-type\": \"_sensorium._tcp.local.\"",
+      "reason": "DNS-SD service type, not a private host; changing it changes discovery semantics."
+    },
+    {
+      "path": "doc/schemas/examples/two-host-three-node.orbiplex-acceptance-topology.json",
+      "value": "192.0.2.10",
+      "context": "\"product/bind-address\": \"192.0.2.10\"",
+      "reason": "Illustrative topology bind-address, paired with example.test hostnames; preserve IP format and fixture bytes."
+    },
+    {
+      "path": "doc/schemas/examples/two-host-three-node.orbiplex-acceptance-topology.json",
+      "value": "192.0.2.11",
+      "context": "\"product/bind-address\": \"192.0.2.11\"",
+      "reason": "Illustrative topology bind-address, paired with example.test hostnames; preserve IP format and fixture bytes."
+    }
+  ]
+}

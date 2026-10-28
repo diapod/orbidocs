@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.private-module-result:v2",
+  "title": "agent.private-module-result.v2",
+  "description": "P026-012b-r1 successor. Historical versions are unchanged; private commitments have explicit HMAC labels.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer-r1.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "agent/ref",
+    "binding/ref",
+    "passage/ref",
+    "manifest/ref",
+    "context/authority-dependencies",
+    "response",
+    "request/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent.private-module-result.v2"
+    },
+    "agent/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "binding/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "passage/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "manifest/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "context/authority-dependencies": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "response": {
+      "type": "object"
+    },
+    "request/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    }
+  }
+}

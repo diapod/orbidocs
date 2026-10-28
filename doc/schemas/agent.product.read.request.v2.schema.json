@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.product.read.request:v2",
+  "title": "agent.product.read.request.v2",
+  "description": "Module-private RAM result contract. No generic artifact access or replay regeneration authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "product/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent.product.read.request.v2"
+    },
+    "product/ref": {
+      "type": "string",
+      "pattern": "^agent-private-result:sha256:[A-Za-z0-9_-]{43}$"
+    }
+  }
+}
