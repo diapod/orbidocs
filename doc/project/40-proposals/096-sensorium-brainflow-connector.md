@@ -5877,3 +5877,31 @@ and diagnostic/qualification contracts separate while reusing existing owners.
 See node:docs/audits/REVIEW-SENSORIUM-R21-RELEASED-RETIREMENT-2026-10-28.md.
 
 Node operational evidence checkpoint: `af2fc218`; executable source remains `3a13f8cc`.
+
+
+### Ordinary r22 startup diagnostic — 2026-10-28
+
+One freshly approved normal p21 Case through prepared source 3a13f8cc / GUI
+8a4ec1c4 completes SCAN/BIND/REGISTER/WEAR, exact exit, confirmed cleanup,
+durable audit and controller release. Both required presets are observed; no
+operation timeout/retry occurs. All nine bounded startup intervals are present:
+admission-to-running is 9355.987750 ms, including ready-to-running 5662.097125 ms.
+These host diagnostic clocks are not the 15000 ms qualification interval, an
+isolated SDK prepare duration or proof of a particular performance fix.
+
+Journal becomes 555/77, all 76 old Cases remain exact, and resources/controller
+are idle. The late configuration-refused observation is recorded with effects
+already fenced and does not replace the RunCompleted first cause. The 58-member
+private proof (manifest 2d6816db / archive a2968f5f) passes complete byte readback;
+unknown custody/retention facts stay protected. Firmware is historical only.
+No fault, grant revocation, reset, recovery, actual restart or merge occurs.
+
+P096-005 remains partial. The ordinary package cannot be relabelled as the
+campaign package or combined with incompatible historical tuples to fill the
+six/two/two origin matrix. The current source-to-owner audit preserves all ten
+required records, native corroboration, original thresholds and the actual
+host-restart condition. Full compatible native ordinary/fault evidence and the
+separately approved actual restart are still required. See
+node:docs/audits/REVIEW-SENSORIUM-R22-STARTUP-DIAGNOSTIC-2026-10-28.md.
+
+Node native-diagnostic checkpoint: `3adb00be`; executable source remains `3a13f8cc`.
