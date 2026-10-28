@@ -656,3 +656,12 @@ expiry rules remain intact; the measurement does not promise a latency bound.
 A new clean-candidate reset probe and the full two-gate qualification are still
 required. See `node:nym-issuer-service/README.md` and the Node implementation
 ledger for repository-local implementation status.
+
+The 2026-10-28 status/ownership review is implemented at Node `d69a5fec`:
+118 issuer and 58 host tests pass, including pre/post-commit allocation recovery,
+deadline priority/backpressure, cumulative-checkpoint rollback, atomic cleanup
+refusal, and capacity reuse after a full 1024-watch epoch. Strict all-target
+Clippy and documentation checks pass. Full/light workspace gates still refuse
+on the independently owned Sensorium evidence-history budget. This is software
+conformance, not the runtime qualification of either Gate A or Gate B; the
+P015-001–003 tracker and the aggregate authorship slice remain incomplete.
