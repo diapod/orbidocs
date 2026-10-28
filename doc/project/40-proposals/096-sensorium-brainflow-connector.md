@@ -6050,3 +6050,23 @@ or merge occurs. Early binding revocation remains P096-009 lifecycle scope;
 P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-R23-BINDING-REMOVAL-2026-10-28.md.
 
 Node r23-removal/r24-reservation checkpoint: `a6c37cc1`; no acquisition is authorized by it.
+
+
+### Fixed-client r24 runner preparation — 2026-10-28
+
+Completed retirement ce440893 binds a configured r24 working recipe to fixed
+source 12b0c29b / GUI da7bf9bc, without copying old physical approval. Review fixes
+transitive Python integrity before pre-effect imports and reuses that same byte
+check in the offline restart collector. Fifty software tests and three actual
+isolated no-scope refusals pass. Fresh current collector/Schema Gate assembly
+preserves nine software records and adds one synthetic restart row; all ten stay
+synthetic-fixture, with no new owner run or actual restart.
+
+Read-only SSH preserves 1917 protected files/439 directory identities, journal 570/79
+and the free controller. The private 70-member proof 9b27ee02/7f305fa1 passes fresh
+primary readback with incomplete custody metadata protected. This preparation
+adds no native qualification, permission manager, grant, consent, reset, recovery
+or merge. All ten compatible rows remain required for the new image; a fresh
+physical delegation and separately approved actual host restart are still absent.
+P096-005 stays partial. Node owns the detailed
+[review](node:docs/audits/REVIEW-SENSORIUM-R24-RUNNER-PREPARATION-2026-10-28.md).
