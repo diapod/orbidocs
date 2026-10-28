@@ -5927,3 +5927,26 @@ pass source/byte review. No authority, execution, source code, threshold or P096
 qualification status changes.
 
 Node plan-binding review checkpoint: `83d566ec`; executable source remains `3a13f8cc`.
+
+
+### Current-pin unarmed full-runner integration — 2026-10-28
+
+New prospective r23 working recipes bind the prepared current client while
+leaving the exact retirement review/receipt and execution approval absent.
+Forty-eight local tests pass, plus three actual isolated entry refusals before
+SSH/native work. Current-collector reassembly of previously measured software-SDK
+inputs preserves nine original records and adds only the tenth under synthetic
+tuple a361e875. This is fresh software composition, not a new owner SDK run,
+physical-origin matrix or actual host restart.
+
+Review corrects the exact released-case receipt expectation and a review-digest
+test fixture whose broad scope hid the intended transitive dependency check.
+Campaign-plan GUI-inventory and source-report qualifier harness preimages retain
+distinct owners. No authority or readiness is inferred, no old approvals are
+copied, and production source/thresholds remain unchanged. The 56-member private
+set (manifest e31950a3 / archive c99159ef) passes byte readback with unknown custody
+protected. P096-005 remains partial until full compatible native evidence and a
+separately approved actual restart qualify. See
+node:docs/audits/REVIEW-SENSORIUM-R23-UNARMED-RUNNER-2026-10-28.md.
+
+Node current unarmed-runner checkpoint: `bbbeb86d`; executable source remains `3a13f8cc`.
