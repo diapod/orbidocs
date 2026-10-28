@@ -392,3 +392,20 @@ restore. The ordinary clock provider is exercised in the explicit acceptance
 consumer image, not a default/release binary. Custody is local point-in-time
 retrieval, not independent replica protection or backup. v1 remains authoritative,
 every D7 field stays false, draft maturity and disabled rollout are unchanged.
+
+## Cached-state admission and durable writer ownership (2026-10-26)
+
+The Node owner separates short immutable restriction-snapshot admission from its
+FIFO mutation reservation. Inactive maintenance checks authority, incarnation,
+scoped epochs/head and bounded own writes under state admission, then releases
+only the state mutex before durable SQLite COMMIT. The same transaction and FIFO
+writer reservation persist until the durable outcome; subsequent mutations sample
+authority time only after that reservation becomes available. Immutable v1 cached
+snapshots may proceed during this I/O because maintenance never mutates v1 state.
+
+This corrects a storage-wait coupling without lowering the one-second actual
+snapshot-hold guard, changing durability, accepting an uncommitted receipt or
+recovering poisoned domain state. The writer reservation itself makes no hard
+filesystem-latency promise. Historical F02 traces/refusals remain unchanged; trace
+v4 distinguishes actual unlock from durable completion. This implementation
+boundary does not change source rights, the S028 fact authority or D7 status.

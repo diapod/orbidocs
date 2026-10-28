@@ -5,7 +5,8 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
   ],
   "type": "object",
   "additionalProperties": false,
@@ -338,7 +339,11 @@
               "items": {
                 "enum": [
                   "contact-request.v1",
-                  "message-envelope.v1"
+                  "message-envelope.v1",
+                  "nym-key-request-sealed.v1",
+                  "nym-key-offer-sealed.v1",
+                  "nym-issuance-request-sealed.v1",
+                  "nym-issuance-decision-sealed.v1"
                 ]
               }
             }
@@ -361,7 +366,11 @@
           "items": {
             "enum": [
               "contact-request.v1",
-              "message-envelope.v1"
+              "message-envelope.v1",
+              "nym-key-request-sealed.v1",
+              "nym-key-offer-sealed.v1",
+              "nym-issuance-request-sealed.v1",
+              "nym-issuance-decision-sealed.v1"
             ]
           }
         },
@@ -389,7 +398,411 @@
           "minimum": 1,
           "maximum": 300
         }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "artifact_schemas": {
+                "const": [
+                  "nym-key-request-sealed.v1"
+                ]
+              }
+            },
+            "required": [
+              "artifact_schemas"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_ids": {
+                "items": {
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-key-request-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 95,
+                  "maxLength": 95
+                }
+              },
+              "grants": {
+                "properties": {
+                  "inac/push": {
+                    "const": [
+                      "nym-key-request-sealed.v1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifact_schemas": {
+                "const": [
+                  "nym-key-offer-sealed.v1"
+                ]
+              }
+            },
+            "required": [
+              "artifact_schemas"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_ids": {
+                "items": {
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-key-offer-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 93,
+                  "maxLength": 93
+                }
+              },
+              "grants": {
+                "properties": {
+                  "inac/push": {
+                    "const": [
+                      "nym-key-offer-sealed.v1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifact_schemas": {
+                "const": [
+                  "nym-issuance-request-sealed.v1"
+                ]
+              }
+            },
+            "required": [
+              "artifact_schemas"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_ids": {
+                "items": {
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-issuance-request-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 100,
+                  "maxLength": 100
+                }
+              },
+              "grants": {
+                "properties": {
+                  "inac/push": {
+                    "const": [
+                      "nym-issuance-request-sealed.v1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifact_schemas": {
+                "const": [
+                  "nym-issuance-decision-sealed.v1"
+                ]
+              }
+            },
+            "required": [
+              "artifact_schemas"
+            ]
+          },
+          "then": {
+            "properties": {
+              "artifact_ids": {
+                "items": {
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-issuance-decision-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 101,
+                  "maxLength": 101
+                }
+              },
+              "grants": {
+                "properties": {
+                  "inac/push": {
+                    "const": [
+                      "nym-issuance-decision-sealed.v1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifact_schemas": {
+                "const": [
+                  "contact-request.v1"
+                ]
+              }
+            },
+            "required": [
+              "artifact_schemas"
+            ]
+          },
+          "then": {
+            "properties": {
+              "grants": {
+                "properties": {
+                  "inac/push": {
+                    "const": [
+                      "contact-request.v1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifact_schemas": {
+                "const": [
+                  "message-envelope.v1"
+                ]
+              }
+            },
+            "required": [
+              "artifact_schemas"
+            ]
+          },
+          "then": {
+            "properties": {
+              "grants": {
+                "properties": {
+                  "inac/push": {
+                    "const": [
+                      "message-envelope.v1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "issuance_authority": {
+            "properties": {
+              "delegation": {
+                "properties": {
+                  "templates": {
+                    "contains": {
+                      "properties": {
+                        "template": {
+                          "const": "nym-bootstrap-consent"
+                        }
+                      },
+                      "required": [
+                        "template"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "templates"
+                ]
+              }
+            },
+            "required": [
+              "delegation"
+            ]
+          }
+        },
+        "required": [
+          "issuance_authority"
+        ]
+      },
+      "then": {
+        "allOf": [
+          {
+            "properties": {
+              "capability_id": {
+                "const": "inac.invitation"
+              }
+            }
+          },
+          {
+            "properties": {
+              "scope": {
+                "properties": {
+                  "profiles": {
+                    "items": {
+                      "properties": {
+                        "profile": {
+                          "const": "inac-invitation@v1"
+                        },
+                        "artifact_schemas": {
+                          "items": {
+                            "enum": [
+                              "nym-key-request-sealed.v1",
+                              "nym-key-offer-sealed.v1",
+                              "nym-issuance-request-sealed.v1",
+                              "nym-issuance-decision-sealed.v1"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "profile",
+                        "artifact_schemas"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "issuance_authority": {
+                "properties": {
+                  "issuance_caller": {
+                    "const": "host:nym-bootstrap.accept"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scope": {
+            "properties": {
+              "profiles": {
+                "contains": {
+                  "properties": {
+                    "artifact_schemas": {
+                      "items": {
+                        "enum": [
+                          "nym-key-request-sealed.v1",
+                          "nym-key-offer-sealed.v1",
+                          "nym-issuance-request-sealed.v1",
+                          "nym-issuance-decision-sealed.v1"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "artifact_schemas"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "profiles"
+            ]
+          }
+        },
+        "required": [
+          "scope"
+        ]
+      },
+      "then": {
+        "allOf": [
+          {
+            "properties": {
+              "issuance_authority": {
+                "properties": {
+                  "issuance_caller": {
+                    "const": "host:nym-bootstrap.accept"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "issuance_authority": {
+                "properties": {
+                  "delegation": {
+                    "properties": {
+                      "templates": {
+                        "maxItems": 1,
+                        "items": {
+                          "properties": {
+                            "template": {
+                              "const": "nym-bootstrap-consent"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "issuance_authority": {
+            "properties": {
+              "issuance_caller": {
+                "const": "host:nym-bootstrap.accept"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "properties": {
+              "issuance_authority": {
+                "properties": {
+                  "issuance_caller": {
+                    "const": "host:nym-bootstrap.accept"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "issuance_authority": {
+                "properties": {
+                  "delegation": {
+                    "properties": {
+                      "templates": {
+                        "maxItems": 1,
+                        "items": {
+                          "properties": {
+                            "template": {
+                              "const": "nym-bootstrap-consent"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
       }
     }
-  }
+  ]
 }

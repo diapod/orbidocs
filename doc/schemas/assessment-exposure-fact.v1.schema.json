@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+  ],
+  "$id": "urn:orbiplex:schema:assessment-exposure-fact:v1",
+  "title": "Private assessment exposure fact v1",
+  "description": "Host-accepted private facts. Never an assertion of psychological independence. Round events are reserved and not admitted by the local store.",
+  "required": [
+    "schema",
+    "viewer/ref",
+    "subject/key",
+    "event",
+    "profile/digest",
+    "recorded/at",
+    "idempotency/key"
+  ],
+  "properties": {
+    "schema": {
+      "const": "assessment-exposure-fact.v1"
+    },
+    "viewer/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "subject/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2113
+    },
+    "event": {
+      "enum": [
+        "subject-first-seen",
+        "own-first-judgment",
+        "explicit-skip",
+        "subject-window-elapsed",
+        "view-released",
+        "barrier-released"
+      ]
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "recorded/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "cause/record-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "event"
+        ],
+        "properties": {
+          "event": {
+            "const": "own-first-judgment"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "cause/record-id"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "cause/record-id"
+          ]
+        }
+      }
+    }
+  ]
+}

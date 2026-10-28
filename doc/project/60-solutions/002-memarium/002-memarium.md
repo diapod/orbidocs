@@ -446,6 +446,28 @@ queue. Existing archival handoff and custody support do not close this profile.
 Status:
 - `future`
 
+### Fact Retention Horizons and Personal Records
+
+Responsibilities:
+- resolve class-keyed default retention horizons and an operator-protected
+  ceiling;
+- record each retention decision as a fact, clamping requests to the ceiling
+  with a warning;
+- expire records through the ordinary space forget path and cascade the
+  erasure to derived artifacts;
+- hold neutral personal records with digests and bounded attachments;
+- record fact–rumor link decisions that both the record and rumor views
+  project.
+
+Today personal facts have no time horizon; only cache entries expire. The
+single-source tracker is
+[P036-004–008](../../40-proposals/036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27),
+and [Story 014](../../30-stories/story-014-dormant-contest-entry.md) is the
+acceptance scenario.
+
+Status:
+- `future`
+
 ## Payload Envelope Contract
 
 Memarium entries carry a `PayloadEnvelope` with a discriminated `PayloadEncoding`:

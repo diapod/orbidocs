@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:association-room-proposal:v2",
+  "title": "association-room-proposal.v2",
+  "description": "Aggregate proposal referencing a contextual first-threshold record. No participant addresses, enrollment or room creation authority. Later loss of basis is shown by the local current-result annotation, without replacing this immutable record.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile/digest",
+    "context/digest",
+    "epoch",
+    "epoch/end",
+    "proposal/id",
+    "threshold/id",
+    "threshold/record-id",
+    "created/at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "association-room-proposal.v2"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "context/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "epoch/end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "proposal/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "threshold/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "threshold/record-id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "created/at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

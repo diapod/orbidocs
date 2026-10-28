@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-source-descriptor:v1",
+  "title": "whisper-source-descriptor.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "required": [
+    "schema",
+    "profile/digest",
+    "federation/id",
+    "issuer/id",
+    "context/digest",
+    "epoch",
+    "epoch/start",
+    "epoch/end",
+    "source/ref",
+    "source/derivation",
+    "status/min-revision",
+    "activation/not-before"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-source-descriptor.v1"
+    },
+    "profile/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "context/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "epoch/start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "epoch/end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^source:[A-Za-z0-9_-]{43}$"
+    },
+    "source/derivation": {
+      "const": "issuer-derived-v1"
+    },
+    "status/min-revision": {
+      "const": 1,
+      "description": "Stable public profile/epoch floor, independent of individual issuance or reset generations."
+    },
+    "activation/not-before": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Signed source activation floor. Both publication and actual first receipt must reach it within the profile clock skew; issued-at remains the real issuance time."
+    }
+  }
+}

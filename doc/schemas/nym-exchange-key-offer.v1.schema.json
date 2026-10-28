@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "$id": "urn:orbiplex:schema:nym-exchange-key-offer:v1",
+  "title": "Nym exchange key offer v1",
+  "properties": {
+    "schema": {
+      "const": "nym-exchange-key-offer.v1"
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "recipient/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "recipient/key-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    },
+    "exchange/handle": {
+      "type": "string",
+      "minLength": 52,
+      "maxLength": 52,
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "description": "Independent opaque 256-bit transport correlation; never the private signed request digest."
+    },
+    "bootstrap/key-public": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key."
+    },
+    "profile/digest": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "bootstrap/request-digest": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "description": "Digest of the anonymous ephemeral-proof key request, never the domain issuance request."
+    },
+    "reply/key": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    }
+  },
+  "required": [
+    "schema",
+    "issuer/id",
+    "recipient/key",
+    "recipient/key-ref",
+    "issued/at",
+    "expires/at",
+    "signature",
+    "exchange/handle",
+    "bootstrap/key-public",
+    "profile/digest",
+    "bootstrap/request-digest",
+    "reply/key"
+  ]
+}

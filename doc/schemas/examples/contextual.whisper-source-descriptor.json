@@ -1,0 +1,14 @@
+{
+  "schema": "whisper-source-descriptor.v1",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "federation/id": "federation:example",
+  "issuer/id": "council:did:key:z123",
+  "context/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "epoch": 2912,
+  "epoch/start": "2025-10-20T00:00:00Z",
+  "epoch/end": "2025-10-27T00:00:00Z",
+  "source/ref": "source:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "source/derivation": "issuer-derived-v1",
+  "status/min-revision": 1,
+  "activation/not-before": "2025-10-25T00:00:00Z"
+}

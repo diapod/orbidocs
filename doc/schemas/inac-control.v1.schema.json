@@ -24,7 +24,9 @@
         "ingested",
         "already-present",
         "refused",
-        "partial"
+        "partial",
+        "admission-status",
+        "admission-status-result"
       ]
     },
     "correlation/id": {
@@ -66,6 +68,42 @@
         "type": "string",
         "maxLength": 512
       }
+    },
+    "admission/status": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "const": "query"
+            },
+            "value": {
+              "$ref": "inac-admission-status.query.v1.schema.json"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "const": "result"
+            },
+            "value": {
+              "$ref": "inac-admission-status.result.v1.schema.json"
+            }
+          }
+        }
+      ]
     }
   },
   "allOf": [
@@ -206,6 +244,145 @@
         "required": [
           "response"
         ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "admission-status"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "required": [
+          "correlation/id",
+          "admission/status"
+        ],
+        "properties": {
+          "admission/status": {
+            "properties": {
+              "kind": {
+                "const": "query"
+              }
+            }
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "artifact"
+              ]
+            },
+            {
+              "required": [
+                "request"
+              ]
+            },
+            {
+              "required": [
+                "authorization"
+              ]
+            },
+            {
+              "required": [
+                "transfer"
+              ]
+            },
+            {
+              "required": [
+                "response"
+              ]
+            },
+            {
+              "required": [
+                "meta"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "admission-status-result"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "required": [
+          "correlation/id",
+          "admission/status"
+        ],
+        "properties": {
+          "admission/status": {
+            "properties": {
+              "kind": {
+                "const": "result"
+              }
+            }
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "artifact"
+              ]
+            },
+            {
+              "required": [
+                "request"
+              ]
+            },
+            {
+              "required": [
+                "authorization"
+              ]
+            },
+            {
+              "required": [
+                "transfer"
+              ]
+            },
+            {
+              "required": [
+                "response"
+              ]
+            },
+            {
+              "required": [
+                "meta"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "admission/status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "operation": {
+            "enum": [
+              "admission-status",
+              "admission-status-result"
+            ]
+          }
+        }
       }
     }
   ],
@@ -372,7 +549,8 @@
             "policy-denied",
             "transport-unavailable",
             "rate-limited",
-            "quota-exceeded"
+            "quota-exceeded",
+            "recipient-consent-required"
           ]
         },
         "retryable": {

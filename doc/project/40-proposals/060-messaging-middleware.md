@@ -653,6 +653,30 @@ The first implementation may support only a single recipient per envelope.
 Group messaging, CC/BCC-like fan-out, and shared conversation state are
 post-MVP because they require different consent and key-management rules.
 
+#### Recipient-Consent Loss Continuation {#consent-loss-recovery}
+
+**Planned, 2026-10-28:** [S027-009](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
+owns the follow-up contracts and its five implementation gates. Keep the original
+waiting-for-permission intent distinct from a send paused after consent refusal;
+passport arrival must not resume the latter. A pure Messaging transition table
+owns state/effects/allowed actions, while AD alone owns transient retries within a
+durable generation. Local AD `404` means unknown delivery, not permission to resend.
+
+Freeze a message commitment over the validated original JSON except top-level
+authorization/signature, including extensions, separately from the full attempt
+envelope digest. Changed content requires a new ID; changed transmitted proof
+requires a new prepared generation with unchanged message identity. Receiver
+admission becomes insert-once: exact identity returns `AlreadyPresent`, conflicting
+identity refuses, and neither retry nor reindex replaces the first envelope or its
+mailbox/recording/read state. Historical admission is not current receive consent;
+every new body push retains P032/P076/P097 authority checks.
+
+S027-009-03 owns body-free historical reconciliation through INAC/AD; S027-009-04
+owns explicit single/bulk recovery and UI evidence. Those gates extend this
+baseline without reopening P060-013/026 or claiming that the new recovery contract
+is implemented. The [S027 tracker](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker)
+is the single source of task status and retention/acceptance requirements.
+
 ### 8. `contacts` Relationship Class
 
 > **Updated by Proposal 065 / Solution 032:** the canonical
@@ -1150,6 +1174,10 @@ prefer contract tests and daemon/service boundaries over UI completeness.
    receive-passport membership restoration matrices.
 6. Keep MVP decision rows and tracker evidence in sync while hardening the
    remaining runtime and recovery paths.
+7. Implement the [S027-009 continuation](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker),
+   starting with contract/reuse inventory, then admission, reconciliation and
+   explicit retry. Preserve existing qualified evidence and synchronize new
+   schema/API and Node ledger changes only with their measured implementation scope.
 
 ## Tracking
 
@@ -1213,3 +1241,23 @@ committed. The host-only authenticated peer handoff preserves the full carrier;
 transport delivery is separate from accepted/deferred/refused observation.
 Generic AD/reference/batch and ledger paths do not gain support for V2 carriers.
 The attachment creates no relationship, consent, delegate, root trust or retry.
+
+P076-037 adds a local three-mode P091 status acquisition decision. When a
+receive consent becomes stale, the pending send may request one bounded V2
+presentation from the original authenticated contact, then reevaluate current
+authority. `scheduled-only` permits scheduled observed-grant queries but asks the
+contact only for cached evidence; `no-observed-grant-query` forbids holder queries
+and permits at most one presenter query for its own local delegate. S020 owns
+status refresh, while signed withdrawal publication retries independently.
+Contact connectivity and `full-status` disclosure remain prerequisites; this
+does not establish offline delivery. See
+[P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+P076-038 passed five physical policy/role windows, including reversed roles,
+with exact recipient envelope/body observations. Queue insertion alone was not
+treated as receipt. Child/parent withdrawal and eight role/signal restarts
+preserved refusal knowledge. Exact pins and limits are in P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md`; offline delivery and release
+readiness remain separate claims.

@@ -269,13 +269,20 @@ Status:
   Direct and daemon-hosted Story-005 smoke coverage proves the same path with a
   real daemon HostSigner.
 
-### Planned Assessment Exposure in Curation
+<a id="planned-assessment-exposure-in-curation"></a>
+
+### Local Assessment Exposure in Curation
 
 The [P013 profile and tracker](../../40-proposals/013-whisper-social-signal-exchange.md#assessment-exposure-profile)
 bind rumor judgments to [P026's shared gate](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
-Status is `planned` (`P013-AE-001/002`), separate from implemented Whisper M4.
+P013-AE-001 is `partial`; P013-AE-002 remains planned, separate from implemented
+Whisper M4. The [P026 local checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+qualifies withholding and later rendering of rumor-shaped credibility/rejection
+extension fields through the shared view on a generic open resource reference.
+That evidence does not introduce a standalone rumor-overlay admission schema or
+qualify the complete real Whisper curation, propagation and attention workflow.
 Reuse opinion identity/overlay validation and the Agora host's viewer projection;
-do not add a Whisper-specific blind-vote store or hide ratings only in UI.
+do not add a Whisper-specific blind-vote store or hide ratings only in UI. The [review checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-review-evidence-checkpoint-2026-10-24) requalifies the common local view and preserves the complete Whisper workflow exclusion.
 Peer credibility, rationales, counts and popularity ordering remain withheld
 consistently across curation, Agent, search and S039 attention surfaces.
 
@@ -321,6 +328,121 @@ Responsibilities:
 
 Status:
 - `optional`
+
+### Dormant-Fact Resonance
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/30-stories/story-014-dormant-contest-entry.md`
+
+Responsibilities:
+- resolve the versioned JSON decorrelation vocabulary (factory source plus
+  local P091 layers) and validate `topic/class` against it;
+- derive an epoch pull plan with decoys and pull complete coarse buckets;
+- project fact–rumor link decisions and a local "My rumors" view;
+- author related rumors that join an existing rumor context;
+- hand confirmed contexts to association rooms with explicit sharing controls.
+
+The feature owner and grouping task live in
+[P013 dormant-fact resonance](../../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27).
+
+Status:
+- `future`
+
+### Author Disclosure Conditions
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/30-stories/story-014-dormant-contest-entry.md`
+
+Responsibilities:
+- verify nym-signed embargo manifests and their protected-signal/admission
+  bindings; recipients verify the public package without protected text;
+- derive similarity keys from author-approved correlation descriptors under
+  versioned grouping rules;
+- keep protected material within the correlation scope under custody
+  obligations;
+- count distinct contextual sources per epoch and attest the result;
+- release pre-redacted payloads after a release commit accepted by the case
+  authority and, by default, the author's confirmation, at most once per
+  concrete consented audience descriptor, independently of delivery routes;
+- keep disclosure conditions separate from coordination thresholds.
+
+The design and tracker live in
+[P013 author disclosure conditions](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
+
+Status:
+- `future`
+
+### Cooperative Interest Masking
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+
+Responsibilities:
+- keep one origin-tagged pull plan whose `need`, `decoy` and `cover` entries
+  share one executor and one timing rule;
+- send and accept bounded, motive-free cover requests through private Artifact
+  Delivery under the minimal-trace profile;
+- keep cover out of interest profiles, personal memory and source counts;
+- support the measured comparison with independent decoys.
+
+The design and tracker live in
+[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking).
+
+Status:
+- `future`
+
+### Historical Authorship of Long-Lived Rumors
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/40-proposals/041-agora-ingest-attestation.md`
+- `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
+
+Responsibilities:
+- keep certificate validity, retention, counting horizon and consent validity
+  as separate periods;
+- store portable admission receipts beside envelope bytes and verify
+  historical authorship separately from current status;
+- re-contact the author of an old rumor that meets a twin, instead of counting
+  the old rumor again;
+- keep one continuity key per case, ordered case events and a fresh case
+  status, and support case-bound succession of a later nym, delivered only to
+  the chosen audience.
+
+The design and tracker live in
+[P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
+
+The portable receipt format and authenticated admission claim are owned by
+[P035-019](../../40-proposals/035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
+not by a second Whisper receipt implementation. The unchanged aggregate-only
+promotion rule is in [implementation Layer 7](011-whisper-impl.md#layer-7-threshold-detection-and-durable-promotion).
+
+[P013-LLR-009](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification)
+plans bounded portable succession verification through those P015/P035 owners.
+It keeps historical anchor proof, authentic succession and current case authority
+separate, with zero-fetch acceptance and no disclosure of a private anchor merely
+to complete a package. It applies P032's cross-artifact verification rule;
+P076 is one qualified consumer example, not the owner of the Whisper profile.
+The [family matrix](../../40-proposals/013-whisper-social-signal-exchange.md#portable-verification-profiles)
+also covers signals, notices, embargo proofs and case control without adding
+signatures to CIM's intentionally session-authenticated cover requests.
+
+Status:
+- `future`
+
+### Shared Implementation Boundaries
+
+The planned continuations share mechanisms according to
+[P013's reuse dispositions](../../40-proposals/013-whisper-social-signal-exchange.md#implementation-reuse):
+one epoch pull executor, one contextual contribution evaluator with separate
+coordination/disclosure policies, one ordered case owner, and P015/P035 proof
+verification. AD retains delivery and retry ownership. The recommendations also
+identify small head-comparison and prepared-output reuse boundaries without
+merging issuer custody, case authority or transport status. These are design
+constraints for the existing trackers, not additional implemented capabilities.
 
 ## Out of Scope
 

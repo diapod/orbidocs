@@ -56,8 +56,8 @@ Two execution profiles share one story:
   ordinary Service Offer, admits the exact task-profile digest, and receives the
   verified recipe through Corpus.
 
-The 2026-10-05 positive physical run `s13-1791203388-e6aa00` on `self.local`
-and `turbo.local` proves that path with real MLX, a disposable vfkit VM, four
+The 2026-10-05 positive physical run `s13-1791203388-e6aa00` on `host-A.local`
+and `host-B.local` proves that path with real MLX, a disposable vfkit VM, four
 independent Agent passages, signed exact patch/file/domain review, seven qmail
 checks, exact restart/replay without
 another inference/publication/charge, zero-price buyer completion and confirmed
@@ -522,3 +522,11 @@ must say which one.
   revocation (`P094-016`).
 - [x] A structural check shows that shared P094 crates contain no qmail-specific
   branch.
+
+## Host pseudonyms
+
+Host names in this document use stable documentation pseudonyms. The private
+reverse mapping is maintained at `orbidocs:local/host-pseudonyms.json` and is not
+distributed. See the [documentation pseudonym convention](../../ops/howto/documentation-pseudonyms-howto.md).
+Original evidence bytes, signatures and digests remain unchanged; these labels
+only change the documentary presentation.

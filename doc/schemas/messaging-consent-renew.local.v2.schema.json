@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-consent-renew.local:v2",
+  "title": "MessagingConsentRenew local v2",
+  "description": "Host-only preflight request; a waiting response may carry signed status activation time as retry/at.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+  ],
+  "oneOf": [
+    {"$ref": "#/$defs/request"},
+    {"$ref": "#/$defs/result"}
+  ],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "required/scope"],
+      "properties": {
+    "schema": {
+      "const": "messaging-consent-renew.local.v2"
+    },
+    "required/scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "purpose"
+      ],
+      "properties": {
+        "purpose": {
+          "const": "messaging"
+        },
+        "sender": {
+          "type": "string",
+          "minLength": 1
+        },
+        "receiver": {
+          "type": "string",
+          "minLength": 1
+        },
+        "passport-ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "passport/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "status"],
+      "properties": {
+        "schema": {"const": "messaging-consent-renew.local.v2"},
+        "status": {"enum": ["waiting", "refreshed", "already-fresh"]},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 256},
+        "passport-ref": {"type": "string", "minLength": 1, "maxLength": 512},
+        "retry/at": {"type": "string", "format": "date-time"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "waiting"}}},
+          "then": {"required": ["reason"], "not": {"required": ["passport-ref"]}},
+          "else": {"required": ["passport-ref"], "not": {"anyOf": [
+            {"required": ["reason"]}, {"required": ["retry/at"]}
+          ]}}
+        },
+        {
+          "if": {"required": ["retry/at"]},
+          "then": {"properties": {"reason": {"const": "status-not-yet-valid"}}}
+        }
+      ]
+    }
+  }
+}

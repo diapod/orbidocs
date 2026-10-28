@@ -5,7 +5,8 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md",
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
   ],
   "type": "object",
   "additionalProperties": false,
@@ -62,14 +63,16 @@
             "enum": [
               "local-send",
               "receive-consent",
-              "inac-consent"
+              "inac-consent",
+              "nym-bootstrap-consent"
             ]
           },
           "issuance_caller": {
             "enum": [
               "operator:messaging-prepare",
               "operator:contact-request.accept",
-              "operator:inac.invitation.accept"
+              "operator:inac.invitation.accept",
+              "host:nym-bootstrap.accept"
             ]
           },
           "max_passport_ttl_seconds": {
@@ -82,6 +85,51 @@
           "template",
           "issuance_caller",
           "max_passport_ttl_seconds"
+        ],
+        "oneOf": [
+          {
+            "properties": {
+              "template": {
+                "const": "local-send"
+              },
+              "issuance_caller": {
+                "const": "operator:messaging-prepare"
+              }
+            }
+          },
+          {
+            "properties": {
+              "template": {
+                "const": "receive-consent"
+              },
+              "issuance_caller": {
+                "const": "operator:contact-request.accept"
+              }
+            }
+          },
+          {
+            "properties": {
+              "template": {
+                "const": "inac-consent"
+              },
+              "issuance_caller": {
+                "const": "operator:inac.invitation.accept"
+              }
+            }
+          },
+          {
+            "properties": {
+              "template": {
+                "const": "nym-bootstrap-consent"
+              },
+              "issuance_caller": {
+                "const": "host:nym-bootstrap.accept"
+              },
+              "max_passport_ttl_seconds": {
+                "maximum": 900
+              }
+            }
+          }
         ]
       }
     },
@@ -168,5 +216,48 @@
     "request_root_version",
     "status_authority",
     "signatures"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "templates": {
+            "contains": {
+              "properties": {
+                "template": {
+                  "const": "nym-bootstrap-consent"
+                }
+              },
+              "required": [
+                "template"
+              ]
+            }
+          }
+        },
+        "required": [
+          "templates"
+        ]
+      },
+      "then": {
+        "properties": {
+          "templates": {
+            "maxItems": 1,
+            "items": {
+              "properties": {
+                "template": {
+                  "const": "nym-bootstrap-consent"
+                },
+                "issuance_caller": {
+                  "const": "host:nym-bootstrap.accept"
+                },
+                "max_passport_ttl_seconds": {
+                  "maximum": 900
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   ]
 }

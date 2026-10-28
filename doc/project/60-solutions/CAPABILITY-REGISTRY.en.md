@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **231** host-local / **263** total; **38** owner groups.
+Entries: **241** host-local / **273** total; **41** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -332,6 +332,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 |---|---|---|---|---|---|---|
 | <code>messaging.receive.authorize</code> | <code>host/messaging.receive.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
+### <code>daemon Messaging recipient consent renewal</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>messaging.consent.renew</code> | <code>host/messaging.consent.renew</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
 ### <code>daemon Sensorium Virt host broker</code>
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
@@ -343,6 +349,13 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>http.fetch.bounded</code> | <code>host/http.fetch.bounded</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon caller binding with Agora assessment owner</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>agora.assessment.read</code> | <code>host/agora.assessment.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.assessment.transition</code> | <code>host/agora.assessment.transition</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon capability host capability</code>
 
@@ -531,6 +544,18 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>workflow.orchestrate</code> | <code>host/workflow.orchestrate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.step.completed.publish</code> | <code>host/workflow.step.completed.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.test.trigger</code> | <code>host/workflow.test.trigger</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>identity host with P066 consent owner</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>agent.assessment-viewer.list</code> | <code>host/agent.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.request</code> | <code>host/agent.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.revoke</code> | <code>host/agent.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.run</code> | <code>host/agent.assessment-viewer.run</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.list</code> | <code>host/identity.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.request</code> | <code>host/identity.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.revoke</code> | <code>host/identity.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>inference-provenance-core through daemon host boundary</code>
 

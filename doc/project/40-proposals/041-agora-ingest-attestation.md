@@ -655,3 +655,38 @@ If adopted, the next artifacts should be:
    §9 (Agora ingest, middleware dispatch, offer catalog, whisper,
    memarium custody, reputation, workflow sinks, seed-directory
    writes), and an explicit non-goal of holding private keys.
+
+## Historical Nym Admission (2026-10-27)
+
+Planned continuation for
+[P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
+Section 7 keeps redelivery byte-identical and evaluates it against the current
+policy. For nym-authored records this means that an envelope whose certificate
+has since expired is refused with `nym_certificate_expired`, even when it was
+admitted correctly while the certificate was valid. Replacing its
+`author/nym-proof` is not a remedy, because the proof is part of the signed
+bytes and of the `record/id`.
+
+A gate may therefore enable a separate `nym_historical_admission` mode for
+archival or redelivery topics:
+
+- the envelope stays byte-identical and its signature verifies;
+- an accompanying
+  [`agora-admission-receipt.v1`](035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27)
+  from a time authority that this gate accepts shows that the nym proof was
+  valid at admission;
+- the certificate was not revoked with an effective time before that
+  admission;
+- the gate's current policy still admits the topic, author class and record
+  kind.
+
+The mode is off by default, and strict gates keep refusing with
+`nym_certificate_expired`. A missing or unverifiable receipt refuses with the
+new reason `historical_admission_unproven`, which redelivery treats as
+do-not-retry until better evidence exists. Historical admission makes a record
+storable and readable again; it grants no new authority to the nym and does
+not reopen counting windows.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P041-001 | Historical nym admission mode | todo | P035-019; P013-LLR-002 | The gate option, the predicate and the `historical_admission_unproven` refusal; the default stays strict. Fixtures: an expired certificate with a valid receipt is accepted only in the historical mode; altered bytes, an unknown time authority and revocation before admission refuse; the current policy still applies. |

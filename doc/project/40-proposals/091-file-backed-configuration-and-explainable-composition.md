@@ -3083,3 +3083,67 @@ contract-only coverage in `node:docs/implementation-ledger.toml`, regenerate via
 `node:tools/generate-implementation-ledger.py` and reconcile affected
 `node:docs/MVP.md` scope. P091-005a remains mandatory before route exposure:
 contract freeze does not claim runtime adoption or replace security evidence.
+
+## P076-037 Messaging status-acquisition consumer
+
+P076-037 admits a node-scoped, live-reload descriptor at
+`/messaging/issuance/status-acquisition`. Its closed values are `online`
+(compiled default), `scheduled-only`, and `no-observed-grant-query`. The
+Messaging status-source decorator reads the current P091 resolution and
+`resolution/id` before each observed-grant I/O decision. An unavailable
+resolution fails closed for those queries; an in-flight query may complete
+through the ordinary verifier. This is a consumer-specific application of P091,
+not a change to the general resolver or signed lease. See
+[P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+
+P076-038 reads the current mode and `resolution/id` through a read-only owner
+projection alongside bounded acquisition counters. Physical acceptance changes
+the isolated file source atomically and observes the new resolution before each
+mode window; a copied configuration label cannot prove that a decision used it.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+The P076-038 physical gate switched isolated P091 file sources atomically and
+bound each measurement window to the owner's mode and `resolution/id`. The
+private holder made no observed-grant queries; own LocalDelegate refresh stayed
+allowed. This qualifies current file-backed live resolution, not a new product
+write API. See P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for pins and query witnesses.
+
+## P013 decorrelation vocabulary consumer
+
+Planned (2026-10-27). [P013-DFR-001](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27)
+admits a node-scoped descriptor for `whisper-decorrelation-vocabulary.v1`. The
+Node distribution ships a versioned JSON vocabulary as its factory source;
+ordinary layers may add, relabel, re-parent or explicitly retire terms, or
+declare an empty base for an entirely local vocabulary. The value is an
+identified collection keyed by term id with keyed composition and a declared
+retirement status, so `null` retains its schema meaning and deletes nothing.
+Changing the topic key bound to an existing term id is a typed refusal. The
+consumer applies a new resolution at the next Whisper epoch boundary and stops
+pull planning when resolution is unavailable. The resolved version and digest
+are local diagnostics and never leave the node. The same document will also
+carry grouping rules for correlation descriptors
+([P013-ADC-002](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions));
+they compose by rule id like terms, and a change to a rule's normalization
+requires a new rule version rather than an override of the existing one.
+
+## P036 Memarium retention horizon consumer
+
+Planned (2026-10-27). [P036-004](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)
+admits two node-scoped descriptors, class-keyed by Memarium space and record
+kind: a default horizon and a ceiling. The ceiling is a safety limit and
+follows the asymmetric operator-decision rule: lowering applies at once,
+raising waits for operator confirmation, and modules cannot raise it. Memarium
+records the ceiling `resolution/id` in each retention decision it clamps.
+
+## P013 cooperative interest masking consumer
+
+Planned (2026-10-27). [P013-CIM-004 and P013-CIM-005](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)
+admit node-scoped settings for cooperative cover: initiation and acceptance as
+separate switches, both off by default; the accepted sender class (`contacts`,
+`allowlist` or `advertised`); and limits for active cover terms, bytes per
+epoch, request duration and requests per sender per epoch. Limits are safety
+values composed with the domain-owned `min` relation, so a later layer can
+tighten but not silently widen a stricter one. Changes apply to new requests and
+the next plan; already accepted requests keep their bounds until they expire.

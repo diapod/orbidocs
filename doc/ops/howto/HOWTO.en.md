@@ -20,3 +20,5 @@ durable state are documented in the
 - [Middleware HOWTO](middleware-howto.en.md)
 - [Operator Task Packs HOWTO](operator-task-packs-howto.en.md)
 - [Sensorium HOWTO](sensorium-howto.en.md)
+
+- [Documentation pseudonyms](documentation-pseudonyms-howto.md)

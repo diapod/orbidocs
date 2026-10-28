@@ -19,3 +19,5 @@ trwały komponentu opisują [Podręczniki operatorskie](../manuals/MANUAL.pl.md)
 - [HOWTO pakietów zadań operatora](operator-task-packs-howto.pl.md)
 - [HOWTO Sensorium](sensorium-howto.pl.md)
 - [HOWTO współpracy agentów](collaborative-agents-howto.pl.md)
+
+- [Pseudonimy w dokumentacji (EN)](documentation-pseudonyms-howto.md)

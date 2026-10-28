@@ -1,0 +1,29 @@
+{
+  "schema": "corpus-passage-evidence-manifest.v1",
+  "manifest/ref": "corpus-evidence-manifest:sha256:K12nnyVtrolfe7KUcrVBsi3bVjpGagDqMn_onmgmT44",
+  "query/id": "query:acceptance",
+  "room/id": "room:acceptance",
+  "reader": {
+    "kind": "participant",
+    "id": "participant:reviewer"
+  },
+  "inference-flow-binding/ref": "corpus-inference-flow-binding:acceptance",
+  "projection": {
+    "id": "corpus-task-pack-evidence",
+    "revision": 3
+  },
+  "bytes/max": 16384,
+  "items": [],
+  "class/key": "Community",
+  "content/ref": "object-store:sha256:VaH6l3g8Kwc8PODHM1HD30QBNUZ8bqm8aViar38Mw4Q",
+  "content/digest": "sha256:VaH6l3g8Kwc8PODHM1HD30QBNUZ8bqm8aViar38Mw4Q",
+  "content/size-bytes": 201,
+  "phase": {
+    "schema": "corpus-task-pack-phase.v1",
+    "phase": "initial-observation",
+    "rule/ref": "phase-rule:fixture",
+    "rule/digest": "sha256:b6tCwjtZyrnAnCBax-sVlQIGhNwD7p1sVcUXTYa-8QM",
+    "basis": [],
+    "missing": []
+  }
+}

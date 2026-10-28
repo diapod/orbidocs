@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+  ],
+  "$id": "urn:orbiplex:schema:assessment-exposure-profile:v1",
+  "title": "Local assessment exposure profile v1",
+  "description": "P026 local pilot. Sealed-round is a reserved fail-closed boundary; no round execution is admitted. Empty protective-kind set preserves separate existing protection paths.",
+  "required": [
+    "schema",
+    "profile/id",
+    "mode",
+    "applies-to",
+    "withheld",
+    "unlock",
+    "exempt/record-kinds",
+    "guarantee"
+  ],
+  "properties": {
+    "schema": {
+      "const": "assessment-exposure-profile.v1"
+    },
+    "profile/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "mode": {
+      "enum": [
+        "open",
+        "blind-until-own-judgment",
+        "sealed-round"
+      ]
+    },
+    "applies-to": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record-kinds",
+        "subject-kinds"
+      ],
+      "properties": {
+        "record-kinds": {
+          "const": [
+            "opinion"
+          ]
+        },
+        "subject-kinds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(\\*|[a-z][a-z0-9-]{0,63})$"
+          }
+        }
+      }
+    },
+    "withheld": {
+      "type": "array",
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "peer-ratings",
+          "peer-rationales",
+          "aggregates",
+          "counts",
+          "rating-order",
+          "popularity-badges",
+          "peer-discussion"
+        ]
+      }
+    },
+    "unlock": {
+      "type": "array",
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "own-first-judgment",
+          "explicit-skip",
+          "subject-window-elapsed"
+        ]
+      }
+    },
+    "subject-window/seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2592000
+    },
+    "exempt/record-kinds": {
+      "const": []
+    },
+    "guarantee": {
+      "const": "local-display-only"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "unlock"
+        ],
+        "properties": {
+          "unlock": {
+            "contains": {
+              "const": "subject-window-elapsed"
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "subject-window/seconds"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "subject-window/seconds"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "mode"
+        ],
+        "properties": {
+          "mode": {
+            "const": "open"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "withheld": {
+            "maxItems": 0
+          },
+          "unlock": {
+            "maxItems": 0
+          }
+        },
+        "not": {
+          "required": [
+            "subject-window/seconds"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "mode"
+        ],
+        "properties": {
+          "mode": {
+            "const": "blind-until-own-judgment"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "unlock": {
+            "minItems": 1
+          },
+          "withheld": {
+            "allOf": [
+              {
+                "contains": {
+                  "const": "peer-ratings"
+                }
+              },
+              {
+                "contains": {
+                  "const": "peer-rationales"
+                }
+              },
+              {
+                "contains": {
+                  "const": "aggregates"
+                }
+              },
+              {
+                "contains": {
+                  "const": "counts"
+                }
+              },
+              {
+                "contains": {
+                  "const": "rating-order"
+                }
+              },
+              {
+                "contains": {
+                  "const": "popularity-badges"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-agent-run:v1",
+  "title": "assessment-agent-run.v1",
+  "description": "Closed P026-012b contract. Authority dependencies grant nothing and do not establish inference ancestry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer.md",
+    "doc/project/40-proposals/073-agent-orchestration-organ.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent/ref",
+    "request/ref",
+    "expected-step"
+  ],
+  "properties": {
+    "agent/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "request/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "expected-step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967294
+    }
+  }
+}

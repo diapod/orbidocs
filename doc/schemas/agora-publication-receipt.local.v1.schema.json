@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-publication-receipt.local:v1",
+  "title": "agora-publication-receipt.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "agora-publication-receipt.local.v1"
+    },
+    "record/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "author/bytes-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "clock/authority": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "accepted/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40,
+      "pattern": "Z$"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$",
+          "minLength": 86,
+          "maxLength": 86
+        }
+      },
+      "required": [
+        "alg",
+        "value"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "record/id",
+    "author/bytes-digest",
+    "clock/authority",
+    "accepted/at",
+    "signature"
+  ],
+  "x-dia-maximum-canonical-bytes": 4096
+}

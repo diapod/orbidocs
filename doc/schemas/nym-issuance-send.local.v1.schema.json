@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-send.local:v1",
+  "title": "nym-issuance-send.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "operation/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "local-passphrase": {
+      "type": "string",
+      "maxLength": 4096,
+      "writeOnly": true,
+      "description": "Local unlock input. Never returned or retained as a response field."
+    },
+    "phase": {
+      "enum": [
+        "key-request",
+        "request"
+      ]
+    }
+  },
+  "required": [
+    "profile/digest",
+    "operation/id",
+    "phase"
+  ],
+  "description": "Operator-local input. The route identifies the command. It supplies no issuer trust, private key, delivery decision or certificate authority."
+}

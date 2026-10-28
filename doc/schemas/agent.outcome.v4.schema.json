@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.outcome:v4",
+  "title": "agent.outcome.v4",
+  "description": "P026-012b-r1 successor. Historical versions are unchanged; private commitments have explicit HMAC labels.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer-r1.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "agent/id",
+    "binding/ref",
+    "passage/ref",
+    "manifest/ref",
+    "product/ref",
+    "product/digest",
+    "context/authority-dependencies",
+    "lifecycle/epoch",
+    "request/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent.outcome.v4"
+    },
+    "agent/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "binding/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "passage/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "manifest/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "product/ref": {
+      "type": "string",
+      "pattern": "^agent-private-result:hmac-sha256:[0-9a-f]{64}$"
+    },
+    "product/digest": {
+      "type": "string",
+      "pattern": "^hmac-sha256:[0-9a-f]{64}$"
+    },
+    "context/authority-dependencies": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "lifecycle/epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18446744073709551615
+    },
+    "request/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    }
+  }
+}

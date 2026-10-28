@@ -3,13 +3,12 @@ name: Orbidocs Schema Validation
 on:
   pull_request:
     paths:
-      - "doc/project/60-solutions/**"
-      - "doc/diagrams/**"
-      - "doc/schemas/**"
-      - "doc/schemas-gen/**"
-      - "doc/COVERAGE.md"
+      - "doc/**"
       - "scripts/**"
       - "styles/**"
+      - "overrides/**"
+      - "main.py"
+      - ".nav.yml"
       - "Makefile"
       - "requirements-docs.txt"
       - "mkdocs.yml"
@@ -23,13 +22,12 @@ on:
     branches:
       - main
     paths:
-      - "doc/project/60-solutions/**"
-      - "doc/diagrams/**"
-      - "doc/schemas/**"
-      - "doc/schemas-gen/**"
-      - "doc/COVERAGE.md"
+      - "doc/**"
       - "scripts/**"
       - "styles/**"
+      - "overrides/**"
+      - "main.py"
+      - ".nav.yml"
       - "Makefile"
       - "requirements-docs.txt"
       - "mkdocs.yml"
@@ -40,6 +38,9 @@ on:
       - "TRACEABILITY.md"
       - ".github/workflows/orbidocs-schema-validation.yml"
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   validate-schemas:
@@ -59,8 +60,10 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-docs.txt
 
-      - name: Verify documentation and source files do not contain local absolute paths
-        run: make check-no-absolute-local-paths
+      - name: Verify documentation privacy boundaries
+        run: |
+          make test-document-privacy
+          make check-no-absolute-local-paths
 
       - name: Verify Mermaid diagram links
         run: make check-mermaid-links
@@ -86,3 +89,9 @@ jobs:
 
       - name: Validate schemas and examples
         run: make validate-schemas
+
+      - name: Build multilingual site without deployment
+        run: make html-i18n
+
+      - name: Verify generated pages and search index privacy
+        run: make check-published-privacy

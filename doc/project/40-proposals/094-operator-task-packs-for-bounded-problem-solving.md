@@ -3081,8 +3081,8 @@ bypass, firewall disablement or SSH domain payload proxy. Every failed report
 remains failed; no historical bytes acquire new assertions.
 
 Historical physical checkpoint (2026-10-05): `s13-1791194095-ddff55` passes with
-`distinct-physical-hosts` and `profile-defined` evidence on `self.local` and
-`turbo.local`. Initial connection refusal recovered through the ordinary peer
+`distinct-physical-hosts` and `profile-defined` evidence on `host-A.local` and
+`host-B.local`. Initial connection refusal recovered through the ordinary peer
 backoff, without resetting it. Result delivery completed in its first attempt.
 The profile explicitly admits a 60-second result AD exchange and a 65-second
 Dator host waiter, after an earlier run exhausted the local-only 10-second
@@ -3377,6 +3377,45 @@ every basis source is exact, required and included. It provides short aliases,
 source summaries, current candidate first and separately labelled historical
 reviews, while retaining full documents without truncation. The existing
 32 KiB projection budget remains hard. Revision 1 retains historical meaning.
+
+On 2026-10-25 the operator selected explicit projection revision 3 for the
+bounded calibration path. Revisions 1 and 2 retain their existing full-document
+rendering. V3 is a model-facing task view: the host still resolves and checks
+the complete original sources, and the immutable manifest retains their exact
+identities, digests, phase basis, classification and inference ancestry. This
+does not turn model text into source authority or relax current-use checks.
+The instruction cap remains 2048, separately from the 2048 output-token ceiling.
+
+V3 keeps complete candidate steps, authored patches and review targets, process
+stdout/stderr, verifier checks/details, outcomes, cleanup facts, historical
+findings and unknown task fields. It projects out only this declared owner
+envelope at the record root:
+
+| Scope | Fields omitted from model text; retained in full sources |
+| --- | --- |
+| Recognized owner records | `signature`, `signatures`, `author/node-id`, `host/node-id`, `recorded-at`, `idempotency/key`, `turn/id`, `expires-at`, `proposed-at` |
+| Candidate-material wrapper | `source/product-ref`, `source/product-digest` |
+| Execution record | `review/ref`, `review/digest`, `decision/ref`, `decision/digest`, `target` |
+| Proposal record | `author`, `target` |
+| Recognized experiment/process result | `activation/generation`, `disclosure`, `local-binding/digest`, `task-profile/digest`, `timings`, `resource-accounting/ref`, `effect/enforcement`, `command-profile/digest`, `source/generation-ref`, `result/ref`, `deliberation` |
+
+Only `operator-task-experiment-result.v1` and
+`sensorium-workbench-process-run-result.v1` artifacts use that envelope table;
+unknown artifacts remain complete. Only the recognized candidate-material
+wrapper is projected. Nested task data is untouched. Corpus proposal, execution,
+review and decision candidate-reference objects may omit their separate logical
+`ref` while keeping `artifact/type`, `artifact-ref`, `digest` and all unknown
+fields. Candidate steps and patch data are never processed by that rule.
+
+The rendered host phase names its exact basis through numbered source aliases;
+the manifest retains the full phase and rule commitments. Numbered evidence
+headings preserve source identities, step, execution and instance relationships.
+The current candidate precedes historical reviews. V3 avoids repeating full
+source envelopes and outputs in additional summary blocks. A required task
+payload that still exceeds either byte or assembly budget refuses; it is never
+truncated. Model-free eight-case/native-policy tests, substitution/refusal and
+Schema Gate checks precede new source pins and approvals. This decision alone
+is neither successful calibration nor promotion of `012c5/012c6/023e`.
 Flow selects separate phase templates. The owner checks every command's exact
 declared effect mode. Unknown/absent phases and `goal-completed` have an explicit
 `no-step` route, never the repair fallback. A missing owner rule can also refuse
@@ -3617,7 +3656,7 @@ promote the remaining tasks.
 `012c6`, `023e` and `012c1–012c5` remain in progress until their respective
 clean-source operator criteria pass. The remaining composed run
 uses installed/conformant/active package prerequisites, local MLX/vfkit on
-self.local, a second isolated buyer and explicitly local SQLite relay. It
+host-A.local, a second isolated buyer and explicitly local SQLite relay. It
 requires a real order before passages, unfinished-candidate adoption, fresh
 Reviewer/Chair, observation then repair, distinct publication approval, measured
 periodic Arca refresh and checked cleanup. Delegated receipts are not independent
@@ -4000,3 +4039,11 @@ P094 may be promoted only when:
 - task-pack composition from multiple signing authorities;
 - automated reputation projection for task-pack providers;
 - task classes requiring physical actuators beyond the first P083 integration.
+
+## Host pseudonyms
+
+Host names in this document use stable documentation pseudonyms. The private
+reverse mapping is maintained at `orbidocs:local/host-pseudonyms.json` and is not
+distributed. See the [documentation pseudonym convention](../../ops/howto/documentation-pseudonyms-howto.md).
+Original evidence bytes, signatures and digests remain unchanged; these labels
+only change the documentary presentation.

@@ -24,7 +24,7 @@ Machine-readable schema for a council-issued application-layer pseudonym certifi
 | [`epoch`](#field-epoch) | `yes` | integer | Epoch number of this pseudonym line. |
 | [`issued-at`](#field-issued-at) | `yes` | string | Issue timestamp of the certificate. |
 | [`expires-at`](#field-expires-at) | `yes` | string | End of ordinary validity for application-message signing. |
-| [`leniency-until`](#field-leniency-until) | `yes` | string | End of grace semantics for continuity work. After this moment the old line is dead. |
+| [`leniency-until`](#field-leniency-until) | `no` | string | End of grace semantics for continuity work. After this moment the old line is dead. |
 | [`issuer/id`](#field-issuer-id) | `yes` | string | Issuing council identity in canonical `council:did:key:z...` form. |
 | [`line/predecessor-nym-id`](#field-line-predecessor-nym-id) | `no` | string | Optional public predecessor line when the nym continues an earlier visible pseudonymous history. |
 | [`line/succession`](#field-line-succession) | `no` | ref: `nym-succession.v1.schema.json` | Optional public continuity proof signed by the predecessor nym. |
@@ -128,7 +128,7 @@ End of ordinary validity for application-message signing.
 <a id="field-leniency-until"></a>
 ## `leniency-until`
 
-- Required: `yes`
+- Required: `no`
 - Shape: string
 
 End of grace semantics for continuity work. After this moment the old line is dead.

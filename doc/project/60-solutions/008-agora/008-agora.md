@@ -504,6 +504,73 @@ records a new clean-checkout sixteen-read rehearsal and a 336181-byte observed
 retention-refusal capsule, also freshly verified at both stores. The original
 successful runtime result and initial capsule publication refusal remain unchanged.
 
+### Public Evidence Retirement Lifecycle
+
+Based on:
+- `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md#predictable-evidence-retirement-contract-2026-10-26`
+
+P035-015 separates three storage effects: cleanup of non-evidence derived material,
+retirement of one evidence replica, and retirement of the last retrievable evidence
+bundle. The Node public-evidence retention maintainer owns the exact catalogue and
+may propose digest-bound dry-run plans. Claim and release owners own their dependency
+bindings and holds. A reviewed local operator decision may authorize one exact plan;
+the executor gains no general selection authority.
+
+The catalogue and its append-only plan, decision and receipt facts must preserve
+immutable evidence identities and historical outcomes. Missing classification,
+dependency coverage, replacement qualification, current protection or active-use
+facts fail closed. Age, size, failed/refused status and informal usefulness may
+trigger review but cannot authorize deletion.
+
+S020 may schedule bounded catalogue checks, dry runs or plan verification, but it does not interpret
+evidence, release holds, approve retirement or repair storage. Node provides the
+bounded deterministic read-only catalogue, dry-run, exact-plan and structural
+decision/receipt validators. The separate opt-in local operator runtime authenticates
+owner/reviewer signatures, binds the executor to adopted OS custody, durably consumes
+one exact plan and decision, applies bounded physical effects and independently
+observes their outcome. Reviewed complete membership inventories derive the strongest
+classification; incomplete coverage, current holds and unknown facts refuse.
+
+P035-015 is complete for the qualified local operator profile recorded in
+`node:docs/evidence/evidence-retirement/README.md`. Real filesystem retirement,
+quarantine/restore, ordinary replacement qualification, replica reads, separate
+post-action verification and process-death/restart inspection run on the recorded
+macOS host with synthetic fixture bytes. The final-delete policy clock and selected
+fault cuts are controlled. Exact working-source digests are retained; a clean
+committed checkout or acceptance on every supported operating system is not claimed.
+
+The authority-adoption chain retains one consumed namespace across key/tool renewal
+and rejects superseded authority. Partial or missing receipts preserve uncertainty
+and require a new reconciliation catalog and decision. The local administrative
+profile assumes exclusive custody among cooperating processes under one OS uid;
+hostile same-uid/root processes and hardware power loss are outside its qualification.
+Legacy production stores retain P035-009 protection until their owners supply the
+relevant complete sources, trust adoption and exact signed plans. Software completion
+does not classify or retire their existing bytes, renew transport evidence or promote
+global Agora/release readiness.
+
+Recurring policy may propose already classified cache or reproducible-derivative
+candidates. S020 may execute only a separately approved, unexpired exact plan;
+elapsed time or policy match is never standing deletion authority. Quarantine is
+a reversible, verified terminal state for that plan. Final deletion requires a
+fresh catalogue, plan and decision after the bound not-before time.
+
+Creation-time producer metadata is now automatic in the shared archive-retention,
+cause-capsule and store-publication helpers. It binds membership, identities,
+campaign, recording time and explicit ownership; custody remains a separate fact.
+Incomplete dependency/hold coverage and unresolved recovery stay protected. These
+facts prepare review, not adoption or approval. A pre-production executor review
+also adds a post-effect replacement-refusal regression: a failed final ordinary
+check must retain `partial`, even when all physical deletions already happened.
+See `node:docs/audits/EVIDENCE-RETIREMENT-REVIEW-2026-10-26.md` and the new qualification
+supplement linked from the evidence index; earlier reports keep their source scope.
+
+The Agora topic-record sweep below is a separate product-data lifecycle. Its
+`max_age_secs`, `max_count` and periodic eviction authority apply only to admitted
+Agora records under per-topic policy. They MUST NOT select, classify or delete public
+acceptance evidence, evidence replicas, refusal capsules or unknown filesystem
+material.
+
 ### Retention Policy Sweep
 
 Based on:
@@ -690,21 +757,33 @@ Status:
   [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately
   tracks public-gossip related-link projection and navigation.
 
-### Planned Assessment Exposure and Round Projections
+<a id="planned-assessment-exposure-and-round-projections"></a>
 
-Status: `planned`, owned by
-[P026 section 6 and P026-005–011](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
-The existing opinion runtime checkpoint does not implement this continuation.
+### Local Assessment Exposure and Deferred Round Projections
+
+The bounded local-SQLite exposure pilot is implemented and qualified separately
+from the earlier opinion runtime checkpoint. The wider continuation is `partial`,
+owned by [P026 section 6 and P026-005–011](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
+The [2026-10-24 checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+separates the four frozen contracts, implementation and focused tests from nine
+real local host/API/UI/CLI cases and JavaScript/no-JavaScript Chrome acceptance.
+Agent and notification owner fixtures retain their component/scripted-host scope.
+P026-006 is done for local policy/private facts; P026-005/007/008 remain partial,
+and sealed rounds remain planned. Earlier SQLite/Matrix opinion qualification
+retains its original scope. The [review checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-review-evidence-checkpoint-2026-10-24) records monotone commands, bounded author isolation, default route refusal and the new source-pinned local runtime; wider qualification remains partial.
 
 Keep `agora-service` read admission and exposure as separate steps:
 `admit -> expose -> render`. `node:agora-service/src/opinion_query.rs` already
 accepts a per-topic admission callback and consumes raw `OpinionPage` values;
 reuse this seam without encoding `withheld` as authorization refusal or leaking
 inaccessible record existence. Decide exposure before peer pagination, ranking
-and metadata construction. UI, CLI, Agent observations, details/by-id, search,
-exports and streams use the same viewer projection. Hidden peer data must not
-alter counts, cursors, ETags, ordering or notification activity. This remains a
-local-display guarantee, not confidentiality from other public relays.
+and metadata construction. The first slice exposes a viewer projection with up to 100 entries per own/peer
+lane to UI, CLI and registered Agent/notification adapters. Mixed raw
+reads, details/search/exports and streams refuse access without a viewer-safe
+binding; richer pagination and inspection require separate qualification. Hidden
+peer data must not alter counts, cursors, ETags, ordering or notification activity.
+The active profile currently requires local SQLite. This remains a local-display
+guarantee, not confidentiality from other public relays.
 
 `agora-projections` remains rebuildable from admitted relay records. Private
 viewer encounter/unlock/release facts belong to a separate S028 service-owned

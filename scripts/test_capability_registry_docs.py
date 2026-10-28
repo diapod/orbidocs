@@ -223,6 +223,28 @@ class CommandTests(unittest.TestCase):
         self.assertEqual(1, self.run_command())
         self.assertEqual(before, [path.read_bytes() for path in self.paths])
 
+    def test_routes_resolve_runtime_aliases_and_constant_paths_without_exempting_unknown_ids(self) -> None:
+        spec = importlib.util.spec_from_file_location(
+            "check_capability_registry", Path(__file__).with_name("check-capability-registry.py"))
+        checker = importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules, capability_registry_docs=docs):
+            spec.loader.exec_module(checker)
+        routes, aliases, constants = [self.root / name for name in ("routes.rs", "aliases.rs", "constants.rs")]
+        routes.write_text('("POST", "/v1/host/capabilities/alpha.read.v3") => {}\n("POST", HOST_RENEW_PATH) => {}')
+        aliases.write_text('"alpha.read.v3" => "alpha.read",\n')
+        constants.write_text('const HOST_RENEW_PATH: &str = "/v1/host/capabilities/consent.renew";')
+        registry = {name: entry(name) for name in ("alpha.read", "consent.renew")}
+        with (patch.object(checker, "DAEMON_HOST_CAPABILITY_ROUTE_FILES", (routes,)),
+              patch.object(checker, "DAEMON_HOST_CAPABILITY_CONSTANT_FILES", (constants,)),
+              patch.object(checker, "HOST_ROUTE_ALIAS_FILE", aliases)):
+            self.assertEqual(checker.validate_static_host_capability_routes(registry), [])
+            del registry["consent.renew"]
+            self.assertTrue(any("consent.renew" in error for error in
+                                checker.validate_static_host_capability_routes(registry)))
+            aliases.write_text("")
+            self.assertTrue(any("alpha.read.v3" in error for error in
+                                checker.validate_static_host_capability_routes(registry)))
+
 
 if __name__ == "__main__":
     unittest.main()

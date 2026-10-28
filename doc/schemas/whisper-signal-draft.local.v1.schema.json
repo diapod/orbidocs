@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-signal-draft.local:v1",
+  "title": "whisper-signal-draft.local.v1",
+  "description": "Reviewed local body before host-derived profile, context, epoch and source fields. This draft has no admission or publication authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "signal/polarity",
+    "epistemic/class",
+    "signal/text",
+    "topic/class",
+    "context/facets",
+    "confidence",
+    "disclosure/scope",
+    "signal/grade",
+    "routing/profile",
+    "routing/failure-mode",
+    "forwarding/max-hops",
+    "signal/similarity-key"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-signal.v2"
+    },
+    "signal/polarity": {
+      "type": "string",
+      "enum": [
+        "problem",
+        "idea"
+      ],
+      "description": "Fundamental polarity of the whisper signal. `problem` describes a distributed harm, failure, or dignity risk that may require correlation and protective response. `idea` describes a convergent idea, creative discovery, or emerging approach that may justify co-creation. Emergency handling MUST NOT be triggered solely by an `idea` signal."
+    },
+    "epistemic/class": {
+      "type": "string",
+      "enum": [
+        "rumor",
+        "weak-signal"
+      ],
+      "description": "Explicit epistemic class that prevents the artifact from being treated as evidence."
+    },
+    "signal/text": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Sanitized text accepted by the local user before publication.",
+      "maxLength": 8192
+    },
+    "signal/text-native": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional sanitized text in the original non-English language. Use this only when the original accepted user-facing wording is not English; English text stays solely in `signal/text`.",
+      "maxLength": 8192
+    },
+    "signal/text-native-lang": {
+      "type": "string",
+      "pattern": "^(?!en(?:-|$))[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$",
+      "description": "BCP 47-like language tag for `signal/text-native`. This field is intentionally non-English; English originals MUST omit both native-text fields and use only `signal/text`."
+    },
+    "topic/class": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Normalized issue class used for bounded correlation. Distinct from the enclosing envelope's `topic/key`, which is an Agora routing key; `topic/class` is the semantic correlation class carried inside the rumor body.",
+      "maxLength": 256
+    },
+    "signal/similarity-key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Exact contextual correlation key. This required value is bound by the certificate profile/context; semantic similarity remains separate policy.",
+      "maxLength": 256
+    },
+    "context/facets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "description": "Normalized, low-resolution facets that help correlation without forcing raw disclosure.",
+      "maxItems": 16
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Local confidence in the quality and relevance of the prepared signal."
+    },
+    "disclosure/scope": {
+      "type": "string",
+      "enum": [
+        "federation-scoped",
+        "cross-federation",
+        "public-aggregate-only"
+      ],
+      "description": "Maximum disclosure posture for the contextual signal. Public Agora ingress does not admit private-correlation; this value grants no dissemination authority."
+    },
+    "source/class": {
+      "type": "string",
+      "enum": [
+        "direct-user",
+        "pod-user",
+        "operator-observed",
+        "derived-local",
+        "monus-derived",
+        "monus-sensorium-derived"
+      ],
+      "description": "High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals."
+    },
+    "source/signal-kinds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "description": "Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft.",
+      "maxItems": 16
+    },
+    "signal/grade": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ],
+      "description": "Signal salience grade. For `problem` signals this grades protective risk and urgency. For `idea` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`."
+    },
+    "routing/profile": {
+      "type": "string",
+      "enum": [
+        "direct",
+        "relayed",
+        "onion-relayed"
+      ],
+      "description": "Requested outbound transport posture."
+    },
+    "routing/failure-mode": {
+      "type": "string",
+      "enum": [
+        "soft-fail",
+        "hard-fail"
+      ],
+      "description": "Whether the sender allows downgrade if the requested transport posture cannot be satisfied."
+    },
+    "relay/acceptable-classes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "description": "Optional relay classes acceptable for outbound privacy realization.",
+      "maxItems": 16
+    },
+    "forwarding/max-hops": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "Maximum number of relay hops allowed for the signal."
+    },
+    "forwarding/budget": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of bounded forwards allowed under local policy."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "routing/profile": {
+            "const": "direct"
+          }
+        },
+        "required": [
+          "routing/profile"
+        ]
+      },
+      "then": {
+        "properties": {
+          "forwarding/max-hops": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "routing/failure-mode": {
+            "const": "hard-fail"
+          }
+        },
+        "required": [
+          "routing/failure-mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "routing/profile": {
+            "enum": [
+              "relayed",
+              "onion-relayed"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "dependentRequired": {
+    "signal/text-native": [
+      "signal/text-native-lang"
+    ],
+    "signal/text-native-lang": [
+      "signal/text-native"
+    ]
+  }
+}

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import importlib.util
 import tempfile
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -16,6 +18,82 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_new_local_nym_examples_have_explicit_validator_dispatch(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        # Invoke the actual shell dispatcher without the full corpus driver.
+        setup, driver = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        self.assertTrue(driver)
+        for name in (
+            "locked.nym-issuance-error.local.v1.json",
+            "pending.nym-issuance-readback.local.v1.json",
+            "prepare.nym-issuance-prepare.local.v1.json",
+        ):
+            with self.subTest(example=name):
+                completed = subprocess.run(
+                    ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+                     str(script), "--syntax-only", str(SYNC.EXAMPLES_DIR / name)],
+                    text=True, capture_output=True, check=False,
+                )
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                schema = name.split(".", 1)[1].removesuffix(".json") + ".schema.json"
+                self.assertEqual(completed.stdout.strip(), str(SYNC.SCHEMAS_DIR / schema))
+
+    def test_each_sync_allowlist_names_each_artifact_once(self) -> None:
+        for name, values in vars(SYNC).items():
+            if name.endswith("_WHITELIST"):
+                with self.subTest(allowlist=name):
+                    self.assertEqual(len(values), len(set(values)))
+
+    def test_contextual_whisper_operator_contracts_copy_to_node_not_middleware(self) -> None:
+        # Exercise the actual command from an empty destination. Manually
+        # present mirrors must not hide an incorrectly selected whitelist.
+        names = (
+            "whisper-signal-draft.local.v1.schema.json",
+            "nym-authorship-preview.local.v1.schema.json",
+            "nym-authorship-sign.local.v1.schema.json",
+            "nym-authorship-readback-request.local.v1.schema.json",
+            "nym-authorship-readback.local.v1.schema.json",
+            "nym-bootstrap-authority-request.local.v1.schema.json",
+            "nym-bootstrap-authority-result.local.v1.schema.json",
+            "nym-issuer-consent.local.v1.schema.json",
+            "nym-issuer-bootstrap-descriptor.local.v1.schema.json",
+            "nym-issuer-readback-request.local.v1.schema.json",
+            "nym-issuer-consent-result.local.v1.schema.json",
+            "nym-issuer-readback.local.v1.schema.json",
+            "nym-issuer-error.local.v1.schema.json",
+            "whisper-signal.v2.schema.json",
+            "whisper-threshold-reached.v2.schema.json",
+            "association-room-proposal.v2.schema.json",
+            "nym-issuance-prepare.local.v1.schema.json",
+            "nym-issuance-operation.local.v1.schema.json",
+            "nym-issuance-send.local.v1.schema.json",
+            "nym-issuance-reply-offer.local.v1.schema.json",
+            "nym-issuance-consent.local.v1.schema.json",
+            "nym-issuance-readback.local.v1.schema.json",
+            "nym-issuance-delivery.local.v1.schema.json",
+            "nym-issuance-consent-result.local.v1.schema.json",
+            "nym-issuance-error.local.v1.schema.json",
+            "agora-publication-receipt.local.v1.schema.json",
+        )
+        for name in names:
+            self.assertIn(name, SYNC.SCHEMA_WHITELIST)
+            self.assertNotIn(name, SYNC.MIDDLEWARE_SCHEMA_WHITELIST)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "node"
+            for relative in SYNC.NODE_WORKSPACE_SENTINELS:
+                sentinel = root / relative
+                sentinel.parent.mkdir(parents=True, exist_ok=True)
+                sentinel.touch()
+            completed = subprocess.run(
+                [sys.executable, str(SCRIPT), "--node-src", str(root)],
+                text=True, capture_output=True, check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            for name in names:
+                self.assertEqual((root / "protocol/contracts/schemas" / name).read_bytes(),
+                                 (SYNC.SCHEMAS_DIR / name).read_bytes())
+                self.assertFalse((root / "middleware/schemas" / name).exists())
+
     def test_maintenance_m0_through_q_mirrors_are_explicit_complete_and_byte_identical(self) -> None:
         groups = (
             (SYNC.SCHEMA_WHITELIST, SYNC.SCHEMAS_DIR, "responsibility-maintenance-*.schema.json", 15),

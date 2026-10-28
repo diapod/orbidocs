@@ -14,6 +14,13 @@ dependencies, preserve pseudonym privacy and qualify their network-disabled
 verification separately. Current `done` rows below do not establish every
 consumer's offline readiness, and the single-hop guard remains unchanged.
 
+[P032's shared verification operations](../../40-proposals/032-key-delegation-passports.md#shared-verification-operations)
+make this a common contract for family adapters, including
+[Whisper signals, embargo proofs and case succession](../../40-proposals/013-whisper-social-signal-exchange.md#portable-verification-profiles).
+They share evidence-access and verification laws without treating a nym
+certificate or case-key commitment as a `DelegationProof`. This planned adoption
+adds no delegation hop or universal proof carrier.
+
 ## Purpose
 
 The component is responsible for:
@@ -279,3 +286,11 @@ Status:
 This solution component implements the inline proof model from Proposal 032. The key design invariant: proxy-signed artifacts are self-contained. A verifier validates the embedded `DelegationProof` without fetching the full delegation passport. The full passport is only needed for registration, management, publication, and revocation — never for online signature verification.
 
 The component lives primarily in the `capability` crate (delegation types, grant matching, inline verification), with daemon-side storage, Seed Directory `/key` persistence, and operator HTTP surfaces. The `max_chain_depth > 0` guard is explicit at every registration, management, and verification boundary — the path for multi-hop chains is structurally prepared but intentionally blocked in MVP.
+
+P076-038 applies the same portable-verification boundary to Messaging's existing
+signed issuance status, without making that status a delegation proof. A status
+signed up to five seconds ahead of the receiver's local clock may preserve
+revision and withdrawal knowledge but cannot authorize passport use before its
+signed `as_of`. The receiver's local retry uses the same verifier and current
+root; no new issuance authority is inferred from transport. See
+[P076-038](../../40-proposals/076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).

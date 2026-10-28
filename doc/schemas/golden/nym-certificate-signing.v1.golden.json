@@ -1,0 +1,20 @@
+{
+  "schema": "nym-certificate-signing.golden.v1",
+  "certificate": {
+    "schema/v": 1,
+    "nym/id": "nym:did:key:z456",
+    "epoch": 1,
+    "issued-at": "2026-10-25T12:00:00Z",
+    "expires-at": "2026-10-25T12:02:00Z",
+    "issuer/id": "council:did:key:z123",
+    "label": "żółć / \\ \"",
+    "signature": {
+      "alg": "ed25519",
+      "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "signing/utf8": "{\"epoch\":1,\"expires-at\":\"2026-10-25T12:02:00Z\",\"issued-at\":\"2026-10-25T12:00:00Z\",\"issuer/id\":\"council:did:key:z123\",\"label\":\"żółć / \\\\ \\\"\",\"nym/id\":\"nym:did:key:z456\",\"schema/v\":1}",
+  "signing/sha256": "7e458361b5a817b4eaa291cb97f0f4559417b7710e431158cd6ff2d162a8d688",
+  "normalization": "require-nfc-before-signing",
+  "domain/prefix": ""
+}

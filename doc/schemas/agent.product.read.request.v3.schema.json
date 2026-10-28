@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.product.read.request:v3",
+  "title": "agent.product.read.request.v3",
+  "description": "P026-012b-r1 successor. Historical versions are unchanged; private commitments have explicit HMAC labels.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer-r1.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "product/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent.product.read.request.v3"
+    },
+    "product/ref": {
+      "type": "string",
+      "pattern": "^agent-private-result:hmac-sha256:[0-9a-f]{64}$"
+    }
+  }
+}

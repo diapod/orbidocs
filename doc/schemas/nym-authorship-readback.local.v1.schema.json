@@ -1,0 +1,396 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-authorship-readback.local:v1",
+  "title": "nym-authorship-readback.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "nym-authorship-readback.local.v1"
+    },
+    "operation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "certification/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "state": {
+      "enum": [
+        "review-required",
+        "preview-expired",
+        "signed"
+      ]
+    },
+    "preview/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "agora-record.v1"
+        },
+        "record/id": {
+          "const": "sha256:pending"
+        },
+        "record/kind": {
+          "const": "whisper-signal"
+        },
+        "topic/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "author/participant-id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180,
+          "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "author/nym-proof": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schema": {
+              "const": "nym-authorship-proof.v1"
+            },
+            "schema/v": {
+              "const": 1
+            },
+            "proof/suite": {
+              "const": "orbiplex.nym-ed25519-cert.v1"
+            },
+            "proof/mode": {
+              "const": "inline-certificate"
+            },
+            "proof/audience": {
+              "const": "agora-ingest"
+            },
+            "proof/context": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "topic/key": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "record/kind": {
+                  "const": "whisper-signal"
+                },
+                "content/schema": {
+                  "const": "whisper-signal.v2"
+                },
+                "disclosure/scope": {
+                  "enum": [
+                    "federation-scoped",
+                    "cross-federation",
+                    "public-aggregate-only"
+                  ]
+                },
+                "federation/id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                }
+              },
+              "required": [
+                "topic/key",
+                "record/kind",
+                "content/schema",
+                "disclosure/scope",
+                "federation/id"
+              ]
+            },
+            "nym/certificate": {
+              "$ref": "whisper-source-certificate.v1.schema.json"
+            },
+            "scoped-claim/request": {
+              "$ref": "scoped-claim-request.v1.schema.json"
+            },
+            "scoped-claim/presentation": {
+              "$ref": "scoped-claim-presentation.v1.schema.json"
+            }
+          },
+          "required": [
+            "schema",
+            "schema/v",
+            "proof/suite",
+            "proof/mode",
+            "proof/audience",
+            "proof/context",
+            "nym/certificate",
+            "scoped-claim/request",
+            "scoped-claim/presentation"
+          ]
+        },
+        "authored/at": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "content/schema": {
+          "const": "whisper-signal.v2"
+        },
+        "content": {
+          "$ref": "whisper-signal.v2.schema.json"
+        },
+        "signature": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "alg": {
+              "const": "ed25519"
+            },
+            "value": {
+              "const": "pending"
+            },
+            "key/public": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+            }
+          },
+          "required": [
+            "alg",
+            "value",
+            "key/public"
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "record/id",
+        "record/kind",
+        "topic/key",
+        "author/participant-id",
+        "author/nym-proof",
+        "authored/at",
+        "content/schema",
+        "content",
+        "signature"
+      ]
+    },
+    "record": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schema": {
+              "const": "agora-record.v1"
+            },
+            "record/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "record/kind": {
+              "const": "whisper-signal"
+            },
+            "topic/key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "author/participant-id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 180,
+              "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+            },
+            "author/nym-proof": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "schema": {
+                  "const": "nym-authorship-proof.v1"
+                },
+                "schema/v": {
+                  "const": 1
+                },
+                "proof/suite": {
+                  "const": "orbiplex.nym-ed25519-cert.v1"
+                },
+                "proof/mode": {
+                  "const": "inline-certificate"
+                },
+                "proof/audience": {
+                  "const": "agora-ingest"
+                },
+                "proof/context": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "topic/key": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 512
+                    },
+                    "record/kind": {
+                      "const": "whisper-signal"
+                    },
+                    "content/schema": {
+                      "const": "whisper-signal.v2"
+                    },
+                    "disclosure/scope": {
+                      "enum": [
+                        "federation-scoped",
+                        "cross-federation",
+                        "public-aggregate-only"
+                      ]
+                    },
+                    "federation/id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256
+                    }
+                  },
+                  "required": [
+                    "topic/key",
+                    "record/kind",
+                    "content/schema",
+                    "disclosure/scope",
+                    "federation/id"
+                  ]
+                },
+                "nym/certificate": {
+                  "$ref": "whisper-source-certificate.v1.schema.json"
+                },
+                "scoped-claim/request": {
+                  "$ref": "scoped-claim-request.v1.schema.json"
+                },
+                "scoped-claim/presentation": {
+                  "$ref": "scoped-claim-presentation.v1.schema.json"
+                }
+              },
+              "required": [
+                "schema",
+                "schema/v",
+                "proof/suite",
+                "proof/mode",
+                "proof/audience",
+                "proof/context",
+                "nym/certificate",
+                "scoped-claim/request",
+                "scoped-claim/presentation"
+              ]
+            },
+            "authored/at": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40,
+              "format": "date-time"
+            },
+            "content/schema": {
+              "const": "whisper-signal.v2"
+            },
+            "content": {
+              "$ref": "whisper-signal.v2.schema.json"
+            },
+            "signature": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "alg": {
+                  "const": "ed25519"
+                },
+                "value": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_-]{86}$",
+                  "maxLength": 86,
+                  "minLength": 86
+                },
+                "key/public": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160,
+                  "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+                }
+              },
+              "required": [
+                "alg",
+                "value",
+                "key/public"
+              ]
+            }
+          },
+          "required": [
+            "schema",
+            "record/id",
+            "record/kind",
+            "topic/key",
+            "author/participant-id",
+            "author/nym-proof",
+            "authored/at",
+            "content/schema",
+            "content",
+            "signature"
+          ]
+        }
+      ]
+    },
+    "preview/expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "minLength": 1,
+      "maxLength": 40
+    }
+  },
+  "required": [
+    "schema",
+    "operation/id",
+    "certification/id",
+    "state",
+    "preview/digest",
+    "document",
+    "record",
+    "preview/expires-at"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "signed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "record": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "record": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

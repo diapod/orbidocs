@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-reply-offer.local:v1",
+  "title": "nym-issuance-reply-offer.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "operation/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "local-passphrase": {
+      "type": "string",
+      "maxLength": 4096,
+      "writeOnly": true,
+      "description": "Local unlock input. Never returned or retained as a response field."
+    },
+    "phase": {
+      "enum": [
+        "key-offer",
+        "decision"
+      ]
+    },
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "peer": {
+          "type": "string",
+          "pattern": "^node:",
+          "minLength": 6,
+          "maxLength": 256
+        },
+        "family": {
+          "enum": [
+            "nym-key-offer-sealed.v1",
+            "nym-issuance-decision-sealed.v1"
+          ]
+        },
+        "artifact/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "artifact/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "minLength": 50,
+          "maxLength": 50
+        }
+      },
+      "required": [
+        "peer",
+        "family",
+        "artifact/id",
+        "artifact/digest"
+      ]
+    }
+  },
+  "required": [
+    "profile/digest",
+    "operation/id",
+    "phase",
+    "offer"
+  ],
+  "description": "Operator-local input. The route identifies the command. It supplies no issuer trust, private key, delivery decision or certificate authority.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "key-offer"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "offer": {
+            "properties": {
+              "family": {
+                "const": "nym-key-offer-sealed.v1"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "offer": {
+            "properties": {
+              "family": {
+                "const": "nym-issuance-decision-sealed.v1"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

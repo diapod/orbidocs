@@ -2,6 +2,16 @@
 
 Snapshot date: 2026-09-05.
 
+MVP scope amendment — 2026-10-28: [P015-004](../40-proposals/015-nym-certificates-and-renewal-baseline.md#succession-tracker)
+is an open MVP gate (`todo`): the narrow `nym-succession.v2` schema and pure
+semantic verifier, both authorization modes, Phase 1 suite and negative vectors,
+plus removal/migration of v1 schemas, references and acceptance together. In
+continuity-key mode this is a pure check over supplied anchor/key evidence.
+Vault custody, current case state, private delivery and the composed LLR/ADC flow
+remain post-MVP. Node tracks the identical boundary in `docs/MVP.md` and the
+`nym-succession-v2-verifier` implementation-ledger row. The older snapshot tables
+and historical M4 qualification below do not close or measure this new gate.
+
 Task-pack closure checkpoint — 2026-10-07: `P094-014/014a/015a` complete the
 bilingual operator walkthrough and executable owner-refusal gate. All thirteen
 Story 013 cases/twenty-six variants map to exact passed tests; missing, renamed,
@@ -182,8 +192,8 @@ The proposal-wide P094 and alpha-node blockers remain unchanged.
 
 Historical physical checkpoint — 2026-10-05: `s13-1791194095-ddff55` retains
 execution/transport evidence, subject to the stronger review requalification
-below, on distinct `self.local`
-and `turbo.local` hosts. Ordinary signed HTTPS offer discovery and peer AD
+below, on distinct `host-A.local`
+and `host-B.local` hosts. Ordinary signed HTTPS offer discovery and peer AD
 ordering reach an explicitly linked local round; four real MLX passages and
 two native vfkit executions produce the reviewed repair with all seven qmail
 checks. Corpus signs the exact verified recipe and provenance; peer AD delivers
@@ -587,7 +597,7 @@ the shared `node-b`/`node-c` failure domain; generic shared-host evidence remain
 but it does not establish a third physical failure domain.
 
 The subsequent P074-029 profile moved the unchanged Reviewer-Agent contract to
-`cyc.local` and completed a separately posture-bound three-physical-host claim.
+`host-C.local` and completed a separately posture-bound three-physical-host claim.
 The retained passage
 `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260903T181349Z`
 restarted `node-c` after its first review, resumed the same durable
@@ -1798,7 +1808,7 @@ Recent component deltas:
   unknown, never cancellation or permission to redispatch. Retained two-host and three-host Story
   passages prove the separate Reviewer Agent, finite reservation, post-turn
   session continuity, restart/rejoin, later fresh sessions, closed traces, and
-  cleanup. The three-host profile keeps `node-c` on `cyc.local` and completed
+  cleanup. The three-host profile keeps `node-c` on `host-C.local` and completed
   P074-029 without changing the provider-neutral Agent contract. P089-008a
   real-platform host isolation remains open. The new cancellation evidence is
   not a rerun of those historical Story profiles; hard-MVP readiness percentages
@@ -2440,3 +2450,11 @@ Recent component deltas:
 | [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Agent](../60-solutions/047-agent/047-agent.md) | `true` | `true` | `false` | `100` |
 | [Operator-Sovereign Extensibility](../60-solutions/048-operator-sovereign-extensibility/048-operator-sovereign-extensibility.md) | `false` | `false` | `true` | `100` |
+
+## Host pseudonyms
+
+Host names in this document use stable documentation pseudonyms. The private
+reverse mapping is maintained at `orbidocs:local/host-pseudonyms.json` and is not
+distributed. See the [documentation pseudonym convention](../../ops/howto/documentation-pseudonyms-howto.md).
+Original evidence bytes, signatures and digests remain unchanged; these labels
+only change the documentary presentation.

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-prepare.local:v1",
+  "title": "nym-issuance-prepare.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "operation": {
+          "enum": [
+            "issue",
+            "renew",
+            "private-reset"
+          ]
+        },
+        "issuer/peer": {
+          "type": "string",
+          "pattern": "^node:",
+          "minLength": 6,
+          "maxLength": 256
+        },
+        "topic/class": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "x-dia-maximum-utf8-bytes": 2048
+        },
+        "signal/similarity-key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "x-dia-maximum-utf8-bytes": 2048
+        },
+        "topic/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^[^*]+$"
+        },
+        "prior/certificate-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "minLength": 50,
+          "maxLength": 50
+        }
+      },
+      "required": [
+        "operation/id",
+        "operation",
+        "issuer/peer",
+        "topic/class",
+        "signal/similarity-key",
+        "topic/key"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "issue"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "prior/certificate-digest"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "prior/certificate-digest"
+            ]
+          }
+        }
+      ]
+    },
+    "local-passphrase": {
+      "type": "string",
+      "maxLength": 4096,
+      "writeOnly": true,
+      "description": "Local unlock input. Never returned or retained as a response field."
+    }
+  },
+  "required": [
+    "profile/digest",
+    "intent"
+  ],
+  "description": "Operator-local input. The route identifies the command. It supplies no issuer trust, private key, delivery decision or certificate authority."
+}

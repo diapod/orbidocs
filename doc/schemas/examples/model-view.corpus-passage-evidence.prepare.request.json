@@ -1,0 +1,10 @@
+{
+  "schema": "corpus-passage-evidence.prepare.request.v1",
+  "inference-flow-binding/ref": "corpus-inference-flow-binding:acceptance",
+  "projection": {
+    "id": "corpus-task-pack-evidence",
+    "revision": 3
+  },
+  "bytes/max": 16384,
+  "items": []
+}
