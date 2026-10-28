@@ -261,11 +261,13 @@ coordination threshold; Rant's embargo on his content is a separate condition.
    with the condition's control key, and C accepts the confirmation as a case
    event.
 7. Rant's node prepares the release record and submits a release commit to C.
-   C accepts it because the case is active, the slot for this audience is free
-   and its count under a source status no older than 300 seconds still meets
-   three. Rant's node then hands the committed bytes to AD for federation-scoped
-   readers. The record carries the pre-redacted release payload, the condition,
-   the commit receipt and the confirmation, and readers verify it offline. It
+   The commit binds the exact record, the federation-scoped topic key and
+   route, Rant's node as executor and a hand-over deadline. C accepts it
+   because the case is active, the slot for this audience is free and its count
+   under a source status no older than 300 seconds still meets three. Rant's
+   node then hands the committed bytes to AD for federation-scoped readers.
+   The record carries the pre-redacted release payload, the condition, the
+   commit receipt and the confirmation, and readers verify it offline. It
    states that distinct sources are not evidence that the reports are true.
 8. Negative paths:
    - Had Rant declined, or let the prompt expire, nothing would be released.
@@ -276,10 +278,11 @@ coordination threshold; Rant's embargo on his content is a separate condition.
    - Had C accepted Rant's withdrawal before the commit, the commit would have
      been refused. A withdrawal accepted after the commit stops only other and
      later releases.
-   - Had Rant's node crashed before the commit was accepted, it would re-check
-     everything on restart. Had it crashed after the commit but before the
-     hand-over to AD, it would hand over the same committed bytes without
-     preparing a new release.
+   - Had C's response to the commit been lost, Rant's node would read the
+     outcome by request id and recover the same accepted commit, even if a
+     withdrawal had been accepted after it. Had the node crashed after the
+     commit but before the hand-over, it would hand over the same bytes with
+     the same delivery id before the deadline, without preparing a new release.
    - A second attestation after the release produces no second release for the
      same audience.
    - A third source that appears only in a later epoch does not suffice; there
@@ -288,7 +291,7 @@ coordination threshold; Rant's embargo on his content is a separate condition.
 | ID | Assertion | Proves |
 |---|---|---|
 | S014-A12 | Before release, the correlation text reaches only C and the release payload does not leave Rant's node. C's query endpoints, Agora records, notices, notifications, logs and exports contain neither, and the public notice is content-free. | P013-ADC-003, P013-ADC-007 |
-| S014-A13 | The room proposal at two sources releases nothing. The release happens only after Rant's confirmation and a commit accepted by C, counting at least three other sources at the commit point. A revocation already reflected in C's status or a withdrawal accepted earlier refuses the commit; a crash after the commit hands over the same bytes, and a later attestation yields no second release. | P013-ADC-004, P013-ADC-005, P013-LLR-008 |
+| S014-A13 | The room proposal at two sources releases nothing. The release happens only after Rant's confirmation and a commit accepted by C, counting at least three other sources at the commit point. A revocation already reflected in C's status or a withdrawal accepted earlier refuses the commit, while a withdrawal accepted later does not cancel it. A lost commit response recovers the same commit, a crash after the commit hands over the same bytes and delivery id, and a later attestation yields no second release. | P013-ADC-004, P013-ADC-005, P013-LLR-008 |
 | S014-A14 | Reposts and forwards by one source leave the count unchanged, and epochs after Rant's are evaluated separately under the N + 1 rule. | P013-ADC-004 |
 | S014-A15 | The release record verifies without contacting Rant's node, publishes only the release payload to the declared audience, and reveals no identity, private record, attachment or source material. | P013-ADC-005 |
 

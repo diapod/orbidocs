@@ -362,7 +362,7 @@ issuer.
 | Field | Meaning |
 |---|---|
 | `schema` | Constant schema id |
-| `succession/id` | A random identifier; the replay key |
+| `succession/id` | A random identifier; the replay key, and the `request/id` of a `case` succession |
 | `succession/scope` | `line` (public continuation of a pseudonym line) or `case` (one matter) |
 | `succession/purpose` | A closed enum: `continue-line` or `continue-case` |
 | `predecessor/nym` | The predecessor nym id |
@@ -371,7 +371,7 @@ issuer.
 | `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the `case/anchor` record |
 | `successor/nym` | The successor nym id |
 | `successor/certificate` | The digest of the successor's current certificate |
-| `case/anchor`, `case/revision`, `case/previous` | The shared case event header of P013: the original signed record digest and the event order; required for scope `case` and forbidden for scope `line` |
+| `case/anchor` | The original signed record digest, from the shared case request header of P013; required for scope `case` and forbidden for scope `line`. The order of a `case` succession comes from the case authority's acceptance, not from this artifact |
 | `audience` | The named recipients; `line` successions are public by nature |
 | `issued-at`, `not-after` | A short validity window |
 | `signatures` | Exactly two Ed25519 signatures, authorization and successor acceptance |
@@ -424,7 +424,7 @@ post-MVP follow-up.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/revision`/`case/previous` rules; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id`, a `case` succession without `case/revision` and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. |
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id`, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. |
 
 ## P081 Scoped-Claim Adoption
 

@@ -1368,9 +1368,10 @@ A releasing node verifies, in order:
    binds this condition, audience and triggering attestation and was unexpired
    at the commit point;
 5. the release commit receipt: the case authority's signed acceptance of the
-   `whisper-release-commit.v1` case event for this condition and audience. It
-   binds the release record digest, the commit revision, the observed count and
-   the source status revision used, and shows that the count met the
+   `whisper-release-commit.v1` request for this condition and audience class.
+   It binds the release record digest, the canonical audience descriptor, the
+   executor, the hand-over deadline, the commit revision, the observed count
+   and the source status revision used, and shows that the count met the
    requirement at the commit point;
 6. the release payload: its digest equals the condition's commitment, which the
    protected signal's nym signature covers;
@@ -1386,12 +1387,18 @@ moment under a source status no older than 300 seconds, so the source basis of
 a release is at most 300 seconds old at its commit point, not counting the
 five-second skew tolerance of P015. A revocation that has not yet reached that
 status may not stop the release, and the acceptance claims are bounded
-accordingly.
+accordingly. The bound concerns the commit point only. When the bytes later
+reach AD the basis may be older; the hand-over deadline limits that gap without
+a recount, and a withdrawal accepted after the commit does not cancel the
+committed release.
 
 Evidence that recipients can re-verify without trusting the counting authority
 remains to be designed in `P013-ADC-004`.
 
 ### Release
+
+The case authority commits one logical act of disclosure. Artifact Delivery
+carries out its delivery and never decides consent again.
 
 - **Modes.** `confirm` is the default. The author node retrieves the
   attestation by condition id through the private exchange path it used to
@@ -1402,26 +1409,36 @@ remains to be designed in `P013-ADC-004`.
   `confirmation/not-after`. In `pre-authorized` mode there is no prompt: the
   condition itself authorizes commits until `release/not-after`, and the author
   is notified afterwards.
-- **Commit point.** The releasing party prepares the release record and
-  submits `whisper-release-commit.v1` to the case authority, which for a case
-  with a disclosure condition must be the counting authority. The authority
-  accepts the commit atomically only if, at that moment, the case is active, no
-  earlier commit holds the slot for `(condition digest, audience)`, the
-  confirmation is accepted and unexpired (in confirm mode), `release/not-after`
-  has not passed, and its own count under a source status no older than 300
-  seconds meets the requirement. It returns a signed commit receipt. A refused
-  commit leaves the condition `active`, and in confirm mode a later satisfying
-  attestation needs a new confirmation.
-- **Withdrawal versus release.** Both are case events ordered by the case
-  authority, and the first one accepted wins. A withdrawal accepted before a
-  commit refuses that commit. A commit accepted before a withdrawal stays
-  authorized for its audience, while the withdrawal ends every other and every
-  later release. A withdrawal takes effect when the authority accepts it, not
-  when it is signed, and the author's editor shows that point.
+- **Commit point.** The executor, which is the releasing party, prepares the
+  release record and submits a `whisper-release-commit.v1` request with a fresh
+  `request/id` to the case authority. For a case with a disclosure condition
+  that authority must be the counting authority. The request binds:
+  - the release record digest, which covers the exact payload;
+  - the canonical audience descriptor, such as the room id or the exact
+    federation, topic key and route, not only the audience class;
+  - the executor's identity;
+  - `commit/hand-over-by`, a short deadline for the first hand-over to AD
+    (proposed at most 15 minutes and never after `release/not-after`).
+
+  The authority accepts the request in one durable transaction only if the
+  case is active, no earlier commit holds the slot for `(condition digest,
+  audience class)`, the confirmation is accepted and unexpired (in confirm
+  mode), `release/not-after` has not passed, and its own count under a source
+  status no older than 300 seconds meets the requirement. Its acceptance is the
+  commit receipt. A refused commit leaves the condition `active`, and in
+  confirm mode a later satisfying attestation needs a new confirmation.
+- **Withdrawal versus release.** The order of durable acceptance by the case
+  authority decides. A withdrawal accepted before a commit refuses that
+  commit. A withdrawal accepted after a commit does not cancel the committed
+  release for its audience, even while its bytes have not yet been handed to
+  AD; otherwise consent would have to be checked again between commit and
+  hand-over. It ends every other and every later release. A withdrawal takes
+  effect when the authority accepts it, not when it is signed, and the author's
+  editor shows that point.
 - **Record.** `whisper-disclosure-release.v1` embeds the release payload, the
   condition reference, the commit receipt and, in confirm mode, the
   confirmation. The releasing node signs it. Its id is derived from the
-  condition digest and the audience only, and the commit receipt binds the
+  condition digest and the audience class, and the commit receipt binds the
   digest of these exact bytes.
 - **Audiences.** A closed set: `association-room` (P070), `federation-scoped`
   and `cross-federation`. Agora audiences require registering the record kind
@@ -1433,24 +1450,28 @@ remains to be designed in `P013-ADC-004`.
   release change the current annotation, as P015 does for first emissions, but
   not the released record.
 
-The releasing party journals each execution phase, and recovery after a crash
-depends on the phase reached:
+The executor journals each execution phase, including the intent and the
+deterministic AD delivery id before submission, as P035-001 requires. Recovery
+after a crash depends on the phase reached:
 
 | Phase | Recovery |
 |---|---|
-| Prepared, commit not accepted | Re-check the count, the case status and the consent, then prepare again. The release id stays the same, so re-preparation never creates a second release |
-| Commit accepted, not yet handed to AD | Hand the committed bytes to AD unchanged, without new checks or new bytes. If `release/not-after` passes first, record a `release-abandoned` case event and publish nothing |
-| Handed to AD, outcome unknown | Keep the bytes and id, and reconcile through AD status and readback as in P035-001; never prepare an alternative publication |
+| Commit requested, outcome unknown | Read the outcome by `request/id` or resubmit the same request. An accepted commit is recovered unchanged, even if a withdrawal was accepted after it; the authority neither counts again nor reserves a second slot. A refused request may be followed by a new request with a new id |
+| Commit accepted | Hand the committed bytes to AD with the frozen delivery id before `commit/hand-over-by`, without new checks or new bytes. If the deadline passes and AD confirms that no submission exists, request `release-abandoned`; the slot stays consumed, and a later disclosure to that audience needs a new condition |
+| Released for delivery, outcome unknown | Keep the bytes and the delivery id, and reconcile the same operation through AD status and readback as in P035-001; never prepare an alternative publication |
 | Delivery confirmed | Retries only repeat the same, already executed operation |
 
-The disclosure point is the hand-over to AD. From then on AD retries the same
-bytes, and the releasing party's control over them ends. The local journal is
+Release for delivery is the moment from which AD may start sending on its own,
+that is, AD's durable acceptance of the submission. It is a conservative
+boundary of control over the disclosure, not proof that any recipient has read
+the content. Execution therefore keeps three states: commit accepted, released
+for delivery and delivery confirmed. The local journal is
 `transactional-withheld`; the commit is `irreversible-external` toward the case
-authority, because it fixes consent and the release slot; the hand-over is
-`irreversible-external` toward the audience. A recipient that sees two
+authority, because it fixes consent and the release slot; release for delivery
+is `irreversible-external` toward the audience. A recipient that sees two
 different releases with one id treats them as equivocation: it keeps the first
 and flags the conflict. Under the one-slot rule this indicates a faulty or
-malicious releasing party.
+malicious executor.
 
 The release discloses only the release payload, plus the rendered criterion and
 the attested count unless the author chose to omit the criterion. The author's
@@ -1462,11 +1483,11 @@ items. Any of them requires a separate consent.
 `whisper-disclosure-amendment.v1` is signed with the control key and can only
 narrow the condition: raise N, shorten the window, narrow the audience, switch
 `pre-authorized` to `confirm`, or withdraw. A wider condition requires a new
-condition on a new protected signal. Amendments and withdrawal are case events
-with `case/revision` and `case/previous`, so their order is explicit. A
-withdrawal takes effect when the case authority accepts it and is ordered
-against release commits as described under Release; it also erases a held
-release payload.
+condition on a new protected signal. Amendments and withdrawal are case
+requests, and the case authority's acceptance gives them their place in the
+order ([case state](#case-state-and-currency)). A withdrawal takes effect when
+the authority durably accepts it and is ordered against release commits as
+described under Release; it also erases a held release payload.
 
 ### Custody Obligations
 
@@ -1533,8 +1554,9 @@ stateDiagram-v2
     awaiting_confirmation --> committed: author confirms and the authority accepts the commit
     awaiting_confirmation --> active: confirmation expires or the commit is refused
     awaiting_confirmation --> declined: author declines
-    committed --> released: committed bytes handed to AD and delivered
-    committed --> abandoned: release/not-after passes before hand-over
+    committed --> released_for_delivery: AD durably accepts the committed bytes before commit/hand-over-by
+    released_for_delivery --> delivery_confirmed: delivery confirmed
+    committed --> abandoned: hand-over deadline passes and AD has no submission
     active --> withdrawn: withdrawal accepted before any commit
     awaiting_confirmation --> withdrawn: withdrawal accepted before the commit
     active --> expired: window or release/not-after ends
@@ -1551,7 +1573,9 @@ stateDiagram-v2
    changes it.
 4. One source counts once per epoch; epochs are never summed.
 5. A release requires a commit accepted by the case authority, which counts
-   at the commit point, and, in confirm mode, the author's confirmation.
+   at the commit point, and, in confirm mode, the author's confirmation. AD
+   carries out the delivery of a committed release and never decides consent
+   again.
 6. A release publishes only the pre-redacted release payload to the declared
    audience.
 7. Amendments only narrow.
@@ -1583,9 +1607,10 @@ stateDiagram-v2
 | Coordinated fake sources | Release triggered by a group | Council admission of sources (P015), an author-chosen N, confirm mode |
 | The authority attests a false count | Release on a false basis | Evidence commitment and entries for the author and custodian; confirm mode; committees later |
 | Release on an outdated count | Release after revocations | The authority counts at the commit point under a source status no older than 300 seconds; the residual staleness is stated |
-| Withdrawal and release race | Release against current consent | Both are case events ordered by the case authority; the first accepted wins |
+| Withdrawal and release race | Release against current consent | The order of durable acceptance by the case authority decides; a later withdrawal does not cancel a committed release |
+| Competing valid requests | A valid case frozen as conflicted | Requests are ordered by durable acceptance; only contradictory accepted histories are conflicts |
 | The author is unreachable | Release blocked | Expiry; pre-authorized mode as an explicit choice |
-| Crash or retry during release | A second or stale publication | One commit slot per condition and audience; recovery by phase: re-check before the commit, the same bytes after it, reconciliation after hand-over |
+| Crash, lost response or retry during release | A second, stale or re-decided publication | One commit slot per condition and audience class; outcomes stored by `request/id`; recovery by phase: the same commit after a lost response, the same bytes and delivery id after the commit, reconciliation after release for delivery |
 | A protected signal feeds a public threshold | The matter is exposed | `coordination/participation` defaults to `excluded` |
 
 ### Open Questions
@@ -1612,7 +1637,7 @@ only on the composed Story 014 variant run.
 | P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. |
 | P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
 | P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; direct exchange (Next Actions 9) | Per-epoch counting with exact author exclusion and the N + 1 rule; status freshness; publication-time evidence for privately carried v2 signals from the counting authority's durable admission receipt; `whisper-disclosure-attestation.v1` with its evidence commitment, and counting at the commit point; one verifier library for custodians, author nodes and recipients; a design note on independently verifiable evidence. |
-| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-LLR-008; P070 | `whisper-disclosure-confirmation.v1`, `whisper-release-commit.v1` and `whisper-disclosure-release.v1`; confirm and pre-authorized modes with `confirmation/not-after`; atomic commit acceptance by the case authority with counting at the commit point, one slot per condition and audience, and ordering against withdrawal; a release id from the condition digest and audience; journaled execution phases with per-phase recovery, including a crash between commit and hand-over and an unknown outcome after hand-over; `release-abandoned` after `release/not-after`; delivery to rooms and Agora with kind registration; payload digest verification. |
+| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-LLR-008; P070 | `whisper-disclosure-confirmation.v1`, `whisper-release-commit.v1` and `whisper-disclosure-release.v1`; confirm and pre-authorized modes with `confirmation/not-after`; commit requests binding the record digest, the canonical audience descriptor, the executor and `commit/hand-over-by`; acceptance in one durable transaction with counting at the commit point, one slot per condition and audience class, and ordering against withdrawal; outcomes readable by `request/id`; a release id from the condition digest and audience class; journaled phases with the three execution states and per-phase recovery, including a lost commit response followed by a withdrawal, a crash between commit and hand-over and an unknown outcome after release for delivery; `release-abandoned` after the hand-over deadline; delivery to rooms and Agora with kind registration; payload digest verification. |
 | P013-ADC-006 | Context-join proposals | todo | P013-ADC-002; P013-DFR-004 | Content-free `whisper-context-join-proposal.v1` from correlators to candidate authors, only under `keyed-and-confirmed-joins`; acceptance authors a related signal in the target context; model output stays advisory. A fixture proves that no context merges without the candidate author's act. |
 | P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002 | `whisper-correlation-notice.v1`, signed by the author's nym, in the term bucket, with its kind and schema listed in the certificate scope (P015); content-free with an expiry; dormant-fact readers can match and join; the editor warns that a notice discloses the matter's existence. |
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | An editor for N, rule breadth with its rendering, window, audience, mode, custody, correlators, notice and coordination participation; condition state and count progress in "My rumors"; confirm prompts through P057-017; amendments and withdrawal. |
@@ -2005,10 +2030,10 @@ Case events get a small ordering contract instead
   document is authentic. Whether B is still the authorized successor is a
   separate question answered by the case status: the succession must belong
   to the accepted case history, and a fresh status of an active case must
-  still name it as the effective succession. Only when the status authority
-  first accepts a succession must it be the next revision; later acts of B do
-  not require it to remain the head. An ordinary amendment therefore leaves B
-  authorized, while a later succession from B to C ends B's authority.
+  still name it as the effective succession. The authority's acceptance places
+  the succession in the history, and later acts of B do not require it to
+  remain the head. An ordinary amendment therefore leaves B authorized, while a
+  later accepted succession from B to C ends B's authority.
 
 Effects stay inside the case. `continue-case` lets B act for the matter, for
 example by reaffirming it. Succession never carries reputation outside the
@@ -2037,14 +2062,25 @@ Signatures verified offline prove authenticity, not that no newer withdrawal or
 closure exists. Every act of the continuity key is therefore a case event in a
 small ordered contract. This is not a full key event log.
 
-- **Shared header.** Condition amendments and withdrawal, release
-  confirmations, release commits and abandonment records, case closure and
-  `case`-scope successions carry `case/anchor`
-  (the original record digest), `case/revision` (a monotonic integer; the
-  anchor is revision 0) and `case/previous` (the digest of the previous event,
-  or of the anchor). Each artifact keeps its own body and authority; only the
-  header is shared, following the reusable-data-abstraction rule of
-  `node:DEV-GUIDELINES.md`.
+- **Requests and accepted events.** The continuity key signs case requests:
+  condition amendments and withdrawal, release confirmations, case closure and
+  `case`-scope successions. Executors sign release commit and abandonment
+  requests. Each request carries `case/anchor` (the original record digest) and
+  a durable `request/id`, but no revision. The authority gives a request its
+  place in the order by accepting it: its signed `whisper-case-acceptance.v1`
+  binds the request digest, `case/revision` (a monotonic integer; the anchor is
+  revision 0), `case/previous` (the digest of the previous accepted event, or
+  of the anchor) and the evaluation inputs it used. An accepted event is the
+  pair of request and acceptance. Only these header fields are shared across
+  event kinds; each request keeps its own body and authority, following the
+  reusable-data-abstraction rule of `node:DEV-GUIDELINES.md`.
+- **One transaction per acceptance.** For each request the authority, in one
+  durable transaction, checks the current head and state, evaluates the
+  request against them (for a release commit it counts under a recorded source
+  status revision and reserves the slot), appends the accepted event and
+  records the outcome under `request/id`. The order of durable acceptance
+  decides between competing requests, not the time of signing, a click or
+  arrival.
 - **Status authority.** The first signal of a case commits to
   `case/status-authority` beside the continuity-key digest. For a case with an
   author disclosure condition it must be the condition's counting authority,
@@ -2062,17 +2098,24 @@ small ordered contract. This is not a full key event log.
   defers the effect and never implies that the case is active. A release does
   not rely on a fetched status: its commit is itself a case event that the
   authority orders against withdrawal.
-- **Ordering and conflicts.** The authority accepts only the next revision
-  with the matching `case/previous`, keeps a durable high-water mark and
-  refuses rollback. Two different events with the same revision and previous
-  digest are equivocation, and the case becomes `conflicted`. That state is
-  terminal, like a compromised continuity key, and verifiers that see
-  conflicting events refuse both.
+- **Competing requests are not conflicts.** When requests race, the
+  authority accepts one and evaluates the next against the changed state; it
+  then accepts it at the following revision or refuses it. A withdrawal
+  accepted after a commit is a valid, later event.
+- **Lost responses.** An outcome is durable and readable by `request/id`.
+  Resubmitting the same request id returns that stored outcome without
+  re-evaluation, so an executor whose commit response was lost recovers the
+  same accepted commit, even if a withdrawal was accepted after it. A new
+  `request/id` is a new request.
+- **Conflicts.** `conflicted` means contradictory accepted histories: two
+  acceptances by the authority with the same revision but different events, or
+  a status that rolls back below a durable high-water mark. Relying parties
+  that hold such evidence refuse both histories and treat the authority as
+  faulty. The state is terminal for the case.
 - **One current successor.** The effective succession is the latest accepted
   succession event. Other case events, such as amendments, confirmations or
-  release commits, never change it. A later succession at a higher revision
-  replaces it, and a second, different succession at the same revision is a
-  conflict, not a co-authorization; v1 supports no co-successors.
+  release commits, never change it, and a later accepted succession replaces
+  it. v1 supports no co-successors.
 - **Disclosure.** The status authority learns the timing of case events and the
   successor nym, so it necessarily belongs to the audience of every succession.
 
@@ -2107,4 +2150,4 @@ has one declared use:
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
 | P013-LLR-006 | Case continuity key | todo | P013-ADC-001; S026 Pseudonym Vault | Generation per case in the Vault; `case/continuity-key-digest` in the first signed signal of a case; one key for condition amendments, release confirmations and succession; lifetime bounded by `case/not-after` and retention; deletion recorded as an erasure fact; opt-in recovery inclusion; `case/status-authority` committed beside the key digest. Negative fixtures cover a mismatched commitment and a missing key. |
 | P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. |
-| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; direct exchange (Next Actions 9) | The shared case event header; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; acceptance of only the next revision with the matching previous digest; a durable high-water mark refusing rollback; equivocation leading to `conflicted`; a 300-second freshness bound that defers effects; fixtures for a missed withdrawal, a forked revision, rollback, a missing status, an amendment after a succession that leaves the successor authorized, a succession from B to C that ends B's authority, and a withdrawal racing a release commit on both orders. |
+| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; direct exchange (Next Actions 9) | Case requests with `case/anchor` and `request/id`, and `whisper-case-acceptance.v1` assigning revision and previous digest; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; one durable transaction per acceptance that checks the head, evaluates the request, appends the event and stores the outcome by `request/id`; a durable high-water mark refusing rollback; `conflicted` only for contradictory accepted histories; a 300-second freshness bound that defers effects. Fixtures cover a missed withdrawal, competing requests that are not conflicts, a lost commit response followed by a withdrawal, rollback, an authority equivocation, a missing status, an amendment after a succession that leaves the successor authorized, a succession from B to C that ends B's authority, and a withdrawal racing a release commit on both orders. |
