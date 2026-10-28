@@ -94,6 +94,14 @@ establishes an objective clock or an honest homeserver. The operator accepts the
 named server's clock for this phase; the fixture's explicit isolated loopback
 HTTP channel is a fixture-only trust profile, never a production TLS substitute.
 
+Phase-1 reaffirmation (2026-10-28): the observation is a local replayable fact,
+not a portable time attestation for another node. A later runtime PDU verifier
+is a separate explicit profile behind the existing publication-evidence port.
+Its missing or invalid PDU must not silently select this observation policy.
+The required time policies and `source/activation-policy =
+post-reset-collection-drain-v1` remain part of the profile identity; no default
+or schema omission may erase those decisions.
+
 For SQLite use an allowlisted relay's signed durable admission receipt binding
 record digest, exact author-byte digest, relay identity and acceptance time.
 Receipt verification precedes construction of publication-time evidence.
