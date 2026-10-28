@@ -462,6 +462,17 @@ The identical loopback endpoint is placed in both grants before signing; the
 status signature provides integrity, while this profile makes no TLS or DNS
 claim. A discrepancy between owner and network counts is a finding to resolve.
 
+The `http-failure` terminal count has separate transport, HTTP-status and invalid-body
+cause counts. A client-construction failure is recorded before any HTTP attempt.
+Process epochs use fresh random nonces. These are bounded owner observations;
+the unpublished `.local.v1` counter enum is extended within this slice, while
+the v2/v3 decision schemas keep their separate meanings. Schema synchronization
+tests require v3 to equal v2 plus the declared future-status delta. A future
+status acquired by the presenter can travel as signed presentation material;
+the holder retains it and schedules local activation rather than interpreting
+it as an old status. The exact `messaging.consent.renew` operation is registered
+as host-local and retains the supervised Messaging module binding.
+
 The profile uses the P074 physical harness for SSH control, revision pins,
 leases, storage isolation, clock offsets and `federation-run.v1`. Each host
 builds ordinary product processes from the same clean source revision via a

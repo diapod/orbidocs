@@ -34,6 +34,8 @@ DAEMON_HOST_CAPABILITY_ROUTE_FILES = (
     NODE_ROOT / "daemon" / "src" / "endpoint_routes" / "common.rs",
     NODE_ROOT / "daemon" / "src" / "endpoint_routes" / "module_capability.rs",
 )
+DAEMON_HOST_CAPABILITY_CONSTANT_FILES = (NODE_ROOT / "daemon" / "src" / "lib.rs",)
+HOST_ROUTE_ALIAS_FILE = NODE_ROOT / "daemon" / "src" / "host_capability_registry_ids.rs"
 
 
 CONST_RE = re.compile(r'pub const ([A-Z0-9_]+): &str\s*=\s*"([^"]+)";')
@@ -51,6 +53,11 @@ WIRE_NAME_RE = re.compile(r"^(app|core|host|plugin|proof|role|sensorium|sovereig
 HOST_CAPABILITY_POST_ROUTE_RE = re.compile(
     r'\("POST",\s*"/v1/host/capabilities/([A-Za-z0-9_.-]+)"'
 )
+HOST_CAPABILITY_POST_CONST_ROUTE_RE = re.compile(r'\("POST",\s*([A-Z][A-Z0-9_]+)\s*\)')
+HOST_CAPABILITY_PATH_CONST_RE = re.compile(
+    r'const\s+([A-Z][A-Z0-9_]+):\s*&str\s*=\s*"/v1/host/capabilities/([A-Za-z0-9_.-]+)"\s*;'
+)
+HOST_ROUTE_ALIAS_RE = re.compile(r'^\s*"([A-Za-z0-9_.-]+)"\s*=>\s*"([A-Za-z0-9_.-]+)",?\s*$', re.M)
 KNOWN_SURFACES = {"federated", "host-local"}
 KNOWN_STATUS = {"active", "deprecated", "reserved"}
 FLAG_KEYS = {
@@ -421,10 +428,22 @@ def require_registered(
 
 def validate_static_host_capability_routes(registry: dict[str, dict[str, Any]]) -> list[str]:
     errors: list[str] = []
+    aliases: dict[str, str] = {}
+    for alias, target in HOST_ROUTE_ALIAS_RE.findall(HOST_ROUTE_ALIAS_FILE.read_text(encoding="utf-8")):
+        if alias in aliases:
+            errors.append(f"{HOST_ROUTE_ALIAS_FILE}: duplicate host-route alias {alias!r}")
+        aliases[alias] = target
+        require_registered(registry, target, "dispatchable", HOST_ROUTE_ALIAS_FILE, errors)
+    constants = {}
+    for path in DAEMON_HOST_CAPABILITY_CONSTANT_FILES:
+        constants.update(HOST_CAPABILITY_PATH_CONST_RE.findall(path.read_text(encoding="utf-8")))
     for path in DAEMON_HOST_CAPABILITY_ROUTE_FILES:
         text = path.read_text(encoding="utf-8")
-        for capability_id in sorted(set(HOST_CAPABILITY_POST_ROUTE_RE.findall(text))):
-            require_registered(registry, capability_id, "dispatchable", path, errors)
+        required = set(HOST_CAPABILITY_POST_ROUTE_RE.findall(text))
+        required.update(constants[name] for name in HOST_CAPABILITY_POST_CONST_ROUTE_RE.findall(text)
+                        if name in constants)
+        for capability_id in sorted(required):
+            require_registered(registry, aliases.get(capability_id, capability_id), "dispatchable", path, errors)
     return errors
 
 def validate_capability_examples(registry: dict[str, dict[str, Any]]) -> list[str]:

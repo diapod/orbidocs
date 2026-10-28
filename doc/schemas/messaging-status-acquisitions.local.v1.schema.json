@@ -69,7 +69,7 @@
     },
     "counts": {
       "type": "array",
-      "maxItems": 144,
+      "maxItems": 264,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -107,7 +107,11 @@
               "policy-unavailable",
               "http-attempt",
               "http-success",
-              "http-failure"
+              "http-failure",
+              "http-client-build-failure",
+              "http-transport-failure",
+              "http-status-failure",
+              "http-body-invalid"
             ]
           },
           "count": {

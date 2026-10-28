@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **240** host-local / **272** total; **40** owner groups.
+Entries: **241** host-local / **273** total; **41** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -331,6 +331,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>messaging.receive.authorize</code> | <code>host/messaging.receive.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Messaging recipient consent renewal</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>messaging.consent.renew</code> | <code>host/messaging.consent.renew</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Sensorium Virt host broker</code>
 
