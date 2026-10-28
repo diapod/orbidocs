@@ -2884,7 +2884,7 @@ remaining completion gates still apply.
 | `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
 | `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
 | `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
-| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | The [revision-13 campaign](#revision-13-2048-ms-campaign--2026-10-23) completes baseline and protected stop, then halts on an incomplete but released deadline episode; five later scenarios remain blocked, and the full tuple/origin matrix stays open. The earlier [renewal and retirement checkpoint](#four-hour-authority-renewal-and-released-r12-retirement--2026-10-23) reserves revision 13 before that campaign. The earlier [2048-ms target preparation](#prepared-2048-ms-validation-client--2026-10-23) binds the signed client and device-free tests; exact-client permission and fresh readiness remain separate from qualification. Current [validation-only allowance](#live-validation-only-budget-2026-10-23) is 2048 ms for the next candidate; protected receipt/fence/exit stay 626/250/10000 ms. The frozen revision-12 baseline remains partial at 784/626 ms with confirmed disposal, without identifying the configuration sub-read cause. Current prospective [operation policy v3](#prospective-operation-retries-2026-10-21) doubles operation waits and permits two bounded timeout retries inside one unchanged consent/authority epoch; retained r10 still has an uncertain protected-stop preparation and six blocked rows. Hardware qualification and separate recovery remain open. The later [revision-9 authority/retirement checkpoint](#revision-9-authority-renewal-and-retirement-2026-10-21) renews the same controller/discovery scope and reserves unregistered revision 10 without new native evidence or consent. The subsequent [SDK-batch target preparation](#sdk-batch-target-preparation-2026-10-21) passes 253 frozen software tests and normally signs two new inactive packages; registration, expired authority and native qualification remain separate. The 2026-10-21 device-free r9 follow-up implements bounded multi-batch sample responses and closed first-worker-failure diagnostics; the historical native cause and remaining qualification stay open. See the [software correction](#revision-9-sample-software-correction-2026-10-21). Historical operator-approved budget revision 2 used validation/receipt/fence 313/313/125 ms and unchanged 5000-ms exit, with distinct v2 qualifier identities and strict current-artifact admission. Software checks pass 147 Rust, 6 Schema Gate and 198 Python cases; 9 opt-in Rust cases remain ignored. The frozen r8 campaign remains bound to 250/100/5000 ms, with no target deployment or new native attempt. See node:docs/audits/REVIEW-SENSORIUM-CONTROL-BUDGET-V2-2026-10-21.md. Revision-8 physical SSH campaign on source b4bc9862/pin 1cda5c5f completed baseline and protected stop, then stopped during the deadline episode on timer-lane validation 273 ms against the original 250 ms gate. Protected receipt/fence/exact-exit measured 1/0/4717 ms; all three sessions released with current durable audit and zero claims. SDK entry/return and exact exit witnesses are now present. Three unbound collector episodes supply no formal cases; TCC attribution/full tuple and remaining safety witnesses are still missing. No retry/recovery/merge followed; P096-005 remains partial. See node:docs/audits/REVIEW-SENSORIUM-R8-CAMPAIGN-2026-10-21.md.  2026-10-21 SSH configuration checkpoint: distinct SDK-observation ordinary/campaign packages are normally signed, exact recovered r7 retirement reserves r8 without a runtime grant/consent, and a separate 14400-second controller/discovery renewal expires at 18:06:05 CEST. Source b4bc9862, pin 1cda5c5f, signed GUI d21848bb and handoff 0b768e43 pass 244 target software checks; native timing/TCC and remaining safety witnesses stay open. See node:docs/audits/REVIEW-SENSORIUM-WORKER-TRANSITION-2026-10-21.md. Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; distinct closed host-restart and observed-radio recovery reviews cannot substitute for native release/reset qualification; revoke/expiry/provider loss and overload/hung-worker proof before product real-device exposure  Revision-3 run-completed retained cleanup uncertainty; the source-only correction freezes 10s native cleanup for new private Cases and preserves legacy 5s history, without changing qualification thresholds. Its separately approved recovery and retirement 3-to4 are complete; the fresh delegated GUI revision-4 Case releases cleanly after refusing activation before executor/permit start. Exact historical refusal cause remains unresolved; closed monitor diagnostics are a software follow-up. A later freshly approved revision-5 Case observes required EEG/motion blocks and confirmed cooperative native stop/executor exit/controller release within10s cleanup, with independent zero claims. A device-free follow-up derives late sealed-admission refusal handling after RunCompleted, without identifying predicate timing. The software producer now classifies late queued results against current local closure/phase, retains optional effects/fenced and avoids false startup failure or another stop; open-session refusals still stop with unchanged clocks. The corrected producer is prepared nearby at pinf860ff8e/GUI819d4ce0 with actual GUI launchd preflight and49 passing frozen-client tests;163 prior hashes/journal81 stay exact, no manager or native work runs. Preparation does not reuse old TCC/physical evidence or qualify the new producer; full authority/stop qualification remains open. Device-free 2026-10-19 work adds bounded durable lifecycle facts, disposal-before-audit, current-revision release authorization, separate terminal withdrawal and exact held-claim CAS; the prescribed native-origin matrix remains open. New clean `af692fed` candidate preparation binds source `4fc1405e`/release `56fa8251`/ad-hoc GUI `e8989103`, passes 51 frozen-client checks and rootless GUI launchd preflight, and preserves 238 prior files/journal 81/zero claims (signing-key files metadata only). Owner expiry and unobserved TCC remain unchanged at that preparation checkpoint. Subsequent metadata review4cdd860b renews only same-scope controller/discovery until 2026-10-20 00:59:45 CEST, preserving expired registered p21 revision5, twelve protected sources, journal81 and zero claims/pending transition. A subsequent software follow-up adds pre-claim capacity reservation for never-WEAR, digest-linked bounded closed/released history and a four-hour delegated TTL ceiling with canonical completed-review status. Compatibility requires a matching strict reader; no nearby migration or native qualification follows. New clean 3775bf56 corrected preparation freezes source cbb85050/release dfcf60f5/GUI d153b457, passes 52 target-frozen checks and rootless GUI launchd preflight while preserving 248 prior files/journal81/zero claims. It migrates no root and establishes no TCC or native qualification. Merged-source a176fdd2 preparation now pins source 7a500816/deployment 92f7ba9b/GUI 0baa4846 after verified signing-container-only normalization within the unchanged image cap. All 52 frozen-client checks and rootless GUI launchd preflight pass; 256 prior files/journal 81/zero claims and expired authority remain exact, with no root migration or native qualification. Metadata-only review `60ea3f0d` subsequently renews the same controller/discovery scope to 2026-10-20 05:27:23 CEST; p21 revision 5 and the native-origin matrix stay unchanged (see the [2026-10-20 renewal checkpoint](#merged-source-authority-renewal-2026-10-20)). The [2026-10-20 native preflight](#native-qualification-preflight-and-immutable-package-correction-2026-10-20) preserves partial status: retirement 5-to-6 completes, but Case refuses before SCAN and an immutable/compiled worker mismatch requires a fresh package; no prerequisite case is completed. The [corrected preparation](#corrected-native-package-preparation-2026-10-20) signs the distinct package and reaches only a SCAN prompt followed by withdrawal; new-image TCC and physical cases remain unqualified. Its later fresh revision-6 source observation reports `observed-released`, journal 93/fourteen Cases and zero claims; P096-005 remains partial with no formal prerequisite case closed. Device-free 2026-10-20 owner traces add bounded monotonic observations and explicit missing native/launch witnesses; actual HTTP ingress and sibling protection have software regressions, not new native qualification. The finite campaign prepares four operational paths, seven explicit blocked hooks, exact registration reuse with fresh consent, and automatic partial reporting; full-tuple/native case gates remain unchanged. The later [campaign owner integration checkpoint](#campaign-owner-integration-checkpoint-2026-10-20) connects the seven operational hooks through six common episodes and alternative terminal authority-loss or native-fault/restart branches; these device-free implementation facts leave formal native qualification partial. The subsequent [target preparation](#campaign-target-preparation-checkpoint-2026-10-20) freezes the signed campaign and client without hardware, authority renewal or native qualification. The later [revision-6 authority renewal](#revision-6-authority-renewal-checkpoint-2026-10-20) extends only controller/discovery authority for four hours; stopped p21 revision 6 and its expired grant remain preserved, with retirement 6-to-7 still pending at that renewal checkpoint. A later separately reviewed [released retirement](#released-revision-6-retirement-checkpoint-2026-10-20) completes 6-to-7 metadata cleanup and reserves revision 7 without registration, grant creation or native work. The later [revision-7 campaign attempt](#revision-7-campaign-interruption-checkpoint-2026-10-20) stops during SCAN with incomplete-released/client-withdrawal and confirmed discovery/controller cleanup; only CAMPAIGN and SCAN were approved. The client-control termination origin remains unresolved, later rows are blocked, and no BIND/REGISTER/WEAR, new p21 authority or formal prerequisite closure follows. The subsequent [device-free client-control diagnosis](#client-control-diagnosis-and-software-repair-checkpoint-2026-10-20) separates explicit withdrawal from internal control loss and bounds ordinary SSH output; it establishes software repairs, without identifying that historical cause or closing native qualification. The later [client-release source follow-up](#client-release-follow-up-source-checkpoint-2026-10-20) bounds copier ownership and nonce scheduling and makes acquisition package scope explicit; target preparation and native qualification remain separate. The subsequent [2026-10-21 client preparation](#client-release-target-preparation-checkpoint-2026-10-21) freezes those repairs, passes 201 target program checks and preserves the root strictly; permission, physical trials and formal qualification remain separate. A separately reviewed [2026-10-21 authority renewal](#client-release-authority-renewal-checkpoint-2026-10-21) renews only the existing controller/discovery scope until 04:19:06 CEST, preserving unregistered reserved revision 7 and creating no p21 authority or qualification. The later [finite revision-7 campaign](#revision-7-finite-campaign-checkpoint-2026-10-21) records four released operational episodes, then a preparing validation timeout with unconfirmed native cleanup and retained quarantine; its five unbound episodes produce no formal qualification tuple or prerequisite closure. The subsequent [validation-timeout source checkpoint](#validation-timeout-software-checkpoint-2026-10-21) removes same-call duplicate owner walks, adds bounded job diagnostics and closes the successful-publication budget gap while retaining the 250-ms gate, historical attribution uncertainty and quarantine. The subsequent [validation-client preparation](#validation-client-target-preparation-checkpoint-2026-10-21) freezes the corrected exact release/client and passes software checks while preserving quarantine and partial native status. The later [revision-7 baseline](#revision-7-recovery-baseline-checkpoint-2026-10-21) records unconsumed v3 preparation only, preserving the uncertain Case and exact claim without reset or qualification promotion. The [revision-7 Bluetooth method review](#revision-7-bluetooth-method-review-checkpoint-2026-10-21) archives exact v3 and selects v4 without reset, disposal or qualification promotion. The [observer closure refresh](#observer-closure-and-review-refresh-checkpoint-2026-10-21) archives the unused GUI-actor review and binds a complete administrator before any separately approved OFF/ON. The separately approved [revision-7 OFF/ON observation](#revision-7-bluetooth-offon-observation-checkpoint-2026-10-21) creates an exact reset proof while preserving quarantine; recovery consumption and native-stop qualification remain separate. The separately approved [revision-7 Bluetooth recovery](#revision-7-bluetooth-recovery-completion-checkpoint-2026-10-21) completes exact disposal with preserved history and expiry; native-stop and general qualification remain open. Device-free owner-fact export and independent ten-case safety qualification are implemented; all original thresholds and full-tuple/origin checks remain, with runtime facts still required. |
+| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `done` | Qualified 2026-10-28 for exact r24 Muse 2 BLE p21 / macOS arm64 / signed GUI-LaunchServices tuple `6bae3b37`, source `12b0c29b` / GUI `da7bf9bc`. Five ordinary sessions, one controlled native fault and a separately approved actual host restart produce all ten compatible rows (six physical-native, two controlled-native-fault, two host-software). The current exporter, real Schema Gate and pinned isolated safety qualifier pass unchanged thresholds; nine records preserved, one new-boot row added. Journal 614/85 and retained fault claim stay unchanged. No recovery, exposure, root adoption or broader device/mode/launch-context qualification. Historical refusals remain exact. See the dated [qualification review](#p096-005-qualified-for-the-exact-r24-tuple--2026-10-28). |
 | `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `done` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `done` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
@@ -4443,6 +4443,1692 @@ the shared-source Synthetic family. Historical packages/reports remain exact;
 a new target build and normal Author/Sign are required before production use of
 the new generation. No hardware, target mutation or merge occurs. P096-005 stays
 partial. See node:docs/audits/REVIEW-SENSORIUM-QUEUE-RETENTION-2026-10-24.md.
+
+
+### Twenty-second target preparation and complete package closure — 2026-10-24
+
+Clean Node c4910f8b / source 4081a4b1 now has a separately retained nearby release
+f8be4782 and signed GUI c7e87d32. The ordinary, campaign and shared-source Synthetic
+queue-retention generations are normally signed; merged shared-channel lifecycle
+repairs additionally require a distinct `ble-discovery.channel-lifecycle` package.
+Closed kinds and revision 1 remain unchanged. All 294 frozen target software
+checks pass without skips, with independent source/package and fresh-retrieval
+review. An exact duplicate-descriptor regression also verifies explicit final
+Case-writer release while live holders and the Unclosed journal preserve fencing.
+No native cleanup qualification follows from that software ownership evidence.
+
+Existing signed/registered predecessors, consent/history and authority are
+preserved. One SQLite ctime-only footprint consistent with normal permission enforcement is
+recorded with all content/identity/mode checks retained. The new packages and
+client are artifacts, not an installed registration transition: the current fixed
+3→4 owner cannot yet advance discovery revision 4 to 5. That supported hop remains
+separate, as do expired authority and unobserved Bluetooth access for the new
+ad-hoc client identity. No hardware, recovery, root migration or branch merge
+executes; P096-005 remains partial. The private manifest 99a10dd3, archive fd7d244c
+and fresh readback fa4b123c retain preparation evidence through
+`PRIMARY_EVIDENCE_STORE`, without a published physical path. See
+node:docs/audits/REVIEW-SENSORIUM-QUEUE20-CLIENT-PREPARATION-2026-10-24.md.
+
+
+### Supported stopped Discovery revision 4 to 5 — 2026-10-24
+
+Node `3046d1ab` implements the software route. The Node acceptance owner now supports the exact stopped operation-retries
+revision 4 to channel-lifecycle revision 5 transition through its existing normal
+prepare/commit/discard protocol. Fresh channel approval/consumption/discard slots
+and a distinct r5 declaration preserve all three earlier hop pairs as immutable
+protected history. The current hop cannot reuse an old approval or hide an
+interrupted historical publication. Normal signer/runtime/limits/expiry, the
+180-second remaining-lifetime floor, sibling admission and source-CAS checks
+remain unchanged; the complete stopped runtime snapshot starts no worker.
+
+All 163 ordinary owner tests and two explicit normal-key conformance tests pass,
+including five crash phases, retained-history byte binding and sibling/expiry
+preservation. The fresh temporary roots are device-free; the constructed history
+binds receipts without claiming earlier package execution. This is an
+implementation checkpoint, not execution of the transition on the operator's root. It does not create or extend authority, consent or qualification,
+and does not release controller or resource claims. A new pinned client and
+separate exact current-authority approval remain necessary before actual use.
+P096-005 remains partial. No headband, Bluetooth, recovery, target-root transition
+or branch integration occurs. See
+node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R4-R5-2026-10-24.md.
+
+
+### Pinned client for the stopped Discovery 4 to 5 route — 2026-10-24
+
+Node `8499f824` records this preparation and review. Clean Node 3046d1ab / source b9bc971e now has a separately prepared nearby release
+219d532f, signed GUI be1d1560 and handoff daa80e7c containing the supported stopped
+4-to-5 owner. All 294 frozen target software tests pass without skips. Independent
+Git/source review and fresh signed-GUI retrieval verify the frozen artifacts;
+all four existing ordinary packages match the compiled closures without re-signing.
+All 1236 prior file observations and 308 directory identities remain exact, with
+only fifteen new client files/six directories. Private key content is not read.
+
+Discovery remains at operation-retries revision4; no grant renewal, transition,
+controller release, recovery, Bluetooth permission or hardware qualification is
+inferred. The new ad-hoc client has unobserved TCC access. P096-005 stays partial;
+no native operation or branch integration occurs. The initial count-checker
+refusal, corrected preservation check and preparation evidence are retained via
+`PRIMARY_EVIDENCE_STORE` under the private run locator. See
+node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R5-CLIENT-PREPARATION-2026-10-24.md.
+
+
+### Renewed authority and completed stopped Discovery 4 to 5 — 2026-10-24
+
+Node `c8d20ba8` records the verified operation and owner-ordering correction. The explicit delegated renewal 2ec54f0d completed with the unchanged four-hour
+ceiling, through 2026-10-24 22:27:53 Europe/Warsaw. The operator separately approved
+expired p21 revision14 retirement f6a0d8c8, reserving revision15 without new grant
+or consent. The new pinned daemon then completed Discovery 4-to-5 c823439b on
+signed channel-lifecycle package revision1, applying a stopped snapshot with
+unchanged expiry and no native worker. Independent readback verifies the exact
+rebind, eleven protected sources, retained journal309 / 44 Cases and zero claims.
+
+The observed process guard, expired-sibling refusal and partial retirement apply
+remain evidence. External helper maintenance had its own interactive approval.
+The new administrator refuses the remaining old Discovery compiled closure;
+source-verified retained administrator 6b9e3c94 resumes only the same approved
+retirement, and the new administrator subsequently commits its r5 transition.
+No marker edit, source-check bypass or grant relaxation is used. Old reports,
+consent and package history are preserved. This is metadata/operational evidence:
+P096-005 stays partial, with fresh permission/readiness and SCAN/BIND/REGISTER/WEAR
+still required for native revision15. No hardware, reset, recovery or branch
+integration occurs. See
+node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R5-AUTHORITY-TRANSITION-2026-10-24.md.
+
+
+### Revision-15 authority-loss branch on queue-retention-20s — 2026-10-24
+
+Node checkpoint `3313c0f7` records the measured result and reviewed closeout.
+A freshly approved SSH campaign on Node source 3046d1ab / pin b9bc971e, signed GUI
+be1d1560 and package 7b815bbb completes eight selected operational rows and seven
+released native acquisitions in 312702 ms. Protected receipt/fence measures 1/1 ms;
+maximum exact owned exit is 4822 ms. Durable audit 2/2 precedes every claim release.
+The original 90-second deadline and 2048/626/250/10000-ms control gates remain;
+2988 SDK drains report no timeouts or retries. This uses the current signed
+twenty-second queue closure without qualifying an injected native-reader pause.
+
+Final journal 360 / 51 Cases and zero claims/processes are independently read back;
+Discovery r5, finite owner/discovery authority, custody and previous consent
+prefixes are preserved. R15 remains registered/stopped with only its acquisition
+expiry reduced. All 51 reports / 65995 bytes and the 149-control private proof
+(manifest 208158de, archive 84a18a44) pass fresh primary-store retrieval. Review uses
+separate same-assistant algorithms, not a second reviewer. Local mode 0644 input
+refusal is corrected to 0600 before the sole child launch; no hardware retry occurs.
+
+The raw-support inventory confirms partial support for seven of ten safety types,
+with hung-worker, retained-claim and actual-restart types still missing. Historical
+firmware 1.0.25, unverified TCC attribution, missing full formal context and remaining
+case-specific owner facts prevent qualification. P096-005/P096-011a and release
+readiness stay partial; no reset, recovery, renewal, migration or branch integration
+occurs. Earlier evidence is unchanged. See
+node:docs/audits/REVIEW-SENSORIUM-R15-CAMPAIGN-2026-10-24.md.
+
+
+### Device-free preparation of the remaining safety branch — 2026-10-24
+
+Node `2723ef32` records this source/conformance checkpoint.
+Prospective v2 retained-claim and restart observations now record their own
+wall/monotonic probe interval, exact held-state reads and ordinary inert refusal.
+Restart measurement belongs to the new boot and cannot be inferred from Bluetooth
+reset. Historical v1 remains strictly readable without new default facts; this
+changes private observation output, not root/checkpoint persistence or authority.
+A read-only deriver and existing exporter bind the same actual counts, full
+context and both wall endpoints under unchanged qualification schemas and budgets.
+
+The remaining-emergency plan selects only baseline and one controlled native
+fault, with retained-claim and separately observed actual restart as derived rows.
+Plan construction performs no operation and grants no stage decision. Software
+checks pass 102 Python tests, four restart-owner and two fault-owner Rust tests,
+plus two compiled-C/fake-Board cases. This is preparation/conformance only: no
+nearby root, grant, controller or hardware is touched; no reset, recovery, native
+qualification or integration occurs. R15 and earlier evidence stay exact. A new
+pinned client, supported stopped lifecycle and fresh physical approval remain
+necessary. Full P096-005 remains partial, including missing context and remaining
+control/consent witnesses. See
+node:docs/audits/REVIEW-SENSORIUM-EMERGENCY-EVIDENCE-2026-10-24.md.
+
+
+### Physical readiness checkpoint — 2026-10-24
+
+The next physical trial is blocked until device-free end-to-end tests prove that
+the runner actually collects every required field. Schema acceptance or fixtures
+with manually supplied facts do not establish collector completeness. The target
+is one ordinary flow and one emergency flow, followed by a separately approved
+actual host restart. Fresh interactive headband readiness remains required.
+
+This software slice is not that readiness decision. The timed quarantine/restart
+probes close two measurement-production gaps. Full context and remaining positive
+authority/control/consent owner witnesses, including post-return emissions,
+post-fence reconnects, foreign-launch terminations and shown/demonstrated consent
+controls, remain explicitly unresolved. Missing fields block progression; do not
+fill them with defaults or repeat hardware runs to discover collector omissions.
+
+
+### Actual collector owner boundaries — 2026-10-24
+
+The implementation now measures private consumer receipt after normal sample
+return, including deadline drains. Its finite receipt history is compared with
+the actual fence only after the synchronous sequence and cleanup attempt. Worker
+v2 retains every prepare entry and seals the same gate at STOP without waiting
+for native completion. Exact exit and complete non-exhausted coverage are
+required; a before-return zero or a first entry alone is insufficient.
+
+The supervisor checks the privately retained admitted child against the actual
+selected target before disposal. Mismatch refuses before signaling; public
+observations retain only opaque launch/generation and check/refusal counts.
+This is an owned-process boundary, not a process inventory or radio observation.
+A separate write-once authenticated-activation/final-admission interval supports
+the bounded positive-authority case; later session counters cannot replace it.
+The exporter binds its clocks to SDK preparation without raising any threshold.
+
+Review corrected delayed RPC/seal reconciliation, exhausted entry accounting and
+readiness backdating across a slow sample RPC and the gap before publication
+of the shared-fence clock. Focused device-free checks pass
+172 Python, 107 acquisition-owner, three consumer and 42 supervisor cases, with
+eight explicit runtime fixtures ignored. Schema-shaped fixtures establish
+reconciliation only. Old reports remain exact and gain no missing defaults.
+
+P096-005 and physical collector readiness remain partial. Actual shown indicator
+and protected-stop demonstration, wrong-mode probes, full owner/operator context
+and automatic end-to-end collection remain blocking. The next physical target
+is still one ordinary flow and one emergency flow, then a separately approved
+actual host restart. No SSH, headband, Bluetooth, target mutation or merge occurs.
+See node:docs/audits/REVIEW-SENSORIUM-COLLECTOR-BOUNDARIES-2026-10-24.md.
+
+Node checkpoint `d2a43a96` records these implementation and review changes. Its
+private manifest is `867538d38b5042cba929e64dda603e3fcf5b3df6128fcd1d8cc7474ae465c1f0`;
+all 29 retained members pass extraction/digest verification. This does not
+establish complete collector readiness or new physical acceptance.
+
+
+### Real pre-consent collection checkpoint — 2026-10-24
+
+The private Case now obtains visible preview and preview-stop acknowledgement
+clocks from the actual protected wearer view before WEAR, two wrong-mode
+refusals through ordinary inert begin, and one logical confirmation observed by
+the durable consent writer. The preview explicitly makes no native-stop claim;
+protected disposal remains independently qualified. The browser obtains only
+view/withdraw authority through a fixed-expiry one-use handoff. No activation
+bearer enters a URL; consumed/expired handoffs cannot be renewed by replay.
+
+Read-only status polling does not create visibility. The active view has a
+separate visibility-loss fence and neither extends nor renews any authority.
+The parser/exporter/inventory bind new facts to the same operation and retain
+legacy missing values. Consent-before-native-entry, origin and all qualification
+budgets remain unchanged. Device-free tests exercise the real client, served
+JavaScript, browser and protected owner; no SDK or nearby device participates.
+Verification passes 393 Python, 112 acquisition-owner, 27 private-owner cases
+and the explicitly executed real-browser/client/HTTP case, with opt-in exclusions
+recorded separately. The actual owner projection passes its closed client parser;
+absent SDK/consent observations remain absent.
+
+P096-005 and full collector readiness remain partial: complete owner/operator
+context, automatic measurement assembly and whole-run device-free collection
+are still blocking. The later physical target stays one ordinary flow and one
+emergency flow followed by a separately approved actual host restart. There is
+no SSH, Bluetooth, hardware, target migration, recovery or branch integration.
+See node:docs/audits/REVIEW-SENSORIUM-PRECONSENT-COLLECTOR-2026-10-24.md.
+
+
+The private 39-member software checkpoint passes bounded extraction and digest
+verification (manifest `a7a056932d91ea65870f2c88b367df6dbd792f795fea3b403d72bdb592f75d51`,
+archive `aeaebfd98f0498409f291baabb2131223a81260a5501898d61609dedf7e8eee6`).
+Its control explicitly states that full collector completeness is false. Earlier
+retained evidence remains exact; no native qualification is inferred.
+
+Node checkpoint `8c2d5de1` carries this implementation and review; full-run
+collector readiness and P096-005 remain open.
+
+
+### Prospective actual-owner qualification context — 2026-10-24
+
+The private enrolled Case captures owner-only tuple fields before SDK effects:
+current registered plan/configuration/integrity, exact instance/binding/generation,
+profile/mode, the pinned runtime's binding/native manifests and verified host
+build/launch identity. The full admitted integrity still covers auxiliary fault
+assets. Raw context is bound to its actual operation and Target; the client and
+exporter reject grafting available witnesses to a foreign context or tuple.
+
+Firmware and TCC are separate explicit operator observations. Composition keeps
+their original status/source/time, rejects historical/unverified/future/stale or
+rebound facts, and invents no defaults or approval. The complete independent
+qualifier remains required with unchanged issuance/freshness, origin and timing
+gates. Baseline comparison over 1450 fixture mutations finds no full-tuple
+semantic acceptance drift; this is reconciliation evidence, not native proof.
+
+Actual execution of the wired owner path, automatic all-case assembly and
+whole-run device-free field completeness remain blocking before another physical
+trial. P096-005 stays partial; no SSH, device, target mutation, recovery or merge
+occurs. See node:docs/audits/REVIEW-SENSORIUM-OWNER-CONTEXT-2026-10-24.md.
+
+
+Focused verification passes 396 Python, 27 private-owner and three runtime tests,
+with explicit runtime exclusions. A verified 24-member private software archive
+(manifest `bb36eec7c9c97390447fec65b75f10b3d9cca4ccdffe49636dc7f6c42096a833`,
+archive `8fd1d98259d502150fea5aadb27f33e7a6034b57014055012a396113e0152fd5`)
+explicitly records that the complete owner-context path has not yet executed.
+This checkpoint does not establish full collector readiness or qualification.
+
+Node checkpoint `118dc0f5` records this production wiring and focused review.
+It does not close the actual-owner/whole-run execution requirement.
+
+
+### Automatic safety capture checkpoint — 2026-10-24
+
+The actual finite runner now retains boundary-derived captures after immutable
+raw episodes, plus separate restart support/capture in the new boot's own clock
+interval. Missing observations remain explicit. Owner-derived acquiring-state
+reads, provider transition, listener metrics and measured absence of progress
+in the controlled drain-thread C fault close producer gaps. Explicit firmware/
+TCC observations bind the actual owner context; automatic conversion still runs
+the complete episode, existing exporter, Schema Gate and unchanged semantics.
+An unarmed injector does not establish zero SDK hangs without confirmed native
+cleanup and a sealed complete call ledger with every entry returned.
+
+Device-free verification covers all ten shapes, finite-runner capture retention,
+read-only isolated CLI and real inert Init/Author/Sign/Register source collection.
+These are component/composition checks, not whole-run collector completeness.
+The actual owner/runner/worker/consumer composition across both terminal branches
+and the restart observer must still prove every field without manually supplied
+facts before another physical trial. P096-005 remains partial. No SSH, headband,
+Bluetooth, target migration, recovery, restart or merge occurs. See
+node:docs/audits/REVIEW-SENSORIUM-AUTOMATIC-COLLECTOR-2026-10-24.md.
+
+Verification passes 405 Python, 112 acquisition-owner and 28 private-owner tests,
+with explicit opt-in exclusions; real inert registration is executed separately.
+The private 34-member software archive passes bounded extraction and every member
+hash check (manifest `d9fe15d5baa285aa8be5d8a2a34a8caa7fb96dd373eb7fa9eceaa57eb4451cbf`,
+archive `3b75edbe6b04b842ce5bbf5c6cb73bb8dd95452b0d1a8a149258b7bd99030a45`).
+Its control explicitly leaves whole-run collector completeness false. Node
+checkpoint `fe5d50d8` contains this implementation and review; neither full
+P096-005 nor the physical-readiness checkpoint is closed.
+
+
+### Actual-owner software composition — 2026-10-25
+
+Node adds a test-only peripheral boundary around the same operational private
+runner and NormalOwners. Real registration, admission, MAC verification, consent,
+served browser code and consumer operate with a software SDK Board. Every block
+and execution is marked synthetic; the physical exporter still refuses it. The
+software child cannot establish canonical native process containment. No new
+production effect API or qualification exception is introduced.
+
+The actual baseline composition passes separately in 25.18 s and automatically
+captures both baseline case types from its unchanged owner output, without
+hand-filled counters or clocks. A size-optimized test image fits the unchanged
+hashing bound. Whole-run completeness remains open: the remaining control and
+authority cases, both terminal branches and the read-only restart observer must
+produce every required field before another headband readiness question. P096-005 remains partial; no nearby device, recovery, migration
+or merge is performed. See
+node:docs/audits/REVIEW-SENSORIUM-SOFTWARE-COMPOSITION-2026-10-25.md.
+
+
+### Actual control-owner captures — 2026-10-25
+
+Four device-free actual owner/runner/worker-engine/browser/consumer runs pass in
+84.77 s. Their automatic captures provide five more complete case types: logout,
+saturation, provider loss, live grant loss and expired enrollment refusal. With
+baseline, seven of ten safety measurement types have actual software composition
+coverage. No clock, counter or result label is manually populated.
+
+Each case uses its own fresh private root and remains explicitly synthetic. This
+union cannot become a physical qualification tuple. Controlled hang, retained
+claim, read-only restart composition and exact authority/tuple workflow remain
+blocking; P096-005 stays partial and no headband readiness is declared. No device,
+nearby mutation, reset, recovery or merge occurs. See
+node:docs/audits/REVIEW-SENSORIUM-CONTROL-COMPOSITION-2026-10-25.md.
+
+### Actual emergency-owner and full capture coverage — 2026-10-25
+
+Three actual owner/runner/worker-engine/browser/consumer software compositions
+pass in 150.02 s. Six private conformance roots automatically produce all ten
+P096-005 measurement types, including the controlled C hang, retained claim and
+actual read-only restart-observer logic. Full schema and semantic export accepts
+every synthetic record with no missing fields. The next kernel boot identity is
+explicitly simulated; this is not a real restart or canonical native containment.
+Firmware/TCC inputs are explicit software test metadata.
+
+New Init establishes private 0700 control custody before normal owners create
+files, matching the strict read-only restart reader. Existing roots are not
+changed. A control-case interval runs from validated required presets to the
+exact launch exit. The complete subsequently closed consumer window separately
+corroborates post-fence delivery; later cleanup/audit does not inflate control
+latency. Late blocks still refuse; receipt/fence/exit and all other budgets are
+unchanged. Historical observations and capsules are not rewritten.
+
+413 Python tests run (410 passed, three skipped); 11 controller, four restart,
+28 owner and 112 acquisition regressions pass, as does the ordinary library
+outside cfg(test). The 81-member private proof was extracted/readback verified;
+manifest SHA-256 is
+`309a20cea19893ab44eae244ff698a8053d49736624d3e0892af7819e92faf10`.
+
+P096-005 stays partial. Independent root tuples cannot be combined into physical
+qualification. The supported same-tuple authority transition between ordinary
+grant loss and the emergency flow still needs implementation and device-free
+verification. Changed or expired HostGrant/Target must refuse reuse. No grant is
+restored here. Only after that full workflow passes may fresh headband readiness
+be requested; an actual host restart remains a separately approved operation.
+No nearby-host operation, Bluetooth, device open, recovery, root migration or
+merge occurred.
+
+### Data-only fresh runtime-authority projection — 2026-10-25
+
+The ordinary terminal branch loses its acquisition authority. Subsequent
+emergency testing requires a separately approved fresh grant and fresh WEAR;
+old consent or a scenario label cannot supply either. A new private data-only
+projection reproduces the exact reduction, preserves scope/siblings and bounds
+one proposed expiry by the unchanged live HostGrant and five minutes from
+fresh approval. The original runtime expiry bounds only its historical reduction. Seven projection and five reduction tests pass; no writer or route is
+present and no grant is created.
+
+The full qualification tuple and operational Target are distinct. Dynamic
+HostGrant is not a full-tuple field, but changing it changes Target and must
+continue to refuse ordinary old-basis reuse. The first proposed corridor
+preserves the original still-current HostGrant. Insufficient/expired authority
+refuses; it is not implicitly refreshed or replaced. No requirement is weakened.
+
+Actual exclusive root/controller/history/resource owners, digest-bound separate
+approval, publication and partial-write fencing/reconciliation still need
+integration. One-root ordinary/emergency software execution must then prove
+unchanged full tuples, fresh consent and complete actual captures before any
+physical question. Data fixtures are not owner observations or qualification.
+No nearby host, Bluetooth, grant publication, recovery, migration or merge was
+performed; P096-005 stays partial.
+
+### Current registration owner for runtime-authority review — 2026-10-25
+
+The Node projection now obtains current Target/typed HostGrant, operator and
+kernel boot through the normal registered-source owners. Existing signature,
+plan/integrity, binding, profile and sandbox checks remain shared; no launch
+context, executor or Bluetooth probe is needed for this metadata observation.
+The result is neither native admission nor consent or controller-idle evidence.
+
+Publication still needs released history, sole controller custody and separate
+digest-bound approval; fresh WEAR and exact old-session fences remain required.
+The common-root ordinary/emergency run remains open before physical readiness.
+See node:docs/audits/REVIEW-SENSORIUM-RUNTIME-REGISTRATION-OWNER-2026-10-25.md.
+No target operation, device, recovery, migration or merge occurs. P096-005 stays
+partial. The earlier data-only note's stale original-native-expiry ceiling is
+corrected to match the already reviewed implementation; it is not a new grant.
+
+### Affine Case owner for separate fresh runtime authority — 2026-10-25
+
+Node now implements an internal grant stage after checked registration reuse and
+before enrollment for the emergency branch following live revocation. It needs
+a released same-basis/Target/boot Case, exact original reduction history and
+current normal registration/controller observations. Separate GRANT-P21 approval
+names a concrete review digest. A durable one-use consumption entry precedes one
+atomic policy replacement; frozen parent/five-minute limits are unchanged.
+
+This settles a narrower mechanism than the earlier exploratory general pending
+administrative corridor: existing affine Case ownership protects one authority
+file, and failures leave a complete approved before or after value. Consumption
+is never retried or deleted to restore authority. Existing unresolved-Case and
+claim fences remain after a process crash; no cleanup/recovery proof is invented.
+New eligibility does not revive the old run or substitute for a fresh WEAR.
+
+Ordinary entry selection is still None; no argv route or client autoapproval is
+provided. Actual common-root ordinary/emergency factory/client composition,
+complete collector output and old-token/permit denial remain blocking before a
+physical question. See Node audit REVIEW-SENSORIUM-RUNTIME-AUTHORITY-CASE-OWNER-2026-10-25.
+P096-005 stays partial; no hardware, target operation, reset, recovery, migration
+or merge occurs.
+
+### Common-root safety collector completeness — 2026-10-25
+
+The same Node normal owners and finite runner now execute the ordinary and
+emergency branches on one private software root: six fresh Cases, a separate
+exact-review grant decision after live revocation, new WEAR for every SDK session,
+and all ten complete safety records under one exact full qualification tuple.
+No HostGrant, Target, binding/generation or old-session fence is replaced.
+The corrected whole-run test passes in 84.68 s with unchanged Schema Gate and
+semantic thresholds; physical-origin promotion still refuses.
+
+The first trial's helper artifact omitted the full tuple while retaining its
+digest, so its aggregate failed. A fresh run retains the exact tuple and explicit
+owner-bound external software fixture, independently reassembles them from each
+actual context and checks every record digest before using the existing grouper.
+The failed trial is immutable and missing values are never backfilled.
+
+The software completeness gate is green; P096-005 remains partial. SDK and
+advertisements, kernel restart and grant/firmware/TCC approvals remain explicit
+fixtures. Supported signed-client approval/target preparation still precede any
+physical question, followed by real SDK/OS/TCC/native containment and separately
+approved host restart proof. No target operation, device, reset, recovery,
+migration or merge occurs. See Node audit
+REVIEW-SENSORIUM-COMMON-ROOT-COMPLETENESS-2026-10-25.
+
+### Separate runtime-grant client approval — 2026-10-25
+
+The real Node console/SSH entry now accepts only an explicitly selected reused
+hung-worker episode with an exact earlier reduction Case. Arguments choose
+history; a distinct GRANT-P21 prompt binds the complete validated review digest
+before enrollment, and fresh WEAR remains independent. The client checks the
+frozen parent/five-minute ceiling, flags, clocks and references. Unknown,
+broader, expired or foreign reviews refuse even after rehashing. Formal campaigns
+do not automatically renew authority or change their budgets.
+
+The actual owner receipt now returns in closed optional observations and is
+bound to the approved review/expiry/target. Partial write failure remains
+partial. The same normal client validator/prompt/reply participates in the
+six-episode common-root software proof: ten complete records under one exact
+full tuple in 116.43 s, unchanged Schema Gate and semantic limits, and physical
+origin promotion refused. Eight entry, thirteen grant, 56 Case and 424 Python
+checks with three opt-in skips pass; the source pin and private proof readback
+are verified. Peripheral effects, approval and external facts remain explicit
+fixtures, not physical qualification.
+
+Target build and signed control capsule preparation precede a fresh headband
+question. SDK/OS/TCC/native containment/current operator observations and
+separately approved actual host restart remain required. No target operation,
+device, reset, recovery, migration or merge occurs. P096-005 remains partial.
+See Node audit REVIEW-SENSORIUM-RUNTIME-GRANT-CLIENT-2026-10-25.
+
+
+### Pinned runtime-grant target preparation — 2026-10-25
+
+Node `97d4dddf` now has a pinned release and signed nearby-host client. Its
+424 frozen Python tests pass with three explicit opt-in skips, as do rootless
+signed-client check/launchd observations. Independent Git-object, signature,
+fresh retrieval and external runtime-hash checks pass without SDK imports or a
+Bluetooth manager. All previous root/controller sources and identities remain
+unchanged; only the exact new client capsule is added. The prospective physical
+gate is not open: Discovery matches, while the three installed BrainFlow
+packages retain their earlier worker and require new immutable package generations
+for current boundary observations. Authority remains expired. No renewal, Case,
+root migration, transition, hardware, reset, recovery or merge occurs.
+
+The Node ledger's earlier P096 checkpoints are restored to the Sensorium owner
+from an incorrectly selected P094 row; historical evidence remains immutable.
+See node:docs/audits/REVIEW-SENSORIUM-RUNTIME-GRANT-TARGET-PREPARATION-2026-10-25.md.
+P096-005 stays partial. Actual SDK/OS/TCC and native containment plus a separately
+approved actual host restart remain required after software/package readiness.
+
+
+### Immutable safety-boundary package generation — 2026-10-25
+
+Current normal authoring now gives the three updated BrainFlow closures new
+`safety-boundaries` package ids (including a separate campaign package). It
+preserves earlier queue-retention packages/reviews/signatures, closed kind
+spellings, manifest revision 1, exact replay, runtime and every consent/native
+and qualification gate. Discovery remains on its matching channel-lifecycle
+identity. Author/sign creates no grant, registration, permit or WEAR.
+
+Two pure generation and three explicitly executed real inert normal-owner cases
+pass. The actual common-root software runner/client still produces ten safety
+records under one exact full tuple over six Cases, with no missing fields, in
+106.44 s. Production checking passes; physical-origin promotion refuses and the
+SDK/controller/approval/restart fixtures remain explicitly synthetic. The failed
+launcher/output-directory attempt is retained and no threshold is changed.
+See node:docs/audits/REVIEW-SENSORIUM-SAFETY-BOUNDARY-PACKAGES-2026-10-25.md.
+Target release, normal signing/admission and current finite authority remain
+required before a fresh interactive hardware decision. P096-005 remains partial;
+no existing target root, device, recovery, migration or merge changes here.
+
+
+### Normally signed safety-boundary packages on the target — 2026-10-25
+
+The pinned `b61a35c1` release, fresh signed client and three new normal-author/sign
+packages are prepared and verified on the nearby host. Discovery and all new
+BrainFlow closures exactly match the candidate; existing packages and approvals
+remain unchanged. Frozen target Python tests pass 424/three explicit opt-in
+skips; actual rootless signed launchd preflight and independent source, signature,
+image and primary-store retrieval checks pass without a manager or SDK acquisition.
+
+Sixty-one exact new files/twelve directories are the only additions. All 1355 non-key content hashes, two signing-key metadata-only observations
+and control/configuration/claim/history state are preserved. Signing-key content
+is not independently inspected or byte-qualified.
+A measured SQLite ctime-only change follows normal unconditional permission
+restriction; its exact frozen path/field/timestamps are separately disclosed,
+all other metadata is exact, and no P096 measurement gate is weakened.
+See node:docs/audits/REVIEW-SENSORIUM-SAFETY-BOUNDARY-TARGET-PREPARATION-2026-10-25.md.
+Authority remains expired and registrations unchanged. Current finite admission
+precedes fresh headband readiness; actual SDK/OS/TCC/containment and a separately
+approved actual restart remain open. P096-005 stays partial; no hardware, reset,
+recovery, authority renewal, root migration or merge is performed.
+
+The final Node gate also found canonical formatting of one shortened static
+package literal; its private launcher now checks every gate exit. This correction
+changes the source pin while leaving package bytes/values and all measurement
+gates identical. A fresh pinned client must precede physical use; the measured
+b61a35c1 artifact and both gate refusals remain unchanged.
+
+
+### Canonical-source replacement client verified — 2026-10-25
+
+The clean formatting-corrected `9458b4b1` source is actually rebuilt and signed
+on the target, with independently verified full pin `920c0ec4`. All four existing
+package closures remain exact; no Author/Sign action occurs. Frozen target Python
+tests pass 424 with three explicit opt-in skips, along with rootless signed launchd
+preflight, all 5407 Git blobs, strict signatures and independent image/primary-store
+readback. The original generation/common-root proofs remain bound to their actual
+b61a35c1 source; only the same static-literal block's canonical form changed.
+
+All 1416 non-key hashes, two key metadata-only observations and every prior file
+metadata/directory identity are exact without exception. Only sixteen capsule
+files/six directories are added; policies, grants, registration, consent, journal,
+claims and historical artifacts remain unchanged. Authority is expired; current
+finite admission and the stopped p21 lifecycle precede interactive headband
+readiness. Actual SDK/OS/TCC/containment and separate real host-restart approval
+remain open. See node:docs/audits/REVIEW-SENSORIUM-CANONICAL-SAFETY-CLIENT-2026-10-25.md.
+P096-005 remains partial; no hardware, reset, recovery, renewal, migration or merge.
+
+### Finite authority and stopped p21 lifecycle reconciled — 2026-10-25
+
+The canonical pinned client completed same-scope delegated controller/discovery
+renewal for four hours through review `5ed0aac2` and supported retirement of
+released/expired p21 r15 through review `c57d1027`. Discovery stays r5; r16 is
+reserved without a grant or reused consent. Exact review/marker readback confirms
+four targeted source removals, unchanged Case journal and consent, and no claims
+or pending recovery. Standing delegation is recorded explicitly; no new human
+confirmation is manufactured. Expected owner writes and ctime-only metadata
+changes are disclosed in node:docs/audits/REVIEW-SENSORIUM-SAFETY-AUTHORITY-R16-2026-10-25.md.
+A private 68-member proof was read back through `PRIMARY_EVIDENCE_STORE`.
+
+This is metadata readiness only. P096-005 remains partial: actual native SDK,
+OS/TCC, fresh firmware facts, emergency containment and separately approved real
+host restart remain required. Fresh interactive headband approval precedes device
+work. No hardware, reset, recovery, migration or merge occurred.
+
+### R16 preview boundary and UI correction — 2026-10-25
+
+The fresh target pass completed discovery, binding and registration but stopped
+before WEAR during incomplete protected-view demonstration. The Case is released,
+with zero resource/controller claims and no pending recovery; the emergency pass
+was not attempted. A stale active preview after failed control requests was
+confirmed and corrected. Two browser actions are now explicit, unavailable state
+disables preview controls without inventing cleanup, and independent Stop remains
+available. The existing 30-second demonstration/parent clocks remain unchanged.
+
+An actual protected-owner/real-browser loss-restoration test and real HTTP refusal
+checks pass, along with 424 isolated client tests (three opt-in skips). These are
+software UI checks; no SDK entry or durable consent is created. The private proof
+passed 77-member primary readback. See
+node:docs/audits/REVIEW-SENSORIUM-WEARER-VIEW-R16-2026-10-25.md.
+P096-005 stays partial. A new pinned signed artifact and supported stopped-r16
+lifecycle precede fresh headband approval; actual host restart still needs its
+own later approval. No retry, reset, recovery or merge occurred.
+
+### Repaired wearer-view artifact prepared — 2026-10-25
+
+The corrected client is actually built and signed from clean `aab178ea`, with
+independent full-source pin `16cb5ff0`. Source blobs, four existing exact signed
+package closures, 263 frozen inputs, 424 target tests (three opt-in skips),
+rootless launchd preflight and fresh image/primary readback pass. All 1468 old file
+observations/metadata (1466 non-key hashes plus two metadata-only key records) and
+349 directory identities remain exact without exception; only the new sixteen-file
+capsule/six directories are added. No package or active configuration changes.
+
+Stopped r16 is preserved; supported retirement must wait for its still-live binding
+rather than shorten expiry. P096-005 remains partial. Fresh readiness must include
+both pre-WEAR browser clicks, new-image Bluetooth observation and separate later
+approval of actual emergency host restart. See
+node:docs/audits/REVIEW-SENSORIUM-WEARER-VIEW-CLIENT-2026-10-25.md.
+No permission manager, hardware, authority/registration transition, reset, recovery,
+migration or merge occurred in this preparation.
+
+
+### Released r16 lifecycle completed — 2026-10-25
+
+The corrected pinned client completed supported expired/released retirement
+`12bfa83d` r16→r17. Discovery remains r5; no r17 declaration, grant or wearer
+consent exists. Exact source/marker readback and closed write-set review preserve
+Case journal 368/52 Cases, consent and controller files. Claims and pending recovery
+are absent. Normal database writes and the exact read-store ctime-only change are
+scoped in node:docs/audits/REVIEW-SENSORIUM-R16-RETIREMENT-2026-10-25.md.
+The 29-member private proof passed fresh primary-store readback. Pure r17 driver
+frames/refusals pass without SSH; no new readiness or permission fact is created.
+
+P096-005 remains partial. Fresh interactive headband readiness must explain both
+pre-WEAR browser clicks. Native ordinary/emergency measurements, current-image
+OS/TCC facts and separately approved actual host restart remain required. The
+already fresh firmware observation keeps its original time. No device, permission
+probe, reset, recovery, migration or merge occurred in this lifecycle step.
+
+
+### R17 physical observations and frozen gate refusals — 2026-10-25
+
+One freshly approved ordinary pass completes five native sessions with confirmed
+release and no SDK retry. The separately approved emergency preserves the parent
+grant ceiling, then closes 68 ms after its expiry before START permit or fault.
+It is released, without quarantine or a restart checkpoint; no retry/reset/recovery
+or host restart occurs. Actual firmware and TCC observations bind one full tuple.
+
+Five of ten P096-005 records pass the unchanged schema/semantic gates: four control
+records (receipt/fence 1/1 ms; exit 4,671–4,771 ms) and the expired-authority refusal.
+The raw authority/consent records are complete but exceed their frozen 10-second
+budgets at 13,133/10,534 ms; three emergency/restart records remain missing. Full
+safety export correctly refuses. No measurement interval or original verdict is
+revised. Source review must reconcile the timing domains without weakening the
+owning requirements or thresholds and avoid unnecessary emergency dispatch waits.
+
+Journal 412/58 Cases, zero resource/controller claims, no pending recovery and
+unchanged controller files are verified. R17 binding retains its actual expiry;
+future supported retirement/readiness remain separate. Private report retention
+uses an explicit 81-member allowlist with fresh primary readback, excluding SSH
+configuration, approval inputs, launchers and full root/configuration snapshots.
+See node:docs/audits/REVIEW-SENSORIUM-R17-PHYSICAL-2026-10-25.md.
+P096-005 stays partial; no qualification, migration or merge is claimed.
+
+
+### Finite emergency dispatch preparation — 2026-10-25
+
+A private local operator adapter prepares immediate transition after five
+released ordinary sessions and four exact emergency responses: REUSE, GRANT-P21,
+WEAR p21 and FAULT. Thirteen device-free tests pass, including real local pipes
+and preservation of the actual r17 refusal through its frozen parser. Existing
+signed-client review/nonce checks, both browser actions, normal authority and
+separate host-restart approval remain. No budget, grant or original result changes.
+
+This is harness preparation; future per-run artifact/fresh-delegation binding
+remains before native use. Proposed 15-second budgets for the two refused cases
+and seven-minute fresh p21 grants await explicit adoption. P096-005 and the r17
+five-of-ten result stay partial. The six-member private proof passes fresh primary
+readback; see node:docs/audits/REVIEW-SENSORIUM-EMERGENCY-DISPATCH-2026-10-25.md.
+No SSH, device, root change, recovery or merge occurred.
+
+
+### R17 retirement and adopted prospective limits — 2026-10-25
+
+Supported released/expired retirement `ceb46889` completes r17→r18 without recovery.
+Six Cases are released; exact source/marker/predecessor checks preserve journal
+412/58 Cases, consent, controller and idle resources. Discovery remains r5; r18 is
+reserved without declaration, grant or consent. Closed normal write-set review
+and explicit eight-member private report readback pass. See
+node:docs/audits/REVIEW-SENSORIUM-R17-RETIREMENT-2026-10-25.md.
+
+The operator explicitly adopted 15 seconds only for current-authority-before-effects
+and mode-scoped-wearer-consent, and seven minutes for fresh p21 registration and
+matching new runtime-grant ceilings. This is prospective: existing grants and
+r17 verdicts stay unchanged, as do protected receipt/fence/exit limits 626/250/10000 ms
+and the 90-second session limit. Source changes, coherent Rust/Python boundary tests
+and a fresh pinned signed target client remain the next implementation slice.
+No device, reset, recovery, migration, merge or new qualification occurs here.
+P096-005 remains partial; physical and real-restart approvals remain separate.
+
+
+### Prospective qualification policy v4 — 2026-10-25
+
+For future collections only, current-authority-before-effects and
+mode-scoped-wearer-consent have 15,000-ms maxima. Preserve their original measured
+intervals, all required facts and every record's declared budget; a historical
+10,000-ms overrun remains refused. Other case caps and protected receipt/fence/
+verified-exit limits 626/250/10000 ms remain unchanged. Qualifier identities
+advance to v4, with exact current-source admission and readable historical schema
+identities. This is an explicitly adopted criteria change, not new native proof.
+
+Fresh post-BIND p21 HostGrants last seven minutes. A separately approved fresh
+runtime grant is bounded by the unchanged current parent and 420,000 ms from
+preparation; old grants keep their original expiries and wearer consent is never
+reused. Discovery's default and same-scope renewal policy are unchanged. Sessions
+still last at most 90 seconds (preparation 60 s, cleanup 20 s); validation stays
+2048 ms. No worker package source change, native retry, recovery or root migration
+follows from this policy. See
+node:docs/audits/REVIEW-SENSORIUM-PROSPECTIVE-POLICY-V4-2026-10-25.md.
+Rust/Python boundary and actual-owner software completeness tests precede a fresh
+pinned signed client. R18 remains reserved; r17's five-of-ten result is frozen.
+P096-005 remains partial; fresh hardware and separate actual-restart approvals
+remain required. No merge is performed.
+
+
+### Prepared policy-v4 target client — 2026-10-25
+
+A clean offline release and signed nearby client from Node `8c66f7ad` carry the
+prospective two 15-second proof windows and seven-minute new p21 grant ceilings.
+Independent review matches 5407 Git blobs, 263 frozen inputs, signatures and loaded
+sections; target recheck passes 426 tests with three explicit skips. The original
+unchanged fixed-180-ms fixture failure is retained separately, not silently
+replaced. Four existing signed worker source closures match, so no new package
+is authored or installed. All 1538 prior file observations, 360 directories and
+controller files remain exact; only a fresh 16-file client capsule is added.
+
+Explicit selected report/artifact retention passes primary-store fresh readback.
+R18 remains reserved without authority or consent; journal 412/58 and idle
+resources stay unchanged. Finite controller/discovery authority is expired and
+not renewed. Fresh current-image Bluetooth facts and interactive device readiness
+remain separate from this no-effects preparation. See
+node:docs/audits/REVIEW-SENSORIUM-POLICY-V4-TARGET-2026-10-25.md.
+P096-005 remains partial. No device, permission probe, reset, recovery, actual
+restart, root migration or merge occurs.
+
+
+The same policy-v4 pin now completes the actual-owner ordinary→fresh-grant→
+emergency software composition: six episodes, ten automatically collected
+records, one tuple, zero missing fields, 98.80 seconds. All ten untouched records
+also pass the fresh Schema Gate and v4 measurement caps. The real normal client
+separately reviews and approves runtime authority, preserving the parent and
+requiring new consent. Explicit 33-member/two-image primary readback passes.
+This proves software completeness only: SDK/discovery, firmware/TCC and kernel
+restart remain explicit fixtures. Native full-tuple/current-image facts and a
+separately approved actual host restart still block P096-005 completion.
+
+
+### Full terminal metadata boundary — 2026-10-25
+
+A subsequent no-device egress check finds that the actual software fault Case
+with its normal checkpoint assignment is 17,514 bytes, exceeding the old 16-KiB
+terminal capture, SSH reader and copier. The earlier six-owner/ten-record proof
+covered record collection, not this full transport boundary; it stays unchanged.
+Terminal metadata now has an explicit bounded 64-KiB path through real captures,
+closed parser, relay and actual owned copier. Four new regressions and the full
+software replay pass, as do 430 pinned Python tests with three explicit skips.
+Control/nonce/stderr limits, samples, clocks and all qualification criteria remain
+unchanged. See node:docs/audits/REVIEW-SENSORIUM-TERMINAL-METADATA-2026-10-25.md.
+
+A superseding pinned signed target client must precede physical fault use.
+The private two-pass draft gates fault on seven validated ordinary records and
+restart review on two actual fault records plus checkpoint. It preserves exact
+raw support hashes and a shared STOP; fresh human readiness and per-run pins are
+mandatory. It contains no restart, reset, recovery or renewal executor. P096-005
+remains partial; no native proof, root migration or merge is claimed.
+
+
+### Complete-terminal target preparation — 2026-10-25
+
+The superseding clean Node `7200df68` candidate is prepared and signed on the
+nearby host (source `1ed03697`, GUI `fde8657d`, exact handoff `1fa73814`). All
+5407 Git objects, 263 frozen inputs, four unchanged signed worker closures and
+430 target tests (three explicit skips) pass. Separate loaded-section/signature
+review and preservation of 1554 old file observations/366 directories/controller
+pass, with only sixteen new capsule files/six directories. Root journal 412/58,
+idle resources, reserved unregistered r18 and expired authority remain unchanged.
+
+The exact pin completes six actual-owner software episodes, ten automatic
+record types, one tuple and zero missing fields in 118.90 seconds. All ten
+untouched records pass the independent current Schema Gate/policy-v4 checks;
+the complete 17514-byte software Case/checkpoint passes the frozen captures,
+parser, nonce relay and actual copier byte for byte. Fourteen unarmed two-pass
+bridge tests and thirteen isolated dispatcher regressions pass. Explicit selected
+preparation/software proofs and their exact images pass full primary-store
+readback. See node:docs/audits/REVIEW-SENSORIUM-TERMINAL-METADATA-2026-10-25.md.
+
+Software SDK/discovery/firmware/TCC/kernel restart fixtures do not establish
+native evidence. P096-005 remains partial. Fresh finite authority and interactive
+headband readiness, actual current-image native/TCC facts and separately approved
+actual host restart remain required; no device, permission probe, renewal,
+recovery, root migration or merge is performed by this preparation.
+
+
+### R18 authority renewal — 2026-10-25
+
+Normal exact review `54d5924f` was prepared, independently verified, explicitly
+human-approved and committed once via the pinned administrator. Only the same
+controller/discovery scope is renewed, to 2026-10-25T23:29:32Z. Complete closed
+write-set review preserves 1570 old file observations/372 directories, twelve
+protected inputs, journal 412/58, consent/history and zero claims; an ordinary
+read-store ctime-only change is disclosed. Discovery stays r5 and reserved r18
+has no p21 grant or consent. Seven selected proof members pass primary-store
+readback. See node:docs/audits/REVIEW-SENSORIUM-R18-AUTHORITY-2026-10-25.md.
+P096-005 stays partial: fresh interactive readiness, current-image TCC/native
+facts and a separately approved actual host restart remain. No hardware,
+reset, recovery, migration or merge is performed by this metadata renewal.
+
+
+### R18 physical partial proof — 2026-10-25
+
+The newly approved source `1ed03697`/GUI `fde8657d` sequence reaches fresh
+SCAN/BIND/REGISTER r18 and one WEAR. During native prepare an authenticated
+protected withdrawal ends baseline incomplete-released with durable audit,
+confirmed native/executor/controller cleanup. The operator reports switching
+Safari to ChatGPT; the served visibility handler is consistent with that event,
+without inventing an independently captured browser event. No later ordinary
+or fault session runs. Configuration validation is 149/2048 ms, not a timeout.
+
+The unchanged current collector/Schema Gate/policy-v4 gates accept two actual
+full-tuple records: authority 13407 ms and consent 8748 ms against 15000 ms each.
+Eight safety types remain missing and full export refuses. Actual Stop-to-exact
+exit observation is 10255 ms against the unchanged 10000-ms gate, requiring
+investigation before another physical attempt. Journal 421/59 Cases and zero
+claims/controller preservation pass; seventeen retrieved reports and an explicit
+37-member selected proof pass primary readback. See
+node:docs/audits/REVIEW-SENSORIUM-R18-PHYSICAL-2026-10-25.md.
+P096-005 stays partial; no retry, reset, recovery, retirement or merge occurs.
+
+
+### Protected executor-exit window correction — 2026-10-25
+
+Source review confirms that native cooperative release used the twenty-second
+completion clock despite the separate ten-second protected-exit gate. The owner
+now freezes both original clocks before Stop publication and carries exact
+operation-fence/launch identity and absolute cutoffs through channel lookup/RPC,
+registry locks and forced process disposal. It preserves 7.3 seconds for normal
+native release, the original twenty-second completion/audit cap, actual
+post-return exit timestamps and retained ownership on unknown exit or unfinished
+finalization. Neither legacy shutdown grace nor a replacement executor can
+supply release proof. Review fixes bounded snapshot acquisition, stale session
+projection and reuse after failed lifecycle publication.
+
+Tests pass 117 acquisition, ten supervisor-host, 147 private-owner, nineteen
+transport and 76 supervisor cases; opt-in exclusions remain explicit. Five real
+owned synthetic-process tests include five-second release and nonreturning
+release with retained claim. The exact pinned software image completes six
+actual-owner episodes in 101.50 s, all ten records in one tuple, zero missing;
+all unchanged records independently pass the frozen Schema Gate and policy-v4
+checks. An explicit 45-member proof plus three images passes primary readback.
+See the review at node:docs/audits/REVIEW-SENSORIUM-PROTECTED-EXIT-2026-10-25.md.
+
+This is prospective software evidence. R18's two native records and 10255-ms
+observation remain unchanged; a different image needs its own full native tuple.
+P096-005 stays partial pending current-image native/TCC and a separately approved
+actual host restart. No hardware, SSH, reset, recovery, retirement, renewal or merge.
+
+
+Independent post-commit review reads all 5407 source blobs of Node `fa1ec48c`
+and reproduces `sha256:5ca01fce9d906f4423ed49d510236d5222b4cd9bb1c0960d058303f9c64a00b2`,
+matching the frozen test image. The original selected archive is unchanged;
+a separate source-confirmation manifest `dfc19ef0` passes primary-store readback.
+
+
+### Discovery fixture startup observation — 2026-10-25
+
+Nearby preparation of source `5ca01fce`/GUI `098c7d8f` passes signatures and
+rootless context checks, then its 430-test software suite errors because a fixed
+180-ms test sleep assumes a first child snapshot is already available. The
+original refusal is retained; no native manager or hardware runs. All 1590 old
+files/376 directories/controller bytes and journal 421/59 Cases remain exact,
+with only sixteen new GUI files/six directories and zero claims.
+
+The test now observes actual revision one before releasing revision two through
+a scoped barrier, under the original 1200-ms request deadline. Production code,
+protocol and qualification limits are unchanged. Twenty-five repetitions, forced
+250-ms delay and 26 provider tests (one explicit skip) pass. Fourteen selected
+proof members pass primary readback; see the
+review at node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-FIXTURE-2026-10-25.md.
+A new clean source pin/client is required; earlier software/native evidence stays
+frozen and P096-005 partial. No hardware, renewal, recovery, migration or merge.
+
+
+### Protected-exit target client prepared; journal capacity pending — 2026-10-25
+
+Clean Node `5ebce37e`, source `0b29a069`, standalone `950db254`/109911504 bytes,
+signed GUI `b89d7677` and handoff `4e30d075` pass independent Git, signature,
+loaded-section and target-byte review. All 267 frozen inputs and 430 target Python
+tests (three explicit skips) pass; four existing signed worker closures stay
+exact without Author/Sign. Rootless check/real launchd context pass, with no
+manager or permission observation. Earlier local Rust/full-owner software proof
+remains at its own original image; no native result is inferred for this client.
+
+All 1606 old files/382 directory identities/controller/parent state and journal
+421/59 Cases remain exact, with only sixteen new GUI files/six directories.
+Fourteen selected report/manifest members and four artifacts pass primary
+readback. See the review at node:docs/audits/REVIEW-SENSORIUM-PROTECTED-EXIT-CLIENT-2026-10-25.md.
+
+Before another physical sequence, resolve journal capacity: 59/64 Cases and
+236696/262144 bytes leave fewer than the six required slots. Retirement does not
+free them. The operator subsequently adopted prospective 128 Cases / 1 MiB
+and a whole-six-session preflight. Implementation and a superseding pinned
+client remain pending; this prepared image still has the original limits. Stopped r18, finite authority
+and old native evidence remain unchanged. P096-005 stays partial; no hardware,
+permission probe, retirement, renewal, recovery, migration or merge occurs.
+
+
+### Prospective private journal capacity and whole-six preflight — 2026-10-25
+
+The operator-adopted limit is implemented at 128 Cases / 1 MiB without changing
+journal v1, historical bytes, qualification gates or finite grants. Conservative
+6144-byte records plus envelope account for future disposal growth; all 128 fit
+787584 reserved bytes. Read-only closed metadata rejects unknown history.
+Scheduler/client/host checks precede adapter, socket and supervisor effects;
+five ordinary plus one emergency Case check remaining capacity 6→1. Snapshot
+accounting is not a reservation across processes. Affine prepare remains one-use.
+
+Review corrected narrow visibility, an oversized fixture and surplus-argument
+truncation; 152 owner/10 entry/443 Python tests and production daemon check pass,
+with opt-in exclusions retained. Twenty selected software members pass primary
+readback. The private wrapper remains explicitly unarmed. A superseding pinned
+client and actual read-only target preflight are next; the old prepared image
+still has its original limits. No target/root rewrite, native test, renewal,
+retirement, reset, recovery or merge; P096-005 remains partial. See the review at node:docs/audits/REVIEW-SENSORIUM-JOURNAL-CAPACITY-2026-10-25.md.
+
+
+### Journal-capacity client and actual six-Case preflight — 2026-10-25
+
+Clean `905715d0`/source `6fa1dd72`, standalone `45ccc16c` (110312432 bytes),
+signed GUI `19de691d` and handoff `ee6aaed1` pass independent pin/signature/byte
+review. All 5409 Git blobs, 270 frozen inputs and 443 target Python tests/three
+explicit skips pass; four signed worker closures remain exact without Author/Sign.
+Actual frozen-SSH metadata agrees with independent accounting: 59/128 Cases,
+69 available, six requested, projected 400449/1048576 bytes including full-record
+growth, with no reservation or journal write. The private observer's initial
+system-Python API refusal is preserved and corrected without rebuilding product.
+
+All 1622 old file observations/388 directory identities/controller remain exact;
+only sixteen new GUI files/six directories are added. Journal 421/59, zero claims
+and finite authority stay unchanged. Nineteen selected members/four artifacts
+pass full primary readback. Stopped r18 remains registered. No permission probe,
+manager, native run, retirement, renewal, recovery, migration or merge follows;
+P096-005 stays partial. Fresh native/two-pass consent and separate actual restart
+remain required. See the review at node:docs/audits/REVIEW-SENSORIUM-JOURNAL-CAPACITY-CLIENT-2026-10-25.md.
+
+
+### Released-r18 retirement review prepared, not consumed — 2026-10-26
+
+Verified administrator `905715d0` prepared exact normal released-Case review
+`20574413` for r18→r19. Independent canonical digest, four target-only source
+projections, expired host/runtime grants and binding, completed predecessor,
+journal/consent/controller and idle resources pass. R18 remains registered;
+r19 is not reserved and RETIRE-P21 approval is pending. All 1638 old content/key
+observations and 394 directory identities remain; only the review is added.
+A sole SQLite ctime change preserves all other fields and is consistent with
+the normal permission path, without an OS-traced cause. Journal 421/59/zero claims
+and finite expiry remain unchanged. Four closed proof members pass primary
+readback; raw configs and snapshots are excluded. No retirement, new grant,
+hardware, renewal, recovery, migration or merge; P096-005 partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R18-RETIREMENT-PREPARED-2026-10-26.md.
+
+
+### Unarmed r19 plan and post-restart collector — 2026-10-26
+
+Private preparation binds existing `905715d0` / source `6fa1dd72`, GUI `19de691d`
+and handoff `ee6aaed1`; both launch barriers remain unarmed. Review fixes marker-to-
+reservation inference, unchecked saved prior results, frozen dependency coverage,
+closed plan boundaries and blocking special-file reads. The complete offline
+entry preserves stored inputs and refuses output reuse. Forty-seven local tests
+pass without errors/failures/skips. All ten records share the retained software
+tuple `f844ccf0`, with nine earlier records byte-equivalent and one restart record
+added; source `5ca01fce` / software image `af176f24` remain synthetic. This does not
+execute the current GUI image or prove an actual new kernel restart.
+
+Forty-nine selected source/test/proof members pass primary readback (`a102d7c3` /
+`aa2fb02d`); original refusals and before-review bytes/modes remain. No SSH,
+retirement, renewal, native run, reset, recovery, migration or merge occurs.
+R19 stays proposed and the recorded authority expiry has passed; actual normal
+retirement, renewed authority, fresh readiness/TCC/native scope, separately approved
+actual restart and independent final native export remain. P096-005 stays partial.
+See the review at node:docs/audits/REVIEW-SENSORIUM-R19-UNARMED-COLLECTOR-2026-10-26.md.
+
+
+### Independent two-pass safety export — 2026-10-26
+
+An offline extension connects the reviewed unarmed r19 collection to the normal
+store/export owner and separately invoked frozen safety qualifier. Eleven local
+checks pass. Canonical JSON comparison closes Python bool/numeric aliases in
+saved evidence and completed reports. The normal exporter writes six source
+Cases and ten exact records in nineteen store files, preserving synthetic origin
+and tuple `f844ccf0`; the independent qualifier correctly refuses native acceptance,
+including a source-label-only relabel. A handoff is kept outside the closed store.
+Thirty-seven source/test/example/refusal members pass primary readback (`950a7275` /
+`a1a01cce`). Prior preparation/releases and all thresholds remain unchanged.
+No SSH, hardware, authority change, retirement, reset, recovery, migration or
+merge occurs; actual native/full-tuple/separately approved restart and passing
+independent real-device qualification remain. P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-INDEPENDENT-EXPORT-2026-10-26.md.
+
+
+### R19 authority review prepared, awaiting approval — 2026-10-26
+
+Fresh SSH metadata confirms expired authority, journal 421/59, zero claims,
+stopped registered r18 and unconsumed retirement `20574413`; r19 is unreserved.
+Verified administrator `905715d0` prepares exact renewal review `43a37121` for
+the same controller/discovery scope, TTL 14400 s and prospective expiry
+2026-10-26T12:20:11Z. The approval window elapsed at 08:35:11Z without agent
+consumption; a fresh review/approval is required. No renewal is executed. Independent
+canonical review checks twelve protected positions, including four explicit
+absences, and preserves the expired p21 sibling. All 1639 prior file observations/
+394 directory identities/controller remain, with the disclosed SQLite ctime-only
+exception; only the review is added. Seven closed proof members pass primary
+readback (`c55d3098` / `b578bf89`). No manager, scan, acquisition, retirement, reset,
+recovery, migration or merge occurs. Separate exact approval/live checks and
+supported retirement refresh remain before any fresh physical delegation.
+P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-AUTHORITY-PREPARED-2026-10-26.md.
+
+
+### Approved r19 authority renewal — 2026-10-26
+
+Expired `43a37121` was preserved without execution. Fresh exact review `984224f0`
+was independently checked, explicitly human-approved and committed once by the
+pinned administrator. Same-scope controller/discovery authority expires
+2026-10-26T13:28:18Z (14:28:18 CET), anchored to the reviewed preparation.
+Closed writes, all 1641 prior observations/394 directory identities, twelve
+protected positions and expired p21 sibling preservation pass; the SQLite
+ctime-only exception is disclosed. Journal 421/59, consent, zero claims and
+unconsumed r18 review `20574413` remain. R19 is not reserved. Seven closed proof
+members pass primary readback (`aad5055b` / `60c594bb`). No p21 grant, retirement,
+Bluetooth, reset, recovery, migration or merge occurs. Supported retirement
+review refresh and its separate approval precede fresh physical delegation;
+P096-005 remains partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-AUTHORITY-RENEWED-2026-10-26.md.
+
+
+### Approved r18→r19 retirement — 2026-10-26
+
+Supported archival preserves stale `20574413` byte-for-byte and prepares fresh
+`eedd2720` against current controller policy. The operator separately approves
+that exact review; one normal commit completes and reserves r19. Four live source
+projections and durable marker match; normal inventory is applied. Only expired
+r18 grant/plan/binding/receipt are removed; discovery r5/authority remain unchanged.
+Journal 421/59, consent and zero claims remain. Normal configuration/binding
+journals advance intentionally; no raw SQLite byte-identity claim is made.
+Other source observations and 394 directory identities are preserved, with the
+usual disclosed SQLite ctime exception. Prepared six-member and completed
+four-member proofs pass primary readback (`819d029d` / `9d423ed5`). No p21 grant,
+consent, hardware, reset, recovery, migration or merge occurs. R19 is reserved,
+unregistered; fresh execution-copy/readiness/TCC/native and separately approved
+actual restart remain. P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R18-RETIREMENT-COMPLETED-2026-10-26.md.
+
+
+### Conditional r19 preparation after completed retirement — 2026-10-26
+
+The new `5d9ee9eb` plan binds actual completed retirement `eedd2720`, current
+source/image/package/handoff and four copied harness hashes. Immutable unarmed
+`6477ab8c` remains unchanged; normalized operational AST bodies are identical.
+Review fixes isolated helper import resolution; nine guard tests pass, including
+actual isolated entry and refusal before SSH without fresh delegation. A separate
+metadata-only SSH read matches 1644 files/394 directories/controller after
+retirement: claims zero, journal 421/59, authority to 2026-10-26T13:28:18Z. No live
+approval, permission, operator facts or native output is inferred. The 25-member
+private capsule passes primary readback (`ae99ef9c` / `9bc3b85e`). Fresh readiness,
+firmware/TCC and actual six-session/restart/native qualification remain open;
+P096-005 stays partial. No product rebuild, thresholds, hardware, recovery,
+migration or branch merge. See node:docs/audits/REVIEW-SENSORIUM-R19-CONDITIONAL-PREPARATION-2026-10-26.md.
+
+
+### R19 native two-pass result — 2026-10-26
+
+Fresh scoped readiness, firmware 1.0.25 from Muse iOS, exact-client allowed
+permission and bounded TCC attribution precede six actual WEAR decisions. Five
+ordinary sessions release and yield seven records; the controlled native fault
+exits its worker, keeps its claim and supplies two more valid records under one
+full tuple (`cf22826c`). All original gates pass for those nine records. Overall
+unmodified collection still exits 2: no restart checkpoint; only
+restart-unclosed-marker is missing. Checkpoint failure details were discarded, so the exact historical refusal is
+unknown. A retained, hash-verified real-controller test proves a lock-lifetime
+hazard in the entry whenever unresolved owners still hold custody. Software used a borrowed cfg(test)
+view and did not cover that entry mismatch. Root journal is 465/65 Cases, one
+claim retained; 44 target reports are retrieved exactly. The 83-member private
+capsule passes primary readback (`572b5726` / `f531c376`). No native retry, restart,
+reset, recovery or merge. P096-005 remains partial; prospective production-path
+fix and device-free regression remain next. See node:docs/audits/REVIEW-SENSORIUM-R19-PARTIAL-NATIVE-2026-10-26.md.
+
+
+### Production checkpoint custody regression — 2026-10-26
+
+Node implementation checkpoint: `cb98a5df`.
+
+Prospective restart capture borrows the existing controller and affine Case
+writer, verifies exact fenced history and preserves closed refusal diagnostics.
+The first actual software regression exposed a second writer re-acquisition;
+that defect is fixed without changing any qualification gate. The normal runner
+now passes six software episodes/ten records/one synthetic tuple (`7e0f6aaf`) in
+144.35 s, using its production-generated checkpoint. One hundred standard Rust
+checks, the explicit full composition, 445 Python checks (three skipped) and
+non-test compilation pass; eight ordinary owner opt-ins remain explicitly skipped
+in that filter. Private 108-member proof passes byte readback (`b1c4cfe9` /
+`4c4d4350`), with current retention metadata and unresolved ownership/holds/minimum
+retention/restoration/replicas left unknown. Native r19 stays nine records with
+its missing checkpoint and unknown historical refusal; no software/new-candidate
+record can fill that tuple. No device, target mutation, restart, recovery or merge.
+P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-CHECKPOINT-CUSTODY-2026-10-26.md.
+
+
+### Pinned checkpoint-custody target client — 2026-10-26
+
+Node preparation checkpoint: `18e6f023`; compiled source remains `cb98a5df`.
+
+Clean `cb98a5df` now supplies target source `e44497a1`, standalone `03f0d476`,
+actual signed GUI `7d2b8ae6` and handoff `886d530c`. Independent 5409-Git-blob,
+loaded-payload/signature checks and 270 frozen target inputs pass; 445 target
+tests pass with three explicit skips. Existing four signed worker closures match
+and are unchanged. Rootless signed launchd preflight creates no Bluetooth manager
+or authority; this image's Bluetooth permission remains unknown. All 1695 old
+files/399 directory identities/controller observations are exact; only a new
+16-file/six-directory capsule is added. Root journal465/65 Cases, one held claim
+and expired authority remain unchanged; no admission/capacity claim follows.
+The 399-member private preparation set passes byte readback (`a4e3400a` /
+`d02bc430`), with unresolved retention facts left unknown. No device, renewal,
+recovery, retirement, migration or merge. Native r19 remains nine records;
+P096-005 stays partial. Fresh authority and separately approved reconciliation
+precede fresh physical readiness and an actual separately approved restart.
+See node:docs/audits/REVIEW-SENSORIUM-CHECKPOINT-TARGET-2026-10-26.md.
+
+
+### R19 Bluetooth reconciliation and same-scope renewal — 2026-10-26
+
+Node checkpoint: `c43cf4b6`; P096-005 remains partial.
+
+The original compatible pinned administrator preserves baseline `4b8e99cc`,
+prepares v4 `1c97486c` and, after one refused observation and a separately approved
+new one, records OFF/ON proof `5d5bcdc1` (2998 ms off). Separately approved recovery
+completes marker `1f1b72de`: only the exact acquisition resource/old claim are
+removed, generation changes and expired policy remains unchanged. Renewal must
+follow reconciliation; it cannot bypass the unresolved Case. The new pinned
+client prepares/commits separately approved review `2d32bad7` after unexecuted
+`9bacacc7` expires. Same-scope owner/discovery expiry is 20:23:56 CET; expired p21
+r19, journal465/65, consents and history are preserved. Controller/resources are
+free; no p21 retirement/grant, scan, acquisition, host restart or merge occurs.
+The private 459-member proof passes byte readback (`71150e83` / `651c264f`), with
+unknown retention facts and a disclosed read-store ctime-only exception. Original
+native nine-record tuple stays incomplete; P096-005 remains partial.
+See node:docs/audits/REVIEW-SENSORIUM-R19-RADIO-RECONCILIATION-2026-10-26.md.
+
+
+### R20 operational prerequisite and collector readiness — 2026-10-26
+
+Node checkpoint: `377511b8`.
+
+Supported, separately approved retirement of expired r19 has reserved r20 while
+preserving consent, recovery and Case history. Reused collection contracts cover
+the ten original records in software; no new native or actual-restart evidence
+is inferred. P096-005 remains partial, with fresh interactive headband/firmware,
+exact-client access, one complete new native tuple and separate actual-restart
+approval still required. See node:docs/audits/REVIEW-SENSORIUM-R20-CONDITIONAL-PREPARATION-2026-10-26.md.
+
+
+The independent r20 emergency Case's later restart observation uses the existing
+read-only GUI observer, rather than the formal campaign-directory adapter. Its
+inert recipe has software coverage only; separate actual-restart approval and
+measured native completion remain open. See the follow-up in
+node:docs/audits/REVIEW-SENSORIUM-R20-CONDITIONAL-PREPARATION-2026-10-26.md.
+
+
+### Native r20 and legacy checkpoint custody — 2026-10-26
+
+Status: P096-005 remains partial. One freshly approved ordinary five-session run
+and one separately granted emergency session use source `e44497a1` / GUI
+`7d2b8ae6`, fresh Muse iOS firmware 1.0.25 and current OS Bluetooth attribution.
+The unchanged collector validates nine record types under one native tuple
+`83aaf244`; no actual host restart is observed. Ordinary sessions release; the
+injected hang retains exactly its uncertain claim after verified worker exit
+and durable audit. Its checkpoint is null with `case-journal-refused`.
+
+Read-only diagnosis reproduces the failure at source collection: the older root
+has `control/0755`, while the checkpoint demanded a 0700 marker parent there.
+Normal confined source reads are now reused and new create-only 0600 checkpoint
+files live under the already private 0700 root. Existing control modes and files
+are not migrated. Frozen control-location markers retain their original strict
+parent check; ambiguous locations, links and unsafe modes refuse. Candidate,
+boot, journal, source, resource, claim and protected-stop requirements stay intact.
+
+The fix is prospective. Old output and quarantine are not changed or qualified
+by later software tests. Fresh headband readiness precedes any later native run;
+actual host restart and recovery remain distinct approvals. See
+node:docs/audits/REVIEW-SENSORIUM-R20-NATIVE-CHECKPOINT-2026-10-26.md.
+
+
+### Prepared private-root checkpoint client — 2026-10-26
+
+Source `fea95dd1` / pin `6aedb062` and signed GUI `76aee865` are prepared on the
+nearby host. Independent source/signature/payload checks, 270 exact inputs and
+445 software checks (three skips) pass. Worker packages are unchanged; old root
+files, history and the r20 uncertain claim are preserved. Permission readiness,
+actual native/restart proof and supported reconciliation remain separate. No
+manager, acquisition, renewal, recovery, root migration or merge occurs. The
+388-member private artifact set is read back and hashed, with unknown owner,
+minimum retention, dependency/hold completeness and replica guarantees protected.
+P096-005 remains partial; the new artifact does not complete frozen tuple `83aaf244`.
+See node:docs/audits/REVIEW-SENSORIUM-LEGACY-CHECKPOINT-CLIENT-2026-10-26.md.
+
+
+### r20 Bluetooth recovery observation — 2026-10-26
+
+The separately approved single OFF/ON observation for v4 `05f313fe` completes
+with 3739 ms off and confirmed observer exit. Proof `eb4a2c9a` binds the reviewed
+historical administrator/source, current boot and four worker-absence checks.
+Eleven protected source slots, journal 509 / 71 Cases, controller and resource
+bytes are unchanged; the claim/quarantine remain held. A read-store ctime-only
+exception has unknown cause and is not claimed as full metadata preservation.
+
+The predecessor baseline is archived byte for byte. New client provenance is
+not substituted into this historical recovery epoch. Shared bounded readback
+verifies separate preparation and actual-observation archives; unknown custody,
+retention, hold/dependency completeness, restoration and replica guarantees stay
+protected. No acquisition, host restart, renewal, claim release or merge occurs.
+RECOVER requires a separate exact approval. This Bluetooth proof cannot fill the
+missing restart checkpoint of native tuple `83aaf244`; P096-005 stays partial.
+See node:docs/audits/REVIEW-SENSORIUM-R20-BLUETOOTH-OBSERVED-2026-10-26.md.
+
+
+### r20 Bluetooth recovery completed — 2026-10-26
+
+One separately approved RECOVER-BLUETOOTH completes review `05f313fe` and proof
+`eb4a2c9a`. Independent marker `b874b653` readback confirms the exact reviewed
+controller policy, free controller and removal of the selected acquisition
+resource only. Journal 509 / 71 Cases, history, consent and eleven protected
+source slots remain exact. A read-store ctime-only exception has unknown cause.
+
+Cleanup custody remains separate from expired operation authority; no grant is
+renewed. Private retention verifies all 45 selected members with unknown custody
+facts protected. No scan, measurement, actual host restart, retry or merge runs.
+R20 retirement, fresh operation authority and interactive headband readiness
+remain separate. The frozen native tuple `83aaf244` lacks its runtime checkpoint;
+this disposal does not complete P096-005. See
+node:docs/audits/REVIEW-SENSORIUM-R20-RECOVERY-COMPLETED-2026-10-26.md.
+
+
+### Legacy-control completeness and r21 readiness — 2026-10-26
+
+Two actual private-runner software compositions each complete six sessions and
+all ten required record types: 0700/tuple `1ae924f9` and legacy0755/tuple
+`e631599d`. The same scenario table, owners, checkpoint, collector, Schema Gate
+and semantic evaluator are used. The control mode is preserved. Independent
+recapture checks twelve owner outputs and twenty records. Scan/SDK and kernel
+boundary remain explicitly synthetic; no actual host restart is inferred.
+
+Test source `40ab50d4` / image `6e05b3b9` fits the unchanged 128-MiB bound with
+assertions/overflow checks retained. Comparison with prepared source `6aedb062`
+finds only a test-only helper and acceptance README differ. No native tuple is
+promoted. Separate exact approvals complete renewal `f9019882` through
+2026-10-27 00:48:18 CET and target-only retirement `ccfc1484`: controller free,
+r21 reserved, discovery r5 and journal 509/71, Case history and consent preserved.
+No p21 grant, WEAR, Bluetooth, actual restart or merge runs.
+
+Private operational and software archives pass every-member fresh readback;
+unknown custody, retention, complete holds/dependencies, restoration and replica
+facts stay protected. Native tuple `83aaf244` remains incomplete. Fresh headband
+readiness and a separately approved actual restart remain required; P096-005
+stays partial. See node:docs/audits/REVIEW-SENSORIUM-LEGACY-COLLECTOR-COMPLETENESS-2026-10-26.md
+and node:docs/audits/REVIEW-SENSORIUM-R21-READINESS-2026-10-26.md.
+
+
+The r21 execution plan remains unarmed. All 47 software guard and post-restart
+collector checks pass on the fresh legacy reports; a stale fixture import path
+is corrected without relaxing exact-import validation. Read-only capacity has
+57 Cases available for six required and projects 474189/1048576 bytes. Exact
+release/GUI files and strict signatures pass metadata-only verification without
+a permission manager. The 32-member private set passes every-member readback
+with unknown custody facts protected. Fresh hardware readiness and current
+Bluetooth permission remain required; P096-005 is partial.
+
+
+### r21 permission-only observation — 2026-10-26
+
+A fresh one-use approval runs the normal prepared `6aedb062` / signed GUI
+`76aee865` permission-only SSH command, after exact release/closure and signature
+checks. Bluetooth is allowed, manager cleanup and observer exit are confirmed,
+and no SCAN, headband acquisition, registration, reset or recovery occurs.
+The immutable output's unverified responsible-process projection remains intact;
+six separate current OS attribution events identify the exact Orbiplex client
+within the actual invocation interval. No system-wide process inventory is
+collected; selected private events contain ephemeral PIDs.
+
+Read-only comparison preserves all root/controller observations, journal 509/71,
+zero claims, discovery r5 and reserved unregistered r21. Authority remains valid
+through 2026-10-27 00:48:18 CET. The 25-member private proof passes fresh archive
+readback with explicit unknown custody/retention facts protected. Software
+preparation remains 47/47; the plan is unarmed, and fresh interactive headband
+readiness/firmware plus a separately approved actual restart remain mandatory.
+P096-005 stays partial; no native tuple or release readiness is promoted and no
+branch merge occurs. See node:docs/audits/REVIEW-SENSORIUM-R21-PERMISSION-2026-10-26.md.
+
+Node's complete light gate records a pre-existing cumulative Git-history refusal
+in the host-control evidence area: 1079179 bytes against 1048576. This permission
+checkpoint adds no governed payload and changes no policy, checker or historical
+ref. Focused ledger/header/path and Orbidocs JSON/schema-sync checks pass; full
+workspace retention qualification is not claimed. The dated Node review retains
+this separate repository blocker without weakening any limit.
+
+Node permission checkpoint: `bf2c6563`; P096-005 remains partial.
+
+
+### r21 native ordinary sequence and budget refusal — 2026-10-26
+
+Fresh approval covers the ordinary pass and a conditional fault pass. Exactly
+five WEAR sessions execute on source `6aedb062` / GUI `76aee865`; the sixth WEAR
+and fault session never start. Firmware 1.0.25 is freshly reported from Muse on
+iOS. Current permission/OS attribution, SCAN/BIND/REGISTER, five sessions and the
+negative expired-grant probe complete. Each session confirms exact exit,
+cleanup, durable audit and controller release. Driver exit 0 / 304154 ms is an
+orchestration result; the outer qualification batch exits 2 before fault admission.
+
+`Current-authority-before-effects` measures 21829 ms against unchanged 15000 ms:
+about 10.707 s activation-to-permit, 1.339 s permit-to-SDK entry and 9.782 s native
+prepare, with one prepare attempt. Independent unchanged diagnostic checks pass
+six other records under full tuple `5cfb9ba6`, preserving the original batch
+plan/refusal and input hashes. This is no passing full run. Hung-worker-stop,
+uncertain-cleanup-retains-claim and restart-unclosed-marker are unexecuted.
+No measurement interval is shortened and no threshold is raised.
+
+Post-run journal 546/76, zero claims and free controller are observed. R21 remains
+registered with expired finite grant. No retirement, renewal or recovery runs.
+The 55-member private original set passes full archive readback with unknown
+retention/custody facts protected. Current policy bytes are retained; builds/cache
+stay separate. Further stage-level software measurement is needed before naming
+a slow function. P096-005 stays partial; no reset, actual restart, sequence retry
+or merge occurs. See node:docs/audits/REVIEW-SENSORIUM-R21-NATIVE-2026-10-26.md.
+
+Node native checkpoint: `21940ebe`; exactly five WEAR sessions executed, fault pass unexecuted, P096-005 partial.
+
+
+### r21 device-free runtime-integrity measurement — 2026-10-26
+
+A generic ignored supervisor test calls the unchanged production integrity
+verifier three times on hash-matched r21 runtime data. Release measurements are
+1099/554/548 ms for 820 explicit files and two trees containing 2413 files.
+Initial cache state and the actual startup's full-verification count remain
+unknown. This measures one primitive, not the complete host admission path or
+native preparation, and changes no qualification window or threshold.
+
+Eight software controls and release clippy pass. Review makes profile input
+nonblocking/no-follow before bounded regular-file parsing. No interpreter, SDK,
+worker, controller or Bluetooth manager is invoked. Expired registration data
+is read as data and supplies no authority. The private 56-member proof passes
+fresh every-member readback with unknown custody/retention facts protected.
+The existing r21 native refusal remains immutable; startup-stage intervals are
+the next diagnostic step. P096-005 stays partial. No headband, normal-root write,
+grant update, recovery, reset or merge occurs. See node:docs/audits/REVIEW-SENSORIUM-R21-RUNTIME-INTEGRITY-PROFILE-2026-10-26.md.
+
+Node read-only profile checkpoint: `c33f7531`; native P096-005 remains partial.
+
+
+### Bounded startup-stage observations — 2026-10-26
+
+The existing Node acquisition trace now records ten immutable first-entry slots
+and nine fixed adjacent monotonic durations. Missing or reversed clocks stay
+unknown. The optional closed diagnostic is engineering data, never authority or
+a replacement qualification clock; the 15-second before-effects gate stays
+unchanged. Owner documentation distinguishes local intervals from cross-process
+clocks and excludes pre-entry scheduling from this projection.
+
+Software tests and one six-session production-owner composition prove collection:
+all ten records under one synthetic tuple and all nine startup intervals in each
+session. Independent recapture uses the actual Schema Gate and unchanged
+semantic evaluator. The original r21 native inputs and 21829/15000 ms refusal
+stay immutable. This does not prove a native speedup or permit integrity caching.
+A fresh pinned client and separately approved native trial remain prospective;
+fault cleanup and actual host-restart evidence stay open. P096-005 remains
+partial. See node:docs/audits/REVIEW-SENSORIUM-R21-STARTUP-INTERVALS-2026-10-26.md.
+
+The private 84-member software proof passes every-member byte readback; owner,
+minimum retention, complete holds/dependencies, restoration and replica floor
+remain unknown and protected. No public-retention or native qualification follows.
+
+Node startup diagnostic checkpoint: `3a13f8cc`; native P096-005 remains partial.
+
+
+### Prepared startup diagnostic client — 2026-10-26
+
+Clean Node `3a13f8cc`, source pin `45b365d2`, is now prepared nearby with the
+bounded startup diagnostic projection and matching strict client. Standalone
+`947c558c` / GUI `8a4ec1c4` pass strict signatures and rootless launchd checks.
+The actual target verifies 270 frozen inputs and runs 446 software tests (443
+pass, three explicit opt-ins skip). Four existing package signatures and exact
+worker source closures pass without package mutation. Every prior root file
+observation and journal546/76 stay intact; only the fresh client capsule is added.
+
+The 428-member private proof passes every-member byte readback; unknown custody
+and retention facts stay protected. No Bluetooth permission, device operation,
+registration change, recovery, restart or native speedup is claimed. Stopped r21
+must use its supported separately approved transition before fresh readiness and
+WEAR. The native 21829/15000 ms refusal and missing fault/restart evidence remain
+unchanged; P096-005 stays partial. See
+node:docs/audits/REVIEW-SENSORIUM-STARTUP-DIAGNOSTIC-CLIENT-2026-10-26.md.
+
+Node prepared-client evidence checkpoint: `ef5ac216`; the executable source remains `3a13f8cc`.
+
+
+### Released r21 review after resume — 2026-10-28
+
+Historical review b223f641 passes independent source/release/history checks and
+seven refusal controls, preserving one explicit read-store ctime exception.
+After separate current approvals, exact 24-helper SIGTERM maintenance, same-scope
+renewal d56a0b48 and fresh retirement 2aa65f18 complete. The old review is archived
+byte for byte; r21 is retired and r22 reserved without a p21 grant or consent.
+Four reviewed source projections match; journal 546/76, consent, predecessor and
+idle resources remain exact. Owner/discovery expire at 2026-10-28 14:39:38 CET.
+
+One separately approved permission-only preflight of prepared GUI 8a4ec1c4 reports
+allowed, confirmed cleanup and observer exit. All 1863 root file observations,
+425 directory identities and controller state remain exact. Its TCC responsible
+attribution remains unverified. No SCAN, acquisition, recovery, host restart or
+merge occurs. Four additive private sets (52/114/43/44 members) pass fresh byte
+readback; unknown custody and retention facts stay protected.
+
+P096-005 remains partial. This lifecycle/permission evidence does not change the
+native 21829/15000 ms refusal, identify a startup speedup, qualify missing native
+fault cleanup or substitute for the separately approved actual host restart.
+Fresh headband readiness precedes any physical diagnostic. The bounded convergence
+review keeps release/recovery, historical/current authority, renewal/retirement
+and diagnostic/qualification contracts separate while reusing existing owners.
+See node:docs/audits/REVIEW-SENSORIUM-R21-RELEASED-RETIREMENT-2026-10-28.md.
+
+Node operational evidence checkpoint: `af2fc218`; executable source remains `3a13f8cc`.
+
+
+### Ordinary r22 startup diagnostic — 2026-10-28
+
+One freshly approved normal p21 Case through prepared source 3a13f8cc / GUI
+8a4ec1c4 completes SCAN/BIND/REGISTER/WEAR, exact exit, confirmed cleanup,
+durable audit and controller release. Both required presets are observed; no
+operation timeout/retry occurs. All nine bounded startup intervals are present:
+admission-to-running is 9355.987750 ms, including ready-to-running 5662.097125 ms.
+These host diagnostic clocks are not the 15000 ms qualification interval, an
+isolated SDK prepare duration or proof of a particular performance fix.
+
+Journal becomes 555/77, all 76 old Cases remain exact, and resources/controller
+are idle. The late configuration-refused observation is recorded with effects
+already fenced and does not replace the RunCompleted first cause. The 58-member
+private proof (manifest 2d6816db / archive a2968f5f) passes complete byte readback;
+unknown custody/retention facts stay protected. Firmware is historical only.
+No fault, grant revocation, reset, recovery, actual restart or merge occurs.
+
+P096-005 remains partial. The ordinary package cannot be relabelled as the
+campaign package or combined with incompatible historical tuples to fill the
+six/two/two origin matrix. The current source-to-owner audit preserves all ten
+required records, native corroboration, original thresholds and the actual
+host-restart condition. Full compatible native ordinary/fault evidence and the
+separately approved actual restart are still required. See
+node:docs/audits/REVIEW-SENSORIUM-R22-STARTUP-DIAGNOSTIC-2026-10-28.md.
+
+Node native-diagnostic checkpoint: `3adb00be`; executable source remains `3a13f8cc`.
+
+
+The following read-only signed-client six-Case capacity gate passes: 77/128 used,
+51 available and 511059 projected bytes below 1 MiB. No capacity is reserved.
+A prospective unarmed 5+1 plan preserves the ten required origins, reuses the
+future baseline for the fault Case and requires separate actual restart approval.
+R23 remains unreserved and execution unapproved; supported r22 handling must wait
+for the observed binding expiry at 12:10:37 CET. Missing approvals, firmware and
+future source/checkpoint references remain absent. The 24-member private proof
+(manifest 9034c438 / archive 18b0d910) passes byte readback with unknown custody
+protected. P096-005 remains partial; no new device session or source change occurs.
+
+Node unarmed-follow-up checkpoint: `a084c4bb`; executable source remains `3a13f8cc`.
+
+
+A follow-up source review corrects only the unarmed plan harness binding to the
+actual signed GUI inventory. Original plan/capacity evidence stays immutable;
+v2 plan 3f01cd46 and its 19-member supplement (manifest 4de934fd / archive a5aa1c69)
+pass source/byte review. No authority, execution, source code, threshold or P096-005
+qualification status changes.
+
+Node plan-binding review checkpoint: `83d566ec`; executable source remains `3a13f8cc`.
+
+
+### Current-pin unarmed full-runner integration — 2026-10-28
+
+New prospective r23 working recipes bind the prepared current client while
+leaving the exact retirement review/receipt and execution approval absent.
+Forty-eight local tests pass, plus three actual isolated entry refusals before
+SSH/native work. Current-collector reassembly of previously measured software-SDK
+inputs preserves nine original records and adds only the tenth under synthetic
+tuple a361e875. This is fresh software composition, not a new owner SDK run,
+physical-origin matrix or actual host restart.
+
+Review corrects the exact released-case receipt expectation and a review-digest
+test fixture whose broad scope hid the intended transitive dependency check.
+Campaign-plan GUI-inventory and source-report qualifier harness preimages retain
+distinct owners. No authority or readiness is inferred, no old approvals are
+copied, and production source/thresholds remain unchanged. The 56-member private
+set (manifest e31950a3 / archive c99159ef) passes byte readback with unknown custody
+protected. P096-005 remains partial until full compatible native evidence and a
+separately approved actual restart qualify. See
+node:docs/audits/REVIEW-SENSORIUM-R23-UNARMED-RUNNER-2026-10-28.md.
+
+Node current unarmed-runner checkpoint: `bbbeb86d`; executable source remains `3a13f8cc`.
+
+
+### Expired r22 retirement and configured r23 recipe — 2026-10-28
+
+After observed binding expiry, one bounded foreground task prepares exact review
+1565525a. Independent four-source/release/history/consent checks pass. The operator
+separately approves it and one signed-client commit completes r22 retirement,
+reserving r23 without grant or consent. Four final documents match the proposal;
+journal 555/77, consent, predecessor and idle claims remain exact, with the explicit
+read-store ctime-only exception. Controller/discovery authority remains finite
+through 14:39:38 CET and is not renewed by retirement.
+
+The configured current-pin 5+1 recipe binds the real completed receipt. Fresh
+operator delegation, firmware, permission and readiness inputs remain absent;
+three actual isolated entries refuse before SSH/native effects. The earlier
+48-test unarmed/software proof remains separate and no synthetic approval is
+copied. Private 44/55-member sets (manifests 75eb7a52/f9c6c6af) pass byte readback
+with unknown custody protected. No device session, recovery, actual restart or
+merge occurs. P096-005 remains partial; full compatible native ordinary/fault
+records and separately approved actual restart still need qualification. See
+node:docs/audits/REVIEW-SENSORIUM-R22-RETIREMENT-R23-CONFIGURED-2026-10-28.md.
+
+Node r22-retirement/r23-configuration checkpoint: `d1964824`; executable source remains `3a13f8cc`.
+
+
+### R23 partial native sequence and separately reproduced UI defect — 2026-10-28
+
+One freshly approved sequence supplies two valid physical-native baseline rows
+under full tuple da3061ef (authority 9433/15000 ms, consent 6195/15000 ms). It stops
+before the second WEAR after the view wait; the operator reports both clicks,
+but the precise original view failure remains unknown. Both Cases are released,
+journal 570/79 and idle resources/controller are observed. Eight rows remain;
+no further session, fault, reset, recovery or host restart occurs.
+
+A separate device-free reproduction establishes that losing an accepted preview
+stop reply strands the old UI. The correction reuses owner-observed stopped state
+and a fresh explicit rendering confirmation, without replaying stop or inferring
+WEAR. Hidden/fenced checks and all qualification thresholds stay unchanged.
+Closed client view refusal codes improve future diagnosis. Python448 discovers
+445 pass / three skips; focused view tests cover lost-response recovery and
+hidden/fenced refusals. The private 70-member proof 45a9295c/36df9207 passes full
+byte readback; unknown custody remains protected. This fix is not deployed or
+hardware-qualified. P096-005 remains partial; a new pinned build, fresh scope and
+compatible native/fault evidence plus separately approved actual restart remain.
+See node:docs/audits/REVIEW-SENSORIUM-R23-PARTIAL-PREVIEW-RECOVERY-2026-10-28.md.
+
+Node r23 partial-run/preview-recovery checkpoint: `12b0c29b`; measured executable source remains `3a13f8cc`.
+
+
+### Fixed preview client prepared — 2026-10-28
+
+Source 12b0c29b / digest 957562f1 is independently pinned over 5409 Git blobs and
+built without incremental state. Standalone 2582451b / signed GUI da7bf9bc /
+handoff c5caffc2 pass device-free staging and 448 nearby tests (445 pass / three
+skips). Four signed worker closures remain unchanged, 270 frozen inputs match,
+and no SDK is imported by the external runtime check. All 1899 old file
+observations and 433 directory identities remain exact; only the new GUI capsule
+is added. Journal 570/79, stopped r23 and idle controller are preserved.
+
+The private 378-member proof 2ff31839/fbe79e45 passes complete primary readback;
+unknown custody remains protected. No Bluetooth permission, device effect, grant,
+retirement, recovery or merge occurs. Preparation is not native qualification:
+r23's two physical rows retain their old candidate, eight rows remain missing,
+and actual fault/restart evidence requires fresh separate decisions. See
+node:docs/audits/REVIEW-SENSORIUM-PREVIEW-RECOVERY-CLIENT-2026-10-28.md.
+
+Node fixed-client preparation checkpoint: `dae6853d`; its executable source is `12b0c29b`.
+
+
+A later separate exact approval permits one permission-only observation of this
+new GUI: allowed, confirmed not-scanning cleanup and observer exit, with all
+1915 root files / 439 directory identities and controller state preserved.
+Four current correlated TCC log records separately establish responsible-image
+attribution; their original event time and the raw preflight's unverified field
+are preserved. The additional private 32-member proof e10a46e6/f32a2d41 passes
+full byte readback with unknown custody protected. No SCAN, WEAR, retirement,
+authority renewal or recovery is implied. P096-005 remains partial. See the
+separately approved permission addendum in the linked Node review.
+
+Node permission observation checkpoint: `4589b0df`; executable source remains `12b0c29b`.
+
+
+### Directly authorized r23 removal, r24 reserved — 2026-10-28
+
+The operator requests removal of the current r23 binding, initially asking for
+force, then acknowledges expiry. The original waiting task is cancelled before
+preparation. The client has no force route: normal review ce440893 is prepared
+after actual expiry, independently checked and consumed once. The human authorizes
+the direct current-binding action rather than preapproving its later exact digest;
+private records preserve that distinction and concrete scope verification.
+
+Four final sources and completed marker match. R24 is reserved without grant or
+consent; journal 570/79, consent/history, controller and idle resources are preserved.
+The known read-store ctime-only exception remains explicit. Private 81-member
+proof 342eb6c2/5d440951 passes full readback with unknown custody protected.
+No force bypass, new administrative feature, native effect, recovery, host restart
+or merge occurs. Early binding revocation remains P096-009 lifecycle scope;
+P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-R23-BINDING-REMOVAL-2026-10-28.md.
+
+Node r23-removal/r24-reservation checkpoint: `a6c37cc1`; no acquisition is authorized by it.
+
+
+### Fixed-client r24 runner preparation — 2026-10-28
+
+Completed retirement ce440893 binds a configured r24 working recipe to fixed
+source 12b0c29b / GUI da7bf9bc, without copying old physical approval. Review fixes
+transitive Python integrity before pre-effect imports and reuses that same byte
+check in the offline restart collector. Fifty software tests and three actual
+isolated no-scope refusals pass. Fresh current collector/Schema Gate assembly
+preserves nine software records and adds one synthetic restart row; all ten stay
+synthetic-fixture, with no new owner run or actual restart.
+
+Read-only SSH preserves 1917 protected files/439 directory identities, journal 570/79
+and the free controller. The private 70-member proof 9b27ee02/7f305fa1 passes fresh
+primary readback with incomplete custody metadata protected. This preparation
+adds no native qualification, permission manager, grant, consent, reset, recovery
+or merge. All ten compatible rows remain required for the new image; a fresh
+physical delegation and separately approved actual host restart are still absent.
+P096-005 stays partial. Node owns the detailed
+[review](node:docs/audits/REVIEW-SENSORIUM-R24-RUNNER-PREPARATION-2026-10-28.md).
+
+
+### R24 native safety: nine rows, actual restart still pending — 2026-10-28
+
+One freshly approved five-ordinary-plus-one-fault run on source 12b0c29b /
+GUI da7bf9bc supplies nine compatible rows under tuple 6bae3b37: six physical-native,
+two controlled-native-fault and one host-software. Each of six acquisitions has a
+separate WEAR decision; the emergency grant is separately approved. The current
+collector, Schema Gate and unchanged qualifier recheck all nine. Authority/consent
+13386/4907 ms meet 15000 ms; protected receipt/fence/exit retain 626/250/10000 ms.
+The five ordinary Cases release. The fault ends in deliberate uncertain native
+disposal, exact process exit and retained claim/controller quarantine.
+
+Journal 614/85, checkpoint 95897ca3 and an on-host exact digest comparison preserve
+all 79 earlier Cases without exporting their contents. A narrowed six-Case export
+follows automatic refusal of an overly broad read. The 79-member private proof
+76498c31/82be2d85 passes full primary readback with unknown custody protected.
+The operator separately approves actual host restart, still unobserved here;
+`restart-unclosed-marker` remains missing. P096-005 stays partial. No whole-run
+retry, reset, recovery, claim release, renewal or merge. See the Node
+[review](node:docs/audits/REVIEW-SENSORIUM-R24-NATIVE-NINE-RECORDS-2026-10-28.md).
+
+### P096-005 qualified for the exact r24 tuple — 2026-10-28
+
+The actual five-ordinary-plus-one-fault run is completed by a separately approved
+real host restart. The unchanged owner observes a new kernel boot-session,
+retained marker/controller/resource claim and the ordinary Case-open refusal,
+without any native resume or unknown-disposal release. Its new-boot probe is
+217/20000 ms. The tested collector preserves nine original records and adds
+exactly one `restart-unclosed-marker`; all ten share tuple 6bae3b37 with the
+required six physical-native / two controlled-native-fault / two host-software
+origins. Source 12b0c29b and GUI da7bf9bc stay fixed.
+
+Existing source-export APIs and the pinned isolated P096 safety qualifier with
+the real Schema Gate validate the complete source d19aae9b and produce decision
+e0c72c74. The source deliberately excludes native exposure, P096-011a/015, p51,
+publication, recording, contact quality, radio concurrency and P082. This closes
+P096-005 for the exact self-wearer Muse 2 BLE p21 / macOS arm64 / signed GUI
+LaunchServices scope, leaving broader Sensorium and hard-MVP work partial.
+
+Missing restart, synthetic-origin substitution and automatic-resume copies
+refuse. A supplemental readback corrects its transient cross-boot st_dev
+assumption; persistent volume/root custody remains checked by the unchanged
+owner, and all content/inode/mode/mtime/ctime observations stay exact. Journal
+614/85, the held claim and all 79 older Cases remain preserved. The complete
+188-member private proof 1ecb0c4d/3490dc06 passes full primary readback with unknown
+custody protected. No recovery, claim release, new native session, root adoption,
+threshold relaxation or merge follows. Node owns the detailed
+[qualification review](node:docs/audits/REVIEW-SENSORIUM-P096-005-QUALIFIED-2026-10-28.md).
+
+
+### Integration preparation without history integration — 2026-10-28
+
+Prepare prospective resolutions against Node primary e8227589 and Orbidocs primary
+1f98becc, preserving the exact-tuple P096-005 decision and all historical reports.
+The primary documentation pseudonyms are applied to this documentary projection;
+no retained evidence, qualifier, signature, digest or runtime host configuration
+is changed. The combined producer remains unqualified. No merge or rebase occurs.
 
 ## Host pseudonyms
 
