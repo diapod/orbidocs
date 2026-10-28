@@ -5973,3 +5973,27 @@ records and separately approved actual restart still need qualification. See
 node:docs/audits/REVIEW-SENSORIUM-R22-RETIREMENT-R23-CONFIGURED-2026-10-28.md.
 
 Node r22-retirement/r23-configuration checkpoint: `d1964824`; executable source remains `3a13f8cc`.
+
+
+### R23 partial native sequence and separately reproduced UI defect — 2026-10-28
+
+One freshly approved sequence supplies two valid physical-native baseline rows
+under full tuple da3061ef (authority 9433/15000 ms, consent 6195/15000 ms). It stops
+before the second WEAR after the view wait; the operator reports both clicks,
+but the precise original view failure remains unknown. Both Cases are released,
+journal 570/79 and idle resources/controller are observed. Eight rows remain;
+no further session, fault, reset, recovery or host restart occurs.
+
+A separate device-free reproduction establishes that losing an accepted preview
+stop reply strands the old UI. The correction reuses owner-observed stopped state
+and a fresh explicit rendering confirmation, without replaying stop or inferring
+WEAR. Hidden/fenced checks and all qualification thresholds stay unchanged.
+Closed client view refusal codes improve future diagnosis. Python448 discovers
+445 pass / three skips; focused view tests cover lost-response recovery and
+hidden/fenced refusals. The private 70-member proof 45a9295c/36df9207 passes full
+byte readback; unknown custody remains protected. This fix is not deployed or
+hardware-qualified. P096-005 remains partial; a new pinned build, fresh scope and
+compatible native/fault evidence plus separately approved actual restart remain.
+See node:docs/audits/REVIEW-SENSORIUM-R23-PARTIAL-PREVIEW-RECOVERY-2026-10-28.md.
+
+Node r23 partial-run/preview-recovery checkpoint: `12b0c29b`; measured executable source remains `3a13f8cc`.
