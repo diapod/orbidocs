@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-admission-identity:v1",
+  "title": "Messaging admission identity support",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery"
+  ],
+  "required": [
+    "profile",
+    "contract/digest",
+    "store/epoch",
+    "coverage/from",
+    "guaranteed/until"
+  ],
+  "properties": {
+    "profile": {
+      "const": "messaging-admission-identity.v1"
+    },
+    "contract/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "store/epoch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9:_.\\/-]+$"
+    },
+    "coverage/from": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "guaranteed/until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    }
+  }
+}

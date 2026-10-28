@@ -53,6 +53,9 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "messaging-admission-identity.v1.schema.json",
+    "inac-admission-status.query.v1.schema.json",
+    "inac-admission-status.result.v1.schema.json",
     "nym-exchange-key-offer.v1.schema.json",
     "whisper-source-profile.v1.schema.json",
     "whisper-source-descriptor.v1.schema.json",
@@ -727,6 +730,8 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "basic.inac-admission-status.query.json",
+    "unknown.inac-admission-status.result.json",
     "production.whisper-source-profile.json",
     "contextual.whisper-source-descriptor.json",
     "contextual.whisper-source-certificate.json",
@@ -1350,6 +1355,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-admission-id.inac-admission-status.result.json",
     "wrong-label.agent-outcome.v4.json",
     "wrong-label.agent-supplied-input-manifest.v3.json",
     "missing-dependencies.agent-supplied-input-manifest.v2.json",

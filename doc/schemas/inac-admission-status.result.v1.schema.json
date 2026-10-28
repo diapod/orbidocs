@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inac-admission-status.result:v1",
+  "title": "INAC historical admission result",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery"
+  ],
+  "required": [
+    "schema",
+    "outcome",
+    "observed/at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "inac-admission-status.result.v1"
+    },
+    "outcome": {
+      "enum": [
+        "accepted",
+        "already-present",
+        "rejected",
+        "unknown",
+        "unavailable"
+      ]
+    },
+    "observed/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "admission/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9:_.\\/-]+$"
+    },
+    "support": {
+      "$ref": "messaging-admission-identity.v1.schema.json"
+    },
+    "refusal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "refusal/code",
+        "retryable"
+      ],
+      "properties": {
+        "refusal/code": {
+          "$ref": "inac-control.v1.schema.json#/$defs/response/properties/refusal~1code"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retry/after-ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "accepted",
+              "already-present"
+            ]
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "admission/id"
+        ],
+        "not": {
+          "required": [
+            "refusal"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "unknown",
+              "unavailable"
+            ]
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "admission/id"
+              ]
+            },
+            {
+              "required": [
+                "refusal"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -733,6 +733,18 @@ delivery. This slice reports `full_candidate_qualified=false` and
 remain unchanged. P076-038 expansion, Whisper succession, longer offline leases,
 body encryption and a new full release candidate are outside this continuation.
 
+Implementation checkpoint (2026-10-28): the first contract fragment adds the
+original-JSON message commitment, distinct attempt digest, pure transition/retry
+predicate and closed INAC exact-attempt query/result grammar in Node. Canonical
+schemas are `inac-admission-status.query.v1`, `inac-admission-status.result.v1`
+and `messaging-admission-identity.v1`; their Node mirrors and Schema Gate boundary
+fixtures are registered together. A known wire operation is not authenticated
+support for the identity profile. Host reconciliation and support negotiation
+remain unexposed until the runtime gates below are met. These development checks
+do not close any row, change a historical qualification or establish release
+readiness. Node's [core contract](node:messaging-core/README.md#delivery-identity-and-recovery)
+records repository-local responsibilities without a second tracker.
+
 ## References
 
 - `doc/project/40-proposals/060-messaging-middleware.md`
