@@ -5997,3 +5997,23 @@ compatible native/fault evidence plus separately approved actual restart remain.
 See node:docs/audits/REVIEW-SENSORIUM-R23-PARTIAL-PREVIEW-RECOVERY-2026-10-28.md.
 
 Node r23 partial-run/preview-recovery checkpoint: `12b0c29b`; measured executable source remains `3a13f8cc`.
+
+
+### Fixed preview client prepared — 2026-10-28
+
+Source 12b0c29b / digest 957562f1 is independently pinned over 5409 Git blobs and
+built without incremental state. Standalone 2582451b / signed GUI da7bf9bc /
+handoff c5caffc2 pass device-free staging and 448 nearby tests (445 pass / three
+skips). Four signed worker closures remain unchanged, 270 frozen inputs match,
+and no SDK is imported by the external runtime check. All 1899 old file
+observations and 433 directory identities remain exact; only the new GUI capsule
+is added. Journal 570/79, stopped r23 and idle controller are preserved.
+
+The private 378-member proof 2ff31839/fbe79e45 passes complete primary readback;
+unknown custody remains protected. No Bluetooth permission, device effect, grant,
+retirement, recovery or merge occurs. Preparation is not native qualification:
+r23's two physical rows retain their old candidate, eight rows remain missing,
+and actual fault/restart evidence requires fresh separate decisions. See
+node:docs/audits/REVIEW-SENSORIUM-PREVIEW-RECOVERY-CLIENT-2026-10-28.md.
+
+Node fixed-client preparation checkpoint: `dae6853d`; its executable source is `12b0c29b`.
