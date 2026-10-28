@@ -3096,6 +3096,20 @@ through the ordinary verifier. This is a consumer-specific application of P091,
 not a change to the general resolver or signed lease. See
 [P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
 
+P076-038 reads the current mode and `resolution/id` through a read-only owner
+projection alongside bounded acquisition counters. Physical acceptance changes
+the isolated file source atomically and observes the new resolution before each
+mode window; a copied configuration label cannot prove that a decision used it.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+The P076-038 physical gate switched isolated P091 file sources atomically and
+bound each measurement window to the owner's mode and `resolution/id`. The
+private holder made no observed-grant queries; own LocalDelegate refresh stayed
+allowed. This qualifies current file-backed live resolution, not a new product
+write API. See P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for pins and query witnesses.
+
 ## P013 decorrelation vocabulary consumer
 
 Planned (2026-10-27). [P013-DFR-001](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27)

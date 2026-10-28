@@ -896,6 +896,15 @@ publication retries independently of S020; pausing status refresh is visible
 without invalidating a still-current lease. This is not message delivery offline.
 See [P076-037](../../40-proposals/076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
 
+P076-038 separates signed-time verification, owner-local deferred observation,
+send retry scheduling and physical transport. A status up to five seconds ahead
+of the local clock is retained as negative knowledge but cannot authorize use
+until `as_of`; the next local retry rechecks active trust and uses no new fetch.
+The v3 readiness/send views expose `status-not-yet-valid` while old v2 views
+project it to `revocation-view-stale`. The P074 profile must prove receiver-side
+receipt and distinct holder/presenter authority-query counts. See
+[P076-038](../../40-proposals/076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).
+
 The subsequent review adds owner-confirmed disclosure controls on the existing
 grant page and bounded actor/time/old/new policy history. Normal windows expose
 one latest change per grant; exact-grant windows expose at most 64. Repeated
@@ -908,3 +917,12 @@ The historical retention-header blocker above is repaired in the live checker by
 verifying qualifier blobs at the adoption proof's recorded source commit. Prior
 proof bytes and source pins remain unchanged. This maintenance has focused local
 regressions; it does not rerun the historical full candidate or browser gate.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+The P076-038 physical gate passed five policy/role windows, exact receiver
+observations and eight term/kill role restarts after child/parent withdrawal.
+Private holders made zero observed-grant HTTP queries; independent owner/network
+witnesses agreed. Runtime and trusted qualifier sources are pinned separately in
+P076-038 and `node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md`. This bounded
+qualification does not establish offline message delivery or release readiness.

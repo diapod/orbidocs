@@ -721,6 +721,13 @@ installers for generic dispatch, AD, references, batches or network-ledger. Thos
 consumers refuse the new carrier, including declared-schema/content mismatches.
 See [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance).
 
+P076-038 qualifies that narrow V2 Messaging carrier across two independently
+admitted hosts. A signed status at most five seconds ahead of the evaluating
+clock contributes durable negative knowledge, but it cannot authorize before
+`as_of`; local renewal evaluation resumes at the signed time. This changes no
+passport preimage, generic advertisement or V1 interpretation. See
+[P076-038](076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).
+
 ### Presentation budget follow-up — 2026-10-24
 
 The Node AD acceptor's 65,536-byte materialization budget also applies to V1
@@ -744,3 +751,11 @@ bytes for both inline and file-backed artifacts. These are fixture measurements,
 not a maximum for arbitrary extension-bearing V1 documents. Every configured
 producer must respect the enforced budget. Delegated handoff requires the new
 receiver carrier implementation; no implicit downgrade is introduced.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+The focused P076-038 physical gate passed on 2026-10-28. Attached and fetched
+status still share one verifier and durable revision/revocation knowledge;
+independent local root admission remains required. See P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for the exact qualified
+carrier and pins. This does not qualify every capability advertisement.

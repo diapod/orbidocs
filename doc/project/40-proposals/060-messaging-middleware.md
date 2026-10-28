@@ -1252,3 +1252,12 @@ status refresh, while signed withdrawal publication retries independently.
 Contact connectivity and `full-status` disclosure remain prerequisites; this
 does not establish offline delivery. See
 [P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+P076-038 passed five physical policy/role windows, including reversed roles,
+with exact recipient envelope/body observations. Queue insertion alone was not
+treated as receipt. Child/parent withdrawal and eight role/signal restarts
+preserved refusal knowledge. Exact pins and limits are in P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md`; offline delivery and release
+readiness remain separate claims.
