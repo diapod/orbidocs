@@ -662,8 +662,10 @@ Status: partial local implementation. The Agent controller adds short orientatio
 through `PromptAssemblyPolicy` and returns classified results as lower-trust
 context. A supervised Python provider participates in a deterministic
 daemon-process loop: list, guided describe, unguided describe and four scripted
-inference calls pass under the selected prompt cap. A concrete model remains
-unqualified. The checkpoint adds a host-owned,
+inference calls pass under the selected prompt cap. A bounded Qwen3-Coder/MLX
+trial passed fresh native conformance and authored one admitted catalog list;
+the second inference failed with nested HTTP 502 and a legacy Agent decode error.
+Describe, final-answer and hostile-guidance behavior remain unqualified. The checkpoint adds a host-owned,
 canonical `inquirium.host-observation.v1` envelope through a required, fixed
 operation postamble and an adapter-declared `user` transport. Its source, opaque
 read ref, digest and JSON data provide structural provenance. Inquirium has no
@@ -682,6 +684,15 @@ Reject adapters without declared `user` support before this continuation's
 inference; retain the selected prompt-token cap and 64 KiB envelope bound.
 The process test confirms User transport, fresh observation refs and canonical
 result digests; it does not establish resistance to hostile usage notes.
+
+An operator-selected managed profile may additionally decode bounded textual
+`inquirium.generate.output-envelope.v1` into the existing inert control channel.
+This is an explicit host mapping, pinned in the managed profile output-policy
+digest; ordinary profiles retain text behavior. The projection precedes the
+adapter Schema Gate, typed validation, output rails and control admission. It
+adds no native tool-call support or execution authority. The focused HTTP,
+profile-policy and schema tests establish this C/H boundary; the shared report
+owns the separate concrete-model result.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.
