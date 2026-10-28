@@ -1896,8 +1896,8 @@ is not the same as counting them as two qualified sources in one epoch.
   A new rumor that matches an old one produces a notice to the author.
 - The author may author a new related signal under a fresh nym in the current
   epoch. By default it is not linked to the old record. An explicit `reaffirms`
-  relation, which reveals that both come from the same author, is a separate,
-  warned choice backed by a
+  relation, which discloses an authorized continuation of the case, is a
+  separate, warned choice backed by a
   [case-bound succession proof](#case-continuity-key-and-case-bound-succession)
   delivered only to the chosen audience.
 - A third-party holder of the old rumor can reach its author only through a
@@ -1917,7 +1917,8 @@ the same gap as the first open question of
 
 A later nym B may need to show that it continues a matter started by an earlier
 nym A: to reaffirm the old rumor, to amend its disclosure condition, or to be
-recognized as the same source. Signing with A's key a year later would require
+recognized as the authorized successor in this case. Signing with A's key a
+year later would require
 keeping A's private key that long. That contradicts the fresh key per
 certificate and the erasure rules of P015, lets a seized device prove
 authorship of old rumors, and turns the compromise of an expired key into a
@@ -1952,16 +1953,22 @@ Case events get a small ordering contract instead
   [`nym-succession.v2`](015-nym-certificates-and-renewal-baseline.md#succession-after-expiry-and-the-narrow-successor-2026-10-27)
   (`P015-004`) with scope `case` and authorization mode `continuity-key`. The
   continuity key and nym B sign the same domain-separated bytes, which bind the
-  purpose, the anchored record, B's current certificate, the audience and a
+  purpose, the `case/anchor` record, B's current certificate, the audience and a
   short validity window.
 - **Verification.** The verifier checks both signatures over one preimage,
-  that the revealed public key matches the commitment in the anchored record,
-  that the anchored record verifies historically (`P013-LLR-002`), and that B's
-  certificate is valid now. It also checks the scope, purpose, audience and
-  `not-after`, and that a fresh case status shows this succession as the
-  current case head of an active case. The successor's signature counts only
-  as proof of possession in this protocol
-  ([signature uses](#signature-uses-and-certificate-scope)).
+  that the revealed public key matches the commitment in the `case/anchor`
+  record, that this record verifies historically (`P013-LLR-002`), and that
+  B's certificate is valid now. It also checks the scope, purpose, audience and
+  `not-after`. The successor's signature counts only as proof of possession in
+  this protocol ([signature uses](#signature-uses-and-certificate-scope)).
+- **Authenticity versus authority.** These checks show that the succession
+  document is authentic. Whether B is still the authorized successor is a
+  separate question answered by the case status: the succession must belong
+  to the accepted case history, and a fresh status of an active case must
+  still name it as the effective succession. Only when the status authority
+  first accepts a succession must it be the next revision; later acts of B do
+  not require it to remain the head. An ordinary amendment therefore leaves B
+  authorized, while a later succession from B to C ends B's authority.
 
 Effects stay inside the case. `continue-case` lets B act for the matter, for
 example by reaffirming it. Succession never carries reputation outside the
@@ -2004,8 +2011,9 @@ small ordered contract. This is not a full key event log.
   choice is always committed explicitly. The author node submits each event to
   it through the private exchange path. The authority serves a signed
   `whisper-case-status.v1` with the head revision and digest, the state
-  (`active`, `closed` or `conflicted`), the current successor, if any, and the
-  issue time.
+  (`active`, `closed` or `conflicted`), the effective succession as
+  `case/current-succession` (the digest of its event, with the successor nym),
+  if any, and the issue time.
 - **Freshness.** An effect that depends on the case being current, such as a
   release, an act of a successor or a reaffirmation, needs a case status no
   older than 300 seconds, the same bound as P015 source status. A missing or
@@ -2016,10 +2024,11 @@ small ordered contract. This is not a full key event log.
   digest are equivocation, and the case becomes `conflicted`. That state is
   terminal, like a compromised continuity key, and verifiers that see
   conflicting events refuse both.
-- **One current successor.** A succession names the current successor, and a
-  later succession at a higher revision replaces it. A second, different
-  succession at the same revision is a conflict, not a co-authorization; v1
-  supports no co-successors.
+- **One current successor.** The effective succession is the latest accepted
+  succession event. Other case events, such as amendments, confirmations or
+  release commits, never change it. A later succession at a higher revision
+  replaces it, and a second, different succession at the same revision is a
+  conflict, not a co-authorization; v1 supports no co-successors.
 - **Disclosure.** The status authority learns the timing of case events and the
   successor nym, so it necessarily belongs to the audience of every succession.
 
@@ -2053,5 +2062,5 @@ has one declared use:
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
 | P013-LLR-006 | Case continuity key | todo | P013-ADC-001; S026 Pseudonym Vault | Generation per case in the Vault; `case/continuity-key-digest` in the first signed signal of a case; one key for condition amendments, release confirmations and succession; lifetime bounded by `case/not-after` and retention; deletion recorded as an erasure fact; opt-in recovery inclusion; `case/status-authority` committed beside the key digest. Negative fixtures cover a mismatched commitment and a missing key. |
-| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, a fresh case status naming this succession as head, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. |
-| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; direct exchange (Next Actions 9) | The shared case event header; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and current successor; acceptance of only the next revision with the matching previous digest; a durable high-water mark refusing rollback; equivocation leading to `conflicted`; a 300-second freshness bound that defers effects; fixtures for a missed withdrawal, a forked revision, rollback, a replaced successor and a missing status. |
+| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. |
+| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; direct exchange (Next Actions 9) | The shared case event header; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; acceptance of only the next revision with the matching previous digest; a durable high-water mark refusing rollback; equivocation leading to `conflicted`; a 300-second freshness bound that defers effects; fixtures for a missed withdrawal, a forked revision, rollback, a missing status, an amendment after a succession that leaves the successor authorized, and a succession from B to C that ends B's authority. |

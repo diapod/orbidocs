@@ -366,12 +366,12 @@ issuer.
 | `succession/scope` | `line` (public continuation of a pseudonym line) or `case` (one matter) |
 | `succession/purpose` | A closed enum: `continue-line` or `continue-case` |
 | `predecessor/nym` | The predecessor nym id |
-| `predecessor/anchor` | The predecessor certificate digest (`line`) or the digest of the original signed record (`case`) |
+| `predecessor/certificate` | The predecessor certificate digest; required for scope `line` and forbidden for scope `case` |
 | `authorization/mode` | `nym-key` or `continuity-key` |
-| `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the anchored record |
+| `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the `case/anchor` record |
 | `successor/nym` | The successor nym id |
 | `successor/certificate` | The digest of the successor's current certificate |
-| `case/revision`, `case/previous` | The case event order; required for scope `case` and forbidden for scope `line` |
+| `case/anchor`, `case/revision`, `case/previous` | The shared case event header of P013: the original signed record digest and the event order; required for scope `case` and forbidden for scope `line` |
 | `audience` | The named recipients; `line` successions are public by nature |
 | `issued-at`, `not-after` | A short validity window |
 | `signatures` | Exactly two Ed25519 signatures, authorization and successor acceptance |
@@ -396,9 +396,10 @@ issuer.
   explicitly in the certificate scope
   ([P013 signature uses](013-whisper-social-signal-exchange.md#signature-uses-and-certificate-scope)).
 - **Currency.** Offline verification shows that a `case` succession is
-  authentic, not that it is the current head of its case. Effects that need the
-  current state require the case status of
-  [P013 case state](013-whisper-social-signal-exchange.md#case-state-and-currency).
+  authentic, not that it is still the effective succession of its case. That
+  requires the case status of
+  [P013 case state](013-whisper-social-signal-exchange.md#case-state-and-currency),
+  whose `case/current-succession` must name this event.
 - **Narrow schema.** No additional properties, closed enums and negative
   fixtures.
 - **Limits.** Succession renews no certificate, does not make the
