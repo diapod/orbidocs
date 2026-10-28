@@ -6070,3 +6070,24 @@ or merge. All ten compatible rows remain required for the new image; a fresh
 physical delegation and separately approved actual host restart are still absent.
 P096-005 stays partial. Node owns the detailed
 [review](node:docs/audits/REVIEW-SENSORIUM-R24-RUNNER-PREPARATION-2026-10-28.md).
+
+
+### R24 native safety: nine rows, actual restart still pending — 2026-10-28
+
+One freshly approved five-ordinary-plus-one-fault run on source 12b0c29b /
+GUI da7bf9bc supplies nine compatible rows under tuple 6bae3b37: six physical-native,
+two controlled-native-fault and one host-software. Each of six acquisitions has a
+separate WEAR decision; the emergency grant is separately approved. The current
+collector, Schema Gate and unchanged qualifier recheck all nine. Authority/consent
+13386/4907 ms meet 15000 ms; protected receipt/fence/exit retain 626/250/10000 ms.
+The five ordinary Cases release. The fault ends in deliberate uncertain native
+disposal, exact process exit and retained claim/controller quarantine.
+
+Journal 614/85, checkpoint 95897ca3 and an on-host exact digest comparison preserve
+all 79 earlier Cases without exporting their contents. A narrowed six-Case export
+follows automatic refusal of an overly broad read. The 79-member private proof
+76498c31/82be2d85 passes full primary readback with unknown custody protected.
+The operator separately approves actual host restart, still unobserved here;
+`restart-unclosed-marker` remains missing. P096-005 stays partial. No whole-run
+retry, reset, recovery, claim release, renewal or merge. See the Node
+[review](node:docs/audits/REVIEW-SENSORIUM-R24-NATIVE-NINE-RECORDS-2026-10-28.md).
