@@ -6030,3 +6030,23 @@ authority renewal or recovery is implied. P096-005 remains partial. See the
 separately approved permission addendum in the linked Node review.
 
 Node permission observation checkpoint: `4589b0df`; executable source remains `12b0c29b`.
+
+
+### Directly authorized r23 removal, r24 reserved — 2026-10-28
+
+The operator requests removal of the current r23 binding, initially asking for
+force, then acknowledges expiry. The original waiting task is cancelled before
+preparation. The client has no force route: normal review ce440893 is prepared
+after actual expiry, independently checked and consumed once. The human authorizes
+the direct current-binding action rather than preapproving its later exact digest;
+private records preserve that distinction and concrete scope verification.
+
+Four final sources and completed marker match. R24 is reserved without grant or
+consent; journal 570/79, consent/history, controller and idle resources are preserved.
+The known read-store ctime-only exception remains explicit. Private 81-member
+proof 342eb6c2/5d440951 passes full readback with unknown custody protected.
+No force bypass, new administrative feature, native effect, recovery, host restart
+or merge occurs. Early binding revocation remains P096-009 lifecycle scope;
+P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-R23-BINDING-REMOVAL-2026-10-28.md.
+
+Node r23-removal/r24-reservation checkpoint: `a6c37cc1`; no acquisition is authorized by it.
