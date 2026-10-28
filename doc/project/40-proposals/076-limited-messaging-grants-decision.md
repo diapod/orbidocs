@@ -879,6 +879,26 @@ capsule above retains its original source, executable and temporal scope; no new
 browser/full candidate or release qualification is claimed. P076-037 was todo
 at that capsule's source revision; its current scope is tracked above.
 
+## Messaging Consent-Loss Recovery Consumer {#messaging-consent-loss-recovery}
+
+**Planned continuation, 2026-10-28:**
+[S027-009](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
+reuses the qualified bounded P076-036/037 mechanisms; it adds no grant, carrier or
+lease extension. S027-009-01 freezes their use in prepared attempts and
+S027-009-05 regresses all three acquisition modes, presenter renewal/disclosure,
+current-use checks and retained revocation knowledge. `AcquisitionDisabled`,
+missing/stale material and outages must not become confirmed recipient-consent
+refusal. Import, refresh, unlock and restart do not resume a previously blocked send.
+
+Keep historical admission separate from current permission: a bound result read
+may confirm an earlier acceptance without new receive consent; every repeated
+body push requires current authority and consent. This follows
+[P032's shared verification contract](032-key-delegation-passports.md#shared-verification-operations),
+not a new universal evidence envelope. Complete local-proof verification can be
+qualified with zero fetches without claiming offline delivery. S027 owns the task
+statuses and new browser evidence; this does not expand P076-038, rerun the historical
+full candidate or change any prior qualification scope.
+
 ## Host pseudonyms
 
 Host names in this document use stable documentation pseudonyms. The private

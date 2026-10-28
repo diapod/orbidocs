@@ -62,8 +62,8 @@ owner.
 
 ### Planned Consumer Profiles and Single-Source Trackers
 
-The following 2026-10-11 continuations reuse this plane. They are planned
-consumer bindings, not additional implemented adapters or a new universal wire
+The following continuations, first collected on 2026-10-11, reuse this plane.
+They are planned consumer bindings, not additional implemented adapters or a new universal wire
 protocol. Each owner freezes exact artifact/admission shapes before runtime
 exposure; new public contracts go through Schema Gate and normal compatibility
 review. Existing completed delivery profiles retain their status.
@@ -78,6 +78,7 @@ review. Existing completed delivery profiles retain their status.
 | Outbound privacy provider | Privacy-aware route selection; no assumed INAC anonymity | [S010-001–003](../010-anon/010-anon.md#privacy-integration-tracker) |
 | Alliance policy distribution | Independent bootstrap grant; private INAC or admitted acquisition | [P079-005a–005c](../../40-proposals/079-cross-federation-alliance.md#implementation-tracker) |
 | Whisper cooperative cover requests | Private AD `inac-direct`; one cover acceptor; the [minimal-trace profile](#minimal-trace-delivery-profile) | [P013-CIM-001–008](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking), [S023-001–002](#minimal-trace-delivery-profile) |
+| Messaging consent-loss recovery | Frozen attempts; typed INAC outcomes and body-free historical reconciliation; one retry owner | [S027-009-01–05](../027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker), registered 2026-10-28 |
 
 Shared implementation constraints:
 
@@ -1112,6 +1113,30 @@ JSON-e Flow may be an inbound acceptor only through an explicit declaration
 bound to a concrete JSON-e Flow instance/template. A valid schema alone never
 injects an artifact into JSON-e Flow. The operator-visible route table must show
 which instance accepts a given schema/content-type class.
+
+### Planned Messaging Delivery Recovery {#messaging-delivery-recovery}
+
+[S027-009](../027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
+owns the planned Messaging binding. S027-009-01/03 carry existing INAC refusal,
+retryability and retry-after fields through durable AD outcomes and the proposed
+`artifact.delivery.reconcile` port; a missing local delivery record is unknown,
+not proof of non-delivery. A handle, Matrix publication or object-store write
+cannot stand in for recipient domain admission.
+
+S027-009-02/04 reuse immutable prepared artifact bytes and generation idempotency
+before submission; bind the AD ID when known and recover lost replies by that
+identity. AD alone owns transient pushes within a generation (the Messaging
+profile allows at most five in 15 minutes, with stricter host policy winning).
+Persist budgets/deadlines across restart; Messaging creates only explicit new
+generations through its owner, with current authority/consent checks. Historical
+acceptance does not authorize another push. This differs from the authority of an
+accepted Whisper release commit even where prepared-byte recovery can be reused.
+
+The [S027 retention profile](../027-messaging-middleware/027-messaging-middleware.md#retention-and-failure-boundaries)
+protects outcomes and keys through safe reconciliation; neither generic cleanup
+nor a retry worker may turn missing history into a fresh send. Qualification must
+correlate producer, AD, INAC and domain outcomes, including late results and crashes.
+Task status remains in S027, and existing AD qualifications are unchanged.
 
 ### Arca/Dator Service-Order Transport Consumer
 

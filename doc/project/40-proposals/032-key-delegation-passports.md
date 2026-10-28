@@ -444,6 +444,16 @@ it is neither the source of the cross-artifact rule nor a prerequisite for all
 Whisper verification. P081's nonce-bound claim presentation is likewise not a
 replacement for a retained, audience-bound succession artifact.
 
+[Messaging recovery S027-009](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
+is another consumer of these laws. S027-009-01/05 reuse the existing P076-036
+carrier and P076-037 acquisition policy, including zero-fetch verification of
+complete local material, independent root trust and distinct missing/stale/refused
+outcomes. New body pushes require current permission even after an earlier
+admission. A session-authenticated historical INAC result read is not a portable
+time receipt and does not require a new signed receipt family. This planned
+consumer does not expand P076-038 or depend on unfinished Whisper ADC/LLR work;
+share demonstrated byte/budget/reconciliation mechanisms, not domain authority.
+
 ### Extension to participant-signed artifacts
 
 `capability-passport.v1` and issuer-signed

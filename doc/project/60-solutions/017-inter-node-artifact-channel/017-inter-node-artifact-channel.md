@@ -181,6 +181,36 @@ admission. The receiver-issued invitation passport TTL is daemon policy
 default 3600 seconds). Repeating `Accept` after the offer is already accepted
 is idempotent and does not issue a replacement passport.
 
+## Planned Messaging Admission Reconciliation {#messaging-admission-reconciliation}
+
+The [S027-009 tracker](../027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker)
+owns this 2026-10-28 continuation: S027-009-01 freezes contracts and S027-009-03
+implements the INAC/AD binding. No new operation is claimed implemented here.
+Extend the existing transfer ledger with required pre-effect reservations and
+durable outcomes bound to authenticated peer, generation idempotency key and
+attempt-envelope digest. A raw transfer ID is not globally unique authority.
+Reservation failure precedes single-use consent consumption and acceptor effects;
+failed finalization after domain admission remains reconcilable. Messaging, not
+the ledger or carrier, determines whether the message was admitted.
+
+Proposed `admission-status` / `admission-status-result` expose a bounded exact-attempt
+read through the planned `artifact.delivery.reconcile` host port. Authenticate and
+scope before disclosure; return known outcome, `unknown`, or read unavailability.
+Absent, foreign-peer and mismatched-digest lookups share the same `unknown` shape
+and code. No body, consent consumption or acceptor invocation occurs; current
+receive consent is not needed to read one's own historical attempt. Replies are
+at most 4 KiB under existing INAC budgets. Authenticated
+`messaging-admission-identity.v1` support must cover the relevant deduplication
+window before uncertain retry; an unsupported peer or a JSON label does not suffice.
+This session-bound read adds no signing key or portable time receipt.
+
+Preserve `RefusalCode`, `retryable` and `retry_after_ms` into AD status. Map private
+Messaging consent reasons to `recipient-consent-required` before transmission,
+without collapsing ledger/proof unavailability into refusal. Startup cleanup and
+GC must obey the [Messaging retention profile](../027-messaging-middleware/027-messaging-middleware.md#retention-and-failure-boundaries),
+including its 31-day floor and capacity refusal, without changing unrelated INAC
+families' guarantees. Existing transport and completed acceptance scopes remain intact.
+
 ## Related Schemas
 
 Planned additional consumers are indexed in

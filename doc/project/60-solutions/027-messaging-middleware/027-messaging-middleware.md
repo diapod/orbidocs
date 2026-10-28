@@ -10,6 +10,9 @@ Date: `2026-05-17`
 
 Updated: `2026-10-16` — bounded fact recovery and scoped mailbox reconstruction.
 
+Continuation registered: `2026-10-28` — [S027-009](#consent-loss-recovery)
+is planned; the status above describes the qualified baseline, not this continuation.
+
 ## Executive Summary
 
 > **Cross-reference to Solution 032 (Local Relationship Layer):** With
@@ -529,6 +532,10 @@ EML profile v1 files and can be used for outbox recovery during `reindex`.
 
 ## Implementation Tracker
 
+Completed rows retain their measured scope. S027-009 is a separate continuation
+with five implementation gates; registering it does not reopen or extend the
+historical S027-001–008 qualifications.
+
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
 | S027-001 | Canonical `messaging-receive@v1` profile enforcement | done | Node `capability` rejects non-canonical `messaging-receive` profile discriminators, defaults missing `max_revocation_staleness_seconds` to 300 seconds, accepts route-only profiles without `contact_nym_id`, and rejects malformed `contact_nym_id` values that do not use the `contact-nym:*` namespace. |
@@ -538,6 +545,7 @@ EML profile v1 files and can be used for outbox recovery during `reindex`.
 | S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, provider challenge/redeem controls, compose, local-contact based unknown-recipient warning, inbox, read/unread actions, outbox, diagnostics, and message detail. User UI also renders a contact chat modal as a bounded read-model over the messaging-service mailbox/outbox stores: it hydrates text bodies through bounded body endpoints, merges inbound and outbound rows through the shared `local-relationship-core::route_key` canonicalizer, refreshes history through `messaging-mailbox-changed` SSE plus polling fallback, and marks rendered unread inbound rows through an explicit mailbox-scoped flag mutation. Relationship/conversation subject precedence is separated from delivery-route precedence so `participant/id` is not hidden by a transport route, and active local-contact route-key matching preserves schema-safe pairwise contact nyms while excluding blocked contacts. |
 | S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: `contact-request.v1` is admitted through the schema-scoped INAC preflight/policy gate, then the receiver sees the contact-request notification and explicitly accepts the relationship before any `message-envelope.v1` delivery authority exists. It also covers local `always_accept` Attestation Service acquisition through daemon contactability endpoints, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, and a second recorded message stored as an encrypted generic artifact in Node B's Agora Vault. The old peer allowlist/preissued transport passport path and explicit INAC operator-approval path are retained only as acceptance debug/policy variants. |
 | S027-007 | User-mode messaging readiness wizard | done | Node UI has five welcome steps: participant identity, key unlock phrase, operator binding, Messaging issuance authority (sovereign or bounded grant) and Messaging. The latter two can be durably deferred to enter `/app` with visible status. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
+| S027-009 | Recipient-consent loss and duplicate-safe delivery recovery | todo | Planned only; the [single-source tracker](#consent-loss-recovery-tracker) requires contracts, insert-once admission, historical INAC reconciliation, explicit retry/UI and retained qualification. |
 
 ### Bounded Memarium Recovery (S027-008)
 
@@ -585,6 +593,145 @@ names used as logical IDs during reindex. The retained manifest pins clean sourc
 profile inputs, six unchanged binaries and the offline browser. Review and reports:
 `node:docs/evidence/messaging-onboarding/2026-10-16/README.md`. This scoped local
 qualification does not establish release readiness or ordinary delegated authority.
+
+## Recipient-Consent Loss and Delivery Recovery {#consent-loss-recovery}
+
+**Decision registered 2026-10-28; implementation `todo`.** Close the loop from
+recipient-consent loss to a truthful sender state, renewed explicit consent and
+safe resumption of the same message. This is the owner of S027-009; the linked
+consumer documents do not maintain parallel completion trackers.
+
+### Ownership and Implementation Recommendations
+
+Reuse `messaging-core` for message identity and the pure transition function
+`(state, event, verified facts) -> (state, effects, allowed_actions)`;
+`messaging-service` for domain admission, Maildir/SQLite and the temporal outbox;
+the existing INAC ledger for attempt reservations and historical outcomes; and
+AD for transient transport retries. Preserve S027-008's durable pending facts
+and Memarium recovery. UI renders owner-produced actions, not a second state machine.
+
+The upstream contracts remain [P060](../../40-proposals/060-messaging-middleware.md#consent-loss-recovery),
+[P032's shared verification operations](../../40-proposals/032-key-delegation-passports.md#shared-verification-operations),
+[P076-036/037](../../40-proposals/076-limited-messaging-grants-decision.md#messaging-consent-loss-recovery),
+[P097](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md#recipient-consent-recovery-acceptance),
+[S017](../017-inter-node-artifact-channel/017-inter-node-artifact-channel.md#messaging-admission-reconciliation),
+[S023](../023-artifact-delivery/023-artifact-delivery.md#messaging-delivery-recovery) and
+[S028](../028-temporal-storage-convention/028-temporal-storage-convention.md#messaging-recovery-retention).
+
+1. **Freeze two identities.** The message commitment covers the validated original
+   JSON except top-level `authorization` and `signature`, preserving extensions,
+   sender, route, body, metadata, thread/parent and recording. Verify the sender's
+   authenticated binding separately. The attempt digest covers the complete signed
+   envelope. Freeze `sent/at` and message content at first construction; changed
+   content requires a new ID. Persist exact attempt bytes, carried-proof binding,
+   generation and idempotency key before AD submission; bind AD's returned ID once
+   known. Lost responses recover that submission, not a rebuilt envelope or new
+   generation. Changed transmitted proof/envelope requires a new generation;
+   refreshed local verification context need not change the envelope.
+2. **Insert once at the domain owner.** The same ID, authenticated sender and
+   message commitment yield `AlreadyPresent`; conflicting identity yields
+   `identity-conflict`. Preserve the first envelope, Maildir path, mailbox,
+   recording and read state, without duplicate files, notifications or recording.
+   Serialize reservations across connections and use atomic no-overwrite file
+   publication. Distinguish reservation, durable domain admission and confirmed
+   ledger outcome; reconcile crashes from exact durable evidence, leaving gaps
+   unknown. Reindex must not replace the first envelope or manufacture admission.
+3. **Require the ledger before effects.** Reservation failure prevents acceptor
+   execution and single-use consent consumption; mailbox reads remain available.
+   Bind attempts to authenticated peer, generation idempotency key and envelope
+   digest, rather than a globally trusted raw transfer ID. The ledger records the
+   domain owner's outcome; transport success cannot create it. A finalization
+   failure after domain commit remains reconcilable, not a negative admission.
+4. **Separate current permission from history.** Every body push rechecks current
+   local authority and recipient consent. Reuse P032/P076 bounded proof verification,
+   independently admitted trust and retained revocation knowledge, with acquisition
+   as a separate authorized effect. Preserve all three P076-037 acquisition modes,
+   presenter renewal/disclosure and budgets. Missing/stale material,
+   `AcquisitionDisabled` and source outage are not confirmed consent refusal.
+   Historical admission is a fact, not permission for another push. Whisper's
+   prepared-byte/reconciliation laws are useful comparisons, but its accepted-release
+   authority and pending ADC/LLR implementation are not Messaging dependencies.
+5. **Read an exact historical result.** Proposed INAC `admission-status` /
+   `admission-status-result` and host `artifact.delivery.reconcile` query a bound
+   attempt without body, acceptor invocation or consent consumption. Authenticate
+   and scope the caller before disclosure; current receive consent is not required
+   to read its own attempt. Return a known outcome, `unknown`, or read unavailability;
+   absent record, foreign peer and wrong digest share the same `unknown` shape/code.
+   Limit replies to 4 KiB under INAC budgets. Authenticated support for
+   `messaging-admission-identity.v1` must cover the retry's deduplication horizon;
+   an untrusted label or unsupported receiver cannot enable uncertain retry. This
+   session-bound read is not a portable signed/time receipt; add no new keys or
+   receipt family. Freeze these proposed contracts through Schema Gate before exposure.
+6. **Preserve typed causes and causal order.** Carry existing `RefusalCode`,
+   `retryable` and `retry_after_ms` through AD and its durable status. Map private
+   recipient-consent reasons to `recipient-consent-required` before the wire, without
+   implying global passport revocation. Local AD `404` means
+   `delivery-outcome-unknown`, never automatic retry; read failure preserves the
+   current state/delivery ID with a separate unavailable observation. Confirmed
+   admission or `AlreadyPresent` makes delivery terminal. A late matching success
+   may confirm it; an old refusal cannot downgrade it or block a newer generation.
+7. **One retry owner.** AD gets at most five actual pushes within 15 minutes per
+   generation, subject to stricter host policy, with durable counters/deadlines.
+   Messaging creates no competing delivery or transport loop. Single/bulk retry
+   share one transaction and operation/item idempotency. Ordinary retry requires
+   resolved prior attempts; any still-unknown effect requires a distinct confirmed
+   uncertain retry, current authority/consent and applicable receiver deduplication.
+   Preserve `waiting-for-contact-permission` for the original intent;
+   `authority-blocked` and `recipient-consent-blocked` require explicit recovery.
+   New grants, GET, unlock, refresh, restart and reindex do not resume a blocked send.
+   Extend existing retry APIs and add participant-scoped
+   `POST /v1/messaging/outbox/{id}/reconcile`, with owner checks and CSRF in UI.
+
+### Retention and Failure Boundaries
+
+These are planned Messaging-profile bounds, not a change to every INAC family.
+Policy is configuration through existing P091 mechanisms; consumed budgets,
+reservations, generations and results are durable facts.
+
+| Data | Required bound |
+|---|---|
+| Paused messages / resume window | 30 days from original message creation; 256 per participant and 1024 per node. Retry/import/restart cannot extend the window. |
+| INAC results, AD records and generation keys | Through the resume window and at least 31 days after attempt completion. |
+| Receiver deduplication | For the message lifetime; after body deletion, a body-free tombstone for at least 31 days after last admission/recognized duplicate, preventing resurrection. |
+| Bulk results | At least 31 days after every item has a durable terminal result. |
+| Messaging attempt-result capacity | 10,000 attempts and 32 MiB of serialized records; reject new admission when protected records fill capacity. Reads do not extend retention. |
+
+Align startup cleanup and GC with these guarantees; the existing INAC 30-day
+cleanup cannot silently erase a required 31-day result. Protect active/unknown
+attempts from deletion that could authorize resend. Explicitly closing an unknown
+outcome records `closed-unresolved`, never `expired-unsent`. No receiver guarantee
+for the relevant window means no uncertain retry. Do not run network acquisition
+or signing inside SQLite transactions or assume atomic commit across all stores.
+
+The cost is bounded retained state and possible admission refusal under storage
+pressure. Unknown results and unavailable proof stay visible rather than becoming
+optimistic progress. Exact schema fields, migration handling for legacy attempts
+without complete identity, and authenticated support negotiation must be frozen
+in S027-009-01; missing legacy evidence cannot be synthesized as authority.
+
+### Implementation Tracker {#consent-loss-recovery-tracker}
+
+All rows are `todo`: design registration is not implementation or qualification.
+Dependencies below are closure prerequisites; contract/fixture work may overlap.
+P076-036/037 and S027-008 are existing reuse/regression baselines. MSG-ONB-009/010
+are evidence cases owned by S027-009-04, not a second implementation workstream.
+
+| Task | Scope / owner | Depends on | Status | Completion gate |
+|---|---|---|---|---|
+| S027-009-01 | Contracts and pure transition table / Messaging with INAC and AD owners | P032; P060; current P076-036/037 and P097 contracts | todo | Inventory reusable seams; freeze both commitments, prepared-attempt binding, peer-scoped read/support contracts, closed reasons/privacy mapping, allowed actions, migration refusals and profile retention. Update canonical schemas, Node mirrors and API registries at implementation time; retain refusal/replay fixtures, including acquisition-disabled versus consent-refused. |
+| S027-009-02 | Insert-once admission and immutable attempts / Messaging | S027-009-01 | todo | Durable reservations before effects; exact prepared bytes/idempotency across lost submission replies; concurrent first admissions and retries preserve first envelope/path/mailbox/recording/read state. Crash between reservation, Maildir, index and outcome remains reconcilable or explicitly unknown; historical bytes stay unchanged. |
+| S027-009-03 | Historical read and typed delivery outcome / INAC and AD | S027-009-02 | todo | Required ledger, peer/key/digest binding, bounded body-free reconciliation and authenticated deduplication support. Foreign/absent/mismatched lookups agree; AD preserves refusal/retry fields; local 404 creates zero new generations; failed outcome finalization cannot erase admission. Retain first actual WSS/INAC evidence. |
+| S027-009-04 | Explicit single/bulk recovery and UI / Messaging and Node UI | S027-009-03 | todo | One durable AD retry budget; distinct confirmed uncertain retry; no duplicate generation from concurrent tabs/bulk; current authority and consent before every push. UI shows stage/reason/observation/actions, keeps composer and owner/CSRF checks. Qualify [MSG-ONB-009/010](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md#recipient-consent-recovery-acceptance) on the same relationship/route; late failures cannot downgrade delivered. |
+| S027-009-05 | Retained qualification and convergence closeout / S027 owner | S027-009-04; S027-008; P076-036/037 regression | todo | Separate conformance, real host/browser and regression evidence; test retention/startup GC/capacity/tombstones, Memarium outage and restart/replay/reindex. Regress sovereign independent membership, delegated/mixed and strict Story-010; complete bounded local-proof zero-fetch and P076-037 policy tests. Pin clean sources/binaries, retain failures and qualify identically before/after extraction via `$PRIMARY_EVIDENCE_STORE`. Reconcile Node ledger/MVP, owner docs, schemas and registries; record convergence dispositions under `node:DEV-GUIDELINES.md`. |
+
+The next action is S027-009-01. Qualification uses synthetic federation and
+`a.localhost` / `b.localhost` browser sessions with explicit consent, without
+models or VMs. Correlate message ID, generations, both digests, AD ID, UI, outbox,
+domain admission and mailbox. Local-proof zero-fetch does not establish offline
+delivery. This slice reports `full_candidate_qualified=false` and
+`release_ready=false`; prior qualifications, dates, source pins and evidence bytes
+remain unchanged. P076-038 expansion, Whisper succession, longer offline leases,
+body encryption and a new full release candidate are outside this continuation.
 
 ## References
 

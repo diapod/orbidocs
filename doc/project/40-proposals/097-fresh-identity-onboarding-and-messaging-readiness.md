@@ -552,6 +552,35 @@ Every completed tracker gate pins sources, generated profiles, binary digests an
 its own measured evidence. Local qualification is not release readiness. Stage A's
 dated records cannot establish Stage B enforcement.
 
+#### Planned Recipient-Consent Recovery Acceptance {#recipient-consent-recovery-acceptance}
+
+**Registered 2026-10-28; not yet implemented or measured.**
+[S027-009](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
+owns the continuation. Keep P097's local send-readiness/authority decisions separate
+from recipient consent and historical admission. Setup, import, unlock, refresh and
+restart do not resume a previously blocked send; the original
+`waiting-for-contact-permission` intent retains its existing behavior. UI renders the Messaging owner's
+stage, cause, last observation and `allowed_actions`, with existing owner/CSRF and
+composer protections. No new readiness authority or grant profile is introduced.
+
+Reserve these evidence cases for S027-009-04 (implementation and browser gate) and
+S027-009-05 (retained qualification). They are not independent implementation tasks
+or prerequisites looping back into their owner. Historical MSG-ONB-005–008 and
+P076-034/035 evidence retain their dates, bytes, pins and qualified scope.
+
+| Case | Status | Required measured assertion / owner |
+|---|---|---|
+| MSG-ONB-009 | todo | S027-009-04: explicit recipient-consent refusal becomes a truthful pause; a new grant does not resume it. On the same relationship/route, confirmed recovery with current local authority and receive consent delivers once. UI distinguishes local authority, recipient refusal and proof/status unavailability; regress P076-036/037 and sovereign independent membership plus delegated/mixed cases. |
+| MSG-ONB-010 | todo | S027-009-04: local AD 404/lost reply yields unknown and zero automatic generations. Body-free reconcile, concurrent single/bulk retry and explicitly confirmed uncertain retry require the receiver deduplication contract. Silent prior success returns `AlreadyPresent` with first bytes/path/recording/read state intact; late failure cannot downgrade delivery. Restart/replay/reindex and expiry/capacity guards preserve these results. |
+
+Use separate `a.localhost` / `b.localhost` browser sessions, ordinary explicit
+INAC/receive consents and real WSS/INAC admission. Correlate message ID, attempt
+generation, message commitment, envelope digest, AD ID, UI, outbox and mailbox.
+Keep conformance, host/browser and strict Story-010 regression as distinct evidence
+classes, without model/VM execution. The new slice's report retains
+`full_candidate_qualified=false` and `release_ready=false`; it does not replace
+earlier full-candidate evidence or establish delivery offline.
+
 ## Trade-offs
 
 Truthful status exposes profile gaps previously hidden by a successful boolean.
