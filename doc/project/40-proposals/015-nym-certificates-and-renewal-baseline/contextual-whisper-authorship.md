@@ -600,6 +600,41 @@ pending independently. Timing analysis, the issuer's contemporaneous knowledge
 and copies of its still-live keystore/image remain outside the erasure claim.
 
 
+### Reference-owner status capacity and lifecycle
+
+Status freshness requires schedulable work, not only a bounded number of rows.
+The reference owner refreshes by due time before its ordinary maintenance
+rotation and yields new issuance to runnable overdue status work. Its local
+configuration capacity is derived from the profile freshness age, cadence,
+cooperative work-slot budget and a reserved in-flight slot. Unsupported capacity
+refuses before key-provider initialization. No new lease follows from a queue,
+a retry or a budget overrun. These execution limits are not protocol namespace
+limits; larger capacity needs separate throughput qualification.
+
+The current-status consumer may checkpoint a verified cumulative signed head
+and its exact high-water cursor, then atomically remove superseded cache facts
+and bytes. Historical admission evidence is owned separately and is not pruned
+by this cache lifecycle. A monotone per-profile retired-epoch floor frees ended
+scope watches while refusing their reactivation after restart, rebuild or clock
+rollback. The latest cumulative revocations and live-scope HWM are preserved;
+retired floors cannot be reset to regain capacity. Local cache capacity is a
+simultaneous-use limit, not a lifetime limit on valid status revisions or epochs.
+
+### Uncommitted key allocation recovery
+
+Publication-bound key records are also the durable inventory of unfinished
+preparations. The single issuer writer must reconcile the complete committed
+source with the provider high-water mark before destroying an allocation without
+a publication boundary. A missing projection or an SQL error alone is not proof
+that the candidate failed to commit. A committed candidate finishes its existing
+fences and exact prepared output; an unused candidate is retired with a durable
+no-recreation marker. Ambiguous, corrupt or restored old source refuses cleanup.
+An unused epoch root survives until epoch end and is destroyed only after its
+verified empty scope has no remaining candidate allocations. Startup and bounded
+S020 maintenance resume this reconciliation without a publication ACK for a
+candidate that was never published. No new permanent request-to-source join is
+introduced for cleanup.
+
 ### Current implementation checkpoint (2026-10-28)
 
 The dated 2026-10-26 counterexamples above remain historical review findings.
