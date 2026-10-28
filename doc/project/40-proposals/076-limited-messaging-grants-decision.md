@@ -470,7 +470,9 @@ because P091 is node-scoped. Owner counter snapshots and `resolution/id`
 bound each window to events; S020 stays active and its queries are classified
 by reason. Production 300-second child profiles age naturally; in the
 `scheduled-only` window the holder's loopback status forwarder explicitly
-returns counted 503 responses so S020 cannot refresh the observation. The
+returns counted 503 responses only for the observed grant, while allowing
+refresh of its own LocalDelegate. This lets S020 age the observation without
+removing local send authority. The
 window ends when owner readiness reports stale status for that passport. The
 qualifier reads the profile limit from the issued consent bytes, not a harness
 constant. The gate includes role reversal, receiver-side receipt, restart of
