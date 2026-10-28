@@ -5918,3 +5918,12 @@ future source/checkpoint references remain absent. The 24-member private proof
 protected. P096-005 remains partial; no new device session or source change occurs.
 
 Node unarmed-follow-up checkpoint: `a084c4bb`; executable source remains `3a13f8cc`.
+
+
+A follow-up source review corrects only the unarmed plan harness binding to the
+actual signed GUI inventory. Original plan/capacity evidence stays immutable;
+v2 plan 3f01cd46 and its 19-member supplement (manifest 4de934fd / archive a5aa1c69)
+pass source/byte review. No authority, execution, source code, threshold or P096-005
+qualification status changes.
+
+Node plan-binding review checkpoint: `83d566ec`; executable source remains `3a13f8cc`.
