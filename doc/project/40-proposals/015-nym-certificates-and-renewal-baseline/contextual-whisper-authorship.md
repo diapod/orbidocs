@@ -760,3 +760,22 @@ ordinary maintenance attempts and the original signed request deadline. The hint
 is neither an admission fact nor a new transport queue. Conformance passes 126
 issuer and seven issuer-host cases; actual complete lifecycle and Gate B remain
 unqualified.
+
+
+### Shared consumer boundary (2026-10-29)
+
+Node's `whisper-core` now owns a pure, revision-bound source-contribution
+evaluator for coordination and later disclosure consumers. It counts distinct
+admitted sources in one complete exact epoch inventory, retains all eligible
+records, filters revocations before representative choice and commits the private
+evidence basis. It does not create admission facts, nonce reservations, authority,
+consent or a first-emission latch. Incomplete inventory and stale status remain
+unavailable. The historical node-counting M4 qualification is unchanged.
+
+Seventy-five component conformance cases and strict all-target Clippy pass.
+Private `a77105e2` diagnostics observed ordinary AD issue, renewal and reset;
+a separate lazy renewal after reset activation preserved exact certificate and
+signed-record readbacks across A/D restart. An original pre-reset ciphertext
+probe returned `key-destroyed` after pre-existing provider destruction. Those
+observations and the retained original harness refusals are not complete Gate A/B
+qualification. Both gates remain pending in the tracker and Node ledger.
