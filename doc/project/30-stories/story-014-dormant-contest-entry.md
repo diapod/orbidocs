@@ -258,23 +258,28 @@ coordination threshold; Rant's embargo on his content is a separate condition.
 6. C attests three other sources under a fresh status. Rant's node retrieves
    the attestation by condition id, and Rant gets a confirmation prompt
    (P057-017) with the criterion, count, audience and deadline. He confirms
-   with the condition's control key.
-7. Rant's node obtains a release-time recount from C, evaluated within 60
-   seconds of publication, and a fresh case status showing the case active. It
-   records the release decision and publishes the release record to
-   federation-scoped readers. The record carries the pre-redacted release
-   payload, the condition, the release-time attestation and the confirmation,
-   and readers verify it offline. It states that distinct sources are not
-   evidence that the reports are true.
+   with the condition's control key, and C accepts the confirmation as a case
+   event.
+7. Rant's node prepares the release record and submits a release commit to C.
+   C accepts it because the case is active, the slot for this audience is free
+   and its count under a source status no older than 300 seconds still meets
+   three. Rant's node then hands the committed bytes to AD for federation-scoped
+   readers. The record carries the pre-redacted release payload, the condition,
+   the commit receipt and the confirmation, and readers verify it offline. It
+   states that distinct sources are not evidence that the reports are true.
 8. Negative paths:
    - Had Rant declined, or let the prompt expire, nothing would be released.
-   - Had a source been revoked before the release, the release-time recount
-     would have fallen below three and nothing would have been released,
-     provided the revocation had reached C's source status. A revocation newer
-     than that status, which may be up to 300 seconds old, may not be
-     reflected.
-   - Had Rant withdrawn the condition after confirming, the fresh case status
-     would have shown the withdrawal and the release would have been refused.
+   - Had a source been revoked before the commit, C's count would have fallen
+     below three and C would have refused the commit, provided the revocation
+     had reached C's source status. A revocation newer than that status, which
+     may be up to 300 seconds old, may not be reflected.
+   - Had C accepted Rant's withdrawal before the commit, the commit would have
+     been refused. A withdrawal accepted after the commit stops only other and
+     later releases.
+   - Had Rant's node crashed before the commit was accepted, it would re-check
+     everything on restart. Had it crashed after the commit but before the
+     hand-over to AD, it would hand over the same committed bytes without
+     preparing a new release.
    - A second attestation after the release produces no second release for the
      same audience.
    - A third source that appears only in a later epoch does not suffice; there
@@ -283,7 +288,7 @@ coordination threshold; Rant's embargo on his content is a separate condition.
 | ID | Assertion | Proves |
 |---|---|---|
 | S014-A12 | Before release, the correlation text reaches only C and the release payload does not leave Rant's node. C's query endpoints, Agora records, notices, notifications, logs and exports contain neither, and the public notice is content-free. | P013-ADC-003, P013-ADC-007 |
-| S014-A13 | The room proposal at two sources releases nothing. The release happens only after Rant's signed confirmation, a release-time recount of at least three other sources within 60 seconds of publication and a fresh case status; a revocation already reflected in C's status blocks it, and a later attestation yields no second release. | P013-ADC-004, P013-ADC-005, P013-LLR-008 |
+| S014-A13 | The room proposal at two sources releases nothing. The release happens only after Rant's confirmation and a commit accepted by C, counting at least three other sources at the commit point. A revocation already reflected in C's status or a withdrawal accepted earlier refuses the commit; a crash after the commit hands over the same bytes, and a later attestation yields no second release. | P013-ADC-004, P013-ADC-005, P013-LLR-008 |
 | S014-A14 | Reposts and forwards by one source leave the count unchanged, and epochs after Rant's are evaluated separately under the N + 1 rule. | P013-ADC-004 |
 | S014-A15 | The release record verifies without contacting Rant's node, publishes only the release payload to the declared audience, and reveals no identity, private record, attachment or source material. | P013-ADC-005 |
 

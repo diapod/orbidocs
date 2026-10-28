@@ -363,8 +363,9 @@ Responsibilities:
 - keep protected material within the correlation scope under custody
   obligations;
 - count distinct contextual sources per epoch and attest the result;
-- release pre-redacted payloads after a release-time recount and, by
-  default, the author's confirmation, at most once per audience;
+- release pre-redacted payloads after a release commit accepted by the case
+  authority and, by default, the author's confirmation, at most once per
+  audience;
 - keep disclosure conditions separate from coordination thresholds.
 
 The design and tracker live in
