@@ -18,6 +18,26 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_new_local_nym_examples_have_explicit_validator_dispatch(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        # Invoke the actual shell dispatcher without the full corpus driver.
+        setup, driver = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        self.assertTrue(driver)
+        for name in (
+            "locked.nym-issuance-error.local.v1.json",
+            "pending.nym-issuance-readback.local.v1.json",
+            "prepare.nym-issuance-prepare.local.v1.json",
+        ):
+            with self.subTest(example=name):
+                completed = subprocess.run(
+                    ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+                     str(script), "--syntax-only", str(SYNC.EXAMPLES_DIR / name)],
+                    text=True, capture_output=True, check=False,
+                )
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                schema = name.split(".", 1)[1].removesuffix(".json") + ".schema.json"
+                self.assertEqual(completed.stdout.strip(), str(SYNC.SCHEMAS_DIR / schema))
+
     def test_each_sync_allowlist_names_each_artifact_once(self) -> None:
         for name, values in vars(SYNC).items():
             if name.endswith("_WHITELIST"):

@@ -1569,6 +1569,15 @@ schema_for_file() {
     *.whisper-source-certificate.json)
       echo "$SCHEMAS_DIR/whisper-source-certificate.v1.schema.json"
       ;;
+    *.nym-issuance-error.local.v1.json)
+      echo "$SCHEMAS_DIR/nym-issuance-error.local.v1.schema.json"
+      ;;
+    *.nym-issuance-readback.local.v1.json)
+      echo "$SCHEMAS_DIR/nym-issuance-readback.local.v1.schema.json"
+      ;;
+    *.nym-issuance-prepare.local.v1.json)
+      echo "$SCHEMAS_DIR/nym-issuance-prepare.local.v1.schema.json"
+      ;;
     *.nym-issuance-request.json)
       echo "$SCHEMAS_DIR/nym-issuance-request.v1.schema.json"
       ;;
