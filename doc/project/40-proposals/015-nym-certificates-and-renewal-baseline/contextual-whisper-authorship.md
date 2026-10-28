@@ -724,3 +724,21 @@ with scope `case`, authorized by a continuity key committed in the case's first
 signal and delivered privately to a named audience
 ([P013-LLR-007](../013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)).
 The predecessor nym key is not kept for that purpose.
+
+
+## Resumed qualification and refresh scheduling (2026-10-28)
+
+The resumed Node `b7f184be` diagnostic observed an issued certificate through
+ordinary private AD and a protected host signature with confidence 0.5. Its
+renewal expired after repeated `nym-issuer-status-maintenance-due` decisions;
+the original refusal is retained and does not qualify Gate A or Gate B.
+
+The implementation separates two local execution deadlines. Early status refresh
+is scheduled at 10% of the emission freshness age. Issuance backpressure reserves
+one provider work slot before the earlier of actual emission freshness and signed
+status expiry. A successful provider call may outlast the early scheduling age;
+that alone must not eliminate every issuance window. A failed refresh's backoff
+cannot extend the admission boundary. These scheduling rules neither alter the
+profile digest and validity limits nor turn a stale status into emission authority.
+Full certification lifecycle and contextual relay/aggregate qualification remain
+required before closing the two gates.
