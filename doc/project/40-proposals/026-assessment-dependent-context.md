@@ -19,8 +19,8 @@ Memarium forget addresses entries and appends a decision. Its `Erased` outcome
 currently hides the entry in read projections; it does not physically erase the
 source or Agent facts. JSONL segment compaction preserves every record. Agent
 recovery scans Personal before tag selection and shares the 100,000-fact/256 MiB
-refusal budget across Agent fact kinds. The existing suggested administrative
-compaction/snapshot remedy is not implemented. These are lower-layer gaps, not
+refusal budget across Agent fact kinds. The formerly suggested administrative compaction/snapshot remedy is not implemented;
+the Node refusal now explicitly reports that absence. These are lower-layer gaps, not
 permission to delete a mixed Personal stream.
 
 ## Proposed Model / Decision
