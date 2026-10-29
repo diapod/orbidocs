@@ -219,6 +219,9 @@ schema_for_file() {
     *.participant-restriction-lifecycles.json)
       echo "$SCHEMAS_DIR/participant-restriction-lifecycles.v2.schema.json"
       ;;
+    *.responsibility-lifecycle-execution.local.v2.json)
+      echo "$SCHEMAS_DIR/responsibility-lifecycle-execution.local.v2.schema.json"
+      ;;
     *.participant-restriction-lifecycle-request.json)
       echo "$SCHEMAS_DIR/participant-restriction-lifecycle-request.v2.schema.json"
       ;;

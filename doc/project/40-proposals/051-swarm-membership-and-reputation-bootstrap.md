@@ -1997,3 +1997,24 @@ maintenance stays disabled by default. Draft contract maturity, hard-MVP and
 release readiness are unchanged. Synthetic suspension/incarnation and the
 acceptance-feature ordinary-clock smoke qualify no suspension writer, restore,
 independent social judgment or federation.
+
+
+## Lifecycle v2 fresh-format preparation decision (2026-10-29)
+
+Accepted V4-prep direction: Node prepares one production-compiled lifecycle owner
+on an isolated SQLite file while active v1 remains authoritative and all five D7
+components remain false. The later V4s initializes a fresh Responsibility dataset
+(host and case service, new epoch), detaches historical cases/outboxes/receipts,
+and removes v1 restriction, export and legacy reconciliation paths. There is no
+v1-to-v2 adoption/migration or equivalence gate; historical evidence is unchanged.
+A source-local CAS orders changes independently of recording-clock monotonicity.
+Admission never waits for durable resume materialization. Operator decisions have
+content-derived identities, atomic slot replacement and durable terminal fences.
+Operation identity and attempt identity are separate; recovered historical receipts
+do not establish current application. Narrowing uses protected reserves and exact
+authority; storage failure never becomes a successful effect.
+
+Implementation checkpoints and qualification:
+`node:docs/development/RESPONSIBILITY-V4-PREP-2026-10-29.md`. This decision does not
+close V4-prep, V4s, V5 or broader P051 acceptance. M4/M5/V3/Q retain their scoped
+2026-10-23 qualification, including the later lock-model qualification boundary.

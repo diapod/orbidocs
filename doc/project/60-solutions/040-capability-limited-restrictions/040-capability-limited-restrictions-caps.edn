@@ -58,7 +58,21 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :newcomer-effective-limits-projection
+ [{:cap/id :fresh-dataset-source-lifecycle
+   :title "Fresh-Dataset Source Lifecycle Preparation"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+              "doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"]
+   :schemas ["responsibility-lifecycle-execution.local.v2"]
+   :responsibilities
+   ["Prepare the same durable facts owner on an isolated file while v1 remains authoritative"
+    "Order source transitions by CAS independent of recording-clock monotonicity"
+    "Keep protected rights and read-only due-expiry composition available"
+    "Bind per-slot operator decisions and recover exact immutable operation receipts"
+    "Require a fresh host/service dataset epoch in V4s; keep all D7 components false until separate V5 qualification"]
+   :status :partial}
+
+  {:cap/id :newcomer-effective-limits-projection
    :title "Newcomer Effective-Limits Projection"
    :kind :policy-projection
    :based-on ["doc/project/50-requirements/requirements-015-newcomer-surface-limits.md"
