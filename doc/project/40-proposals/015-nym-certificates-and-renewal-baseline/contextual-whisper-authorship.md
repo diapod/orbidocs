@@ -84,6 +84,22 @@ P015-005 owns positive and cross-kind/cross-scope refusal fixtures; ADC-001/007
 own application use. None of this expands the existing narrow signal-only
 profile or qualifies Gate B.
 
+### Unpublished Matrix preparation
+
+Ordinary v2 publication first checks current contextual authorship/status and
+freezes an exact transport intent. `202 publication-requested` and a later
+forwarding ACK are not admitted domain records. The intent creates no source,
+publication-time fact or receiving nonce. Authenticated reception independently
+supplies the admitted homeserver observation and commits admission. Status and
+retry remain available by their topic-authorized links before the record exists.
+
+A first intent must be prepared before its signed proof deadline. Retry preserves
+the original bytes and transaction identity; it never extends validity or promises
+that a late event will pass admission. Historical readback needs no new status
+lease. Frozen intent/carrier/mode/transaction conflicts refuse. Explicit legacy
+v1 has no contextual publisher fallback. This owner composition is software
+implementation, not completed ordinary UI, Synapse or Gate B qualification.
+
 ### Publication time and status freshness
 
 Certificate, request and presentation validity are checked at an authenticated
