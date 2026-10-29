@@ -1220,7 +1220,7 @@ P026-012c-01 remains in progress for the separately tracked independent S028 fai
 and catalog-cost boundary. P026-012c-02 onward, P066-owned consent retention and
 parent P073 remain open; historical 012a/012b evidence is unchanged.
 
-The subsequent [run 05 local closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+The subsequent [run 05 local closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
 at clean Node `4f8369ff` / Orbidocs `c85d213f` completes the separate S028 failure
 and catalog-cost gate, including actual native ENOSPC and checked detach. The
 renewed ordinary previous/current-daemon cutover bridge qualifies; normal/-O

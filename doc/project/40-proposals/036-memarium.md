@@ -939,7 +939,7 @@ and extracted results agree; twenty controls refuse in each variant. See
 `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md`.
 P036-009/010/011 close only this owner-journal/cutover profile. Controlled
 interruption, capacity and locator/allocator faults remain component evidence;
-independent S028 physical-failure/cost qualification remains partial. No physical
+at that checkpoint, independent S028 physical-failure/cost qualification remained partial. No physical
 erasure, audit-unit retirement or total-Node startup bound is implied.
 
 
@@ -978,15 +978,28 @@ including its explicitly demonstrated verifier limitation.
 The subsequent S028 checkpoint at clean Node `6fc81f7d` / Orbidocs `050d8d58`
 renews the same named previous/current-daemon cutover profile and corrects the
 remaining post-append generic-reader call. Its independent public-API/cost cases
-are recorded in the [Node storage report](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+are recorded in the [Node storage report](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
 Native ENOSPC remains unqualified after image-mount refusal. P036-009/010/011 stay
 done only within their named cutover profile; S028-OS-003 and parent stage01 are
 not closed by this renewal.
 
 The later clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 renews this same
 ordinary legacy/fresh restart and prior-binary refusal bridge with all 11 scoped
-S028 native/cost cases qualified. See the [retained closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+S028 native/cost cases qualified. See the [retained closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
 S028-OS-003 and P026-012c-01 are now done within the frozen local profile;
 P036-009/010/011 retain their named scope. General Personal forget remains logical,
 legacy facts remain protected, and later cross-owner audit-unit/dispatch/context
 retention is not implemented or qualified by this result.
+
+### Startup and source-retention limits (2026-10-29 review)
+
+Before upgrading, the operator must allow for the initial Personal discovery limit:
+1,000,000 records and 512 MiB, including facts unrelated to Agent. Exceeding it
+refuses the whole daemon's startup; isolated Agent degradation is not implemented.
+The selected Agent replay limit is shared across legacy and dedicated facts:
+100,000 wrappers / 256 MiB. The dedicated stream also has an independent encoded
+JSONL-envelope ceiling, which can refuse sooner because it includes framing.
+These are admission/recovery bounds, not retention or a supported pruning recipe.
+The protected legacy prefix currently fences relocation, archive and compaction
+of the entire Personal fact stream indefinitely. Stage01 has no release operation;
+a future replacement-source protocol must discharge this dependency explicitly.

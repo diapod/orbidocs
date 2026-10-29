@@ -30,7 +30,7 @@ permission to delete a mixed Personal stream.
 
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
-| P026-012c-01 | Owned Memarium streams and startup cutover | done | S028-OS-001/002/003; P036-009/010/011. Clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 qualifies all 11 frozen local macOS/APFS failure/restart/cost cases and the paired previous/current-daemon cutover. Actual ENOSPC and checked detach pass; normal/-O loose/extracted agreement and 296 mutation refusals. Dedicated versus protected legacy claims stay separate; no later audit-unit/dispatch/context or release promotion. |
+| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. Clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 qualifies all 11 frozen local macOS/APFS failure/restart/cost cases and the paired previous/current-daemon cutover. Actual ENOSPC and checked detach pass; normal/-O loose/extracted agreement and 296 mutation refusals. Dedicated versus protected legacy claims stay separate; no later audit-unit/dispatch/context or release promotion. |
 | P026-012c-02 | Whole audit-unit retention | todo | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
 | P026-012c-03 | Durable private dispatch reservation | todo | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
@@ -85,11 +85,11 @@ Personal, so the bound is on Agent recovery rather than total Node startup.
 The concrete contract and per-schema identities are in
 `node:memarium-runtime/docs/OWNER-JOURNALS.md`. An ordinary previous/current daemon
 pack is in `node:tools/acceptance/memarium-owner-cutover/README.md`. The
-[Node checkpoint](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md)
+[Node checkpoint](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md)
 qualifies exact legacy bytes, owner routing, current restart and refusal by the
 pinned previous executable at Node `d5ad1392` / Orbidocs `365a3796`. Four qualification
 variants agree (normal/-O, loose/extracted), with 80 manipulation refusals. Component
-faults are explicitly separate from the ordinary-process witness. S028-OS-003 remains partial for independent
+faults are explicitly separate from the ordinary-process witness. At that historical checkpoint, S028-OS-003 remained partial for independent
 physical failure/cost qualification. Later audit-unit/dispatch and context stages
 remain open, including P066/notification retirement receipts.
 
@@ -274,20 +274,15 @@ RAM-only memory was selected explicitly on 2026-10-29; encrypted spill is a sepa
 future profile. Numeric capacity is a frozen reference profile to be tested, not a
 throughput benchmark or release-readiness statement.
 
-## Next Actions
+## Historical qualification checkpoints
 
-Implement and qualify S028 owned-stream mechanics first, then P036 startup routing.
-Use ordinary-daemon/ChannelJson/browser acceptance with deterministic inference,
-separately classified native fault/clock evidence, source/binary/feature pins and
-normal/-O loose/extracted qualifier mutations. Retained evidence follows Node
-RETENTION/RETIREMENT/EXTERNAL-RETENTION; runtime policies authorize no historical
-acceptance cleanup. Reconcile owner docs, schemas, trackers, Node ledger/MVP and
-convergence/cleanup reviews per completed stage. Preserve 012b historical evidence.
-
+These checkpoints describe their pinned gates. The current critical review reopens
+short-write recovery, sealing allocation and append cost; run05 is not evidence for
+those previously unmeasured guarantees. Historical bytes and tool pins stay frozen.
 
 ### Stage 01 reviewed checkpoint (2026-10-29)
 
-The [Node review](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md)
+The [Node review](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md)
 records the corrected non-repairing lifecycle reads, discovery limits, domain
 wrapper identity and independent semantic witness links. Clean ordinary run 02 at
 Node `5d62641f` / Orbidocs `9690ac42` qualifies legacy and fresh S=0 restart plus the
@@ -300,7 +295,7 @@ qualification or later audit-unit, dispatch, provenance and context stages.
 
 Clean Node `6fc81f7d` / Orbidocs `050d8d58` executes nine ordinary public-API
 worker cases and renews the ordinary previous/current-daemon cutover witness.
-The [Node storage report](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+The [Node storage report](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
 records actual permission failure, process interruption, exact-plan recovery and
 32/1024/4096 materialized catalogs with five fresh-process warm-cache reopens.
 The mapped 137 component tests and six Agent adapter tests remain separate.
@@ -309,12 +304,12 @@ The full storage qualifier refuses with `native-enospc-unqualified` normally and
 under `-O`, before/after extraction. Twenty-seven mutations reject in each mode
 and location (108), without promoting the refused baseline. The host denied the
 producer-created APFS image mount. Actual ENOSPC and native cleanup are pending;
-S028-OS-003 remains partial and P026-012c-01 remains in-progress. No later stage,
+At that historical checkpoint, S028-OS-003 remained partial and P026-012c-01 remains in-progress. No later stage,
 release, physical erasure, power-loss or whole-node startup claim follows.
 
 ### Stage 01 qualified local closeout (2026-10-29, run 05)
 
-The [retained Node closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+The [retained Node closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
 at clean Node `4f8369ff` / Orbidocs `c85d213f` qualifies the entire frozen local
 S028 profile plus renewed ordinary-daemon legacy/fresh restart and previous-binary
 refusal. Eleven public-API cases include actual ENOSPC 28 on append, failed native
@@ -337,3 +332,13 @@ retention, provenance, context and parent P026/P073 remain open. This is neither
 power-loss, media sanitization, Linux, whole-node startup, production retirement
 authority nor model/release qualification. New initial retain converts only
 verified producer-owned loose copies; historical evidence and legacy facts remain.
+
+## Next Actions
+
+Implement and qualify S028 owned-stream mechanics first, then P036 startup routing.
+Use ordinary-daemon/ChannelJson/browser acceptance with deterministic inference,
+separately classified native fault/clock evidence, source/binary/feature pins and
+normal/-O loose/extracted qualifier mutations. Retained evidence follows Node
+RETENTION/RETIREMENT/EXTERNAL-RETENTION; runtime policies authorize no historical
+acceptance cleanup. Reconcile owner docs, schemas, trackers, Node ledger/MVP and
+convergence/cleanup reviews per completed stage. Preserve 012b historical evidence.

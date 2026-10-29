@@ -73,7 +73,7 @@ normal/-O loose/extracted results; see
 `node:memarium-runtime/docs/OWNER-JOURNALS.md`. No owner-authorized retirement or
 P066/notification SQLite cleanup is activated by this substrate.
 
-The [stage-01 storage closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+The [stage-01 storage closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
 at clean Node `4f8369ff` / Orbidocs `c85d213f` now completes the frozen local
 S028 native/cost gate alongside renewed ordinary legacy/fresh cutover and
 previous-binary refusal. This closes P026-012c-01 only; cross-owner unit retention,
@@ -599,3 +599,16 @@ The chain integration follows the observer slot pattern (proposal 027): the daem
 The runtime-side expansion point is now the Memarium-domain `MemariumObservation` value. `observe_dispatch(message_kind, correlation_id, effective_payload)` remains as a compatibility wrapper for post-chain callers. `PostChainObserver`, `PhaseObserver`, and their event types remain daemon adapter concepts, not runtime dependencies.
 
 Implementation-specific decomposition, file ownership, and delivery status belong in the concrete Node repository's implementation ledger.
+
+### Startup and source-retention limits (2026-10-29 review)
+
+Before upgrading, the operator must allow for the initial Personal discovery limit:
+1,000,000 records and 512 MiB, including facts unrelated to Agent. Exceeding it
+refuses the whole daemon's startup; isolated Agent degradation is not implemented.
+The selected Agent replay limit is shared across legacy and dedicated facts:
+100,000 wrappers / 256 MiB. The dedicated stream also has an independent encoded
+JSONL-envelope ceiling, which can refuse sooner because it includes framing.
+These are admission/recovery bounds, not retention or a supported pruning recipe.
+The protected legacy prefix currently fences relocation, archive and compaction
+of the entire Personal fact stream indefinitely. Stage01 has no release operation;
+a future replacement-source protocol must discharge this dependency explicitly.
