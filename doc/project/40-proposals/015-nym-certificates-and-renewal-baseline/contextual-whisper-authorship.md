@@ -822,3 +822,13 @@ lifecycle, not the complete Gate A qualifier. The old-ciphertext probe also rema
 a limited refusal check: routine snapshot replacement can retire its key, so that
 probe alone does not establish reset-caused erasure. Gate A and Gate B remain
 pending, with original failed attempts preserved and no readiness promotion.
+
+A successful local contextual mutation now retains a nanosecond clock high-water
+checkpoint alongside its status/admission transaction. Reopening cannot accept a
+cryptographically valid decision earlier than this owner already observed.
+Missing clock state beside contextual history is an explicit refusal, not a new
+initialization. Readback and exact completed-command retry keep original facts.
+This local restart fence does not claim protection against restoring an entire
+older database. The clean Node `c09fa017` / Orbidocs `8e12cae7` full software gate
+passed 9,097 tests with zero failures and 127 explicit ignores; that baseline
+precedes the separately tested clock correction and does not qualify A or B.
