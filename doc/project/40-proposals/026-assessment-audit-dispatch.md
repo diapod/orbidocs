@@ -1,0 +1,131 @@
+# P026-012c-02/03: audit-unit and private-dispatch contract
+
+Status: frozen implementation contract, 2026-10-29; runtime qualification pending.
+Based on: [accepted staged plan](026-assessment-dependent-context.md), P066, P073,
+S028, S029 and P036. This refines stages 02/03; it does not enable later profiles.
+
+## Executive Summary
+
+An admission reserves an entire auditable attempt before Agora. A durable fence
+then binds the exact prepared transport bytes before a fresh final authority gate.
+A crash after the fence is ambiguous until reconciled; it never permits dispatch
+replay. Retirement acts on whole units through owner receipts, never by deleting
+isolated Agent facts from a shared journal.
+
+## Context and Problem Statement
+
+Stage 01 isolates general Agent facts from Personal but does not bound the lifetime
+of closed-consumer facts. P066 keeps consent and consumption rows; operator questions
+and notifications also retain copies. Notification audit JSONL is a shared stream.
+Deleting queue rows cannot qualify retirement of that copy. Historical shared
+populations remain protected; a complete inventory or a new isolated destination is
+required before an aggregate retirement can complete.
+
+## Proposed Model / Decision
+
+### Values and owners
+
+The reference profile remains `assessment-audit/v1` with all numeric floors and
+ceilings in the accepted plan. Timestamps are explicit signed UTC milliseconds;
+checked arithmetic refuses overflow. Retention time is distinct from authority time.
+A backwards observation cannot move a terminal timestamp or a retired horizon back.
+No receipt or checkpoint restores authority.
+
+An inventory is immutable and binds `unit/ref`, `unit/kind` (source or consumer),
+`allocation/ordinal`, activation, boot and launch, policy, terminal time, and exact
+members. Each member binds owner, opaque locator, content commitment, encoded bytes,
+record count, dependency refs, copies and applicable holds. Missing coverage is
+unknown and refuses retirement. References grant no authority to delete.
+
+The owner's mutable admission projection holds actual bytes/records and outstanding
+reservations separately. All additions use checked arithmetic. Source maximum is
+192 KiB/64 records. Consumer maximum is 1 MiB/256 records: 192 KiB base, eight
+96 KiB attempts and 64 KiB terminal capacity. The record partition is 48 base,
+eight attempts of 24 records, and 16 terminal records. Each claim includes all owner
+copies and envelope overhead. A failed/ambiguous write keeps its reservation.
+Settlement is idempotent, releasing only unused reservation after actual usage is
+known durably. Capacity refusal precedes Agora and is distinct from storage failure.
+
+### Retirement operation
+
+S029 owns the bounded operation protocol. A plan contains `operation/ref`,
+`inventory/digest`, `replacement/ref`, exact owner decisions, and a dependency DAG
+of steps. A referring member's receipt is required before executing a referenced
+member's step. Duplicate steps, missing dependencies and cycles refuse; a joint
+cyclic set requires an explicit owner operation, not an implicit ordering exception.
+
+A receipt binds the plan digest, step and owner, input commitment and physical result.
+Allowed physical results distinguish files unlinked, SQLite rows removed with bytes
+possibly remaining, and explicitly retained copies. A retained copy blocks whole-unit
+completion; it cannot be silently reclassified as a completed deletion. SQLite DELETE
+is never a claim of filesystem reclamation or sanitization. Receipts are immutable;
+retry of the same step recovers its receipt, and conflicting receipts refuse.
+
+A unit stays retiring until every required step has a verified successful receipt.
+An unknown owner, hold, copy, or failed receipt preserves a resumable partial operation.
+The source cannot retire while a retained consumer refers to it. Holds include owner
+and deadline; expiry is not itself permission to forget a hold. The current plan's
+16-exception bound and horizon rules apply.
+
+Capsules are metadata-only, at most 4 KiB, retained to max(terminal+180 days,
+first-compacted+7 days). Detail has a 30-day minimum. Capsule buckets rotate at a
+UTC day, 256 entries or 1 MiB and retire as whole streams. The checkpoint is at most
+64 KiB and contains only horizon, pointers and digests, never copied capsule bodies.
+Two checkpoint generations and at most 256 capsule buckets are admitted. Recovery
+loads bounded current buckets/deltas, never all retired unit histories. Lost allocator
+or checkpoint refuses; neither an empty projection nor an archive import repairs it.
+
+### Dispatch values and protocol
+
+`private-dispatch-reservation.v1` binds:
+
+- `attempt/ref`, unit, activation, Agent, binding, request and passage;
+- unkeyed `manifest/ref` and private canonical-request and exact-wire commitments;
+- boot, launch, captured session and epoch, lifecycle and runtime generation;
+- frozen deadline and the exact budget/capacity reservation.
+
+An attempt's identity includes the activation and request, not just a step number.
+The manifest reference survives restart; HMAC commitments are comparable only inside
+their originating launch. Full requests, observations and results are never persisted
+by this profile. Existing external-runtime facts keep their historical interpretation.
+
+Preparation freezes mapped transport bytes once, after queueing. Durable reservation
+and its manifest are acknowledged before a fresh memory-only gate. The time spent
+writing and synchronizing is included in this fresh check. No owner I/O, remapping,
+serialization, fallback or automatic retry occurs between that gate and send.
+
+`PreparedPrivateDispatch` has a private constructor, redacted Debug, no Clone or
+serialization, and consuming `send(self)` / `abandon(self)`. Abandon records
+not-dispatched before the refusal returns. An interrupted or failed marker leaves
+the reservation `dispatch-outcome-unknown` (producer Ambiguous). Settlement states
+are not-dispatched, completed, failed-after-dispatch, or dispatch-outcome-unknown.
+Only not-dispatched attests that no send was attempted. A failure after send retains
+possible disclosure even if HTTP or response decoding fails. No settlement retry
+sends bytes again. Tests detect silently dropped prepared values.
+
+## Trade-offs
+
+Worst-case reservations deliberately reject load before effects. The reference
+four-pairs/day workload is conditional arithmetic, not a benchmark. Stronger owner
+floors and holds can reduce throughput. Shared historical copies block retirement;
+these stages do not authorize deleting historical evidence or mixed Personal logs.
+
+## Failure Modes and Mitigations
+
+Qualification must cover saturation, duplicate settlement, partial owner receipts,
+compaction versus commit, each failed write, restart after reservation and after
+not-dispatched, exact transmitted bytes, final-gate expiry, no retry, bounded recovery,
+and no snapshot activation. Physical failures and deterministic component faults
+remain separate evidence classes. Ordinary daemon/ChannelJson/browser acceptance
+uses deterministic inference, no models, with pinned binaries and features.
+
+## Open Questions
+
+No numeric policy change is authorized by this contract. Owner integration and
+runtime acceptance remain pending until their exact receipts and evidence exist.
+
+## Next Actions
+
+Implement owner values and ports, route new unit populations, then qualify the
+02/03 vertical. Keep both trackers open until all owners, scheduling, bounded
+recovery, dispatch and acceptance requirements are met.

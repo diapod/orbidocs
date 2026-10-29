@@ -103,6 +103,10 @@ Independent S028 failure/cost qualification remains partial; the later stages be
 are unchanged. New measured results must be retained separately from the original
 checkpoint.
 
+The concrete 02/03 data and failure contract is frozen in
+[Audit units and private dispatch](026-assessment-audit-dispatch.md). Its freeze
+is not implementation or runtime acceptance.
+
 ### Audit units and capacity
 
 An audit unit is a closed graph of owner facts. Source and consumer units have
