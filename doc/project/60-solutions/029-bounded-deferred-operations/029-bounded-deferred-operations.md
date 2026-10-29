@@ -496,6 +496,19 @@ Status:
 | Cancellation reports success while discovery still owns the controller | Planned extension requires own-session termination evidence; uncertain cleanup blocks results and preserves the resource claim. |
 | Scheduler becomes workflow engine | Scheduler may wake polling, but deferred-operation runtime owns status semantics and continuation ownership. |
 
+## Audit-unit retirement extension
+
+[P026-012c-02/03](../../40-proposals/026-assessment-audit-dispatch.md) freezes an
+S029-owned, bounded receipt saga. Immutable plans bind the inventory and owner
+operations; dependency order removes referring members first. Receipts distinguish
+SQLite row removal from file unlink and retained copies. A retained copy or missing
+owner receipt blocks aggregate completion. S029 orchestrates; each owner authorizes
+and performs its own removal.
+
+Node currently supplies the pure validated plan/receipt projection and component
+tests. Persistent owner execution and S020 maintenance remain pending; this is not
+a claim of a completed physical retirement or a generic deletion capability.
+
 ## Tests and Evidence
 
 Current MVP evidence includes:

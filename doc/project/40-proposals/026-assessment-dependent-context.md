@@ -31,8 +31,8 @@ permission to delete a mixed Personal stream.
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
 | P026-012c-01 | Owned Memarium streams and startup cutover | done | S028-OS-001/002/003; P036-009/010/011. Reviewed v3 profile at clean Node `0ec8dbac` / Orbidocs `1b870593`: 11 native failure/restart/catalog cases plus byte-anchor migration, reclaim and append-cost checks; renewed ordinary previous/current-daemon cutover. Normal/-O loose/extracted agreement, 332 mutation refusals. Protected legacy and later audit-unit/dispatch/context scope remain separate. |
-| P026-012c-02 | Whole audit-unit retention | todo | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
-| P026-012c-03 | Durable private dispatch reservation | todo | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
+| P026-012c-02 | Whole audit-unit retention | in-progress | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
+| P026-012c-03 | Durable private dispatch reservation | in-progress | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
 | P026-012c-09 | Same-viewer operator delivery | todo | 04; separate P066 consent and Node UI admission/render; before continuation and memory, so it can display continuation acceptance. |
 | P026-012c-05 | RAM continuation | todo | 04; exact latest committed predecessor, no silent fallback or regeneration. |
@@ -106,6 +106,23 @@ checkpoint.
 The concrete 02/03 data and failure contract is frozen in
 [Audit units and private dispatch](026-assessment-audit-dispatch.md). Its freeze
 is not implementation or runtime acceptance.
+
+### Stages 02/03 implementation checkpoint (2026-10-29)
+
+The joint contract is frozen. Node now has pure capacity/retention values and an
+S029 receipt-DAG projection, an isolated dispatch metadata stream, exact-byte
+preparation and a durable fence before the final witness gate. Possible disclosure
+survives adapter failure; replay after restart never reactivates or dispatches.
+The selected runtime configuration is committed, without claiming attestation of
+a provider process generation. Component checks and the ordinary dispatch witness
+are separate from the full stage gate.
+
+Both stages remain in progress. All-copy source/consumer accounting and routing,
+P066/question/notification/Agent owner receipts, persistent saga execution,
+capsules/checkpoints and scheduled maintenance are not yet complete. The partial
+journal ceiling applies to that journal, not all copies. Existing shared owner
+journals remain protected and no aggregate retirement is enabled. Historical
+qualification remains unchanged; this checkpoint is not the 02/03 acceptance.
 
 ### Audit units and capacity
 
