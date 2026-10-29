@@ -78,7 +78,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`agent.supplied-input-manifest.v3.schema.json`](schemas-gen/schemas/agent.supplied-input-manifest.v3.md) | `9` | `0` | `yes` | `yes` | `0` | `0` |
 | [`agora-admission-inspection.local.v1.schema.json`](schemas-gen/schemas/agora-admission-inspection.local.v1.md) | `15` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-material.v1.schema.json`](schemas-gen/schemas/agora-admission-material.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
-| [`agora-admission-readback.v1.schema.json`](schemas-gen/schemas/agora-admission-readback.v1.md) | `6` | `0` | `no` | `yes` | `0` | `0` |
+| [`agora-admission-readback.v1.schema.json`](schemas-gen/schemas/agora-admission-readback.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-receipt.v1.schema.json`](schemas-gen/schemas/agora-admission-receipt.v1.md) | `21` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-request.v1.schema.json`](schemas-gen/schemas/agora-admission-request.v1.md) | `5` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-write-result.local.v1.schema.json`](schemas-gen/schemas/agora-admission-write-result.local.v1.md) | `6` | `0` | `no` | `yes` | `0` | `0` |

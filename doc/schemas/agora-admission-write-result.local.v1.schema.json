@@ -94,7 +94,8 @@
                 "manifest-invalid",
                 "interrupted",
                 "signing-window-closed",
-                "current-status-unknown"
+                "current-status-unknown",
+                "admission-conflict"
               ]
             }
           }

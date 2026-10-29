@@ -2898,6 +2898,63 @@ budget, refusing excess work. Complete carriers can be inspected directly;
 store enrichment does not enlarge the work allowance. No resolver performs I/O
 over the network or admits a witness from carrier data.
 
+### Boundary review addendum (2026-10-29)
+
+The first qualification did not establish authorization parity, bounded payload
+retention or atomic publication at receipt issuance. P035-019 is reopened until
+these service and store boundaries pass a new qualification; the earlier pinned
+evidence remains a historical result, not evidence for these additional claims.
+
+All ingest versions share operator authorization. Public disclosure gates apply
+to full records; detached admission still checks authorization and its private
+manifest contract. A full record becomes visible to queries, indexes and live
+subscribers only in the transaction recording `issued`. `committed/at` bounds
+payload durability, not public visibility. Interrupted or refused staging is not
+publication. A derived index uses the authoritative sequence assigned at publication.
+
+Payload and proof have separate retention horizons:
+
+| Material | Horizon | Expiry |
+| --- | --- | --- |
+| Full author bytes | Ordinary topic retention | Erase bytes; never reconstruct a pruned payload from an evidence sidecar |
+| Detached private author bytes | Signed `case/not-after`, bounded by identifying retention | Erasure fact and commitment tombstone for the profile tombstone interval |
+| Receipts and immutable dependencies | Record retention or detached case expiry; longer only under an explicit hold | Release references and collect unreferenced blobs |
+| Cursor status history | Epoch end plus collection age and a declared buffer | Collect unpinned blobs; preserve receipt-bound boundary snapshots |
+
+Readback distinguishes retained evidence from a live record. Missing author bytes
+produce `unknown: author-bytes-missing`. Long-term payload custody belongs to the
+holder, including the separately qualified Memarium consumer. On first observed
+revocation, pin the last unrevoked and first revoked snapshots alongside the
+admission snapshot. Ordering is relative to the complete admission interval:
+`before` uses `accepted/at - skew`; `after` uses `committed/at + skew`.
+
+A conflicting delegation sequence is `WitnessEquivocation`, supported by both
+digests, with compromise boundary at the earlier delegation start. Conflicting
+receipts are invalid; other receipts follow the compromise and prior-observation
+law. This does not mutate operator trust anchors. Different admission times for
+one record are `AdmissionConflict`: unknown for that record only, never a blanket
+revocation of the witness. Missing chain links remain incomplete knowledge.
+Signed conflicting delegations carry an explicit security hold pending operator
+resolution; record-only conflict metadata follows its record tombstone. Neither
+kind of hold preserves identifying author bytes. At tombstone expiry the owner
+rechecks active proof holds and admission attempts before retiring metadata.
+Unknown legacy retention inputs refuse migration rather than guessing a horizon.
+
+Admission writes have a separate configured rate class and bounded concurrent
+work, refusing overload without a queue. Inspection charges bounded signature
+work; material readback performs no cryptography and needs no witness trust.
+Operational defaults are limits, not throughput calibration claims. The initial
+Admission bucket is 2/minute with burst 2; global in-flight writes default to 4
+and are bounded at 64. Zero concurrency disables writes. Window guards return
+503 with the owner's `retry/at`. Signature-cost query charging is separate from
+ordinary readback; failed inspection charges the bounded maximum.
+
+Foreign-receipt retention and exact-digest store enrichment remain library ports
+without service ingress. The complete-carrier offline consumer does not qualify
+those unconnected entry points. The draft schemas' added `admission-conflict`
+and readback `payload/state` are explicit pre-release corrections, mirrored with
+Schema Gate; Matrix publication status keeps its existing meaning.
+
 ### Frozen implementation boundary (2026-10-29)
 
 P035-019 and the first P013-LLR-002 consumer passed scoped qualification on
@@ -3024,7 +3081,7 @@ LLR-003, ADC runtime, P041 historical ingest and release readiness stay separate
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | done | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019 | Portable admission receipts | in-progress | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 

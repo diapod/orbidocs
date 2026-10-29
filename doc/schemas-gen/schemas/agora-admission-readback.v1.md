@@ -12,6 +12,7 @@ Source schema: [`doc/schemas/agora-admission-readback.v1.schema.json`](../../sch
 | [`issuance`](#field-issuance) | `yes` | unspecified |  |
 | [`material`](#field-material) | `yes` | ref: `agora-admission-material.v1.schema.json` |  |
 | [`links`](#field-links) | `yes` | object |  |
+| [`payload/state`](#field-payload-state) | `no` | enum: `retained`, `payload-pruned` |  |
 
 ## Conditional Rules
 
@@ -97,3 +98,9 @@ Then:
 
 - Required: `yes`
 - Shape: object
+
+<a id="field-payload-state"></a>
+## `payload/state`
+
+- Required: `no`
+- Shape: enum: `retained`, `payload-pruned`
