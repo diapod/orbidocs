@@ -823,3 +823,26 @@ prior-binary refusal have a separate v2 qualification; see
 `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md`.
 S028-OS-003 remains partial; these controlled faults do not establish power-loss,
 malicious actor, whole-node startup or media sanitization guarantees.
+
+### Local native qualification profile (2026-10-29 freeze)
+
+S028-OS-003 uses `s028.owned-stream-qualification-profile.v1` in
+`node:tools/acceptance/owned-streams/profile.json`, with its matrix and interpretation
+in `node:tools/acceptance/owned-streams/README.md`. It supplements the component
+fault tests with ordinary public-API worker processes, actual filesystem errors
+and materialized catalog measurements. Freeze thresholds before collection.
+
+The first profile is macOS: isolated 128 MiB APFS for exhaustion and the recorded
+local filesystem for other failures and cost. Catalog cases use 32/1024/4096
+materialized streams and five fresh-process reopens with warm filesystem caches.
+Open/selected-read ceilings are two seconds; recorded I/O, file handles, logical
+and allocated bytes have separate bounds in the profile. These are local acceptance
+thresholds, not portable protocol latency laws. Process interruption does not prove
+power-loss behavior. A host refusing the isolated filesystem probe leaves that gate
+unqualified; component error injection cannot substitute for the native witness.
+
+Completion requires the full mapped matrix, paired source/binary/feature pins,
+observed cleanup and qualifier refusals normal/-O before/after extraction.
+Production owner authorization, cross-owner S029 retirement, audit-unit retention,
+private dispatch and broader platforms remain separate. No status is promoted by
+this contract freeze alone.
