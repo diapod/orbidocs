@@ -856,3 +856,14 @@ A/D restart preserved the exact certificate, request reference, preview and sign
 record without a new signing/issuance command. These remain scoped private
 diagnostics pending complete independent case qualification and retention.
 No A/B gate, aggregate, disclosure or global readiness status is promoted.
+
+
+The later probe review removes automatic recovery-bundle downloads. A missing
+current recovery bundle stops the canonical runner after stable preparation;
+the operator completes protected recovery/export separately, outside retained
+evidence/cache, before resuming the same operation/deadline. Older diagnostic
+runs that downloaded/discarded the response do not establish recoverable custody.
+The public v2 signal boundary now reuses the existing nym/proof/kind and public
+disclosure/routing checks; direct routing cannot silently pass as unknown v2
+content. This preserves the adopted carrier policy without qualifying contextual
+counting, UI, aggregate emission or either full runtime gate.
