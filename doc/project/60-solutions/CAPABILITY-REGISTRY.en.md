@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **241** host-local / **273** total; **41** owner groups.
+Entries: **242** host-local / **274** total; **42** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -447,6 +447,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>operator.extension.inspect</code> | <code>host/operator.extension.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>operator.extension.lifecycle</code> | <code>host/operator.extension.lifecycle</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>operator.extension.safe-mode</code> | <code>host/operator.extension.safe-mode</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon optional nym status host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>identity.nym.source-status.acquire</code> | <code>host/identity.nym.source-status.acquire</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon or supervised middleware host capability</code>
 

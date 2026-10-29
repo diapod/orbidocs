@@ -912,3 +912,17 @@ or authorize this surface. No evidence-specific host capability is registered.
 The [S020 contract](../60-solutions/020-scheduler/020-scheduler.md#generic-module-job-authority-deadline-and-failure-contract)
 owns deadlines, `Transient`/`AuthorizationDenied` meanings, unknown outcomes and
 consumer recovery duties. The evidence-supervision module is an opt-in consumer.
+
+
+### Contextual nym status acquisition
+
+`identity.nym.source-status.acquire` is a nonadvertised host-local capability
+owned by the optional nym status host. Its request/result contracts are
+`nym-source-status-acquire.local.v1` and `nym-source-status-result.local.v1`.
+It registers a verified certificate scope for existing S020 refresh and returns
+available signed status or explicit pending state. Module use requires the
+authenticated `agora-service` binding; other modules and an absent caller refuse. It grants no council adoption, issuer,
+Vault, nonce, publication or aggregate authority. No endpoint/time selectors or
+implicit network fallback are accepted. The P015
+[contextual profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#host-owned-source-status-acquisition)
+owns the certificate/freshness semantics.

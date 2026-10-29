@@ -876,3 +876,40 @@ and epoch clock. Exact signed fixtures cover reopen, event-token substitution
 and rollback. Service policy wiring, UI and actual SQLite/Synapse qualification
 remain separate pending Gate B obligations; this port does not change the
 adopted publication-time authority or promote either gate.
+
+
+### Host-owned source-status acquisition
+
+`identity.nym.source-status.acquire` accepts the closed
+`nym-source-status-acquire.local.v1`: an already adopted profile digest, a
+council-signed contextual certificate and explicit `collection` or
+`first-emission` purpose. The certificate determines context/epoch. The caller
+cannot supply a clock, endpoint, issuer adoption, private minimum revision or
+signing authority. Invalid certificates and unknown profiles acquire no watch.
+
+The optional host cache registers that verified live scope idempotently for its
+existing bounded S020 refresh job. The request performs no network fetch or Vault
+operation. `nym-source-status-result.local.v1` distinguishes an available signed
+snapshot from pending/unavailable or stale refresh. Available means status bytes
+for that purpose, not certificate eligibility, record admission or permission to
+emit. In particular, a revoked certificate can obtain the signed status that
+proves its revocation. Callers recheck signatures, scope and time at use.
+
+The authenticated current-operator route and the authenticated `agora-service`
+module binding use the same owner. The host capability is restricted to that
+receiver role; a registry entry or another module credential grants no access. Acquisition does not require a certificate to be
+unexpired now: the receiving owner separately verifies its trusted publication
+time. Ended epochs do not gain a new watch or lease. Existing cumulative status
+high-water marks and retirement remain authoritative. Missing refresh or storage
+is deferred unavailability, never permission to fall back to the old P081 nonce
+cache or to author-provided status/time. Implementation and qualification remain
+separate from this contract.
+
+The reference receiving service adopts profiles independently of the host cache.
+Its Matrix observation is bound to the authenticated client/account and configured
+clock authority. V2 admission has no fallback to the legacy current-certificate
+nonce cache. A distinct transport carrier of an already locally admitted record
+preserves its first admission and nonce decision; new carrier bytes/provenance
+remain separate. This historical read path cannot create missing domain facts or
+renew their time/status. Missing original record/author material is corruption,
+not a new admission opportunity. Software composition does not qualify Gate B.

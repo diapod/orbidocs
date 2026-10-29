@@ -27,6 +27,8 @@ class ResolveNodeRootTests(unittest.TestCase):
             "locked.nym-issuance-error.local.v1.json",
             "pending.nym-issuance-readback.local.v1.json",
             "prepare.nym-issuance-prepare.local.v1.json",
+            "collect.nym-source-status-acquire.local.v1.json",
+            "pending.nym-source-status-result.local.v1.json",
         ):
             with self.subTest(example=name):
                 completed = subprocess.run(
