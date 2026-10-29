@@ -1018,3 +1018,13 @@ This is a bounded component implementation, not actual emission or Gate A/B
 qualification. Host signing/publication scheduling, certification UI, complete
 private failure coverage, Synapse/PDU, replay and both-store retention remain
 required. Historical M4 and global readiness retain their existing scope.
+
+
+The Node owner also retains the first verified host-signed buffers before
+publication I/O and acknowledges only an actual durable local relay record.
+Threshold submission precedes proposal submission. Local acknowledgement is not
+Matrix forwarding or remote admission. Indexed selection is a bounded scheduling
+hint, not an eligibility/completeness proof; cooperative interruption creates no
+new emission fact. Unreleased local installation changes refuse unknown or old
+developer controls rather than silently rearming a latch. These component laws
+do not qualify the service scheduler, certification UI or either runtime gate.
