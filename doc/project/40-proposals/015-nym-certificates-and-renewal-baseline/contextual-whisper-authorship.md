@@ -979,3 +979,21 @@ remain required. See Node's
 [resumption review](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md)
 for source-specific outcomes and preserved refusals. Historical node-counting M4,
 global Agora and release readiness retain their prior scope.
+
+
+### Complete local inventory component (2026-10-29)
+
+The optional Node SQLite source owner now reads a complete adopted
+profile/context/epoch in bounded pages. Its private cursor and completion seal
+remain tied to the exact open owner. Per-scope source transaction revisions fence
+concurrent admission, status and retained dependency changes; another scope does
+not invalidate the read. A missing signed checkpoint is unknown, not zero, and
+a missing empty-scope head cannot reset its retained rollback history. Initial
+control installation is atomic and later missing controls refuse.
+
+These are component completeness/concurrency facts. The seal does not grant
+admission, first-emission freshness or publication authority. The aggregate owner
+still must compose current source evaluation and revalidate the pin inside its
+actual durable mutation, with its clock and status policy. Component tests do
+not close Gate A/B, P015-001–003 or historical M4. See the Node source-owner README
+and resumption review for the bounded software scope.
