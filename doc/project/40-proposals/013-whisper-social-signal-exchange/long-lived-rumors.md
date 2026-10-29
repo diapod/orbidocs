@@ -536,9 +536,13 @@ domain fixtures retain missed withdrawal, conflicting history and key loss.
 
 ## Long-Lived Rumor Tracker {#long-lived-rumor-tracker}
 
-Boundary review reopened LLR-002 qualification for the service authorization,
-publication and evidence-lifetime corrections in P035-019. The older bundle
-below remains immutable historical evidence; it does not qualify these corrections.
+The P035-019 boundary review requalified LLR-002 with shared authorization,
+staged publication and bounded evidence lifetimes at clean Node `9c914451` /
+Orbidocs `c9ad549b`: 645 tests and 15 mutation refusals, plus real OS-isolated
+inspection. Bundle `2adcd931dc1fd56ec479c4ad5159b3e698a6307c75bb191d9dcbf400860b433d`
+passed extracted replay and fresh retrieval from both admitted stores. See
+`node:docs/audits/ACCEPTANCE-P035-019-REVIEW-2026-10-29.md`. Library-only foreign
+receipt ingress is not qualified. The older bundle below remains immutable history.
 
 LLR-002's first consumer, read-only Agora inspection, passed P035-019's clean-source
 A–E gates on 2026-10-29, including a real cold OS-isolated process, independent
@@ -559,7 +563,7 @@ extract a generic library; the later implementation owns that comparison.
 |---|---|---|---|---|
 | P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004, P013-LLR-006–009; P035-019; P041-001; P078-014; P015-004 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch with a case-bound succession proof delivered only to the chosen audience. Its LLR-009 presentation verifies with no proof fetch and keeps authenticity separate from current authority. Succession signed by the expired nym key outside its grace window refuses. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
 | P013-LLR-001 | Four-period contract | todo | P015; P036-004 | Each period has a named field or policy and an owner; the consistency rules are fixed; an audit of existing contracts finds and corrects conflations, such as counting horizons longer than retention. |
-| P013-LLR-002 | Historical verifier | in-progress | P035-019; P015 | Shared pure verifier; first consumer is authenticated read-only Agora admission inspection. Four tri-state axes, snapshot-relative history and interval-based revocation ordering, unknown compromise/missing material, role/window/profile-bound witness trust. Gate B requires a real producer/SQLite/readback/cold inspection process with controlled clock and OS no-egress; A/C/E qualify binding, history and compromise laws. Time-only Matrix evidence and unsigned local facts are insufficient. Memarium LLR-003 and historical ingest P041-001 remain separate. |
+| P013-LLR-002 | Historical verifier | done | P035-019; P015 | Shared pure verifier; first consumer is authenticated read-only Agora admission inspection. Four tri-state axes, snapshot-relative history and interval-based revocation ordering, unknown compromise/missing material, role/window/profile-bound witness trust. Gate B requires a real producer/SQLite/readback/cold inspection process with controlled clock and OS no-egress; A/C/E qualify binding, history and compromise laws. Time-only Matrix evidence and unsigned local facts are insufficient. Memarium LLR-003 and historical ingest P041-001 remain separate. |
 | P013-LLR-003 | Admission evidence in Memarium | todo | P035-019; P036 | Receipts are stored beside envelope bytes under the same retention; redelivery carries them beside, never inside, the signed bytes. |
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |

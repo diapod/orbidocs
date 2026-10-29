@@ -2901,9 +2901,13 @@ over the network or admits a witness from carrier data.
 ### Boundary review addendum (2026-10-29)
 
 The first qualification did not establish authorization parity, bounded payload
-retention or atomic publication at receipt issuance. P035-019 is reopened until
-these service and store boundaries pass a new qualification; the earlier pinned
-evidence remains a historical result, not evidence for these additional claims.
+retention or atomic publication at receipt issuance. These service and store boundaries passed a new clean-source A–E qualification
+at Node `9c914451` / Orbidocs `c9ad549b`: 645 tests, one existing ignored case,
+OS-isolated ordinary consumers and 15 mutation refusals. Bundle
+`2adcd931dc1fd56ec479c4ad5159b3e698a6307c75bb191d9dcbf400860b433d`
+requalified after extraction and fresh retrieval from both admitted stores. See
+`node:docs/audits/ACCEPTANCE-P035-019-REVIEW-2026-10-29.md`. The earlier pinned
+evidence remains historical and is not rewritten.
 
 All ingest versions share operator authorization. Public disclosure gates apply
 to full records; detached admission still checks authorization and its private
@@ -3081,7 +3085,7 @@ LLR-003, ADC runtime, P041 historical ingest and release readiness stay separate
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | in-progress | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019 | Portable admission receipts | done | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 
