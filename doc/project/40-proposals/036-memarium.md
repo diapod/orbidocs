@@ -941,3 +941,23 @@ P036-009/010/011 close only this owner-journal/cutover profile. Controlled
 interruption, capacity and locator/allocator faults remain component evidence;
 independent S028 physical-failure/cost qualification remains partial. No physical
 erasure, audit-unit retirement or total-Node startup bound is implied.
+
+
+### Owner-journal review boundary (2026-10-29)
+
+A subsequent critical review found that generic JSONL materialization could repair
+a torn owner suffix during append/seal/retirement verification. The owner contract
+requires non-repairing validation for every such read, not only startup replay;
+refused bytes must remain unchanged. Current-head discovery also needs exact
+byte-bound EOF and stable anchors in the presence of legitimate trailing blank lines.
+Agent recovery must bind the persisted wrapper identity, schema metadata and source
+correlation to the complete validated domain payload before registry admission.
+
+The prior checkpoint and v1 qualifier remain frozen. Its independent checker did
+not bind all owner facts to the same Agent/request, so it is insufficient for the
+stronger reviewed claim. A versioned verifier must preserve the old source pin,
+verify fact/command/session links and complete anchor extents, exercise an ordinary
+fresh S=0 restart as well as previous-binary legacy, and observe temporary-root
+cleanup before reporting it. New component and ordinary-process evidence are
+recorded separately; none of these requirements establishes physical media erasure
+or independent S028 failure/cost qualification.

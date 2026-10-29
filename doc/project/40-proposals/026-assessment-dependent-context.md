@@ -93,6 +93,16 @@ faults are explicitly separate from the ordinary-process witness. S028-OS-003 re
 physical failure/cost qualification. Later audit-unit/dispatch and context stages
 remain open, including P066/notification retirement receipts.
 
+The subsequent stage-01 review separates the frozen v1 runtime witness from its
+verifier's missing Agent/command bindings. Current repairs enforce non-repairing
+owned reads across lifecycle operations, exact discovery boundaries, and domain
+wrapper identities before recovery admission. The reviewed qualifier is a versioned
+successor that reuses the pinned v1 codec, adds complete fact/session/command and
+anchor links, ordinary fresh S=0 restart, and observed runtime-root cleanup.
+Independent S028 failure/cost qualification remains partial; the later stages below
+are unchanged. New measured results must be retained separately from the original
+checkpoint.
+
 ### Audit units and capacity
 
 An audit unit is a closed graph of owner facts. Source and consumer units have

@@ -804,3 +804,12 @@ S028-OS-003 remains partial for independent filesystem failure and catalog-cost
 qualification; controlled component faults do not establish power-loss durability
 or broad platform support. A unit receipt cannot close P026's cross-owner saga or
 claim SQLite/media sanitization.
+
+
+The 2026-10-29 owner-journal review requires the same bounded non-repairing reader
+before owned append, seal, replay and retirement verification. The generic JSONL
+reader's repair behavior is outside this owner boundary. Discovery must admit an
+exact byte ceiling at complete sampled EOF and exclude only the final blank tail
+from the anchored record prefix; earlier segment extents remain exact. A later
+expected-head append detects concurrent source growth. These are integrity and
+boundary corrections, not a broader storage or physical-durability qualification.
