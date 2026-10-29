@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:witness-signing-result.local:v1",
+  "title": "witness-signing-result.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "prepared"
+      ],
+      "properties": {
+        "result": {
+          "const": "prepared"
+        },
+        "prepared": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "delegation",
+            "decided/at",
+            "preparation/id"
+          ],
+          "properties": {
+            "delegation": {
+              "$ref": "witness-key-delegation.v1.schema.json"
+            },
+            "decided/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "preparation/id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{22}$"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "signature"
+      ],
+      "properties": {
+        "result": {
+          "const": "signed"
+        },
+        "signature": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "observed/at"
+      ],
+      "properties": {
+        "result": {
+          "const": "time"
+        },
+        "observed/at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "error"
+      ],
+      "properties": {
+        "result": {
+          "const": "refused"
+        },
+        "error": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "reason"
+              ],
+              "properties": {
+                "reason": {
+                  "enum": [
+                    "unsupported",
+                    "unavailable",
+                    "policy-refused",
+                    "window-closed"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "reason",
+                "retry/at"
+              ],
+              "properties": {
+                "reason": {
+                  "const": "window-guard"
+                },
+                "retry/at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 40
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

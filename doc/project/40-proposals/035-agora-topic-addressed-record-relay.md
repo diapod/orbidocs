@@ -2764,7 +2764,7 @@ links here rather than maintaining duplicate task status.
 
 ## Decorrelated Bucket Pull (2026-10-27)
 
-Planned continuation for
+Implementation contract for
 [P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
 exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
 The relay stays semantics-blind (section 1.1). Whisper owns the decorrelation
@@ -2809,30 +2809,41 @@ Planned continuation for
 [P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 `relay/received-at` is relay metadata outside the author's signature, so it
 cannot by itself show when a record was admitted, or that its nym proof was
-valid then. P015 already relies on an allowlisted relay's signed durable
-admission receipt as publication-time evidence. This section makes that
-receipt a portable artifact instead of adding a second format.
+valid then. P015's earlier SQLite time-policy draft had no runtime producer.
+The unreleased `agora-publication-receipt.local.v1` is retired; its time-only
+claim cannot satisfy historical admission. The new immutable profile explicitly
+selects `witnessed-admission-receipt-v1`. The old SQLite policy returns
+`unsupported-time-policy`, without reinterpreting its signed meaning.
 
 `agora-admission-receipt.v1`, signed by the admitting relay, binds:
 
-- the `record/id` and the digest of the exact author bytes;
+- `receipt/profile` (`full-record` or `detached-manifest`), and the digest of
+  exact signed author bytes; `record/id` appears only in the full profile;
 - the digest of the nym certificate or passport used, and its issuer;
-- the verification outcome and the ingest gate policy that applied;
-- the relay identity and the acceptance time.
+- the exact profile and admission-policy digests;
+- the admission status snapshot digest and `status/revision`;
+- the witness identity, embedded operational-key delegation and its digest;
+- `accepted/at` (decision time T_d), `committed/at` (T_c) and `accepted` outcome.
 
 The relay acts as an explicitly admitted time authority for the profiles that
 accept its receipts; no verifier infers that authority from a relay label. The
 receipt never enters the signed record. It travels beside the byte-identical
 envelope: in readback metadata, in custodial redelivery requests and in local
-Memarium storage. A verified Matrix PDU remains an equivalent proof under P015.
+Memarium storage when LLR-003 qualifies that consumer. A verified Matrix PDU or
+the existing authenticated homeserver observation proves a time binding only;
+neither attests the P015 admission checks required by LLR-002.
+
+The v1 producer signs only a strict live `accepted` result. Historical
+re-admission is outside this profile. `accepted-historical` with a source-proof
+digest is reserved, unsupported and rejected by the closed v1 contract.
 
 ### Detached Embargo Manifest Binding
 
-Planned consumer profile (2026-10-28), qualified by P035-019 and
+Consumer profile (frozen 2026-10-29), qualified by P035-019 independently of
 [P013-ADC-001](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
 For a private Whisper anchor, the counting authority verifies the complete
 signal and its separately nym-signed embargo manifest, then signs a receipt
-binding the signal's `record/id`, the exact author-byte digest **and** the
+binding only the exact signed author-byte commitment **and** the
 manifest digest and verified signing-use profile. The manifest precedes the
 signal and never hashes the signal back. No generic Agora signature is checked
 against a body with omitted fields.
@@ -2855,12 +2866,14 @@ This reuses the portable receipt carrier, not another timestamp service.
 
 ### Admission Receipt Implementation Recommendations
 
-Use `PublicationTimeVerifier` in `node:nym-core/src/lib.rs` as the existing behavior
-port for a record digest plus exact author-byte digest yielding a verified time
-and evidence digest. It currently has pure/test consumers; a portable production
-adapter is still P035-019 work. Matrix PDU and signed-receipt verification must
-share binding-law fixtures, not duplicate historical validation in every relay,
-Memarium reader and Whisper consumer.
+Use the pure admission evaluator in `node:whisper-authorship/src/admission.rs`
+over explicit bounded `EvidenceBundle` values. Its full and detached verified
+tokens have different types and cannot be deserialized. The existing
+`nym-core::PublicationTimeVerifier` remains the narrower time projection of a
+verified full receipt. A time-only Matrix adapter returns `insufficient-claim`
+for historical admission. Share scope, activation, epoch and interval predicates
+with live P015 verification, while keeping live and historical compositions
+separate. Do not simulate history by calling the live gate with an old clock.
 
 The existing `AdmissionEvidence` in `node:agora-matrix/src/recovery.rs` is a local
 policy/evaluation fact. Neither that struct nor a row retained by
@@ -2878,11 +2891,126 @@ fetch. See the [P013 reuse contract](013-whisper-social-signal-exchange.md#imple
 and [ADC proof paths](013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations).
 P035-019's gate includes these adapter-law and local-fact-is-not-proof cases.
 
+Attached evidence is checked before local exact-digest resolution. It is never
+replaced by cache material after a failed check. The SQLite resolver charges its
+integrity pass and the following inspection against the same 32-signature
+budget, refusing excess work. Complete carriers can be inspected directly;
+store enrichment does not enlarge the work allowance. No resolver performs I/O
+over the network or admits a witness from carrier data.
+
+### Frozen implementation boundary (2026-10-29)
+
+P035-019 and P013-LLR-002 are in progress. The first historical consumer is
+read-only Agora admission inspection; Memarium LLR-003 and P041 historical ingest
+retain independent gates. The new closed receipt binds both `accepted/at` and
+`committed/at`, the admission status snapshot digest/revision and the exact P015
+profile. Signature follows the durable record commit. Explicit issuance facts
+are `pending`, `issued` or `refused`; interrupted work cannot invent commit time.
+
+`witness-key-delegation.v1` is P037's node-signed operational key statement,
+not a reinterpretation of participant P032 v1. Its signed interval, role, profile,
+sequence and predecessor are checked against an independently admitted local
+anchor with explicit `receipt/profiles`. Production keys last at most one hour;
+the fixture uses sixty seconds. A commit-budget-plus-skew guard band precedes
+sampling the admission decision. Secrets stay volatile and are not recoverable
+from the node root. Neither rotation nor a claimed old timestamp defeats complete
+host/authority compromise; local prior observations remain separate evidence.
+
+The provider's public fence is outside Agora's domain database. P015 custody
+and P037 share the lower `custody-fence` time/revision primitives, not key
+storage. A one-use caller-bound preparation binds the owner-sampled decision
+time, delegation and profile. Generic signing rejects the witness domain and
+prefix even under another domain. Expiry is checked at use, also after sleep;
+secret erasure is not an operating-system scheduling or power-loss guarantee.
+
+The verifier checks T_d <= T_c, the profile's commit budget and validity over
+the entire interval. Skew is read from that bound profile; it cannot extend
+an epoch or a key window. The producer refuses decision times in the final
+`commit-budget + skew` seconds, returning `pending` and `retry/at` without an
+open transaction. Key K2 never signs a decision from K1's closed window.
+
+Local witness admission is a key/role/profile/window decision, including
+`receipt/profiles`; full-record permission does not imply detached permission.
+A compromise at C rejects T_d >= C. Earlier claims from a delegation whose
+window intersects C remain unknown unless the exact receipt was independently
+retained locally before C, accounting for profile skew. Prior observation of
+that delegation alone is insufficient. Rotation retains old admitted windows.
+First-seen observations are write-path facts; inspection never creates them.
+
+Historical assessment uses `basis: admission-snapshot`. A later ordinary
+revocation does not retroactively invalidate admission. Snapshot chronology uses
+validated monotonic status history and the interval between a snapshot without
+the revocation and one with it; signed issuance is not factual publication.
+Retroactive nym compromise remains `not-assessable`.
+
+A bound snapshot already containing the revocation makes historical admission
+invalid. A missing bound snapshot is unknown for that receipt. For authenticated
+snapshots without an entry at t_a and with it at t_b, ordering is `before` if
+t_b <= T_d - skew, `after` if t_a >= T_d + skew, and otherwise `unknown`.
+The admission snapshot alone cannot establish `after`. `StatusCursor` enforces
+scope, rollback, equivocation and cumulative sets; gaps in revisions are legal.
+Current high-water knowledge never substitutes for the original historical basis.
+
+Detached receipts never expose the private content-derived record ID, including
+anchors, routes, logs, metrics or traces. They attest checked manifest/key/
+authority/lifetime equality and use a distinct verified result type. A recipient
+of the detached claim does not independently verify invisible author bytes.
+
+Detached addresses commit to the signature-bearing author bytes, not the
+unsigned content address. Case authority is a canonical public principal
+(`node`, `participant`, `org` or `council` did:key), never a contact URL.
+The profile and certificate both authorize the exact manifest-use tuple.
+The manifest precedes the private signal and commits no hash back to it.
+P015-005 issuer exchange, LLR-006 Vault custody, ADC condition execution and
+LLR-009 succession remain separate runtime gates; the old issuer explicitly
+rejects the v2 profile before effects rather than widening decision-v1 in place.
+
+The bounded profile admits three 512 KiB statuses, eight 4 KiB receipts including
+delegations, eight 16 KiB certificates, eight 16 KiB profiles, a 64 KiB record,
+a 32 KiB manifest and 64 KiB metadata: 1984 KiB total. The 2 MiB decoded and
+4 MiB transport ceilings are defensive bounds, with 32 signatures and depth 16.
+Missing status material is per-receipt `snapshot-missing`, not packet success or
+whole-packet refusal. P035-019 requires separately qualified gates A through E,
+including a real producer/readback/OS-isolated consumer and detached privacy.
+
+SQLite stores many receipts under `(record/id, receipt-digest)` and one blob per
+dependency digest. Receipt references hold evidence and author bytes against
+generic pruning. Each receipt is reported separately; conflicting statements
+by one witness are equivocation, not a choice of the earliest time. Local
+issuance is an independent append-only `pending | issued | refused(reason)`
+projection. A crash with no certain T_c refuses the attempt on restart; retry
+deduplicates the record. Commit duration has bounded histogram buckets and a
+typed `commit-budget-exceeded` counter, without record identifiers in labels.
+Upgrade drops the old table only when empty; nonempty rows remain inactive and
+raise a health warning. Matrix `/publication` remains unchanged.
+
+The first consumer exposes authenticated read-only full-record inspection at
+`GET /v1/agora/records/{id}/admission`; detached uses
+`GET /v1/agora/admissions/detached/{commitment}`. New admission and readback
+carriers are versioned; old readers are not sent unknown proof fields. Four
+independent tri-state axes report record authenticity, receipt authenticity,
+historical admission and current status, with no authority result. Stable
+`inputs/digest` excludes `evaluated_at`; the result digest includes evaluation.
+
+The opt-in Agora trust configuration currently uses the existing startup-only
+loader (P091 inventory records its legacy ownership). A malformed, duplicate,
+unreadable or symlinked source disables this new trust scope; it cannot turn a
+partial source set into default authority. This deliberately makes unrelated
+configuration corruption an availability failure for new admission. It does
+not migrate all Agora configuration to P091 or add a product write API.
+
+Acceptance is owned by `node:tools/acceptance/portable-admission/`: A contracts;
+B ordinary producer -> SQLite -> readback -> cold OS-isolated inspection;
+C historical revocations; D real detached production/privacy; E durability and
+volatile-key lifecycle. The receiver's controlled evaluation clock and no-egress
+probe are mandatory. Source and evidence commits are separate; qualification
+remains pending until the clean-source run and extracted replay pass.
+
 ### Admission Receipt Tracker
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019 | Portable admission receipts | in progress | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-admission-request:v1",
+  "title": "agora-admission-request.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile/digest",
+    "status/digest",
+    "receipt/profile",
+    "material"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-admission-request.v1"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "status/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "receipt/profile": {
+      "enum": [
+        "full-record",
+        "detached-manifest"
+      ]
+    },
+    "material": {
+      "$ref": "agora-admission-material.v1.schema.json"
+    }
+  }
+}

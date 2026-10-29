@@ -294,3 +294,10 @@ revision and withdrawal knowledge but cannot authorize passport use before its
 signed `as_of`. The receiver's local retry uses the same verifier and current
 root; no new issuance authority is inferred from transport. See
 [P076-038](../../40-proposals/076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).
+
+P035-019 applies portable verification to Agora admission, with a distinct
+P037 `witness-key-delegation.v1` role/profile/window contract. It does not change
+the P032 v1 preimage or make a witness receipt a current capability. Local trust
+admission, signed history and present authority remain separate. The planned
+P032 v2 lower-time-bound and ingest migration analysis is recorded in
+`node:docs/development/P032-V2-INGEST-ANALYSIS.md`; it supplies no v2 runtime claim.

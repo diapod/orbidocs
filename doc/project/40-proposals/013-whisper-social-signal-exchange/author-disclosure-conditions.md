@@ -84,8 +84,11 @@ The material is split into two payloads and an independently verifiable manifest
 
 The manifest is created first. It includes neither the protected signal's body
 nor its record id: the signal then commits the signed manifest's digest, and
-P035-019's signed admission receipt binds **both** that signal's `record/id`
-and the manifest digest after verifying the complete private publication.
+P035-019's detached admission receipt binds the digest of the exact **signed**
+author bytes and the manifest digest after verifying the complete private
+publication. The private `record/id` excludes the signature and is forbidden in
+the public receipt, URLs, logs, metric labels and traces: it would allow a
+dictionary to confirm guessed low-entropy content.
 There is no reverse manifest-to-signal hash dependency and no field-stripping
 from a signed Agora envelope. The receiver can verify the author's manifest
 and the authority's claim about admission without seeing the protected body;
@@ -641,6 +644,14 @@ and evidence commitment from the same admitted inputs. Historical M4 counting
 and ids stay unchanged.
 
 ## Author Disclosure Condition Tracker {#author-disclosure-condition-tracker}
+
+P035-019 freezes the minimum `whisper-embargo-manifest.v1` proof input before
+this runtime: exact authorized publication-use tuple, certified nym key, profile
+and certificate digests, case continuity-key digest, canonical public authority
+principal and bounded `case/not-after`. P015-005 owns issuance authorization;
+LLR-006 owns the case key. The manifest precedes the signal, whose private fields
+must match; the receipt attests those checks. This prerequisite does not close
+ADC-001's condition/release/amendment contracts or any ADC execution gate.
 
 All rows are post-MVP `todo` unless marked otherwise. The grouping row closes
 only on the composed Story 014 variant run.

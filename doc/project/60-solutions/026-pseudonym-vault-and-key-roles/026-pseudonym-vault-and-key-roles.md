@@ -491,3 +491,11 @@ explicit opt-in explaining takeover and seizure risks; default bundles omit it.
 P013-LLR-006 qualifies creation, key/anchor binding, expiry, deletion and recovery
 inclusion/exclusion. LLR-007/008 own succession and ordered case effects; this
 note is planned integration, not implementation evidence.
+
+P035-019 freezes the minimum public manifest binding consumed here: certified
+nym/profile, exact auxiliary-use tuple, case-key digest, canonical authority
+principal and bounded lifetime. Its producer checks equality with the private
+signal before a detached receipt. The manifest is not a Vault key export or a
+full-body proof. P037 volatile admission-witness keys are independently random
+host-owned keys and never enter participant recovery. LLR-006 custody and
+opt-in case-key recovery remain unqualified by this admission slice.

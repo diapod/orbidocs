@@ -513,6 +513,12 @@ post-MVP follow-up.
 
 ### Embargo Authorship Scope Tracker
 
+P035-019 freezes `whisper-source-profile.v2`, the extended contextual certificate
+and the domain-bound manifest input as prerequisites for admission receipts.
+The shared exact-use matcher and negative producer vectors exist in that slice.
+P015-005 remains open: current decision-v1 issuer runtime rejects the new profile
+before effects and needs a versioned exchange rather than an in-place widening.
+
 Post-MVP; independent of the narrow MVP verifier in P015-004. The existing
 contextual profile remains restricted to `whisper-signal`/`whisper-signal.v2`.
 A key's ability to sign is not permission to publish another kind.
