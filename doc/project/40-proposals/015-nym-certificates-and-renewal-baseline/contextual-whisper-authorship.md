@@ -832,3 +832,27 @@ This local restart fence does not claim protection against restoring an entire
 older database. The clean Node `c09fa017` / Orbidocs `8e12cae7` full software gate
 passed 9,097 tests with zero failures and 127 explicit ignores; that baseline
 precedes the separately tested clock correction and does not qualify A or B.
+
+
+### Source/checkpoint composition and actual private diagnostics (2026-10-29)
+
+The SQLite owner now accepts the same opaque contextual preparation beside a
+Matrix source decision. Exact author bytes, independently admitted clock source,
+event binding and first local receipt are checked before the transaction; nonce,
+status CAS, admission, source, retained time and account/job progress commit
+together. Multiple carriers preserve one first locally admitted fact. An existing
+rejected event cannot be upgraded or leave an orphan reservation. The pure Matrix
+codec/client and wire carrier remain independent of this optional owner policy.
+Signed fixture tests cover source/checkpoint and history-job rollback, restart,
+status races, duplicate observations and clock/source substitution. They do not
+qualify Synapse or the contextual service/UI/projection path.
+
+The `d7595742` runtime also observed ordinary issue53/renewal54/reset55 and a
+separate signed council refusal over still-admitted AD transport. A sequential
+provider probe verified the same live binding MAC before reset and
+`key-destroyed` after the actual reset and retirement buffer; no key or private map
+was exported. Its initial concurrent-provider startup refusal remains preserved.
+A/D restart preserved the exact certificate, request reference, preview and signed
+record without a new signing/issuance command. These remain scoped private
+diagnostics pending complete independent case qualification and retention.
+No A/B gate, aggregate, disclosure or global readiness status is promoted.
