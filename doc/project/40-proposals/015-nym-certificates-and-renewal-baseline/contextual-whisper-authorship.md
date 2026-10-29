@@ -1039,3 +1039,32 @@ signed buffers precede local submission; Matrix forwarding remains the existing
 journal worker's responsibility. The module starts no private scheduler and
 installs no default job. Component conformance does not establish actual
 certification UI, source-result annotation or SQLite/Synapse qualification.
+
+
+### Current source annotation contract (2026-10-30)
+
+`whisper-contextual-source-view.local.v1` separates the current source count from
+its last complete evaluation and the immutable first-emission references.
+`eligible` and `below-threshold` require an unchanged complete source/status
+revision and the emission freshness lease. Otherwise the current count is null
+with `freshness-unknown`; the last evaluation remains explicitly historical.
+At epoch closure the current count is zero and the state is `epoch-ended`.
+A sampled clock earlier than the owner's committed high-water cannot produce
+a fresh annotation. Reads neither advance that fence nor extend a status lease. A newer signed status or
+source change invalidates the previous current count until reevaluation.
+
+The read model is rebuildable. Deleting it must not erase or recreate the
+source-owned first-emission latch. A collection-only update may persist an
+annotation without authorizing a new pair. Its display is separate from the
+signed proposal and cannot rewrite the historical claim or trigger publication.
+A record-bound read retains that record's existing topic ACL and independently
+adopted local projection authority; imported claims cannot borrow a local basis.
+
+
+Node now implements this read model over a rebuildable cache in the complete
+source owner's transaction. The record-bound API and UI preserve the topic ACL
+and exact frozen local claim binding. Refreshing a frozen pair does not frame or
+publish another pair. Component conformance covers revocation/restoration,
+freshness, corruption, rollback against the committed fence and cache rebuild.
+This does not close the complete certification UI, durable result-change audit,
+actual Gate A/B campaigns or retained proof obligations.

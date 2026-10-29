@@ -31,6 +31,7 @@ schema_for_file() {
   case "$1" in
     *.nym-source-status-acquire.local.v1.json) echo "$SCHEMAS_DIR/nym-source-status-acquire.local.v1.schema.json" ;;
     *.nym-source-status-result.local.v1.json) echo "$SCHEMAS_DIR/nym-source-status-result.local.v1.schema.json" ;;
+    *.whisper-contextual-source-view.local.v1.json) echo "$SCHEMAS_DIR/whisper-contextual-source-view.local.v1.schema.json" ;;
     *.inac-admission-status.query.json) echo "$SCHEMAS_DIR/inac-admission-status.query.v1.schema.json" ;;
     *.inac-admission-status.result.json) echo "$SCHEMAS_DIR/inac-admission-status.result.v1.schema.json" ;;
     *.agent-outcome.v4.json) echo "$SCHEMAS_DIR/agent.outcome.v4.schema.json" ;;

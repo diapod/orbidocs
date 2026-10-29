@@ -55,6 +55,7 @@ NODE_SCHEMA_FILENAMES = {
 SCHEMA_WHITELIST = (
     "nym-source-status-acquire.local.v1.schema.json",
     "nym-source-status-result.local.v1.schema.json",
+    "whisper-contextual-source-view.local.v1.schema.json",
     "whisper-signal-draft.local.v1.schema.json",
     "nym-authorship-preview.local.v1.schema.json",
     "nym-authorship-sign.local.v1.schema.json",
@@ -762,6 +763,7 @@ SCHEMA_WHITELIST = (
 EXAMPLE_WHITELIST = (
     "collect.nym-source-status-acquire.local.v1.json",
     "pending.nym-source-status-result.local.v1.json",
+    "unknown.whisper-contextual-source-view.local.v1.json",
     "prepare.nym-issuance-prepare.local.v1.json",
     "pending.nym-issuance-readback.local.v1.json",
     "locked.nym-issuance-error.local.v1.json",

@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-contextual-source-view.local:v1",
+  "title": "whisper-contextual-source-view.local.v1",
+  "description": "Authority-qualified local current annotation, separate from immutable signed claims. Freshness uses the emission lease and the unchanged complete source revision. Last evaluation is historical when freshness is unknown. Epoch closure makes the current contribution zero without rewriting claims. This read model grants no admission, signing or delivery authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile/digest",
+    "context/digest",
+    "epoch",
+    "authority",
+    "state",
+    "freshness",
+    "current/sources",
+    "last-evaluation",
+    "first-emission"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-contextual-source-view.local.v1"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "context/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "authority": {
+      "type": "string",
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 512
+    },
+    "state": {
+      "enum": [
+        "eligible",
+        "below-threshold",
+        "freshness-unknown",
+        "epoch-ended"
+      ]
+    },
+    "freshness": {
+      "enum": [
+        "fresh",
+        "unknown"
+      ]
+    },
+    "current/sources": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last-evaluation": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "evaluated/at",
+            "sources/distinct-count",
+            "status/revision",
+            "status/digest",
+            "basis/commitment"
+          ],
+          "properties": {
+            "evaluated/at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "sources/distinct-count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "status/revision": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "status/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "minLength": 50,
+              "maxLength": 50
+            },
+            "basis/commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "minLength": 50,
+              "maxLength": 50
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "first-emission": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "threshold/record-id",
+            "proposal/record-id"
+          ],
+          "properties": {
+            "threshold/record-id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "minLength": 50,
+              "maxLength": 50
+            },
+            "proposal/record-id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "minLength": 50,
+              "maxLength": 50
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "eligible"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "freshness": {
+            "const": "fresh"
+          },
+          "current/sources": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 4096
+          },
+          "last-evaluation": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "below-threshold"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "freshness": {
+            "const": "fresh"
+          },
+          "current/sources": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "last-evaluation": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "freshness-unknown"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "freshness": {
+            "const": "unknown"
+          },
+          "current/sources": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "epoch-ended"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "freshness": {
+            "const": "unknown"
+          },
+          "current/sources": {
+            "const": 0
+          }
+        }
+      }
+    }
+  ]
+}
