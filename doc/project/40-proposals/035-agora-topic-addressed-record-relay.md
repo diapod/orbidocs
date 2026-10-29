@@ -1745,6 +1745,25 @@ S039 notification owners rather than a new storage-owned scheduler:
 extends P035-009's reviewed-retirement rule without changing any historical
 evidence identity, qualification result, release claim or active hold.
 
+**Scope clarification (2026-10-29):** historical preservation requires explicit
+designation of the material and its owner/purpose, using an existing task/run
+record or evidence inventory. Existing frozen roots, adopted inventories, holds
+and retained qualification references already designate their members and required
+authority assets; their protection is not withdrawn by this clarification. A
+producer may clean its own unmarked temporary local test/implementation output
+after recording the reason and exact scope and establishing exclusive ownership,
+inactivity and absence of preservation or consumer dependencies. It may also run
+initial `retain`, including removal of indexed loose copies only after archive
+integrity, extracted qualification equivalence and storage-budget checks pass.
+This is representation-preserving admission, not retirement of an adopted replica
+or evidence claim. Node owns the operational conditions in
+`node:docs/evidence/RETENTION.md#evidence-designation-and-producer-authority`.
+Current automatic `protected` producer metadata remains a designation for the
+resulting bundle; no existing schema, executor authority or historical proof is
+changed. Within the managed retained scope, unknown ownership/dependencies still
+refuse cleanup. Neither a temporary-use label nor missing metadata grants rights
+over other producers' material or permits downgrading designated history.
+
 Retirement uses three distinct operations:
 
 - `purge-derived` removes reconstructible runtime views or cache bytes
