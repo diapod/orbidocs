@@ -867,3 +867,12 @@ The public v2 signal boundary now reuses the existing nym/proof/kind and public
 disclosure/routing checks; direct routing cannot silently pass as unknown v2
 content. This preserves the adopted carrier policy without qualifying contextual
 counting, UI, aggregate emission or either full runtime gate.
+
+
+The later receiver composition carries the same opaque contextual preparation
+through decoding to the existing source/checkpoint transaction. A deferred event
+preserves its original local receipt while admission evaluates the new status
+and epoch clock. Exact signed fixtures cover reopen, event-token substitution
+and rollback. Service policy wiring, UI and actual SQLite/Synapse qualification
+remain separate pending Gate B obligations; this port does not change the
+adopted publication-time authority or promote either gate.
