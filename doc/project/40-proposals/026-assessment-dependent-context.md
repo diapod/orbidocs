@@ -283,3 +283,15 @@ normal/-O loose/extracted qualifier mutations. Retained evidence follows Node
 RETENTION/RETIREMENT/EXTERNAL-RETENTION; runtime policies authorize no historical
 acceptance cleanup. Reconcile owner docs, schemas, trackers, Node ledger/MVP and
 convergence/cleanup reviews per completed stage. Preserve 012b historical evidence.
+
+
+### Stage 01 reviewed checkpoint (2026-10-29)
+
+The [Node review](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md)
+records the corrected non-repairing lifecycle reads, discovery limits, domain
+wrapper identity and independent semantic witness links. Clean ordinary run 02 at
+Node `5d62641f` / Orbidocs `9690ac42` qualifies legacy and fresh S=0 restart plus the
+pinned previous reader's refusal, with normal/-O loose/extracted agreement and 164
+manipulation refusals. This is a new scoped checkpoint; original evidence and its
+v1 verifier stay frozen. It does not close independent S028-OS-003 failure/cost
+qualification or later audit-unit, dispatch, provenance and context stages.

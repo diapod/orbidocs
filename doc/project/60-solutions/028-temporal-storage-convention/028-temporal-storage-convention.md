@@ -813,3 +813,13 @@ exact byte ceiling at complete sampled EOF and exclude only the final blank tail
 from the anchored record prefix; earlier segment extents remain exact. A later
 expected-head append detects concurrent source growth. These are integrity and
 boundary corrections, not a broader storage or physical-durability qualification.
+
+
+The corresponding reviewed Node profile now materializes verified envelopes in
+one bounded pass, shared by record/range and owned lifecycle consumers. Tests prove
+that append/seal/retirement refuse a torn tail without repair, and that blank tails
+and exact byte budgets preserve anchored replay. Ordinary legacy/fresh restart and
+prior-binary refusal have a separate v2 qualification; see
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md`.
+S028-OS-003 remains partial; these controlled faults do not establish power-loss,
+malicious actor, whole-node startup or media sanitization guarantees.

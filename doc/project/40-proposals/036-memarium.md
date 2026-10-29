@@ -961,3 +961,16 @@ fresh S=0 restart as well as previous-binary legacy, and observe temporary-root
 cleanup before reporting it. New component and ordinary-process evidence are
 recorded separately; none of these requirements establishes physical media erasure
 or independent S028 failure/cost qualification.
+
+
+The reviewed profile is qualified separately at clean Node `5d62641f` / Orbidocs
+`9690ac42` (ordinary run 02). It verifies eight unchanged legacy facts plus the
+barrier and two dedicated resume records, and a fresh S=0 case with eight dedicated
+facts unchanged across restart. Normal/-O loose/extracted results agree; 41 controls
+refuse per variant (164 refusals). The final implementation materializes verified
+envelopes directly from one non-repairing scanner; it never invokes generic repair
+for owned lifecycle reads. All 155 storage/Memarium and six Agent-adapter tests pass.
+See `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md`.
+P036's named cutover profile remains done; independent S028 failure/cost gates and
+later P026 audit/context work remain partial or open. Historical v1 is preserved,
+including its explicitly demonstrated verifier limitation.
