@@ -789,13 +789,18 @@ See [the staged P026 design](../../40-proposals/026-assessment-dependent-context
 
 | ID | Task | Status | Completion gate |
 | --- | --- | --- | --- |
-| S028-OS-001 | Freeze bounded owned-stream lifecycle | in-progress | Typed generation/head/seal/range/receipt contracts; whole chains, explicit logical versus physical reclamation and no authority in identifiers. |
-| S028-OS-002 | Implement JSONL owned-stream mechanics | in-progress | Durable allocator outside retired streams, lazy sharded catalog, streaming verified ranges, exact seal/retire recovery, allocation-mode diagnostics and no retired replay/import resurrection. |
-| S028-OS-003 | Qualify storage retention and failure boundaries | todo | Range I/O bounds, corruption, allocator loss, seal/write races, partial unlink, ENOSPC, reopen and catalog-cost measurements; SQLite physical limits remain explicit. |
+| S028-OS-001 | Freeze bounded owned-stream lifecycle | done | Typed generation/head/seal/range/receipt contracts; whole chains, explicit logical versus physical reclamation and no authority in identifiers. |
+| S028-OS-002 | Implement JSONL owned-stream mechanics | done | Durable allocator outside retired streams, lazy sharded catalog, streaming verified ranges, exact seal/retire recovery, allocation-mode diagnostics and no retired replay/import resurrection. |
+| S028-OS-003 | Qualify storage retention and failure boundaries | partial | Range I/O bounds, corruption, allocator loss, seal/write races, partial unlink, ENOSPC, reopen and catalog-cost measurements; SQLite physical limits remain explicit. |
 
-Node's `storage-jsonl/README.md` records the current boundary: component lifecycle,
-allocator/reopen, exact pending-append recovery, native allocation and verified range
-tests exist; owner routing and production retirement do not. Range discovery is bounded to 4096 directory entries; captured version-1 locators
-freeze sequence and byte extents and replay without later directory enumeration. S028-OS-001/003 remain open for
-owner-bound descriptor custody and independent failure/cost qualification. A unit
-receipt cannot close P026's cross-owner saga or claim SQLite/media sanitization.
+Node's `storage-jsonl/README.md` records the local format-2 boundary: component
+lifecycle, allocator/reopen, exact pending-append recovery, native allocation and
+verified range tests exist. Memarium now binds its startup descriptor and protects
+the retained source; production owner-authorized retirement is still absent.
+Range discovery is bounded to 4096 directory entries; captured version-1 anchors
+freeze sequence and byte extents and replay without later directory enumeration.
+An allocator descriptor uses exact-byte CAS, with no domain semantics in storage.
+S028-OS-003 remains partial for independent filesystem failure and catalog-cost
+qualification; controlled component faults do not establish power-loss durability
+or broad platform support. A unit receipt cannot close P026's cross-owner saga or
+claim SQLite/media sanitization.

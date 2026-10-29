@@ -921,6 +921,16 @@ consumer. Legacy mixed Personal remains protected; no historical erasure is clai
 
 | ID | Task | Status | Depends on | Completion gate |
 | --- | --- | --- | --- | --- |
-| P036-009 | Freeze private owner fact streams | in-progress | S028-OS-001 | Owner-only read/write/import, no generic Personal view/export/index exposure, per-schema fact identity and retired-stream refusal. |
-| P036-010 | Cut over Agent writes at startup | todo | P036-009; S028-OS-002 | Expected-head barrier before Agent load, digest-verified locator, new generation after barrier, old writer/recovery/import fenced; no legacy copy or deletion. |
-| P036-011 | Qualify dedicated versus legacy recovery | todo | P036-010; S028-OS-003 | Fresh S=0 and actual previous-binary legacy, cutover crash matrix, old-binary refusal, bounded range I/O and exact unchanged legacy bytes. |
+| P036-009 | Freeze private owner fact streams | done | S028-OS-001 | Owner-only read/write/import, no generic Personal view/export/index exposure, per-schema fact identity and retired-stream refusal. |
+| P036-010 | Cut over Agent writes at startup | in-progress | P036-009; S028-OS-002 | Expected-head barrier before Agent load, digest-verified locator, new generation after barrier, old writer/recovery/import fenced; no legacy copy or deletion. |
+| P036-011 | Qualify dedicated versus legacy recovery | in-progress | P036-010; S028-OS-003 | Fresh S=0 and actual previous-binary legacy, cutover crash matrix, old-binary refusal, bounded range I/O and exact unchanged legacy bytes. |
+
+
+The 2026-10-29 Node implementation installs the owner journal before Agent load
+and admission. It preserves the immutable legacy prefix, appends an expected-head
+barrier, checks an exact descriptor and routes new facts outside Personal discovery.
+The owner port exposes no generic import/export/read surface; ordinary Memarium
+owner-tag writes refuse before idempotency. Per-schema identities and controlled
+restart/refusal tests live in `node:memarium-runtime/docs/OWNER-JOURNALS.md` and
+`node:memarium-runtime/docs/AGENT-FACT-IDENTITIES.md`. Clean executable qualification
+is tracked separately; no physical erasure or audit-unit retirement is implied.

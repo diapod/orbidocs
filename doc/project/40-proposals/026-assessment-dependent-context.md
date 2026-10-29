@@ -11,7 +11,8 @@ legacy barrier; whole-unit retention and durable dispatch; explicit provenance;
 operator delivery; RAM continuation; then memory, summaries and one inherited child.
 Each stage freezes its contracts, implements them, and qualifies its own claims.
 Retention and dispatch freeze together because the reservation is retained history.
-No evidence below establishes implementation or runtime completion.
+Accepted semantics and the separately recorded implementation checkpoints below
+are distinct from each stage's measured runtime qualification.
 
 ## Context and Problem Statement
 
@@ -69,6 +70,24 @@ arbitrary malicious binaries. Agent append, recovery repair and imports reject t
 old destination after cutover, before an idempotency hit can hide a write attempt.
 A per-schema identity table defines domain fact keys; retired targets return
 `stream-retired`. Old general Agent continuity is preserved.
+
+### Stage 01 implementation boundary (2026-10-29)
+
+Node implements the startup-only barrier and owner routing before Agent load and
+admission, with no copy/deletion of legacy. The descriptor freezes exact anchored
+source extents, expected head and destination generation; generic owner-tag writes
+refuse before idempotency. Lost-locator discovery is explicitly enabled and bounded;
+allocator loss, corrupt locators and missing committed data refuse. Source protection
+conservatively blocks relocation/compaction of the whole Personal fact stream.
+There is no release operation yet. General Personal/sidecar startup can still scan
+Personal, so the bound is on Agent recovery rather than total Node startup.
+
+The concrete contract and per-schema identities are in
+`node:memarium-runtime/docs/OWNER-JOURNALS.md`. An ordinary previous/current daemon
+pack is in `node:tools/acceptance/memarium-owner-cutover/README.md`; its clean pinned
+qualification is a separate checkpoint. S028-OS-003 remains partial for independent
+physical failure/cost qualification. Later audit-unit/dispatch and context stages
+remain open, including P066/notification retirement receipts.
 
 ### Audit units and capacity
 

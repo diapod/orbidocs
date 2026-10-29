@@ -1204,5 +1204,8 @@ operator delivery, RAM-only memory, summaries and bounded family work. Historica
 012b qualification remains frozen. New P066 scope always creates a new activation;
 no in-place grant expansion, restart recovery of private content or implicit new
 recipient follows. RAM-only means Orbiplex does not persist content, not immunity
-to OS swap/core dumps. Current implementation work is limited to the storage
-foundation; the later profiles retain separate acceptance gates.
+to OS swap/core dumps. Current implementation adds the S028/P036 startup barrier and owner-fact routing
+before Agent recovery/admission. The legacy prefix remains protected; this does
+not extend context, restore private RAM content or retire P066/notification rows.
+The later profiles retain separate acceptance gates. The Node contract is
+`node:memarium-runtime/docs/OWNER-JOURNALS.md`.

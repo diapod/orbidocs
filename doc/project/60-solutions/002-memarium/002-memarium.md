@@ -61,6 +61,14 @@ owner-only routing, startup cutover and qualification. S028 owns sealing, monoto
 allocation, bounded ranges and complete-stream reclamation; S029 owns cross-owner
 retirement receipts. The [P026-012c design](../../40-proposals/026-assessment-dependent-context.md)
 uses those boundaries without authorizing deletion of mixed Personal history.
+The 2026-10-29 Node owner-journal implementation binds an immutable Personal prefix
+to a dedicated Agent stream before runtime admission, with an expected-head barrier
+and digest-verified descriptor. New owner facts are excluded from generic Personal
+search/export/backup/sidecar discovery. Generic owner-tag writes refuse, and the
+owner port offers no import route. Controlled interruption and lost-source tests
+remain distinct from clean executable qualification; see
+`node:memarium-runtime/docs/OWNER-JOURNALS.md`. No owner-authorized retirement or
+P066/notification SQLite cleanup is activated by this substrate.
 
 ### Observer-Based Chain Integration
 
