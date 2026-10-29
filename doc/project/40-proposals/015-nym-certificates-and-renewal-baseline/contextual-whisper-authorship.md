@@ -797,3 +797,28 @@ profile identity, signed deadline, reset activation drain, status lease or
 independent council policy. An end-of-epoch renewal that cannot extend validity
 still receives a signed refusal. This is an owner execution correction, with
 both full runtime gates still pending after it.
+
+
+### Local atomic-admission foundation (2026-10-29)
+
+The Node SQLite owner now composes pending contextual verification with its
+existing relay ingest. The exact author buffer, signed relay-clock receipt,
+nonce/record reservation, admission facts and selected cumulative status
+checkpoint commit together. Signature verification precedes SQL; checkpoint CAS,
+collection freshness and epoch closure are checked at commit. Repeated delivery
+of the completed command preserves its original facts, and a generic historical
+record cannot acquire a retroactive admission/time claim.
+
+This storage mechanism implements the earlier atomicity decision; it does not
+create issuer trust, authorize publication, replace backend clock policy or emit
+an aggregate. Contextual HTTP/Matrix wiring, the host/UI flow, current source
+projection and first-emission CAS remain implementation/qualification obligations.
+No tracker gate is closed by signed-fixture SQLite tests.
+
+A clean `d7595742` private repeat completed ordinary AD issue, lazy renewal,
+private reset, refusal before activation, protected signing after activation and
+exact certificate/request/document readback after A/D restart. This is a diagnostic
+lifecycle, not the complete Gate A qualifier. The old-ciphertext probe also remains
+a limited refusal check: routine snapshot replacement can retire its key, so that
+probe alone does not establish reset-caused erasure. Gate A and Gate B remain
+pending, with original failed attempts preserved and no readiness promotion.
