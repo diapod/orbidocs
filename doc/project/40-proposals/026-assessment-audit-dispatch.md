@@ -104,6 +104,13 @@ current detail exceptions, capsule buckets and operation deltas; its metadata ne
 materializes authority. Source retirement also requires every referring consumer
 to have retired. Unknown inventory, copies, holds or owner state refuse.
 
+New S039 owner tables use local SQLite format 7. Migration precedes accepting
+new routed work; a format-6 executable must refuse that database at startup.
+This prevents a previous writer from bypassing unit routing and mixing new audit
+copies back into the historical JSONL file. It changes local storage compatibility,
+not the public notification wire contract. Current readers verify the required
+owner tables instead of silently recreating lost routed data.
+
 ### Dispatch values and protocol
 
 `private-dispatch-reservation.v1` binds:
