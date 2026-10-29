@@ -997,3 +997,24 @@ still must compose current source evaluation and revalidate the pin inside its
 actual durable mutation, with its clock and status policy. Component tests do
 not close Gate A/B, P015-001–003 or historical M4. See the Node source-owner README
 and resumption review for the bounded software scope.
+
+
+### Source-owned first-emission draft component (2026-10-29)
+
+The optional Node source owner now composes the complete local inventory with
+the shared contextual-source evaluator. Typed retained facts are read after
+verifying their byte/hash/record binding; arbitrary decoded facts do not acquire
+live admission rights. The private preparation cannot accept a caller count or
+substitute a different profile/context/epoch basis.
+
+The first mutation repeats source/status CAS in the source transaction, samples
+its clock and requires first-emission freshness. It freezes the selected signer
+and both exact v2 drafts once. The proposal binds the threshold content address
+before signing. Subsequent revocation changes the current count without
+replacing the historical pair, and the frozen basis retains its signed status.
+Partial control loss refuses rather than silently rearming first emission.
+
+This is a bounded component implementation, not actual emission or Gate A/B
+qualification. Host signing/publication scheduling, certification UI, complete
+private failure coverage, Synapse/PDU, replay and both-store retention remain
+required. Historical M4 and global readiness retain their existing scope.
