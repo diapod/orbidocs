@@ -779,3 +779,21 @@ signed-record readbacks across A/D restart. An original pre-reset ciphertext
 probe returned `key-destroyed` after pre-existing provider destruction. Those
 observations and the retained original harness refusals are not complete Gate A/B
 qualification. Both gates remain pending in the tracker and Node ledger.
+
+
+### Authenticated scope refresh during issuance (2026-10-29)
+
+The issuer's local scheduler must distinguish an anonymous reservation from a
+full authenticated request that will publish a fresh status for its own exact
+scope. That full decision can perform its own refresh under the same mutation
+fence and mandatory publication/readback. Waiting first for a separate refresh
+of that same scope can otherwise consume every retry until a valid request
+expires. Other due contexts retain their reservation; an anonymous request
+cannot choose or infer the excluded scope.
+
+The `fb133aa9` diagnostic's immutable AD attempt history records six such
+maintenance-due results followed by original expiry. The repair changes no
+profile identity, signed deadline, reset activation drain, status lease or
+independent council policy. An end-of-epoch renewal that cannot extend validity
+still receives a signed refusal. This is an owner execution correction, with
+both full runtime gates still pending after it.
