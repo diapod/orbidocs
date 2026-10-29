@@ -776,3 +776,26 @@ Costs:
 4. Treat Seed Directory accepted facts as the reference adopter for public
    accepted-fact stores: local event log is recovery/audit source, public API
    reads projections, and replay-check is operator diagnostics.
+
+
+## Owned stream retirement tracker
+
+Accepted 2026-10-29 design; typed Node component implementation is partial. Storage owns
+whole-stream sealing, generation fencing, bounded range reading, and physical
+retirement; Memarium and audit owners supply classification, current admission,
+holds and retention decisions. This adds no global minimum across arbitrary
+stores: the P026 owner plans its exact cross-owner inventory through S029.
+See [the staged P026 design](../../40-proposals/026-assessment-dependent-context.md).
+
+| ID | Task | Status | Completion gate |
+| --- | --- | --- | --- |
+| S028-OS-001 | Freeze bounded owned-stream lifecycle | in-progress | Typed generation/head/seal/range/receipt contracts; whole chains, explicit logical versus physical reclamation and no authority in identifiers. |
+| S028-OS-002 | Implement JSONL owned-stream mechanics | in-progress | Durable allocator outside retired streams, lazy sharded catalog, streaming verified ranges, exact seal/retire recovery, allocation-mode diagnostics and no retired replay/import resurrection. |
+| S028-OS-003 | Qualify storage retention and failure boundaries | todo | Range I/O bounds, corruption, allocator loss, seal/write races, partial unlink, ENOSPC, reopen and catalog-cost measurements; SQLite physical limits remain explicit. |
+
+Node's `storage-jsonl/README.md` records the current boundary: component lifecycle,
+allocator/reopen, exact pending-append recovery, native allocation and verified range
+tests exist; owner routing and production retirement do not. Range discovery is bounded to 4096 directory entries; captured version-1 locators
+freeze sequence and byte extents and replay without later directory enumeration. S028-OS-001/003 remain open for
+owner-bound descriptor custody and independent failure/cost qualification. A unit
+receipt cannot close P026's cross-owner saga or claim SQLite/media sanitization.

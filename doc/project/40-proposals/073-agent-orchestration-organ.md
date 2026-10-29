@@ -1194,3 +1194,15 @@ before 012c, irrespective of the direct product index.
 ### P026 primary integration checkpoint (2026-10-26)
 
 The merged local profile passes ten ordinary-process cases at clean Node `660c4a1d` / Orbidocs `4a8a6d4e`, with normal/-O qualification before and after extraction and 93 negative controls per variant (372 refusals). See `node:docs/evidence/agent-runtime/2026-10-26-rate-exposure-integration/README.md` and `node:docs/audits/P026-PRIMARY-INTEGRATION-2026-10-26.md`. Current builders select the exact Cargo binary; two earlier attempts remain unqualified, including an unresolved UI hydration timeout and a correctly rejected wrong-binary receipt. Historical evidence and the retained feature branches are unchanged. This checkpoint does not promote parent P026-012/P073, 012c, replication, models or release readiness.
+
+
+### Dependent assessment context follow-up (2026-10-29)
+
+[P026-012c](026-assessment-dependent-context.md) now separates S028/P036 retention
+and startup routing, whole-unit audit/dispatch, provenance, RAM continuation,
+operator delivery, RAM-only memory, summaries and bounded family work. Historical
+012b qualification remains frozen. New P066 scope always creates a new activation;
+no in-place grant expansion, restart recovery of private content or implicit new
+recipient follows. RAM-only means Orbiplex does not persist content, not immunity
+to OS swap/core dumps. Current implementation work is limited to the storage
+foundation; the later profiles retain separate acceptance gates.

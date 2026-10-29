@@ -778,7 +778,9 @@ and exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
   `node:memarium-runtime/src/lib.rs`).
 - **Fact.** `retention/max-duration-sec` in `node:memarium/src/export.rs` bounds
   archival export packages, not stored facts.
-- **Inference.** Personal facts live until an explicit `memarium.forget`. The
+- **Fact.** `memarium.forget` addresses entries, records a decision and hides
+  them in read projections. It neither physically deletes source bytes nor
+  addresses Agent facts written through `write_fact`. The
   30-day default seen in Whisper material belongs to the local metadata view of
   `whisper-trace.v1`, not to Memarium.
 
@@ -808,7 +810,8 @@ outlive the usual horizon.
    capture. Automatic capture emits a notice
    ([P057-016](057-user-and-operator-notifications.md#tracking)).
 5. **Expiry.** An S020 job executes the space's ordinary forget path:
-   immediate erasure in personal space, a tombstone in public space. Community
+   immediate logical removal from personal entry views, a tombstone in public space.
+   Physical fact retirement is a separate S028/P036-009–011 contract. Community
    expiry needs the governed path and crisis keeps its constitutional minimum,
    so both stay outside v1 and are skipped with a typed reason.
 6. **Pre-expiry review.** A batched digest lists records that expire soon.
@@ -865,7 +868,7 @@ All rows are post-MVP `todo`.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P036-004 | Freeze the fact retention horizon contract | todo | P091; S028 | `memarium-retention-decision.v1` schema; class-keyed default and ceiling descriptors with the asymmetric ceiling rule. Fixtures: clamp with warning, `until-forget` refused under a bounded ceiling, latest decision wins, history retained, clock from `recorded/at`. |
-| P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job erases expired personal records and tombstones public ones through the existing forget path. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
+| P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job logically hides expired personal entries and tombstones public ones through the existing forget path; it does not physically erase Agent facts. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
 | P036-006 | Cascade forget and expiry to derived artifacts | todo | P036-005 | `derived-from` references on sidecar rows, indexes and Harvester artifacts; forget or expiry purges them. Negative fixture: the matcher cannot see an expired record. A lowered ceiling re-clamps after the grace period with a notice. |
 | P036-007 | Freeze the personal record contract | todo | P036-004; `memarium-blob.v1` | `memarium-personal-record.v1` with attachments, digests, the three content forms and size bounds. Capture validates before the write. A Story 014 record fixture passes, and diagnostics carry no path or content. |
 | P036-008 | Record fact–rumor link decisions | todo | P036-007 | `memarium-fact-rumor-link.v1`; decisions are idempotent and both projections show them. Pair and context suppression is proven over two epochs, and decisions expire with the record. |
@@ -907,3 +910,17 @@ window. Test co-retention, partial bundle loss, expiry and redelivery offline.
 P036-006 and P036-008 own lifecycle/link contracts before their consumers:
 P078-013 and P013-DFR-003 respectively. Consumer acceptance must prove the joined
 behavior, but it is not a reverse implementation dependency of these contracts.
+
+
+## Owned runtime fact streams (P026-012c, 2026-10-29)
+
+This is separate from P036-004–008 personal-entry horizons. Physical stream
+mechanics are owned by [S028](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md#owned-stream-retirement-tracker).
+The [P026 continuation design](026-assessment-dependent-context.md) is its first
+consumer. Legacy mixed Personal remains protected; no historical erasure is claimed.
+
+| ID | Task | Status | Depends on | Completion gate |
+| --- | --- | --- | --- | --- |
+| P036-009 | Freeze private owner fact streams | in-progress | S028-OS-001 | Owner-only read/write/import, no generic Personal view/export/index exposure, per-schema fact identity and retired-stream refusal. |
+| P036-010 | Cut over Agent writes at startup | todo | P036-009; S028-OS-002 | Expected-head barrier before Agent load, digest-verified locator, new generation after barrier, old writer/recovery/import fenced; no legacy copy or deletion. |
+| P036-011 | Qualify dedicated versus legacy recovery | todo | P036-010; S028-OS-003 | Fresh S=0 and actual previous-binary legacy, cutover crash matrix, old-binary refusal, bounded range I/O and exact unchanged legacy bytes. |

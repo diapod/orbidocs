@@ -48,6 +48,20 @@ Responsibilities:
 Status:
 - `done` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Personal forget can be delegated through scoped passports, public forget tombstones, community forget verifies an append-only governance approval fact referenced by `governance_ref` before erasure, and crisis forget remains restricted. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, a classification-aware archival export adapter for `archival-package.v1`, concrete Whisper and INAC/private AD classification egress adapters, contextual personal-space forget delegation, remote archivist handoff/retrieval control surfaces, and a SQLite derived read sidecar are now represented in code.
 
+### Logical forget and physical retention boundary
+
+The current entry-oriented forget implementation appends a decision and hides the
+entry in read projections. `Erased` and the immediate Personal policy describe that
+logical effect; they do not establish physical erasure of JSONL bytes, WAL/free pages,
+replicas or runtime Agent facts written through `write_fact`. Segment compaction
+preserves every record. Earlier capability summaries must be read within this scope.
+
+[P036-009–011](../../40-proposals/036-memarium.md#owned-runtime-fact-streams-p026-012c-2026-10-29) track
+owner-only routing, startup cutover and qualification. S028 owns sealing, monotonic
+allocation, bounded ranges and complete-stream reclamation; S029 owns cross-owner
+retirement receipts. The [P026-012c design](../../40-proposals/026-assessment-dependent-context.md)
+uses those boundaries without authorizing deletion of mixed Personal history.
+
 ### Observer-Based Chain Integration
 
 Based on:

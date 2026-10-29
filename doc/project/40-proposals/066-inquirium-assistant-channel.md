@@ -1947,3 +1947,15 @@ authenticated channel holder may consume it on first use; witness publication
 occurs after durable consumption and fresh admission. Approval and activation are
 one-to-one within the frozen boot/launch/Agent descriptor, not a generic P066
 identity rule. The [measured r1 checkpoint](026-assessment-agent-consumer-r1.md#measured-checkpoint-2026-10-25) verifies the changed wire and first-use consumption, including read-only approved inspection and a complete bounded question projection.
+
+
+### Dependent assessment context follow-up (2026-10-29)
+
+[P026-012c](026-assessment-dependent-context.md) now separates S028/P036 retention
+and startup routing, whole-unit audit/dispatch, provenance, RAM continuation,
+operator delivery, RAM-only memory, summaries and bounded family work. Historical
+012b qualification remains frozen. New P066 scope always creates a new activation;
+no in-place grant expansion, restart recovery of private content or implicit new
+recipient follows. RAM-only means Orbiplex does not persist content, not immunity
+to OS swap/core dumps. Current implementation work is limited to the storage
+foundation; the later profiles retain separate acceptance gates.

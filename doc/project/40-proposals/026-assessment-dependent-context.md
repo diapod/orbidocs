@@ -1,0 +1,252 @@
+# P026-012c: retained audit units and dependent assessment context
+
+Status: accepted staged design; implementation and qualification are tracked separately.
+Date: 2026-10-29
+Based on: P026-012b/r1, P036, P066, P073, P090; S002, S028 and S029.
+
+## Executive Summary
+
+Implement the substrate before broadening context: owned fact streams and a startup
+legacy barrier; whole-unit retention and durable dispatch; explicit provenance;
+operator delivery; RAM continuation; then memory, summaries and one inherited child.
+Each stage freezes its contracts, implements them, and qualifies its own claims.
+Retention and dispatch freeze together because the reservation is retained history.
+No evidence below establishes implementation or runtime completion.
+
+## Context and Problem Statement
+
+Memarium forget addresses entries and appends a decision. Its `Erased` outcome
+currently hides the entry in read projections; it does not physically erase the
+source or Agent facts. JSONL segment compaction preserves every record. Agent
+recovery scans Personal before tag selection and shares the 100,000-fact/256 MiB
+refusal budget across Agent fact kinds. The existing suggested administrative
+compaction/snapshot remedy is not implemented. These are lower-layer gaps, not
+permission to delete a mixed Personal stream.
+
+## Proposed Model / Decision
+
+### Ownership and implementation order
+
+| ID | Stage | Status | Dependency and completion boundary |
+| --- | --- | --- | --- |
+| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. Qualified physical whole-stream retirement and bounded range reading; dedicated versus protected legacy claims remain separate. |
+| P026-012c-02 | Whole audit-unit retention | todo | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
+| P026-012c-03 | Durable private dispatch reservation | todo | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
+| P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
+| P026-012c-09 | Same-viewer operator delivery | todo | 04; separate P066 consent and Node UI admission/render; before continuation and memory, so it can display continuation acceptance. |
+| P026-012c-05 | RAM continuation | todo | 04; exact latest committed predecessor, no silent fallback or regeneration. |
+| P026-012c-06 | Bounded memory/recall | todo | 05; original activation only; one RAM slot store, no durable memory content. |
+| P026-012c-07 | Non-Agent summaries | todo | 06; positively admitted producer, private metadata-only execution and inherited dependencies. |
+| P026-012c-08 | One inherited child | todo | 04/05; exact family consent, atomic binding/budget admission, one child and no grandchildren. |
+| P026-012c-10 | Integrated qualification | todo | All adopted profiles; normal/-O, loose/extracted, explicit exclusions and retained failures. |
+
+Identifiers remain stable when execution order changes. Each stage's qualification
+is a prerequisite, not a claim inferred from the table.
+
+### Dedicated and legacy populations
+
+P036 owns the Memarium stream contract and startup-only cutover; S028 owns storage
+mechanics. Dedicated owner streams are excluded from generic Personal views,
+search, export, backup and read sidecars by default. An exact owner port is needed.
+Streams are opened lazily and catalog directories are sharded by allocation ordinal.
+A durable allocator outside retired streams owns generation/ordinal monotonicity;
+loss refuses recovery, never resets the counter or reuses an identity.
+
+Before Agent load/admission, create the new streams, append the final tagged Agent
+cutover fact to Personal with expected head S, then select the new writer. The
+barrier binds S, the range digest and exact new namespace/stream descriptors. Before
+the barrier commit old mode applies; afterward only dedicated writes are admitted.
+The namespace locator is checked against the barrier digest. Lost-locator discovery
+is an explicit budgeted one-time scan, not a silent empty state or an every-start
+scan. Existing unrelated Personal writers are handled by the expected-head CAS.
+
+Legacy remains immutable and protected, with no copy, migration or deletion. Replay
+reads its prefix through S with historical readers, then new owner facts. A streaming
+range reader verifies hash linkage while stopping at S; output pagination alone is
+not an I/O bound. Fresh S=0 and previous-binary legacy use the same protocol. The
+previous daemon must refuse the unknown tagged barrier. This is not a claim about
+arbitrary malicious binaries. Agent append, recovery repair and imports reject the
+old destination after cutover, before an idempotency hit can hide a write attempt.
+A per-schema identity table defines domain fact keys; retired targets return
+`stream-retired`. Old general Agent continuity is preserved.
+
+### Audit units and capacity
+
+An audit unit is a closed graph of owner facts. Source and consumer units have
+separate ownership. Question identity, frozen intent, consent/consumption/revoke,
+binding, attempts, manifests, outcomes, traces, accounting, notification metadata,
+references and all retained copies belong in the inventory. Exposure facts do not.
+Terminality requires closed admission and settled or explicitly ambiguous attempts;
+suspend/reconnect alone are not terminal.
+
+The `assessment-audit/v1` profile retains full metadata for at least 30 days after
+observed terminality. Capsules remain until max(terminal+180 days, first-compacted+7
+days). Reads/retries do not reset dates; stronger floors and unresolved holds win.
+Limits: 1024 detailed units; 16,384 detailed records/64 MiB; 4096 capsules of at most
+4 KiB/16 MiB; 32 active bindings; 128 retained detailed closed bindings per launch.
+Source ceiling: 192 KiB/64 records. Consumer ceiling: 1 MiB/256 records, partitioned
+into 192 KiB base, eight 96 KiB attempts and a protected 64 KiB terminal reserve.
+Pending P066 keeps its existing 32 limit and also needs audit capacity.
+
+Reservation accounting is `actual retained + outstanding worst-case reservations`,
+not lifetime maxima. Settlement releases unused attempt bytes/records; terminality
+releases unused base, future attempts and terminal reserve after recording actual
+terminal metadata. Repeated settlement cannot release twice. The admission snapshot
+and release are atomic owner transitions. No reserve is released for ambiguous writes
+until durable reconciliation determines its usage. Shared owner copies count.
+
+Reference steady-state target: four completed source/consumer pairs per day for
+one launch, at most 128 KiB and 32 actual records per closed pair, 30-day full
+retention, no holds, and room for 32 worst-case live pairs. This uses 53 MiB and
+14,080 records before control overhead (control data has its own bound); 120 closed
+bindings fit the 128 launch cap. Capsules at two per pair consume at most 1440 slots
+at 180 days. This is conditional capacity arithmetic, not measured throughput.
+Maximal retained pairs still fit only about 51 times in the detail pool and support
+about 1.7 pairs/day without live headroom. Admission must refuse heavier steady-state
+loads truthfully. Tests cover both reference and saturation workloads.
+
+At admission attempt capacity is reserved before Agora. Physical preallocation is
+attempted for the dedicated writable segment: supported native allocation must
+confirm reserved blocks; an unsupported-platform fallback reports logical-only
+reservation. Preallocation reduces ENOSPC exposure but cannot guarantee later writes
+against quota changes, metadata exhaustion, I/O failure or unrelated storage users.
+It is never advertised as a successful physical reservation when only sparse length
+was set. Provisioned unused extents are reclaimed at sealing.
+
+### Retirement saga and honest physical receipts
+
+S029 owns a bounded retirement operation, not a new daemon loop. Its exact immutable
+plan binds inventory, owner decisions, dependency dispositions, holds and replacement
+capsule. Retire referring records before referenced records. Each owner commits an
+idempotent receipt; the aggregate unit is retired only when every required receipt
+is verified. Cycles require an explicitly jointly planned set, not arbitrary order.
+Failure retains a resumable partial operation. S020 schedules bounded work every
+15 minutes with at most 60-second jitter, no overlap, and 16 units/4 MiB per pass;
+250 ms limits starting more work, not fsync latency.
+
+SQLite receipts distinguish `rows-removed` from file reclamation and physical
+sanitization. DELETE can leave free-page/WAL bytes. secure_delete, checkpoint and
+VACUUM may be separately reported only when configured, executed and verified;
+none proves erasure of filesystem snapshots/backups. JSONL receipts identify exact
+unlinked files and remaining copies. No receipt claims undoing prior disclosure.
+
+Retire whole streams only; never excise a prefix of one hash chain. Audit detail,
+time-bucketed capsule streams, checkpoint generations and bounded delta streams form
+a chain linked by sealed predecessors. A small checkpoint carries horizon, digests
+and locators, not copies of all capsules. Bound it to 64 KiB, at most 16 hold
+exceptions, and two checkpoint generations. Rotate capsule buckets daily or at
+256 capsules/1 MiB; retain a maximum 256 bucket streams within the capsule pool.
+Holds carry an owner and deadline. Exceptions retain their exact streams and remain
+visible; more than 16 exceptions refuses further horizon advancement rather than
+losing a hold. Expired/unknown owner state is resolved under the hold contract, never
+inferred from a missing response. Held source relationships remain protected.
+
+Replay below the retired horizon returns `history-unavailable`; retained exceptions
+are looked up explicitly. No per-request lifetime tombstone table is introduced.
+Archive import cannot allocate old identities or reactivate old authority.
+
+### Dispatch and provenance
+
+Reuse common dispatch identity/header laws from the controller and external-runtime
+journals, with owner-specific bodies and historical readers. The private variant
+contains commitments, not the external runtime's complete request. The attempt key
+is (unit, activation, Agent, binding, request), never step alone. Bind manifest/ref
+(the unkeyed canonical metadata hash), canonical-request HMAC and exact-wire HMAC,
+boot/launch/captured session/epoch, lifecycle, runtime generation, deadline and
+budget/capacity reservation. HMAC equality is verifiable only within the launch;
+after restart metadata hashes still verify but private bytes are unavailable.
+
+`PreparedPrivateDispatch` has a private constructor, no Clone/Serialize/Deserialize,
+redacted Debug, consuming send(self), and explicit abandon(self). Tests detect silent
+abandonment. Preparation freezes exact bytes after queueing and mapping. Durable
+reservation precedes a fresh memory-only witness/time gate; fsync time counts.
+There is no owner I/O, remapping, fallback or second dispatch between gate and send.
+Abandon persists not-dispatched before returning. If it cannot, the durable fence
+remains ambiguous. Settlement is atomic metadata and preserves possible disclosure.
+
+States: reserved; not-dispatched; completed; failed-after-dispatch; and the existing
+`dispatch-outcome-unknown` (producer Ambiguous). Only not-dispatched proves no send.
+No automatic retry after a durable fence with missing/ambiguous settlement. A
+not-dispatched attempt does not hide the last usable committed predecessor; a later
+in-flight, ambiguous or dispatched-but-unusable attempt does. Pre-dispatch 429 does
+not poison the continuation chain. Private summaries use this metadata-only journal,
+not a producer result pointer into the general object store.
+
+Freeze all origin variants in the successor supplied-input manifest: host-template,
+observation, product, memory and summary. Unqualified memory/summary origins refuse
+with a typed profile-not-enabled result. Parents are manifest refs, not nested copies.
+Bound depth to eight and distinct ancestors to 64; memoize traversal and reject
+cycles, missing parents and overflow. Missing authority carrier is distinct from a
+known empty set. Products are constructed only from a sealed parent manifest.
+Authority union laws and P090 execution provenance stay separate. A predecessor
+occupies one of eight inputs and is selected by commit ordinal, never wall time.
+
+### Later profiles and recipient
+
+The accepted memory profile is RAM-only: Orbiplex persists no memory content.
+This does not prevent OS swap, core dumps or allocator copies. The daemon currently
+neither locks these pages nor disables dumps; process hardening is a separate option.
+Only artifact identity, HMAC commitment, byte size, parent manifest and dependencies
+enter the durable audit inventory. One bounded typed slot store holds both the latest
+012b result and memory artifacts, with shared lifecycle/accounting operations and
+explicit per-kind rules. Memory slots are not silently evicted. The latest-result
+slot retains 012b's explicit replacement semantics.
+
+All dependent context stays tied to its original live activation. A new consent is
+a new activation, not an in-place scope extension. Memory has a separate 2 MiB/unit,
+64 MiB/node RAM budget outside the metadata pool; existing result-slot bounds remain
+explicit additional charges in the same store. A P091 node ceiling may be narrowed
+by later layers, never silently raised. Reserve required bytes before Agora; the
+parent and child share the unit budget. Over-capacity writes refuse without eviction. Eight artifacts/unit, up to 256 KiB each, and up to four memory inputs are
+further limited by total eight inputs and token budgets. Revoke, expiry, activation loss and launch closure clear slots using best-effort
+zeroize; temporary/allocator/provider copies are not claimed erased. Encrypted spill
+is excluded from this profile. A future distinct profile requires explicit consent,
+Sealer/key custody, crypto-shredding and ciphertext retirement; configuration cannot
+switch an existing RAM-only activation into spill.
+
+A family has one exact parent and one child; binding admission and family budget
+split are atomic and both count against 32 bindings. Reuse monotone fork/lineage
+quarantine. Shared eight attempts include summaries and child work.
+
+Operator delivery is a new named recipient, with separate exact-product P066 consent.
+Required recipient proof kind is same-viewer; Room/Corpus/export refuse with
+recipient-exposure-unverifiable pending their round/recipient contracts. Bind viewer,
+subject and normalized admitted record set/exposure states, excluding presentation
+countdowns. Window release remains a meaningful change. Current admission and all
+parent dependencies are checked before issuing the RAM result; source changes can
+refuse the entire old product, never attempt textual redaction. Hidden-peer changes
+must not change that projection. Node UI uses no-store, no product handle in URLs,
+no prefetch/history persistence/SSE, a no-JavaScript path and P057-014 attention guards.
+
+## Trade-offs
+
+Legacy remains physically present and whole-space Memarium scans still read it.
+Dedicated recovery is bounded independently; other Agent kinds retain their own
+startup/history constraints. A hold can still cause admission refusal when bounded
+exceptions or pools fill. Native preallocation is best effort with an explicit mode.
+Restart invalidates context authority by design; snapshots never revive it.
+
+## Failure Modes and Mitigations
+
+Qualify cutover crashes, old-binary refusal, allocator loss, stale generation, retired
+imports, delayed writes, corrupt range chains, partial owner receipts, compaction
+versus commit, ENOSPC at each write, exact reservation release, ambiguous dispatch,
+manifest/DAG substitution and no source/object-store leakage. Expired authority blocks
+issuance independently of retirement progress. Do not infer secure physical erasure
+from SQLite DELETE or from removal of one local copy.
+
+## Open Questions
+
+RAM-only memory was selected explicitly on 2026-10-29; encrypted spill is a separate
+future profile. Numeric capacity is a frozen reference profile to be tested, not a
+throughput benchmark or release-readiness statement.
+
+## Next Actions
+
+Implement and qualify S028 owned-stream mechanics first, then P036 startup routing.
+Use ordinary-daemon/ChannelJson/browser acceptance with deterministic inference,
+separately classified native fault/clock evidence, source/binary/feature pins and
+normal/-O loose/extracted qualifier mutations. Retained evidence follows Node
+RETENTION/RETIREMENT/EXTERNAL-RETENTION; runtime policies authorize no historical
+acceptance cleanup. Reconcile owner docs, schemas, trackers, Node ledger/MVP and
+convergence/cleanup reviews per completed stage. Preserve 012b historical evidence.
