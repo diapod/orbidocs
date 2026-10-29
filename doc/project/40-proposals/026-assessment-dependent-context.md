@@ -373,3 +373,15 @@ normal/-O loose/extracted qualifier mutations. Retained evidence follows Node
 RETENTION/RETIREMENT/EXTERNAL-RETENTION; runtime policies authorize no historical
 acceptance cleanup. Reconcile owner docs, schemas, trackers, Node ledger/MVP and
 convergence/cleanup reviews per completed stage. Preserve 012b historical evidence.
+
+### Stages 02/03 owner integration (2026-10-30)
+
+The preceding 2026-10-29 checkpoints are historical. Node now composes isolated
+source and consumer units with P066, operator questions, S039, attention and P073
+metadata; a durable S029 receipt graph; time-bucketed capsules; pointer-only
+checkpoints and bounded S020 maintenance. Writer quotas share the existing base
+reservation. Legacy unrouted populations, unknown coverage and stronger owner
+floors stay protected. This is implementation status pending the new exact-source
+qualification, not closure of the tracker or renewal of historical evidence.
+Later context, continuation, RAM-only memory, forks and recipients remain outside
+this vertical. See the [joint contract](026-assessment-audit-dispatch.md).

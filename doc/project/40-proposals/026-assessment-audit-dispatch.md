@@ -180,3 +180,29 @@ reserved for subsequent rows is conservative; admission may refuse before a
 partition is completely occupied. No allocation is borrowed from another
 owner or from the eight attempt reservations. This partition changes no
 retention floor or authority. Missing owner coverage still protects the unit.
+
+### Local encoding and recovery profile
+
+The owner-bound envelope `assessment.audit-fact.v1` adds `open-routed`, `agent-fact`
+and `copies-settled`; old `open` populations are retained as uncovered migration
+holds. The four owner copies contain owner, exact locator and typed-row inventory
+(digest, bytes, records). The S029 operation carries that inventory, immutable plan
+and individually acknowledged receipts. Receipt recovery precedes re-reading
+removed rows; the same plan cannot retire a substituted population.
+
+The bounded checkpoint holds stream ordinals, positive completed-operation and
+detail horizons, a scan cursor and at most sixteen explicit hold exceptions.
+It has a 64 KiB encoding ceiling and two stream generations. Both published and
+prepared references protect controls during publication. A capsule's compact
+encoding stores unit/activation/inventory/plan/receipt commitments and its
+operation ordinal. Completion requires a positive horizon, not absence from the
+pending list. The 4 KiB allocation includes the SQLite receipts and fences;
+open-bucket preallocation counts in the 16 MiB pool. There are at most 256 whole
+capsule buckets, 256 entries per bucket and sixteen pending operations.
+
+S020 processes bounded work with 900-second cadence and at most 60 seconds of
+jitter. Its 250 ms bound stops new work rather than interrupting an active fsync.
+A persistent cursor makes partial capsule receipt cleanup replayable. A deleted
+namespace, lost allocator or populated unreferenced capsule stream refuses
+recovery. No checkpoint restores an activation. SQLite removal is explicitly
+logical; free pages, WAL and snapshots may retain bytes.
