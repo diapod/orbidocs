@@ -913,3 +913,30 @@ preserves its first admission and nonce decision; new carrier bytes/provenance
 remain separate. This historical read path cannot create missing domain facts or
 renew their time/status. Missing original record/author material is corruption,
 not a new admission opportunity. Software composition does not qualify Gate B.
+
+
+### Ordinary SQLite publisher composition (2026-10-29)
+
+The reference local publisher independently adopts a relay clock and a named
+protected host proxy. That adoption does not grant the module a signing domain,
+unlock a key or derive trust from a certificate. Existing publisher ACL, content,
+disclosure, namespace and size checks remain in front of contextual admission.
+The host signs only the receipt's exact author-buffer-bound preimage outside SQL.
+
+A newly prepared local receipt is not yet publication. Its record, exact author
+bytes, admission facts, nonce and receipt must commit together within the adopted
+profile's clock-skew window, checked after acquiring the writer. A separately
+durable receipt received late has a different path and preserves its original
+publication time. Neither path substitutes authored time or creates a missing
+historical fact. Exact completed-command readback uses the first receipt and
+repairs its derived index, without a new status acquisition or signature; a valid
+alternate JSON spelling remains an alternate buffer. Concurrent identical calls
+cannot replace the winning receipt with their later private preparations.
+
+This service composition does not emit the contextual threshold. UI, Matrix
+publisher composition, current-source projection and full Gates A/B remain open.
+The actual clean candidate19 diagnostic issued and renewed through ordinary AD
+and protected host authorship. Its reset attempt retained an invitation-observation
+refusal, and an earlier recovery download exceeded the observation tool's bound.
+Encrypted authority recovery is retained separately from evidence; no old request
+deadline, formal acceptance claim or global readiness status is changed.
