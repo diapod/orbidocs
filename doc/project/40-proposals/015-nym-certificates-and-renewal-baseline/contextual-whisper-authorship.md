@@ -1028,3 +1028,14 @@ hint, not an eligibility/completeness proof; cooperative interruption creates no
 new emission fact. Unreleased local installation changes refuse unknown or old
 developer controls rather than silently rearming a latch. These component laws
 do not qualify the service scheduler, certification UI or either runtime gate.
+
+
+The opt-in Node service composition now consumes the existing S020 module-job
+contract. Explicit local adoption selects one profile, authority, output topic
+and host key reference; incoming source fields cannot grant that authority.
+The job shares the collection/first-emission status verifier and the source
+owner's transaction fence, then uses ordinary protected host signing. Retained
+signed buffers precede local submission; Matrix forwarding remains the existing
+journal worker's responsibility. The module starts no private scheduler and
+installs no default job. Component conformance does not establish actual
+certification UI, source-result annotation or SQLite/Synapse qualification.
