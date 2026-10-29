@@ -30,7 +30,7 @@ permission to delete a mixed Personal stream.
 
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
-| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. P036-009/010/011 owner cutover and pinned previous/current restart/refusal profile qualified; S028-OS-003 has measured public-API restart/failure and catalog-cost witnesses; actual native ENOSPC/cleanup remains unqualified after host image-mount refusal. Dedicated versus protected legacy claims remain separate. |
+| P026-012c-01 | Owned Memarium streams and startup cutover | done | S028-OS-001/002/003; P036-009/010/011. Clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 qualifies all 11 frozen local macOS/APFS failure/restart/cost cases and the paired previous/current-daemon cutover. Actual ENOSPC and checked detach pass; normal/-O loose/extracted agreement and 296 mutation refusals. Dedicated versus protected legacy claims stay separate; no later audit-unit/dispatch/context or release promotion. |
 | P026-012c-02 | Whole audit-unit retention | todo | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
 | P026-012c-03 | Durable private dispatch reservation | todo | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
@@ -311,3 +311,29 @@ and location (108), without promoting the refused baseline. The host denied the
 producer-created APFS image mount. Actual ENOSPC and native cleanup are pending;
 S028-OS-003 remains partial and P026-012c-01 remains in-progress. No later stage,
 release, physical erasure, power-loss or whole-node startup claim follows.
+
+### Stage 01 qualified local closeout (2026-10-29, run 05)
+
+The [retained Node closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+at clean Node `4f8369ff` / Orbidocs `c85d213f` qualifies the entire frozen local
+S028 profile plus renewed ordinary-daemon legacy/fresh restart and previous-binary
+refusal. Eleven public-API cases include actual ENOSPC 28 on append, failed native
+preallocation, acknowledged-prefix recovery, permissions, process interruption,
+seal/append races and bounded catalogs. The exact new 128 MiB APFS image mounts
+from an allowed temporary location and detaches after worker exit. Earlier mount
+refusals remain observed facts; no security setting changed.
+
+Run 04 is separately retained and correctly refused: its numeric payload encoded
+past the generic record limit before append I/O. A versioned collector corrects
+that fixture. The owner append adapter preserves concrete JSONL errors and typed
+native codes; the frozen v1 tools and partial run 03 remain unchanged. No threshold
+was weakened. All 138 mapped component tests, six Agent adapter tests and scoped
+Clippy pass. Normal/-O loose/extracted qualification agrees; 33 storage and 41
+cutover mutations per variant yield 296 refusals.
+
+S028-OS-003 and P026-012c-01 are done for this local profile. Later 02/03 remain
+jointly frozen before context extension; S029 owner receipts, P066/notification
+retention, provenance, context and parent P026/P073 remain open. This is neither
+power-loss, media sanitization, Linux, whole-node startup, production retirement
+authority nor model/release qualification. New initial retain converts only
+verified producer-owned loose copies; historical evidence and legacy facts remain.

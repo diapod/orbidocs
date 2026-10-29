@@ -982,3 +982,11 @@ are recorded in the [Node storage report](node:docs/evidence/agent-runtime/2026-
 Native ENOSPC remains unqualified after image-mount refusal. P036-009/010/011 stay
 done only within their named cutover profile; S028-OS-003 and parent stage01 are
 not closed by this renewal.
+
+The later clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 renews this same
+ordinary legacy/fresh restart and prior-binary refusal bridge with all 11 scoped
+S028 native/cost cases qualified. See the [retained closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+S028-OS-003 and P026-012c-01 are now done within the frozen local profile;
+P036-009/010/011 retain their named scope. General Personal forget remains logical,
+legacy facts remain protected, and later cross-owner audit-unit/dispatch/context
+retention is not implemented or qualified by this result.

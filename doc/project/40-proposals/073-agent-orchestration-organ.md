@@ -1219,3 +1219,12 @@ See `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md`.
 P026-012c-01 remains in progress for the separately tracked independent S028 failure
 and catalog-cost boundary. P026-012c-02 onward, P066-owned consent retention and
 parent P073 remain open; historical 012a/012b evidence is unchanged.
+
+The subsequent [run 05 local closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+at clean Node `4f8369ff` / Orbidocs `c85d213f` completes the separate S028 failure
+and catalog-cost gate, including actual native ENOSPC and checked detach. The
+renewed ordinary previous/current-daemon cutover bridge qualifies; normal/-O
+loose/extracted results agree with 296 storage/cutover mutation refusals.
+P026-012c-01 is done for the frozen macOS/APFS profile. Parent P073/P026-012,
+012c-02 onward, P066-owned retention, dependent context and all model/release
+claims remain open or unchanged; no private RAM content or activation is restored.

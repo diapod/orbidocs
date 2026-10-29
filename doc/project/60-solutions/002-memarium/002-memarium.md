@@ -73,6 +73,12 @@ normal/-O loose/extracted results; see
 `node:memarium-runtime/docs/OWNER-JOURNALS.md`. No owner-authorized retirement or
 P066/notification SQLite cleanup is activated by this substrate.
 
+The [stage-01 storage closeout](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+at clean Node `4f8369ff` / Orbidocs `c85d213f` now completes the frozen local
+S028 native/cost gate alongside renewed ordinary legacy/fresh cutover and
+previous-binary refusal. This closes P026-012c-01 only; cross-owner unit retention,
+P066/notification retirement and dependent context remain later work.
+
 ### Observer-Based Chain Integration
 
 Based on:

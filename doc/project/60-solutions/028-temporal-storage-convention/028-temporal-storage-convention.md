@@ -791,7 +791,7 @@ See [the staged P026 design](../../40-proposals/026-assessment-dependent-context
 | --- | --- | --- | --- |
 | S028-OS-001 | Freeze bounded owned-stream lifecycle | done | Typed generation/head/seal/range/receipt contracts; whole chains, explicit logical versus physical reclamation and no authority in identifiers. |
 | S028-OS-002 | Implement JSONL owned-stream mechanics | done | Durable allocator outside retired streams, lazy sharded catalog, streaming verified ranges, exact seal/retire recovery, allocation-mode diagnostics and no retired replay/import resurrection. |
-| S028-OS-003 | Qualify storage retention and failure boundaries | partial | Range I/O bounds, corruption, allocator loss, seal/write races, partial unlink, ENOSPC, reopen and catalog-cost measurements; SQLite physical limits remain explicit. |
+| S028-OS-003 | Qualify storage retention and failure boundaries | done | Frozen local macOS/APFS public-API profile at Node `4f8369ff` / Orbidocs `c85d213f`: range/corruption, allocator loss, race/unlink, native ENOSPC, reopen, catalog bounds and checked cleanup; normal/-O loose/extracted agreement. SQLite bytes-may-remain and platform/power-loss/authority exclusions remain explicit. |
 
 Node's `storage-jsonl/README.md` records the local format-2 boundary: component
 lifecycle, allocator/reopen, exact pending-append recovery, native allocation and
@@ -871,3 +871,35 @@ reconciliation still called the generic repair reader at Node `5d62641f`.
 Node `fa2c56e7` replaces it with the existing bounded non-repairing verifier.
 Historical evidence stays unchanged; the renewed ordinary-daemon witness has
 the same source pair as the storage collection.
+
+### Qualified native/cost closeout (2026-10-29, run 05)
+
+Clean Node `4f8369ff` / Orbidocs `c85d213f` passes all 11 cases of the unchanged
+local profile and the separately qualified paired-daemon Memarium bridge; see
+[the complete storage report](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+Native preallocation refuses disk capacity and actual append ENOSPC reports code
+28, preserves the acknowledged prefix and reopens without repair. The exact owned
+APFS image detaches after all workers exit. Permission recovery and outstanding
+process-kill probes remain software witnesses, not identified fsync interruptions
+or power-loss tests.
+
+At 4096 streams run 05 records 13,824,328 logical file bytes, 20,381,696 allocated
+file bytes, 2,801,664 catalog/index bytes, 4098 files and 12,306 directories. Five
+warm-cache fresh-process opens peak below 0.667 ms; selected reads verify one
+record in one segment. File-block accounting excludes directory/allocator metadata;
+portable latency, throughput, whole-node startup and domain audit-unit capacity do
+not follow. All frozen limits pass without adjustment.
+
+The versioned native verifier reuses unchanged v1 semantic gates and binds the
+corrected successor producer. Run 04's oversized encoded fixture is retained as a
+refusal, and run 03 keeps its original mount blocker. Concrete JSONL I/O errors now
+retain numeric native causes at owned append instead of being flattened through
+StorageWrite. Normal/-O loose/extracted results agree; 33 storage plus 41 renewed
+cutover mutations per variant yield 296 refusals. The mapped 138 component tests,
+six Agent adapter tests and scoped all-target Clippy pass.
+
+This closes S028-OS-003 and stage 01 only. Higher owners still supply retention
+floors, holds, S029 receipt coordination and exact retirement authority. Physical
+SQLite/media sanitization, allocator rollback, malicious actors, Linux and release
+readiness remain outside this measured profile. Legacy/history and frozen tools
+remain protected; no cross-owner retirement operation is introduced.
