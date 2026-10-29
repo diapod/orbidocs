@@ -30,7 +30,7 @@ permission to delete a mixed Personal stream.
 
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
-| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. P036-009/010/011 owner cutover and pinned previous/current restart/refusal profile qualified; S028-OS-003 independent physical failure/cost boundary remains partial. Dedicated versus protected legacy claims remain separate. |
+| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. P036-009/010/011 owner cutover and pinned previous/current restart/refusal profile qualified; S028-OS-003 has measured public-API restart/failure and catalog-cost witnesses; actual native ENOSPC/cleanup remains unqualified after host image-mount refusal. Dedicated versus protected legacy claims remain separate. |
 | P026-012c-02 | Whole audit-unit retention | todo | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
 | P026-012c-03 | Durable private dispatch reservation | todo | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
@@ -295,3 +295,19 @@ pinned previous reader's refusal, with normal/-O loose/extracted agreement and 1
 manipulation refusals. This is a new scoped checkpoint; original evidence and its
 v1 verifier stay frozen. It does not close independent S028-OS-003 failure/cost
 qualification or later audit-unit, dispatch, provenance and context stages.
+
+### Stage 01 native/cost checkpoint (2026-10-29)
+
+Clean Node `6fc81f7d` / Orbidocs `050d8d58` executes nine ordinary public-API
+worker cases and renews the ordinary previous/current-daemon cutover witness.
+The [Node storage report](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+records actual permission failure, process interruption, exact-plan recovery and
+32/1024/4096 materialized catalogs with five fresh-process warm-cache reopens.
+The mapped 137 component tests and six Agent adapter tests remain separate.
+
+The full storage qualifier refuses with `native-enospc-unqualified` normally and
+under `-O`, before/after extraction. Twenty-seven mutations reject in each mode
+and location (108), without promoting the refused baseline. The host denied the
+producer-created APFS image mount. Actual ENOSPC and native cleanup are pending;
+S028-OS-003 remains partial and P026-012c-01 remains in-progress. No later stage,
+release, physical erasure, power-loss or whole-node startup claim follows.

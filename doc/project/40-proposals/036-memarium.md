@@ -974,3 +974,11 @@ See `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md`.
 P036's named cutover profile remains done; independent S028 failure/cost gates and
 later P026 audit/context work remain partial or open. Historical v1 is preserved,
 including its explicitly demonstrated verifier limitation.
+
+The subsequent S028 checkpoint at clean Node `6fc81f7d` / Orbidocs `050d8d58`
+renews the same named previous/current-daemon cutover profile and corrects the
+remaining post-append generic-reader call. Its independent public-API/cost cases
+are recorded in the [Node storage report](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+Native ENOSPC remains unqualified after image-mount refusal. P036-009/010/011 stay
+done only within their named cutover profile; S028-OS-003 and parent stage01 are
+not closed by this renewal.

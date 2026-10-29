@@ -846,3 +846,28 @@ observed cleanup and qualifier refusals normal/-O before/after extraction.
 Production owner authorization, cross-owner S029 retirement, audit-unit retention,
 private dispatch and broader platforms remain separate. No status is promoted by
 this contract freeze alone.
+
+### Native/cost collection checkpoint (2026-10-29)
+
+The [storage witness](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+at clean Node `6fc81f7d` / Orbidocs `050d8d58` records nine public-API cases,
+including real permission failure with persistent exact-plan retirement recovery,
+process interruption, stale generation refusal and materialized catalog cost.
+At 4096 streams it observes 13,824,311 logical file bytes, 20,324,352 allocated file
+bytes, 2,801,664 catalog/index bytes, 4098 files and 12,306 directories. Five
+fresh-process opens with warm caches peak below 0.765 ms; selected reads verify
+one record in one segment. Directory/allocator metadata, whole-node startup and
+portable latency are excluded from those file-byte/timing observations.
+
+The full frozen profile still refuses `native-enospc-unqualified`: the host denied
+the exact producer-created APFS image mount, and real ENOSPC/cleanup remains
+unobserved. All mapped component/public-API gates before that refusal pass;
+27 mutations reject normal/-O loose/extracted (108). Conditional native mutation
+controls are explicitly unexecuted. S028-OS-003 remains partial; this checkpoint
+does not close P026-012c-01, production retirement or power-loss qualification.
+
+Correction to the earlier broad implementation claim: the post-success append
+reconciliation still called the generic repair reader at Node `5d62641f`.
+Node `fa2c56e7` replaces it with the existing bounded non-repairing verifier.
+Historical evidence stays unchanged; the renewed ordinary-daemon witness has
+the same source pair as the storage collection.
