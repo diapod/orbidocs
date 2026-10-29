@@ -690,9 +690,14 @@ An operator-selected managed profile may additionally decode bounded textual
 This is an explicit host mapping, pinned in the managed profile output-policy
 digest; ordinary profiles retain text behavior. The projection precedes the
 adapter Schema Gate, typed validation, output rails and control admission. It
-adds no native tool-call support or execution authority. The focused HTTP,
-profile-policy and schema tests establish this C/H boundary; the shared report
-owns the separate concrete-model result.
+adds no native tool-call support or execution authority. The success-body Schema Gate applies to native and projected responses alike;
+response diagnostics cannot select it. `output-envelope-refused` and
+`adapter-contract-refused` are distinct output denials without automatic retry;
+HTTP provider errors and transport failures retain separate classifications.
+A text-envelope instance refuses `output_contract` before dispatch; schema-bound
+JSON uses an ordinary profile. Duplicate decoded JSON keys refuse and transport
+diagnostics survive projection. The focused HTTP, profile-policy and schema tests
+establish this C/H boundary; the shared report owns the separate concrete-model result.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.

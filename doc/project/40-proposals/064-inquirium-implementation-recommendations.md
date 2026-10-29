@@ -3192,6 +3192,28 @@ or oversized envelopes do not produce controls. Provider identity, model,
 request identity and usage remain transport-owned. No recursive decoding,
 reference resolution, repair attempt or implicit retry is added.
 
+The selected text-envelope mapping and a request `output_contract` are mutually
+exclusive. Refuse that combination before model dispatch, without output repair
+or retry; use a separate ordinary profile for schema-bound JSON generation.
+Duplicate decoded object keys at every depth are refused. Projection preserves
+existing transport diagnostics and adds only its format marker.
+
+Every successful neutral adapter response passes the registered
+`inquirium.adapter.response.v1` Schema Gate, independently of response diagnostics
+or whether controls arrived natively or by text projection. Unknown usage is an
+empty object, not invented zero counters. Provider HTTP error responses retain
+their HTTP path and are not parsed as successful neutral/envelope output.
+`output-envelope-refused` and `adapter-contract-refused` are distinct terminal
+output-denial codes, not configuration or handler-availability failures; neither
+causes an automatic retry. Transport failure retains `adapter-transport-failed`.
+The Agent checks a failed HTTP response before GenerateResponse decoding and
+exports only a closed bounded class and status, never provider error prose.
+The failed-response projection inspects at most 64 KiB; a larger failed body
+returns a generic bounded upstream class without inspecting its content. Within
+that bound, a schema-marked operation result with valid provenance remains
+evidence even if HTTP reports failed delivery/commit; validate it before acceptance.
+HTTP status alone neither erases the result nor proves publication or accounting.
+
 The projection happens before Inquirium output rails, control admission and
 controller consumption. Existing schema and typed semantic bounds still apply;
 projection does not certify semantic resistance to provider notes. Native

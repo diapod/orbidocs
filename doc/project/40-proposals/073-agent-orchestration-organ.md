@@ -1002,7 +1002,15 @@ An explicitly selected textual output-envelope profile follows P064's bounded
 projection contract. Its decoded `propose_tool_call` remains inert and passes
 the same control admission and controller allowlist as a native adapter envelope.
 It cannot widen grants, replace the authenticated binding or execute a described
-operation. No alternate controller or prompt loader is introduced.
+operation. No alternate controller or prompt loader is introduced. Failed HTTP responses are
+classified before GenerateResponse decoding. The Agent exports a closed bounded
+class and upstream HTTP status, omitting arbitrary error prose; an explicit
+transport failure is retryable/503, while output refusal is terminal. This does
+not add a controller retry. Within the 64 KiB failed-response projection bound,
+a schema-marked operation result with valid provenance
+remains evidence on failed HTTP delivery/commit; accepting it does not certify
+publication or accounting. Normalized output denials retain their typed
+Inquirium denial code and cannot start another catalog passage.
 
 ### Durable single-grant withdrawal (follow-up contract)
 
