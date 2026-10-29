@@ -956,3 +956,26 @@ and protected host authorship. Its reset attempt retained an invitation-observat
 refusal, and an earlier recovery download exceeded the observation tool's bound.
 Encrypted authority recovery is retained separately from evidence; no old request
 deadline, formal acceptance claim or global readiness status is changed.
+
+
+### Selected ordinary SQLite observations (2026-10-29)
+
+Node's reviewed `2084117d` owner candidate, with the separately pinned ordinary
+`6efe21bd` Agora service, completed independent A/B certification through private
+AD, host/Vault signatures at confidence 0.5 and two C SQLite HTTP 201 publications
+under one exact profile/context/epoch. C restart/readback preserved the original
+author buffers, signed clock receipts and admission facts after certificate expiry.
+Receipt signatures and both retained host documents passed separate checks.
+
+A recoverable prepared-status startup refusal was reproduced and repaired without
+publishing at open or treating a private candidate as available status. A missing
+B fixture transport/allowlist retained its real refusal before explicit narrow
+preparation; no transport grant was treated as AD or council authority.
+
+These selected observations do not close P015-001–003 or Gate B. Complete private
+lifecycle/failure qualification, certification UI, live contextual counting and
+first-emission orchestration, actual Synapse/PDU, replay and both-store retention
+remain required. See Node's
+[resumption review](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md)
+for source-specific outcomes and preserved refusals. Historical node-counting M4,
+global Agora and release readiness retain their prior scope.
