@@ -165,3 +165,18 @@ runtime acceptance remain pending until their exact receipts and evidence exist.
 Implement owner values and ports, route new unit populations, then qualify the
 02/03 vertical. Keep both trackers open until all owners, scheduling, bounded
 recovery, dispatch and acceptance requirements are met.
+
+### Owner allocation inside the existing base reservation
+
+The consumer base (192 KiB / 48 records) reserves 80 KiB / 16 records for
+unit-local Agent metadata and 112 KiB / 32 rows for SQLite owners. The latter
+is partitioned as P066 16 KiB / 2, question 16 KiB / 1, notifications 64 KiB /
+20 and attention 16 KiB / 9. Source owners use P066 32 KiB / 2 and question
+32 KiB / 1, with the same notification and attention allocations (144 KiB /
+32 total), inside the existing 192 KiB / 64 source reservation. These are
+logical typed-row bytes, including escaping and UTF-8, not SQLite page sizes.
+Owners enforce their allocation in the writer transaction. Temporary space
+reserved for subsequent rows is conservative; admission may refuse before a
+partition is completely occupied. No allocation is borrowed from another
+owner or from the eight attempt reservations. This partition changes no
+retention floor or authority. Missing owner coverage still protects the unit.
