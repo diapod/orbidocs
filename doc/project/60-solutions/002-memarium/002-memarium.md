@@ -65,8 +65,11 @@ The 2026-10-29 Node owner-journal implementation binds an immutable Personal pre
 to a dedicated Agent stream before runtime admission, with an expected-head barrier
 and digest-verified descriptor. New owner facts are excluded from generic Personal
 search/export/backup/sidecar discovery. Generic owner-tag writes refuse, and the
-owner port offers no import route. Controlled interruption and lost-source tests
-remain distinct from clean executable qualification; see
+owner port offers no import route. Controlled interruption and lost-source tests remain component conformance. The
+bounded ordinary-daemon checkpoint qualifies exact legacy bytes, dedicated writes,
+current restart and the pinned previous reader's barrier refusal, with matching
+normal/-O loose/extracted results; see
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md` and
 `node:memarium-runtime/docs/OWNER-JOURNALS.md`. No owner-authorized retirement or
 P066/notification SQLite cleanup is activated by this substrate.
 

@@ -1209,3 +1209,13 @@ before Agent recovery/admission. The legacy prefix remains protected; this does
 not extend context, restore private RAM content or retire P066/notification rows.
 The later profiles retain separate acceptance gates. The Node contract is
 `node:memarium-runtime/docs/OWNER-JOURNALS.md`.
+
+
+The 2026-10-29 owner-journal checkpoint qualifies startup continuity and previous
+reader refusal at Node `d5ad1392` / Orbidocs `365a3796`, independently of Agent
+inference or context extension. Normal/-O loose/extracted qualification agrees and
+80 mutation refusals preserve the report/descriptor/journal chain.
+See `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md`.
+P026-012c-01 remains in progress for the separately tracked independent S028 failure
+and catalog-cost boundary. P026-012c-02 onward, P066-owned consent retention and
+parent P073 remain open; historical 012a/012b evidence is unchanged.

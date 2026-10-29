@@ -18,8 +18,8 @@ are distinct from each stage's measured runtime qualification.
 
 Memarium forget addresses entries and appends a decision. Its `Erased` outcome
 currently hides the entry in read projections; it does not physically erase the
-source or Agent facts. JSONL segment compaction preserves every record. Agent
-recovery scans Personal before tag selection and shares the 100,000-fact/256 MiB
+source or Agent facts. JSONL segment compaction preserves every record. Before this stage, Agent
+recovery scanned Personal before tag selection and shared the 100,000-fact/256 MiB
 refusal budget across Agent fact kinds. The formerly suggested administrative compaction/snapshot remedy is not implemented;
 the Node refusal now explicitly reports that absence. These are lower-layer gaps, not
 permission to delete a mixed Personal stream.
@@ -30,7 +30,7 @@ permission to delete a mixed Personal stream.
 
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
-| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. Qualified physical whole-stream retirement and bounded range reading; dedicated versus protected legacy claims remain separate. |
+| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. P036-009/010/011 owner cutover and pinned previous/current restart/refusal profile qualified; S028-OS-003 independent physical failure/cost boundary remains partial. Dedicated versus protected legacy claims remain separate. |
 | P026-012c-02 | Whole audit-unit retention | todo | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
 | P026-012c-03 | Durable private dispatch reservation | todo | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
@@ -84,8 +84,12 @@ Personal, so the bound is on Agent recovery rather than total Node startup.
 
 The concrete contract and per-schema identities are in
 `node:memarium-runtime/docs/OWNER-JOURNALS.md`. An ordinary previous/current daemon
-pack is in `node:tools/acceptance/memarium-owner-cutover/README.md`; its clean pinned
-qualification is a separate checkpoint. S028-OS-003 remains partial for independent
+pack is in `node:tools/acceptance/memarium-owner-cutover/README.md`. The
+[Node checkpoint](node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md)
+qualifies exact legacy bytes, owner routing, current restart and refusal by the
+pinned previous executable at Node `d5ad1392` / Orbidocs `365a3796`. Four qualification
+variants agree (normal/-O, loose/extracted), with 80 manipulation refusals. Component
+faults are explicitly separate from the ordinary-process witness. S028-OS-003 remains partial for independent
 physical failure/cost qualification. Later audit-unit/dispatch and context stages
 remain open, including P066/notification retirement receipts.
 

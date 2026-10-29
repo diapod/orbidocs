@@ -922,8 +922,8 @@ consumer. Legacy mixed Personal remains protected; no historical erasure is clai
 | ID | Task | Status | Depends on | Completion gate |
 | --- | --- | --- | --- | --- |
 | P036-009 | Freeze private owner fact streams | done | S028-OS-001 | Owner-only read/write/import, no generic Personal view/export/index exposure, per-schema fact identity and retired-stream refusal. |
-| P036-010 | Cut over Agent writes at startup | in-progress | P036-009; S028-OS-002 | Expected-head barrier before Agent load, digest-verified locator, new generation after barrier, old writer/recovery/import fenced; no legacy copy or deletion. |
-| P036-011 | Qualify dedicated versus legacy recovery | in-progress | P036-010; S028-OS-003 | Fresh S=0 and actual previous-binary legacy, cutover crash matrix, old-binary refusal, bounded range I/O and exact unchanged legacy bytes. |
+| P036-010 | Cut over Agent writes at startup | done | P036-009; S028-OS-002 | Expected-head barrier before Agent load, digest-verified locator, new generation after barrier, old writer/recovery/import fenced; no legacy copy or deletion. |
+| P036-011 | Qualify dedicated versus legacy recovery | done | P036-010; S028-OS-003 | Fresh S=0 and actual previous-binary legacy, cutover crash matrix, old-binary refusal, bounded range I/O and exact unchanged legacy bytes. |
 
 
 The 2026-10-29 Node implementation installs the owner journal before Agent load
@@ -932,5 +932,12 @@ barrier, checks an exact descriptor and routes new facts outside Personal discov
 The owner port exposes no generic import/export/read surface; ordinary Memarium
 owner-tag writes refuse before idempotency. Per-schema identities and controlled
 restart/refusal tests live in `node:memarium-runtime/docs/OWNER-JOURNALS.md` and
-`node:memarium-runtime/docs/AGENT-FACT-IDENTITIES.md`. Clean executable qualification
-is tracked separately; no physical erasure or audit-unit retirement is implied.
+`node:memarium-runtime/docs/AGENT-FACT-IDENTITIES.md`. The bounded clean executable profile is qualified at Node `d5ad1392` / Orbidocs
+`365a3796`: eight exact legacy facts, one barrier, two dedicated facts, current
+restart and previous-binary exit 2 on the exact unknown schema. Normal/-O loose
+and extracted results agree; twenty controls refuse in each variant. See
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md`.
+P036-009/010/011 close only this owner-journal/cutover profile. Controlled
+interruption, capacity and locator/allocator faults remain component evidence;
+independent S028 physical-failure/cost qualification remains partial. No physical
+erasure, audit-unit retirement or total-Node startup bound is implied.
