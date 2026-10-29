@@ -780,7 +780,8 @@ Costs:
 
 ## Owned stream retirement tracker
 
-Accepted 2026-10-29 design; the local run05 profile qualified, but the critical review reopened failure recovery and space-reclamation acceptance before stage02. Storage owns
+Current status (2026-10-29): the reviewed v3 local profile is qualified at Node
+`0ec8dbac` / Orbidocs `1b870593`; historical run05 keeps its narrower frozen gate. Storage owns
 whole-stream sealing, generation fencing, bounded range reading, and physical
 retirement; Memarium and audit owners supply classification, current admission,
 holds and retention decisions. This adds no global minimum across arbitrary
@@ -791,7 +792,7 @@ See [the staged P026 design](../../40-proposals/026-assessment-dependent-context
 | --- | --- | --- | --- |
 | S028-OS-001 | Freeze bounded owned-stream lifecycle | done | Typed generation/head/seal/range/receipt contracts; whole chains, explicit logical versus physical reclamation and no authority in identifiers. |
 | S028-OS-002 | Implement JSONL owned-stream mechanics | done | Durable allocator outside retired streams, lazy sharded catalog, streaming verified ranges, exact seal/retire recovery, allocation-mode diagnostics and no retired replay/import resurrection. |
-| S028-OS-003 | Qualify storage retention and failure boundaries | in-progress | Frozen local macOS/APFS public-API profile at Node `4f8369ff` / Orbidocs `c85d213f`: range/corruption, allocator loss, race/unlink, native ENOSPC, reopen, catalog bounds and checked cleanup; normal/-O loose/extracted agreement. SQLite bytes-may-remain and platform/power-loss/authority exclusions remain explicit. |
+| S028-OS-003 | Qualify storage retention and failure boundaries | done | Reviewed v3 local macOS/APFS profile: successful native recovery/new write, actual block reclamation, reserved catalog and append-cost measurements, migration/old-reader refusal and renewed daemon cutover. Normal/-O loose/extracted agreement and 332 storage/cutover mutation refusals. Platform/power-loss/authority exclusions remain. |
 
 ### Accepted v3 recovery and cost correction (2026-10-29)
 
@@ -801,7 +802,8 @@ full replay, seal, retire and the one-time v2 migration verify the bounded chain
 A durable pending append permits adoption of one exact complete frame or truncation
 of only its incomplete unacknowledged suffix after full committed-prefix verification.
 Unregistered suffixes and corrupt committed prefixes refuse. Old v2 binaries refuse
-v3; missing allocators are never recreated. Atomic no-replace publication prevents
+v3; missing allocators are never recreated. Existing v2 seals remain unchanged;
+no retroactive preallocation reclamation is claimed for them. Atomic no-replace publication prevents
 an interrupted unpublished namespace initialization from blocking a fresh start.
 
 Seal persists a reclamation intent before the APFS one-byte zero extension/truncation
@@ -814,7 +816,13 @@ The new local profile physically reserves all 32/1024/4096 catalog streams. Its
 logical/catalog bounds remain 32/16 MiB. Five equal small append timings at 1/27/128/240
 MiB each have a two-second ceiling; seal reduces a 16 MiB reservation to at most
 64 KiB file blocks. These are frozen local measurements, not portable latency or
-media-sanitization guarantees. Current completion awaits clean v3 qualification.
+media-sanitization guarantees. The [clean v3 qualification](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage-v3/README.md)
+now passes: 163 mapped component tests, 42 storage and 41 cutover mutation controls
+in both modes/locations, 267.458 seconds total. Small append samples span
+1.977–3.257 ms; physical seal allocation falls from 16 MiB to 4096 bytes with
+identical content. The whole 4096-stream physical reservation fixture consumes
+134,844,416 allocated file bytes and 593,920 catalog bytes; directory metadata is
+excluded. Stage01 closes only within this local profile.
 
 ### Historical foundation and qualification checkpoints
 

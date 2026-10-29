@@ -30,7 +30,7 @@ permission to delete a mixed Personal stream.
 
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
-| P026-012c-01 | Owned Memarium streams and startup cutover | in-progress | S028-OS-001/002/003; P036-009/010/011. Clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 qualifies all 11 frozen local macOS/APFS failure/restart/cost cases and the paired previous/current-daemon cutover. Actual ENOSPC and checked detach pass; normal/-O loose/extracted agreement and 296 mutation refusals. Dedicated versus protected legacy claims stay separate; no later audit-unit/dispatch/context or release promotion. |
+| P026-012c-01 | Owned Memarium streams and startup cutover | done | S028-OS-001/002/003; P036-009/010/011. Reviewed v3 profile at clean Node `0ec8dbac` / Orbidocs `1b870593`: 11 native failure/restart/catalog cases plus byte-anchor migration, reclaim and append-cost checks; renewed ordinary previous/current-daemon cutover. Normal/-O loose/extracted agreement, 332 mutation refusals. Protected legacy and later audit-unit/dispatch/context scope remain separate. |
 | P026-012c-02 | Whole audit-unit retention | todo | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
 | P026-012c-03 | Durable private dispatch reservation | todo | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
@@ -276,9 +276,12 @@ throughput benchmark or release-readiness statement.
 
 ## Historical qualification checkpoints
 
-These checkpoints describe their pinned gates. The current critical review reopens
-short-write recovery, sealing allocation and append cost; run05 is not evidence for
-those previously unmeasured guarantees. Historical bytes and tool pins stay frozen.
+These checkpoints describe their pinned gates. Run05 is not evidence for its
+previously unmeasured short-write, sealing-allocation and append-cost properties.
+The [v3 review renewal](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage-v3/README.md)
+qualifies the corrected local gate at Node `0ec8dbac` / Orbidocs `1b870593`, including
+native recovery without restart, byte-preserving reclamation, actual v2-reader refusal
+and ordinary daemon cutover. Historical bytes and tool pins stay frozen.
 
 ### Stage 01 reviewed checkpoint (2026-10-29)
 
@@ -335,7 +338,8 @@ verified producer-owned loose copies; historical evidence and legacy facts remai
 
 ## Next Actions
 
-Implement and qualify S028 owned-stream mechanics first, then P036 startup routing.
+Stage01 is locally qualified. Implement and qualify audit-unit retention and durable
+private dispatch together (02/03), preserving the accepted ownership boundaries.
 Use ordinary-daemon/ChannelJson/browser acceptance with deterministic inference,
 separately classified native fault/clock evidence, source/binary/feature pins and
 normal/-O loose/extracted qualifier mutations. Retained evidence follows Node

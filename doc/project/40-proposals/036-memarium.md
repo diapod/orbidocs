@@ -1003,3 +1003,13 @@ These are admission/recovery bounds, not retention or a supported pruning recipe
 The protected legacy prefix currently fences relocation, archive and compaction
 of the entire Personal fact stream indefinitely. Stage01 has no release operation;
 a future replacement-source protocol must discharge this dependency explicitly.
+
+### Catalog-v3 review renewal (2026-10-29)
+
+The [v3 qualification](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage-v3/README.md)
+at Node `0ec8dbac` / Orbidocs `1b870593` renews the fresh/legacy ordinary-daemon
+restart and previous-binary refusal proof with S028 byte-anchor recovery and
+physical reclamation. Startup transfers the verified owner projection once to
+Agent load; subsequent explicit recovery rechecks it. The documented shared
+recovery ceilings, whole-daemon discovery refusal and permanent Personal fence
+remain unchanged. No context authority, retention saga or memory is restored.
