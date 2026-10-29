@@ -301,3 +301,8 @@ the P032 v1 preimage or make a witness receipt a current capability. Local trust
 admission, signed history and present authority remain separate. The planned
 P032 v2 lower-time-bound and ingest migration analysis is recorded in
 `node:docs/development/P032-V2-INGEST-ANALYSIS.md`; it supplies no v2 runtime claim.
+The 2026-10-29 P035-019/LLR-002 qualification establishes ordinary read-only
+Agora inspection with independently admitted witness trust and OS-denied network
+access, including detached privacy. Its A–E results and exact source pins are in
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`; no P032 authority or
+additional delegation hop follows.

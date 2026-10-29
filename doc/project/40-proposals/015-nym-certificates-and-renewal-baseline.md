@@ -518,6 +518,10 @@ and the domain-bound manifest input as prerequisites for admission receipts.
 The shared exact-use matcher and negative producer vectors exist in that slice.
 P015-005 remains open: current decision-v1 issuer runtime rejects the new profile
 before effects and needs a versioned exchange rather than an in-place widening.
+The 2026-10-29 P035-019 A–E qualification covers the receiving input contract and
+synthetic full/detached producer/inspection, not that issuer exchange. See
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`; no P015 runtime gate is
+promoted by the receipt qualification.
 
 Post-MVP; independent of the narrow MVP verifier in P015-004. The existing
 contextual profile remains restricted to `whisper-signal`/`whisper-signal.v2`.

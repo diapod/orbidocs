@@ -2900,7 +2900,8 @@ over the network or admits a witness from carrier data.
 
 ### Frozen implementation boundary (2026-10-29)
 
-P035-019 and P013-LLR-002 are in progress. The first historical consumer is
+P035-019 and the first P013-LLR-002 consumer passed scoped qualification on
+2026-10-29. The first historical consumer is
 read-only Agora admission inspection; Memarium LLR-003 and P041 historical ingest
 retain independent gates. The new closed receipt binds both `accepted/at` and
 `committed/at`, the admission status snapshot digest/revision and the exact P015
@@ -3003,14 +3004,27 @@ Acceptance is owned by `node:tools/acceptance/portable-admission/`: A contracts;
 B ordinary producer -> SQLite -> readback -> cold OS-isolated inspection;
 C historical revocations; D real detached production/privacy; E durability and
 volatile-key lifecycle. The receiver's controlled evaluation clock and no-egress
-probe are mandatory. Source and evidence commits are separate; qualification
-remains pending until the clean-source run and extracted replay pass.
+probe are mandatory. Source and evidence commits are separate.
+
+The clean-source A–E run at Node
+`0d44e554b87031719938f371c80637c5f20f865c` and Orbidocs
+`d837d8e593520e27e3337f4aa586d9fee54acd81` passed 632 Rust tests, one
+pre-existing ignored case, scoped all-target Clippy, ordinary OS-isolated cold
+full/detached consumers and twelve qualifier mutations. Extracted replay and
+fresh retrieval from both accepted local stores agreed. Neutral bundle identity:
+`37a92f568fde09f5217e47c98eca0a7026a821551932f659abbed39adb2681cf`;
+reference: `node:docs/evidence/portable-admission/2026-10-29-qualified/README.md`;
+review: `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`. Ownership remains
+unknown; dependency/hold coverage is incomplete and protected. Two local reads
+do not establish independent backup protection. These results close the stated
+receipt and first historical-inspection gates; P015-005 issuer exchange,
+LLR-003, ADC runtime, P041 historical ingest and release readiness stay separate.
 
 ### Admission Receipt Tracker
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | in progress | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019 | Portable admission receipts | done | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 

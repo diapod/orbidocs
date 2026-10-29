@@ -1073,8 +1073,9 @@ The root signing operation is host-private; generic signing cannot bypass it.
 A profile-bound guard band precedes decision time. Expiry is checked on every
 use and by maintenance, including after resume. A new process may issue a new
 partial-window delegation. Missing sequence members are incomplete observation;
-conflicting signed heads are evidence of equivocation. This mechanism is in
-progress; it is not a qualified time service or P032 v2 migration.
+conflicting signed heads are evidence of equivocation. This mechanism passed the
+scoped P035-019 A/E gates on 2026-10-29; it is not a qualified time service or
+P032 v2 migration.
 
 P037's typed `signer.witness` operation prepares a one-use, caller-bound ticket
 with owner-sampled time. Signing accepts that exact preparation, an accepted
@@ -1092,3 +1093,9 @@ missing fence. Gaps after a reserved sequence are incomplete observation.
 The P035 A/E gates cover guard bands, partial restart, window alignment, sleep,
 clock rollback, staging recovery, sequence overflow, symlink/owner conflicts
 and typed-port replay. No external UTC, memory-forensics or power-loss claim.
+The clean-source receipt qualification used Node
+`0d44e554b87031719938f371c80637c5f20f865c` and Orbidocs
+`d837d8e593520e27e3337f4aa586d9fee54acd81`; the ordinary producer exercised
+real P037 HTTP operations. See `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`
+for the 144 lifecycle/durability component tests, process interruption and
+retained source/fixture bindings. No signing secret is retained.

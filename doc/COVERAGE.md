@@ -1879,6 +1879,6 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
 - Canonical schemas: `831`
-- Generated schema docs: `832`
+- Generated schema docs: `831`
 - Positive examples: `763`
 - Negative examples: `762`

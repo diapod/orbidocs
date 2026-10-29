@@ -652,6 +652,10 @@ principal and bounded `case/not-after`. P015-005 owns issuance authorization;
 LLR-006 owns the case key. The manifest precedes the signal, whose private fields
 must match; the receipt attests those checks. This prerequisite does not close
 ADC-001's condition/release/amendment contracts or any ADC execution gate.
+P035-019 qualified that synthetic detached producer and cold OS-isolated
+inspection on 2026-10-29. The witness attestation remains distinct from an
+independent hidden-body check; see
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md` for the bounded claim.
 
 All rows are post-MVP `todo` unless marked otherwise. The grouping row closes
 only on the composed Story 014 variant run.

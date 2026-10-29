@@ -499,3 +499,7 @@ signal before a detached receipt. The manifest is not a Vault key export or a
 full-body proof. P037 volatile admission-witness keys are independently random
 host-owned keys and never enter participant recovery. LLR-006 custody and
 opt-in case-key recovery remain unqualified by this admission slice.
+The 2026-10-29 P035-019 A–E gate qualifies the synthetic manifest/receipt producer
+and historical inspection only. It preserves this separation of volatile witness
+custody from participant/case-key recovery; see
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`.
