@@ -75,6 +75,35 @@ Two checkpoint generations and at most 256 capsule buckets are admitted. Recover
 loads bounded current buckets/deltas, never all retired unit histories. Lost allocator
 or checkpoint refuses; neither an empty projection nor an archive import repairs it.
 
+### Owner integration and recovery refinement (2026-10-29)
+
+New source and consumer proposals reserve their unit before creating P066 data.
+A host-authored `assessment/audit-unit` metadata reference follows the consent,
+question and notification projection. It is a locator, never deletion authority.
+Historical records without this routing witness remain protected. New closed Agent
+facts use their consumer's isolated stream, not the general Agent stream.
+
+The closed inventory includes P066 request/decision/consumption/revoke rows,
+operator-question rows, notification queue/idempotency/events/transaction/audit
+copies, attention-group membership and any referring group copy, Agent facts,
+dispatch facts, reservations and owner receipts. A shared attention group or other
+unresolved copy blocks retirement rather than deleting another unit's data.
+Exposure-store facts are explicitly outside the unit and never retired with it.
+
+SQLite owners compare a bounded canonical row inventory inside an immediate
+transaction before removing rows and recording the receipt atomically. They report
+`rows-removed-bytes-may-remain`; no VACUUM or sanitization is inferred. New private
+notification audit copies are isolated by unit, so the historical mixed JSONL
+journal is never rewritten to retire a unit. Owner receipts remain available for
+crash reconciliation until their covering capsule can itself retire.
+
+S029 persists plan before any owner step, recovers the exact owner receipt after
+an interrupted acknowledgement, and records each receipt before the next dependent
+step. Capsule publication precedes detail retirement. A bounded checkpoint binds
+current detail exceptions, capsule buckets and operation deltas; its metadata never
+materializes authority. Source retirement also requires every referring consumer
+to have retired. Unknown inventory, copies, holds or owner state refuse.
+
 ### Dispatch values and protocol
 
 `private-dispatch-reservation.v1` binds:
