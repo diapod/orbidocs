@@ -117,6 +117,12 @@ The selected runtime configuration is committed, without claiming attestation of
 a provider process generation. Component checks and the ordinary dispatch witness
 are separate from the full stage gate.
 
+A narrow ordinary-process witness at Node `b1a51400` / Orbidocs `755f50fc` now
+passes three dispatch/failed-outcome/restart cases; normal/-O loose/extracted
+qualification agrees with 144 mutation refusals. See
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-dispatch/README.md`.
+This does not qualify physical retention or the full joint stage gate.
+
 Both stages remain in progress. All-copy source/consumer accounting and routing,
 P066/question/notification/Agent owner receipts, persistent saga execution,
 capsules/checkpoints and scheduled maintenance are not yet complete. The partial

@@ -1,6 +1,6 @@
 # P026-012c-02/03: audit-unit and private-dispatch contract
 
-Status: frozen implementation contract, 2026-10-29; runtime qualification pending.
+Status: frozen implementation contract, 2026-10-29; narrow dispatch prerequisite qualified; whole-unit retention and the joint stage gate remain incomplete.
 Based on: [accepted staged plan](026-assessment-dependent-context.md), P066, P073,
 S028, S029 and P036. This refines stages 02/03; it does not enable later profiles.
 

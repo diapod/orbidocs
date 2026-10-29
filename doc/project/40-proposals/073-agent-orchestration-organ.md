@@ -1228,3 +1228,21 @@ loose/extracted results agree with 296 storage/cutover mutation refusals.
 P026-012c-01 is done for the frozen macOS/APFS profile. Parent P073/P026-012,
 012c-02 onward, P066-owned retention, dependent context and all model/release
 claims remain open or unchanged; no private RAM content or activation is restored.
+
+### P026-012c-02/03 dispatch checkpoint (2026-10-29)
+
+The [joint audit/dispatch contract](026-assessment-audit-dispatch.md) is frozen.
+At Node `b1a51400` / Orbidocs `755f50fc`, three ordinary ChannelJson/browser cases
+qualify a durable reservation before final admission, possible disclosure after an
+adapter failure, and restart without reactivation or redispatch. Normal/-O
+loose/extracted results agree; 36 controls per variant give 144 refusals. The
+metadata-only payload and limitations are recorded in
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-dispatch/README.md`.
+
+This is a dispatch prerequisite, not closure of stages 02/03. Source-unit admission,
+all P066/question/notification/Agent copies, persistent S029 owner execution,
+capsules/checkpoint recovery and S020 maintenance remain incomplete. Historical
+shared copies stay protected. The pure receipt DAG does not prove owner deletion;
+selected runtime configuration does not attest a provider process generation.
+P066 remains the sole durable consent owner; no approval archive restores authority.
+Historical Q-02/012a/012b and stage01 evidence remains unchanged.
