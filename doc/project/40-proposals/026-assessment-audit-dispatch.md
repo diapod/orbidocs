@@ -206,3 +206,9 @@ A persistent cursor makes partial capsule receipt cleanup replayable. A deleted
 namespace, lost allocator or populated unreferenced capsule stream refuses
 recovery. No checkpoint restores an activation. SQLite removal is explicitly
 logical; free pages, WAL and snapshots may retain bytes.
+
+The four terminal SQLite write fences are control rows: their exact typed bytes
+and four records consume the existing terminal reservation (or the source's
+remaining reservation), in addition to owner data rows. They remain with the
+owner receipts until capsule expiry and also count in the capsule's 4 KiB
+allocation. They are never omitted from settled whole-unit accounting.
