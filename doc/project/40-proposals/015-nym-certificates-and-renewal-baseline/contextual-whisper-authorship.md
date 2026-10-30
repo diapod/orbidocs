@@ -1068,3 +1068,29 @@ publish another pair. Component conformance covers revocation/restoration,
 freshness, corruption, rollback against the committed fence and cache rebuild.
 This does not close the complete certification UI, durable result-change audit,
 actual Gate A/B campaigns or retained proof obligations.
+
+### Explicit local certification controls (2026-10-30)
+
+The protected Node UI now projects the existing operator-local applicant API.
+Each POST selects one explicit transition: prepare issue/renew/private reset,
+prepare a key request, submit one prepared encrypted artifact through AD, inspect
+its delivery, bind an exact reply offer, accept its exact INAC notification, or
+read the retained result. No transition is inferred from delivery success or the
+latest notification. Authority adoption remains an independent host decision.
+
+Preparation keeps its operation identity and protected nym through a lost
+response. A form-only JCS digest confirms the exact prepared intent. Changed
+scope, operation or predecessor fields refuse before another owner transition;
+readback does not confirm edited fields. This digest is not issuance authority.
+A changed intent requires a new operation. The separate recovery guard
+still applies; these controls never export recovery, approve a peer implicitly,
+replace a reviewed authorship document or retry a mutation on transport failure.
+A 401 may refresh local authentication only because it precedes owner dispatch.
+The returned operation, profile, issuer and reply bindings must match the command.
+
+The two mounted aliases share the authenticated operator proof, P095 private-view
+catalogue, CSRF protection, private/no-store responses and passphrase omission.
+Delivery, council decision, certificate validity/activation, status freshness and
+relay admission stay distinct in UI and API. Component checks do not qualify the
+actual private exchange, browser flow, SQLite/Synapse path or either Gate A/B.
+The source-result audit and all retained runtime obligations remain open.
