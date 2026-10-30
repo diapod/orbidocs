@@ -911,9 +911,17 @@ for that purpose, not certificate eligibility, record admission or permission to
 emit. In particular, a revoked certificate can obtain the signed status that
 proves its revocation. Callers recheck signatures, scope and time at use.
 
-The authenticated current-operator route and the authenticated `agora-service`
-module binding use the same owner. The host capability is restricted to that
-receiver role; a registry entry or another module credential grants no access. Acquisition does not require a certificate to be
+The authenticated current-operator route and explicitly adopted authenticated
+receiver module bindings use the same owner. The receiver role is an exact local
+operator selection, independent of package names and signing domains. Node's
+startup `identity.nym_status_consumer_modules` policy defaults to the existing
+`agora-service` binding; an explicit list replaces it, including an empty disabled
+selection. It admits at most 16 distinct canonical module IDs. Null, duplicate,
+malformed and reserved local-control selectors refuse; matching never normalizes
+or expands aliases. Selection creates neither a credential nor an instance.
+Independent receivers additionally present their current signed launch and exact
+live channel identity. A registry entry or another module credential grants no
+access. Acquisition does not require a certificate to be
 unexpired now: the receiving owner separately verifies its trusted publication
 time. Ended epochs do not gain a new watch or lease. Existing cumulative status
 high-water marks and retirement remain authoritative. Missing refresh or storage
