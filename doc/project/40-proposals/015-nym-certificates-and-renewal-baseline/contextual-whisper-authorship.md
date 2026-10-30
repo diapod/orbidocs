@@ -1170,3 +1170,19 @@ P015423 handling. Missing status, invalid credentials and corruption remain
 separate failures; unlock cannot extend certificate or preview validity. Component
 tests and this correction do not close the pending fresh UI/runtime verification
 or Gates A/B.
+
+### Ordinary UI smoke and fixture-signer retirement (2026-10-30)
+
+After the typed-lock correction, an actual private AD/UI probe completed issue,
+certificate readback, retained review, daemon restart,423, explicit unlock and
+host signing of the same document with `confidence=0.5`, followed by Matrix202
+publication intent. Daemon842ef007 and separately pinned317a87a0 UI/service were
+recorded independently. This is a positive narrow path, not receipt, erasure,
+complete lifecycle/replay or both-store qualification.
+
+The environment-selected deterministic nym signer is removed from current intake
+runtime after that smoke. The current legacy Story-005 renderer no longer installs
+its seed/source variables; v1 primary-participant host signing cannot stand in for
+the new contextual source profile. Frozen historical tools and evidence retain
+their exact bytes. Final Gate B still requires a clean candidate without that
+side path and the complete qualification/retention matrix.
