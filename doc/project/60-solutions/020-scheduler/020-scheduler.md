@@ -939,3 +939,13 @@ resonance. S020 dispatches the due work; AD owns holds, erasure and diagnostics.
 | Job | Owner | Cadence | Task |
 |---|---|---|---|
 | Minimal-trace purge | Artifact Delivery | After the retry horizon, skip-missed | [S023-002](../023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) |
+
+## Responsibility V4-prep boundary — 2026-10-30
+
+V4-prep qualifies bounded host-owned due-resume materialization only in the
+isolated lifecycle fixture owner, outside admission. Read-only composition uses
+the original resume deadline even if materialization cannot commit. This adds no
+production S020 job or dispatch authority and changes no existing scheduler
+budget. The maintenance/shadow qualification remains scoped to its original
+profile; V4s/V5 require explicit live owner integration and fresh evidence.
+See `node:docs/evidence/local-accountability/2026-10-30-v4-prep/README.md`.

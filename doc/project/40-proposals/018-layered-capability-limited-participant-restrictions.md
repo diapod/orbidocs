@@ -299,3 +299,13 @@ remains authoritative, every D7 field is false, and lifecycle writers, cutover
 and suspension runtime remain separate. Draft maturity, default-off rollout and
 hard-MVP/release status are unchanged.
 See the [current S040 maintenance status](../60-solutions/040-capability-limited-restrictions/040-safe-maintenance-contracts.md).
+
+V4-prep checkpoint (2026-10-30): the isolated fresh-format owner, operator slots,
+source-local writers, receipt recovery and outbox preparation pass the scoped
+65-case software profile at Node `04afd5a4` / Orbidocs `1968960c`. Evidence:
+`node:docs/evidence/local-accountability/2026-10-30-v4-prep/README.md`. This includes 18 real v1 runtime
+cases; the 37 v2 conformance cases, seven v1/D7 conformance cases and three cost
+controls are distinct classes. v2 enforcement and V4s shared-WAL I/O are not
+qualified. v1 remains authoritative and all five D7 fields remain false. P018-12,
+13 and 14 retain their original qualified scope; fresh dataset cutover, encrypted
+v2 archival, restore and V5 remain open.

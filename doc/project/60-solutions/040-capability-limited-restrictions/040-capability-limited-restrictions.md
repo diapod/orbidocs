@@ -524,3 +524,21 @@ Implementation checkpoints and qualification:
 `node:docs/development/RESPONSIBILITY-V4-PREP-2026-10-29.md`. This decision does not
 close V4-prep, V4s, V5 or broader P051 acceptance. M4/M5/V3/Q retain their scoped
 2026-10-23 qualification, including the later lock-model qualification boundary.
+
+### V4-prep qualified boundary — 2026-10-30
+
+The fresh-format isolated software profile closes its preparation checkpoints
+with 65 cases (18 runtime v1, 37 conformance v2, seven conformance v1/D7 and three
+orientational cost controls). Source bindings are Node `04afd5a4` / Orbidocs
+`1968960c`; evidence and exact report identity:
+`node:docs/evidence/local-accountability/2026-10-30-v4-prep/README.md`. Original and extracted qualification
+agree. The broader source-lifecycle capability remains partial/draft.
+
+One production-compiled facts owner, isolated service outbox and shared core
+receipt laws are prepared without a live v2 route, configuration switch or
+scheduler hook. v1 remains authoritative; all five D7 components remain false.
+No active source is migrated or adopted. V4s starts a fresh host/service epoch,
+removes v1 paths and requires new I/O qualification on its actual WAL. V5, live
+authority admission, encrypted source archival, restore and real-participant
+readiness remain separate. Historical S040 and P018 completion scopes are
+unchanged.

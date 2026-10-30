@@ -69,6 +69,7 @@
     "Order source transitions by CAS independent of recording-clock monotonicity"
     "Keep protected rights and read-only due-expiry composition available"
     "Bind per-slot operator decisions and recover exact immutable operation receipts"
+    "Retain scoped V4-prep isolated software qualification separately from live enforcement and V4s I/O"
     "Require a fresh host/service dataset epoch in V4s; keep all D7 components false until separate V5 qualification"]
    :status :partial}
 
