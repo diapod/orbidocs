@@ -236,3 +236,16 @@ or physical RAM overhead. Capacity refuses before unit admission; oversized
 provider metadata after dispatch retains possible disclosure and cannot create
 a completed outcome or trigger redispatch. No numeric ceiling, authority,
 consent, dispatch, retention floor or content-retention policy is widened.
+
+### Reuse of an exact component image
+
+Component evidence keeps its original clean source revision and recording. A
+later ordinary-process run may reuse it only when the build producer freshly
+verifies SHA-256 equality of all six test images and all four ordinary binaries,
+keeps their feature checks, and records a source diff confined to the profile's
+producer, builder, qualifier, manipulation controls and source-header inventory.
+Any runtime, schema, Rust test, Cargo or other input change refuses this path and
+requires new component execution. This is byte identity, not an inferred semantic
+compatibility claim. The original component pin is never relabelled as the later
+revision. Ordinary processes, browser consent, channels, S020 and cleanup always
+run freshly under their own exact paired source pins.
