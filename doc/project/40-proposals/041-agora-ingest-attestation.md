@@ -689,4 +689,73 @@ not reopen counting windows.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P041-001 | Historical nym admission mode | todo | P035-019; P013-LLR-002 | The gate option, the predicate and the `historical_admission_unproven` refusal; the default stays strict. Fixtures: an expired certificate with a valid receipt is accepted only in the historical mode; altered bytes, an unknown time authority and revocation before admission refuse; the current policy still applies. |
+| P041-001 | Historical nym admission mode | in-progress | P035-019; P013-LLR-002 | The gate option, the predicate and the `historical_admission_unproven` refusal; the default stays strict. Fixtures: an expired certificate with a valid receipt is accepted only in the historical mode; altered bytes, an unknown time authority and revocation before admission refuse; the current policy still applies. |
+
+## Historical admission decision refinement (2026-10-30)
+
+This accepted design supersedes the shorthand effective-revocation wording above;
+P041-001 remains unqualified until its independent gate passes. Reuse LLR-002
+facts, but evaluate a separate historical-ingest predicate. Witness trust is
+use-scoped (`inspection`, `historical-ingest`); legacy trust grants inspection only.
+
+| Historical evidence (record, receipt and history valid unless stated) | Decision |
+|---|---|
+| Revocation ordering `after` | Continue to current policy and presenter authorization; basis `revocation-interval`. |
+| `none-observed`, still inside epoch, usable Collection status with matching scope/minimum revision and `issued/at >= committed/at + profile skew` | Continue; basis `fresh-status`, binding the exact status digest. |
+| `none-observed` with verified epoch closure and final status without revocation | Continue; basis `epoch-closure`, binding closure and status digests. |
+| `before` | `revoked-before-admission`. |
+| Unknown required axis/order, missing closure after epoch end, stale or too-early status | `historical-admission-unproven`; retry only after evidence change. |
+| Invalid required axis or conflicting closure | Specific typed refusal. |
+| Detached receipt presented as full-record ingest | Refuse profile mismatch. |
+
+Resolve attached and local status through one verifier and cumulative cursor.
+Authentic newer local knowledge cannot be omitted by a presenter. Invalid attached
+material never falls back to cache. A later proof of `before` records
+`post-admission-evidence: revoked-before-admission`; it does not silently delete
+the record. Any withdrawal is a separate current policy decision. An honest
+cumulative stream containing the post-commit no-revocation status cannot later
+prove ordinary `before`: antedating a higher revision or removing known entries
+is an issuer contradiction. That case records `issuer-status-conflict`, retains
+the authenticated proof under existing receipt holds, and preserves the historical
+row. These annotations are owner-write facts, never effects of GET inspection.
+A bounded carrier unable to include known contradictory evidence refuses with a
+material limit rather than silently omitting the contradiction.
+
+Use a distinct historical-ingest route/contract and a versioned host authorization
+request. The presenter comes from authenticated transport, not a JSON identity
+label. Require current topic-scoped `agora.historical.present`, disabled by default,
+and recheck current authority at use. The author's expired delegation proves no
+present authorization. Retain ordinary topic/content/disclosure gates.
+
+Historical publication is atomic and records `local/admission: historical-accepted`,
+original accepted/committed times, current decision time and revocation basis.
+It issues no local receipt. Live duplicates remain live and preserve foreign
+receipts without a new publication. Retention starts at original admission even
+at a new holder; tombstones and expired horizons refuse. Existing SSE/query views
+remain live-only; versioned historical views require opt-in. Current counters and
+P078 emission windows ignore historical publication.
+
+| Existing name | Canonical new-surface reason | Retry condition |
+|---|---|---|
+| `historical_admission_unproven` | `historical-admission-unproven` | evidence-change |
+| `nym_certificate_expired` | `certificate-expired` | new valid authorization material, never retrying unchanged bytes |
+
+Existing response contracts keep their established aliases; typed mappings own
+translation, not string-prefix matching. Presenter authorization has its own
+bounded proof budget, separate from P035 material verification.
+
+### Current host binding and exposure boundary
+
+The reference service authenticates the presenting Agora module through the host
+transport. The local client must also authenticate to that service; a client JSON
+field cannot select the presenter. In this profile the module presents under its
+own current topic-scoped grant. This does not implement remote-human identity
+forwarding or LLR-009 author continuity. An operator must deliberately enable the
+route and grant the service `agora.historical.present`; a historical author grant
+is never passed to that authorization operation.
+
+Historical rows use a separate local projection. They have explicit versioned
+single-record readback and inspection, and never enter the legacy topic query,
+SSE stream or emission counters. An opt-in historical subscription is not part of
+this profile. Original admission and current local acceptance remain separate
+facts. Implementation and offline qualification are in progress.

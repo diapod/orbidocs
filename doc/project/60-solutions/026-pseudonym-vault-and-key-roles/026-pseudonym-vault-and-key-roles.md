@@ -503,3 +503,10 @@ The 2026-10-29 P035-019 A–E gate qualifies the synthetic manifest/receipt prod
 and historical inspection only. It preserves this separation of volatile witness
 custody from participant/case-key recovery; see
 `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`.
+
+The LLR-003 P036 custody profile owns separate per-entry payload DEKs, not nym,
+participant or case-continuity keys. It reuses XChaCha20-Poly1305 and custody
+fencing, stores erasure knowledge in the Memarium journal, and excludes DEKs from
+built-in application backup. External backups and volume encryption remain unknown;
+simultaneous provider/journal rollback is outside the claim. S026 case-key recovery
+and LLR-009 succession retain their independent gates.

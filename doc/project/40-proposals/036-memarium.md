@@ -907,3 +907,59 @@ window. Test co-retention, partial bundle loss, expiry and redelivery offline.
 P036-006 and P036-008 own lifecycle/link contracts before their consumers:
 P078-013 and P013-DFR-003 respectively. Consumer acceptance must prove the joined
 behavior, but it is not a reverse implementation dependency of these contracts.
+
+## Portable admission custody profile (2026-10-30)
+
+Accepted design; LLR-003 runtime qualification is pending. P036 owns retention
+and erasure; LLR adds no independent retention policy. P036-004a freezes this
+bounded profile and P036-005a implements it without closing their parent rows.
+
+Every custody capture, including the first import at a new holder, derives its
+absolute payload horizon from original verified admission time, bounded by the
+local P091 ceiling and, for detached material, `case/not-after`. Import time is
+an audit fact, never a renewed lease. Missing finite policy refuses capture.
+Evidence holds never extend payload retention. Proof dependencies are content
+addressed and held while their receipts are retained; no public access follows
+from using an unencrypted proof CAS. The pure lifetime laws are shared with Agora;
+transactions and storage remain owned by each component.
+
+All payload classes use independent random DEKs and existing AEAD. No derivation
+from a durable root and no DEK backups in v1. AAD binds schema/purpose, entry ID,
+signature-bearing commitment and absolute `until`. The journal stores references,
+not inline plaintext or base64 bundles. Detached metadata, tombstones and key
+handles never expose the unsigned private record ID.
+
+Capture commits in this order: durable DEK file, durable ciphertext blob, then
+journal fact. Each fact binds `provider/revision`. Recovery destroys orphan keys
+and blobs before serving requests. A journal ahead of its provider triggers
+reconciliation, never silent revision reset. Erasure commits `erase-requested`,
+drains/cancels bounded key-use leases, unlinks the key and fsyncs its directory,
+then commits `erased`. Startup completes interrupted erasures before decrypting.
+Restored keys contradicted by journal facts are destroyed with `re-erased`;
+missing keys without an erasure fact produce `payload-unavailable`. Minimal
+erasure knowledge lives in the journal at least until the original payload
+horizon. Every key open/use checks the horizon with the shared observed-time fence.
+
+After `erased`, the local provider holds no key that can decrypt the payload,
+and no Memarium operation, projection, export or journal replay yields its
+plaintext. Exclusions: copies already exported to other holders; simultaneous
+restoration of provider and journal from before erasure; physical media remanence.
+The provider assurance projection explicitly reports `rollback-anchor: absent`
+in v1; no independent anchor is configured. A common rollback of
+provider, journal and time fence cannot be detected without an independent anchor.
+The built-in application backup reads journal facts and never reads provider
+keys or payload files. This is the verified scope of `backup/exclusion`; it is
+not a full custody recovery backup. Exported proof/ciphertext replicas require
+separate retention metadata. External backups and volume encryption are reported
+as `unknown`; operator-declared snapshot retention is not evidence of destruction.
+Relay NULL/WAL removal is only `unreachable`.
+
+Custody completeness has two levels: `verifiable` contains the LLR-002 basis;
+`ingestible` additionally contains the P041 revocation basis. These describe
+material availability, not imported trust or a cached authorization. Evidence
+can be appended with local first-seen facts without renewing payload horizons.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P036-004a | Bounded portable-admission custody retention contract | in-progress | P036-004; P035-019 | Finite origin-bound horizons, P091 ceilings, separate payload/proof holds, replay and first-import laws. |
+| P036-005a | Erasable portable-admission custody | in-progress | P036-004a; custody fence | Real capture/export/import, key-destroyed gate, crash recovery, provider/journal rollback reconciliation, detached privacy and bounded carriers. No media sanitization claim. |

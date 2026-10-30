@@ -3150,3 +3150,47 @@ still requires its exact current executable; this repair renews neither runtime
 evidence nor storage custody. Header maintenance refuses changes to qualifiers
 named in public evidence/release JSON pin metadata. See
 [the Node review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-P076-036-RETENTION-2026-10-24.md).
+
+## Portable custody and historical-ingest continuation (2026-10-30)
+
+Accepted design for LLR-003/P041-001, not additional completion evidence for
+P035-019. Existing receipt signatures and v1 material semantics remain unchanged.
+`agora-admission-material.v2` uses one certificate (detached: none), one profile,
+three status snapshots, eight receipts and at most two epoch closures; the second
+closure is allowed only as conflict evidence. Every receipt binds the same
+certificate/profile identities; mixed identities refuse the whole v2 carrier.
+Missing material remains distinguishable from invalid supplied material.
+
+| Component | V2 maximum |
+|---|---:|
+| Status snapshots | 3 x 512 KiB |
+| Receipts including delegations | 8 x 4 KiB |
+| Certificate | 1 x 16 KiB |
+| Profile | 1 x 16 KiB |
+| Exact author bytes | 64 KiB |
+| Manifest | 32 KiB |
+| Epoch closures | 2 x 4 KiB |
+| Other metadata | 32 KiB |
+| Sum | 1736 KiB |
+
+Version-indexed limit data drives a shared validator; v1 keeps its 1984 KiB
+component maximum and 64 KiB metadata allowance. Both retain 2 MiB decoded,
+4 MiB wire, depth 16 and 32 signature operations across resolution and evaluation.
+Do not independently reset signature budgets between phases. Compile-time sum
+assertions and max/max-plus-one vectors are per version. Witness delegation is
+one step; presenter passport-chain work is a separate authorization budget.
+
+A versioned inspection adds `none-observed`; old inspection projects it to
+`unknown`. V1 material remains readable through the v2 consumer, but without
+closure its absence of revocation cannot establish post-epoch ingest eligibility.
+Export exact bundle bytes plus thin metadata or referenced binary frames; never
+base64 an already base64-bearing bundle again. Refuse undersized carriers before
+sending. No truncation, silent stripping or implicit proof URL fetch.
+
+Gates are independent: A issuer/contracts; B real offline custody consumer;
+C real historical-ingest owner plus HTTP parity; D key destruction/retention;
+E detached privacy; F carrier budgets and live/history projections. OS-denied
+network plus adapter counters are required, with the actual mechanism and its
+negative probe recorded (including deprecated sandbox-exec when used). V2
+certificate generation remains synthetic pending P015-005, even when status and
+closure producers are real. Preserve independent source pins and gate outcomes.

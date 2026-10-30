@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-admission-readback:v2",
+  "title": "agora-admission-readback.v2",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipt/profile",
+    "reference",
+    "issuance",
+    "material",
+    "links",
+    "local/admission"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-admission-readback.v2"
+    },
+    "receipt/profile": {
+      "enum": [
+        "full-record",
+        "detached-manifest"
+      ]
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "issuance": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "const": "pending"
+            },
+            "retry/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "const": "issued"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "reason"
+          ],
+          "properties": {
+            "state": {
+              "const": "refused"
+            },
+            "reason": {
+              "enum": [
+                "verified",
+                "snapshot-missing",
+                "profile-missing",
+                "certificate-missing",
+                "author-bytes-missing",
+                "insufficient-claim",
+                "unsupported-time-policy",
+                "untrusted-witness",
+                "untrusted-issuer",
+                "signature-invalid",
+                "binding-mismatch",
+                "commit-budget-exceeded",
+                "time-invalid",
+                "revoked",
+                "status-stale",
+                "status-conflict",
+                "certificate-expired",
+                "witness-compromised",
+                "witness-retired",
+                "witness-equivocation",
+                "manifest-missing",
+                "manifest-invalid",
+                "interrupted",
+                "signing-window-closed",
+                "current-status-unknown",
+                "admission-conflict"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "material": {
+      "oneOf": [
+        {
+          "$ref": "agora-admission-material.v1.schema.json"
+        },
+        {
+          "$ref": "agora-admission-material.v2.schema.json"
+        }
+      ]
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "admission": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "href",
+            "method"
+          ],
+          "properties": {
+            "href": {
+              "type": "string",
+              "maxLength": 1024
+            },
+            "method": {
+              "const": "GET"
+            }
+          }
+        },
+        "publication": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "href",
+            "method"
+          ],
+          "properties": {
+            "href": {
+              "type": "string",
+              "maxLength": 1024
+            },
+            "method": {
+              "const": "GET"
+            }
+          }
+        },
+        "readback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "href",
+            "method"
+          ],
+          "properties": {
+            "href": {
+              "type": "string",
+              "maxLength": 1024
+            },
+            "method": {
+              "const": "GET"
+            }
+          }
+        }
+      }
+    },
+    "payload/state": {
+      "enum": [
+        "retained",
+        "payload-pruned"
+      ]
+    },
+    "local/admission": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "mode": {
+              "const": "live"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "accepted/at",
+            "committed/at",
+            "evaluated/at",
+            "revocation/basis",
+            "revocation/basis-digest",
+            "inputs/digest",
+            "sequence"
+          ],
+          "properties": {
+            "mode": {
+              "const": "historical-accepted"
+            },
+            "accepted/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "committed/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "evaluated/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "revocation/basis": {
+              "enum": [
+                "fresh-status",
+                "epoch-closure",
+                "revocation-interval"
+              ]
+            },
+            "revocation/basis-digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "inputs/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "post-admission-evidence": {
+              "type": "array",
+              "maxItems": 2,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "reason",
+                  "observed/at",
+                  "inputs/digest"
+                ],
+                "properties": {
+                  "reason": {
+                    "enum": [
+                      "revoked-before-admission",
+                      "issuer-status-conflict"
+                    ]
+                  },
+                  "observed/at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "maxLength": 40
+                  },
+                  "inputs/digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "receipt/profile": {
+            "const": "detached-manifest"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "material": {
+            "not": {
+              "required": [
+                "author/bytes"
+              ]
+            },
+            "properties": {
+              "statuses": {
+                "maxItems": 0
+              },
+              "certificates": {
+                "maxItems": 0
+              }
+            }
+          },
+          "links": {
+            "not": {
+              "required": [
+                "publication"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

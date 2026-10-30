@@ -632,3 +632,33 @@ Resolved 2026-07-04:
    absence implies no leniency.
 3. Apply the artifact-local embedding pattern to messaging, contact, and Corpus
    nym-authored artifact families as separate schema-gate tasks.
+
+## V2 status lifecycle and portable epoch closure (2026-10-30)
+
+Accepted design; runtime acceptance remains pending. P015-006 is independent of
+P015-005 certificate exchange. Lifecycle configuration admits profiles v1 and v2;
+decision-v1 exchange admits only v1 and refuses v2 before effects. V2 certificate
+fixtures remain synthetic until P015-005 independently qualifies issuance.
+
+`nym-epoch-closure.v1` binds issuer, immutable profile, context, epoch bounds,
+final status digest/revision and `closed/at >= epoch/end`. Its dedicated signing
+operation and domain cannot be reached through generic status signing. The owner
+freezes status mutations before preparing closure and durably preserves identical
+closure bytes across recovery. A closed revision store rejects subsequent domain
+mutations. Retention transitions remain separate from status mutation authority.
+The final status must match both digest and revision. Any authentic higher status
+revision or conflicting closure is evidence of conflict, not a replacement head.
+Closure proves the issuer's terminal statement; it creates no post-epoch lease.
+Ordinary status expiry at epoch end and an unsigned local Closed fact are not
+portable closure. Missing retained terminal state cannot be reconstructed by guess.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-006 | V2 status and epoch-closure lifecycle | in-progress | P015 contextual status; P035-019 | Real issuer v2 lifecycle, typed decision-v1 refusal before effects, dedicated closure signing, terminal revision fence, exact replay/recovery, conflicting closure/higher revision refusals. V2 certificate issuance remains outside this gate. |
+
+The operator may initialize a v2 status scope through
+`POST /v1/identity/nym-issuer/status-scope` with its authorized topic use and
+similarity inputs. The issuer derives the context and current epoch from its
+configured immutable profile and fenced clock. This provisions status lifecycle
+only, without a certificate, source member or decision-v1 exchange. Closure is
+read through the separate public epoch-closure projection.

@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-admission-material:v2",
+  "title": "agora-admission-material.v2",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipts",
+    "statuses",
+    "certificates",
+    "profiles"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-admission-material.v2"
+    },
+    "receipts": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "digest",
+          "bytes"
+        ],
+        "properties": {
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "bytes": {
+            "type": "string",
+            "contentEncoding": "base64url",
+            "pattern": "^[A-Za-z0-9_-]*$",
+            "maxLength": 5462
+          }
+        }
+      }
+    },
+    "statuses": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "digest",
+          "bytes"
+        ],
+        "properties": {
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "bytes": {
+            "type": "string",
+            "contentEncoding": "base64url",
+            "pattern": "^[A-Za-z0-9_-]*$",
+            "maxLength": 699051
+          }
+        }
+      }
+    },
+    "certificates": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "digest",
+          "bytes"
+        ],
+        "properties": {
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "bytes": {
+            "type": "string",
+            "contentEncoding": "base64url",
+            "pattern": "^[A-Za-z0-9_-]*$",
+            "maxLength": 21846
+          }
+        }
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "digest",
+          "bytes"
+        ],
+        "properties": {
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "bytes": {
+            "type": "string",
+            "contentEncoding": "base64url",
+            "pattern": "^[A-Za-z0-9_-]*$",
+            "maxLength": 21846
+          }
+        }
+      }
+    },
+    "author/bytes": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]*$",
+      "maxLength": 87382
+    },
+    "manifest/bytes": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]*$",
+      "maxLength": 43691
+    },
+    "closures": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "digest",
+          "bytes"
+        ],
+        "properties": {
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "bytes": {
+            "type": "string",
+            "contentEncoding": "base64url",
+            "pattern": "^[A-Za-z0-9_-]*$",
+            "maxLength": 5462
+          }
+        }
+      }
+    }
+  }
+}

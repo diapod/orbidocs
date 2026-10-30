@@ -306,3 +306,10 @@ Agora inspection with independently admitted witness trust and OS-denied network
 access, including detached privacy. Its A–E results and exact source pins are in
 `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`; no P032 authority or
 additional delegation hop follows.
+
+LLR-003/P041-001 preserve this authority boundary: Memarium carries the same
+bounded receipt material, while historical ingest checks a separately admitted
+current presenter capability. The P015 epoch closure is terminal issuer knowledge,
+not a renewed certificate or capability. Material v2 remains locally verifiable;
+v1 stays readable without inferred closure. Independent acceptance is owned by
+LLR-003 and P041-001; implementation does not inherit P035-019 qualification.
