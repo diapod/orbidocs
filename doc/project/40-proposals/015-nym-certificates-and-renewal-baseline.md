@@ -596,7 +596,12 @@ readback and independent signature inspections remain narrow observations: the
 complete lifecycle/refusal, erasure, aggregate, SQLite/Synapse and retained-replica
 gates are still open. See `node:docs/MVP.md` and the current authorship runner at
 `node:tools/acceptance/whisper-authorship/README.md`; these prefixes do not change
-the partial tracker states below. The new public v2 content contracts do not renew the
+the partial tracker states below. A subsequent clean Node continuation observes
+actual SQLite/Synapse source-journal/replay, stable expiry, renewal/reset basis
+`2 -> 1 -> 2`, held AD reply recovery and bounded old-ciphertext erasure checks.
+Those are private prefixes with original refusals, not the complete authority,
+uniqueness, erasure/privacy matrix or qualified two-store evidence. Both formal
+gates remain open. The new public v2 content contracts do not renew the
 historical node-counting M4 qualification. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
 implementation evidence exists.
 
