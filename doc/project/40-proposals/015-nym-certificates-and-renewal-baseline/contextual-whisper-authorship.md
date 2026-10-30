@@ -1102,3 +1102,31 @@ Delivery, council decision, certificate validity/activation, status freshness an
 relay admission stay distinct in UI and API. Component checks do not qualify the
 actual private exchange, browser flow, SQLite/Synapse path or either Gate A/B.
 The source-result audit and all retained runtime obligations remain open.
+
+
+### Stable local basis identity and measured positive prefixes (2026-10-30)
+
+The pure source evaluator distinguishes eligible-membership identity from
+revision/time-bound evaluation evidence. The local membership preimage binds the
+exact profile, context, epoch and sorted eligible source/record/certificate /
+original-admission-proof tuples. Refreshing evaluation time or an otherwise
+unchanged signed status does not create a membership change. A changed eligible
+record or proof does, even when the distinct-source count is unchanged. The
+existing evidence commitment and public signed contracts retain their preimages.
+
+A subsequent source-owned result-change journal must preserve the first complete
+evaluation and actual membership changes under the same source/status commit CAS.
+It must retain the evaluated evidence and original status, remain separate from
+the rebuildable latest-view cache, and never rearm first emission. Its installation
+boundary cannot claim to reconstruct unrecorded earlier evaluations. The pure
+identity primitive does not itself implement that journal.
+
+The private Node continuation has now observed ordinary A/B AD certification,
+protected host signing and a SQLite first pair after certificate expiry/restart.
+A separate canonical Synapse case observed two admitted sources, one first pair,
+exact author bytes through independent sync/durable source/full PDU, four native
+signatures and an actual C restart. Its maximum selected full PDU was 9,245 B.
+These positive prefixes do not close P015-003 or Gates A/B: full lifecycle,
+erasure/refusal, actual browser authoring, replay, complete privacy and both-store
+retention qualification remain open. The Node ledger and resumption review own
+source-specific observations. Historical transport qualifications remain unchanged.
