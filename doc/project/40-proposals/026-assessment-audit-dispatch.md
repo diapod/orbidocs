@@ -212,3 +212,27 @@ and four records consume the existing terminal reservation (or the source's
 remaining reservation), in addition to owner data rows. They remain with the
 owner receipts until capsule expiry and also count in the capsule's 4 KiB
 allocation. They are never omitted from settled whole-unit accounting.
+
+### Owner metadata encoding and decoder bounds
+
+The first ordinary all-owner trial retained possible disclosure but refused the
+completed P073 commit: repeated metadata copies in array-encoded JSONL exhausted
+the 96 KiB attempt allocation. The allocation and the facts are retained. The
+owner may encode an Agent metadata payload as
+`assessment.agent-metadata.deflate.v1`: `codec: zlib`, `decoded/bytes`,
+`decoded/digest` (SHA-256 of exact JCS bytes), and unpadded base64url `data`.
+Plain historical Agent payloads remain readable. The envelope hash and fact
+identity cover the encoded value; decoding must reproduce exactly the committed
+canonical JSON value. No prompt, observation content or product is added.
+
+The decoder accepts at most 64 KiB per fact, refuses trailing compressed input,
+wrong size/digest, unknown fields and noncanonical JSON, and never truncates.
+Decoded Agent payloads also fit the existing 96 KiB attempt, 80 KiB private base,
+1 MiB consumer and 64 MiB node ceilings. The decoded node pool conservatively
+reserves the full unit ceiling until terminality, then charges retained decoded
+payload bytes; encoded settlement still refunds actual encoded usage. These are
+separate resource checks with the same ceilings, not a promise about allocator
+or physical RAM overhead. Capacity refuses before unit admission; oversized
+provider metadata after dispatch retains possible disclosure and cannot create
+a completed outcome or trigger redispatch. No numeric ceiling, authority,
+consent, dispatch, retention floor or content-retention policy is widened.
