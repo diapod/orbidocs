@@ -142,7 +142,7 @@ sends bytes again. Tests detect silently dropped prepared values.
 ## Trade-offs
 
 Worst-case reservations deliberately reject load before effects. The reference
-four-pairs/day workload is conditional arithmetic, not a benchmark. Stronger owner
+three-pairs/day all-owner reference workload (144 KiB / 65 records per pair) is conditional arithmetic, not a benchmark. Stronger owner
 floors and holds can reduce throughput. Shared historical copies block retirement;
 these stages do not authorize deleting historical evidence or mixed Personal logs.
 
@@ -253,3 +253,14 @@ catalog rows to pass the horizon without retiring the protected unit. Expiry is 
 review signal only; positive owner reconciliation resolves this exact hold, never
 another owner's hold. Exhausting exception capacity safely stops the horizon.
 The final handoff repeats admission after the blocking durable settlement write.
+
+### All-owner reference capacity correction (2026-10-30)
+
+The first complete owner-routing diagnostic measured 141,535 bytes / 65 records
+for a source and consumer pair with one completed and one failed-after-dispatch
+attempt. This diagnostic is not the final qualification. It invalidates applying
+the earlier 32-record illustration to this real flow. The staged plan now uses
+three pairs/day at at most 144 KiB / 65 records, 30 days of detail and 32 live-pair
+reservations. All numeric pool, unit, floor and launch ceilings remain unchanged.
+Measured final fixture costs and scope must be retained separately; this arithmetic
+is not a performance, disk-use or generic workload guarantee.

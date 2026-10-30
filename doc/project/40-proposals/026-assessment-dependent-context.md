@@ -155,15 +155,19 @@ terminal metadata. Repeated settlement cannot release twice. The admission snaps
 and release are atomic owner transitions. No reserve is released for ambiguous writes
 until durable reconciliation determines its usage. Shared owner copies count.
 
-Reference steady-state target: four completed source/consumer pairs per day for
-one launch, at most 128 KiB and 32 actual records per closed pair, 30-day full
-retention, no holds, and room for 32 worst-case live pairs. This uses 53 MiB and
-14,080 records before control overhead (control data has its own bound); 120 closed
-bindings fit the 128 launch cap. Capsules at two per pair consume at most 1440 slots
-at 180 days. This is conditional capacity arithmetic, not measured throughput.
-Maximal retained pairs still fit only about 51 times in the detail pool and support
-about 1.7 pairs/day without live headroom. Admission must refuse heavier steady-state
-loads truthfully. Tests cover both reference and saturation workloads.
+Reference steady-state workload: three completed source/consumer pairs per day
+for one launch, at most 144 KiB and 65 actual records per closed pair (all owner
+rows and fences included), 30-day full retention, no holds, and room for 32
+worst-case live pairs. Ninety closed pairs plus live headroom use 50.65625 MiB and
+16,090 records; 90 closed bindings fit the 128 launch cap. At 180 days the capsule
+workload is 1,080 units. This is conditional capacity arithmetic, not measured
+throughput; the ordinary fixture is checked separately. The earlier four-pairs/day
+illustration assumed only 32 records per pair and does not describe all-owner
+routing. With 32 live pairs, 94 closed pairs of this reference size fit, while the
+95th refuses on records. Maximal retained pairs still fit only about 51 times in
+the detail pool and support about 1.7 pairs/day without live headroom. Admission
+must refuse heavier steady-state loads truthfully. Tests cover the reference,
+record-bound saturation and worst-case reservations; no ceiling is raised.
 
 At admission attempt capacity is reserved before Agora. Physical preallocation is
 attempted for the dedicated writable segment: supported native allocation must
