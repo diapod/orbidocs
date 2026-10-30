@@ -589,7 +589,14 @@ context-scoped decision/status lifecycle. Its ordinary applicant and issuer host
 adapters and closed local API contracts are being integrated on the authorship
 branch. Software conformance does not qualify the two-daemon AD/INAC path: actual
 issue/renew/reject/reset, host signing, cleanup, restart and replay still require
-Gate A/B runtime evidence. The new public v2 content contracts do not renew the
+Gate A/B runtime evidence. Partial Node diagnostics recorded on 2026-10-30 now
+observe real private AD issue, source-preserving renewal, private reset activation
+waiting and ordinary protected host signing. Explicitly authenticated HTTP UI
+readback and independent signature inspections remain narrow observations: the
+complete lifecycle/refusal, erasure, aggregate, SQLite/Synapse and retained-replica
+gates are still open. See `node:docs/MVP.md` and the current authorship runner at
+`node:tools/acceptance/whisper-authorship/README.md`; these prefixes do not change
+the partial tracker states below. The new public v2 content contracts do not renew the
 historical node-counting M4 qualification. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
 implementation evidence exists.
 
