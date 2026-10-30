@@ -523,3 +523,18 @@ retains proof CAS when only keys were lost. Dedicated owner checkpoints avoid
 replaying personal history. Current classification/egress and durable release
 facts gate local private reads; detached export remains payload-free. Full custody
 backup is the separate P036-005b adapter, not the selected-fact backup.
+
+### Custody boundary requalification (2026-10-30)
+
+Boundary review requalification at clean Node febf8b33 / Orbidocs 6eb1f6b6 passed 593
+component tests, one existing ignored case, four cold custody consumers and six isolated
+historical cases, scoped Clippy and 16 mutation refusals. Extracted replay and
+both-store retrieval agree for bundle
+4c2dba4a43c2d6670f3c9397aa5164955d5b216931a96057f9932bc8f1a19600. Dedicated checkpoints,
+explicit provider replacement, current operator disclosure/private read, bounded local
+observations and independent historical sequences are covered. P036-005b full backup and
+publisher/key-destruction liveness remain separate. See
+`node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-REVIEW-2026-10-30.md`.
+
+The prior dated qualification remains unchanged. This follow-up preserves the
+bounded claim and does not close parent P036, P015-005 or LLR-009.
