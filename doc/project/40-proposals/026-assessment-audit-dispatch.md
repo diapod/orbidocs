@@ -264,3 +264,25 @@ three pairs/day at at most 144 KiB / 65 records, 30 days of detail and 32 live-p
 reservations. All numeric pool, unit, floor and launch ceilings remain unchanged.
 Measured final fixture costs and scope must be retained separately; this arithmetic
 is not a performance, disk-use or generic workload guarantee.
+
+### Exact capsule record admission and lossless v2 encoding (2026-10-30)
+
+A component refusal exposed the extra previous-record hash in a chained JSONL
+record: a first-position capsule could fit 4 KiB while a later one did not. The
+4 KiB ceiling continues to include the actual complete JSONL line, all four owner
+receipts and their fences. S028 accepts an optional exact encoded-record ceiling;
+it prepares the envelope and checks its complete line length before recording the
+pending append. A bounded idempotent retry checks the retained line's actual size.
+The existing stream, state and idempotency rules do not change.
+
+The local `assessment.audit-capsule.v2` payload is a canonical JSON tuple of ten
+positions: `[unit, generation, terminal_ms, compacted_ms, inventory_digest,
+plan_digest, activation_digest, source_activation_digest_or_null,
+receipt_set_digests, operation_generation]`. Digest positions are canonical unpadded
+base64url encodings of exactly 32 SHA-256 bytes; the v2 schema supplies the algorithm.
+Decoding restores the ordinary `sha256:` references and every Capsule field.
+There is no field removal or authority/retention change. V1 tagged JSON remains
+readable; it is not rewritten. Unknown schemas, tuple arity, noncanonical or wrong
+length digests refuse. New capsules reserve the remaining exact line budget before
+append; an oversized capsule leaves the detail and owners protected and undispatched
+retirement steps unexecuted. No ceiling increase or successful-result inference follows.
