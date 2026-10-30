@@ -1130,3 +1130,27 @@ These positive prefixes do not close P015-003 or Gates A/B: full lifecycle,
 erasure/refusal, actual browser authoring, replay, complete privacy and both-store
 retention qualification remain open. The Node ledger and resumption review own
 source-specific observations. Historical transport qualifications remain unchanged.
+
+
+### Source-owned result history component (2026-10-30)
+
+Node now persists the initial complete evaluation and eligible-membership changes
+in the source owner's transaction. It keeps the evaluated source/status revision,
+original signed status, times and evidence commitments separate from the latest
+cache and immutable first pair. Time/status refresh without membership change is
+not another result change. Read-derived unknown freshness or epoch closure does
+not fabricate a complete evaluation fact. Historical reads do not evaluate the
+history against today's clock or grant admission/emission authority.
+
+The local journal uses bounded exact-scope/authority keyset pages and commit order,
+without implying chronological Matrix order. Current installation version 3 and
+its separate journal marker refuse partial loss; an intact v2 upgrade preserves
+the first pair and explicitly declares unknown prior evaluation coverage. Old
+writers must be stopped before upgrade, and an old v2 opener refuses v3. Cache
+rebuild never resets audit or emission ownership. Local integrity checks are not
+portable attestation or whole-database rollback protection.
+
+This is reviewed component implementation. The earlier private SQLite/Synapse
+positive prefixes predate the journal. Actual journal/replay qualification and
+full Gates A/B remain open; no historical transport or global readiness status
+changes follow from this component step.
