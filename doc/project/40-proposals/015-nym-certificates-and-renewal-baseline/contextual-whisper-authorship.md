@@ -1186,3 +1186,26 @@ its seed/source variables; v1 primary-participant host signing cannot stand in f
 the new contextual source profile. Frozen historical tools and evidence retain
 their exact bytes. Final Gate B still requires a clean candidate without that
 side path and the complete qualification/retention matrix.
+
+
+### Historical source inspection and delayed collection (2026-10-30)
+
+The verification-only native adapter reuses ordinary source/admission, receipt,
+status and aggregation owners at recorded times. It checks complete selected-scope
+inventory and rederives both first-emission drafts from their original basis.
+It creates no clock, nonce, source, signer or renewed admission authority.
+
+A focused real AD/host signal published through the Matrix Client-Server API
+before both certificate and one-shot proof expiry is admitted by C 8.9 seconds
+after certificate expiry, within its original epoch. Independent read-only
+`/sync`, exact author bytes and the complete signed PDU bind that observation.
+Full PDU verification remains acceptance-only under the adopted
+`authenticated-admitted-homeserver-v1` runtime policy. This focused case does not
+qualify Node's publication path, a new scheduled aggregate lifecycle, homeserver
+size enforcement or federation. The original observer failures and the valid
+refusal of a different document published after its proof expiry remain distinct.
+
+P015-001–003 and Gates A/B stay partial: the complete shared profile qualifier,
+remaining runtime/uniqueness/privacy matrix and qualified two-store retention are
+still outstanding. See the Node resumption review for exact source pins and
+measured scope. No historical M4 or global readiness claim is promoted.
