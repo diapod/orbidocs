@@ -709,7 +709,11 @@ use-scoped (`inspection`, `historical-ingest`); legacy trust grants inspection o
 | Detached receipt presented as full-record ingest | Refuse profile mismatch. |
 
 Resolve attached and local status through one verifier and cumulative cursor.
-Authentic newer local knowledge cannot be omitted by a presenter. Invalid attached
+Authentic newer local knowledge cannot be omitted by a presenter. Local observations
+are separate owner inputs, not additional slots in the presented three-status
+carrier. They have their own finite byte/count bounds and share the 32-signature
+work budget. A full valid carrier plus a newer local cursor is not itself a carrier
+limit violation. Invalid attached
 material never falls back to cache. A later proof of `before` records
 `post-admission-evidence: revoked-before-admission`; it does not silently delete
 the record. Any withdrawal is a separate current policy decision. An honest
@@ -746,19 +750,32 @@ bounded proof budget, separate from P035 material verification.
 
 ### Current host binding and exposure boundary
 
-The reference service authenticates the presenting Agora module through the host
-transport. The local client must also authenticate to that service; a client JSON
+This profile is **operator-presenter, v1**: the reference service authenticates
+the presenting Agora module through the host transport. The local client must also authenticate to that service; a client JSON
 field cannot select the presenter. In this profile the module presents under its
 own current topic-scoped grant. This does not implement remote-human identity
 forwarding or LLR-009 author continuity. An operator must deliberately enable the
 route and grant the service `agora.historical.present`; a historical author grant
-is never passed to that authorization operation.
+is never passed to that authorization operation. The operation and binding
+digest include `record/digest`, the digest of exact signed author bytes. The local
+acceptance fact separately records the authenticated HTTP client's token-derived
+principal (never the token). That audit principal supplies no host authority.
+Expiry of the five-second authorization interval is
+`historical-authorization-expired`, retry condition `new-attempt`, not a request
+for policy change.
 
-Historical rows use a separate local projection. They have explicit versioned
+Historical rows use a separate local projection and per-topic historical sequence
+space. They never consume live-topic sequence numbers. Upgrade preserves existing
+historical sequence values and does not rewrite earlier live gaps. They have explicit versioned
 single-record readback and inspection, and never enter the legacy topic query,
 SSE stream or emission counters. An opt-in historical subscription is not part of
 this profile. Original admission and current local acceptance remain separate
 facts. The bounded implementation passed the independent qualification below.
+
+All supplied receipts must satisfy the historical predicate. A weak/unknown
+receipt refuses the entire presentation, even beside a stronger receipt; the
+presenter must construct a sufficient carrier rather than rely on best-receipt
+selection. Known local contradictions cannot be removed with a carrier edit.
 
 ### Bounded acceptance, 2026-10-30
 

@@ -663,6 +663,15 @@ configured immutable profile and fenced clock. This provisions status lifecycle
 only, without a certificate, source member or decision-v1 exchange. Closure is
 read through the separate public epoch-closure projection.
 
+### Known closure liveness boundary
+
+`recover_closing` publishes the preserved closure before reaching `Closed`.
+Persistent publisher failure therefore delays close confirmation and destruction
+of identifying keys, as with final-status publication. The revision fence still
+refuses domain mutation. Decoupling publication retry from key retirement requires
+a separately reviewed durable outbox transition; the current acceptance does not
+claim publisher-independent retirement.
+
 ### Bounded acceptance, 2026-10-30
 
 P015-006 passed its independent gate at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`

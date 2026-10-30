@@ -45,13 +45,15 @@
             "retained",
             "unreachable",
             "key-destroyed",
-            "absent"
+            "absent",
+            "payload-unavailable"
           ]
         },
         "evidence/state": {
           "enum": [
             "retained",
-            "expired"
+            "expired",
+            "evidence-unavailable"
           ]
         },
         "payload/until": {
@@ -71,7 +73,7 @@
           ],
           "properties": {
             "backup/exclusion": {
-              "const": "verified"
+              "const": "by-construction"
             },
             "backup/scope": {
               "const": "built-in-application-backup"

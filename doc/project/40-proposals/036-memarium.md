@@ -948,21 +948,65 @@ The provider assurance projection explicitly reports `rollback-anchor: absent`
 in v1; no independent anchor is configured. A common rollback of
 provider, journal and time fence cannot be detected without an independent anchor.
 The built-in application backup reads journal facts and never reads provider
-keys or payload files. This is the verified scope of `backup/exclusion`; it is
+keys or payload files. This is the `by-construction` scope of `backup/exclusion`; it is
 not a full custody recovery backup. Exported proof/ciphertext replicas require
 separate retention metadata. External backups and volume encryption are reported
 as `unknown`; operator-declared snapshot retention is not evidence of destruction.
 Relay NULL/WAL removal is only `unreachable`.
 
-Custody completeness has two levels: `verifiable` contains the LLR-002 basis;
-`ingestible` additionally contains the P041 revocation basis. These describe
-material availability, not imported trust or a cached authorization. Evidence
+The acceptance criteria distinguish two levels of custody completeness: `verifiable` contains the LLR-002 basis;
+`ingestible` additionally contains the P041 revocation basis. These are evaluation criteria, not persisted summary flags: the summary reports
+payload/evidence availability only. Recompute LLR-002 or P041 with current local
+trust and time to determine the respective level. They convey neither imported
+trust nor cached authorization. Evidence
 can be appended with local first-seen facts without renewing payload horizons.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P036-004a | Bounded portable-admission custody retention contract | done | P036-004; P035-019 | Finite origin-bound horizons, P091 ceilings, separate payload/proof holds, replay and first-import laws. |
 | P036-005a | Erasable portable-admission custody | done | P036-004a; custody fence | Real capture/export/import, key-destroyed gate, crash recovery, provider/journal rollback reconciliation, detached privacy and bounded carriers. No media sanitization claim. |
+| P036-005b | Custody backup and replica adapter | todo | P036-005a | Replicate journal/checkpoints, ciphertext and proof CAS with bounded retention; exclude DEKs, verify restore and explicit provider replacement. Existing selected-fact backup is not this adapter. |
+
+### Recovery and release boundaries (review, 2026-10-30)
+
+Custody has a dedicated owner stream per scope, not a tag-filtered personal fact
+stream. A committed checkpoint selects the live entries, provider identity/head,
+and erasure knowledge still within its original horizon, followed by a new tail.
+The checkpoint head is committed after its bounded snapshot. Recovery never
+replays earlier generations. Limits apply to live entries (16,384), individual
+facts and evaluation work, not the number of facts since installation. Legacy
+personal facts migrate once by reserved kind, without a personal-history page cap.
+Snapshot work is amortized over at least max(128, live entries) tail facts;
+restarts retain that accounting. Historical generations remain append-only;
+checkpointing bounds replay, not total disk usage or retirement authority.
+
+`replace-provider` is an explicit authenticated operator action. It binds a new
+provider identity to the existing journal and marks older payloads unavailable
+without changing their horizons or erasure/tombstone facts. A missing provider
+root also makes its proof CAS unavailable. If only `keys/` was lost, replacement
+preserves `blobs/` and `proofs/`; proof-only exports remain possible. An existing
+healthy provider is never silently reset. Interrupted replacement is retryable
+through its durable intent and journal fact. New custody captures work afterwards.
+
+The storage classes are distinct even when under one private root: `keys/` must
+not enter backups; ciphertext `blobs/`, public proof `proofs/`, owner journal and
+checkpoint records may be replicated under their own horizons and holds. The
+existing selected-personal-facts backup does not include these custody streams
+or implement a custody backup. P036-005b owns that missing adapter; losing the
+entire provider currently loses both payload and proof, without disabling future
+custody. Do not infer a recoverable replica from the assurance label.
+
+`export` and `read-private` resolve the current local
+`disclosure/classification` under P091 and use the Memarium egress gate. Missing
+classification is quarantined and refuses. The local operator route accepts only
+Personal-to-Personal disclosure; it performs no implicit declassification.
+`read-private` has a closed request, requires local operator authentication,
+checks provider health, erasure and horizon, and commits a payload-read fact before
+returning exact bytes. Failed audit returns no bytes. Portable detached exports
+still exclude private payloads. `status` reads availability facts without releasing
+payload. Neither authentication alone nor receipt trust authorizes disclosure. Operator
+responses use HTTP no-store. These additions correct the unreleased local-v1
+request/export contracts; unknown operations still refuse under closed schemas.
 
 ### Bounded acceptance, 2026-10-30
 

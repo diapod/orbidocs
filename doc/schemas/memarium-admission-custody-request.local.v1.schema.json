@@ -169,6 +169,52 @@
               "const": "sweep"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "replace-provider"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment"
+          ],
+          "properties": {
+            "operation": {
+              "const": "status"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment"
+          ],
+          "properties": {
+            "operation": {
+              "const": "read-private"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
         }
       ]
     }

@@ -516,3 +516,10 @@ custody/current-presenter profiles, with real P015-006 status/closure lifecycle
 and synthetic v2 certificates. Exact source pins, isolated consumers, retention
 and exclusions are recorded in `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
 This does not close P015-005, P036 parent scope, LLR-009 or release qualification.
+
+The custody boundary review separates provider loss from permanent function loss:
+explicit replacement preserves old erasure horizons, permits new capture, and
+retains proof CAS when only keys were lost. Dedicated owner checkpoints avoid
+replaying personal history. Current classification/egress and durable release
+facts gate local private reads; detached export remains payload-free. Full custody
+backup is the separate P036-005b adapter, not the selected-fact backup.
