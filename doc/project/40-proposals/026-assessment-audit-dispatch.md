@@ -237,15 +237,19 @@ provider metadata after dispatch retains possible disclosure and cannot create
 a completed outcome or trigger redispatch. No numeric ceiling, authority,
 consent, dispatch, retention floor or content-retention policy is widened.
 
-### Reuse of an exact component image
+### Component and runtime source identity
 
-Component evidence keeps its original clean source revision and recording. A
-later ordinary-process run may reuse it only when the build producer freshly
-verifies SHA-256 equality of all six test images and all four ordinary binaries,
-keeps their feature checks, and records a source diff confined to the profile's
-producer, builder, qualifier, manipulation controls and source-header inventory.
-Any runtime, schema, Rust test, Cargo or other input change refuses this path and
-requires new component execution. This is byte identity, not an inferred semantic
-compatibility claim. The original component pin is never relabelled as the later
-revision. Ordinary processes, browser consent, channels, S020 and cleanup always
-run freshly under their own exact paired source pins.
+The qualifier requires the same exact clean Node source pin for component and
+ordinary-runtime evidence. A Rust, schema, test or runtime change requires fresh
+component execution. Ordinary processes, browser consent, channels, S020 and cleanup
+also run freshly under their own paired Node/Orbidocs source pins. Earlier component
+recordings keep their original revisions; no semantic compatibility adapter or
+source-reuse optimization is implemented.
+
+Missing or changed terminal owner coverage creates an explicit coordinator-owned
+review hold (`assessment-audit`, `owner-copy-coverage-incomplete`, one-day review
+deadline), within the sixteen unit exceptions. This permits later positively retired
+catalog rows to pass the horizon without retiring the protected unit. Expiry is a
+review signal only; positive owner reconciliation resolves this exact hold, never
+another owner's hold. Exhausting exception capacity safely stops the horizon.
+The final handoff repeats admission after the blocking durable settlement write.
