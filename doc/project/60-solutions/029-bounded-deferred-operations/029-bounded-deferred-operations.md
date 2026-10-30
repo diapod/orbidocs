@@ -505,9 +505,13 @@ SQLite row removal from file unlink and retained copies. A retained copy or miss
 owner receipt blocks aggregate completion. S029 orchestrates; each owner authorizes
 and performs its own removal.
 
-Node currently supplies the pure validated plan/receipt projection and component
-tests. Persistent owner execution and S020 maintenance remain pending; this is not
-a claim of a completed physical retirement or a generic deletion capability.
+The [local P026 closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+now qualifies the durable domain-composed operation, recoverable owner receipts,
+positive completion horizon and S020 scheduling at Node da1d14a7 / Orbidocs 127843fb.
+Five ordinary cases and separate explicit-time component faults/expiry support this
+scope. Every owner keeps its authorization and storage responsibility; SQLite row
+removal is not erasure. The pure core remains independent of storage and scheduling.
+This is not a generic deletion API or authority over historical acceptance.
 
 ## Tests and Evidence
 

@@ -14,6 +14,10 @@ Retention and dispatch freeze together because the reservation is retained histo
 Accepted semantics and the separately recorded implementation checkpoints below
 are distinct from each stage's measured runtime qualification.
 
+Current local status (2026-10-30): stages 01 and joint 02/03 are qualified within
+their separately pinned scopes. Stage 04 and later remain todo; parent 012c/P073
+remain partial. See the local closeout below; earlier checkpoints are historical.
+
 ## Context and Problem Statement
 
 Memarium forget addresses entries and appends a decision. Its `Erased` outcome
@@ -31,8 +35,8 @@ permission to delete a mixed Personal stream.
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
 | P026-012c-01 | Owned Memarium streams and startup cutover | done | S028-OS-001/002/003; P036-009/010/011. Reviewed v3 profile at clean Node `0ec8dbac` / Orbidocs `1b870593`: 11 native failure/restart/catalog cases plus byte-anchor migration, reclaim and append-cost checks; renewed ordinary previous/current-daemon cutover. Normal/-O loose/extracted agreement, 332 mutation refusals. Protected legacy and later audit-unit/dispatch/context scope remain separate. |
-| P026-012c-02 | Whole audit-unit retention | in-progress | 01; bounded inventories, actual-size accounting, S029 owner-receipt saga and small checkpoints. |
-| P026-012c-03 | Durable private dispatch reservation | in-progress | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
+| P026-012c-02 | Whole audit-unit retention | done | Local profile at Node `da1d14a7` / Orbidocs `127843fb`: complete owner copies/fences, durable S029, capsule/checkpoint expiry and S020. Five ordinary cases, 172 component checks, 70 controls per normal/-O loose/extracted variant; physical age/erasure and unknown legacy remain excluded. |
+| P026-012c-03 | Durable private dispatch reservation | done | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
 | P026-012c-09 | Same-viewer operator delivery | todo | 04; separate P066 consent and Node UI admission/render; before continuation and memory, so it can display continuation acceptance. |
 | P026-012c-05 | RAM continuation | todo | 04; exact latest committed predecessor, no silent fallback or regeneration. |
@@ -107,7 +111,7 @@ The concrete 02/03 data and failure contract is frozen in
 [Audit units and private dispatch](026-assessment-audit-dispatch.md). Its freeze
 is not implementation or runtime acceptance.
 
-### Stages 02/03 implementation checkpoint (2026-10-29)
+### Historical stages 02/03 dispatch checkpoint (2026-10-29)
 
 The joint contract is frozen. Node now has pure capacity/retention values and an
 S029 receipt-DAG projection, an isolated dispatch metadata stream, exact-byte
@@ -123,7 +127,7 @@ qualification agrees with 144 mutation refusals. See
 `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-dispatch/README.md`.
 This does not qualify physical retention or the full joint stage gate.
 
-Both stages remain in progress. All-copy source/consumer accounting and routing,
+At that checkpoint both stages remained in progress. All-copy source/consumer accounting and routing,
 P066/question/notification/Agent owner receipts, persistent saga execution,
 capsules/checkpoints and scheduled maintenance are not yet complete. The partial
 journal ceiling applies to that journal, not all copies. Existing shared owner
@@ -378,7 +382,7 @@ RETENTION/RETIREMENT/EXTERNAL-RETENTION; runtime policies authorize no historica
 acceptance cleanup. Reconcile owner docs, schemas, trackers, Node ledger/MVP and
 convergence/cleanup reviews per completed stage. Preserve 012b historical evidence.
 
-### Stages 02/03 owner integration (2026-10-30)
+### Historical stages 02/03 integration before qualification (2026-10-30)
 
 The preceding 2026-10-29 checkpoints are historical. Node now composes isolated
 source and consumer units with P066, operator questions, S039, attention and P073
@@ -389,3 +393,30 @@ floors stay protected. This is implementation status pending the new exact-sourc
 qualification, not closure of the tracker or renewal of historical evidence.
 Later context, continuation, RAM-only memory, forks and recipients remain outside
 this vertical. See the [joint contract](026-assessment-audit-dispatch.md).
+
+
+### Local stages 02/03 closeout (2026-10-30)
+
+At clean Node `da1d14a7` / Orbidocs `127843fb`, five ordinary-process cases pass with
+production P066/browser consent, a ChannelJson holder, real Agora and a deterministic
+loopback adapter. Seven pinned ordinary test images supply 172 component checks in
+nine exact raw-log groups. Seventy rehashed controls refuse in each normal/optimized
+loose/extracted variant (280); both qualification modes and extracted results agree.
+The retained proof is `node:docs/evidence/agent-runtime/2026-10-30-p026-012c-retention/README.md`.
+
+S029 durably resumes all five owner receipts; S020 settles terminal owner copies
+without early deletion. Explicit-time tests cover full detail/capsule expiry,
+mid-bucket restart, bounded working-set recovery, capacity and 21 before/21 after
+control-write faults. The old selected daemon refuses notification schema v7 without
+changing retained populations. The originally overflowing chained capsule remains a
+failure; complete v2 encoding and S028 exact-line admission fix it within 4 KiB.
+The fixture pair uses 141,608 B / 65 records; the component capsules including owner
+controls use 3,737 B and 3,671 B. No unit, pool or floor ceiling was raised.
+
+This closes only the joint local 02/03 profile. The physical-clock/power-loss/erasure,
+actual-model, provider-process, federation and release claims remain excluded.
+SQLite free pages/WAL/backups may retain bytes. Historical/unrouted and unknown
+coverage stays protected. Initial retain replaced only new own staging duplicates
+after readback, all-mode qualification and conservative global-budget admission;
+it did not retire history or adopted replicas. Stage 04 context provenance and
+all later profiles keep their separate gates; parent P026-012/P073 remain partial.

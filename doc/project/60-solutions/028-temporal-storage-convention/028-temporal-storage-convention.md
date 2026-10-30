@@ -936,3 +936,19 @@ floors, holds, S029 receipt coordination and exact retirement authority. Physica
 SQLite/media sanitization, allocator rollback, malicious actors, Linux and release
 readiness remain outside this measured profile. Legacy/history and frozen tools
 remain protected; no cross-owner retirement operation is introduced.
+
+
+## Local assessment audit consumer (2026-10-30)
+
+S028 now supplies an optional exact encoded-record ceiling to the audit consumer.
+It prepares and measures the full JSONL line, including predecessor hash/newline,
+before pending append; bounded retries meter retained line bytes. Catalog v3 and
+ordinary state/idempotency rules remain unchanged. Twenty-five local owned-stream
+regressions and the P026 chained-capsule witness pass. This does not renew the
+separately pinned native ENOSPC/APFS/power-loss qualification or imply physical erase.
+The [P026 stage closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+pins Node `da1d14a7` / Orbidocs `127843fb`, five ordinary cases and 172 separate
+component checks with 70 controls per mode/location. The capability catalog is
+unchanged: this composes existing owner ports and scheduling, and adds no generic
+grant-bearing operation. Historical evidence, unknown coverage, models and release
+scope remain separate.

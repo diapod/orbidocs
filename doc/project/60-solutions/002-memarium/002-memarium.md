@@ -612,3 +612,18 @@ These are admission/recovery bounds, not retention or a supported pruning recipe
 The protected legacy prefix currently fences relocation, archive and compaction
 of the entire Personal fact stream indefinitely. Stage01 has no release operation;
 a future replacement-source protocol must discharge this dependency explicitly.
+
+
+## Local assessment audit consumer (2026-10-30)
+
+Private source/consumer audit streams remain outside Personal projections/search/
+export. The P026 composition now qualifies complete-unit retirement, whole capsule
+bucket expiry and bounded pointer checkpoints without restoring activation. The
+exact encoded-record ceiling is an S028 primitive forwarded by UnitFactJournal;
+it grants no domain retention authority. Legacy shared facts remain protected.
+The [P026 stage closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+pins Node `da1d14a7` / Orbidocs `127843fb`, five ordinary cases and 172 separate
+component checks with 70 controls per mode/location. The capability catalog is
+unchanged: this composes existing owner ports and scheduling, and adds no generic
+grant-bearing operation. Historical evidence, unknown coverage, models and release
+scope remain separate.

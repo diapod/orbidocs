@@ -286,3 +286,18 @@ readable; it is not rewritten. Unknown schemas, tuple arity, noncanonical or wro
 length digests refuse. New capsules reserve the remaining exact line budget before
 append; an oversized capsule leaves the detail and owners protected and undispatched
 retirement steps unexecuted. No ceiling increase or successful-result inference follows.
+
+
+### Measured local closeout (2026-10-30)
+
+The local 02/03 profile is qualified at Node `da1d14a7` / Orbidocs `127843fb`:
+five ordinary consent/channel/fence/restart/S020/previous-writer cases, 172 separately
+classified component checks and 70 controls per normal/-O loose/extracted variant
+(280). See `node:docs/evidence/agent-runtime/2026-10-30-p026-012c-retention/README.md`.
+The exact archive preserves all mode outcomes, source/feature pins and prior failure
+boundaries. The final fixture pair is 141,608 B / 65 records; chained v2 capsules
+including all SQLite owner controls are 3,737 B and 3,671 B. Source/consumer owner
+inventories, durable S029, bounded capsule/checkpoint lifecycle and S020 are now
+implemented and qualified within that scope. Earlier narrow dispatch and failed
+whole-unit attempts are not relabelled. Physical erasure/age, actual models,
+unknown legacy adoption, broader context and release remain unqualified.

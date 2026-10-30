@@ -1977,3 +1977,14 @@ shared copies stay protected. The pure receipt DAG does not prove owner deletion
 selected runtime configuration does not attest a provider process generation.
 P066 remains the sole durable consent owner; no approval archive restores authority.
 Historical Q-02/012a/012b and stage01 evidence remains unchanged.
+
+
+### P026-012c-02/03 local owner closeout (2026-10-30)
+
+The [joint profile](026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+is locally qualified at Node `da1d14a7` / Orbidocs `127843fb`: five ordinary-process
+cases, 172 component checks and 70 controls per normal/-O loose/extracted variant.
+Durable owner receipts, capsule/checkpoint recovery and S020 now replace the earlier
+pending integration boundary. Explicit-time expiry is not physical elapsed age;
+SQLite deletion leaves possible bytes in pages/WAL. Historical unknown populations
+and Q-02/012a/012b evidence remain unchanged and protected. P066 remains sole consent/consumption/revoke owner. Its exact routed rows retire only under the whole-unit policy and receipt saga; no old approval archive reactivates a grant. Transcript and unrelated consent retention are not closed by this result.
