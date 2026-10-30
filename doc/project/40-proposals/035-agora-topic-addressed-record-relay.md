@@ -1764,6 +1764,22 @@ changed. Within the managed retained scope, unknown ownership/dependencies still
 refuse cleanup. Neither a temporary-use label nor missing metadata grants rights
 over other producers' material or permits downgrading designated history.
 
+**Development profile (2026-10-30):** the current project phase uses retention
+for technical purposes only: report comparison, regression tests, active defect
+diagnosis and named near-term acceptance reuse. Do not presume legal holds or
+preserve reports "just in case". Existing explicit preservation instructions still
+apply. Producers may clean their own expendable logs, binaries, VM images,
+third-party distribution packages and model files, including copies acquired for
+their work, after recording scope/reason and checking inactivity and remaining
+consumers. Disk pressure justifies prioritizing this review, not deleting another
+workstream's artifacts or silently withdrawing designated evidence. Record a
+technical purpose and review trigger for preserved material, and review its release
+when that purpose ends. Node owns the operational profile in
+`node:docs/evidence/RETENTION.md#development-phase-retention-profile`; existing
+retirement machinery, historical bytes and qualifiers are unchanged. The profile
+lasts until an explicit owner decision changes phase or retention policy; it is
+not an automatic production or public-custody policy.
+
 Retirement uses three distinct operations:
 
 - `purge-derived` removes reconstructible runtime views or cache bytes
