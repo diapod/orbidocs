@@ -1154,3 +1154,19 @@ This is reviewed component implementation. The earlier private SQLite/Synapse
 positive prefixes predate the journal. Actual journal/replay qualification and
 full Gates A/B remain open; no historical transport or global readiness status
 changes follow from this component step.
+
+### Cold-start lock classification review (2026-10-30)
+
+A later private signed-instance cold-copy startup preserved eight accepted records
+and two immutable first pairs while installing the source result journal with
+`prior-coverage-unknown`. This is an upgrade diagnostic, not fresh membership-change
+or replay qualification. The original source database and instance remain intact.
+
+Actual ordinary private AD issuance and the protected authorship UI reached
+certificate readback and a retained preview. After restart, signing without an
+unlock secret exposed a generic503 caused by loss of the typed protected-Vault
+lock condition. The root owner now preserves the existing `KeyLocked` class for
+P015423 handling. Missing status, invalid credentials and corruption remain
+separate failures; unlock cannot extend certificate or preview validity. Component
+tests and this correction do not close the pending fresh UI/runtime verification
+or Gates A/B.
