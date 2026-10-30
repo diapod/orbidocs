@@ -313,3 +313,9 @@ current presenter capability. The P015 epoch closure is terminal issuer knowledg
 not a renewed certificate or capability. Material v2 remains locally verifiable;
 v1 stays readable without inferred closure. Independent acceptance is owned by
 LLR-003 and P041-001; implementation does not inherit P035-019 qualification.
+
+The 2026-10-30 independent LLR-003/P041-001 qualification passed for the bounded
+custody/current-presenter profiles, with real P015-006 status/closure lifecycle
+and synthetic v2 certificates. Exact source pins, isolated consumers, retention
+and exclusions are recorded in `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+This does not close P015-005, P036 parent scope, LLR-009 or release qualification.

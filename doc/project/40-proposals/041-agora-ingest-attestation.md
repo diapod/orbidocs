@@ -689,12 +689,12 @@ not reopen counting windows.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P041-001 | Historical nym admission mode | in-progress | P035-019; P013-LLR-002 | The gate option, the predicate and the `historical_admission_unproven` refusal; the default stays strict. Fixtures: an expired certificate with a valid receipt is accepted only in the historical mode; altered bytes, an unknown time authority and revocation before admission refuse; the current policy still applies. |
+| P041-001 | Historical nym admission mode | done | P035-019; P013-LLR-002 | The gate option, the predicate and the `historical_admission_unproven` refusal; the default stays strict. Fixtures: an expired certificate with a valid receipt is accepted only in the historical mode; altered bytes, an unknown time authority and revocation before admission refuse; the current policy still applies. |
 
 ## Historical admission decision refinement (2026-10-30)
 
 This accepted design supersedes the shorthand effective-revocation wording above;
-P041-001 remains unqualified until its independent gate passes. Reuse LLR-002
+P041-001 passed the bounded independent gate recorded below. Reuse LLR-002
 facts, but evaluate a separate historical-ingest predicate. Witness trust is
 use-scoped (`inspection`, `historical-ingest`); legacy trust grants inspection only.
 
@@ -758,4 +758,17 @@ Historical rows use a separate local projection. They have explicit versioned
 single-record readback and inspection, and never enter the legacy topic query,
 SSE stream or emission counters. An opt-in historical subscription is not part of
 this profile. Original admission and current local acceptance remain separate
-facts. Implementation and offline qualification are in progress.
+facts. The bounded implementation passed the independent qualification below.
+
+### Bounded acceptance, 2026-10-30
+
+P041-001 passed its independent gate at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.

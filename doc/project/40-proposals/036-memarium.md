@@ -910,7 +910,7 @@ behavior, but it is not a reverse implementation dependency of these contracts.
 
 ## Portable admission custody profile (2026-10-30)
 
-Accepted design; LLR-003 runtime qualification is pending. P036 owns retention
+The bounded LLR-003 runtime qualification below passed. P036 owns retention
 and erasure; LLR adds no independent retention policy. P036-004a freezes this
 bounded profile and P036-005a implements it without closing their parent rows.
 
@@ -961,5 +961,18 @@ can be appended with local first-seen facts without renewing payload horizons.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P036-004a | Bounded portable-admission custody retention contract | in-progress | P036-004; P035-019 | Finite origin-bound horizons, P091 ceilings, separate payload/proof holds, replay and first-import laws. |
-| P036-005a | Erasable portable-admission custody | in-progress | P036-004a; custody fence | Real capture/export/import, key-destroyed gate, crash recovery, provider/journal rollback reconciliation, detached privacy and bounded carriers. No media sanitization claim. |
+| P036-004a | Bounded portable-admission custody retention contract | done | P036-004; P035-019 | Finite origin-bound horizons, P091 ceilings, separate payload/proof holds, replay and first-import laws. |
+| P036-005a | Erasable portable-admission custody | done | P036-004a; custody fence | Real capture/export/import, key-destroyed gate, crash recovery, provider/journal rollback reconciliation, detached privacy and bounded carriers. No media sanitization claim. |
+
+### Bounded acceptance, 2026-10-30
+
+P036-004a and P036-005a passed their bounded gates at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.

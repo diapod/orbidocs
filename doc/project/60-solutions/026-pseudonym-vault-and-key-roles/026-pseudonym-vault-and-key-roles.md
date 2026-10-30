@@ -510,3 +510,9 @@ fencing, stores erasure knowledge in the Memarium journal, and excludes DEKs fro
 built-in application backup. External backups and volume encryption remain unknown;
 simultaneous provider/journal rollback is outside the claim. S026 case-key recovery
 and LLR-009 succession retain their independent gates.
+
+The 2026-10-30 independent LLR-003/P041-001 qualification passed for the bounded
+custody/current-presenter profiles, with real P015-006 status/closure lifecycle
+and synthetic v2 certificates. Exact source pins, isolated consumers, retention
+and exclusions are recorded in `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+This does not close P015-005, P036 parent scope, LLR-009 or release qualification.

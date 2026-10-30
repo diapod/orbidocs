@@ -635,7 +635,7 @@ Resolved 2026-07-04:
 
 ## V2 status lifecycle and portable epoch closure (2026-10-30)
 
-Accepted design; runtime acceptance remains pending. P015-006 is independent of
+The bounded runtime acceptance below passed. P015-006 is independent of
 P015-005 certificate exchange. Lifecycle configuration admits profiles v1 and v2;
 decision-v1 exchange admits only v1 and refuses v2 before effects. V2 certificate
 fixtures remain synthetic until P015-005 independently qualifies issuance.
@@ -654,7 +654,7 @@ portable closure. Missing retained terminal state cannot be reconstructed by gue
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-006 | V2 status and epoch-closure lifecycle | in-progress | P015 contextual status; P035-019 | Real issuer v2 lifecycle, typed decision-v1 refusal before effects, dedicated closure signing, terminal revision fence, exact replay/recovery, conflicting closure/higher revision refusals. V2 certificate issuance remains outside this gate. |
+| P015-006 | V2 status and epoch-closure lifecycle | done | P015 contextual status; P035-019 | Real issuer v2 lifecycle, typed decision-v1 refusal before effects, dedicated closure signing, terminal revision fence, exact replay/recovery, conflicting closure/higher revision refusals. V2 certificate issuance remains outside this gate. |
 
 The operator may initialize a v2 status scope through
 `POST /v1/identity/nym-issuer/status-scope` with its authorized topic use and
@@ -662,3 +662,16 @@ similarity inputs. The issuer derives the context and current epoch from its
 configured immutable profile and fenced clock. This provisions status lifecycle
 only, without a certificate, source member or decision-v1 exchange. Closure is
 read through the separate public epoch-closure projection.
+
+### Bounded acceptance, 2026-10-30
+
+P015-006 passed its independent gate at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.
