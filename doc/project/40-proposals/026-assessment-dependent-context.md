@@ -14,9 +14,9 @@ Retention and dispatch freeze together because the reservation is retained histo
 Accepted semantics and the separately recorded implementation checkpoints below
 are distinct from each stage's measured runtime qualification.
 
-Current local status (2026-10-30): stages 01 and joint 02/03 are qualified within
+Current local status (2026-11-01): stages 01 and joint 02/03 are qualified within
 their separately pinned scopes. Stage 04 and later remain todo; parent 012c/P073
-remain partial. See the local closeout below; earlier checkpoints are historical.
+remain partial. The review qualification below covers current 02/03 corrections; earlier checkpoints are historical.
 
 ## Context and Problem Statement
 
@@ -35,7 +35,7 @@ permission to delete a mixed Personal stream.
 | ID | Stage | Status | Dependency and completion boundary |
 | --- | --- | --- | --- |
 | P026-012c-01 | Owned Memarium streams and startup cutover | done | S028-OS-001/002/003; P036-009/010/011. Reviewed v3 profile at clean Node `0ec8dbac` / Orbidocs `1b870593`: 11 native failure/restart/catalog cases plus byte-anchor migration, reclaim and append-cost checks; renewed ordinary previous/current-daemon cutover. Normal/-O loose/extracted agreement, 332 mutation refusals. Protected legacy and later audit-unit/dispatch/context scope remain separate. |
-| P026-012c-02 | Whole audit-unit retention | done | Local profile at Node `da1d14a7` / Orbidocs `127843fb`: complete owner copies/fences, durable S029, capsule/checkpoint expiry and S020. Five ordinary cases, 172 component checks, 70 controls per normal/-O loose/extracted variant; physical age/erasure and unknown legacy remain excluded. |
+| P026-012c-02 | Whole audit-unit retention | done | Reviewed local profile at Node `1e264cab` / Orbidocs `bc62fab1`: complete owner copies/fences, durable S029, observed-time retention, capsule/checkpoint expiry and S020. Six ordinary cases, 234 component checks, 81 controls per normal/-O loose/extracted variant; physical age/erasure and unknown legacy remain excluded. |
 | P026-012c-03 | Durable private dispatch reservation | done | Frozen with 02 and qualified as one vertical; exact-byte preparation, durable fence, final witness gate and settlement. |
 | P026-012c-04 | Context provenance | todo | 02/03; authority carrier, exact parent refs, bounded DAG and P090 composition. |
 | P026-012c-09 | Same-viewer operator delivery | todo | 04; separate P066 consent and Node UI admission/render; before continuation and memory, so it can display continuation acceptance. |
@@ -373,9 +373,9 @@ verified producer-owned loose copies; historical evidence and legacy facts remai
 
 ## Next Actions
 
-Stages 01 and 02/03 have historical local qualification. Qualify the post-closeout
-retention review corrections before stage 04 context provenance. Preserve the
-accepted ownership boundaries.
+Stages 01 and 02/03 have local qualification, including the separately pinned
+retention review below. Proceed to stage 04 context provenance while preserving
+the accepted ownership boundaries and the explicit limits of each proof.
 Use ordinary-daemon/ChannelJson/browser acceptance with deterministic inference,
 separately classified native fault/clock evidence, source/binary/feature pins and
 normal/-O loose/extracted qualifier mutations. Retained evidence follows Node
@@ -421,3 +421,9 @@ coverage stays protected. Initial retain replaced only new own staging duplicate
 after readback, all-mode qualification and conservative global-budget admission;
 it did not retire history or adopted replicas. Stage 04 context provenance and
 all later profiles keep their separate gates; parent P026-012/P073 remain partial.
+
+### P026-012c-02/03 review qualification (2026-11-01)
+
+Node `1e264cab` / Orbidocs `bc62fab1` qualify the repaired local profile: six ordinary browser/ChannelJson cases, 234 component checks in 11 byte-bound groups and 81 rejecting controls per normal/`-O`, loose/extracted variant (324). The ordinary pending-consent restart reaches owner timeout before freeze and releases both pending slots. The prior daemon refuses the question-owner version barrier without changing owner populations. The retained proof is `node:docs/evidence/agent-runtime/2026-11-01-p026-012c-retention-review/README.md`.
+
+Orphan reclamation, same-process replay, owner barriers and terminal-only freeze are repaired. Retention advances only observed monotonic credit capped by UTC, with no offline age; clock divergence requires review and does not clear on restart. S020 publishes once per pass, with durable plan/bucket pointers before effects. The 347/545 ms lock observations are not a hard 250 ms latency guarantee. SQLite receipts still permit residual bytes. Lossless metadata compression remains; replacing it with a shared-reference graph is separate design work. Historical proofs are unchanged; context provenance and later 012c stages, parent P073 and release qualification remain partial.

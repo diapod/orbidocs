@@ -1,6 +1,6 @@
 # P026-012c-02/03: audit-unit and private-dispatch contract
 
-Status: local stages 02/03 qualified at the historical 2026-10-30 pins; post-closeout review corrections below require fresh qualification.
+Status: local stages 02/03 and the 2026-11-01 review corrections are qualified at their separately recorded source pins.
 Based on: [accepted staged plan](026-assessment-dependent-context.md), P066, P073,
 S028, S029 and P036. This refines stages 02/03; it does not enable later profiles.
 
@@ -158,14 +158,14 @@ uses deterministic inference, no models, with pinned binaries and features.
 ## Open Questions
 
 Numeric floors and ceilings remain unchanged. Historical owner integration and
-local acceptance are recorded below; review corrections require fresh execution.
+local acceptance and the fresh review qualification are recorded below.
 The observed-time policy trades longer offline retention for conservative ageing.
 
 ## Next Actions
 
-Qualify the reviewed 02/03 source with ordinary browser/ChannelJson execution and
-separate clock, recovery and schema-barrier component evidence. Then proceed to
-stage 04 context provenance; historical results do not qualify changed source.
+Proceed to stage 04 context provenance on the reviewed 02/03 substrate. Preserve
+separate source pins and proof classes; clock-review override, physical erasure
+and later context profiles are not supplied by this qualification.
 
 ### Owner allocation inside the existing base reservation
 
@@ -364,3 +364,9 @@ qualification above.
   shared references would require a separately versioned fact/manifest graph and
   new retirement dependencies; it is not a prerequisite of this repair. Existing
   limits apply to decoded bytes as well as encoded bytes.
+
+### P026-012c-02/03 review qualification (2026-11-01)
+
+Node `1e264cab` / Orbidocs `bc62fab1` qualify the repaired local profile: six ordinary browser/ChannelJson cases, 234 component checks in 11 byte-bound groups and 81 rejecting controls per normal/`-O`, loose/extracted variant (324). The ordinary pending-consent restart reaches owner timeout before freeze and releases both pending slots. The prior daemon refuses the question-owner version barrier without changing owner populations. The retained proof is `node:docs/evidence/agent-runtime/2026-11-01-p026-012c-retention-review/README.md`.
+
+Orphan reclamation, same-process replay, owner barriers and terminal-only freeze are repaired. Retention advances only observed monotonic credit capped by UTC, with no offline age; clock divergence requires review and does not clear on restart. S020 publishes once per pass, with durable plan/bucket pointers before effects. The 347/545 ms lock observations are not a hard 250 ms latency guarantee. SQLite receipts still permit residual bytes. Lossless metadata compression remains; replacing it with a shared-reference graph is separate design work. Historical proofs are unchanged; context provenance and later 012c stages, parent P073 and release qualification remain partial.

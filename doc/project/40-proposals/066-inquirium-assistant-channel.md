@@ -1988,3 +1988,9 @@ Durable owner receipts, capsule/checkpoint recovery and S020 now replace the ear
 pending integration boundary. Explicit-time expiry is not physical elapsed age;
 SQLite deletion leaves possible bytes in pages/WAL. Historical unknown populations
 and Q-02/012a/012b evidence remain unchanged and protected. P066 remains sole consent/consumption/revoke owner. Its exact routed rows retire only under the whole-unit policy and receipt saga; no old approval archive reactivates a grant. Transcript and unrelated consent retention are not closed by this result.
+
+### P026-012c-02/03 review qualification (2026-11-01)
+
+Node `1e264cab` / Orbidocs `bc62fab1` qualify the repaired local profile: six ordinary browser/ChannelJson cases, 234 component checks in 11 byte-bound groups and 81 rejecting controls per normal/`-O`, loose/extracted variant (324). The ordinary pending-consent restart reaches owner timeout before freeze and releases both pending slots. The prior daemon refuses the question-owner version barrier without changing owner populations. The retained proof is `node:docs/evidence/agent-runtime/2026-11-01-p026-012c-retention-review/README.md`.
+
+Orphan reclamation, same-process replay, owner barriers and terminal-only freeze are repaired. Retention advances only observed monotonic credit capped by UTC, with no offline age; clock divergence requires review and does not clear on restart. S020 publishes once per pass, with durable plan/bucket pointers before effects. The 347/545 ms lock observations are not a hard 250 ms latency guarantee. SQLite receipts still permit residual bytes. Lossless metadata compression remains; replacing it with a shared-reference graph is separate design work. Historical proofs are unchanged; context provenance and later 012c stages, parent P073 and release qualification remain partial.
