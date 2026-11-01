@@ -778,7 +778,9 @@ and exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
   `node:memarium-runtime/src/lib.rs`).
 - **Fact.** `retention/max-duration-sec` in `node:memarium/src/export.rs` bounds
   archival export packages, not stored facts.
-- **Inference.** Personal facts live until an explicit `memarium.forget`. The
+- **Fact.** `memarium.forget` addresses entries, records a decision and hides
+  them in read projections. It neither physically deletes source bytes nor
+  addresses Agent facts written through `write_fact`. The
   30-day default seen in Whisper material belongs to the local metadata view of
   `whisper-trace.v1`, not to Memarium.
 
@@ -808,7 +810,8 @@ outlive the usual horizon.
    capture. Automatic capture emits a notice
    ([P057-016](057-user-and-operator-notifications.md#tracking)).
 5. **Expiry.** An S020 job executes the space's ordinary forget path:
-   immediate erasure in personal space, a tombstone in public space. Community
+   immediate logical removal from personal entry views, a tombstone in public space.
+   Physical fact retirement is a separate S028/P036-009–011 contract. Community
    expiry needs the governed path and crisis keeps its constitutional minimum,
    so both stay outside v1 and are skipped with a typed reason.
 6. **Pre-expiry review.** A batched digest lists records that expire soon.
@@ -865,7 +868,7 @@ All rows are post-MVP `todo`.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P036-004 | Freeze the fact retention horizon contract | todo | P091; S028 | `memarium-retention-decision.v1` schema; class-keyed default and ceiling descriptors with the asymmetric ceiling rule. Fixtures: clamp with warning, `until-forget` refused under a bounded ceiling, latest decision wins, history retained, clock from `recorded/at`. |
-| P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job erases expired personal records and tombstones public ones through the existing forget path. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
+| P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job logically hides expired personal entries and tombstones public ones through the existing forget path; it does not physically erase Agent facts. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
 | P036-006 | Cascade forget and expiry to derived artifacts | todo | P036-005 | `derived-from` references on sidecar rows, indexes and Harvester artifacts; forget or expiry purges them. Negative fixture: the matcher cannot see an expired record. A lowered ceiling re-clamps after the grace period with a notice. |
 | P036-007 | Freeze the personal record contract | todo | P036-004; `memarium-blob.v1` | `memarium-personal-record.v1` with attachments, digests, the three content forms and size bounds. Capture validates before the write. A Story 014 record fixture passes, and diagnostics carry no path or content. |
 | P036-008 | Record fact–rumor link decisions | todo | P036-007 | `memarium-fact-rumor-link.v1`; decisions are idempotent and both projections show them. Pair and context suppression is proven over two epochs, and decisions expire with the record. |
@@ -1035,3 +1038,105 @@ publisher/key-destruction liveness remain separate. See
 
 The prior dated qualification remains unchanged. This follow-up preserves the
 bounded claim and does not close parent P036, P015-005 or LLR-009.
+
+## Owned runtime fact streams (P026-012c, 2026-10-29)
+
+This is separate from P036-004–008 personal-entry horizons. Physical stream
+mechanics are owned by [S028](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md#owned-stream-retirement-tracker).
+The [P026 continuation design](026-assessment-dependent-context.md) is its first
+consumer. Legacy mixed Personal remains protected; no historical erasure is claimed.
+
+| ID | Task | Status | Depends on | Completion gate |
+| --- | --- | --- | --- | --- |
+| P036-009 | Freeze private owner fact streams | done | S028-OS-001 | Owner-only read/write/import, no generic Personal view/export/index exposure, per-schema fact identity and retired-stream refusal. |
+| P036-010 | Cut over Agent writes at startup | done | P036-009; S028-OS-002 | Expected-head barrier before Agent load, digest-verified locator, new generation after barrier, old writer/recovery/import fenced; no legacy copy or deletion. |
+| P036-011 | Qualify dedicated versus legacy recovery | done | P036-010; S028-OS-003 | Fresh S=0 and actual previous-binary legacy, cutover crash matrix, old-binary refusal, bounded range I/O and exact unchanged legacy bytes. |
+
+
+The 2026-10-29 Node implementation installs the owner journal before Agent load
+and admission. It preserves the immutable legacy prefix, appends an expected-head
+barrier, checks an exact descriptor and routes new facts outside Personal discovery.
+The owner port exposes no generic import/export/read surface; ordinary Memarium
+owner-tag writes refuse before idempotency. Per-schema identities and controlled
+restart/refusal tests live in `node:memarium-runtime/docs/OWNER-JOURNALS.md` and
+`node:memarium-runtime/docs/AGENT-FACT-IDENTITIES.md`. The bounded clean executable profile is qualified at Node `d5ad1392` / Orbidocs
+`365a3796`: eight exact legacy facts, one barrier, two dedicated facts, current
+restart and previous-binary exit 2 on the exact unknown schema. Normal/-O loose
+and extracted results agree; twenty controls refuse in each variant. See
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md`.
+P036-009/010/011 close only this owner-journal/cutover profile. Controlled
+interruption, capacity and locator/allocator faults remain component evidence;
+at that checkpoint, independent S028 physical-failure/cost qualification remained partial. No physical
+erasure, audit-unit retirement or total-Node startup bound is implied.
+
+
+### Owner-journal review boundary (2026-10-29)
+
+A subsequent critical review found that generic JSONL materialization could repair
+a torn owner suffix during append/seal/retirement verification. The owner contract
+requires non-repairing validation for every such read, not only startup replay;
+refused bytes must remain unchanged. Current-head discovery also needs exact
+byte-bound EOF and stable anchors in the presence of legitimate trailing blank lines.
+Agent recovery must bind the persisted wrapper identity, schema metadata and source
+correlation to the complete validated domain payload before registry admission.
+
+The prior checkpoint and v1 qualifier remain frozen. Its independent checker did
+not bind all owner facts to the same Agent/request, so it is insufficient for the
+stronger reviewed claim. A versioned verifier must preserve the old source pin,
+verify fact/command/session links and complete anchor extents, exercise an ordinary
+fresh S=0 restart as well as previous-binary legacy, and observe temporary-root
+cleanup before reporting it. New component and ordinary-process evidence are
+recorded separately; none of these requirements establishes physical media erasure
+or independent S028 failure/cost qualification.
+
+
+The reviewed profile is qualified separately at clean Node `5d62641f` / Orbidocs
+`9690ac42` (ordinary run 02). It verifies eight unchanged legacy facts plus the
+barrier and two dedicated resume records, and a fresh S=0 case with eight dedicated
+facts unchanged across restart. Normal/-O loose/extracted results agree; 41 controls
+refuse per variant (164 refusals). The final implementation materializes verified
+envelopes directly from one non-repairing scanner; it never invokes generic repair
+for owned lifecycle reads. All 155 storage/Memarium and six Agent-adapter tests pass.
+See `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md`.
+P036's named cutover profile remains done; independent S028 failure/cost gates and
+later P026 audit/context work remain partial or open. Historical v1 is preserved,
+including its explicitly demonstrated verifier limitation.
+
+The subsequent S028 checkpoint at clean Node `6fc81f7d` / Orbidocs `050d8d58`
+renews the same named previous/current-daemon cutover profile and corrects the
+remaining post-append generic-reader call. Its independent public-API/cost cases
+are recorded in the [Node storage report](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+Native ENOSPC remains unqualified after image-mount refusal. P036-009/010/011 stay
+done only within their named cutover profile; S028-OS-003 and parent stage01 are
+not closed by this renewal.
+
+The later clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 renews this same
+ordinary legacy/fresh restart and prior-binary refusal bridge with all 11 scoped
+S028 native/cost cases qualified. See the [retained closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+S028-OS-003 and P026-012c-01 are now done within the frozen local profile;
+P036-009/010/011 retain their named scope. General Personal forget remains logical,
+legacy facts remain protected, and later cross-owner audit-unit/dispatch/context
+retention is not implemented or qualified by this result.
+
+### Startup and source-retention limits (2026-10-29 review)
+
+Before upgrading, the operator must allow for the initial Personal discovery limit:
+1,000,000 records and 512 MiB, including facts unrelated to Agent. Exceeding it
+refuses the whole daemon's startup; isolated Agent degradation is not implemented.
+The selected Agent replay limit is shared across legacy and dedicated facts:
+100,000 wrappers / 256 MiB. The dedicated stream also has an independent encoded
+JSONL-envelope ceiling, which can refuse sooner because it includes framing.
+These are admission/recovery bounds, not retention or a supported pruning recipe.
+The protected legacy prefix currently fences relocation, archive and compaction
+of the entire Personal fact stream indefinitely. Stage01 has no release operation;
+a future replacement-source protocol must discharge this dependency explicitly.
+
+### Catalog-v3 review renewal (2026-10-29)
+
+The [v3 qualification](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage-v3/README.md)
+at Node `0ec8dbac` / Orbidocs `1b870593` renews the fresh/legacy ordinary-daemon
+restart and previous-binary refusal proof with S028 byte-anchor recovery and
+physical reclamation. Startup transfers the verified owner projection once to
+Agent load; subsequent explicit recovery rechecks it. The documented shared
+recovery ceilings, whole-daemon discovery refusal and permanent Personal fence
+remain unchanged. No context authority, retention saga or memory is restored.

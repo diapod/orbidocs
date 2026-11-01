@@ -343,3 +343,18 @@ host rechecks the exact current admitted registration and delegates to the same
 schema-gated notification owner. NotificationAllow remains mandatory; neither a
 claimed sender nor an allow rule authenticates an unregistered module. No new
 host capability, evidence-store knowledge or repair authority follows.
+
+
+## Local assessment audit consumer (2026-10-30)
+
+P026's routed queue/idempotency/transaction/event/audit populations use isolated
+SQLite ownership, bounded writer quotas and terminal fences. S029 receives exact
+recoverable receipts; shared transactions and stronger full-audit floors protect
+the unit. Schema v7 makes the selected previous writer refuse. Deletion is logical,
+not free-page/WAL/backup erasure; historical mixed JSONL is not adopted.
+The [P026 stage closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+pins Node `da1d14a7` / Orbidocs `127843fb`, five ordinary cases and 172 separate
+component checks with 70 controls per mode/location. The capability catalog is
+unchanged: this composes existing owner ports and scheduling, and adds no generic
+grant-bearing operation. Historical evidence, unknown coverage, models and release
+scope remain separate.

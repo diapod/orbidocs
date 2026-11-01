@@ -776,3 +776,179 @@ Costs:
 4. Treat Seed Directory accepted facts as the reference adopter for public
    accepted-fact stores: local event log is recovery/audit source, public API
    reads projections, and replay-check is operator diagnostics.
+
+
+## Owned stream retirement tracker
+
+Current status (2026-10-29): the reviewed v3 local profile is qualified at Node
+`0ec8dbac` / Orbidocs `1b870593`; historical run05 keeps its narrower frozen gate. Storage owns
+whole-stream sealing, generation fencing, bounded range reading, and physical
+retirement; Memarium and audit owners supply classification, current admission,
+holds and retention decisions. This adds no global minimum across arbitrary
+stores: the P026 owner plans its exact cross-owner inventory through S029.
+See [the staged P026 design](../../40-proposals/026-assessment-dependent-context.md).
+
+| ID | Task | Status | Completion gate |
+| --- | --- | --- | --- |
+| S028-OS-001 | Freeze bounded owned-stream lifecycle | done | Typed generation/head/seal/range/receipt contracts; whole chains, explicit logical versus physical reclamation and no authority in identifiers. |
+| S028-OS-002 | Implement JSONL owned-stream mechanics | done | Durable allocator outside retired streams, lazy sharded catalog, streaming verified ranges, exact seal/retire recovery, allocation-mode diagnostics and no retired replay/import resurrection. |
+| S028-OS-003 | Qualify storage retention and failure boundaries | done | Reviewed v3 local macOS/APFS profile: successful native recovery/new write, actual block reclamation, reserved catalog and append-cost measurements, migration/old-reader refusal and renewed daemon cutover. Normal/-O loose/extracted agreement and 332 storage/cutover mutation refusals. Platform/power-loss/authority exclusions remain. |
+
+### Accepted v3 recovery and cost correction (2026-10-29)
+
+The approved successor local catalog records the committed byte extent with the
+head sequence/hash and the last-record start. Normal append verifies that tail;
+full replay, seal, retire and the one-time v2 migration verify the bounded chain.
+A durable pending append permits adoption of one exact complete frame or truncation
+of only its incomplete unacknowledged suffix after full committed-prefix verification.
+Unregistered suffixes and corrupt committed prefixes refuse. Old v2 binaries refuse
+v3; missing allocators are never recreated. Existing v2 seals remain unchanged;
+no retroactive preallocation reclamation is claimed for them. Atomic no-replace publication prevents
+an interrupted unpublished namespace initialization from blocking a fresh start.
+
+Seal persists a reclamation intent before the APFS one-byte zero extension/truncation
+sequence. Only that exact optional byte may be recovered. Measure allocated blocks,
+not just logical length. The v3 qualifier requires successful post-ENOSPC replay and
+another write without restart; injected short-write tests remain a separate class.
+
+The new local profile physically reserves all 32/1024/4096 catalog streams. Its
+160 MiB allocated-file ceiling includes 128 MiB of reservations at 4096 streams;
+logical/catalog bounds remain 32/16 MiB. Five equal small append timings at 1/27/128/240
+MiB each have a two-second ceiling; seal reduces a 16 MiB reservation to at most
+64 KiB file blocks. These are frozen local measurements, not portable latency or
+media-sanitization guarantees. The [clean v3 qualification](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage-v3/README.md)
+now passes: 163 mapped component tests, 42 storage and 41 cutover mutation controls
+in both modes/locations, 267.458 seconds total. Small append samples span
+1.977–3.257 ms; physical seal allocation falls from 16 MiB to 4096 bytes with
+identical content. The whole 4096-stream physical reservation fixture consumes
+134,844,416 allocated file bytes and 593,920 catalog bytes; directory metadata is
+excluded. Stage01 closes only within this local profile.
+
+### Historical foundation and qualification checkpoints
+
+Node's `storage-jsonl/README.md` records the local format-2 boundary: component
+lifecycle, allocator/reopen, exact pending-append recovery, native allocation and
+verified range tests exist. Memarium now binds its startup descriptor and protects
+the retained source; production owner-authorized retirement is still absent.
+Range discovery is bounded to 4096 directory entries; captured version-1 anchors
+freeze sequence and byte extents and replay without later directory enumeration.
+An allocator descriptor uses exact-byte CAS, with no domain semantics in storage.
+At that historical checkpoint, S028-OS-003 remained partial for independent filesystem failure and catalog-cost
+qualification; controlled component faults do not establish power-loss durability
+or broad platform support. A unit receipt cannot close P026's cross-owner saga or
+claim SQLite/media sanitization.
+
+
+The 2026-10-29 owner-journal review requires the same bounded non-repairing reader
+before owned append, seal, replay and retirement verification. The generic JSONL
+reader's repair behavior is outside this owner boundary. Discovery must admit an
+exact byte ceiling at complete sampled EOF and exclude only the final blank tail
+from the anchored record prefix; earlier segment extents remain exact. A later
+expected-head append detects concurrent source growth. These are integrity and
+boundary corrections, not a broader storage or physical-durability qualification.
+
+
+The corresponding reviewed Node profile now materializes verified envelopes in
+one bounded pass, shared by record/range and owned lifecycle consumers. Tests prove
+that append/seal/retirement refuse a torn tail without repair, and that blank tails
+and exact byte budgets preserve anchored replay. Ordinary legacy/fresh restart and
+prior-binary refusal have a separate v2 qualification; see
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md`.
+At that historical checkpoint, S028-OS-003 remained partial; these controlled faults do not establish power-loss,
+malicious actor, whole-node startup or media sanitization guarantees.
+
+### Local native qualification profile (2026-10-29 freeze)
+
+S028-OS-003 uses `s028.owned-stream-qualification-profile.v1` in
+`node:tools/acceptance/owned-streams/profile.json`, with its matrix and interpretation
+in `node:tools/acceptance/owned-streams/README.md`. It supplements the component
+fault tests with ordinary public-API worker processes, actual filesystem errors
+and materialized catalog measurements. Freeze thresholds before collection.
+
+The first profile is macOS: isolated 128 MiB APFS for exhaustion and the recorded
+local filesystem for other failures and cost. Catalog cases use 32/1024/4096
+materialized streams and five fresh-process reopens with warm filesystem caches.
+Open/selected-read ceilings are two seconds; recorded I/O, file handles, logical
+and allocated bytes have separate bounds in the profile. These are local acceptance
+thresholds, not portable protocol latency laws. Process interruption does not prove
+power-loss behavior. A host refusing the isolated filesystem probe leaves that gate
+unqualified; component error injection cannot substitute for the native witness.
+
+Completion requires the full mapped matrix, paired source/binary/feature pins,
+observed cleanup and qualifier refusals normal/-O before/after extraction.
+Production owner authorization, cross-owner S029 retirement, audit-unit retention,
+private dispatch and broader platforms remain separate. No status is promoted by
+this contract freeze alone.
+
+### Native/cost collection checkpoint (2026-10-29)
+
+The [storage witness](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+at clean Node `6fc81f7d` / Orbidocs `050d8d58` records nine public-API cases,
+including real permission failure with persistent exact-plan retirement recovery,
+process interruption, stale generation refusal and materialized catalog cost.
+At 4096 streams it observes 13,824,311 logical file bytes, 20,324,352 allocated file
+bytes, 2,801,664 catalog/index bytes, 4098 files and 12,306 directories. Five
+fresh-process opens with warm caches peak below 0.765 ms; selected reads verify
+one record in one segment. Directory/allocator metadata, whole-node startup and
+portable latency are excluded from those file-byte/timing observations.
+
+The full frozen profile still refuses `native-enospc-unqualified`: the host denied
+the exact producer-created APFS image mount, and real ENOSPC/cleanup remains
+unobserved. All mapped component/public-API gates before that refusal pass;
+27 mutations reject normal/-O loose/extracted (108). Conditional native mutation
+controls are explicitly unexecuted. At that historical checkpoint, S028-OS-003 remained partial; this checkpoint
+does not close P026-012c-01, production retirement or power-loss qualification.
+
+Correction to the earlier broad implementation claim: the post-success append
+reconciliation still called the generic repair reader at Node `5d62641f`.
+Node `fa2c56e7` replaces it with the existing bounded non-repairing verifier.
+Historical evidence stays unchanged; the renewed ordinary-daemon witness has
+the same source pair as the storage collection.
+
+### Qualified native/cost closeout (2026-10-29, run 05)
+
+Clean Node `4f8369ff` / Orbidocs `c85d213f` passes all 11 cases of the unchanged
+local profile and the separately qualified paired-daemon Memarium bridge; see
+[the complete storage report](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+Native preallocation refuses disk capacity and actual append ENOSPC reports code
+28, preserves the acknowledged prefix and reopens without repair. The exact owned
+APFS image detaches after all workers exit. Permission recovery and outstanding
+process-kill probes remain software witnesses, not identified fsync interruptions
+or power-loss tests.
+
+At 4096 streams run 05 records 13,824,328 logical file bytes, 20,381,696 allocated
+file bytes, 2,801,664 catalog/index bytes, 4098 files and 12,306 directories. Five
+warm-cache fresh-process opens peak below 0.667 ms; selected reads verify one
+record in one segment. File-block accounting excludes directory/allocator metadata;
+portable latency, throughput, whole-node startup and domain audit-unit capacity do
+not follow. All frozen limits pass without adjustment.
+
+The versioned native verifier reuses unchanged v1 semantic gates and binds the
+corrected successor producer. Run 04's oversized encoded fixture is retained as a
+refusal, and run 03 keeps its original mount blocker. Concrete JSONL I/O errors now
+retain numeric native causes at owned append instead of being flattened through
+StorageWrite. Normal/-O loose/extracted results agree; 33 storage plus 41 renewed
+cutover mutations per variant yield 296 refusals. The mapped 138 component tests,
+six Agent adapter tests and scoped all-target Clippy pass.
+
+This closes S028-OS-003 and stage 01 only. Higher owners still supply retention
+floors, holds, S029 receipt coordination and exact retirement authority. Physical
+SQLite/media sanitization, allocator rollback, malicious actors, Linux and release
+readiness remain outside this measured profile. Legacy/history and frozen tools
+remain protected; no cross-owner retirement operation is introduced.
+
+
+## Local assessment audit consumer (2026-10-30)
+
+S028 now supplies an optional exact encoded-record ceiling to the audit consumer.
+It prepares and measures the full JSONL line, including predecessor hash/newline,
+before pending append; bounded retries meter retained line bytes. Catalog v3 and
+ordinary state/idempotency rules remain unchanged. Twenty-five local owned-stream
+regressions and the P026 chained-capsule witness pass. This does not renew the
+separately pinned native ENOSPC/APFS/power-loss qualification or imply physical erase.
+The [P026 stage closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+pins Node `da1d14a7` / Orbidocs `127843fb`, five ordinary cases and 172 separate
+component checks with 70 controls per mode/location. The capability catalog is
+unchanged: this composes existing owner ports and scheduling, and adds no generic
+grant-bearing operation. Historical evidence, unknown coverage, models and release
+scope remain separate.

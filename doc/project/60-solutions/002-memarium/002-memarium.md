@@ -48,6 +48,37 @@ Responsibilities:
 Status:
 - `done` — four memory spaces, encryption/retention/forget policy enforcement, cross-space promotion, append-only provenance, crisis seed population, and crisis status/resolve read models are implemented. The write path separates payload-envelope validation from policy enforcement, entry/fact ids include a monotonic suffix instead of relying only on wall-clock nanos, cache TTLs are clamped by space policy, and forget rejections carry structured denial reasons. Personal forget can be delegated through scoped passports, public forget tombstones, community forget verifies an append-only governance approval fact referenced by `governance_ref` before erasure, and crisis forget remains restricted. Operator grant issuance/install flow, lag-forced crisis detector coverage, the full PeerMessageChain/WSS → observer → Memarium query lifecycle, the launcher CLI minimum surface for `memarium quarantine {list,accept,reject}` / `memarium declassify`, the enforced strict-mode gate for classification fallback, a classification-aware archival export adapter for `archival-package.v1`, concrete Whisper and INAC/private AD classification egress adapters, contextual personal-space forget delegation, remote archivist handoff/retrieval control surfaces, and a SQLite derived read sidecar are now represented in code.
 
+### Logical forget and physical retention boundary
+
+The current entry-oriented forget implementation appends a decision and hides the
+entry in read projections. `Erased` and the immediate Personal policy describe that
+logical effect; they do not establish physical erasure of JSONL bytes, WAL/free pages,
+replicas or runtime Agent facts written through `write_fact`. Segment compaction
+preserves every record. Earlier capability summaries must be read within this scope.
+
+[P036-009–011](../../40-proposals/036-memarium.md#owned-runtime-fact-streams-p026-012c-2026-10-29) track
+owner-only routing, startup cutover and qualification. S028 owns sealing, monotonic
+allocation, bounded ranges and complete-stream reclamation; S029 owns cross-owner
+retirement receipts. The [P026-012c design](../../40-proposals/026-assessment-dependent-context.md)
+uses those boundaries without authorizing deletion of mixed Personal history.
+The 2026-10-29 Node owner-journal implementation binds an immutable Personal prefix
+to a dedicated Agent stream before runtime admission, with an expected-head barrier
+and digest-verified descriptor. New owner facts are excluded from generic Personal
+search/export/backup/sidecar discovery. Generic owner-tag writes refuse, and the
+owner port offers no import route. Controlled interruption and lost-source tests remain component conformance. The
+bounded ordinary-daemon checkpoint qualifies exact legacy bytes, dedicated writes,
+current restart and the pinned previous reader's barrier refusal, with matching
+normal/-O loose/extracted results; see
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md` and
+`node:memarium-runtime/docs/OWNER-JOURNALS.md`. No owner-authorized retirement or
+P066/notification SQLite cleanup is activated by this substrate.
+
+The [stage-01 storage closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+at clean Node `4f8369ff` / Orbidocs `c85d213f` now completes the frozen local
+S028 native/cost gate alongside renewed ordinary legacy/fresh cutover and
+previous-binary refusal. This closes P026-012c-01 only; cross-owner unit retention,
+P066/notification retirement and dependent context remain later work.
+
 ### Observer-Based Chain Integration
 
 Based on:
@@ -568,3 +599,31 @@ The chain integration follows the observer slot pattern (proposal 027): the daem
 The runtime-side expansion point is now the Memarium-domain `MemariumObservation` value. `observe_dispatch(message_kind, correlation_id, effective_payload)` remains as a compatibility wrapper for post-chain callers. `PostChainObserver`, `PhaseObserver`, and their event types remain daemon adapter concepts, not runtime dependencies.
 
 Implementation-specific decomposition, file ownership, and delivery status belong in the concrete Node repository's implementation ledger.
+
+### Startup and source-retention limits (2026-10-29 review)
+
+Before upgrading, the operator must allow for the initial Personal discovery limit:
+1,000,000 records and 512 MiB, including facts unrelated to Agent. Exceeding it
+refuses the whole daemon's startup; isolated Agent degradation is not implemented.
+The selected Agent replay limit is shared across legacy and dedicated facts:
+100,000 wrappers / 256 MiB. The dedicated stream also has an independent encoded
+JSONL-envelope ceiling, which can refuse sooner because it includes framing.
+These are admission/recovery bounds, not retention or a supported pruning recipe.
+The protected legacy prefix currently fences relocation, archive and compaction
+of the entire Personal fact stream indefinitely. Stage01 has no release operation;
+a future replacement-source protocol must discharge this dependency explicitly.
+
+
+## Local assessment audit consumer (2026-10-30)
+
+Private source/consumer audit streams remain outside Personal projections/search/
+export. The P026 composition now qualifies complete-unit retirement, whole capsule
+bucket expiry and bounded pointer checkpoints without restoring activation. The
+exact encoded-record ceiling is an S028 primitive forwarded by UnitFactJournal;
+it grants no domain retention authority. Legacy shared facts remain protected.
+The [P026 stage closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+pins Node `da1d14a7` / Orbidocs `127843fb`, five ordinary cases and 172 separate
+component checks with 70 controls per mode/location. The capability catalog is
+unchanged: this composes existing owner ports and scheduling, and adds no generic
+grant-bearing operation. Historical evidence, unknown coverage, models and release
+scope remain separate.
