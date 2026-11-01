@@ -1077,6 +1077,12 @@ conflicting signed heads are evidence of equivocation. This mechanism passed the
 scoped P035-019 A/E gates on 2026-10-29; it is not a qualified time service or
 P032 v2 migration.
 
+Integration correction (2026-11-01): the existing `signer.witness` HTTP route is
+registered in P072 as host-local and dispatchable, without advertisement,
+passport eligibility or federated discovery. Registration repairs a missing
+catalogue entry; it neither grants signing authority nor changes the typed
+caller's policy, preparation ticket or active-key checks.
+
 P037's typed `signer.witness` operation prepares a one-use, caller-bound ticket
 with owner-sampled time. Signing accepts that exact preparation, an accepted
 receipt in its bound profile, and a commit time no later than the owner's clock.

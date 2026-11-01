@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **242** host-local / **274** ogółem; grupy właścicieli: **41**.
+Wpisy: **243** host-local / **275** ogółem; grupy właścicieli: **41**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -542,6 +542,7 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>signer.sign</code> | <code>host/signer.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>signer.status</code> | <code>host/signer.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>signer.unlock</code> | <code>host/signer.unlock</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>signer.witness</code> | <code>host/signer.witness</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>whisper.intake</code> | <code>host/whisper.intake</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>whisper.redaction.prepare</code> | <code>host/whisper.redaction.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.orchestrate</code> | <code>host/workflow.orchestrate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
