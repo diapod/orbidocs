@@ -373,8 +373,9 @@ verified producer-owned loose copies; historical evidence and legacy facts remai
 
 ## Next Actions
 
-Stage01 is locally qualified. Implement and qualify audit-unit retention and durable
-private dispatch together (02/03), preserving the accepted ownership boundaries.
+Stages 01 and 02/03 have historical local qualification. Qualify the post-closeout
+retention review corrections before stage 04 context provenance. Preserve the
+accepted ownership boundaries.
 Use ordinary-daemon/ChannelJson/browser acceptance with deterministic inference,
 separately classified native fault/clock evidence, source/binary/feature pins and
 normal/-O loose/extracted qualifier mutations. Retained evidence follows Node

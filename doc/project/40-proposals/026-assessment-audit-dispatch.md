@@ -1,6 +1,6 @@
 # P026-012c-02/03: audit-unit and private-dispatch contract
 
-Status: frozen implementation contract, 2026-10-29; narrow dispatch prerequisite qualified; whole-unit retention and the joint stage gate remain incomplete.
+Status: local stages 02/03 qualified at the historical 2026-10-30 pins; post-closeout review corrections below require fresh qualification.
 Based on: [accepted staged plan](026-assessment-dependent-context.md), P066, P073,
 S028, S029 and P036. This refines stages 02/03; it does not enable later profiles.
 
@@ -157,14 +157,15 @@ uses deterministic inference, no models, with pinned binaries and features.
 
 ## Open Questions
 
-No numeric policy change is authorized by this contract. Owner integration and
-runtime acceptance remain pending until their exact receipts and evidence exist.
+Numeric floors and ceilings remain unchanged. Historical owner integration and
+local acceptance are recorded below; review corrections require fresh execution.
+The observed-time policy trades longer offline retention for conservative ageing.
 
 ## Next Actions
 
-Implement owner values and ports, route new unit populations, then qualify the
-02/03 vertical. Keep both trackers open until all owners, scheduling, bounded
-recovery, dispatch and acceptance requirements are met.
+Qualify the reviewed 02/03 source with ordinary browser/ChannelJson execution and
+separate clock, recovery and schema-barrier component evidence. Then proceed to
+stage 04 context provenance; historical results do not qualify changed source.
 
 ### Owner allocation inside the existing base reservation
 
@@ -301,3 +302,65 @@ inventories, durable S029, bounded capsule/checkpoint lifecycle and S020 are now
 implemented and qualified within that scope. Earlier narrow dispatch and failed
 whole-unit attempts are not relabelled. Physical erasure/age, actual models,
 unknown legacy adoption, broader context and release remain unqualified.
+
+### Review corrections (2026-10-31)
+
+A post-closeout review found three liveness defects in the local profile. These
+corrections refine recovery and owner closure; they change no floor, ceiling,
+authority, receipt format or owner order.
+
+- **Unpublished allocations.** An allocation interrupted before its opening fact
+  was never published, and no owner row refers to it. Replay retires it as a whole
+  stream under a local unpublished-allocation decision. If that retirement fails,
+  the allocation stays protected and is charged by its own catalog budget, never
+  by the consumer ceiling. It therefore cannot pin the detail horizon permanently.
+- **Capacity after replay.** An overfull recovered pool is a truthful projection,
+  not an integrity failure. Startup succeeds and new admissions refuse.
+- **In-process recovery.** A fenced journal recovers by verified replay through
+  the handles its process already holds exclusively, on the next S020 pass. A daemon
+  restart is no longer the only recovery path. While fenced, admission refuses with
+  a distinct retryable journal-unavailable class.
+- **Pending owner rows.** Before freezing, P066 and the operator question apply
+  their own ordinary timeout. A row still within its deadline defers closure without
+  a coverage hold: a frozen pending row could never expire or be answered. Frozen
+  rows never count toward either owner's node-wide pending limit.
+
+Node component tests reproduce each defect. The measured 2026-10-30 closeout pins
+the earlier source and does not qualify these corrections; a new ordinary run is
+required before the local profile claims them.
+
+### Review contract — 2026-11-01
+
+The R-01–R-17 review preserves whole-unit ownership and the original capacity
+ceilings. Its new implementation and acceptance must not inherit the historical
+qualification above.
+
+- Retention uses a durable credited-time clock. Only observed monotonic process
+  time, capped by UTC progress, advances it. Offline intervals earn no credit.
+  An observed UTC/monotonic divergence above two seconds blocks retirement for
+  review, including after restart; it does not reset minima. New terminal facts
+  use this clock. Migration conservatively credits no unobserved age. This is not
+  trusted physical time, and infrequently running nodes retain data longer.
+- Owner schema barriers are P066 v3, operator questions v4 and attention v10.
+  P066/question metadata downgrade guards also stop their historical migrators,
+  which did not inspect the version. Supported writers register owner connection
+  functions; arbitrary SQLite clients are inspection-only. Schema refusal must
+  precede domain writes and cannot be mistaken for missing consent.
+- S020 publishes at most one checkpoint per pass. Preparation, owner effects and
+  capsule cleanup may span separate passes. A plan and replacement pointers are
+  published before removal; durable receipts recover partial effects. A 250 ms
+  limit gates starting more work, not an already running filesystem operation.
+  Qualification reports observed lock duration, without a universal latency claim.
+- The second checkpoint generation protects publication history; it is not an
+  automatic recovery fallback. A corrupt current generation refuses. Falling back
+  could resurrect already retired pointers or lose acknowledged progress.
+- Status reports actual charged bytes/records and remaining admission capacity,
+  plus physical/logical-only/unknown reservation observations. Historical missing
+  observations are unknown, never guessed from the current filesystem.
+- SQLite receipt transactions temporarily require FULL synchronization and restore
+  the owner's previous setting on success and failure. Quota failure is classified
+  at the storage boundary, not by HTTP response string matching.
+- Metadata compression remains a lossless local storage codec. Replacing it with
+  shared references would require a separately versioned fact/manifest graph and
+  new retirement dependencies; it is not a prerequisite of this repair. Existing
+  limits apply to decoded bytes as well as encoded bytes.
