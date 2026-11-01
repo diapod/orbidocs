@@ -1085,6 +1085,11 @@ Only the host-private node-key adapter can sign a delegation. Generic `sign`
 rejects both the witness domain and the delegation prefix, including a prefix
 wrapped in an alternate domain. Public fences survive restart; secrets do not.
 
+The capability registry identifies this operation as `host/signer.witness`, an
+active host-local route and dispatch capability. It is not advertisable, passport
+eligible, federated discovery or a generic signing domain. Registry admission
+does not replace the Signer's caller/domain policy or authorize raw root signing.
+
 The shared lower crate `custody-fence` supplies P015/P037 observed-time and
 revision-head laws plus bounded no-follow durable fence I/O. P015's disk key
 custodian and P037's volatile key ownership remain different adapters. Recovery
