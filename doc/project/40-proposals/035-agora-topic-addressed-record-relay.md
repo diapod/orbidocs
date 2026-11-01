@@ -506,6 +506,22 @@ Opens a streaming connection (long-poll or server-sent events in MVP;
 WebSocket post-MVP) that delivers new records under the topic. The
 subscription is advisory and MAY be dropped by the relay under load.
 
+For the SSE adapter, `GET` opens the same authenticated stream. Each event's `id`
+is the content-addressed `record/id`, not a sequence or a new authority token.
+A nonempty `Last-Event-ID` requests retained records strictly after that record in
+this topic, followed by live delivery. The relay MUST establish the retained
+position, freeze its replay frontier and register live delivery atomically. The
+Node SQLite relay and the Matrix relay backed by it implement this boundary.
+Unsupported, unknown, foreign-topic or pruned positions return
+`409 subscription-resume-unavailable`; there is no silent fallback to now.
+An absent or empty header starts from now. UI proxies preserve the header across
+authentication refresh. Clients must explicitly refresh retained history after a
+409; automatic reconnection is not evidence of completeness across retention or
+Matrix history gaps. This remains advisory delivery, not a durable consumer ACK.
+Capacity refusal returns HTTP 503 with `Retry-After`. Slow subscribers can still
+be closed; resumed replay re-verifies records and preserves the same admission
+and topic access policy. These rules do not renew grants or widen visibility.
+
 #### 5.4. Submit a record
 
 ```

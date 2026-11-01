@@ -546,6 +546,15 @@ uses:
 - per-direction in-flight semaphores,
 - per-call deadlines and response-size limits.
 
+Node's incoming host-call adapter additionally clips a supplied valid deadline to
+its local 300-second ceiling, sampled once on admission. Shorter caller budgets
+are preserved; this never extends a grant, session, TTL or stop budget. Expiry is
+terminal for the same request. Queue saturation remains retryable. The default
+inbound handler checks before dispatch only: nested blocking calls require their
+owner's deadline-aware implementation, and this local ceiling is not a promise
+of preemptive cancellation. The Node transport README tracks that remaining
+adapter migration and its qualification boundary.
+
 The reader MUST validate and enqueue work without executing domain handlers while
 holding the session or supervisor lock. Callers obtain a cheap channel dispatch
 handle, release the supervisor registry lock, enqueue the request, and await only
