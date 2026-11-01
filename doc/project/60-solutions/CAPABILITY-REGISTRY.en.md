@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **241** host-local / **273** total; **41** owner groups.
+Entries: **242** host-local / **274** total; **41** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -452,6 +452,7 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
+| <code>agora.historical.present.authorize</code> | <code>host/agora.historical.present.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.publish.authorize</code> | <code>host/agora.publish.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.record.admit</code> | <code>host/agora.record.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.record.sign</code> | <code>host/agora.record.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |

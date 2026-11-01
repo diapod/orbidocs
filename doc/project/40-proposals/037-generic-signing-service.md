@@ -1060,3 +1060,42 @@ any signing code to the Memarium crate beyond a thin adapter.
   lets artifact crates register convenience endpoints without each needing
   its own HTTP crate. Optional; only pursued if the per-artifact HTTP crate
   approach proves clunky.
+
+## Witness key lifecycle (P035-019, 2026-10-29)
+
+The typed witness lifecycle owns nonexportable independently random volatile
+Ed25519 keys. A durable provider-local observed-time and sequence fence is shared
+with P015 custody; no witness secret enters that fence or a recovery bundle.
+`witness-key-delegation.v1` binds node, admission-receipt role, exact profile,
+key, half-open validity, sequence and predecessor under its own signing prefix.
+The root signing operation is host-private; generic signing cannot bypass it.
+
+A profile-bound guard band precedes decision time. Expiry is checked on every
+use and by maintenance, including after resume. A new process may issue a new
+partial-window delegation. Missing sequence members are incomplete observation;
+conflicting signed heads are evidence of equivocation. This mechanism passed the
+scoped P035-019 A/E gates on 2026-10-29; it is not a qualified time service or
+P032 v2 migration.
+
+P037's typed `signer.witness` operation prepares a one-use, caller-bound ticket
+with owner-sampled time. Signing accepts that exact preparation, an accepted
+receipt in its bound profile, and a commit time no later than the owner's clock.
+It consumes the ticket and checks the active key before and after signing.
+Only the host-private node-key adapter can sign a delegation. Generic `sign`
+rejects both the witness domain and the delegation prefix, including a prefix
+wrapped in an alternate domain. Public fences survive restart; secrets do not.
+
+The shared lower crate `custody-fence` supplies P015/P037 observed-time and
+revision-head laws plus bounded no-follow durable fence I/O. P015's disk key
+custodian and P037's volatile key ownership remain different adapters. Recovery
+accepts a complete monotonic staged successor or refuses; it does not reset a
+missing fence. Gaps after a reserved sequence are incomplete observation.
+The P035 A/E gates cover guard bands, partial restart, window alignment, sleep,
+clock rollback, staging recovery, sequence overflow, symlink/owner conflicts
+and typed-port replay. No external UTC, memory-forensics or power-loss claim.
+The clean-source receipt qualification used Node
+`0d44e554b87031719938f371c80637c5f20f865c` and Orbidocs
+`d837d8e593520e27e3337f4aa586d9fee54acd81`; the ordinary producer exercised
+real P037 HTTP operations. See `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`
+for the 144 lifecycle/durability component tests, process interruption and
+retained source/fixture bindings. No signing secret is retained.

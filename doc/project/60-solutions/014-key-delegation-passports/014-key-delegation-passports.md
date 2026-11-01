@@ -294,3 +294,28 @@ revision and withdrawal knowledge but cannot authorize passport use before its
 signed `as_of`. The receiver's local retry uses the same verifier and current
 root; no new issuance authority is inferred from transport. See
 [P076-038](../../40-proposals/076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).
+
+P035-019 applies portable verification to Agora admission, with a distinct
+P037 `witness-key-delegation.v1` role/profile/window contract. It does not change
+the P032 v1 preimage or make a witness receipt a current capability. Local trust
+admission, signed history and present authority remain separate. The planned
+P032 v2 lower-time-bound and ingest migration analysis is recorded in
+`node:docs/development/P032-V2-INGEST-ANALYSIS.md`; it supplies no v2 runtime claim.
+The 2026-10-29 P035-019/LLR-002 qualification establishes ordinary read-only
+Agora inspection with independently admitted witness trust and OS-denied network
+access, including detached privacy. Its A–E results and exact source pins are in
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`; no P032 authority or
+additional delegation hop follows.
+
+LLR-003/P041-001 preserve this authority boundary: Memarium carries the same
+bounded receipt material, while historical ingest checks a separately admitted
+current presenter capability. The P015 epoch closure is terminal issuer knowledge,
+not a renewed certificate or capability. Material v2 remains locally verifiable;
+v1 stays readable without inferred closure. Independent acceptance is owned by
+LLR-003 and P041-001; implementation does not inherit P035-019 qualification.
+
+The 2026-10-30 independent LLR-003/P041-001 qualification passed for the bounded
+custody/current-presenter profiles, with real P015-006 status/closure lifecycle
+and synthetic v2 certificates. Exact source pins, isolated consumers, retention
+and exclusions are recorded in `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+This does not close P015-005, P036 parent scope, LLR-009 or release qualification.

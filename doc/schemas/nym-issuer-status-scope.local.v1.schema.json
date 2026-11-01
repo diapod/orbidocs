@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuer-status-scope.local:v1",
+  "title": "nym-issuer-status-scope.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "topic/class",
+    "signal/similarity-key",
+    "topic/key"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nym-issuer-status-scope.local.v1"
+    },
+    "topic/class": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "signal/similarity-key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "topic/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    }
+  }
+}

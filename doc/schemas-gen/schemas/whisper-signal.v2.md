@@ -38,6 +38,10 @@ Contextual rumor signal. The exact outer nym certificate and P081 presentation b
 | [`epoch`](#field-epoch) | `yes` | integer |  |
 | [`epoch/end`](#field-epoch-end) | `yes` | string |  |
 | [`source/ref`](#field-source-ref) | `yes` | string |  |
+| [`embargo/manifest-digest`](#field-embargo-manifest-digest) | `no` | string |  |
+| [`case/continuity-key-digest`](#field-case-continuity-key-digest) | `no` | string |  |
+| [`case/status-authority`](#field-case-status-authority) | `no` | string |  |
+| [`case/not-after`](#field-case-not-after) | `no` | string |  |
 
 ## Conditional Rules
 
@@ -282,4 +286,28 @@ Maximum number of bounded forwards allowed under local policy.
 ## `source/ref`
 
 - Required: `yes`
+- Shape: string
+
+<a id="field-embargo-manifest-digest"></a>
+## `embargo/manifest-digest`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-case-continuity-key-digest"></a>
+## `case/continuity-key-digest`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-case-status-authority"></a>
+## `case/status-authority`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-case-not-after"></a>
+## `case/not-after`
+
+- Required: `no`
 - Shape: string

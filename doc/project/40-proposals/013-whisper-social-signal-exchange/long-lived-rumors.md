@@ -523,8 +523,10 @@ revocations; LLR keeps chain validity and terminal conflict behavior. Persist
 the accepted high-water mark with the decision that relies on it; a pure
 comparison alone does not protect a restored database.
 
-LLR-002 must return historical admission and current eligibility as separate
-results, using the P035/P015 publication-evidence port. Do not call the existing
+LLR-002 returns four separate tri-state results: record authenticity, receipt
+authenticity, historical admission and current status. Its first consumer is
+read-only Agora inspection, using P035's pure admission evaluator; the existing
+time-only port is a narrower projection. Do not call the existing
 live `Certificate::admit` with an old clock value to simulate historical
 verification. LLR-007 calls P015-004's pure succession verifier, then checks
 accepted membership and fresh case currency; it does not implement another
@@ -534,8 +536,22 @@ domain fixtures retain missed withdrawal, conflicting history and key loss.
 
 ## Long-Lived Rumor Tracker {#long-lived-rumor-tracker}
 
-All rows remain planned or deferred. These gates qualify implementation; the
-design and its review do not supply that evidence.
+The P035-019 boundary review requalified LLR-002 with shared authorization,
+staged publication and bounded evidence lifetimes at clean Node `9c914451` /
+Orbidocs `c9ad549b`: 645 tests and 15 mutation refusals, plus real OS-isolated
+inspection. Bundle `2adcd931dc1fd56ec479c4ad5159b3e698a6307c75bb191d9dcbf400860b433d`
+passed extracted replay and fresh retrieval from both admitted stores. See
+`node:docs/audits/ACCEPTANCE-P035-019-REVIEW-2026-10-29.md`. Library-only foreign
+receipt ingress is not qualified. The older bundle below remains immutable history.
+
+LLR-002's first consumer, read-only Agora inspection, passed P035-019's clean-source
+A–E gates on 2026-10-29, including a real cold OS-isolated process, independent
+trust, controlled evaluation and zero acquisition attempts. The retained bundle
+is `37a92f568fde09f5217e47c98eca0a7026a821551932f659abbed39adb2681cf`;
+see `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`. Full-record history
+remains valid after certificate expiry while current status is invalid;
+detached authenticates the witness and leaves hidden-text history unknown.
+Other rows retain their own gates, including LLR-003 and P041 historical ingest.
 
 LLR-009 includes P032's common verification-law fixtures and a convergence
 review with ADC-005's evidence-access/accounting path. Share the mechanisms
@@ -547,11 +563,39 @@ extract a generic library; the later implementation owns that comparison.
 |---|---|---|---|---|
 | P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004, P013-LLR-006–009; P035-019; P041-001; P078-014; P015-004 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch with a case-bound succession proof delivered only to the chosen audience. Its LLR-009 presentation verifies with no proof fetch and keeps authenticity separate from current authority. Succession signed by the expired nym key outside its grace window refuses. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
 | P013-LLR-001 | Four-period contract | todo | P015; P036-004 | Each period has a named field or policy and an owner; the consistency rules are fixed; an audit of existing contracts finds and corrects conflations, such as counting horizons longer than retention. |
-| P013-LLR-002 | Historical verifier | todo | P035-019; P015 | One library for relays, custodians and counting authorities with separate historical-validity and current-status outputs. Golden vectors cover revocation before and after admission, skew and unknown time authorities. Reuse P035's publication-evidence adapters and binding-law fixtures; a local admission row is not a signed proof. |
-| P013-LLR-003 | Admission evidence in Memarium | todo | P035-019; P036 | Receipts are stored beside envelope bytes under the same retention; redelivery carries them beside, never inside, the signed bytes. |
+| P013-LLR-002 | Historical verifier | done | P035-019; P015 | Shared pure verifier; first consumer is authenticated read-only Agora admission inspection. Four tri-state axes, snapshot-relative history and interval-based revocation ordering, unknown compromise/missing material, role/window/profile-bound witness trust. Gate B requires a real producer/SQLite/readback/cold inspection process with controlled clock and OS no-egress; A/C/E qualify binding, history and compromise laws. Time-only Matrix evidence and unsigned local facts are insufficient. Memarium LLR-003 and historical ingest P041-001 remain separate. |
+| P013-LLR-003 | Admission evidence in Memarium | done | P035-019; P036 | Bounded P036 custody retains exact bytes and proof references under separate origin-bound payload/proof horizons; redelivery carries proof beside signed bytes. Key destruction, recovery and cold offline consumers passed; external backups and parent P036 scope remain separate. |
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
 | P013-LLR-006 | Case continuity key | todo | P015 v2 signal; S026 Pseudonym Vault | Single owner of the case key commitment, Phase 1 suite, lifetime and uses. Generate one key per case in the Vault; commit case/continuity-key-digest and case/status-authority in the first signed signal, independently of whether ADC is used. One key for amendments, confirmations and succession; bounded lifetime, deletion erasure fact and explicit opt-in recovery. Fixtures cover missing key, wrong commitment, deletion/recovery exclusion and independent cases. ADC-001 consumes this contract; no execution dependency points back to ADC. |
 | P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. Call the P015-004 verifier; do not duplicate its cryptographic or mode/scope logic. |
 | P013-LLR-008 | Case state and currency | todo | P013-LLR-006; P013-PEX-001 | Case requests with `case/anchor` and `request/id`, and `whisper-case-acceptance.v1` assigning revision and previous digest; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; one durable transaction per acceptance that checks the head, evaluates the request, appends the event and stores the outcome by `request/id`; a durable high-water mark refusing rollback; `conflicted` only for contradictory accepted histories; a 300-second freshness bound that defers effects. Fixtures cover a missed withdrawal, competing requests that are not conflicts, a lost commit response followed by a withdrawal, rollback, an authority equivocation, a missing status, an amendment after a succession that leaves the successor authorized, a succession from B to C that ends B's authority, and a withdrawal racing a release commit on both orders. One fold/store serves all typed case operations. Share only authenticated-head comparison with P015; test refreshed case-status timestamps at an unchanged history head, source-status regression parity and crashes before signed result exposure. |
 | P013-LLR-009 | Bounded portable succession verification | todo | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Freeze `whisper-case-succession-presentation.v1` and qualify the [portable profile](#portable-case-succession-verification): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all negative/privacy/cache-conflict/restart cases listed above pass. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |
+
+### Bounded acceptance, 2026-10-30
+
+P013-LLR-003 passed its independent gate at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.
+
+### Custody boundary requalification (2026-10-30)
+
+Boundary review requalification at clean Node febf8b33 / Orbidocs 6eb1f6b6 passed 593
+component tests, one existing ignored case, four cold custody consumers and six isolated
+historical cases, scoped Clippy and 16 mutation refusals. Extracted replay and
+both-store retrieval agree for bundle
+4c2dba4a43c2d6670f3c9397aa5164955d5b216931a96057f9932bc8f1a19600. Dedicated checkpoints,
+explicit provider replacement, current operator disclosure/private read, bounded local
+observations and independent historical sequences are covered. P036-005b full backup and
+publisher/key-destruction liveness remain separate. See
+`node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-REVIEW-2026-10-30.md`.
+
+The prior dated qualification remains unchanged. This follow-up preserves the
+bounded claim and does not close parent P036, P015-005 or LLR-009.

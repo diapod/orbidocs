@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-historical-ingest-request:v1",
+  "title": "agora-historical-ingest-request.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "material"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-historical-ingest-request.v1"
+    },
+    "material": {
+      "oneOf": [
+        {
+          "$ref": "agora-admission-material.v1.schema.json"
+        },
+        {
+          "$ref": "agora-admission-material.v2.schema.json"
+        }
+      ]
+    }
+  }
+}

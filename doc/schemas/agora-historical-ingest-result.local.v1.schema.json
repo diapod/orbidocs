@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-historical-ingest-result:local:v1",
+  "title": "agora-historical-ingest-result.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "record/id",
+    "local/admission",
+    "duplicate",
+    "sequence",
+    "accepted/at",
+    "revocation/basis",
+    "revocation/basis-digest",
+    "signature/work"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-historical-ingest-result.local.v1"
+    },
+    "record/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "local/admission": {
+      "enum": [
+        "live-issued",
+        "live-unwitnessed",
+        "historical-accepted"
+      ]
+    },
+    "duplicate": {
+      "type": "boolean"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "accepted/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "revocation/basis": {
+      "enum": [
+        "fresh-status",
+        "epoch-closure",
+        "revocation-interval"
+      ]
+    },
+    "revocation/basis-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "signature/work": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32
+    }
+  }
+}

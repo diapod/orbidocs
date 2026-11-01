@@ -506,6 +506,24 @@ Opens a streaming connection (long-poll or server-sent events in MVP;
 WebSocket post-MVP) that delivers new records under the topic. The
 subscription is advisory and MAY be dropped by the relay under load.
 
+For the SSE adapter, `GET` opens the same authenticated stream. Each event's `id`
+is the content-addressed `record/id`, not a sequence or a new authority token.
+A nonempty `Last-Event-ID` requests retained records strictly after that record in
+this topic, followed by live delivery. The relay MUST establish the retained
+position, freeze its replay frontier and register live delivery atomically. The
+Node SQLite relay and the Matrix relay backed by it implement this boundary.
+Unsupported, unknown, foreign-topic or pruned positions return
+`409 subscription-resume-unavailable`; there is no silent fallback to now.
+An absent or empty header starts from now. UI proxies preserve the header across
+authentication refresh. Clients must explicitly refresh retained history after a
+409; automatic reconnection is not evidence of completeness across retention or
+Matrix history gaps. This remains advisory delivery, not a durable consumer ACK.
+Capacity refusal returns HTTP 503 with `Retry-After`. Slow subscribers can still
+be closed; resumed replay re-verifies records and preserves the same admission
+and topic access policy. Resumption requires both `live` and `history` scope;
+a record id cannot upgrade a live-only grant. These rules do not renew grants or
+widen visibility.
+
 #### 5.4. Submit a record
 
 ```
@@ -1764,6 +1782,22 @@ changed. Within the managed retained scope, unknown ownership/dependencies still
 refuse cleanup. Neither a temporary-use label nor missing metadata grants rights
 over other producers' material or permits downgrading designated history.
 
+**Development profile (2026-10-30):** the current project phase uses retention
+for technical purposes only: report comparison, regression tests, active defect
+diagnosis and named near-term acceptance reuse. Do not presume legal holds or
+preserve reports "just in case". Existing explicit preservation instructions still
+apply. Producers may clean their own expendable logs, binaries, VM images,
+third-party distribution packages and model files, including copies acquired for
+their work, after recording scope/reason and checking inactivity and remaining
+consumers. Disk pressure justifies prioritizing this review, not deleting another
+workstream's artifacts or silently withdrawing designated evidence. Record a
+technical purpose and review trigger for preserved material, and review its release
+when that purpose ends. Node owns the operational profile in
+`node:docs/evidence/RETENTION.md#development-phase-retention-profile`; existing
+retirement machinery, historical bytes and qualifiers are unchanged. The profile
+lasts until an explicit owner decision changes phase or retention policy; it is
+not an automatic production or public-custody policy.
+
 Retirement uses three distinct operations:
 
 - `purge-derived` removes reconstructible runtime views or cache bytes
@@ -2783,7 +2817,7 @@ links here rather than maintaining duplicate task status.
 
 ## Decorrelated Bucket Pull (2026-10-27)
 
-Planned continuation for
+Implementation contract for
 [P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
 exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
 The relay stays semantics-blind (section 1.1). Whisper owns the decorrelation
@@ -2828,30 +2862,41 @@ Planned continuation for
 [P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 `relay/received-at` is relay metadata outside the author's signature, so it
 cannot by itself show when a record was admitted, or that its nym proof was
-valid then. P015 already relies on an allowlisted relay's signed durable
-admission receipt as publication-time evidence. This section makes that
-receipt a portable artifact instead of adding a second format.
+valid then. P015's earlier SQLite time-policy draft had no runtime producer.
+The unreleased `agora-publication-receipt.local.v1` is retired; its time-only
+claim cannot satisfy historical admission. The new immutable profile explicitly
+selects `witnessed-admission-receipt-v1`. The old SQLite policy returns
+`unsupported-time-policy`, without reinterpreting its signed meaning.
 
 `agora-admission-receipt.v1`, signed by the admitting relay, binds:
 
-- the `record/id` and the digest of the exact author bytes;
+- `receipt/profile` (`full-record` or `detached-manifest`), and the digest of
+  exact signed author bytes; `record/id` appears only in the full profile;
 - the digest of the nym certificate or passport used, and its issuer;
-- the verification outcome and the ingest gate policy that applied;
-- the relay identity and the acceptance time.
+- the exact profile and admission-policy digests;
+- the admission status snapshot digest and `status/revision`;
+- the witness identity, embedded operational-key delegation and its digest;
+- `accepted/at` (decision time T_d), `committed/at` (T_c) and `accepted` outcome.
 
 The relay acts as an explicitly admitted time authority for the profiles that
 accept its receipts; no verifier infers that authority from a relay label. The
 receipt never enters the signed record. It travels beside the byte-identical
 envelope: in readback metadata, in custodial redelivery requests and in local
-Memarium storage. A verified Matrix PDU remains an equivalent proof under P015.
+Memarium storage when LLR-003 qualifies that consumer. A verified Matrix PDU or
+the existing authenticated homeserver observation proves a time binding only;
+neither attests the P015 admission checks required by LLR-002.
+
+The v1 producer signs only a strict live `accepted` result. Historical
+re-admission is outside this profile. `accepted-historical` with a source-proof
+digest is reserved, unsupported and rejected by the closed v1 contract.
 
 ### Detached Embargo Manifest Binding
 
-Planned consumer profile (2026-10-28), qualified by P035-019 and
+Consumer profile (frozen 2026-10-29), qualified by P035-019 independently of
 [P013-ADC-001](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
 For a private Whisper anchor, the counting authority verifies the complete
 signal and its separately nym-signed embargo manifest, then signs a receipt
-binding the signal's `record/id`, the exact author-byte digest **and** the
+binding only the exact signed author-byte commitment **and** the
 manifest digest and verified signing-use profile. The manifest precedes the
 signal and never hashes the signal back. No generic Agora signature is checked
 against a body with omitted fields.
@@ -2874,12 +2919,14 @@ This reuses the portable receipt carrier, not another timestamp service.
 
 ### Admission Receipt Implementation Recommendations
 
-Use `PublicationTimeVerifier` in `node:nym-core/src/lib.rs` as the existing behavior
-port for a record digest plus exact author-byte digest yielding a verified time
-and evidence digest. It currently has pure/test consumers; a portable production
-adapter is still P035-019 work. Matrix PDU and signed-receipt verification must
-share binding-law fixtures, not duplicate historical validation in every relay,
-Memarium reader and Whisper consumer.
+Use the pure admission evaluator in `node:whisper-authorship/src/admission.rs`
+over explicit bounded `EvidenceBundle` values. Its full and detached verified
+tokens have different types and cannot be deserialized. The existing
+`nym-core::PublicationTimeVerifier` remains the narrower time projection of a
+verified full receipt. A time-only Matrix adapter returns `insufficient-claim`
+for historical admission. Share scope, activation, epoch and interval predicates
+with live P015 verification, while keeping live and historical compositions
+separate. Do not simulate history by calling the live gate with an old clock.
 
 The existing `AdmissionEvidence` in `node:agora-matrix/src/recovery.rs` is a local
 policy/evaluation fact. Neither that struct nor a row retained by
@@ -2897,11 +2944,201 @@ fetch. See the [P013 reuse contract](013-whisper-social-signal-exchange.md#imple
 and [ADC proof paths](013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations).
 P035-019's gate includes these adapter-law and local-fact-is-not-proof cases.
 
+Attached evidence is checked before local exact-digest resolution. It is never
+replaced by cache material after a failed check. The SQLite resolver charges its
+integrity pass and the following inspection against the same 32-signature
+budget, refusing excess work. Complete carriers can be inspected directly;
+store enrichment does not enlarge the work allowance. No resolver performs I/O
+over the network or admits a witness from carrier data.
+
+### Boundary review addendum (2026-10-29)
+
+The first qualification did not establish authorization parity, bounded payload
+retention or atomic publication at receipt issuance. These service and store boundaries passed a new clean-source A–E qualification
+at Node `9c914451` / Orbidocs `c9ad549b`: 645 tests, one existing ignored case,
+OS-isolated ordinary consumers and 15 mutation refusals. Bundle
+`2adcd931dc1fd56ec479c4ad5159b3e698a6307c75bb191d9dcbf400860b433d`
+requalified after extraction and fresh retrieval from both admitted stores. See
+`node:docs/audits/ACCEPTANCE-P035-019-REVIEW-2026-10-29.md`. The earlier pinned
+evidence remains historical and is not rewritten.
+
+All ingest versions share operator authorization. Public disclosure gates apply
+to full records; detached admission still checks authorization and its private
+manifest contract. A full record becomes visible to queries, indexes and live
+subscribers only in the transaction recording `issued`. `committed/at` bounds
+payload durability, not public visibility. Interrupted or refused staging is not
+publication. A derived index uses the authoritative sequence assigned at publication.
+
+Payload and proof have separate retention horizons:
+
+| Material | Horizon | Expiry |
+| --- | --- | --- |
+| Full author bytes | Ordinary topic retention | Erase bytes; never reconstruct a pruned payload from an evidence sidecar |
+| Detached private author bytes | Signed `case/not-after`, bounded by identifying retention | Erasure fact and commitment tombstone for the profile tombstone interval |
+| Receipts and immutable dependencies | Record retention or detached case expiry; longer only under an explicit hold | Release references and collect unreferenced blobs |
+| Cursor status history | Epoch end plus collection age and a declared buffer | Collect unpinned blobs; preserve receipt-bound boundary snapshots |
+
+Readback distinguishes retained evidence from a live record. Missing author bytes
+produce `unknown: author-bytes-missing`. Long-term payload custody belongs to the
+holder, including the separately qualified Memarium consumer. On first observed
+revocation, pin the last unrevoked and first revoked snapshots alongside the
+admission snapshot. Ordering is relative to the complete admission interval:
+`before` uses `accepted/at - skew`; `after` uses `committed/at + skew`.
+
+A conflicting delegation sequence is `WitnessEquivocation`, supported by both
+digests, with compromise boundary at the earlier delegation start. Conflicting
+receipts are invalid; other receipts follow the compromise and prior-observation
+law. This does not mutate operator trust anchors. Different admission times for
+one record are `AdmissionConflict`: unknown for that record only, never a blanket
+revocation of the witness. Missing chain links remain incomplete knowledge.
+Signed conflicting delegations carry an explicit security hold pending operator
+resolution; record-only conflict metadata follows its record tombstone. Neither
+kind of hold preserves identifying author bytes. At tombstone expiry the owner
+rechecks active proof holds and admission attempts before retiring metadata.
+Unknown legacy retention inputs refuse migration rather than guessing a horizon.
+
+Admission writes have a separate configured rate class and bounded concurrent
+work, refusing overload without a queue. Inspection charges bounded signature
+work; material readback performs no cryptography and needs no witness trust.
+Operational defaults are limits, not throughput calibration claims. The initial
+Admission bucket is 2/minute with burst 2; global in-flight writes default to 4
+and are bounded at 64. Zero concurrency disables writes. Window guards return
+503 with the owner's `retry/at`. Signature-cost query charging is separate from
+ordinary readback; failed inspection charges the bounded maximum.
+
+Foreign-receipt retention and exact-digest store enrichment remain library ports
+without service ingress. The complete-carrier offline consumer does not qualify
+those unconnected entry points. The draft schemas' added `admission-conflict`
+and readback `payload/state` are explicit pre-release corrections, mirrored with
+Schema Gate; Matrix publication status keeps its existing meaning.
+
+### Frozen implementation boundary (2026-10-29)
+
+P035-019 and the first P013-LLR-002 consumer passed scoped qualification on
+2026-10-29. The first historical consumer is
+read-only Agora admission inspection; Memarium LLR-003 and P041 historical ingest
+retain independent gates. The new closed receipt binds both `accepted/at` and
+`committed/at`, the admission status snapshot digest/revision and the exact P015
+profile. Signature follows the durable record commit. Explicit issuance facts
+are `pending`, `issued` or `refused`; interrupted work cannot invent commit time.
+
+`witness-key-delegation.v1` is P037's node-signed operational key statement,
+not a reinterpretation of participant P032 v1. Its signed interval, role, profile,
+sequence and predecessor are checked against an independently admitted local
+anchor with explicit `receipt/profiles`. Production keys last at most one hour;
+the fixture uses sixty seconds. A commit-budget-plus-skew guard band precedes
+sampling the admission decision. Secrets stay volatile and are not recoverable
+from the node root. Neither rotation nor a claimed old timestamp defeats complete
+host/authority compromise; local prior observations remain separate evidence.
+
+The provider's public fence is outside Agora's domain database. P015 custody
+and P037 share the lower `custody-fence` time/revision primitives, not key
+storage. A one-use caller-bound preparation binds the owner-sampled decision
+time, delegation and profile. Generic signing rejects the witness domain and
+prefix even under another domain. Expiry is checked at use, also after sleep;
+secret erasure is not an operating-system scheduling or power-loss guarantee.
+
+The verifier checks T_d <= T_c, the profile's commit budget and validity over
+the entire interval. Skew is read from that bound profile; it cannot extend
+an epoch or a key window. The producer refuses decision times in the final
+`commit-budget + skew` seconds, returning `pending` and `retry/at` without an
+open transaction. Key K2 never signs a decision from K1's closed window.
+
+Local witness admission is a key/role/profile/window decision, including
+`receipt/profiles`; full-record permission does not imply detached permission.
+A compromise at C rejects T_d >= C. Earlier claims from a delegation whose
+window intersects C remain unknown unless the exact receipt was independently
+retained locally before C, accounting for profile skew. Prior observation of
+that delegation alone is insufficient. Rotation retains old admitted windows.
+First-seen observations are write-path facts; inspection never creates them.
+
+Historical assessment uses `basis: admission-snapshot`. A later ordinary
+revocation does not retroactively invalidate admission. Snapshot chronology uses
+validated monotonic status history and the interval between a snapshot without
+the revocation and one with it; signed issuance is not factual publication.
+Retroactive nym compromise remains `not-assessable`.
+
+A bound snapshot already containing the revocation makes historical admission
+invalid. A missing bound snapshot is unknown for that receipt. For authenticated
+snapshots without an entry at t_a and with it at t_b, ordering is `before` if
+t_b <= T_d - skew, `after` if t_a >= T_d + skew, and otherwise `unknown`.
+The admission snapshot alone cannot establish `after`. `StatusCursor` enforces
+scope, rollback, equivocation and cumulative sets; gaps in revisions are legal.
+Current high-water knowledge never substitutes for the original historical basis.
+
+Detached receipts never expose the private content-derived record ID, including
+anchors, routes, logs, metrics or traces. They attest checked manifest/key/
+authority/lifetime equality and use a distinct verified result type. A recipient
+of the detached claim does not independently verify invisible author bytes.
+
+Detached addresses commit to the signature-bearing author bytes, not the
+unsigned content address. Case authority is a canonical public principal
+(`node`, `participant`, `org` or `council` did:key), never a contact URL.
+The profile and certificate both authorize the exact manifest-use tuple.
+The manifest precedes the private signal and commits no hash back to it.
+P015-005 issuer exchange, LLR-006 Vault custody, ADC condition execution and
+LLR-009 succession remain separate runtime gates; the old issuer explicitly
+rejects the v2 profile before effects rather than widening decision-v1 in place.
+
+The bounded profile admits three 512 KiB statuses, eight 4 KiB receipts including
+delegations, eight 16 KiB certificates, eight 16 KiB profiles, a 64 KiB record,
+a 32 KiB manifest and 64 KiB metadata: 1984 KiB total. The 2 MiB decoded and
+4 MiB transport ceilings are defensive bounds, with 32 signatures and depth 16.
+Missing status material is per-receipt `snapshot-missing`, not packet success or
+whole-packet refusal. P035-019 requires separately qualified gates A through E,
+including a real producer/readback/OS-isolated consumer and detached privacy.
+
+SQLite stores many receipts under `(record/id, receipt-digest)` and one blob per
+dependency digest. Receipt references hold evidence and author bytes against
+generic pruning. Each receipt is reported separately; conflicting statements
+by one witness are equivocation, not a choice of the earliest time. Local
+issuance is an independent append-only `pending | issued | refused(reason)`
+projection. A crash with no certain T_c refuses the attempt on restart; retry
+deduplicates the record. Commit duration has bounded histogram buckets and a
+typed `commit-budget-exceeded` counter, without record identifiers in labels.
+Upgrade drops the old table only when empty; nonempty rows remain inactive and
+raise a health warning. Matrix `/publication` remains unchanged.
+
+The first consumer exposes authenticated read-only full-record inspection at
+`GET /v1/agora/records/{id}/admission`; detached uses
+`GET /v1/agora/admissions/detached/{commitment}`. New admission and readback
+carriers are versioned; old readers are not sent unknown proof fields. Four
+independent tri-state axes report record authenticity, receipt authenticity,
+historical admission and current status, with no authority result. Stable
+`inputs/digest` excludes `evaluated_at`; the result digest includes evaluation.
+
+The opt-in Agora trust configuration currently uses the existing startup-only
+loader (P091 inventory records its legacy ownership). A malformed, duplicate,
+unreadable or symlinked source disables this new trust scope; it cannot turn a
+partial source set into default authority. This deliberately makes unrelated
+configuration corruption an availability failure for new admission. It does
+not migrate all Agora configuration to P091 or add a product write API.
+
+Acceptance is owned by `node:tools/acceptance/portable-admission/`: A contracts;
+B ordinary producer -> SQLite -> readback -> cold OS-isolated inspection;
+C historical revocations; D real detached production/privacy; E durability and
+volatile-key lifecycle. The receiver's controlled evaluation clock and no-egress
+probe are mandatory. Source and evidence commits are separate.
+
+The clean-source A–E run at Node
+`0d44e554b87031719938f371c80637c5f20f865c` and Orbidocs
+`d837d8e593520e27e3337f4aa586d9fee54acd81` passed 632 Rust tests, one
+pre-existing ignored case, scoped all-target Clippy, ordinary OS-isolated cold
+full/detached consumers and twelve qualifier mutations. Extracted replay and
+fresh retrieval from both accepted local stores agreed. Neutral bundle identity:
+`37a92f568fde09f5217e47c98eca0a7026a821551932f659abbed39adb2681cf`;
+reference: `node:docs/evidence/portable-admission/2026-10-29-qualified/README.md`;
+review: `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`. Ownership remains
+unknown; dependency/hold coverage is incomplete and protected. Two local reads
+do not establish independent backup protection. These results close the stated
+receipt and first historical-inspection gates; P015-005 issuer exchange,
+LLR-003, ADC runtime, P041 historical ingest and release readiness stay separate.
+
 ### Admission Receipt Tracker
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019 | Portable admission receipts | done | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 
@@ -2947,3 +3184,47 @@ still requires its exact current executable; this repair renews neither runtime
 evidence nor storage custody. Header maintenance refuses changes to qualifiers
 named in public evidence/release JSON pin metadata. See
 [the Node review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-P076-036-RETENTION-2026-10-24.md).
+
+## Portable custody and historical-ingest continuation (2026-10-30)
+
+Accepted design for LLR-003/P041-001, not additional completion evidence for
+P035-019. Existing receipt signatures and v1 material semantics remain unchanged.
+`agora-admission-material.v2` uses one certificate (detached: none), one profile,
+three status snapshots, eight receipts and at most two epoch closures; the second
+closure is allowed only as conflict evidence. Every receipt binds the same
+certificate/profile identities; mixed identities refuse the whole v2 carrier.
+Missing material remains distinguishable from invalid supplied material.
+
+| Component | V2 maximum |
+|---|---:|
+| Status snapshots | 3 x 512 KiB |
+| Receipts including delegations | 8 x 4 KiB |
+| Certificate | 1 x 16 KiB |
+| Profile | 1 x 16 KiB |
+| Exact author bytes | 64 KiB |
+| Manifest | 32 KiB |
+| Epoch closures | 2 x 4 KiB |
+| Other metadata | 32 KiB |
+| Sum | 1736 KiB |
+
+Version-indexed limit data drives a shared validator; v1 keeps its 1984 KiB
+component maximum and 64 KiB metadata allowance. Both retain 2 MiB decoded,
+4 MiB wire, depth 16 and 32 signature operations across resolution and evaluation.
+Do not independently reset signature budgets between phases. Compile-time sum
+assertions and max/max-plus-one vectors are per version. Witness delegation is
+one step; presenter passport-chain work is a separate authorization budget.
+
+A versioned inspection adds `none-observed`; old inspection projects it to
+`unknown`. V1 material remains readable through the v2 consumer, but without
+closure its absence of revocation cannot establish post-epoch ingest eligibility.
+Export exact bundle bytes plus thin metadata or referenced binary frames; never
+base64 an already base64-bearing bundle again. Refuse undersized carriers before
+sending. No truncation, silent stripping or implicit proof URL fetch.
+
+Gates are independent: A issuer/contracts; B real offline custody consumer;
+C real historical-ingest owner plus HTTP parity; D key destruction/retention;
+E detached privacy; F carrier budgets and live/history projections. OS-denied
+network plus adapter counters are required, with the actual mechanism and its
+negative probe recorded (including deprecated sandbox-exec when used). V2
+certificate generation remains synthetic pending P015-005, even when status and
+closure producers are real. Preserve independent source pins and gate outcomes.

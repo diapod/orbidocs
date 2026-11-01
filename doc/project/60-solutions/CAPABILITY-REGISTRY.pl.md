@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **241** host-local / **273** ogółem; grupy właścicieli: **41**.
+Wpisy: **242** host-local / **274** ogółem; grupy właścicieli: **41**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -454,6 +454,7 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
+| <code>agora.historical.present.authorize</code> | <code>host/agora.historical.present.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.publish.authorize</code> | <code>host/agora.publish.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.record.admit</code> | <code>host/agora.record.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.record.sign</code> | <code>host/agora.record.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |

@@ -513,6 +513,16 @@ post-MVP follow-up.
 
 ### Embargo Authorship Scope Tracker
 
+P035-019 freezes `whisper-source-profile.v2`, the extended contextual certificate
+and the domain-bound manifest input as prerequisites for admission receipts.
+The shared exact-use matcher and negative producer vectors exist in that slice.
+P015-005 remains open: current decision-v1 issuer runtime rejects the new profile
+before effects and needs a versioned exchange rather than an in-place widening.
+The 2026-10-29 P035-019 A–E qualification covers the receiving input contract and
+synthetic full/detached producer/inspection, not that issuer exchange. See
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`; no P015 runtime gate is
+promoted by the receipt qualification.
+
 Post-MVP; independent of the narrow MVP verifier in P015-004. The existing
 contextual profile remains restricted to `whisper-signal`/`whisper-signal.v2`.
 A key's ability to sign is not permission to publish another kind.
@@ -622,3 +632,70 @@ Resolved 2026-07-04:
    absence implies no leniency.
 3. Apply the artifact-local embedding pattern to messaging, contact, and Corpus
    nym-authored artifact families as separate schema-gate tasks.
+
+## V2 status lifecycle and portable epoch closure (2026-10-30)
+
+The bounded runtime acceptance below passed. P015-006 is independent of
+P015-005 certificate exchange. Lifecycle configuration admits profiles v1 and v2;
+decision-v1 exchange admits only v1 and refuses v2 before effects. V2 certificate
+fixtures remain synthetic until P015-005 independently qualifies issuance.
+
+`nym-epoch-closure.v1` binds issuer, immutable profile, context, epoch bounds,
+final status digest/revision and `closed/at >= epoch/end`. Its dedicated signing
+operation and domain cannot be reached through generic status signing. The owner
+freezes status mutations before preparing closure and durably preserves identical
+closure bytes across recovery. A closed revision store rejects subsequent domain
+mutations. Retention transitions remain separate from status mutation authority.
+The final status must match both digest and revision. Any authentic higher status
+revision or conflicting closure is evidence of conflict, not a replacement head.
+Closure proves the issuer's terminal statement; it creates no post-epoch lease.
+Ordinary status expiry at epoch end and an unsigned local Closed fact are not
+portable closure. Missing retained terminal state cannot be reconstructed by guess.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-006 | V2 status and epoch-closure lifecycle | done | P015 contextual status; P035-019 | Real issuer v2 lifecycle, typed decision-v1 refusal before effects, dedicated closure signing, terminal revision fence, exact replay/recovery, conflicting closure/higher revision refusals. V2 certificate issuance remains outside this gate. |
+
+The operator may initialize a v2 status scope through
+`POST /v1/identity/nym-issuer/status-scope` with its authorized topic use and
+similarity inputs. The issuer derives the context and current epoch from its
+configured immutable profile and fenced clock. This provisions status lifecycle
+only, without a certificate, source member or decision-v1 exchange. Closure is
+read through the separate public epoch-closure projection.
+
+### Known closure liveness boundary
+
+`recover_closing` publishes the preserved closure before reaching `Closed`.
+Persistent publisher failure therefore delays close confirmation and destruction
+of identifying keys, as with final-status publication. The revision fence still
+refuses domain mutation. Decoupling publication retry from key retirement requires
+a separately reviewed durable outbox transition; the current acceptance does not
+claim publisher-independent retirement.
+
+### Bounded acceptance, 2026-10-30
+
+P015-006 passed its independent gate at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.
+
+### Custody boundary requalification (2026-10-30)
+
+Boundary review requalification at clean Node febf8b33 / Orbidocs 6eb1f6b6 passed 593
+component tests, one existing ignored case, four cold custody consumers and six isolated
+historical cases, scoped Clippy and 16 mutation refusals. Extracted replay and
+both-store retrieval agree for bundle
+4c2dba4a43c2d6670f3c9397aa5164955d5b216931a96057f9932bc8f1a19600. Dedicated checkpoints,
+explicit provider replacement, current operator disclosure/private read, bounded local
+observations and independent historical sequences are covered. P036-005b full backup and
+publisher/key-destruction liveness remain separate. See
+`node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-REVIEW-2026-10-30.md`.
+
+The prior dated qualification remains unchanged. This follow-up preserves the
+bounded claim and does not close parent P036, P015-005 or LLR-009.
