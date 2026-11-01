@@ -19,6 +19,12 @@ freeze, implementation, focused component tests and real host/browser acceptance
 are separate claims. The wider consumer continuation remains partial; sealed
 rounds remain planned. The P026-001–003 qualification retains its original scope.
 
+Current local continuation status (2026-11-01): P026-012c-01 and joint 02/03
+are qualified only within their pinned profiles. The all-owner closeout below
+adds durable S029, capsules/checkpoints and S020; context provenance and later
+profiles remain open, and parent P026-012c/P073 stay partial. Earlier dated
+checkpoints describe their original historical revisions.
+
 ## Date
 
 2026-04-10
@@ -1353,7 +1359,7 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-012 | Provision represented local callers | partial | Identity host; P073; P066; P026-005 | Accepted 2026-10-24 v2 split: 012a is production ChannelJson module provisioning; 012b owns the separate P073 consumer. See [the frozen 012a contract](026-assessment-viewer-grants.md). Historical Q-02 remains fixture-bound evidence. |
 | P026-012a | Provision an operator's assessment viewer over ChannelJson | done | P066; identity host; P080 | Bounded checkpoint 2026-10-25: run 06 at clean Node e726624c / Orbidocs 2e73ed3a qualifies eight ordinary-daemon/application/browser cases with no acceptance feature, actual SDK calls, P066 consumption, privacy, budget and lifecycle. Separate component proofs cover captured queued origin, clocks, persistence and concurrency. Current normal/-O/extracted qualification and 59 negative controls per location agree. Critical review run 01 at Node 9b2e3b47 / Orbidocs 298671c5 additionally qualifies lifecycle/source repairs with eight runtime cases, 16 owner/nine pin tests and 67 controls normally/-O/extracted. See the checkpoints and frozen contract; no product module, positive P073 consumer or release claim. |
 | P026-012b | Bind a closed P073 consumer to production viewer authority | done | 012a; P073; P066 | Bounded 2026-10-25 checkpoint: [closed consumer](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25), nine ordinary cases at Node ea9138ba / Orbidocs 6097c43b; separate component faults and 77 normal/-O loose/extracted controls. Fresh host context, exact holder, independent consent and RAM-only result. No model/product-module/012c/release claim. |
-| P026-012c | Extend dependent Agent context and recipients | todo | 012b; P073; P066 | Separately freeze and qualify durable memory/recall/history, inherited forks and other recipients. No capability is supplied by 012b contract acceptance. |
+| P026-012c | Extend dependent Agent context and recipients | in-progress | 012b; S028; P036; P073; P066 | [Staged accepted design](026-assessment-dependent-context.md): owned streams precede unit retention/dispatch, provenance, continuation and same-viewer operator delivery. Stage 01 is done for the frozen local storage/cutover profile. Stages 02/03 are done for the [qualified local joint profile](026-assessment-dependent-context.md#p026-012c-0203-review-qualification-2026-11-01): whole-owner retention, durable S029, capsules/checkpoints and S020, with six ordinary cases and separate explicit-time component evidence after the R-01–R-17 review. Context provenance and later stages remain open. Memory/forks are separately qualified; implementation evidence is not implied by acceptance of the plan. |
 
 ## Open Questions
 
@@ -1446,3 +1452,18 @@ P026-012b-r1 review corrections are frozen in [the revision contract](026-assess
 ### P026 primary integration checkpoint (2026-10-26)
 
 The merged local profile passes ten ordinary-process cases at clean Node `660c4a1d` / Orbidocs `4a8a6d4e`, with normal/-O qualification before and after extraction and 93 negative controls per variant (372 refusals). See `node:docs/evidence/agent-runtime/2026-10-26-rate-exposure-integration/README.md` and `node:docs/audits/P026-PRIMARY-INTEGRATION-2026-10-26.md`. Current builders select the exact Cargo binary; two earlier attempts remain unqualified, including an unresolved UI hydration timeout and a correctly rejected wrong-binary receipt. Historical evidence and the retained feature branches are unchanged. This checkpoint does not promote parent P026-012/P073, 012c, replication, models or release readiness.
+
+
+P026-012c-02/03 local closeout (2026-10-30): Node `da1d14a7` / Orbidocs `127843fb`
+qualifies five ordinary cases, 172 component checks and 70 controls per mode/location
+(280 normal/-O loose/extracted refusals). Whole-owner copies/fences, durable S029,
+bounded capsules/checkpoints, S020 and exact dispatch are closed only for this local
+profile. The [stage tracker](026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+records the retained failures, lossless capsule correction and physical/legacy/model
+limits. Parent P026-012c/P073 and all context/memory/recipient work stay partial.
+
+### P026-012c-02/03 review qualification (2026-11-01)
+
+Node `1e264cab` / Orbidocs `bc62fab1` qualify the repaired local profile: six ordinary browser/ChannelJson cases, 234 component checks in 11 byte-bound groups and 81 rejecting controls per normal/`-O`, loose/extracted variant (324). The ordinary pending-consent restart reaches owner timeout before freeze and releases both pending slots. The prior daemon refuses the question-owner version barrier without changing owner populations. The retained proof is `node:docs/evidence/agent-runtime/2026-11-01-p026-012c-retention-review/README.md`.
+
+Orphan reclamation, same-process replay, owner barriers and terminal-only freeze are repaired. Retention advances only observed monotonic credit capped by UTC, with no offline age; clock divergence requires review and does not clear on restart. S020 publishes once per pass, with durable plan/bucket pointers before effects. The 347/545 ms lock observations are not a hard 250 ms latency guarantee. SQLite receipts still permit residual bytes. Lossless metadata compression remains; replacing it with a shared-reference graph is separate design work. Historical proofs are unchanged; context provenance and later 012c stages, parent P073 and release qualification remain partial.
