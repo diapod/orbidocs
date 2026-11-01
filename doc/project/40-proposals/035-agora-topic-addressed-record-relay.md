@@ -520,7 +520,9 @@ authentication refresh. Clients must explicitly refresh retained history after a
 Matrix history gaps. This remains advisory delivery, not a durable consumer ACK.
 Capacity refusal returns HTTP 503 with `Retry-After`. Slow subscribers can still
 be closed; resumed replay re-verifies records and preserves the same admission
-and topic access policy. These rules do not renew grants or widen visibility.
+and topic access policy. Resumption requires both `live` and `history` scope;
+a record id cannot upgrade a live-only grant. These rules do not renew grants or
+widen visibility.
 
 #### 5.4. Submit a record
 
