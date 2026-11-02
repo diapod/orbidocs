@@ -3147,3 +3147,73 @@ epoch, request duration and requests per sender per epoch. Limits are safety
 values composed with the domain-owned `min` relation, so a later layer can
 tighten but not silently widen a stricter one. Changes apply to new requests and
 the next plan; already accepted requests keep their bounds until they expire.
+
+## Consumption completion and carrier lifecycle (2026-11-02)
+
+Status: accepted implementation contract; runtime qualification is separate.
+This checkpoint closes the two bounded follow-ups of the consumption availability
+review: completion capacity and crash-orphan carrier disposal. It adds no setting,
+owner, alias/multi-instance policy, platform or release qualification.
+
+An attempt is keyed by `(application unit, generation)`. Instance and resolution
+are binding attributes; allocation high-water survives every incarnation. The
+frozen ActivationBinding is unchanged. Flow and Inquirium declare
+`transactional-withheld`: executor/profile admission is withheld until durable
+ACK. Inquirium ACK means configuration acceptance, not subsequent authorized use.
+Arca declares an external observation boundary: a child may read its snapshot
+before ACK, so missing ACK cannot establish non-consumption.
+
+| Input | Transition | Permitted effect |
+|---|---|---|
+| New unit/incarnation | Allocate above durable high-water | Provision only after durable allocation |
+| Exact current receipt | ACK; exact duplicate is idempotent | No repeated consumption |
+| Proven refusal before admission | Close exact pending attempt | No consumption |
+| Ended Flow/Inquirium incarnation | Withheld, `incarnation-ended-before-ack` | No inherited Active |
+| Ended Arca incarnation | Retain unresolved binding and reservation | New incarnation subject to capacity |
+| Operator accepts unknowability | Close with operator/time and unresolved outcome | No fabricated ACK or non-consumption |
+| Stale plan/foreign binding | Refuse | None |
+
+At most four open obligations per unit are admitted, including the slot needed to
+retain a current pending after crash. Size admission additionally proves that
+pending and all allowed completion facts fit VALUE_MAX (16 KiB), including JSON
+escaping. Facts are versioned: strict original v1 reader and strict v2 reader;
+reads never migrate. Known v1 Flow/Inquirium ordering withholds the effect until
+ACK (revisions 6cfc843f, 236eb9db, 78db8439); their ended pending is classified as
+withheld on read. Legacy Arca pending is unresolved. The next authorized write
+folds that classification without rewriting old facts.
+
+Open attempts themselves reserve one event and VALUE_MAX value_json bytes.
+Reservations are derived from latest facts, never a second authority store or
+config_heads entry. New attempts use ordinary capacity; exact completion follows
+the same hard-limit rule as commit outcomes. The ordinary safety reserve remains
+for disabling admission. Logical reservations do not guarantee physical storage.
+The database physical cap, logical value bytes and SQLite free pages are distinct.
+
+Legacy overcommit is a read-only reconciliation-required diagnosis. No write may
+cross the hard limit. Recovery is explicit approved existing export/checkpoint/
+prune, then a freshly prepared reconciliation plan. Archive keeps latest complete
+unit facts, unresolved bindings, high-water and outstanding disposer metadata;
+its sentinel limits refuse incomplete snapshots. No startup/background eviction.
+
+Reconciliation uses prepare/approve-exact-plan/stale-refusal. It never invokes the
+consumer, renews authority/TTL, restarts a component or promotes a historical ACK
+into current activity. Public state uses ConfigApplicationState with typed reasons;
+owner-derived actions are hypermedia and pass P091-005a before exposure.
+
+Carriers declare `ephemeral-revertible`: deterministic launch/generation names,
+allocation-bound byte count and digest, private 0700 directory and exactly one
+0400 regular snapshot.json of at most 16 KiB. Disposal uses pinned directory
+handles and exact unlink operations, never recursive deletion. Current launch
+ownership excludes live admitted carriers. Ended-incarnation carriers can be
+removed without proving child death: already-read bytes remain in memory, and
+an unread obsolete managed input refuses without fallback. Identity uncertainty,
+substitution and extra entries refuse disposal. Legacy random carriers without
+journal identity are not deletion candidates. Cleanup occurs at owned startup
+and after ACK/closure, not during inspection or in a private polling loop.
+
+Implementation order: (1) contract and base; (2) behavior-preserving shared attempt
+host; (3) shared history budget/reservations; (4) versioned recovery; (5) carrier;
+(6) operator surface then qualification. Review and scoped regressions gate each
+milestone. Final qualification covers quotas, old facts, crash boundaries,
+identity/authority, archive, carrier and CLI/browser/no-JS/native operator clients.
+Whole P091-011/014 and release qualification remain partial.
