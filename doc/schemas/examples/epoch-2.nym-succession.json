@@ -1,10 +1,18 @@
 {
-  "schema/v": 1,
-  "old-nym/id": "nym:did:key:z6Mkr8Yv5Qp2Tb7Nc4Wd9Hs3Uf6Va2Re8Xm5Pk7Qa1Bc",
-  "new-nym/id": "nym:did:key:z6Mkv7Rb4Nc2Qa8Yh5Tf3Wp9Xs6Ud1Ve7Pm4Kc2Lr8Na",
-  "epoch": 2,
-  "signature": {
-    "alg": "ed25519",
-    "value": "sig_old_nym_to_new_epoch_2"
+  "schema": "nym-succession.v2",
+  "succession/id": "8e9e0cf0-1f42-40ba-8a01-0ae917355cee",
+  "succession/scope": "line",
+  "succession/purpose": "continue-line",
+  "predecessor/nym": "nym:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "predecessor/certificate": "sha256:GRakMskHOktPn_8IiAcSdi-YvYhvNbBGbK58QNP16Xo",
+  "authorization/mode": "nym-key",
+  "authorization/public-key": "z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+  "successor/nym": "nym:did:key:z6MkgAnvkP45uNxwCKeNdt6wrYkEjpYX4f7Nrd8MQqFL8Fbn",
+  "successor/certificate": "sha256:CqpbEmptKv7yNMB8bLvbdUhqwcYN0mz9cLkPH4KRMsM",
+  "issued-at": "2026-10-25T12:00:10.000000000Z",
+  "not-after": "2026-10-25T12:00:25.000000000Z",
+  "signatures": {
+    "predecessor": "EildED6ThUdS4nXFTcv_Jfo7n8SQS9Sl11HT3-j4NI3gwjn3wStgDTHAj944S7Jo8-CgrIKL6FElU06XHJ3cCA",
+    "successor": "dUicTu_8NsgkaQDdv6fw6FI5QHySuBz-WT2T5vjNYos3a_MSW8iid1uHBApRxZe87XIQWfLixSiXIkWgdvhrAA"
   }
 }

@@ -988,6 +988,30 @@ between reads. No in-flight passage survives daemon restart. Wall-time expiry
 retains HTTP 429 and exposes the machine-readable `agent-wall-time-expired`
 reason; a transient store failure retains its retryable service failure class.
 
+### Completion boundary for the first catalog consumer
+
+P073-GUIDE-001 is complete when the synchronous two-operation controller contract
+above is implemented and its local host-path acceptance matrix is measured.
+Logical cancellation is the admission contract; physical inference preemption,
+a second independently delivered result transport and automatic effect dispatch
+are separate extensions, not implicit completion gates. Their absence must stay
+explicit in the shared report. A concrete model is qualified separately under
+P064/P072; a scripted adapter can qualify controller mechanics only.
+
+An explicitly selected textual output-envelope profile follows P064's bounded
+projection contract. Its decoded `propose_tool_call` remains inert and passes
+the same control admission and controller allowlist as a native adapter envelope.
+It cannot widen grants, replace the authenticated binding or execute a described
+operation. No alternate controller or prompt loader is introduced. Failed HTTP responses are
+classified before GenerateResponse decoding. The Agent exports a closed bounded
+class and upstream HTTP status, omitting arbitrary error prose; an explicit
+transport failure is retryable/503, while output refusal is terminal. This does
+not add a controller retry. Within the 64 KiB failed-response projection bound,
+a schema-marked operation result with valid provenance
+remains evidence on failed HTTP delivery/commit; accepting it does not certify
+publication or accounting. Normalized output denials retain their typed
+Inquirium denial code and cannot start another catalog passage.
+
 ### Durable single-grant withdrawal (follow-up contract)
 
 `agent.grant.revoke` is a host-local, non-advertised Agent-owner operation. Its
@@ -1030,7 +1054,7 @@ never gain local-control authority through string equality.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. Page, read, byte and current Agent wall-time limits return 429 without dispatch. A completed request replays its retained product; a concurrent duplicate gets 409. Lifecycle stop and durable withdrawal of one grant prevent a pending continuation from inferring again. A focused host-route result-delivery test additionally holds a real list result until stop, withdrawal or expiry; current admission refuses it, while the admission unit ignores foreign and duplicate correlations; an impossible mismatch at the synchronous handoff stops the action without retry. Absolute Agent expiry is classified as a 429 limit even when accounting time remains. Two supervised process cases show that suspend/resume during the initial or second inference invalidates the captured lifecycle epoch without committing a new step or dispatching a role. Physical preemption, independently asynchronous delivery and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | done (local synchronous C/H) | The complete synchronous admission/cancellation contract is measured: 16 supervised daemon-process cases and six controller-owner cases passed on 2026-10-28. They cover guided/unguided continuation, independent effect admission, page/read/byte/absolute-time limits, replay, concurrent requests, provider loss/ambiguity, P090 refusal, durable grant withdrawal/restart, suspend/resume epochs, and held real host results after authority loss. Foreign/duplicate delivery is inert at the admission unit; an impossible synchronous mismatch stops the action. Physical preemption, independent asynchronous delivery and automatic effect dispatch are separate extensions. Concrete-model qualification remains under P064/P072. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/nym-renew-request.v1.schema.json`](../../schemas/nym-renew-request.v1.schema.json)
 
-Machine-readable schema for a participant-signed renewal request carrying public nym continuity proof for the next epoch.
+Participant-signed renewal request. Predecessor control is not a succession and does not bind the not-yet-issued successor certificate.
 
 ## Governing Basis
 
@@ -23,16 +23,37 @@ Machine-readable schema for a participant-signed renewal request carrying public
 | [`request/id`](#field-request-id) | `yes` | string | Stable identifier of this renewal request. |
 | [`request/type`](#field-request-type) | `yes` | const: `nym/renew` | Application-level request discriminator. |
 | [`participant/id`](#field-participant-id) | `yes` | string | Participant identity asking for renewal. |
-| [`succession`](#field-succession) | `yes` | ref: `nym-succession.v1.schema.json` | Public continuity proof already signed by the old nym. |
 | [`created-at`](#field-created-at) | `yes` | string | Creation timestamp of the renewal request. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
+| [`predecessor/certificate`](#field-predecessor-certificate) | `yes` | string |  |
+| [`successor/nym`](#field-successor-nym) | `yes` | string |  |
+| [`issuer/id`](#field-issuer-id) | `yes` | string |  |
+| [`not-after`](#field-not-after) | `yes` | string |  |
+| [`predecessor/control-proof`](#field-predecessor-control-proof) | `yes` | string |  |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
 | [`signature`](#def-signature) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+Constraint:
+
+```json
+{
+  "not": {
+    "required": [
+      "succession"
+    ]
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -67,14 +88,6 @@ Application-level request discriminator.
 
 Participant identity asking for renewal.
 
-<a id="field-succession"></a>
-## `succession`
-
-- Required: `yes`
-- Shape: ref: `nym-succession.v1.schema.json`
-
-Public continuity proof already signed by the old nym.
-
 <a id="field-created-at"></a>
 ## `created-at`
 
@@ -94,6 +107,36 @@ Creation timestamp of the renewal request.
 
 - Required: `no`
 - Shape: object
+
+<a id="field-predecessor-certificate"></a>
+## `predecessor/certificate`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-successor-nym"></a>
+## `successor/nym`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-issuer-id"></a>
+## `issuer/id`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-not-after"></a>
+## `not-after`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-predecessor-control-proof"></a>
+## `predecessor/control-proof`
+
+- Required: `yes`
+- Shape: string
 
 ## Definition Semantics
 

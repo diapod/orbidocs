@@ -3170,9 +3170,62 @@ Reuse typed `propose_tool_call` controls and structured output validation.
 owns execution of the two allowlisted reads and continuation; Inquirium returns
 inert proposals. No provider-specific function-calling API is required.
 
+### Explicit local text-envelope projection
+
+An operator may opt a managed profile into textual
+`inquirium.generate.output-envelope.v1` decoding. The default remains ordinary
+text. This is a representation projection into the existing inert control
+channel, not native tool-call support or an executor. The HTTP adapter owns
+syntax projection; Inquirium owns envelope validation, output rails and control
+admission; the Agent controller retains its two-read allowlist and current
+host authority checks.
+
+The host-owned profile selection is bounded to 64 valid profile refs and is
+bound into the managed runtime output-policy digest. It is fixed before runtime
+registration and is neither a model argument nor a provider-granted authority.
+The adapter's explicit response mapping selects the existing envelope schema.
+A non-JSON response remains ordinary text, allowing ordinary conformance probes.
+A response beginning with a JSON object must be one complete envelope, within
+64 KiB UTF-8, with the exact schema marker and only `schema`, `content`,
+`epistemic`, `params` and `control` fields. Malformed, fenced, trailing, unknown
+or oversized envelopes do not produce controls. Provider identity, model,
+request identity and usage remain transport-owned. No recursive decoding,
+reference resolution, repair attempt or implicit retry is added.
+
+The selected text-envelope mapping and a request `output_contract` are mutually
+exclusive. Refuse that combination before model dispatch, without output repair
+or retry; use a separate ordinary profile for schema-bound JSON generation.
+Duplicate decoded object keys at every depth are refused. Projection preserves
+existing transport diagnostics and adds only its format marker.
+
+Every successful neutral adapter response passes the registered
+`inquirium.adapter.response.v1` Schema Gate, independently of response diagnostics
+or whether controls arrived natively or by text projection. Unknown usage is an
+empty object, not invented zero counters. Provider HTTP error responses retain
+their HTTP path and are not parsed as successful neutral/envelope output.
+`output-envelope-refused` and `adapter-contract-refused` are distinct terminal
+output-denial codes, not configuration or handler-availability failures; neither
+causes an automatic retry. Transport failure retains `adapter-transport-failed`.
+The Agent checks a failed HTTP response before GenerateResponse decoding and
+exports only a closed bounded class and status, never provider error prose.
+The failed-response projection inspects at most 64 KiB; a larger failed body
+returns a generic bounded upstream class without inspecting its content. Within
+that bound, a schema-marked operation result with valid provenance remains
+evidence even if HTTP reports failed delivery/commit; validate it before acceptance.
+HTTP status alone neither erases the result nor proves publication or accounting.
+
+The projection happens before Inquirium output rails, control admission and
+controller consumption. Existing schema and typed semantic bounds still apply;
+projection does not certify semantic resistance to provider notes. Native
+correlated tool-result roles, physical preemption and an independent result
+transport remain separate extensions. Completion of this GUIDE task requires
+C/H evidence for the stated context contract and a separately bounded concrete
+model observation for the selected profile; no general model-quality claim
+follows from that observation.
+
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | partial | The supervised H run passes guided and unguided observations through PromptAssemblyPolicy; a Public-ceiling Agent and a Public-egress candidate each refuse the Personal catalog result before a second adapter call. A test-specific larger prompt profile isolates the 64 KiB controller byte guard, while the default happy path retains its 2,048-token cap. Four happy-path Inquirium trace payloads and metadata omit the hostile notes and named private data. Native tool-result semantics and concrete-model resistance/context behavior remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | partial | The supervised H run passes guided and unguided observations through PromptAssemblyPolicy; a Public-ceiling Agent and a Public-egress candidate each refuse the Personal catalog result before a second adapter call. A test-specific larger prompt profile isolates the 64 KiB controller byte guard, while the default happy path retains its 2,048-token cap. Four happy-path Inquirium trace payloads and metadata omit the hostile notes and named private data. Explicit host-selected text-envelope decoding now reaches the existing inert control channel, with local projection/HTTP/Schema Gate tests. Native tool-result semantics are a separate extension. The bounded Qwen3-Coder/MLX trial passed fresh native conformance and authored one admitted list read, then failed at the second inference (nested HTTP 502, legacy Agent decoder 422). No describe or final answer was observed; source cause remains unknown. Concrete-model catalog/context qualification stays partial. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Optional Typed-decision Experiment Tracking
 

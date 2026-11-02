@@ -104,7 +104,10 @@ partial local implementation. Both operations are registered as host-local,
 dispatchable host routes without advertisement or Passport semantics. Caller
 scope, stable paging and redacted describe have focused host tests. A
 scripted local inference adapter also exercises the controller with a supervised
-provider; concrete-model behavior remains open. See
+provider; P073-GUIDE-001 is complete for the synchronous C/H contract. One bounded
+Qwen3-Coder/MLX trial passed native conformance and authored an admitted list read,
+then failed at the second inference before describe or a final answer. The full
+concrete-model consumer remains partial under P064/P072. See
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 The host projects existing registry, authorization metadata, admitted

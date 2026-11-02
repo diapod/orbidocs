@@ -308,7 +308,8 @@ SCHEMA_WHITELIST = (
     "reputation-snapshot.v1.schema.json",
     "nym-certificate.v1.schema.json",
     "nym-authorship-proof.v1.schema.json",
-    "nym-succession.v1.schema.json",
+    "nym-succession.v2.schema.json",
+    "nym-renew-request.v1.schema.json",
     "association-room-proposal.v1.schema.json",
     "room.v1.schema.json",
     "room-membership.v1.schema.json",
@@ -2064,6 +2065,7 @@ SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
 
 GOLDEN_WHITELIST = (
     "nym-certificate-signing.v1.golden.json",
+    "nym-succession.v2.golden.json",
     "artifact-acquisition-identity-v1.golden.json",
     "artifact-acquisition-refusal-v1.golden.json",
     "golden-room-projection-input.json",

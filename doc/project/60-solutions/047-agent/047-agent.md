@@ -823,8 +823,10 @@ Machine-readable capability data for this solution lives in:
 [P073-GUIDE-001](../../40-proposals/073-agent-orchestration-organ.md#planned-bounded-local-catalog-continuation)
 owns the first consumer of
 [P072 list/describe](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
-Status: partial local implementation, separate from completed controller/effect
-baselines. A closed two-operation continuation and correlated transition state
+Status: complete for the first local synchronous C/H contract, separate from
+controller/effect baselines and concrete-model qualification. The 2026-10-28
+checkpoint repeats 16 supervised daemon-process cases and six controller-owner
+cases. A closed two-operation continuation and correlated transition state
 are wired into `CallInquirium`; the built-in host/controller loop passes a
 deterministic process test. A second process test includes a supervised Python
 module, two provider-owned capabilities and four scripted inference calls;
@@ -868,8 +870,10 @@ revocation projection. Current Agent grants still gate dispatch after a proposal
 was admitted. Middleware admission reserves `local-control` for the authenticated
 host principal; a module cannot claim that id.
 
-Retain real host/controller evidence under P072-GUIDE-003 for the remaining
-boundaries; the shared report separates the observed cases from open ones.
+The shared P072-GUIDE-003 report records the completed synchronous C/H boundary.
+Physical preemption and an independent asynchronous result transport remain
+separate extensions; their absence does not keep P073-GUIDE-001 open. Concrete
+model behavior remains a separately measured P064/P072 claim.
 The initial delivery excludes federation and private package ids; Assistant
 Channel consumption follows under P066-GUIDE-001 with existing escalation gates.
 

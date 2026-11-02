@@ -538,3 +538,67 @@ publisher/key-destruction liveness remain separate. See
 
 The prior dated qualification remains unchanged. This follow-up preserves the
 bounded claim and does not close parent P036, P015-005 or LLR-009.
+
+
+### Case-key custody refinement (2026-11-02)
+
+The LLR-006 owner records prepared/exposed/bound and erase-requested/erased
+transitions. Exposed state is durable before releasing a commitment. The provider
+uses independent random encryption material without an operationalVaultRoot or
+mnemonic recovery slot. Existing issuer keystore and custody-fence mechanics may
+be shared; issuer no-export policy remains in its adapter. Case-key recovery is a
+separate per-case opt-in projection, omitted by default. Whole-filesystem copies
+including provider material are outside revocation guarantees. Tombstones survive
+to the original case horizon. Missing keys refuse without replacement generation.
+These are design requirements, not qualified runtime status.
+
+
+### Case continuity custody candidate (LLR-006, 2026-11-02)
+
+The case-key owner is separate from the root-recoverable operational Vault root.
+It uses random per-case key material, dedicated owner checkpoints and public
+lifecycle facts. Exposed precedes commitment release, author-byte binding precedes
+first signed-signal release, and admission remains a separate fact. Managed recovery
+omits these keys unless each case opted in; only an already encrypted critical
+projection crosses the recovery snapshot. Import preserves the original horizon
+and local erasure knowledge and removes the projection before local resealing.
+Whole-filesystem snapshots and prior exports are outside that guarantee.
+
+The actual v2 issuer remains P015-005. A disclosed synthetic certificate enters the
+host's certified-authoring seam for bounded qualification; this does not finish
+LLR-007/008/009. See the LLR-006 custody amendment and Node's separate acceptance.
+
+The daemon reuses S020 for a rotary 60-second expiry sweep, with bounded scope and
+key batches. Scheduler suspension or host sleep can delay physical unlink; owned
+clock checks still forbid key use at the absolute horizon. Only completed removal
+produces an erasure fact. This is managed-key lifecycle, not media sanitization.
+
+LLR-006's bounded custody/composition gate passed on 2026-11-02; see its tracker
+and `node:docs/audits/ACCEPTANCE-CASE-CUSTODY-2026-11-02.md`. This post-MVP result
+uses synthetic v2 certificates at the certified-authoring seam and does not
+qualify P015-005, ordered case history, current authority or transport.
+
+
+### Accounted case recovery boundary (2026-11-02)
+
+Managed Vault recovery defaults to `case-keys/policy: account`: optional case keys
+never make an otherwise authentic nym snapshot expire. Its closed local result
+accounts for included/imported/restored/present, expired, locally erased or lost
+keys, and reports component integrity/provider failures. Explicit `require`
+withholds incomplete output. Busy is bounded retryable refusal without a partial
+bundle. Component-only retry requires the existing participant and does not
+reseal nyms. Require is an output gate, not a distributed rollback promise.
+
+New inner projections use a role-derived HKDF key and sealed.v2; exact sealed.v1
+has read-only recovery support. Independent host audit reports failure even when
+the provider cannot open; unavailable audit is explicit. Checkpoint repair bounds
+replay, not cumulative storage: old generations remain until storage gains a
+reviewed GC operation. An exposed digest can have escaped a preview, so preview
+expiry alone does not authorize abandonment of its key.
+
+
+The corrected recovery/succession boundaries passed separate pure and custody
+gates on clean Node `57c40263` / Orbidocs `ce27aa02`: 278 and 376 scoped Rust tests,
+two cold OS-denied consumers for custody, and equivalent extracted qualification.
+See `node:docs/audits/ACCEPTANCE-SUCCESSION-CUSTODY-REVIEW-2026-11-02.md`.
+This does not qualify the deferred successor caller or accepted/current case history.

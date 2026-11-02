@@ -319,3 +319,13 @@ custody/current-presenter profiles, with real P015-006 status/closure lifecycle
 and synthetic v2 certificates. Exact source pins, isolated consumers, retention
 and exclusions are recorded in `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
 This does not close P015-005, P036 parent scope, LLR-009 or release qualification.
+
+
+### Portable case succession boundary (2026-11-02)
+
+P015-004's AuthenticSuccession is a pure possession/binding result. LLR-006's
+historical P035 anchor adapter uses exact signed author bytes or the separately
+admitted detached witness claim. It does not create local trust, ordered case
+history, current authority or a P032 grant. Status scope checks reuse immutable
+verified material without re-signing, truncating or silently fetching it.
+LLR-008/009 retain their own acceptance/time and current-status gates.

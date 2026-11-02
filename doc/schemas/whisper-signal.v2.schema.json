@@ -271,17 +271,14 @@
       "case/not-after"
     ],
     "case/continuity-key-digest": [
-      "embargo/manifest-digest",
       "case/status-authority",
       "case/not-after"
     ],
     "case/status-authority": [
-      "embargo/manifest-digest",
       "case/continuity-key-digest",
       "case/not-after"
     ],
     "case/not-after": [
-      "embargo/manifest-digest",
       "case/continuity-key-digest",
       "case/status-authority"
     ]

@@ -27,7 +27,6 @@ Machine-readable schema for a council-issued application-layer pseudonym certifi
 | [`leniency-until`](#field-leniency-until) | `no` | string | End of grace semantics for continuity work. After this moment the old line is dead. |
 | [`issuer/id`](#field-issuer-id) | `yes` | string | Issuing council identity in canonical `council:did:key:z...` form. |
 | [`line/predecessor-nym-id`](#field-line-predecessor-nym-id) | `no` | string | Optional public predecessor line when the nym continues an earlier visible pseudonymous history. |
-| [`line/succession`](#field-line-succession) | `no` | ref: `nym-succession.v1.schema.json` | Optional public continuity proof signed by the predecessor nym. |
 | [`signature`](#field-signature) | `yes` | ref: `#/$defs/signature` |  |
 | [`policy_annotations`](#field-policy-annotations) | `no` | object |  |
 
@@ -41,45 +40,15 @@ Machine-readable schema for a council-issued application-layer pseudonym certifi
 
 ### Rule 1
 
-When:
+Constraint:
 
 ```json
 {
-  "required": [
-    "line/predecessor-nym-id"
-  ]
-}
-```
-
-Then:
-
-```json
-{
-  "required": [
-    "line/succession"
-  ]
-}
-```
-
-### Rule 2
-
-When:
-
-```json
-{
-  "required": [
-    "line/succession"
-  ]
-}
-```
-
-Then:
-
-```json
-{
-  "required": [
-    "line/predecessor-nym-id"
-  ]
+  "not": {
+    "required": [
+      "line/succession"
+    ]
+  }
 }
 ```
 
@@ -148,14 +117,6 @@ Issuing council identity in canonical `council:did:key:z...` form.
 - Shape: string
 
 Optional public predecessor line when the nym continues an earlier visible pseudonymous history.
-
-<a id="field-line-succession"></a>
-## `line/succession`
-
-- Required: `no`
-- Shape: ref: `nym-succession.v1.schema.json`
-
-Optional public continuity proof signed by the predecessor nym.
 
 <a id="field-signature"></a>
 ## `signature`
