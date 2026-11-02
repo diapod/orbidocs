@@ -1382,3 +1382,19 @@ now live in a sidecar. The domain, decisions and task ids are unchanged.
 <a id="long-lived-rumor-tracker"></a>
 
 [Continue to the complete section](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
+
+
+### Pre-release schema migration: portable case custody (2026-11-02)
+
+The case tuple in whisper-signal.v2 is all-or-none and independent of ADC. Embargo
+requires the full tuple; manifest and signal values must agree. This widens v2 in
+place under the pre-release policy. An older validator refuses a case without ADC;
+the exact previous schema is pinned in the Node migration vector. Frozen source
+manifests and historical evidence retain their original schema digests.
+
+This stage also removed inline line/succession from nym-certificate.v1, prohibited
+succession in nym-renew-request.v1 (replacing it with a separately domain-bound
+control proof), and replaced active nym-succession.v1 with v2. Before first release,
+widening requires an explicit note and vectors; narrowing additionally requires
+that no admitted artifact/evidence uses the removed form. After release, use a new
+version or explicit profile, never an in-place semantic change.

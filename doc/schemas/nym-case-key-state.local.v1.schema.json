@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-case-key-state.local:v1",
+  "title": "nym-case-key-state.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md"
+  ],
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "nym-case-key-state.local.v1"
+        },
+        "continuity/key-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "phase": {
+          "enum": [
+            "exposed",
+            "bound",
+            "erase-requested",
+            "erased",
+            "unavailable"
+          ]
+        },
+        "case/not-after": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recovery/enabled": {
+          "type": "boolean"
+        },
+        "author/bytes-digest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      },
+      "required": [
+        "schema",
+        "continuity/key-digest",
+        "phase",
+        "case/not-after",
+        "recovery/enabled",
+        "author/bytes-digest"
+      ]
+    },
+    {
+      "$ref": "nym-case-key-provider.local.v1.schema.json"
+    }
+  ]
+}
