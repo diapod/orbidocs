@@ -1314,3 +1314,27 @@ final both-store qualification. Subsequent history-count proofs must independent
 derive later bases; stale-database restoration must be tested within the live
 epoch so expiry cannot supply a false explanation. The Node ledger and resumption
 audit carry exact source/log/remaining-matrix bindings. P015-001–003 stay partial.
+
+
+### Independent complete-inventory inspection review (2026-11-02)
+
+The Node acceptance verifier now has an explicit complete local inventory-cut
+mode, separate from the historical timestamp-selected adapter. It rederives the
+last recorded count, membership and evidence commitment with the ordinary owner
+evaluator and original signed status/time. Earlier transitions require their
+own snapshots. First drafts are verified only when that complete inventory also
+matches their original evidence commitment and stricter emission freshness;
+a later reset cut instead reports that an earlier cut is required.
+
+Original SQLite/Matrix/uniqueness snapshots and a repaired-hash count mutation
+exercise this distinction. These are conformance checks, not a renewed backend
+runtime campaign.151 harness/102 package cases and scoped Clippy pass. A separate
+real same-live-epoch old-DB restore refuses `issuer-state-rollback`, with original
+DB/provider/config preserved and current readback restored. The readback occurs
+outside the certificate window and does not prove renewed signing usability.
+The Node audit records exact identities and the preserved unsuccessful observer.
+
+P015-001–003 and Gates A/B remain partial: the independently verified inventory
+is still14/66, with final authority/status/erasure/privacy/backend and equivalent
+both-store qualification required. No production wire/profile/admission semantic
+changes or readiness promotion follow from this inspector review.
