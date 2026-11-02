@@ -509,7 +509,7 @@ post-MVP follow-up.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; inline references in `nym-certificate.v1` and `nym-renew-request.v1` removed. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id` with different bytes, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. Follow the pure verifier sequence and shared byte-law fixtures in the implementation recommendations; supplied replay state remains separate from durable LLR runtime. |
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | done | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; inline references in `nym-certificate.v1` and `nym-renew-request.v1` removed. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id` with different bytes, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. Follow the pure verifier sequence and shared byte-law fixtures in the implementation recommendations; supplied replay state remains separate from durable LLR runtime. |
 
 ### Embargo Authorship Scope Tracker
 
@@ -773,3 +773,14 @@ context transition is specified; the author may open a new, unlinked case.
 Operators must consider open cases before revising profile policy or rotating its
 issuer. TTL, retention and limit edits also change the complete profile digest.
 The wire succession artifact gains no context field; no signed derivation changes.
+
+
+### Independent P015-004 acceptance (2026-11-02)
+
+Pure gates A, E-succession and F-MVP passed on Node `92b780bf011f59710d8bbec21c266281f779672c`
+and Orbidocs `bdfac821e953d4f02ebf867c0535835d455c5892`: 276 Rust tests, scoped Clippy, 22 ledger
+and 10 schema-sync checks, exact changed examples and six repaired-inventory
+mutations. Loose/extracted results agree for archive `b09c9502c5de8c8d715ea3052d6cb5cb2a52ba6439996d539a7a2be4bca40d16`.
+Evidence: `node:docs/evidence/portable-admission/2026-11-02-succession-pure-qualified/README.md`.
+P015-004 is done independently; LLR-006 host custody/recovery and network-denied
+composition remain open. No accepted history, current-case or release claim follows.
