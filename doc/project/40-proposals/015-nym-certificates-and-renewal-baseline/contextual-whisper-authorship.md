@@ -647,6 +647,15 @@ refuses before key-provider initialization. No new lease follows from a queue,
 a retry or a budget overrun. These execution limits are not protocol namespace
 limits; larger capacity needs separate throughput qualification.
 
+A public lease refresh must not require re-encrypting an unchanged private
+participant map or allocating new identifying-custody keys. It retains its own
+recoverable publication/readback boundary and the last private-effects fence.
+Reset eligibility drains the latest signed collection lease even if the private
+map's cached lease predates that refresh. Key retirement, source rollback
+protection and exact prepared decision replay remain unchanged. Local readers
+must explicitly distinguish checkpoint semantics; no old reader may silently
+use the cached private timestamp as the latest public lease.
+
 The current-status consumer may checkpoint a verified cumulative signed head
 and its exact high-water cursor, then atomically remove superseded cache facts
 and bytes. Historical admission evidence is owned separately and is not pruned
