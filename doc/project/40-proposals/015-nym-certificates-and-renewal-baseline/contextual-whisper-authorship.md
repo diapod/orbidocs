@@ -1338,3 +1338,14 @@ P015-001–003 and Gates A/B remain partial: the independently verified inventor
 is still14/66, with final authority/status/erasure/privacy/backend and equivalent
 both-store qualification required. No production wire/profile/admission semantic
 changes or readiness promotion follow from this inspector review.
+
+
+A subsequent actual same-epoch control on frozen application `bde3272f` and clean
+capture `0c435ea0` / docs `e5def2aa` completes ordinary issue/reset, native refusal
+of the stopped old DB, exact config restoration, ordinary renewal and host
+signing confidence0.5. Fresh read-only inspection performs six native checks of
+original AD, certificates and the exact review/signature. It verifies usability
+of the current new source after refusal, beyond the earlier late readback.
+The Node audit records original identities. The formal composite old-DB predicate,
+remaining matrices and final both-store A/B qualification still govern closure;
+the independently composed inventory remains14/66 and P015 stays partial.
