@@ -107,7 +107,7 @@
     "Keep random case secrets independent of mnemonic-derived recovery and generic signing"
     "Preserve original horizons, erasure knowledge, explicit provider replacement and opt-in recovery"
     "Use bounded lifecycle checkpoints and the S020 rotary expiry job"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :participant-dh-local-only-role
    :title "Participant DH Local-Only Role"

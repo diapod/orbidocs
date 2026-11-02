@@ -567,7 +567,7 @@ extract a generic library; the later implementation owns that comparison.
 | P013-LLR-003 | Admission evidence in Memarium | done | P035-019; P036 | Bounded P036 custody retains exact bytes and proof references under separate origin-bound payload/proof horizons; redelivery carries proof beside signed bytes. Key destruction, recovery and cold offline consumers passed; external backups and parent P036 scope remain separate. |
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
-| P013-LLR-006 | Case continuity key | partial | P015 v2 signal; S026 Pseudonym Vault | Single owner of the case key commitment, Phase 1 suite, lifetime and uses. Generate one key per case in the Vault; commit case/continuity-key-digest and case/status-authority in the first signed signal, independently of whether ADC is used. One key for amendments, confirmations and succession; bounded lifetime, deletion erasure fact and explicit opt-in recovery. Fixtures cover missing key, wrong commitment, deletion/recovery exclusion and independent cases. ADC-001 consumes this contract; no execution dependency points back to ADC. |
+| P013-LLR-006 | Case continuity key | done | P015 v2 signal; S026 Pseudonym Vault | Single owner of the case key commitment, Phase 1 suite, lifetime and uses. Generate one key per case in the Vault; commit case/continuity-key-digest and case/status-authority in the first signed signal, independently of whether ADC is used. One key for amendments, confirmations and succession; bounded lifetime, deletion erasure fact and explicit opt-in recovery. Fixtures cover missing key, wrong commitment, deletion/recovery exclusion and independent cases. ADC-001 consumes this contract; no execution dependency points back to ADC. |
 | P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. Call the P015-004 verifier; do not duplicate its cryptographic or mode/scope logic. |
 | P013-LLR-008 | Case state and currency | todo | P013-LLR-006; P013-PEX-001 | Case requests with `case/anchor` and `request/id`, and `whisper-case-acceptance.v1` assigning revision and previous digest; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; one durable transaction per acceptance that checks the head, evaluates the request, appends the event and stores the outcome by `request/id`; a durable high-water mark refusing rollback; `conflicted` only for contradictory accepted histories; a 300-second freshness bound that defers effects. Fixtures cover a missed withdrawal, competing requests that are not conflicts, a lost commit response followed by a withdrawal, rollback, an authority equivocation, a missing status, an amendment after a succession that leaves the successor authorized, a succession from B to C that ends B's authority, and a withdrawal racing a release commit on both orders. One fold/store serves all typed case operations. Share only authenticated-head comparison with P015; test refreshed case-status timestamps at an unchanged history head, source-status regression parity and crashes before signed result exposure. |
 | P013-LLR-009 | Bounded portable succession verification | todo | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Freeze `whisper-case-succession-presentation.v1` and qualify the [portable profile](#portable-case-succession-verification): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all negative/privacy/cache-conflict/restart cases listed above pass. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |
@@ -666,7 +666,7 @@ an exact previous/current-context transition for that case. No new signer,
 authority, preimage disclosure or runtime is authorized by this suggestion.
 
 
-### LLR-006 implementation candidate (2026-11-02)
+### LLR-006 qualified custody composition (2026-11-02)
 
 S026's case-key service now has a dedicated lifecycle stream, bounded shared owner
 checkpoints, random per-case DEKs and authenticated seed blobs. The ordinary Vault
@@ -694,5 +694,16 @@ workflow store, case custody and SQLite/P037 producer. This is not P015-005 or
 LLR-007 runtime qualification. The protected successor Rust port is reserved for
 that separate consumer; no succession transport or case-history API is introduced.
 
-LLR-006 remains partial until its own source-pinned B–F gates, extraction and
-mutation checks pass. Node's dated review records corrections and measured bounds.
+LLR-006 passed its own B/C/D/E-composition/F-custody gate on clean Node
+`07bb9aaaf9ecd36bbdd85a36c0dc1aed183d9d0c` / Orbidocs
+`d03a1463b03c7ba37a8c1fce4e6f7edfa3e902af`: 357 Rust tests, scoped Clippy,
+22 ledger and 10 schema-sync checks, two cold consumers under whole-process
+network denial, 11 cryptographic and 10 repaired-inventory mutations. Full and
+detached anchors were evaluated after the original certificate expired; detached
+records its witness reliance. The common archive helper observed identical
+qualified results before/after safe extraction. Capsule:
+`node:docs/evidence/portable-admission/2026-11-02-case-custody-qualified`, archive
+SHA-256 `376cdaba9095875100f7d687d70418312a108d34f14f83191a98e6993c2a2195`.
+Node's dated acceptance/review records the source chain, time, bounds and exclusions.
+P015-004 retains its independent pure result. LLR-007–010, P015-005, ADC runtime,
+current authority, transport and release readiness are not closed by this gate.

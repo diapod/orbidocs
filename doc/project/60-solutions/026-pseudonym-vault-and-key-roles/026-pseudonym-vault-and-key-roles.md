@@ -572,3 +572,8 @@ The daemon reuses S020 for a rotary 60-second expiry sweep, with bounded scope a
 key batches. Scheduler suspension or host sleep can delay physical unlink; owned
 clock checks still forbid key use at the absolute horizon. Only completed removal
 produces an erasure fact. This is managed-key lifecycle, not media sanitization.
+
+LLR-006's bounded custody/composition gate passed on 2026-11-02; see its tracker
+and `node:docs/audits/ACCEPTANCE-CASE-CUSTODY-2026-11-02.md`. This post-MVP result
+uses synthetic v2 certificates at the certified-authoring seam and does not
+qualify P015-005, ordered case history, current authority or transport.
