@@ -713,7 +713,7 @@ A contextual document must never fall back to the open general schema: that
 adapter rejects `whisper/*`, `privacy/*` and `scope/authorized-uses`. Verified
 certificate values are minted only by family adapters; family is not another
 on-wire field. Case successors preserve the anchor federation and context,
-including across an independently admitted profile-v1 to profile-v2 migration.
+with the same profile digest and issuer. The v1/v2 choice follows the anchor profile.
 Their status must be usable for Collection at the evaluation time, meet the
 certificate floor and preserve supplied negative/high-water knowledge.
 
@@ -758,8 +758,18 @@ cache. Supplied replay state distinguishes identical bytes from conflicting reus
 It returns AuthenticSuccession, never AcceptedCaseSuccession or current authority.
 
 
-Implementation review finding (2026-11-02): the existing context digest binds
-`profile/digest`, so real profile migration changes the context. The proposed
-same-context migration requires a separately resolved contract boundary. It is
-not established by synthetic certificate fixtures. Resolution is pending; no
-context derivation or current-authority rule is widened by the initial verifier.
+Adopted context decision (2026-11-02): retain the existing P015 context derivation
+and strict equality of anchor/successor context, federation and profile. A changed
+profile or issuer changes the counting and status domain. Different contexts
+under different profiles refuse `ContextTransitionUnsupported`; different contexts
+under the same profile refuse binding mismatch. A forged equal context under a
+different profile also refuses binding mismatch. There is no profile/context
+migration in P015-004. P013-LLR-010 owns the separate case-context transition
+contract and does not block same-context LLR-008/009 completion.
+
+Case succession remains available only while the anchor's context remains issuable.
+A profile revision or issuer rotation ends succession for open cases until case
+context transition is specified; the author may open a new, unlinked case.
+Operators must consider open cases before revising profile policy or rotating its
+issuer. TTL, retention and limit edits also change the complete profile digest.
+The wire succession artifact gains no context field; no signed derivation changes.
