@@ -727,8 +727,14 @@ Agent creation. The inner denial class was not retained. P064-GUIDE-001 and
 P072-GUIDE-003 remain partial. The subsequent model-free correction (Node `e8cffc70`) preserves
 validated generate-denial codes and tests consent-bound private diagnostics
 through candidate cleanup. It cannot recover the original missing observation.
-A fresh frozen experiment and any preparation-time Content consent still require
-separate review. This adds no catalog-use M claim and leaves the synchronous
+The expressly approved continuation (Node `287eefe3`, anchor `ba9228a7`)
+measured native `output-envelope-refused` before Agent creation: HTTP 200,
+64 reported completion tokens at the 64-token request bound, raw finish reason
+`length`, invalid JSON and retained private tails. The global catalog-use
+operation layer also reached the readiness fixture; Agent orientation and native
+readiness need a reviewed prompt-scope correction. Both preparation slots are
+consumed. Further preparation requires a new exact operator decision and anchor;
+no automatic retry or token increase follows. This adds no catalog-use M claim and leaves the synchronous
 controller scope unchanged.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
