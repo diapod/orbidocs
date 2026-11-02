@@ -737,10 +737,19 @@ readiness are now separated by an operator-approved model-free scope correction
 The GUIDE base generate policy carries generic format guidance; the existing
 Agent-only admitted layer carries catalog instructions through PromptAssemblyPolicy.
 The native 64-token probe and 2048 instruction-token cap remain unchanged. This
-implementation and its assembly/owner tests do not prove model behavior. Both
-preparation slots are consumed. Further preparation requires a new exact operator decision and anchor;
-no automatic retry or token increase follows. This adds no catalog-use M claim and leaves the synchronous
-controller scope unchanged.
+implementation and its assembly/owner tests alone do not prove model behavior.
+The expressly approved third preparation on corrected candidate `c3b2ce10`,
+anchored by `fa0d6d99`, then passed native conformance with the unchanged 64-token
+bound. Its sole Agent trial refused `output-envelope-refused` at the first
+inference: HTTP 200, seven concatenated JSON values, 465/768 completion tokens and
+raw finish reason `stop`. No catalog read or fixture handler dispatch was admitted.
+Both separate captures and bounded tails are retained with exact readback; all
+596 copied Rust and 51 Python cases passed. P064/P072 remain partial because the
+full sequence and semantic verdict are missing; global host/provider network
+qualification remains limited by the fallback. All three preparations and the
+Agent slot are consumed. No automatic retry, parser repair or token increase
+follows; another experiment requires a new exact decision and preregistration.
+The synchronous controller scope remains unchanged.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.
