@@ -1298,3 +1298,19 @@ predicate. These are process interruptions, not power-loss qualification.
 checks pass. The Node resumption audit owns report/binary bindings. Remaining
 authority/status/old-database/privacy matrices, final SQLite/Synapse Gate B and
 fresh equivalent two-store retention keep P015-001–003 and aggregate A/B partial.
+
+
+### Fresh software prerequisite and proof inventory (2026-11-02)
+
+Clean Node `16675e10` / docs `5d668ed6` passes the full nonincremental software
+gate: 9,267 passed, zero failed, 128 explicit ignores, strict workspace/all-target
+Clippy and final paths. The pair remains clean and unchanged throughout.
+A fresh independent composition verifies 14/66 obligations, using 13 native
+inspections plus the four-cut predicate over exact original inputs.52 still
+remain open; the old six-obligation inventory keeps its historical scope.
+
+These are software prerequisites and verified subsets, not complete Gate A/B or
+final both-store qualification. Subsequent history-count proofs must independently
+derive later bases; stale-database restoration must be tested within the live
+epoch so expiry cannot supply a false explanation. The Node ledger and resumption
+audit carry exact source/log/remaining-matrix bindings. P015-001–003 stay partial.
