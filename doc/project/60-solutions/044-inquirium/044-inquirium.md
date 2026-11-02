@@ -314,8 +314,18 @@ Responsibilities:
 - keep candidates non-routable when required passing evidence is absent, stale,
   or failing;
 - expose healthy and routable as separate operator-visible states;
+- retain a validated native generate denial's closed code before discarding a
+  failed candidate; an absent code remains null, and the logical response status
+  is distinct from an observed HTTP status in private boundary capture;
 - emit metadata-only, host-keyed traces without prompt, model output, vectors,
   image bytes, or protected context.
+
+Process output and raw HTTP witnesses belong only to separately authorized,
+scoped and expiring private content capture. They are not copied into conformance
+report metadata. Capture may already cover an isolated native-conformance probe,
+but this does not implicitly enable it or widen its selectors. Already observed
+wire requests/results retain their original correlation through candidate cleanup.
+No diagnostic permits another inference, retry or routability promotion.
 
 Status: `done`.
 
@@ -714,9 +724,12 @@ no preparation code, scripted adapter or native conformance supplies that verdic
 The 2026-11-02 preregistered candidate passed copied C/H gates, but its fresh
 native conformance returned `denied` and activation refused HTTP 409 before
 Agent creation. The inner denial class was not retained. P064-GUIDE-001 and
-P072-GUIDE-003 remain partial; typed preparation diagnostics must be resolved
-before another separately reviewed model preparation. This adds no catalog-use M
-claim and leaves the synchronous controller scope unchanged.
+P072-GUIDE-003 remain partial. The subsequent model-free correction (Node `e8cffc70`) preserves
+validated generate-denial codes and tests consent-bound private diagnostics
+through candidate cleanup. It cannot recover the original missing observation.
+A fresh frozen experiment and any preparation-time Content consent still require
+separate review. This adds no catalog-use M claim and leaves the synchronous
+controller scope unchanged.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.
