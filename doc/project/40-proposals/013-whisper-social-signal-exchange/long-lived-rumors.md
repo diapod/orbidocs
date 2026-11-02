@@ -725,3 +725,16 @@ LLR-008 acceptance must compare the declared predecessor with the effective succ
 at its head; with no previous succession it requires `anchor-author`. A stale claim
 returns `stale-predecessor` / `evidence-change`, not an equivocation. P015's
 `case-history-required` alone authorizes nothing. LLR-008 remains outside this slice.
+
+
+### Corrected boundary qualification (2026-11-02)
+
+LLR-006 independently passed its own gate after the boundary review on clean
+Node `57c4026384a5024839117ca64fbabb72e0df216e` / Orbidocs `ce27aa027bc74a87bf22010ae0c61c41b0142bf8`:
+376 scoped Rust tests, required regressions and qualifier mutations. The
+ordinary qualifier returns the same result on loose and extracted bytes;
+archive SHA-256 `496b92ee09877d6247926fe4d12b111e22fef301721d2194b4feb7b40e3d7bf9`. See
+`node:docs/audits/ACCEPTANCE-SUCCESSION-CUSTODY-REVIEW-2026-11-02.md` for exact
+inputs, times, limitations and the preserved unqualified first pure attempt.
+The original capsules are unchanged; current authority, LLR-007–010, P015-005,
+transport and release readiness are not implied.

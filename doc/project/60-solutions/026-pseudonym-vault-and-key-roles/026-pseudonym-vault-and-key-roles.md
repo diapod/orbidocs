@@ -595,3 +595,10 @@ the provider cannot open; unavailable audit is explicit. Checkpoint repair bound
 replay, not cumulative storage: old generations remain until storage gains a
 reviewed GC operation. An exposed digest can have escaped a preview, so preview
 expiry alone does not authorize abandonment of its key.
+
+
+The corrected recovery/succession boundaries passed separate pure and custody
+gates on clean Node `57c40263` / Orbidocs `ce27aa02`: 278 and 376 scoped Rust tests,
+two cold OS-denied consumers for custody, and equivalent extracted qualification.
+See `node:docs/audits/ACCEPTANCE-SUCCESSION-CUSTODY-REVIEW-2026-11-02.md`.
+This does not qualify the deferred successor caller or accepted/current case history.

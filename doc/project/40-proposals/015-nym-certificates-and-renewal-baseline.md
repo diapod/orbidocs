@@ -799,3 +799,16 @@ A subsequent B->C is authentic without pretending B authored the anchor.
 
 The pre-release signal widening and recovery accounting decision are recorded in
 P013/LLR and S026. Historical source manifests and evidence are not rewritten.
+
+
+### Corrected boundary qualification (2026-11-02)
+
+P015-004 independently passed its own gate after the boundary review on clean
+Node `57c4026384a5024839117ca64fbabb72e0df216e` / Orbidocs `ce27aa027bc74a87bf22010ae0c61c41b0142bf8`:
+278 scoped Rust tests, required regressions and qualifier mutations. The
+ordinary qualifier returns the same result on loose and extracted bytes;
+archive SHA-256 `3e53184bda3608b00c90aa9d81770ae113925563528c625a0fc4c8b6bb0a4c8a`. See
+`node:docs/audits/ACCEPTANCE-SUCCESSION-CUSTODY-REVIEW-2026-11-02.md` for exact
+inputs, times, limitations and the preserved unqualified first pure attempt.
+The original capsules are unchanged; current authority, LLR-007–010, P015-005,
+transport and release readiness are not implied.
