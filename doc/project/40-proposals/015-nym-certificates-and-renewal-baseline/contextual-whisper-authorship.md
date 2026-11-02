@@ -1238,3 +1238,19 @@ identical loose/extracted/fresh two-store qualification still govern closure.
 Node's current ledger and dated resumption audit own detailed source/capture
 pins and individual results. Development retention, original protected evidence
 and global Agora/Whisper/release scope remain unchanged.
+
+
+### Qualification checkpoint (2026-11-02)
+
+The corrected runtime independently verifies ordinary AD issue, lazy renewal
+after actual certificate expiry, and private reset on the same protected path.
+Fresh signed statuses and the certificate confirm reset activation after the
+latest pre-reset collection lease plus the unchanged skew. A concrete old
+ciphertext sample from a pre-reset application DB receives `KeyDestroyed` without
+copying the keystore. This does not cover the full crash/WAL/export matrix.
+An original private controller bookkeeping refusal remains preserved; independent
+reinspection repeats no issuance/reset command. The clean Node software gate
+passes 9,264/0/127 on `7a75376f` / docs `70b0c2a4`. Neither software checks nor
+these selected runtime predicates close Gate A/B. Duplicate/lost-reply, authority,
+status, erasure/privacy and final backend/retention obligations remain pending.
+The Node audit and implementation ledger carry the precise source/proof scope.

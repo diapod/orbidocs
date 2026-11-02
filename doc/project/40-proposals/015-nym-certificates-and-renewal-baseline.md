@@ -611,6 +611,16 @@ implementation evidence exists.
 | P015-002 | Wire issuer and applicant acceptors | partial | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
 | P015-003 | Prove two-node issue/renew/reject recovery | partial | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
 
+
+Checkpoint 2026-11-02: ordinary protected AD issue, real-expiry lazy renewal and
+private reset now have fresh independent predicates on the corrected runtime,
+including latest-lease drain and one concrete post-ACK ciphertext refusal.
+The clean full software gate passes 9,264/0/127. P015-001–003 remain `partial`:
+these subsets do not replace the complete authority/recovery/privacy matrices,
+SQLite/Synapse Gate B or qualified both-store retention. See
+[the contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#qualification-checkpoint-2026-11-02)
+and the Node implementation ledger.
+
 ## Open Questions
 
 No unresolved questions remain for this proposal slice. The decisions below
