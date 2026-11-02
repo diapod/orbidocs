@@ -711,6 +711,12 @@ An explicitly limited network fallback can supply model evidence while the share
 host-network qualification remains partial. Operator semantic approval is required;
 no preparation code, scripted adapter or native conformance supplies that verdict.
 
+The 2026-11-02 preregistered candidate passed copied C/H gates, but its fresh
+native conformance returned `denied` and activation refused HTTP 409 before
+Agent creation. The inner denial class was not retained. P064-GUIDE-001 and
+P072-GUIDE-003 remain partial; typed preparation diagnostics must be resolved
+before another separately reviewed model preparation. This adds no catalog-use M
+claim and leaves the synchronous controller scope unchanged.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.
