@@ -615,6 +615,11 @@ implementation evidence exists.
 Checkpoint 2026-11-02: ordinary protected AD issue, real-expiry lazy renewal and
 private reset now have fresh independent predicates on the corrected runtime,
 including latest-lease drain and one concrete post-ACK ciphertext refusal.
+A subsequent controlled private-response failure/restart case on frozen runtime
+`bde3272f` and clean capture `e100b94d` has fresh independent predicates for
+issue, reference readback, duplicate submission and recovery of the same reply
+across A/D restart. Its original fault-injected class, deadlines and owner state
+are preserved; this is not spontaneous ACK loss or retransport after AD expiry.
 The clean full software gate passes 9,264/0/127. P015-001–003 remain `partial`:
 these subsets do not replace the complete authority/recovery/privacy matrices,
 SQLite/Synapse Gate B or qualified both-store retention. See

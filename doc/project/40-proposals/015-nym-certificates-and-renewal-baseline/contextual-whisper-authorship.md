@@ -1251,6 +1251,33 @@ copying the keystore. This does not cover the full crash/WAL/export matrix.
 An original private controller bookkeeping refusal remains preserved; independent
 reinspection repeats no issuance/reset command. The clean Node software gate
 passes 9,264/0/127 on `7a75376f` / docs `70b0c2a4`. Neither software checks nor
-these selected runtime predicates close Gate A/B. Duplicate/lost-reply, authority,
-status, erasure/privacy and final backend/retention obligations remain pending.
+these selected runtime predicates close Gate A/B. The then-pending duplicate/
+lost-reply predicate is advanced by the following checkpoint; authority, status,
+erasure/privacy and final backend/retention obligations remain pending.
 The Node audit and implementation ledger carry the precise source/proof scope.
+
+
+### Controlled private response recovery (2026-11-02)
+
+Clean capture `e100b94d` with frozen runtime `bde3272f` completes a real
+80.94-second four-process-birth A/D case. The same full request is submitted
+twice; an original private response attempt fails while A is stopped. D then
+stops and both owners restart. The prepared ciphertext, delivery plan and
+expiry, nym, request deadline and owner decision remain exact, and the original
+consented AD response reaches A. Explicit protected recovery and cleanup pass.
+
+A fresh read-only predicate independently verifies issue, reference readback,
+duplicate-request/reply and lost-response/restart subsets against original
+observations, ready bootstrap capabilities and the native certificate verifier.
+The default predicate refuses the unchanged `fault-injected-runtime` class.
+This is controlled offline delivery failure within original AD expiry, not a
+claim of spontaneous ACK loss or late retransport. The capture now separately
+waits for issuer admission and initial AD submission, using only readbacks
+within the original request window. Original prefix refusals remain intact.
+
+The harness has 137 strict conformance passes and a green light gate. Full
+software checks retain their separately pinned earlier revisions. P015-001–003
+and both full runtime gates remain `partial`: the remaining authority/status/
+erasure/privacy matrix, final SQLite/Synapse campaign and equivalent fresh
+qualification from both retained locations still govern closure. The Node
+resumption audit and implementation ledger own detailed source/proof bindings.
