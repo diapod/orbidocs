@@ -1077,12 +1077,6 @@ conflicting signed heads are evidence of equivocation. This mechanism passed the
 scoped P035-019 A/E gates on 2026-10-29; it is not a qualified time service or
 P032 v2 migration.
 
-Integration correction (2026-11-01): the existing `signer.witness` HTTP route is
-registered in P072 as host-local and dispatchable, without advertisement,
-passport eligibility or federated discovery. Registration repairs a missing
-catalogue entry; it neither grants signing authority nor changes the typed
-caller's policy, preparation ticket or active-key checks.
-
 P037's typed `signer.witness` operation prepares a one-use, caller-bound ticket
 with owner-sampled time. Signing accepts that exact preparation, an accepted
 receipt in its bound profile, and a commit time no later than the owner's clock.
@@ -1090,6 +1084,11 @@ It consumes the ticket and checks the active key before and after signing.
 Only the host-private node-key adapter can sign a delegation. Generic `sign`
 rejects both the witness domain and the delegation prefix, including a prefix
 wrapped in an alternate domain. Public fences survive restart; secrets do not.
+
+The capability registry identifies this operation as `host/signer.witness`, an
+active host-local route and dispatch capability. It is not advertisable, passport
+eligible, federated discovery or a generic signing domain. Registry admission
+does not replace the Signer's caller/domain policy or authorize raw root signing.
 
 The shared lower crate `custody-fence` supplies P015/P037 observed-time and
 revision-head laws plus bounded no-follow durable fence I/O. P015's disk key
