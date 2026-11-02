@@ -751,6 +751,16 @@ Agent slot are consumed. No automatic retry, parser repair or token increase
 follows; another experiment requires a new exact decision and preregistration.
 The synchronous controller scope remains unchanged.
 
+The operator-approved 2026-11-03 instruction clarification (Node `7d310903`) is model-free. The
+existing generic format policy requires one JSON envelope per response, complete
+proposal fields and waiting for a real host observation. The existing Agent-only
+catalog layer adds one read at a time, host-default paging and exact ids from
+actual list results. PromptAssemblyPolicy retains the 2048 instruction-token cap;
+strict parsing, Schema Gate, grant admission and the native 64-token bound are
+unchanged. Model compliance remains unmeasured on this wording. All historical
+preparation and Agent-slot facts remain consumed, with no further inference
+authorized. P064/P072 qualification stays partial.
+
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.
 P066-GUIDE-001 is a later Assistant consumer, not a second dispatcher.
