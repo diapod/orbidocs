@@ -338,7 +338,7 @@ small ordered contract. This is not a full key event log.
 - **Requests and accepted events.** The continuity key signs case requests:
   condition amendments and withdrawal, release confirmations, case closure and
   `case`-scope successions. Executors sign release commit and abandonment
-  requests. Each request carries `case/anchor` (the original record digest) and
+  requests. Each request carries `case/anchor` (the digest of exact signed author bytes) and
   a durable `request/id`, but no revision. The authority gives a request its
   place in the order by accepting it: its signed `whisper-case-acceptance.v1`
   binds the request digest, `case/revision` (a monotonic integer; the anchor is
@@ -599,3 +599,51 @@ publisher/key-destruction liveness remain separate. See
 
 The prior dated qualification remains unchanged. This follow-up preserves the
 bounded claim and does not close parent P036, P015-005 or LLR-009.
+
+
+## LLR-006 Custody and Composition Amendment (2026-11-02)
+
+Status: accepted design; not an implementation-completion claim.
+
+S026 owns random case-key custody and LLR-006 owns commitment, permitted uses and
+lifetime. A durable `exposed` fact precedes releasing the commitment to the signal
+or manifest producer. Only unexposed preparation may expire under short request
+TTL. Exposed unbound keys last to explicit abandonment or their original horizon;
+abandonment records erasure. Signing binds the key once to exact author bytes
+before those bytes are released. Admission is a separate later fact.
+
+The host nym-authoring path obtains a typed preparation from S026, passes it to
+SignalPreview before review, and persists the signed result and case binding
+before returning it. ADC consumes that same preparation; it does not establish
+case identity. Full anchors use LLR-002 historical verification. Detached anchors
+use only P035's signed author-byte digest and manifest bindings, recording reliance
+on the admitted witness; no private record ID appears publicly.
+
+Closed key uses and domains are succession (`orbiplex.nym-succession.v2`),
+amendment (`orbiplex.whisper-embargo-amendment.v1`), withdrawal
+(`orbiplex.whisper-embargo-withdrawal.v1`), confirmation
+(`orbiplex.whisper-embargo-confirmation.v1`) and closure
+(`orbiplex.whisper-case-closure.v1`), each NUL-terminated before canonical payload.
+Only succession is enabled here; other uses refuse use-not-enabled before custody.
+Both signing roles consume validated documents, not arbitrary prefixed bytes.
+
+The provider uses a local random wrapping key with no mnemonic/root recovery
+slot. Default application recovery omits case secrets; explicit per-case opt-in
+is checked at export. Imported keys preserve their original horizon and newer
+local erasure knowledge. Erasure tombstones last at least until case/not-after.
+Whole-filesystem backups containing provider keys and earlier exports are outside
+the guarantee; a fresh host cannot infer unknown remote erasure.
+
+A->B->B' uses the same original anchor and continuity key. LLR-008 checks the
+current predecessor and orders acceptance; the pure P015 verifier does not.
+Successor federation/context must equal the anchor's. Current authority expires
+with the successor certificate, and a new nym needs new succession; source/ref is
+not identity. LLR-008 capacity must account for horizon AND allowed renewal rate,
+not only epoch length. Its ordered acceptance and LLR-009 runtime remain open.
+
+LLR-009's proposed 65536-byte carrier cannot carry a maximum 512-KiB P015 status.
+That conflict must be resolved and the supported Phase 1 profile measured before
+LLR-009 freezes. No truncation or hidden status fetch repairs this conflict.
+The LLR-006 acceptance composition separately bounds unique decoded material to
+2 MiB, transport to 4 MiB and signature work to 32. It does not promise all
+component maxima fit simultaneously or establish the future LLR-009 carrier.

@@ -104,7 +104,7 @@ The certificate carries:
 - issue and expiry timestamps,
 - optional leniency window for late continuity handoff,
 - issuer identity in canonical `council:did:key:...` form,
-- optional predecessor and succession proof for public continuity,
+- optional predecessor identity for public continuity; succession is a separate artifact,
 - council signature.
 
 Public continuation is the default renewal mode for this baseline. Private reset is
@@ -177,7 +177,7 @@ epoch.
 The request includes:
 
 - participant identity,
-- succession proof already signed by the old `nym`,
+- domain-separated proof of predecessor control, before successor certification,
 - request freshness,
 - participant signature over the whole request.
 
@@ -348,8 +348,8 @@ evidence retain their scope. Its two runtime gates remain pending.
 
 The planned narrow `nym-succession.v2` will replace v1 without a compatibility
 path before the first release, when P015-004 closes. That single migration will
-remove the v1 schema, example and acceptance, move `line/succession` in
-`nym-certificate.v1` and `succession` in `nym-renew-request.v1` to v2, and update
+remove the v1 schema, example and acceptance, remove `line/succession` from
+`nym-certificate.v1` and `succession` from `nym-renew-request.v1`, and update
 all references, generated COVERAGE/schema pages and Node acceptance together.
 The existing v1 artifacts and section 3 are the current baseline, not evidence
 that this migration has happened.
@@ -374,7 +374,7 @@ issuer.
 | `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the `case/anchor` record |
 | `successor/nym` | The successor nym id |
 | `successor/certificate` | The digest of the successor's current certificate |
-| `case/anchor` | The original signed record digest, from the shared case request header of P013; required for scope `case` and forbidden for scope `line`. The order of a `case` succession comes from the case authority's acceptance, not from this artifact |
+| `case/anchor` | The digest of exact signed author bytes (`author/bytes-digest` in P035), from the shared case request header of P013; required for scope `case` and forbidden for scope `line`. The order of a `case` succession comes from the case authority's acceptance, not from this artifact |
 | `audience` | The named recipients; `line` successions are public by nature |
 | `issued-at`, `not-after` | A short validity window |
 | `signatures` | Exactly two semantic authorizations: predecessor authorization and successor acceptance; both Ed25519 in Phase 1 |
@@ -509,7 +509,7 @@ post-MVP follow-up.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id` with different bytes, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. Follow the pure verifier sequence and shared byte-law fixtures in the implementation recommendations; supplied replay state remains separate from durable LLR runtime. |
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; inline references in `nym-certificate.v1` and `nym-renew-request.v1` removed. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id` with different bytes, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. Follow the pure verifier sequence and shared byte-law fixtures in the implementation recommendations; supplied replay state remains separate from durable LLR runtime. |
 
 ### Embargo Authorship Scope Tracker
 
@@ -699,3 +699,67 @@ publisher/key-destruction liveness remain separate. See
 
 The prior dated qualification remains unchanged. This follow-up preserves the
 bounded claim and does not close parent P036, P015-005 or LLR-009.
+
+
+### Adopted Narrow Succession Contract (2026-11-02)
+
+Status: accepted design; implementation and acceptance remain separately tracked.
+This amendment supersedes conflicting draft wording above.
+
+The closed family table is `line/predecessor -> general nym-certificate.v1`,
+`line/successor -> general nym-certificate.v1`, and `case/successor -> contextual
+whisper-source-certificate.v1 or v2`. Case predecessor certificates are forbidden.
+A contextual document must never fall back to the open general schema: that
+adapter rejects `whisper/*`, `privacy/*` and `scope/authorized-uses`. Verified
+certificate values are minted only by family adapters; family is not another
+on-wire field. Case successors preserve the anchor federation and context,
+including across an independently admitted profile-v1 to profile-v2 migration.
+Their status must be usable for Collection at the evaluation time, meet the
+certificate floor and preserve supplied negative/high-water knowledge.
+
+`authorization/public-key` is canonical Ed25519 multibase (multicodec plus 32 raw
+key bytes); weak keys refuse. Continuity commitments are
+`sha256:` plus unpadded base64url of SHA-256 over
+`orbiplex.whisper-case-continuity-key.v1`, NUL, and the raw 32-byte Ed25519 key.
+The two signatures are unpadded base64url strings in the closed object roles
+`predecessor` and `successor`. Both cover `orbiplex.nym-succession.v2`, NUL, then
+JCS with only `signatures` removed. Audience is absent for public line scope;
+case audience has 1..16 canonical principals, bytewise sorted and unique, and
+includes the committed case authority. Signed input is never silently sorted.
+Succession IDs are canonical random UUIDv4. Canonical UTC, byte/depth limits and
+closed field combinations precede signature work. The schema-derived canonical
+upper bound is 2026 bytes, under the independent 8192-byte ingress ceiling.
+
+Renewal is two-phase. The request binds the predecessor certificate, proposed
+successor nym, council, random request identity and bounded time window. The
+predecessor signs the renewal domain `orbiplex.nym-renew-control.v1`, NUL, and
+JCS of the request without `signature` and `predecessor/control-proof`; the
+participant then signs the request including that proof. This is not succession.
+After certification, both nym keys sign succession during predecessor grace.
+There is no embedded succession in either certificate or renewal request; those
+legacy fields are explicitly forbidden even by otherwise open schemas. Certificate
+signing bytes do not change. Frozen historical `source.json` pins are not rewritten.
+
+Evaluation time is typed: an observed owner clock, or independently verified
+acceptance bound to the exact succession digest. Historical case time comes from
+the admitted case authority; historical line time comes from admitted P035
+publication. Neither `issued-at` nor anchor publication time proves succession
+acceptance time. `not-after` bounds signing and acceptance, not later historical
+verification. The host bounds requests by profile request TTL and the relevant
+certificate/grace/case horizon; general line policy defaults to at most 900 s.
+Historical certificate/status checks use admitted acceptance time. Current effects
+still require current certificate, source status and case currency at actual now.
+No runtime case acceptance verifier is claimed before LLR-008.
+
+P015-004 closes independently after pure-contract gate A, succession budgets E
+and Schema Gate/regression F. Network-denied host/custody gates B-D are LLR-006,
+not MVP conditions. The pure verifier owns no I/O, clocks, persistence or replay
+cache. Supplied replay state distinguishes identical bytes from conflicting reuse.
+It returns AuthenticSuccession, never AcceptedCaseSuccession or current authority.
+
+
+Implementation review finding (2026-11-02): the existing context digest binds
+`profile/digest`, so real profile migration changes the context. The proposed
+same-context migration requires a separately resolved contract boundary. It is
+not established by synthetic certificate fixtures. Resolution is pending; no
+context derivation or current-authority rule is widened by the initial verifier.

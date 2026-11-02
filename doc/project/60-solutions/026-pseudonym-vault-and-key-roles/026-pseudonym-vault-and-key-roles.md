@@ -538,3 +538,16 @@ publisher/key-destruction liveness remain separate. See
 
 The prior dated qualification remains unchanged. This follow-up preserves the
 bounded claim and does not close parent P036, P015-005 or LLR-009.
+
+
+### Case-key custody refinement (2026-11-02)
+
+The LLR-006 owner records prepared/exposed/bound and erase-requested/erased
+transitions. Exposed state is durable before releasing a commitment. The provider
+uses independent random encryption material without an operationalVaultRoot or
+mnemonic recovery slot. Existing issuer keystore and custody-fence mechanics may
+be shared; issuer no-export policy remains in its adapter. Case-key recovery is a
+separate per-case opt-in projection, omitted by default. Whole-filesystem copies
+including provider material are outside revocation guarantees. Tombstones survive
+to the original case horizon. Missing keys refuse without replacement generation.
+These are design requirements, not qualified runtime status.
