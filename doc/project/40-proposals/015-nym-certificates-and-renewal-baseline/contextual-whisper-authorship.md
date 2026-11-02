@@ -1349,3 +1349,11 @@ of the current new source after refusal, beyond the earlier late readback.
 The Node audit records original identities. The formal composite old-DB predicate,
 remaining matrices and final both-store A/B qualification still govern closure;
 the independently composed inventory remains14/66 and P015 stays partial.
+
+
+The subsequent profile-owned composite reader binds that original stopped
+snapshot and distinct native refusal to the ordinary AD issue/reset/renewal
+predicates and exact restored host review. It can establish only the controlled
+`A/old-database-restore` obligation, with fault-injected origin. A clean-source
+reinspection must produce its proof; stored success flags and archived procedures
+are not authority. Remaining gate and final retention requirements are unchanged.
