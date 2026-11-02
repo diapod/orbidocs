@@ -699,6 +699,19 @@ JSON uses an ordinary profile. Duplicate decoded JSON keys refuse and transport
 diagnostics survive projection. The focused HTTP, profile-policy and schema tests
 establish this C/H boundary; the shared report owns the separate concrete-model result.
 
+The first concrete GUIDE qualification uses one preregistered exact model/profile
+candidate, not a reliability estimate. Its private execution layout and source
+inventories are immutable and checked before/after; the public Git history anchors
+only the preregistration digest before model preparation. Scoped operator capture
+expires after 300 seconds and closes before independent catalog verification.
+Private HTTP diagnostics retain observed status, response and
+`response/stop-reason` (null when absent), with independent anonymous process-output
+sinks. Instruction-token diagnostics reuse PromptAssemblyPolicy's estimate.
+An explicitly limited network fallback can supply model evidence while the shared
+host-network qualification remains partial. Operator semantic approval is required;
+no preparation code, scripted adapter or native conformance supplies that verdict.
+
+
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.
 P066-GUIDE-001 is a later Assistant consumer, not a second dispatcher.
