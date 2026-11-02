@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-case-recovery-result.local:v1",
+  "title": "nym-case-recovery-result.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "policy",
+    "state",
+    "entries",
+    "reason"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nym-case-recovery-result.local.v1"
+    },
+    "policy": {
+      "enum": [
+        "account",
+        "require"
+      ]
+    },
+    "state": {
+      "enum": [
+        "applied",
+        "refused",
+        "unavailable"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key/digest",
+          "outcome"
+        ],
+        "properties": {
+          "key/digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "outcome": {
+            "enum": [
+              "included",
+              "imported",
+              "restored",
+              "already-present",
+              "expired",
+              "erased-locally",
+              "provider-lost"
+            ]
+          }
+        }
+      }
+    },
+    "reason": {
+      "enum": [
+        null,
+        "case-key-required",
+        "case-key-input-invalid",
+        "case-key-state-corrupt",
+        "case-key-owner-busy",
+        "case-key-unavailable",
+        "case-key-expired",
+        "case-key-erased",
+        "case-key-conflict",
+        "case-key-capacity",
+        "case-key-recovery-not-enabled",
+        "case-key-entropy-unavailable",
+        "case-key-storage-unavailable",
+        "case-key-clock-regressed",
+        "case-key-fence-unavailable",
+        "case-key-journal-unavailable",
+        "use-not-enabled",
+        "case-key-succession-refused"
+      ]
+    }
+  }
+}

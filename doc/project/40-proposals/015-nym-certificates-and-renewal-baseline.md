@@ -784,3 +784,18 @@ mutations. Loose/extracted results agree for archive `b09c9502c5de8c8d715ea3052d
 Evidence: `node:docs/evidence/portable-admission/2026-11-02-succession-pure-qualified/README.md`.
 P015-004 is done independently; LLR-006 host custody/recovery and network-denied
 composition remain open. No accepted history, current-case or release claim follows.
+
+
+### Succession boundary review (2026-11-02)
+
+P015-004 rejects self-succession (equal predecessor/successor nym, and for line,
+equal certificates). A successor line certificate's optional predecessor declaration
+must match the signed transition. Case anchor claims include the verified author nym.
+`AuthenticSuccession.predecessor_binding` distinguishes `certificate`, `anchor-author`
+and `case-history-required`. The latter authenticates the signed claim only: LLR-008
+must compare-and-swap against its current successor. Initial acceptance requires the
+anchor author; a stale predecessor refuses with retry condition `evidence-change`.
+A subsequent B->C is authentic without pretending B authored the anchor.
+
+The pre-release signal widening and recovery accounting decision are recorded in
+P013/LLR and S026. Historical source manifests and evidence are not rewritten.

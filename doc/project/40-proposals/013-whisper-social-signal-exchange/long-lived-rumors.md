@@ -707,3 +707,21 @@ SHA-256 `376cdaba9095875100f7d687d70418312a108d34f14f83191a98e6993c2a2195`.
 Node's dated acceptance/review records the source chain, time, bounds and exclusions.
 P015-004 retains its independent pure result. LLR-007–010, P015-005, ADC runtime,
 current authority, transport and release readiness are not closed by this gate.
+
+
+### Case recovery boundary review (2026-11-02)
+
+Recovery of ordinary nyms and optional case keys has separate results. The default
+`account` policy reports every included/excluded key digest and never makes expired,
+locally erased, lost or corrupt case material a prerequisite for nym recovery.
+`require` explicitly refuses if any selected case cannot be transferred. Busy owners
+are a bounded, retryable refusal before producing a partial export. Integrity of the
+complete case projection (AEAD, scope, duplicate identities and bindings) is checked
+before any case-key write. Provider or projection refusal remains visible and audited;
+no omission is silent. Projection-only reapplication is idempotent and does not reseal
+nyms. Import preserves all local erasure facts and original horizons.
+
+LLR-008 acceptance must compare the declared predecessor with the effective successor
+at its head; with no previous succession it requires `anchor-author`. A stale claim
+returns `stale-predecessor` / `evidence-change`, not an equivocation. P015's
+`case-history-required` alone authorizes nothing. LLR-008 remains outside this slice.

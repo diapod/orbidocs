@@ -1109,3 +1109,10 @@ Generic P037 signing refuses the reserved domain or payload prefix, including
 wrap_with_domain. This introduces no signer-core dependency on nym-core and does
 not enable amendment, withdrawal, confirmation or closure uses. The successor's
 protected Rust port awaits the separate LLR-007/P015-005 caller.
+
+
+The 2026-11-02 boundary review adds a cross-crate reserved-domain regression over
+every CaseKeyUse and renewal control prefix, with both wrapping policies. The
+successor's protected port samples the host-owned clock and persists the common
+custody-fence observed-time floor before output. This does not connect its deferred
+P015-005/LLR-007 caller or grant authority from a pure succession result.

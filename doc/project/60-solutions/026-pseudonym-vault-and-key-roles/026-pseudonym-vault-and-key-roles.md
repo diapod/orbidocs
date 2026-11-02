@@ -577,3 +577,21 @@ LLR-006's bounded custody/composition gate passed on 2026-11-02; see its tracker
 and `node:docs/audits/ACCEPTANCE-CASE-CUSTODY-2026-11-02.md`. This post-MVP result
 uses synthetic v2 certificates at the certified-authoring seam and does not
 qualify P015-005, ordered case history, current authority or transport.
+
+
+### Accounted case recovery boundary (2026-11-02)
+
+Managed Vault recovery defaults to `case-keys/policy: account`: optional case keys
+never make an otherwise authentic nym snapshot expire. Its closed local result
+accounts for included/imported/restored/present, expired, locally erased or lost
+keys, and reports component integrity/provider failures. Explicit `require`
+withholds incomplete output. Busy is bounded retryable refusal without a partial
+bundle. Component-only retry requires the existing participant and does not
+reseal nyms. Require is an output gate, not a distributed rollback promise.
+
+New inner projections use a role-derived HKDF key and sealed.v2; exact sealed.v1
+has read-only recovery support. Independent host audit reports failure even when
+the provider cannot open; unavailable audit is explicit. Checkpoint repair bounds
+replay, not cumulative storage: old generations remain until storage gains a
+reviewed GC operation. An exposed digest can have escaped a preview, so preview
+expiry alone does not authorize abandonment of its key.
