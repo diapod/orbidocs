@@ -219,6 +219,9 @@ schema_for_file() {
     *.participant-restriction-lifecycles.json)
       echo "$SCHEMAS_DIR/participant-restriction-lifecycles.v2.schema.json"
       ;;
+    *.responsibility-lifecycle-execution.local.v2.json)
+      echo "$SCHEMAS_DIR/responsibility-lifecycle-execution.local.v2.schema.json"
+      ;;
     *.participant-restriction-lifecycle-request.json)
       echo "$SCHEMAS_DIR/participant-restriction-lifecycle-request.v2.schema.json"
       ;;
@@ -1558,7 +1561,7 @@ schema_for_file() {
       echo "$SCHEMAS_DIR/nym-issue-request.v1.schema.json"
       ;;
     *.nym-succession.json)
-      echo "$SCHEMAS_DIR/nym-succession.v1.schema.json"
+      echo "$SCHEMAS_DIR/nym-succession.v2.schema.json"
       ;;
     *.whisper-source-profile.json)
       echo "$SCHEMAS_DIR/whisper-source-profile.v1.schema.json"
@@ -1895,7 +1898,7 @@ validate_with_ajv() {
         --spec=draft2020 \
         --strict=false \
         -s "$schema_file" \
-        -r "$SCHEMAS_DIR/nym-succession.v1.schema.json" \
+        -r "$SCHEMAS_DIR/nym-succession.v2.schema.json" \
         -d "$data_file" >/dev/null
       ;;
     *client-instance-attachment.v1.schema.json)

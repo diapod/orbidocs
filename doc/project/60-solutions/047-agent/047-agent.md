@@ -883,3 +883,18 @@ Proposal 073 remains the implementation-recommendation and evidence document
 for this solution. Its tracker records concrete crate ownership, schemas,
 runtime paths, refusal cases, process smokes, and deferred work. Promotion does
 not turn those implementation details into protocol semantics.
+
+
+## Local assessment audit consumer (2026-10-30)
+
+P026's closed module consumer now has complete-unit metadata retention, durable
+exact-wire reservation and bounded owner receipt/capsule/checkpoint maintenance.
+This does not broaden the closed context, memory, fork, recipient or inference
+profile. Authority is never reconstructed from a checkpoint or archive; parent
+P073 and future dependent-context profiles remain partial.
+The [P026 stage closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+pins Node `da1d14a7` / Orbidocs `127843fb`, five ordinary cases and 172 separate
+component checks with 70 controls per mode/location. The capability catalog is
+unchanged: this composes existing owner ports and scheduling, and adds no generic
+grant-bearing operation. Historical evidence, unknown coverage, models and release
+scope remain separate.

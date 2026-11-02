@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-case-key-operation.local:v1",
+  "title": "nym-case-key-operation.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "operation": {
+      "enum": [
+        "read",
+        "erase",
+        "recovery-consent",
+        "provider-inspect",
+        "provider-replace"
+      ]
+    },
+    "continuity/key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "expected/provider": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    }
+  },
+  "required": [
+    "operation"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "enum": [
+              "read",
+              "erase",
+              "recovery-consent"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "continuity/key-digest"
+        ],
+        "not": {
+          "required": [
+            "expected/provider"
+          ]
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "continuity/key-digest"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "recovery-consent"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "enabled"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "enabled"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "provider-replace"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "expected/provider"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "expected/provider"
+          ]
+        }
+      }
+    }
+  ]
+}

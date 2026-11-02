@@ -1,0 +1,9 @@
+{
+  "schema": "responsibility-lifecycle-execution.local.v2",
+  "kind": "context",
+  "value": {
+    "host": "fixture-host",
+    "incarnation": "fixture-incarnation",
+    "epoch": "fixture-dataset"
+  }
+}

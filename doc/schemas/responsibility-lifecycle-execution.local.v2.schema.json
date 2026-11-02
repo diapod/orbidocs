@@ -1,0 +1,1046 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-lifecycle-execution:local:v2",
+  "title": "responsibility-lifecycle-execution.local.v2",
+  "description": "Fresh-dataset owner-local V4-prep contract. Isolated conformance is not host authority, readiness, or live enforcement. Historical draft migration contracts remain separate.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md"
+  ],
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-lifecycle-execution.local.v2"
+        },
+        "kind": {
+          "const": "context"
+        },
+        "value": {
+          "$ref": "#/$defs/Context"
+        }
+      },
+      "required": [
+        "schema",
+        "kind",
+        "value"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-lifecycle-execution.local.v2"
+        },
+        "kind": {
+          "const": "attempt"
+        },
+        "value": {
+          "$ref": "#/$defs/Attempt"
+        }
+      },
+      "required": [
+        "schema",
+        "kind",
+        "value"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-lifecycle-execution.local.v2"
+        },
+        "kind": {
+          "const": "receipt"
+        },
+        "value": {
+          "$ref": "#/$defs/Receipt"
+        }
+      },
+      "required": [
+        "schema",
+        "kind",
+        "value"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-lifecycle-execution.local.v2"
+        },
+        "kind": {
+          "const": "source"
+        },
+        "value": {
+          "$ref": "#/$defs/Source"
+        }
+      },
+      "required": [
+        "schema",
+        "kind",
+        "value"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-lifecycle-execution.local.v2"
+        },
+        "kind": {
+          "const": "dataset"
+        },
+        "value": {
+          "$ref": "#/$defs/Dataset"
+        }
+      },
+      "required": [
+        "schema",
+        "kind",
+        "value"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-lifecycle-execution.local.v2"
+        },
+        "kind": {
+          "const": "observation"
+        },
+        "value": {
+          "$ref": "#/$defs/Observation"
+        }
+      },
+      "required": [
+        "schema",
+        "kind",
+        "value"
+      ]
+    }
+  ],
+  "$defs": {
+    "Context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "incarnation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "host",
+        "incarnation",
+        "epoch"
+      ]
+    },
+    "Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ]
+    },
+    "Case": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "decision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "effect": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "case",
+        "decision",
+        "effect"
+      ]
+    },
+    "Basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "kind": {
+          "enum": [
+            "case-effect",
+            "operator-soft",
+            "operator-hard"
+          ]
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "procurement/request",
+              "procurement/offer",
+              "procurement/contract-accept",
+              "response/deliver",
+              "response/accept",
+              "response/reject",
+              "signal-marker/send"
+            ]
+          },
+          "maxItems": 7,
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "hard": {
+          "type": "boolean"
+        },
+        "priority-factor": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "rate-limit-factor": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "valid-from": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "valid-until": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason-ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "authority-digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "case": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Case"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "subject",
+        "kind",
+        "operations",
+        "hard",
+        "priority-factor",
+        "rate-limit-factor",
+        "valid-from",
+        "valid-until",
+        "reason-ref",
+        "actor",
+        "authority-digest",
+        "case"
+      ]
+    },
+    "Authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "case": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Case"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "command",
+        "digest",
+        "actor",
+        "subject",
+        "case"
+      ]
+    },
+    "Decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "decided-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "authority-digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "soft": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Basis"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hard": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Basis"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "operator-soft",
+              "operator-hard"
+            ]
+          }
+        }
+      },
+      "required": [
+        "subject",
+        "decided-at",
+        "actor",
+        "authority-digest",
+        "soft",
+        "hard",
+        "slots"
+      ]
+    },
+    "Action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "install"
+            },
+            "source": {
+              "$ref": "#/$defs/Basis"
+            }
+          },
+          "required": [
+            "kind",
+            "source"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "suspend"
+            },
+            "resume-at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            }
+          },
+          "required": [
+            "kind",
+            "resume-at"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "resume"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "retract"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "suspension-expiry"
+            },
+            "cause": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "kind",
+            "cause"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "operator-replace"
+            },
+            "decision": {
+              "$ref": "#/$defs/Decision"
+            }
+          },
+          "required": [
+            "kind",
+            "decision"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "operator-retract"
+            },
+            "slot": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "operator-soft",
+                    "operator-hard"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "slot"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "operator-clear"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "receipt-only"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        }
+      ]
+    },
+    "Operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "authority": {
+          "$ref": "#/$defs/Authority"
+        },
+        "request-revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "action": {
+          "$ref": "#/$defs/Action"
+        }
+      },
+      "required": [
+        "epoch",
+        "target",
+        "authority",
+        "request-revision",
+        "action"
+      ]
+    },
+    "Attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "operation": {
+          "$ref": "#/$defs/Operation"
+        },
+        "expected-set": {
+          "$ref": "#/$defs/Binding"
+        },
+        "predecessor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "context",
+        "operation",
+        "expected-set",
+        "predecessor"
+      ]
+    },
+    "State": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "applied"
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "retracted"
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "suspended"
+            },
+            "resume-at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            },
+            "cause": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "state",
+            "resume-at",
+            "cause"
+          ]
+        }
+      ]
+    },
+    "Source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "original": {
+          "$ref": "#/$defs/Basis"
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/State"
+        },
+        "effective-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "recorded-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "original",
+        "lifecycle",
+        "effective-at",
+        "recorded-at"
+      ]
+    },
+    "Receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "address": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "attempt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "authority-digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "kind": {
+          "enum": [
+            "install",
+            "suspend",
+            "resume",
+            "retract",
+            "suspension-expiry",
+            "operator-replace",
+            "operator-retract",
+            "operator-clear",
+            "receipt-only"
+          ]
+        },
+        "request-revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "lifecycle": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lifecycles": {
+          "$ref": "#/$defs/Binding"
+        },
+        "outcome": {
+          "enum": [
+            "pending",
+            "applied",
+            "suspended",
+            "resumed",
+            "retracted",
+            "refused"
+          ]
+        },
+        "effective-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "recorded-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "refusal": {
+          "anyOf": [
+            {
+              "enum": [
+                "invalid-data",
+                "no-authority",
+                "source-set-conflict",
+                "source-conflict",
+                "source-already-exists",
+                "stale-predecessor",
+                "operator-decision-conflict",
+                "future-operator-decision",
+                "stale-operator-decision",
+                "retraction-fence",
+                "idempotency-conflict",
+                "invalid-transition",
+                "limit-exceeded",
+                "lifecycle-not-integrated",
+                "binding-mismatch"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clock-rollback": {
+          "type": "boolean"
+        },
+        "expected-set": {
+          "$ref": "#/$defs/Binding"
+        },
+        "predecessor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "context",
+        "operation",
+        "address",
+        "attempt",
+        "authority-digest",
+        "target",
+        "kind",
+        "request-revision",
+        "lifecycle",
+        "lifecycles",
+        "outcome",
+        "effective-at",
+        "recorded-at",
+        "refusal",
+        "clock-rollback",
+        "expected-set",
+        "predecessor"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "refused"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "refusal": {
+                "enum": [
+                  "invalid-data",
+                  "no-authority",
+                  "source-set-conflict",
+                  "source-conflict",
+                  "source-already-exists",
+                  "stale-predecessor",
+                  "operator-decision-conflict",
+                  "future-operator-decision",
+                  "stale-operator-decision",
+                  "retraction-fence",
+                  "idempotency-conflict",
+                  "invalid-transition",
+                  "limit-exceeded",
+                  "lifecycle-not-integrated",
+                  "binding-mismatch"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "refusal": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Watermark": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decided-at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "decision-digest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clear-at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "decided-at",
+        "decision-digest",
+        "clear-at"
+      ]
+    },
+    "Dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Source"
+          },
+          "maxProperties": 8192
+        },
+        "terminal": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "maxItems": 8192
+        },
+        "watermarks": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Watermark"
+          },
+          "maxProperties": 8192
+        },
+        "completed": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Receipt"
+          },
+          "maxProperties": 16384
+        }
+      },
+      "required": [
+        "revision",
+        "sources",
+        "terminal",
+        "watermarks",
+        "completed"
+      ]
+    },
+    "Observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "lifecycles": {
+          "$ref": "#/$defs/Binding"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Source"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "context",
+        "lifecycles",
+        "source",
+        "observed-at"
+      ]
+    }
+  }
+}

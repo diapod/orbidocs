@@ -17,6 +17,7 @@ Source schema: [`doc/schemas/nym-authorship-preview.local.v1.schema.json`](../..
 | [`certification/id`](#field-certification-id) | `yes` | string |  |
 | [`local-passphrase`](#field-local-passphrase) | `no` | string |  |
 | [`content`](#field-content) | `yes` | ref: `whisper-signal-draft.local.v1.schema.json` |  |
+| [`case`](#field-case) | `no` | object |  |
 ## Field Semantics
 
 <a id="field-profile-digest"></a>
@@ -48,3 +49,9 @@ Source schema: [`doc/schemas/nym-authorship-preview.local.v1.schema.json`](../..
 
 - Required: `yes`
 - Shape: ref: `whisper-signal-draft.local.v1.schema.json`
+
+<a id="field-case"></a>
+## `case`
+
+- Required: `no`
+- Shape: object

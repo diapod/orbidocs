@@ -35,6 +35,26 @@
     },
     "content": {
       "$ref": "whisper-signal-draft.local.v1.schema.json"
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status-authority": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "not-after": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 30
+        }
+      },
+      "required": [
+        "status-authority",
+        "not-after"
+      ]
     }
   },
   "required": [

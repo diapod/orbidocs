@@ -194,6 +194,25 @@
     "source/ref": {
       "type": "string",
       "pattern": "^source:[A-Za-z0-9_-]{43}$"
+    },
+    "embargo/manifest-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "case/continuity-key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "case/status-authority": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "case/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
     }
   },
   "allOf": [
@@ -245,6 +264,23 @@
     ],
     "signal/text-native-lang": [
       "signal/text-native"
+    ],
+    "embargo/manifest-digest": [
+      "case/continuity-key-digest",
+      "case/status-authority",
+      "case/not-after"
+    ],
+    "case/continuity-key-digest": [
+      "case/status-authority",
+      "case/not-after"
+    ],
+    "case/status-authority": [
+      "case/continuity-key-digest",
+      "case/not-after"
+    ],
+    "case/not-after": [
+      "case/continuity-key-digest",
+      "case/status-authority"
     ]
   }
 }

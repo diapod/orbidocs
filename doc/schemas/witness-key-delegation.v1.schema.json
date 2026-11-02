@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:witness-key-delegation:v1",
+  "title": "witness-key-delegation.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "witness/node-id",
+    "witness/role",
+    "profile/digest",
+    "witness/key",
+    "valid/from",
+    "valid/until",
+    "delegation/sequence",
+    "delegation/previous",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "witness-key-delegation.v1"
+    },
+    "witness/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 180
+    },
+    "witness/role": {
+      "const": "admission-receipt"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "witness/key": {
+      "type": "string",
+      "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 180
+    },
+    "valid/from": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "delegation/sequence": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "delegation/previous": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  }
+}

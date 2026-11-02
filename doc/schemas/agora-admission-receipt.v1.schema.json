@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-admission-receipt:v1",
+  "title": "agora-admission-receipt.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipt/profile",
+    "author/bytes-digest",
+    "certificate/digest",
+    "issuer/id",
+    "profile/digest",
+    "policy/digest",
+    "status/digest",
+    "status/revision",
+    "witness/node-id",
+    "accepted/at",
+    "committed/at",
+    "outcome",
+    "witness/delegation-digest",
+    "witness/delegation",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-admission-receipt.v1"
+    },
+    "receipt/profile": {
+      "enum": [
+        "full-record",
+        "detached-manifest"
+      ]
+    },
+    "author/bytes-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "certificate/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "policy/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "status/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "status/revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "witness/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 180
+    },
+    "accepted/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "committed/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "outcome": {
+      "const": "accepted"
+    },
+    "witness/delegation-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "witness/delegation": {
+      "$ref": "witness-key-delegation.v1.schema.json"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    },
+    "record/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "manifest/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "case/continuity-key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "case/status-authority": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "case/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 4096,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "receipt/profile": {
+            "const": "full-record"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "record/id"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "manifest/digest"
+              ]
+            },
+            {
+              "required": [
+                "case/continuity-key-digest"
+              ]
+            },
+            {
+              "required": [
+                "case/status-authority"
+              ]
+            },
+            {
+              "required": [
+                "case/not-after"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "manifest/digest",
+          "case/continuity-key-digest",
+          "case/status-authority",
+          "case/not-after"
+        ],
+        "not": {
+          "required": [
+            "record/id"
+          ]
+        }
+      }
+    }
+  ]
+}

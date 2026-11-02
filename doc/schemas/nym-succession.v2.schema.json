@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-succession:v2",
+  "title": "Narrow nym succession v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "succession/id",
+    "succession/scope",
+    "succession/purpose",
+    "predecessor/nym",
+    "authorization/mode",
+    "authorization/public-key",
+    "successor/nym",
+    "successor/certificate",
+    "issued-at",
+    "not-after",
+    "signatures"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nym-succession.v2"
+    },
+    "succession/id": {
+      "type": "string",
+      "maxLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "succession/scope": {
+      "enum": [
+        "line",
+        "case"
+      ]
+    },
+    "succession/purpose": {
+      "enum": [
+        "continue-line",
+        "continue-case"
+      ]
+    },
+    "predecessor/nym": {
+      "type": "string",
+      "maxLength": 60,
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "predecessor/certificate": {
+      "type": "string",
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "authorization/mode": {
+      "enum": [
+        "nym-key",
+        "continuity-key"
+      ]
+    },
+    "authorization/public-key": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]{47}$"
+    },
+    "successor/nym": {
+      "type": "string",
+      "maxLength": 60,
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "successor/certificate": {
+      "type": "string",
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "case/anchor": {
+      "type": "string",
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "audience": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "maxLength": 68,
+        "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      }
+    },
+    "issued-at": {
+      "type": "string",
+      "maxLength": 30,
+      "format": "date-time"
+    },
+    "not-after": {
+      "type": "string",
+      "maxLength": 30,
+      "format": "date-time"
+    },
+    "signatures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "predecessor",
+        "successor"
+      ],
+      "properties": {
+        "predecessor": {
+          "type": "string",
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        },
+        "successor": {
+          "type": "string",
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "succession/scope": {
+            "const": "line"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "succession/purpose": {
+            "const": "continue-line"
+          },
+          "authorization/mode": {
+            "const": "nym-key"
+          }
+        },
+        "required": [
+          "predecessor/certificate"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "case/anchor"
+              ]
+            },
+            {
+              "required": [
+                "audience"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "succession/scope": {
+            "const": "case"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "succession/purpose": {
+            "const": "continue-case"
+          },
+          "authorization/mode": {
+            "const": "continuity-key"
+          }
+        },
+        "required": [
+          "case/anchor",
+          "audience"
+        ],
+        "not": {
+          "required": [
+            "predecessor/certificate"
+          ]
+        }
+      }
+    }
+  ],
+  "x-dia-maximum-canonical-bytes": 2026
+}

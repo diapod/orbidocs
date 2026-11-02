@@ -1218,3 +1218,72 @@ before 012c, irrespective of the direct product index.
 ### P026 primary integration checkpoint (2026-10-26)
 
 The merged local profile passes ten ordinary-process cases at clean Node `660c4a1d` / Orbidocs `4a8a6d4e`, with normal/-O qualification before and after extraction and 93 negative controls per variant (372 refusals). See `node:docs/evidence/agent-runtime/2026-10-26-rate-exposure-integration/README.md` and `node:docs/audits/P026-PRIMARY-INTEGRATION-2026-10-26.md`. Current builders select the exact Cargo binary; two earlier attempts remain unqualified, including an unresolved UI hydration timeout and a correctly rejected wrong-binary receipt. Historical evidence and the retained feature branches are unchanged. This checkpoint does not promote parent P026-012/P073, 012c, replication, models or release readiness.
+
+
+### Dependent assessment context follow-up (2026-10-29)
+
+[P026-012c](026-assessment-dependent-context.md) now separates S028/P036 retention
+and startup routing, whole-unit audit/dispatch, provenance, RAM continuation,
+operator delivery, RAM-only memory, summaries and bounded family work. Historical
+012b qualification remains frozen. New P066 scope always creates a new activation;
+no in-place grant expansion, restart recovery of private content or implicit new
+recipient follows. RAM-only means Orbiplex does not persist content, not immunity
+to OS swap/core dumps. Current implementation adds the S028/P036 startup barrier and owner-fact routing
+before Agent recovery/admission. The legacy prefix remains protected; this does
+not extend context, restore private RAM content or retire P066/notification rows.
+The later profiles retain separate acceptance gates. The Node contract is
+`node:memarium-runtime/docs/OWNER-JOURNALS.md`.
+
+
+The 2026-10-29 owner-journal checkpoint qualifies startup continuity and previous
+reader refusal at Node `d5ad1392` / Orbidocs `365a3796`, independently of Agent
+inference or context extension. Normal/-O loose/extracted qualification agrees and
+80 mutation refusals preserve the report/descriptor/journal chain.
+See `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md`.
+P026-012c-01 remains in progress for the separately tracked independent S028 failure
+and catalog-cost boundary. P026-012c-02 onward, P066-owned consent retention and
+parent P073 remain open; historical 012a/012b evidence is unchanged.
+
+The subsequent [run 05 local closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md)
+at clean Node `4f8369ff` / Orbidocs `c85d213f` completes the separate S028 failure
+and catalog-cost gate, including actual native ENOSPC and checked detach. The
+renewed ordinary previous/current-daemon cutover bridge qualifies; normal/-O
+loose/extracted results agree with 296 storage/cutover mutation refusals.
+P026-012c-01 is done for the frozen macOS/APFS profile. Parent P073/P026-012,
+012c-02 onward, P066-owned retention, dependent context and all model/release
+claims remain open or unchanged; no private RAM content or activation is restored.
+
+### P026-012c-02/03 dispatch checkpoint (2026-10-29)
+
+The [joint audit/dispatch contract](026-assessment-audit-dispatch.md) is frozen.
+At Node `b1a51400` / Orbidocs `755f50fc`, three ordinary ChannelJson/browser cases
+qualify a durable reservation before final admission, possible disclosure after an
+adapter failure, and restart without reactivation or redispatch. Normal/-O
+loose/extracted results agree; 36 controls per variant give 144 refusals. The
+metadata-only payload and limitations are recorded in
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-dispatch/README.md`.
+
+This is a dispatch prerequisite, not closure of stages 02/03. Source-unit admission,
+all P066/question/notification/Agent copies, persistent S029 owner execution,
+capsules/checkpoint recovery and S020 maintenance remain incomplete. Historical
+shared copies stay protected. The pure receipt DAG does not prove owner deletion;
+selected runtime configuration does not attest a provider process generation.
+P066 remains the sole durable consent owner; no approval archive restores authority.
+Historical Q-02/012a/012b and stage01 evidence remains unchanged.
+
+
+### P026-012c-02/03 local owner closeout (2026-10-30)
+
+The [joint profile](026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+is locally qualified at Node `da1d14a7` / Orbidocs `127843fb`: five ordinary-process
+cases, 172 component checks and 70 controls per normal/-O loose/extracted variant.
+Durable owner receipts, capsule/checkpoint recovery and S020 now replace the earlier
+pending integration boundary. Explicit-time expiry is not physical elapsed age;
+SQLite deletion leaves possible bytes in pages/WAL. Historical unknown populations
+and Q-02/012a/012b evidence remain unchanged and protected. P073 keeps binding/lifecycle/passage ownership; a capsule/checkpoint restores no authority or RAM content. Context provenance, continuation, memory, forks and new recipients remain separate. No P090 genealogy or model/release guarantee follows.
+
+### P026-012c-02/03 review qualification (2026-11-01)
+
+Node `1e264cab` / Orbidocs `bc62fab1` qualify the repaired local profile: six ordinary browser/ChannelJson cases, 234 component checks in 11 byte-bound groups and 81 rejecting controls per normal/`-O`, loose/extracted variant (324). The ordinary pending-consent restart reaches owner timeout before freeze and releases both pending slots. The prior daemon refuses the question-owner version barrier without changing owner populations. The retained proof is `node:docs/evidence/agent-runtime/2026-11-01-p026-012c-retention-review/README.md`.
+
+Orphan reclamation, same-process replay, owner barriers and terminal-only freeze are repaired. Retention advances only observed monotonic credit capped by UTC, with no offline age; clock divergence requires review and does not clear on restart. S020 publishes once per pass, with durable plan/bucket pointers before effects. The 347/545 ms lock observations are not a hard 250 ms latency guarantee. SQLite receipts still permit residual bytes. Lossless metadata compression remains; replacing it with a shared-reference graph is separate design work. Historical proofs are unchanged; context provenance and later 012c stages, parent P073 and release qualification remain partial.

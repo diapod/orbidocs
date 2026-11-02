@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:memarium-admission-custody-export:v1",
+  "title": "memarium-admission-custody-export.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "material",
+    "custody"
+  ],
+  "properties": {
+    "schema": {
+      "const": "memarium-admission-custody-export.v1"
+    },
+    "material": {
+      "oneOf": [
+        {
+          "$ref": "agora-admission-material.v1.schema.json"
+        },
+        {
+          "$ref": "agora-admission-material.v2.schema.json"
+        }
+      ]
+    },
+    "custody": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commitment",
+        "payload/state",
+        "evidence/state",
+        "payload/until",
+        "provider/assurance"
+      ],
+      "properties": {
+        "commitment": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "payload/state": {
+          "enum": [
+            "retained",
+            "unreachable",
+            "key-destroyed",
+            "absent",
+            "payload-unavailable"
+          ]
+        },
+        "evidence/state": {
+          "enum": [
+            "retained",
+            "expired",
+            "evidence-unavailable"
+          ]
+        },
+        "payload/until": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "provider/assurance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "backup/exclusion",
+            "backup/scope",
+            "external-backups",
+            "volume-encryption",
+            "rollback-anchor"
+          ],
+          "properties": {
+            "backup/exclusion": {
+              "const": "by-construction"
+            },
+            "backup/scope": {
+              "const": "built-in-application-backup"
+            },
+            "external-backups": {
+              "const": "unknown"
+            },
+            "volume-encryption": {
+              "const": "unknown"
+            },
+            "rollback-anchor": {
+              "const": "absent"
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "custody": {
+            "properties": {
+              "payload/state": {
+                "enum": [
+                  "unreachable",
+                  "key-destroyed",
+                  "absent",
+                  "payload-unavailable"
+                ]
+              }
+            },
+            "required": [
+              "payload/state"
+            ]
+          }
+        },
+        "required": [
+          "custody"
+        ]
+      },
+      "then": {
+        "properties": {
+          "material": {
+            "not": {
+              "required": [
+                "author/bytes"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

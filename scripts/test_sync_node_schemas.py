@@ -44,7 +44,7 @@ class ResolveNodeRootTests(unittest.TestCase):
                 with self.subTest(allowlist=name):
                     self.assertEqual(len(values), len(set(values)))
 
-    def test_contextual_whisper_operator_contracts_copy_to_node_not_middleware(self) -> None:
+    def test_contextual_whisper_and_admission_contracts_copy_to_node_not_middleware(self) -> None:
         # Exercise the actual command from an empty destination. Manually
         # present mirrors must not hide an incorrectly selected whitelist.
         names = (
@@ -73,8 +73,22 @@ class ResolveNodeRootTests(unittest.TestCase):
             "nym-issuance-delivery.local.v1.schema.json",
             "nym-issuance-consent-result.local.v1.schema.json",
             "nym-issuance-error.local.v1.schema.json",
-            "agora-publication-receipt.local.v1.schema.json",
+            "agora-admission-inspection.local.v1.schema.json",
+            "agora-admission-material.v1.schema.json",
+            "agora-admission-readback.v1.schema.json",
+            "agora-admission-receipt.v1.schema.json",
+            "agora-admission-request.v1.schema.json",
+            "agora-admission-write-result.local.v1.schema.json",
+            "whisper-embargo-manifest.v1.schema.json",
+            "whisper-source-certificate.v2.schema.json",
+            "whisper-source-profile.v2.schema.json",
+            "witness-key-delegation.v1.schema.json",
+            "witness-signing-request.local.v1.schema.json",
+            "witness-signing-result.local.v1.schema.json",
         )
+        retired = "agora-publication-receipt.local.v1.schema.json"
+        self.assertNotIn(retired, SYNC.SCHEMA_WHITELIST)
+        self.assertFalse((SYNC.SCHEMAS_DIR / retired).exists())
         for name in names:
             self.assertIn(name, SYNC.SCHEMA_WHITELIST)
             self.assertNotIn(name, SYNC.MIDDLEWARE_SCHEMA_WHITELIST)
@@ -89,6 +103,7 @@ class ResolveNodeRootTests(unittest.TestCase):
                 text=True, capture_output=True, check=False,
             )
             self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertFalse((root / "protocol/contracts/schemas" / retired).exists())
             for name in names:
                 self.assertEqual((root / "protocol/contracts/schemas" / name).read_bytes(),
                                  (SYNC.SCHEMAS_DIR / name).read_bytes())

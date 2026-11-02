@@ -1,0 +1,25 @@
+{
+  "schema": "whisper-signal.v2",
+  "signal/polarity": "problem",
+  "epistemic/class": "rumor",
+  "signal/text": "Synthetic case without embargo.",
+  "topic/class": "topic",
+  "context/facets": [
+    "synthetic"
+  ],
+  "confidence": 0.5,
+  "disclosure/scope": "federation-scoped",
+  "signal/grade": "low",
+  "routing/profile": "direct",
+  "routing/failure-mode": "soft-fail",
+  "forwarding/max-hops": 0,
+  "signal/similarity-key": "alpha",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "context/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "epoch": 1,
+  "epoch/end": "2026-11-02T00:10:00Z",
+  "source/ref": "source:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "case/continuity-key-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "case/status-authority": "node:did:key:z1111111111111111111111111111111111111111111111",
+  "case/not-after": "2026-11-02T00:01:00Z"
+}

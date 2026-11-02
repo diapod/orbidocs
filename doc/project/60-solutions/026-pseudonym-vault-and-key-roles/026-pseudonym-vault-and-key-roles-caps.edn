@@ -96,7 +96,20 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :participant-dh-local-only-role
+ [{:cap/id :whisper-case-key-custody
+   :title "Case Continuity Key Custody"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md"]
+   :schemas ["nym-succession.v2" "nym-case-key-operation.local.v1"
+             "nym-case-key-state.local.v1" "nym-case-key-provider.local.v1"]
+   :responsibilities
+   ["Persist Exposed before release and bind the first signed author bytes before exposure"
+    "Keep random case secrets independent of mnemonic-derived recovery and generic signing"
+    "Preserve original horizons, erasure knowledge, explicit provider replacement and opt-in recovery"
+    "Use bounded lifecycle checkpoints and the S020 rotary expiry job"]
+   :status :done}
+
+  {:cap/id :participant-dh-local-only-role
    :title "Participant DH Local-Only Role"
    :kind :optional
    :based-on ["doc/project/40-proposals/059-participant-and-nym-key-role-derivation.md"]

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:witness-signing-request.local:v1",
+  "title": "witness-signing-request.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "policy"
+      ],
+      "properties": {
+        "operation": {
+          "const": "prepare"
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "profile/digest",
+            "epoch/anchor",
+            "epoch/seconds",
+            "receipt/key-window-seconds",
+            "receipt/commit-budget-seconds",
+            "clock/skew-seconds"
+          ],
+          "properties": {
+            "profile/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "epoch/anchor": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "epoch/seconds": {
+              "type": "integer",
+              "minimum": 60,
+              "maximum": 604800
+            },
+            "receipt/key-window-seconds": {
+              "type": "integer",
+              "minimum": 60,
+              "maximum": 3600
+            },
+            "receipt/commit-budget-seconds": {
+              "const": 5
+            },
+            "clock/skew-seconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "prepared",
+        "preimage"
+      ],
+      "properties": {
+        "operation": {
+          "const": "sign"
+        },
+        "preimage": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "maxLength": 5462
+        },
+        "prepared": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "delegation",
+            "decided/at",
+            "preparation/id"
+          ],
+          "properties": {
+            "delegation": {
+              "$ref": "witness-key-delegation.v1.schema.json"
+            },
+            "decided/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "preparation/id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{22}$"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation"
+      ],
+      "properties": {
+        "operation": {
+          "const": "time"
+        }
+      }
+    }
+  ]
+}

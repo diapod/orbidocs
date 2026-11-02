@@ -953,7 +953,7 @@ database, transport or UI to obtain a helper.
 | Shared mechanism and evidence | Receiving abstraction and preserved boundary | Consumers and completion owner |
 |---|---|---|
 | `node:canonical-json/src/lib.rs`, `node:crypto/src/lib.rs` and the existing per-use signing functions in `node:nym-core/src/lib.rs` | Canonical bytes and strict signature verification, with a closed per-artifact preimage/signing-use wrapper. Preserve the exact domain, omitted signature fields, key role and byte bounds; cryptographic validity adds no authority. | P015-004/005 and ADC-001/004: reuse the primitives and one set of byte-law fixtures; keep purpose-specific admission. |
-| `nym-core::PublicationTimeVerifier`, `PublicationAnchor` and `SignalBinding` | A verified record/author-byte/time binding behind a small behavior port. Matrix PDU and portable-receipt adapters must satisfy the same binding laws. Only a port and test implementations exist in `nym-core`; production backend qualification remains open. | P035-019, LLR-002 and ADC-004: share proof verification, with the detached-manifest extension owned by P035. Never fabricate a full-signal binding from a public manifest. |
+| `nym-core::PublicationTimeVerifier`, `PublicationAnchor` and `SignalBinding`; P035 pure admission evaluator | The time port remains a narrow record/author-byte/time binding. A verified full admission token projects to it; Matrix time evidence alone is `insufficient-claim` for LLR-002. P035 owns separate full and detached tokens, independent local trust and snapshot-relative history. | P035-019 and first LLR-002 consumer: read-only Agora inspection. ADC-004 and Memarium keep their own runtime gates. Never fabricate a full-signal binding from a public manifest. |
 | P032's cross-artifact verification contract; existing inline-proof consumers and P076's qualified carrier as examples | Bounded exact evidence, independent local trust, separate historical/current results and zero-fetch acceptance. The shared operations are below family adapters; case authority and freshness remain Whisper-owned. | [The Whisper profile matrix](#portable-verification-profiles) applies across signal, embargo and case artifacts. LLR-009 composes P015-004, P035-019 and LLR-008; ADC-005 is the other proof-package consumer. No private-body disclosure or P076-038 scope expansion. |
 | P015 contextual eligibility and the two P013 consumers of source counts | One bounded per-context/epoch contribution view, followed by separate coordination and disclosure decisions. Preserve source identity and evidence; reduce repeated copies to one eligible source. No truth claim, cross-epoch identity or consent follows from that reduction. | P015 Gate B and ADC-004: one contribution evaluator, separate emission latch and release-commit policy; [counting details](013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations). |
 | Scope/revision/digest comparison inside `node:nym-core/src/status.rs` (`StatusCursor::advance`) and LLR's case-status high-water rule | A small pure authenticated-head comparison, reused by two domain cursors. Preserve scope, equality, rollback and equivocation laws; leave cumulative revocations, chain continuity, freshness and terminal effects with their owners. | LLR-008 extracts only that comparison when adding the second consumer, retaining P015 regression vectors; [case details](013-whisper-social-signal-exchange/long-lived-rumors.md#implementation-recommendations). |
@@ -1382,3 +1382,19 @@ now live in a sidecar. The domain, decisions and task ids are unchanged.
 <a id="long-lived-rumor-tracker"></a>
 
 [Continue to the complete section](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
+
+
+### Pre-release schema migration: portable case custody (2026-11-02)
+
+The case tuple in whisper-signal.v2 is all-or-none and independent of ADC. Embargo
+requires the full tuple; manifest and signal values must agree. This widens v2 in
+place under the pre-release policy. An older validator refuses a case without ADC;
+the exact previous schema is pinned in the Node migration vector. Frozen source
+manifests and historical evidence retain their original schema digests.
+
+This stage also removed inline line/succession from nym-certificate.v1, prohibited
+succession in nym-renew-request.v1 (replacing it with a separately domain-bound
+control proof), and replaced active nym-succession.v1 with v2. Before first release,
+widening requires an explicit note and vectors; narrowing additionally requires
+that no admitted artifact/evidence uses the removed form. After release, use a new
+version or explicit profile, never an in-place semantic change.
