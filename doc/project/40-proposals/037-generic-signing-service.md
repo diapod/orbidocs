@@ -1099,3 +1099,13 @@ The clean-source receipt qualification used Node
 real P037 HTTP operations. See `node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`
 for the 144 lifecycle/durability component tests, process interruption and
 retained source/fixture bindings. No signing secret is retained.
+
+
+### Restricted case-key use composition (2026-11-02)
+
+LLR-006 and S026 own the case key; nym-core owns the validated succession intent
+and exact preimage. Both signing roles use dedicated operations over that token.
+Generic P037 signing refuses the reserved domain or payload prefix, including
+wrap_with_domain. This introduces no signer-core dependency on nym-core and does
+not enable amendment, withdrawal, confirmation or closure uses. The successor's
+protected Rust port awaits the separate LLR-007/P015-005 caller.

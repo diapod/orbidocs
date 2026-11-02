@@ -1918,3 +1918,12 @@ it leaves the logical release slot consumed. The protected-holder union includes
 a separately named counting authority, but transport budget never admits a new
 holder. PEX-001 and ADC-005 acceptance cover recipient refusal, lost reply,
 restart before submission and exact-byte/id replay, without a new AD retry owner.
+
+### Case commitment reuse (LLR-006, 2026-11-02)
+
+The detached Whisper manifest producer consumes the same typed case preparation as
+ordinary SignalPreview. It does not invent a continuity-key digest. Commitment
+exposure precedes signed bytes, and later P035 admission is a separate fact.
+LLR-006 qualifies this producer composition with a disclosed synthetic v2
+certificate; it does not qualify the ADC runtime or its transport. Detached
+anchors retain the receipt's witness reliance and omit the private record id.

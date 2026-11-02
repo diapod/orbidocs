@@ -551,3 +551,24 @@ separate per-case opt-in projection, omitted by default. Whole-filesystem copies
 including provider material are outside revocation guarantees. Tombstones survive
 to the original case horizon. Missing keys refuse without replacement generation.
 These are design requirements, not qualified runtime status.
+
+
+### Case continuity custody candidate (LLR-006, 2026-11-02)
+
+The case-key owner is separate from the root-recoverable operational Vault root.
+It uses random per-case key material, dedicated owner checkpoints and public
+lifecycle facts. Exposed precedes commitment release, author-byte binding precedes
+first signed-signal release, and admission remains a separate fact. Managed recovery
+omits these keys unless each case opted in; only an already encrypted critical
+projection crosses the recovery snapshot. Import preserves the original horizon
+and local erasure knowledge and removes the projection before local resealing.
+Whole-filesystem snapshots and prior exports are outside that guarantee.
+
+The actual v2 issuer remains P015-005. A disclosed synthetic certificate enters the
+host's certified-authoring seam for bounded qualification; this does not finish
+LLR-007/008/009. See the LLR-006 custody amendment and Node's separate acceptance.
+
+The daemon reuses S020 for a rotary 60-second expiry sweep, with bounded scope and
+key batches. Scheduler suspension or host sleep can delay physical unlink; owned
+clock checks still forbid key use at the absolute horizon. Only completed removal
+produces an erasure fact. This is managed-key lifecycle, not media sanitization.

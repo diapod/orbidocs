@@ -25,7 +25,8 @@ When:
           "enum": [
             "unreachable",
             "key-destroyed",
-            "absent"
+            "absent",
+            "payload-unavailable"
           ]
         }
       },

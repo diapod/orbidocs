@@ -122,7 +122,7 @@
         "maxLength": 120,
         "pattern": "^[a-z][a-z0-9.-]*(?:/[a-z][a-z0-9.-]*)*$"
       },
-      "description": "Coarse encrypted content class. Known kinds include `nym`, `routing-subject`, `local-contact-recovery`, and `local-relationship`. Readers MAY ignore unknown kinds, but importers and resealers MUST preserve unknown plaintext entries verbatim unless an unknown entry is marked critical."
+      "description": "Coarse encrypted content class. Known kinds include `nym`, `routing-subject`, `local-contact-recovery`, and `local-relationship`. Readers MAY ignore unknown kinds, but importers and resealers MUST preserve unknown plaintext entries verbatim unless an unknown entry is marked critical. The critical case-key-recovery plaintext entry is an opt-in encrypted recovery-only projection, consumed before storing the ordinary local snapshot."
     },
     "created-at": {
       "type": "string",
