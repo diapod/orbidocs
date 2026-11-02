@@ -331,3 +331,23 @@ active v1 and legacy reconciliation. See
 The new qualification profile is `responsibility.v4-prep.fresh-format.v2`; no
 new runtime/performance result is inferred from native regression tests. Broader
 tracker statuses and historical P018-12/13/14 closure remain unchanged.
+
+### Revised V4-prep qualification (2026-11-02)
+
+`responsibility.v4-prep.fresh-format.v2` passed all 72 cases at Node `4f7ede5c`
+and Orbidocs `58c492ae`: 18 runtime v1, 44 isolated conformance v2, seven
+conformance v1/D7 and three orientational performance controls. Original and
+extracted qualification agree exactly. The candidate passed 9,332 workspace
+tests/doctests, zero failures, 128 explicit ignores, strict all-target Clippy,
+fmt and check-paths; six portable qualifier controls passed. Evidence and review:
+`node:docs/evidence/local-accountability/2026-11-02-v4-prep/README.md` and
+`node:docs/audits/RESPONSIBILITY-V4-PREP-Q72-REVIEW-2026-11-02.md`.
+
+This closes only the revised V4-prep profile, including same-source correction
+after semantic refusal and default-closed owner readiness. Active v1 remains
+authoritative and all five live D7 components false. Isolated WAL measurements
+do not qualify V4s contention; fresh host/service cutover, explicit epoch rollover,
+retirement of v1/shadow/migration paths, live authority wiring, archival/restore
+and V5 readiness remain open. Broader P051/P018 tracker statuses, contract maturity,
+hard-MVP and release readiness do not advance. Historical reports retain their
+original bytes, sources and scopes.
