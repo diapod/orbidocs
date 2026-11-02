@@ -732,8 +732,13 @@ measured native `output-envelope-refused` before Agent creation: HTTP 200,
 64 reported completion tokens at the 64-token request bound, raw finish reason
 `length`, invalid JSON and retained private tails. The global catalog-use
 operation layer also reached the readiness fixture; Agent orientation and native
-readiness need a reviewed prompt-scope correction. Both preparation slots are
-consumed. Further preparation requires a new exact operator decision and anchor;
+readiness are now separated by an operator-approved model-free scope correction
+(Node `456df916`).
+The GUIDE base generate policy carries generic format guidance; the existing
+Agent-only admitted layer carries catalog instructions through PromptAssemblyPolicy.
+The native 64-token probe and 2048 instruction-token cap remain unchanged. This
+implementation and its assembly/owner tests do not prove model behavior. Both
+preparation slots are consumed. Further preparation requires a new exact operator decision and anchor;
 no automatic retry or token increase follows. This adds no catalog-use M claim and leaves the synchronous
 controller scope unchanged.
 
