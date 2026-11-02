@@ -3196,8 +3196,8 @@ carrier-backlog refusal withholds Arca. Required dependents are withheld with it
 explicit start still refuses before effect. This is not permission to ignore
 other admission/security/storage failures or retry consumption. Recovery remains
 operator-approved and does not create a new scheduler.
- Recovery is explicit approved existing export/checkpoint/
-prune, then a freshly prepared reconciliation plan. Archive keeps latest complete
+Recovery is explicit approved existing export/checkpoint/prune, then a freshly
+prepared reconciliation plan. Archive keeps latest complete
 unit facts, unresolved bindings, high-water and outstanding disposer metadata;
 its sentinel limits refuse incomplete snapshots. No startup/background eviction.
 
@@ -3233,3 +3233,34 @@ report and immutable external-reference receipts live in
 `node:docs/evidence/configuration-contracts/consumption-lifecycle-20261102-completion.qualification-loose.json`.
 Old unidentified carriers, physical I/O failures, other owners/platforms and
 whole-proposal/release qualification retain their explicit boundaries.
+
+### Consumption critical review (2026-11-02)
+
+The scoped lifecycle delivery is corrected without expanding owners, settings,
+TTL, or safety quotas. Node owns implementation and test results in
+`node:docs/audits/P091-CONSUMPTION-REVIEW-2026-11-02.md`.
+
+- Unreadable, future-version or unknown-unit application heads preserve four
+  completion obligations each. Their diagnostics name the unit. Ordinary writes
+  refuse; disabling writes and approved archival remain admitted within hard
+  capacity. Archival preserves the exact uninterpreted head, never repairs it.
+- The supervisor receives a typed recovery refusal from the owner. Textual
+  diagnostics do not determine whether the recovery plane remains available.
+- Transactional pending is withheld/provisioned with a reason, not external
+  uncertainty. Retrying an identical withheld attempt retries only its durable
+  ACK after current admission, without a new generation or renewed authority.
+- Successful Arca ACK may atomically carry disposal intent after the supervisor
+  validates the exact input. Verified removal is folded into the next allocation;
+  a crash retains the metadata for exact idempotent re-verification. Partial
+  construction is separately disposed by its creator through pinned identities.
+- Reconciliation binds exact unit revision and archive checkpoint, not unrelated
+  writes. New actor attribution identifies the authenticated local-control role,
+  never a hash of its shared control token. Time is validated RFC3339; nonce, TTL,
+  fresh authorization and exact review remain required.
+
+Remaining work: releasing reservations for ended transactional units that are
+never allocated again requires an explicit incarnation-retirement proof, including
+removed Flow units. Configuration absence is not that proof. The five local
+approval buffers remain a tracked convergence candidate; they must not share
+owner authority. Physical page forecasts do not upgrade logical reservation into
+an I/O guarantee. P091-007/013 and release qualification remain scoped/partial.
