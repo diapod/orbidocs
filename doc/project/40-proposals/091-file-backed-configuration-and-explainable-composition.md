@@ -3264,3 +3264,10 @@ removed Flow units. Configuration absence is not that proof. The five local
 approval buffers remain a tracked convergence candidate; they must not share
 owner authority. Physical page forecasts do not upgrade logical reservation into
 an I/O guarantee. P091-007/013 and release qualification remain scoped/partial.
+
+Scoped review qualification at Node `f59d8d33` covers 335 code/CLI regressions and
+nine browser JS/no-JS/actual WebView paths. Node retains source/image pins, normal
+and optimized qualifier agreement, archive extraction and fresh private-store
+retrieval in `node:docs/evidence/configuration-contracts/consumption-review-20261102.summary.json`.
+This is client/owner evidence for the named slice, not whole-proposal or release
+qualification; the remaining work above is unchanged.
