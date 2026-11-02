@@ -1127,8 +1127,8 @@ A separate canonical Synapse case observed two admitted sources, one first pair,
 exact author bytes through independent sync/durable source/full PDU, four native
 signatures and an actual C restart. Its maximum selected full PDU was 9,245 B.
 These positive prefixes do not close P015-003 or Gates A/B: full lifecycle,
-erasure/refusal, actual browser authoring, replay, complete privacy and both-store
-retention qualification remain open. The Node ledger and resumption review own
+erasure/refusal, the complete browser/refusal matrix, replay, complete privacy and
+both-store retention qualification remain open. The Node ledger and resumption review own
 source-specific observations. Historical transport qualifications remain unchanged.
 
 
@@ -1209,3 +1209,23 @@ P015-001–003 and Gates A/B stay partial: the complete shared profile qualifier
 remaining runtime/uniqueness/privacy matrix and qualified two-store retention are
 still outstanding. See the Node resumption review for exact source pins and
 measured scope. No historical M4 or global readiness claim is promoted.
+
+
+### Independently inspected ordinary UI paths (2026-11-02)
+
+The subsequent Node continuation independently inspects ordinary private AD and
+protected host UI authoring on both SQLite and Matrix. The corrected Matrix
+receiver starts without a live subscriber; actual restart and carrier replay
+preserve original admission, author bytes and first-emission facts. Exact author
+bytes also match an independent read-only sync observer and full stock Synapse
+PDU. These are narrow measured cases, not a renewal of all historical transport
+claims. The complete software gate passes on Node `925f68a2` / Orbidocs `e767bf32`
+with 9,259 passes, zero failures and 127 existing ignores. Subsequent fixture
+context/expiry refusals remain refused; no signed deadline is extended.
+
+P015-001–003 and both complete A/B gates remain partial. The outstanding
+authority/status/reset/erasure-crash/privacy matrix, final backend campaign and
+identical loose/extracted/fresh two-store qualification still govern closure.
+Node's current ledger and dated resumption audit own detailed source/capture
+pins and individual results. Development retention, original protected evidence
+and global Agora/Whisper/release scope remain unchanged.
