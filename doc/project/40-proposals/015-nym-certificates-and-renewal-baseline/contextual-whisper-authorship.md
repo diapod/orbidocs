@@ -1281,3 +1281,20 @@ and both full runtime gates remain `partial`: the remaining authority/status/
 erasure/privacy matrix, final SQLite/Synapse campaign and equivalent fresh
 qualification from both retained locations still govern closure. The Node
 resumption audit and implementation ledger own detailed source/proof bindings.
+
+
+### Encrypted-provider process interruption subset (2026-11-02)
+
+Node `7da785e9` / docs `206f0acc` now has four controlled native process cuts
+and independent read-only predicates for those exact crash obligations. Each
+cut uses a fresh provider on the adopted encrypted fixture. Startup after the
+durable fence must leave the destroyed receipt and no key entry before a
+recovering key API runs; before the fence, explicit replay remains necessary.
+Original ciphertext and operation recreation then refuse with `KeyDestroyed`.
+The earlier open-plus-state observation is preserved and refuses this stronger
+predicate. These are process interruptions, not power-loss qualification.
+
+139 provider and 149 harness conformance cases plus scoped strict Clippy/light
+checks pass. The Node resumption audit owns report/binary bindings. Remaining
+authority/status/old-database/privacy matrices, final SQLite/Synapse Gate B and
+fresh equivalent two-store retention keep P015-001–003 and aggregate A/B partial.

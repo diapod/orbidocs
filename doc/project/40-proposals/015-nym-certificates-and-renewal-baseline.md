@@ -626,6 +626,13 @@ SQLite/Synapse Gate B or qualified both-store retention. See
 [the contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#qualification-checkpoint-2026-11-02)
 and the Node implementation ledger.
 
+The later native-provider subset on `7da785e9` independently verifies four
+process-interruption cuts with metadata-only startup inspection before recovering
+key methods. The earlier weaker shape refuses that predicate. This leaves the
+remaining old-database, authority/status/privacy, backend and both-store gates
+open; no tracker row advances to `done`. See the
+[encrypted-provider checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#encrypted-provider-process-interruption-subset-2026-11-02).
+
 ## Open Questions
 
 No unresolved questions remain for this proposal slice. The decisions below
