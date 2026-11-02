@@ -1357,3 +1357,9 @@ predicates and exact restored host review. It can establish only the controlled
 `A/old-database-restore` obligation, with fault-injected origin. A clean-source
 reinspection must produce its proof; stored success flags and archived procedures
 are not authority. Remaining gate and final retention requirements are unchanged.
+
+Fresh clean Node `c0b8e690` / Orbidocs `806b86b9` composition makes19 native
+checks over1725 original artifacts and verifies15/66 obligations, including only
+the newly added controlled old-database restore.51 remain missing.161 strict
+Python cases and light/documentation gates pass; full A/B and both-store
+qualification remain open. The Node audit binds the original result digest.
