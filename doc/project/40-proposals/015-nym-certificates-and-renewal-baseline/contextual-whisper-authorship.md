@@ -216,6 +216,15 @@ revocable and permits at most seven renewals. The scheduler chooses and persists
 a random time in 75–95 percent of the current validity interval. It does nothing
 when the next certificate cannot extend validity within the epoch. Unlock and
 current recovery-bundle requirements remain in force; there is no autoexport.
+The host reserves a bounded renewal-operation slot and persists its exact time
+and operation id before effects. Re-reading that plan does not redraw time or
+spend another slot; uncertain/aborted effects do not silently refund allowance.
+Revocation fences future effects while retaining an already reserved operation
+for factual decision reconciliation. Late completion cannot revive consent or
+count across an epoch boundary. A replacement consent needs a separate explicit
+approval; the host enforces one active consent per participant/context/epoch.
+All updates retain source authority and CAS.
+
 Operation IDs make nym preparation and preview idempotent. A 423 retains the
 exact document; an expired preview requires a new explicit preview.
 
@@ -1363,3 +1372,11 @@ checks over1725 original artifacts and verifies15/66 obligations, including only
 the newly added controlled old-database restore.51 remain missing.161 strict
 Python cases and light/documentation gates pass; full A/B and both-store
 qualification remain open. The Node audit binds the original result digest.
+
+
+Stay-ready implementation checkpoint: Node now has pure consent/planning values
+with bounded slots, immutable CAS transitions, fixed operation/time, exact
+representable75–95% bounds and preserved source activation across renewal.
+This does not implement the durable host owner, S020 consumer or its operator
+API/UI and unlock/recovery composition. Those remain required before the
+renewal-consent conformance obligation can be granted. A/B remains15/66.
