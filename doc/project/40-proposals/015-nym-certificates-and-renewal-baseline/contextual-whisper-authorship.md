@@ -1377,6 +1377,12 @@ qualification remain open. The Node audit binds the original result digest.
 Stay-ready implementation checkpoint: Node now has pure consent/planning values
 with bounded slots, immutable CAS transitions, fixed operation/time, exact
 representable75–95% bounds and preserved source activation across renewal.
-This does not implement the durable host owner, S020 consumer or its operator
-API/UI and unlock/recovery composition. Those remain required before the
-renewal-consent conformance obligation can be granted. A/B remains15/66.
+The next Node component checkpoint adds a separately sealed host consent source
+and protected approval/readback/CAS-revocation API. It derives the scope from
+an accepted owned certification; duplicate approval cannot replace revocation
+or replenish an allowance. P072 registers three literal operator-only host
+routes, without generic dispatch or passport authority. Their readback explicitly
+reports execution as not enabled. The effect-fenced S020 consumer, independent
+revocation/rollback control, operator UI and real unlock/recovery continuation
+remain required before renewal-consent conformance can be granted. A/B remains
+15/66; these component changes add no runtime acceptance.

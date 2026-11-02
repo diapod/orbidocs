@@ -1575,6 +1575,18 @@ schema_for_file() {
     *.nym-issuance-error.local.v1.json)
       echo "$SCHEMAS_DIR/nym-issuance-error.local.v1.schema.json"
       ;;
+    *.nym-renewal-approval.local.v1.json)
+      echo "$SCHEMAS_DIR/nym-renewal-approval.local.v1.schema.json"
+      ;;
+    *.nym-renewal-operation.local.v1.json)
+      echo "$SCHEMAS_DIR/nym-renewal-operation.local.v1.schema.json"
+      ;;
+    *.nym-renewal-revoke.local.v1.json)
+      echo "$SCHEMAS_DIR/nym-renewal-revoke.local.v1.schema.json"
+      ;;
+    *.nym-renewal-readback.local.v1.json)
+      echo "$SCHEMAS_DIR/nym-renewal-readback.local.v1.schema.json"
+      ;;
     *.nym-issuance-readback.local.v1.json)
       echo "$SCHEMAS_DIR/nym-issuance-readback.local.v1.schema.json"
       ;;

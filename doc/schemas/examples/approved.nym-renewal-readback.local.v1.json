@@ -1,0 +1,17 @@
+{
+  "schema": "nym-renewal-readback.local.v1",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "consent/id": "stay-ready-example-1",
+  "certification/id": "certification-example-1",
+  "context/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "consent/ref": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "epoch": 17,
+  "revision": 1,
+  "state": "approved",
+  "approved/at": "2026-11-03T10:00:00Z",
+  "consent/until": "2026-11-09T00:00:00Z",
+  "maximum/renewals": 7,
+  "reserved/renewals": 0,
+  "revoked/at": null,
+  "execution/state": "not-enabled"
+}

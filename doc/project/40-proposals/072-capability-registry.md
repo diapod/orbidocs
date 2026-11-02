@@ -71,6 +71,22 @@ independent gates; maintenance can neither alter participant effects nor open D7
 S037 owns eligibility metadata; the host operator boundary owns approval.
 See `node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`.
 
+### Contextual nym stay-ready intentions
+
+P015 registers `identity.nym.renewal.approve`, `.readback` and `.revoke` as
+operator-local literal host routes. The daemon's applicant custody owner derives
+the profile/context/epoch and local participant from an accepted certification;
+the request does not select its actor. Each route repeats operator-session and
+operator-proof checks. Revocation binds the displayed CAS revision. Approval
+records an intention; it supplies no key, recovery, AD or signing authority.
+
+These entries have `host-route=true` and `dispatchable=false`. They are neither
+passport-eligible nor advertised or federated. Ordinary module dispatch therefore
+refuses them; middleware cannot intercept their unlock-bearing input. Explicit
+request/readback schemas are projected offline. Scheduled renewal is a separate,
+still unimplemented composition, and the owner reports `execution/state=not-enabled`.
+
+
 ## Status
 
 `promoted`

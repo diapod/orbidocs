@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-renewal-readback.local:v1",
+  "title": "nym-renewal-readback.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "nym-renewal-readback.local.v1"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "context/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "consent/ref": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "consent/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "certification/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16
+    },
+    "maximum/renewals": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "reserved/renewals": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7
+    },
+    "state": {
+      "enum": [
+        "approved",
+        "revoked",
+        "epoch-ended"
+      ]
+    },
+    "approved/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "consent/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revoked/at": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "execution/state": {
+      "const": "not-enabled"
+    }
+  },
+  "required": [
+    "schema",
+    "profile/digest",
+    "context/digest",
+    "consent/ref",
+    "consent/id",
+    "certification/id",
+    "epoch",
+    "revision",
+    "maximum/renewals",
+    "reserved/renewals",
+    "state",
+    "approved/at",
+    "consent/until",
+    "revoked/at",
+    "execution/state"
+  ],
+  "description": "Protected readback of sealed stay-ready consent. Execution remains separately guarded and is not enabled by this surface."
+}
