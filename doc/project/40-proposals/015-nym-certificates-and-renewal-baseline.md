@@ -685,3 +685,20 @@ pins. Twelve A and12 backend B obligations, final single-candidate execution,
 privacy and retained-store equivalence remain open; P015-001–003 remain partial.
 Implementation review:
 `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#complete-original-retirement-inventory-review-2026-11-03`.
+
+
+## Independently verified source replay checkpoint (2026-11-03)
+
+Clean Node `b7b2cf49` composition627 freshly verifies **45/67** obligations through
+111 native inspections. Actual Matrix619 and SQLite622 restart after loss of only
+the derived contextual cache and perform real owner replay. Original source,
+admission, nonce, receipt, first-emission and history tables remain unchanged.
+A separate ended-epoch/no-cache verifier checks the actual current readback; it
+neither weakens fresh-view assertions nor supplies fresh active-epoch evidence.
+Original fresh-only refusal624 remains preserved.
+
+Twelve A authority/status/privacy and five B cases per backend remain. Runtime,
+capture and verifier pins differ explicitly. The heterogeneous prefix inventory
+does not close final single-candidate A/B or loose/extracted/fresh two-store
+qualification. P015-001–003 and complete contextual authorship remain partial.
+See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-backend-replay-qualification-2026-11-03`.
