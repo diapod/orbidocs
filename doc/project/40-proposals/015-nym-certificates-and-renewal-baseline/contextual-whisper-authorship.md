@@ -1429,3 +1429,14 @@ Fresh native hash/signature/size verification does not change the runtime clock
 policy or establish room authorization/federation. Representative subsets cannot
 stand in for full campaign coverage. Both whole gates and retained qualification
 remain partial until the remaining obligations are composed.
+
+
+A projector continuation may use the explicit acceptance protocol
+`bounded-launches.v2`: 1–16 ordinary S020 operator launches, each bound to its
+own original HTTP payload and indexed typed receipt, followed by the final
+public read. The original single-launch format keeps its exact one-step rule.
+This accommodates bounded projector work phases without changing launch
+permissions, treating a busy 409 as success, or inferring missing execution
+facts from the source snapshot. A controlled fixture may use the existing
+operator pause before publication and authorized `run-once` afterwards.
+Both whole authorship gates remain partial.
