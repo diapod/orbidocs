@@ -771,3 +771,25 @@ A/B and fresh retention from both adopted stores. Tests: 282 Python profile and
 gate pass without incremental compilation. No full historical runtime cohort
 is renewed. P015-001–003, full Whisper and global readiness retain partial/bounded
 scope. Owned A/D and proxy stopped and original A adoption was restored.
+
+
+### Independently qualified private-minimum checkpoint (2026-11-03)
+
+At clean Node `9e2c4dcb`, independent665 verifies original664: ordinary renew
+retains public floor1 while the local private minimum13 refuses still-valid
+signed status12. Actual preview returns the typed status-revision-unavailable
+503 and readback has no authoring result. After actual status15 arrives, the same
+certificate signs the reviewed confidence0.5 document through the ordinary host;
+readback preserves the exact signed record. Four native checks verify certificate,
+both statuses and reviewed record. Exact source/process/HTTP/proxy pins, original
+time windows and cleanup/restoration bind the controlled runtime. No private
+decision plaintext is reconstructed. Earlier producer failures remain unchanged.
+
+Fresh composition666 covers **53/67** obligations in 122 native calls. Four A
+cases remain: wrong exchange digest, revoked bootstrap authority, status
+equivocation and private AD/tombstone privacy. Five B cases per backend, final
+single-candidate A/B and fresh retention from both adopted stores remain open.
+All 297 Python profile tests and scoped headers/light gate pass. Runtime source
+`103c8fae` is unchanged; no full historical runtime or software gate is renewed.
+P015-001–003, full Whisper and global readiness retain partial/bounded scope.
+Owned A/D and proxy stopped; original A adoption restored. No merge/push.
