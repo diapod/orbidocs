@@ -1437,6 +1437,8 @@ own original HTTP payload and indexed typed receipt, followed by the final
 public read. The original single-launch format keeps its exact one-step rule.
 This accommodates bounded projector work phases without changing launch
 permissions, treating a busy 409 as success, or inferring missing execution
-facts from the source snapshot. A controlled fixture may use the existing
-operator pause before publication and authorized `run-once` afterwards.
-Both whole authorship gates remain partial.
+facts from the source snapshot. A controlled fixture explicitly disables its
+projector's periodic dispatch in configuration before publication, then uses
+authorized `run-once`. Process-local pause is not claimed to survive scheduler
+registration on restart. The fixture restores periodicity by explicit adoption
+afterwards. Both whole authorship gates remain partial.
