@@ -1747,3 +1747,17 @@ arrival-after-expiry assumption is explicitly refused; the corrected source
 snapshot/row correlation is retained separately. This does not qualify a
 wrong-digest refusal or justify extending the signed deadline. Owned actors
 are stopped, protected originals retained, and no merge/push occurs.
+
+
+### 2026-11-03 private reply-binding implementation checkpoint
+
+The current Node checkpoint retains55/67 independently verified obligations.
+Controlled original694 now observes an otherwise valid council-signed coarse reply
+with a wrong private request digest being rejected by the actual applicant INAC
+acceptor. Decision and certificate remain absent after the owned applicant restart.
+Its complete independent profile closure remains pending; this observation does
+not close the exchange obligation, Gate A, Gate B or P015-001--003.
+The current producer repair uses canonical Community ciphertext classification
+for both exchange senders. Earlier runtime source pins and failed attempts remain
+historical. See the Node resumption audit for exact source, control and verification
+boundaries; an acceptance-only signed-pair inspection is not runtime admission.
