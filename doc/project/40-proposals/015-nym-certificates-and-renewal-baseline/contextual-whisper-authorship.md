@@ -1481,3 +1481,14 @@ current read model; membership history cannot substitute for status-only cache
 refresh. Clean-source verification and the Matrix counterpart remain pending.
 This verification-only tooling does not change the adopted homeserver clock,
 certificate policy, admission, signing, renewal authority or global readiness.
+
+
+Clean Node `3eef910b` subsequently verifies the original SQLite reset lifecycle:
+complete before/revoked/replacement cuts, ordinary AD reset, signed old-source
+revocation, replacement after the activation drain, unchanged first pair and
+exact public current annotations. The full fresh prefix composition advances to
+28/66 through71 native inspections;38 obligations remain. The current annotation
+is independently checked through its owner and complete recorded basis, without
+requiring status-only refresh to be a membership-history event. This scope does
+not include the Matrix counterpart, final replay/privacy matrix, stay-ready
+execution or loose/extracted/fresh-two-store equivalence. Whole A/B remain open.
