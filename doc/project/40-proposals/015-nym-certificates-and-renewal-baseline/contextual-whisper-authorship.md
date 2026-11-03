@@ -1562,3 +1562,12 @@ stay-ready effects and final single-candidate/retained-store qualification remai
 Conformance neither creates runtime HTTP observations nor closes either gate.
 The Node resumption audit and ledger own the exact command, review and result
 provenance. No source-profile parameters, authority or historical evidence change.
+
+The later clean Node `b212be6a` prefix composition613 verifies43/67 through103
+native calls. `A/post-ack-erasure` now binds the exact complete original explicit
+SQL key/ciphertext inventory, signed closing status, owner-local ACK deadline and
+metadata observed before recovering provider open. The current v2 snapshot is
+not substituted for a compacted historical v1 context. This does not claim
+physical-block erasure, backup-keystore destruction or whole-AD/Vault privacy.
+Twelve A and12 backend B obligations remain; optional stay-ready execution, final
+single-candidate A/B and loose/extracted/fresh two-store qualification remain open.

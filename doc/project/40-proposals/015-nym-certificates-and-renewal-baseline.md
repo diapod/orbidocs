@@ -675,3 +675,13 @@ Resolved 2026-07-04:
    absence implies no leniency.
 3. Apply the artifact-local embedding pattern to messaging, contact, and Corpus
    nym-authored artifact families as separate schema-gate tasks.
+
+The clean Node `b212be6a` continuation freshly verifies43/67 obligations in
+composition613 (103 native calls). Its new original post-ACK predicate derives all
+73 explicit retained key references and19 old ciphertext buffers, verifies the
+signed closing status and local ACK deadline, and checks native key-file absence
+before recovering provider open. Capture and later qualifier have distinct source
+pins. Twelve A and12 backend B obligations, final single-candidate execution,
+privacy and retained-store equivalence remain open; P015-001–003 remain partial.
+Implementation review:
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#complete-original-retirement-inventory-review-2026-11-03`.
