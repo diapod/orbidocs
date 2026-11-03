@@ -1650,3 +1650,22 @@ AD certificate and separate protected fixture recovery steps prepare these cases
 its ended fixture epoch is historical input, not new authoring authority. All
 owned actors and the proxy stopped, and A's adoption was restored. P015 remains
 partial; final A/B and retained two-store qualification remain open.
+
+
+### Independently qualified status-HWM checkpoint (2026-11-03)
+
+Complete qualification653 at clean Node `bc480a7a` binds original648's actual
+A/D processes, S020 proxy response bytes, scoped HTTP reads and immutable source
+images. It verifies signed revision4→5 progression, refusal of older still-valid
+bytes and the higher retained HWM/API after A restart. Native42 independently
+checks original signature/time/cursor semantics. Original652's discriminator
+refusal is preserved; the correction requires canonical integer `schema/v = 1`.
+The final cached forward read remains distinct from a completed healing fetch.
+
+Fresh composition654 covers **52/67** obligations in 118 native calls. Five A
+cases and five B cases per backend remain open, along with final single-candidate
+A/B and fresh retention from both adopted stores. Tests: 282 Python profile and
+25 native inspector cases, affected all-target Clippy, scoped headers and light
+gate pass without incremental compilation. No full historical runtime cohort
+is renewed. P015-001–003, full Whisper and global readiness retain partial/bounded
+scope. Owned A/D and proxy stopped and original A adoption was restored.
