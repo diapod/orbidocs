@@ -1588,3 +1588,13 @@ capture and verifier pins differ explicitly. The heterogeneous prefix inventory
 does not close final single-candidate A/B or loose/extracted/fresh two-store
 qualification. P015-001–003 and complete contextual authorship remain partial.
 See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-backend-replay-qualification-2026-11-03`.
+
+
+The subsequent original631 controlled AD receiver cases observe rejection of
+four encrypted invalid private requests, with no prepared decision or new target
+context. Clean Node `e75dd92a` independently reinspects their valid baselines,
+council offers and isolated faults in633. The temporary local source adapter is
+explicit fault injection and is restored after D stops; it proves no INAC/network
+authority. An expired anonymous first leg remains a separate narrower witness.
+Process/input/effect qualification and recomposition are still required, so
+coverage remains45/67 and both complete gates remain partial.
