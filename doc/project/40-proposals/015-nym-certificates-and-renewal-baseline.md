@@ -835,8 +835,8 @@ Fresh composition683 covers **55/67** obligations in127 native calls over
 8,502 logical reads/323,488,096 bytes, with result SHA-256
 `bde6f2270965e6f786f96e7e8524fc17b9ec1994d50b296a17f4d156ad06d181`.
 The324 profile Python and29 native example tests, affected strict Clippy/paths,
-scoped headers and light gate pass. Two A cases remain (wrong exchange digest
-and private AD/tombstone privacy), five B cases per backend, final single-candidate
+scoped headers and light gate pass. At that checkpoint, two A cases remained
+(wrong exchange digest and private AD/tombstone privacy), five B cases per backend, final single-candidate
 qualification and fresh two-store retention. P015-001–003 and both full gates
 retain their partial scope; no new full transport, software or release claim.
 
@@ -849,3 +849,27 @@ arrival-after-expiry assumption is explicitly refused; the corrected source
 snapshot/row correlation is retained separately. This does not qualify a
 wrong-digest refusal or justify extending the signed deadline. Owned actors
 are stopped, protected originals retained, and no merge/push occurs.
+
+
+### Independently qualified private-decision binding (2026-11-03)
+
+Clean Node039b46ec inspection697 now qualifies `A/wrong-exchange-digest` from
+original694. The profile binds actual owned A/D processes, authenticated controlled
+AD submission, the exact INAC offer/notification/consent and sealed reply, the
+stored typed applicant refusal, and unchanged absent decision/certificate after
+restart. Later read-only source snapshots696 verify the exact original A/D
+admissions without pretending to have been captured at the original admission
+time. Native45 (cleanbe2781d6) freshly checks both council signatures, the anonymous
+proof at original time and exact sealed public-recipient binding. It never
+reconstructs the private request, decrypts, signs or creates admission.
+
+Fresh composition698 verifies **56/67** obligations through128 native calls over
+8,635 logical reads/344,823,251 bytes; result SHA-256
+`16a18e3144219707ee004bfa0368e7c9599c520f072a012f4537a2da9e33e2a8`.
+The339 profile conformance tests include corrupt/missing sources, rebound causes,
+foreign owners, nonunique source identities and incomplete INAC/restart witnesses.
+One A privacy obligation, five B obligations per backend, final current-candidate
+qualification and identical fresh retained-store qualification remain.
+P015-001--003 and both full gates stay partial; global Agora, full Whisper and
+release readiness are unchanged. Earlier failed attempts and prefix-only claims
+remain historical. No merge or push occurs.

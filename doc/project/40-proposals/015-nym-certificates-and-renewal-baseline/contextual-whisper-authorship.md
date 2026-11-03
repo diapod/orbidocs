@@ -1733,8 +1733,8 @@ Fresh composition683 covers **55/67** obligations in127 native calls over
 8,502 logical reads/323,488,096 bytes, with result SHA-256
 `bde6f2270965e6f786f96e7e8524fc17b9ec1994d50b296a17f4d156ad06d181`.
 The324 profile Python and29 native example tests, affected strict Clippy/paths,
-scoped headers and light gate pass. Two A cases remain (wrong exchange digest
-and private AD/tombstone privacy), five B cases per backend, final single-candidate
+scoped headers and light gate pass. At that checkpoint, two A cases remained
+(wrong exchange digest and private AD/tombstone privacy), five B cases per backend, final single-candidate
 qualification and fresh two-store retention. P015-001–003 and both full gates
 retain their partial scope; no new full transport, software or release claim.
 
@@ -1751,13 +1751,37 @@ are stopped, protected originals retained, and no merge/push occurs.
 
 ### 2026-11-03 private reply-binding implementation checkpoint
 
-The current Node checkpoint retains55/67 independently verified obligations.
+The earlier implementation checkpoint retained55/67 independently verified obligations.
 Controlled original694 now observes an otherwise valid council-signed coarse reply
 with a wrong private request digest being rejected by the actual applicant INAC
 acceptor. Decision and certificate remain absent after the owned applicant restart.
-Its complete independent profile closure remains pending; this observation does
-not close the exchange obligation, Gate A, Gate B or P015-001--003.
+Its independent profile closure was pending at that checkpoint; the later
+qualified checkpoint below resolves this one obligation, not either full gate.
 The current producer repair uses canonical Community ciphertext classification
 for both exchange senders. Earlier runtime source pins and failed attempts remain
 historical. See the Node resumption audit for exact source, control and verification
 boundaries; an acceptance-only signed-pair inspection is not runtime admission.
+
+
+### Independently qualified private-decision binding (2026-11-03)
+
+Clean Node039b46ec inspection697 now qualifies `A/wrong-exchange-digest` from
+original694. The profile binds actual owned A/D processes, authenticated controlled
+AD submission, the exact INAC offer/notification/consent and sealed reply, the
+stored typed applicant refusal, and unchanged absent decision/certificate after
+restart. Later read-only source snapshots696 verify the exact original A/D
+admissions without pretending to have been captured at the original admission
+time. Native45 (cleanbe2781d6) freshly checks both council signatures, the anonymous
+proof at original time and exact sealed public-recipient binding. It never
+reconstructs the private request, decrypts, signs or creates admission.
+
+Fresh composition698 verifies **56/67** obligations through128 native calls over
+8,635 logical reads/344,823,251 bytes; result SHA-256
+`16a18e3144219707ee004bfa0368e7c9599c520f072a012f4537a2da9e33e2a8`.
+The339 profile conformance tests include corrupt/missing sources, rebound causes,
+foreign owners, nonunique source identities and incomplete INAC/restart witnesses.
+One A privacy obligation, five B obligations per backend, final current-candidate
+qualification and identical fresh retained-store qualification remain.
+P015-001--003 and both full gates stay partial; global Agora, full Whisper and
+release readiness are unchanged. Earlier failed attempts and prefix-only claims
+remain historical. No merge or push occurs.
