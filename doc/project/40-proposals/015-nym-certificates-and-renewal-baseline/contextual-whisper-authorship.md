@@ -1418,3 +1418,14 @@ retains its original scope; later narrow observations and new component
 predicates require their own clean composition. Remaining authority/status/
 erasure/privacy/backend/replay matrices and equivalent two-store retention are
 still required. See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md`.
+
+
+The acceptance-only Matrix composition additionally requires an independently
+adopted standalone read-only client, its original process and ordered `/sync`
+observations, exact source author buffers and complete PDU/export rows for the
+same explicitly selected complete source cut. Retained aggregate author buffers
+are facts separate from their typed signatures; absent buffers remain absent.
+Fresh native hash/signature/size verification does not change the runtime clock
+policy or establish room authorization/federation. Representative subsets cannot
+stand in for full campaign coverage. Both whole gates and retained qualification
+remain partial until the remaining obligations are composed.
