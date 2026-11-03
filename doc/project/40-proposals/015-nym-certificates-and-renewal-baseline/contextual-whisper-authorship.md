@@ -1638,3 +1638,15 @@ audit separately refuses an existing unrelated Sensorium inventory mismatch,
 which this work leaves untouched. Final single-candidate A/B and fresh two-store
 retention remain unqualified. P015-001–003, full Whisper and global readiness
 retain their partial/bounded scopes; historical runtime evidence is unchanged.
+
+Status-owner checkpoint (2026-11-03): original648 observed actual host S020
+progression from signed revision4 to5, refused refresh of an older still-valid
+status, and the retained higher HWM after A restart. Frozen native42 from clean
+Node `a2ae9913` freshly verifies original signatures/time/cursor in inspection650.
+The complete process/proxy/HTTP/source-image predicate is still pending; this
+adds no qualified coverage yet (**50/67** remains). The final forward read was
+cache-only and does not prove a completed healing fetch. Original647's ordinary
+AD certificate and separate protected fixture recovery steps prepare these cases;
+its ended fixture epoch is historical input, not new authoring authority. All
+owned actors and the proxy stopped, and A's adoption was restored. P015 remains
+partial; final A/B and retained two-store qualification remain open.
