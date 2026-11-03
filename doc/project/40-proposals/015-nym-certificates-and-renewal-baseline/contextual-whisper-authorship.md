@@ -1715,3 +1715,35 @@ the28 native and affected strict Clippy/paths evidence retains its stated source
 Native43 uses clean `85b8c9e3`, without incremental; runtime `103c8fae` is unchanged.
 This does not renew the complete software/transport qualification or close
 P015-001–003, either full gate, Whisper or release readiness. No merge/push.
+
+
+### Independently qualified status-equivocation checkpoint (2026-11-03)
+
+Clean Node `d14a3c89` inspection682 binds original681 actual host S020, exact
+proxy response bodies, owner/control/process identities and four immutable
+source images. Two correctly signed statuses have the same revision4 and
+different canonical digests. The owner refuses the conflict before and after
+A restart, preserving the original status, durable cursor and actual API view.
+Three fresh native calls verify the certificate and both original-time conflict
+transitions. Fixture-only operator signing and proxy adoption are restored;
+no council key is exported. Native44 uses clean `107b436b`, separately from
+runtime `103c8fae` and the later inspection source.
+
+Fresh composition683 covers **55/67** obligations in127 native calls over
+8,502 logical reads/323,488,096 bytes, with result SHA-256
+`bde6f2270965e6f786f96e7e8524fc17b9ec1994d50b296a17f4d156ad06d181`.
+The324 profile Python and29 native example tests, affected strict Clippy/paths,
+scoped headers and light gate pass. Two A cases remain (wrong exchange digest
+and private AD/tombstone privacy), five B cases per backend, final single-candidate
+qualification and fresh two-store retention. P015-001–003 and both full gates
+retain their partial scope; no new full transport, software or release claim.
+
+Original680 completes ordinary protected AD issue with two explicit recovery
+exports. Original679 expiry and684 missing-decision outcomes remain failures.
+For684, the correlated receiver row says `expires/at: expired`, while its AD
+admission timestamp is5.274067 seconds before the original deadline. Exact
+subsequent owner verification time is unknown. The earlier diagnostic's
+arrival-after-expiry assumption is explicitly refused; the corrected source
+snapshot/row correlation is retained separately. This does not qualify a
+wrong-digest refusal or justify extending the signed deadline. Owned actors
+are stopped, protected originals retained, and no merge/push occurs.
