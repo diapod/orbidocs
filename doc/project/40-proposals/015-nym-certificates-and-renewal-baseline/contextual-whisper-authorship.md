@@ -1789,10 +1789,10 @@ remain historical. No merge or push occurs.
 
 ### Independently audited private storage (2026-11-04)
 
-Clean Node169c4db6 composition702 now verifies **57/67** obligations, covering
+Clean Node73dc0288 composition703 now verifies **57/67** obligations, covering
 all30 A predicates, through128 fresh native calls and9,204 logical reads/
 393,710,364 bytes. Result SHA-256:
-`ea8ec198f16da11ae40720507781558cdbc20212e9d3f896976cb3ac1d58ec6f`.
+`07263819db8740ecae49811dda153aaf18a63a7781daa24d60cda8578cece107`.
 A profile-owned bounded audit checks561 later AD/INAC/issuer source entries and
 composes the original ordinary issue/reset/renew and post-ACK-erasure predicates.
 These later source cuts do not become admission-time observations.
@@ -1811,3 +1811,7 @@ two-store qualification remain pending. All full gates and P015-001--003 remain
 partial; neither global Agora nor release readiness is promoted. Existing
 failed attempts and source-specific software results retain their exact scope.
 See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#private-adinac-storage-privacy-closure-2026-11-04`.
+
+The final source-boundary review rejects hidden/generated columns and user tables
+resembling SQLite internals; fresh703 repeats the full57-predicate closure under
+that guard. The earlier702 source-bound result remains historical and unchanged.
