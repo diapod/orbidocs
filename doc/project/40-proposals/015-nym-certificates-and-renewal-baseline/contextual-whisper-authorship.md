@@ -279,13 +279,25 @@ The provider pins its instance and encrypted volume. Missing mount is a typed
 refusal, never directory creation on an underlying unencrypted filesystem.
 Keys are not derivable from a retained master, epoch seed or mnemonic.
 
-For the encrypted-image acceptance profile, automatic exclusion of mounted
-sparseimage/sparsebundle contents is insufficient. An image on unexcluded backing
-storage is treated as an unprotected store regardless of the mounted-volume
-exclusion. Observe the backing image's effective exclusion at its storage location
-and the mount separately. An included image must produce a preflight refusal;
-never try to remove automatic mount exclusion or weaken the active issuer store.
-The isolated empty negative fixture contains no provider or keys.
+The local encrypted-image custody default requires backup exclusions. The owner
+subsequently permits an explicit acceptance-fixture adoption
+`custody.image_backup_policy = "allow-encrypted-image-backups"`. An encrypted
+sparseimage/sparsebundle on unexcluded backing storage may then pass preflight,
+including when macOS automatically reports its mounted contents excluded. Preserve
+both actual OS values; for this test backup exposure follows the backing image,
+not the automatic mount flag. This choice does not change OS exclusions and does
+not silently replace an earlier refusal with success. Production profiles retain
+the strict default; null/unknown local policy refuses before custody effects.
+
+A backup of the image is a copy of the keystore and lies outside crypto-erasure
+assurance, alongside copied keydirs or whole-host images. It can preserve keys
+removed from the active store. The explicit fixture adoption does not broaden
+that assurance or change source identity, signatures, retention deadlines,
+encryption, host FileVault, mount/instance binding, or missing-mount refusal.
+This local media choice is not a new public source-identity parameter: the signed
+profile already excludes copies of the keystore/image from its erasure guarantee.
+A new observed positive preflight under the named policy is required separately
+from the preserved strict negative case.
 
 `source/ref` is HMAC-SHA256 under an independent binding key over a framed
 participant/context/epoch tuple. Normal renewal keeps that key; reset creates a
@@ -1512,3 +1524,12 @@ buffers (maximum canonical PDU 9,305 bytes). Runtime still uses the explicitly
 adopted authenticated-homeserver observation, without a runtime PDU-verifier claim.
 Thirty-three obligations, full A/B and final two-store qualification remain open.
 The new read-only media-control predicates do not close those gates by themselves.
+
+
+The original strict media control/refusals at clean Node `91c43334` advance the
+heterogeneous prefix composition to35/66 (102 native inspections). The owner's
+subsequent local fixture image-backup adoption above requires a new positive
+preflight; the inventory now has67 obligations. The original refusal and its
+scope remain unchanged, without promoting it to the newly requested success.
+Full A/B, effect-fenced optional renewal and final retained-store equivalence
+remain open. The Node audit records exact process, tool and runtime provenance.
