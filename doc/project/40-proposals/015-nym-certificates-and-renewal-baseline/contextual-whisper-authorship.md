@@ -279,6 +279,14 @@ The provider pins its instance and encrypted volume. Missing mount is a typed
 refusal, never directory creation on an underlying unencrypted filesystem.
 Keys are not derivable from a retained master, epoch seed or mnemonic.
 
+For the encrypted-image acceptance profile, automatic exclusion of mounted
+sparseimage/sparsebundle contents is insufficient. An image on unexcluded backing
+storage is treated as an unprotected store regardless of the mounted-volume
+exclusion. Observe the backing image's effective exclusion at its storage location
+and the mount separately. An included image must produce a preflight refusal;
+never try to remove automatic mount exclusion or weaken the active issuer store.
+The isolated empty negative fixture contains no provider or keys.
+
 `source/ref` is HMAC-SHA256 under an independent binding key over a framed
 participant/context/epoch tuple. Normal renewal keeps that key; reset creates a
 new one. Old binding and all reset-linking ciphertext keys retire after signed
@@ -1492,3 +1500,15 @@ is independently checked through its owner and complete recorded basis, without
 requiring status-only refresh to be a membership-history event. This scope does
 not include the Matrix counterpart, final replay/privacy matrix, stay-ready
 execution or loose/extracted/fresh-two-store equivalence. Whole A/B remain open.
+
+
+Clean Node `9918b048` advances the fresh heterogeneous prefix inventory to 33/66
+through 95 native inspections. The original Matrix A/A2 same-participant renewal
+remains one source; the later A/A2/B reset has complete 2/1/2 cuts, signed
+revocation, drained replacement, unchanged first pair and exact current annotations.
+A later clean `4bf8df5a` separate read-only whoami/sync observer and seven native
+inspections verify all six original lifecycle PDU, stored export rows and author
+buffers (maximum canonical PDU 9,305 bytes). Runtime still uses the explicitly
+adopted authenticated-homeserver observation, without a runtime PDU-verifier claim.
+Thirty-three obligations, full A/B and final two-store qualification remain open.
+The new read-only media-control predicates do not close those gates by themselves.
