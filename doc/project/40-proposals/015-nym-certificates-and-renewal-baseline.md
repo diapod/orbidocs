@@ -633,6 +633,20 @@ remaining old-database, authority/status/privacy, backend and both-store gates
 open; no tracker row advances to `done`. See the
 [encrypted-provider checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#encrypted-provider-process-interruption-subset-2026-11-02).
 
+### Current qualification boundary — 2026-11-03
+
+Clean Node `37be7d02` / Orbidocs `16b1d962` independently verifies36/67 required
+prefix obligations, including ordinary UI/AD, source uniqueness, both backend
+reset/current-result cuts, complete selected Matrix PDU and the new explicit
+fixture image-backup preflight. The actual backing/mount exclusion readings are
+preserved; an allowed image backup is outside crypto-erasure assurances. Strict
+default/production custody remains unchanged. The previous post-ACK ciphertext
+observations remain diagnostics pending composition into the current complete
+erasure/privacy matrix. No one-observation subset or old software gate closes
+P015-001–003. All three rows stay `partial`;31 obligations, final single-candidate
+A/B, optional scheduled continuation and qualified two-store retention remain.
+See the contextual profile and current Node ledger for exact source/tool scope.
+
 ## Open Questions
 
 No unresolved questions remain for this proposal slice. The decisions below

@@ -1533,3 +1533,14 @@ preflight; the inventory now has67 obligations. The original refusal and its
 scope remain unchanged, without promoting it to the newly requested success.
 Full A/B, effect-fenced optional renewal and final retained-store equivalence
 remain open. The Node audit records exact process, tool and runtime provenance.
+
+
+The owner-approved positive image-backup case is now observed at clean Node
+`37be7d02` / Orbidocs `16b1d962`: backing/mounted OS exclusions remain false/true,
+the explicitly named effective-view rule derives false, and the read-only native
+preflight attests under `allow-encrypted-image-backups`. The strict case still
+refuses. No provider/key is created in the empty image. Fresh composition600
+verifies36/67, including that new requirement, through102 native inspections;
+31 remain. Copies of image/keystore stay outside erasure assurances. This is
+heterogeneous prefix verification; final A/B and both-store qualification remain
+open. The new Rust policy has scoped checks; its full workspace repeat is pending.
