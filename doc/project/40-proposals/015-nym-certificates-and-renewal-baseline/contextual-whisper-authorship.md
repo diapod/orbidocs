@@ -1691,3 +1691,27 @@ All 297 Python profile tests and scoped headers/light gate pass. Runtime source
 `103c8fae` is unchanged; no full historical runtime or software gate is renewed.
 P015-001–003, full Whisper and global readiness retain partial/bounded scope.
 Owned A/D and proxy stopped; original A adoption restored. No merge/push.
+
+
+### Independently qualified withdrawn-bootstrap checkpoint (2026-11-03)
+
+Clean Node `b8dbfd76` inspection673 independently verifies original669: exact
+valid INAC offer, signed active-to-revoked bootstrap authority, unlocked but
+blocked issuer, actual403 before and after owned restart and absent issuer
+reply/applicant certificate. Two native owner calls preserve the independently
+adopted root and original times. The reason-only HTTP projection is retained
+exactly and bound to separate captured coarse owner results; it is not expanded
+into a claim of raw HTTP preservation. Original668 and672 coordinator failures
+retain their original outcomes. Withdrawal is permanent, without reimport or
+automatic authority replacement.
+
+Fresh composition674 covers **54/67** obligations in 124 native calls over
+8,446 logical reads/322,724,216 bytes; result SHA-256 is
+`0319cbfc5bc6d6796bc6540516f3440425ee778d3054ca6fd202367c456c10b7`.
+Three A cases remain (wrong exchange digest, status equivocation and private
+AD/tombstone privacy), plus five B cases per backend, final single-candidate
+qualification and fresh two-store retention. All310 Python profile tests pass;
+the28 native and affected strict Clippy/paths evidence retains its stated source.
+Native43 uses clean `85b8c9e3`, without incremental; runtime `103c8fae` is unchanged.
+This does not renew the complete software/transport qualification or close
+P015-001–003, either full gate, Whisper or release readiness. No merge/push.
