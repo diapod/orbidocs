@@ -1382,7 +1382,12 @@ and protected approval/readback/CAS-revocation API. It derives the scope from
 an accepted owned certification; duplicate approval cannot replace revocation
 or replenish an allowance. P072 registers three literal operator-only host
 routes, without generic dispatch or passport authority. Their readback explicitly
-reports execution as not enabled. The effect-fenced S020 consumer, independent
-revocation/rollback control, operator UI and real unlock/recovery continuation
-remain required before renewal-consent conformance can be granted. A/B remains
+reports execution as not enabled. The subsequent source checkpoint stores the
+exact reserved operation, deadline and certificate and uses separate local
+high-water marks to refuse rollback of SQLite/WAL. It can complete only the
+original authenticated one-step SQL successor, without resealing or repeating
+a command. This guarantee assumes preserved current authority anchors; an old
+whole-host snapshot cannot substitute for them. The effect-fenced S020 consumer,
+explicit replacement, operator UI and real unlock/recovery continuation remain
+required before renewal-consent conformance can be granted. A/B remains
 15/66; these component changes add no runtime acceptance.

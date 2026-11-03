@@ -24,11 +24,14 @@ Protected readback of sealed stay-ready consent. Execution remains separately gu
 | [`revision`](#field-revision) | `yes` | integer |  |
 | [`maximum/renewals`](#field-maximum-renewals) | `yes` | integer |  |
 | [`reserved/renewals`](#field-reserved-renewals) | `yes` | integer |  |
-| [`state`](#field-state) | `yes` | enum: `approved`, `revoked`, `epoch-ended` |  |
+| [`state`](#field-state) | `yes` | enum: `approved`, `scheduled`, `due`, `revoked`, `epoch-ended`, `allowance-exhausted`, `no-validity-extension`, `no-scheduling-window` |  |
 | [`approved/at`](#field-approved-at) | `yes` | string |  |
 | [`consent/until`](#field-consent-until) | `yes` | string |  |
 | [`revoked/at`](#field-revoked-at) | `yes` | unspecified |  |
 | [`execution/state`](#field-execution-state) | `yes` | const: `not-enabled` |  |
+| [`current/certification-id`](#field-current-certification-id) | `yes` | string |  |
+| [`pending/operation-id`](#field-pending-operation-id) | `yes` | unspecified |  |
+| [`pending/not-before`](#field-pending-not-before) | `yes` | unspecified |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -95,7 +98,7 @@ Protected readback of sealed stay-ready consent. Execution remains separately gu
 ## `state`
 
 - Required: `yes`
-- Shape: enum: `approved`, `revoked`, `epoch-ended`
+- Shape: enum: `approved`, `scheduled`, `due`, `revoked`, `epoch-ended`, `allowance-exhausted`, `no-validity-extension`, `no-scheduling-window`
 
 <a id="field-approved-at"></a>
 ## `approved/at`
@@ -120,3 +123,21 @@ Protected readback of sealed stay-ready consent. Execution remains separately gu
 
 - Required: `yes`
 - Shape: const: `not-enabled`
+
+<a id="field-current-certification-id"></a>
+## `current/certification-id`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-pending-operation-id"></a>
+## `pending/operation-id`
+
+- Required: `yes`
+- Shape: unspecified
+
+<a id="field-pending-not-before"></a>
+## `pending/not-before`
+
+- Required: `yes`
+- Shape: unspecified

@@ -13,5 +13,8 @@
   "maximum/renewals": 7,
   "reserved/renewals": 0,
   "revoked/at": null,
-  "execution/state": "not-enabled"
+  "execution/state": "not-enabled",
+  "current/certification-id": "certification-example-1",
+  "pending/operation-id": null,
+  "pending/not-before": null
 }

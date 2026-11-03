@@ -66,8 +66,13 @@
     "state": {
       "enum": [
         "approved",
+        "scheduled",
+        "due",
         "revoked",
-        "epoch-ended"
+        "epoch-ended",
+        "allowance-exhausted",
+        "no-validity-extension",
+        "no-scheduling-window"
       ]
     },
     "approved/at": {
@@ -91,6 +96,36 @@
     },
     "execution/state": {
       "const": "not-enabled"
+    },
+    "current/certification-id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "pending/operation-id": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      ]
+    },
+    "pending/not-before": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
     }
   },
   "required": [
@@ -108,7 +143,10 @@
     "approved/at",
     "consent/until",
     "revoked/at",
-    "execution/state"
+    "execution/state",
+    "current/certification-id",
+    "pending/operation-id",
+    "pending/not-before"
   ],
   "description": "Protected readback of sealed stay-ready consent. Execution remains separately guarded and is not enabled by this surface."
 }
