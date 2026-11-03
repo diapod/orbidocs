@@ -1614,3 +1614,27 @@ native verifier and profile revisions are independently pinned. Final
 single-candidate A/B, privacy and retained two-store equivalence remain open;
 P015-001–003 and complete contextual authorship stay partial. Review:
 `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-private-ad-refusal-qualification-2026-11-03`.
+
+
+### Independent original full private-request expiry checkpoint (2026-11-03)
+
+Clean Node `8d590a16` independently qualifies original638: a full, unchanged
+private request and signed council key offer were valid when frozen; after the
+original 30-second deadline, actual D runtime `103c8fae` permanently rejected
+that exact sealed buffer with `expires/at: expired`. No decision or new target
+context was created. Owned cleanup and temporary local adapter restoration
+completed. Capture, client and native verifier are pinned to clean `153932f9`;
+this controlled local AD refusal is distinct from INAC transport authority and
+from the earlier narrower expired anonymous first leg.
+
+Fresh composition641 covers **50/67** obligations through 116 native calls.
+Seven A authority/status/privacy obligations and five B obligations per backend
+remain open. The remaining B scope is late first receipt, collection/emission
+freshness, public privacy, retired acceptance environment and UI refusals.
+273 Python profile tests, 24 native inspector tests, five negative-client tests
+and strict all-target Clippy for both affected crates pass without incremental
+compilation. Scoped headers and the light gate pass; a broader header migration
+audit separately refuses an existing unrelated Sensorium inventory mismatch,
+which this work leaves untouched. Final single-candidate A/B and fresh two-store
+retention remain unqualified. P015-001–003, full Whisper and global readiness
+retain their partial/bounded scopes; historical runtime evidence is unchanged.
