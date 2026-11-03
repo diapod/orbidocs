@@ -1469,3 +1469,15 @@ An acceptance-only registration adapter separately adopts the fixture participan
 root and reuses existing nym-bootstrap grant verification. It neither enrolls a
 council nor grants current transport/revocation authority. Both whole gates and
 optional stay-ready execution retain their partial scope.
+
+
+The next clean Node `2928253c` composition verifies 24/66 obligations through
+59 native inspections, including ordinary A/A2 renewal on distinct nodes with
+one rooted participant and one evaluated source. Forty-two obligations remain;
+these are original heterogeneous runtime prefixes, not final A/B qualification.
+A later SQLite cohort observes the reset lifecycle 2/1/2 with an unchanged first
+pair. Its independent three-cut predicate additionally verifies the persisted
+current read model; membership history cannot substitute for status-only cache
+refresh. Clean-source verification and the Matrix counterpart remain pending.
+This verification-only tooling does not change the adopted homeserver clock,
+certificate policy, admission, signing, renewal authority or global readiness.
