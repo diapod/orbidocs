@@ -1785,3 +1785,29 @@ qualification and identical fresh retained-store qualification remain.
 P015-001--003 and both full gates stay partial; global Agora, full Whisper and
 release readiness are unchanged. Earlier failed attempts and prefix-only claims
 remain historical. No merge or push occurs.
+
+
+### Independently audited private storage (2026-11-04)
+
+Clean Node169c4db6 composition702 now verifies **57/67** obligations, covering
+all30 A predicates, through128 fresh native calls and9,204 logical reads/
+393,710,364 bytes. Result SHA-256:
+`ea8ec198f16da11ae40720507781558cdbc20212e9d3f896976cb3ac1d58ec6f`.
+A profile-owned bounded audit checks561 later AD/INAC/issuer source entries and
+composes the original ordinary issue/reset/renew and post-ACK-erasure predicates.
+These later source cuts do not become admission-time observations.
+
+Private INAC authorization passports may name their beneficiary and authorization/
+delegation subjects at four exact fields. That permission is confined to private
+transport metadata; it does not admit a participant-to-nym mapping, a private
+request/decision nonce, successor linkage or primary identity in public artifacts.
+The audit checks closed aggregate retention receipts and encrypted exchange
+buffers; it does not claim whole-Vault privacy or completeness of historical
+logs. No erasure guarantee for physical blocks or copied keystores is added.
+
+351 profile tests and scoped source/light checks pass. The five B predicates per
+backend, final clean current-candidate cohort and identical loose/extracted/
+two-store qualification remain pending. All full gates and P015-001--003 remain
+partial; neither global Agora nor release readiness is promoted. Existing
+failed attempts and source-specific software results retain their exact scope.
+See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#private-adinac-storage-privacy-closure-2026-11-04`.

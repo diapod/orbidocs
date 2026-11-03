@@ -873,3 +873,13 @@ qualification and identical fresh retained-store qualification remain.
 P015-001--003 and both full gates stay partial; global Agora, full Whisper and
 release readiness are unchanged. Earlier failed attempts and prefix-only claims
 remain historical. No merge or push occurs.
+
+
+### Independently audited private storage (2026-11-04)
+
+Clean Node169c4db6 composition702 verifies **57/67** obligations, including all30
+A predicates, through128 fresh native calls. This remains an original-prefix
+composition; the final current-candidate cohort and qualified retained retrieval
+are not inferred. Five B obligations per backend remain. P015-001--003 and both
+full gates stay partial. See the [profile closeout](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#independently-audited-private-storage-2026-11-04)
+for private INAC authorization disclosure, source boundaries and exact results.
