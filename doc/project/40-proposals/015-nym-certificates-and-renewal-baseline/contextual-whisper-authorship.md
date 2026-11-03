@@ -1456,3 +1456,16 @@ strict Clippy and paths; software prerequisites do not establish either runtime
 gate. Qualification review adds pre-read logical-path refusals. Full A/B and
 final both-store qualification remain partial; the Node resumption audit owns
 the exact observations and failure scope.
+
+
+A fresh clean Node `f9ec2370` read-only composition now verifies22/66 obligations
+through49 native inspections of original inputs. The22 include narrow SQLite and
+Matrix first-pair/expiry, SQLite signed receipts and the independent observer/full
+PDU cut;44 remain. This is an explicitly heterogeneous prefix inventory, not a
+final single-candidate A/B campaign or both-store qualification. Subsequent
+ordinary A/A2 UI and a separately receipted sole-source control complete with
+restored fixture periodicity; their uniqueness predicate is still pending.
+An acceptance-only registration adapter separately adopts the fixture participant
+root and reuses existing nym-bootstrap grant verification. It neither enrolls a
+council nor grants current transport/revocation authority. Both whole gates and
+optional stay-ready execution retain their partial scope.
