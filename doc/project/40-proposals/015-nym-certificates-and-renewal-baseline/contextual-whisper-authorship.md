@@ -1442,3 +1442,17 @@ projector's periodic dispatch in configuration before publication, then uses
 authorized `run-once`. Process-local pause is not claimed to survive scheduler
 registration on restart. The fixture restores periodicity by explicit adoption
 afterwards. Both whole authorship gates remain partial.
+
+
+The controlled SQLite pair at clean Node `591ecf06` / Orbidocs `cd17826c`
+now produces one original threshold/proposal pair after both accepted signal
+certificates expire beyond skew. Six separately receipted ordinary S020 steps
+complete bounded projector phases; fresh native inspection verifies the complete
+first basis and both original signed receipts. Explicit fixture periodicity is
+restored afterwards. This is a narrow backend result, not complete Gate B or a
+change to the last combined15/66 coverage inventory. The separately pinned
+Node `0c2e4894` / Orbidocs `2ddb7ef0` full software gate passes9,313/0/128 with
+strict Clippy and paths; software prerequisites do not establish either runtime
+gate. Qualification review adds pre-read logical-path refusals. Full A/B and
+final both-store qualification remain partial; the Node resumption audit owns
+the exact observations and failure scope.
