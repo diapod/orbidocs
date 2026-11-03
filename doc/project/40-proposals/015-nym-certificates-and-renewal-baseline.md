@@ -635,17 +635,22 @@ open; no tracker row advances to `done`. See the
 
 ### Current qualification boundary — 2026-11-03
 
-Clean Node `37be7d02` / Orbidocs `16b1d962` independently verifies36/67 required
-prefix obligations, including ordinary UI/AD, source uniqueness, both backend
-reset/current-result cuts, complete selected Matrix PDU and the new explicit
-fixture image-backup preflight. The actual backing/mount exclusion readings are
-preserved; an allowed image backup is outside crypto-erasure assurances. Strict
-default/production custody remains unchanged. The previous post-ACK ciphertext
-observations remain diagnostics pending composition into the current complete
-erasure/privacy matrix. No one-observation subset or old software gate closes
-P015-001–003. All three rows stay `partial`;31 obligations, final single-candidate
-A/B, optional scheduled continuation and qualified two-store retention remain.
-See the contextual profile and current Node ledger for exact source/tool scope.
+Clean Node `c6f57910` / Orbidocs `92d0fe7b` independently verifies42/67 required
+prefix obligations. Six newly composed C-class requirements bind the original
+component-test receipts, concrete nonignored assertions and48 exact canonical/Node
+schema byte pairs. They establish conformance, without granting runtime HTTP or
+scheduled-renewal execution. The original UI/AD, source-uniqueness, both backend
+reset/current-result cuts, complete selected Matrix PDU and explicit fixture
+image-backup preflight keep their original heterogeneous source/tool identities.
+
+The clean `bb060dd8` / `92d0fe7b` full software gate passes9315/0/128 with
+incremental disabled, strict workspace Clippy and final paths. This does not close
+A/B. Thirteen A and twelve backend B obligations remain, as do final single-candidate
+qualification, optional scheduled continuation and qualified two-store retention.
+Post-ACK diagnostics still require adequate owner/process composition; a recovering
+key API's `KeyDestroyed` result alone proves no earlier maintenance execution.
+P015-001–003 stay `partial`. See the contextual profile and Node ledger/audit for
+exact source and proof scope.
 
 ## Open Questions
 

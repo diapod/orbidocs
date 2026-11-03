@@ -1543,4 +1543,22 @@ refuses. No provider/key is created in the empty image. Fresh composition600
 verifies36/67, including that new requirement, through102 native inspections;
 31 remain. Copies of image/keystore stay outside erasure assurances. This is
 heterogeneous prefix verification; final A/B and both-store qualification remain
-open. The new Rust policy has scoped checks; its full workspace repeat is pending.
+open. The later exact bb060dd8/92d0fe7b full software repeat passes9315/0/128;
+it does not promote that original prefix to a complete runtime gate.
+
+
+### Explicit conformance composition — 2026-11-03
+
+Clean Node `c6f57910` / Orbidocs `92d0fe7b` freshly composes42/67 obligations:
+the prior36 runtime/native prefixes plus six separately classified component
+conformance predicates. Exact named assertions, complete per-suite counters,
+original source/process receipts and48 independently adopted schema byte pairs
+are required. The schema-sync script's unit tests alone do not prove mirror
+synchronization. The component tests keep their original `91c43334` / `4b50ef48`
+source identity, distinct from the newer predicate and runtime prefixes.
+
+The whole profile remains partial:13 A and12 backend B obligations, optional
+stay-ready effects and final single-candidate/retained-store qualification remain.
+Conformance neither creates runtime HTTP observations nor closes either gate.
+The Node resumption audit and ledger own the exact command, review and result
+provenance. No source-profile parameters, authority or historical evidence change.
