@@ -761,6 +761,18 @@ unchanged. Model compliance remains unmeasured on this wording. All historical
 preparation and Agent-slot facts remain consumed, with no further inference
 authorized. P064/P072 qualification stays partial.
 
+The separately approved renewed trial (Node `b991686d`, anchor `de703706`) passed
+copied 596 Rust/55 Python cases and native conformance. Agent trial 2 then produced
+one valid complete envelope, but its list arguments used unknown `id` instead of
+`id/prefix`. The host refused HTTP 422 `agent_model_proposal_rejected` before any
+catalog read or fixture dispatch. Runtime HTTP 200, 110/768 completion tokens and
+stop distinguish this from transport, envelope-syntax or budget failure. All four
+preparations and both Agent slots are consumed. The raw harness summary remains
+unchanged; a subsequent model-free diagnostic projection recognizes the host's
+terminal status shape. No repeat, prompt tuning or contract coercion followed.
+The complete model sequence, semantic verdict and full network evidence remain
+open in the shared report; P064/P072 stay partial.
+
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.
 P066-GUIDE-001 is a later Assistant consumer, not a second dispatcher.
