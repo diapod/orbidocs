@@ -781,6 +781,7 @@ EXAMPLE_WHITELIST = (
     "basic.inac-admission-status.query.json",
     "unknown.inac-admission-status.result.json",
     "production.whisper-source-profile.json",
+    "fixture.whisper-source-profile.json",
     "contextual.whisper-source-descriptor.json",
     "contextual.whisper-source-certificate.json",
     "initial.nym-issuance-request.json",

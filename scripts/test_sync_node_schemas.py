@@ -40,6 +40,23 @@ class ResolveNodeRootTests(unittest.TestCase):
                 schema = name.split(".", 1)[1].removesuffix(".json") + ".schema.json"
                 self.assertEqual(completed.stdout.strip(), str(SYNC.SCHEMAS_DIR / schema))
 
+    def test_acceptance_profile_has_an_explicit_mirror_and_schema_dispatch(self) -> None:
+        name = "fixture.whisper-source-profile.json"
+        self.assertIn(name, SYNC.EXAMPLE_WHITELIST)
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary)
+            SYNC.copy_files((name,), SYNC.EXAMPLES_DIR, target)
+            self.assertEqual((target / name).read_bytes(), (SYNC.EXAMPLES_DIR / name).read_bytes())
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        completed = subprocess.run(
+            ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+             str(script), "--syntax-only", str(SYNC.EXAMPLES_DIR / name)],
+            text=True, capture_output=True, check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(completed.stdout.strip(), str(SYNC.SCHEMAS_DIR / "whisper-source-profile.v1.schema.json"))
+
     def test_each_sync_allowlist_names_each_artifact_once(self) -> None:
         for name, values in vars(SYNC).items():
             if name.endswith("_WHITELIST"):
