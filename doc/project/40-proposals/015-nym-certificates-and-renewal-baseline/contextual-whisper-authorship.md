@@ -1598,3 +1598,19 @@ explicit fault injection and is restored after D stops; it proves no INAC/networ
 authority. An expired anonymous first leg remains a separate narrower witness.
 Process/input/effect qualification and recomposition are still required, so
 coverage remains45/67 and both complete gates remain partial.
+
+
+## Independently qualified private receiver refusal checkpoint (2026-11-03)
+
+Clean Node `f270f62a` composition636 freshly verifies **49/67** obligations through
+115 native inspections. Four original631 full-request refusals now have complete
+process, exact input, AD receipt, offer/outbox/recipient and no-effect predicates.
+No decision is prepared and no new issuer context appears. The temporary local
+fault adapter is restored after D stops; this does not prove INAC authority.
+The expired anonymous first leg remains separate from full-request expiry.
+
+Eight A and five B cases per backend remain. Capture, runtime, fixture client,
+native verifier and profile revisions are independently pinned. Final
+single-candidate A/B, privacy and retained two-store equivalence remain open;
+P015-001–003 and complete contextual authorship stay partial. Review:
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-private-ad-refusal-qualification-2026-11-03`.
