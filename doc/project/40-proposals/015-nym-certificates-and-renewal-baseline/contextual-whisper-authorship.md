@@ -1391,3 +1391,30 @@ whole-host snapshot cannot substitute for them. The effect-fenced S020 consumer,
 explicit replacement, operator UI and real unlock/recovery continuation remain
 required before renewal-consent conformance can be granted. A/B remains
 15/66; these component changes add no runtime acceptance.
+
+
+### Narrow runtime and predicate review — 2026-11-03
+
+The corrected issuer dispatch, current receiver admission/native pins and
+fresh-process readiness are exercised by ordinary SQLite and Matrix UI cases.
+They preserve the reviewed document through restart/423/unlock and publish
+confidence 0.5 with host-held nyms. Independent native checks cover the signed
+SQLite receipt, the original two-source Matrix first basis after certificate
+expiry, and five complete Node-created v10 PDUs (maximum 9,285 B). A separate
+read-only `/sync` client observes exact author buffers. Runtime still trusts the
+explicitly adopted authenticated homeserver clock; full PDU verification remains
+an acceptance operation. This does not renew transport-wide or federation claims.
+
+The emitting C/D operator continuation is distinct from the earlier UI starts.
+Read-only composition must bind its independently adopted capture driver,
+actual processes, exact successful S020 receipt, subsequent public records and
+original complete native source cut. Missing or substituted lineage refuses;
+it is not inferred from a later SQLite snapshot or serialized success flags.
+The first software attempt's temporary-path/ancestry refusals remain recorded;
+its assertions and shared-volume permissions are preserved for a corrected run.
+
+P015-001–003 and both whole gates remain `partial`. The prior 15/66 composition
+retains its original scope; later narrow observations and new component
+predicates require their own clean composition. Remaining authority/status/
+erasure/privacy/backend/replay matrices and equivalent two-store retention are
+still required. See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md`.
