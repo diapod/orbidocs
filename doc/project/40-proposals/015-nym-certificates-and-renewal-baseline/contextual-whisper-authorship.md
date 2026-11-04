@@ -1925,3 +1925,36 @@ P015-001--003 remain partial. The phase-1 authenticated-homeserver clock and
 acceptance-only PDU checks add no runtime PDU verifier, portable time or federation
 claim; global Agora/Whisper/release scope is unchanged. See
 `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independently-composed-both-backend-freshness-2026-11-04`.
+
+
+### Original UI refusal witnesses — 2026-11-04
+
+Clean `6e5b2f134` captures812/813 observe the actual no-JS UI on the ordinary
+protected A owner and C with SQLite and Matrix respectively. Each records
+403 CSRF, 400 unreviewed publication, 409 retained-preview conflict and 409
+new preview with a historical certificate/ended epoch. The final refusal has
+an original typed `nym-status-epoch-retired` owner diagnostic; this is not an
+isolated certificate-expiry measurement. The original signed result remains
+identical. A positive health request proves the relay monitor is active; the
+closed UI lifetime contains no publication request. Consistent before/after
+SQLite backups independently show unchanged authoring rows, relay records
+and publication requests. Credentials and complete form bodies stay private.
+
+Independent814 initially omitted the four original unlock occurrences from its
+manifest and refused. Independent815 reached the original backup but exposed
+a reader bug: SQLite `deserialize()` cannot read a WAL-mode backup without
+its WAL. Both refusals and original images remain unchanged. `ad57184df`
+uses an immutable read-only temporary file without rewriting the original
+WAL header; a real WAL backup regression passes. Independent816 now freshly
+verifies both original UI cases, including ordinary AD certification and
+native review/signature checks. This changes the verifier, not runtime results.
+
+Complete fresh composition817 verifies **63/67** (A30/30, B27/31 and six C
+conformance),167 native calls and12,763 logical reads/568,813,335 bytes.
+Its result SHA-256 is `41b9a6703caaac371842b07ac1eecaea787147ac0f1e32b237ddd2dee7cb5adc`. The 401 profile tests,
+scoped headers and diff checks pass; the preceding new predicate also passed
+the light workspace gate. Four B predicates remain: public privacy and retired
+acceptance environment inertness on each backend. Full current-cohort/software
+and identical loose/extracted/fresh qualification from both stores remain open.
+Optional stay-ready is not enabled or runtime-qualified. No final A/B/global,
+archive publication, merge, push or protected-material cleanup claim is made.
