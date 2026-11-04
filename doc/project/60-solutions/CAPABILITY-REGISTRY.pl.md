@@ -138,6 +138,9 @@ odrzucane na admission gate.
 | `sensorium.interface.invoke` | `sensorium/interface.invoke` | aktuacja | wywołanie dokładnej metody jednego jawnie grantowanego interfejsu aktuacji oraz koordynacja jego ograniczonego współdzielonego lub wyłącznego sterowania | Sensorium Interfaces runtime | tak, `sensorium-interface-actuation@v1` | Zaimplementowana podstawa P083 wiąże każdy efekt z uwierzytelnionym callerem, dokładnym interfejsem, metodą, klasyfikacją, nieprzezroczystą generacją źródła, grantem i limitami; efekt wyłączny wymaga dodatkowo bieżącej dzierżawy, epoki i sekwencji callera. Obserwacja, członkostwo w Room ani dołączenie nośnika nie dają uprawnienia invoke. |
 | `sensorium.interface.manage` | `sensorium/interface.manage` | sterowanie hosta | lokalne dla źródła publikowanie obserwacji i aktuacji, lifecycle, granty, revocation, inspekcja, metryki i preempcja wynikająca z polityki | Sensorium Interfaces runtime | nie; tylko host-local | Zaimplementowana capability nie jest reklamowana i nie kwalifikuje się do Passportu. Jej polityka autoryzacji wylicza zamknięty zbiór akcji, w tym `control.preempt`; wymagane pozostają uwierzytelnione związanie callera, aktywny dokładny grant invoke dla dzierżawy operatora, niezmienne fakty zarządcze i rekonstrukcja po restarcie. |
 | `http.fetch.bounded` | `host/http.fetch.bounded` | efekt sieciowy hosta | jedno ograniczone pobranie HTTP(S) dopuszczone dla dokładnego konsumenta middleware, akcji, polityki originu i klasy celu | daemon bounded HTTP fetch host | nie; tylko host-local | Zaimplementowany reużywalny prymityw należący do daemona, którego pierwszym konsumentem jest P084. Rozwiązuje i klasyfikuje każdy adres, pinuje wybrane połączenie, ponownie waliduje redirecty w tym samym originie, egzekwuje przecięte limity bajtów, czasu i współbieżności oraz zwraca wyłącznie ograniczone bajty albo wskaźnik Artifact Delivery. Nie jest publicznym proxy i nie nadaje władzy obserwacji ani publikacji Sensorium. |
+| `http.fetch.bounded.v2` | `host/http.fetch.bounded.v2` | host-local custody | Ograniczone pobranie z trwałym transferem oryginału hosta; bez oryginału inline w connectorze. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
+| `http.fetch.bounded.capture.read` | `host/http.fetch.bounded.capture.read` | host-local custody | Powtarzalne, ograniczone strony dla ekstrakcji z niezależnym dokładnym wiązaniem wywołującego, sesji, akcji i treści. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
+| `artifact.delivery.retain.v2` | `host/artifact.delivery.retain.v2` | host-local custody | Jawna skończona retencja osobnego roszczenia z reprezentacji inline lub jednorazowego transferu hosta. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | ocena danych | ograniczona ocena jawnej polityki odbiorcy względem deklaracji lub dowodu wykonania | inference provenance core przez daemon | nie; tylko host-local | Zwraca admit, warn lub deny dla dokładnych podmiotów. Nie uwierzytelnia źródeł, nie instaluje polityki, nie uruchamia inferencji i nie nadaje uprawnień do efektów. |
 | `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | admisja hosta | zatwierdza dokładny draft oferty task-pack względem bieżących bindingów i polityki należących do hosta | operator task-pack host approval and current admission | nie; tylko host-local | Uwierzytelniona zgoda lokalnego operatora jest odrębna od podpisania przez Dator i publikacji w Agorze. Nie nadaje uprawnień federacyjnego discovery ani Passportu. |
 | `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | admisja hosta | dopuszcza niezmienne zakończenie task-pack z zatrzymanej zweryfikowanej receptury i podpisanego wyniku Corpus | operator task-pack host immutable publication and completion admission | nie; tylko host-local | Ponownie sprawdza bieżące uprawnienie publikacji; replay używa zatrzymanych bajtów, nie powtarza inferencji ani publikacji i nie autoryzuje rozliczenia kupującego. |
@@ -172,7 +175,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **247** host-local / **279** ogółem; grupy właścicieli: **44**.
+Wpisy: **250** host-local / **282** ogółem; grupy właścicieli: **47**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -182,6 +185,18 @@ Wpis może mieć również powierzchnię `federated`, pokazaną jawnie w tabeli.
 Ani obecność wpisu, ani status `active` nie gwarantują zainstalowanego handlera,
 działającego endpointu lub uprawnienia wywołującego. Dostępność runtime, granty,
 zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są URL-ami endpointów.
+
+### <code>Artifact Delivery bounded extraction reader</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>http.fetch.bounded.capture.read</code> | <code>host/http.fetch.bounded.capture.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>Artifact Delivery custody owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>artifact.delivery.retain.v2</code> | <code>host/artifact.delivery.retain.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>Responsibility host / local operator maintenance</code>
 
@@ -345,6 +360,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>sensorium.virt.host</code> | <code>host/sensorium.virt.host</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon bounded HTTP capture host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>http.fetch.bounded.v2</code> | <code>host/http.fetch.bounded.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon bounded HTTP fetch host</code>
 

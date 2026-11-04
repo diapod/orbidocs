@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:bounded-http-fetch-capture-read-result:v1",
+  "title": "bounded-http-fetch-capture-read-result.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "body/digest",
+    "body/size-bytes",
+    "offset",
+    "bytes/base64"
+  ],
+  "properties": {
+    "schema": {
+      "const": "bounded-http-fetch-capture-read-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "body/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "body/size-bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "offset": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "bytes/base64": {
+      "type": "string",
+      "maxLength": 699052,
+      "pattern": "^[A-Za-z0-9+/]*={0,2}$"
+    }
+  }
+}

@@ -1566,6 +1566,36 @@ canonical identities: operators inspect and reissue authority where needed,
 without assuming all deployed state was empty. P068 separately tracks transitive
 OpenAPI schema bundling; top-level URN resolution alone does not close that debt.
 
+### Finite capture integration checkpoint (2026-11-04)
+
+The new opt-in source contract is `sensorium-web-durable-source.v2`, selecting
+`finite-originals.v1` with both original and representation retention. The host
+separately resolves the complete P091 adoption. Fetch v2 always keeps decompressed,
+pre-decoding originals in AD, even below the former inline threshold. An exact
+owner/session/action/content binding admits repeatable bounded extraction pages;
+a different single-use binding supplies explicit retain v2. Neither binding is a
+receipt or publication grant.
+
+Retain v2 commits the claim, transfer consumption, original owner-observed
+execution receipt and idempotency result together. The source's existing refresh
+journal records each committed owner result before exposing
+`sensorium-web-document-snapshot.v2`. Its stable snapshot id precedes receipts;
+the final snapshot digest covers both claim bindings and the receipt chain.
+Partial custody never creates a ready handoff. A bound 304 reuses the original
+snapshot and horizons without payload read or retain; a new explicit 200
+observation creates a new snapshot even if bytes repeat. Restart does not fetch.
+
+The common current-owner/session resolver is retained. Bundled Sensorium obtains
+a distribution-owned pin of its exact launch declaration and bounded first-party
+sources, with current eligibility checks; it does not impersonate an independent
+signed package. HTTP credentials cannot manufacture this admission. The new registry mode `host-configured-live-session` selects a separate current
+caller proof for the three custody ports. The old signed-package target remains
+unchanged; the new proof cannot authorize launch, scheduling or signing, and a
+failed package guard has no configuration fallback. The latest
+API has an explicit offline-bundled version union, and P082 descriptors select the
+exact snapshot contract. This checkpoint is integration in progress, not shared
+Harvester review, v3 publication, A/B qualification or production adoption.
+
 ## Next Actions
 
 1. Reproduce the static acceptance gates when changing the profile, host boundary,

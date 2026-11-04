@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-latest-response:v1",
+  "title": "sensorium-web-latest-response.v1",
+  "oneOf": [
+    {
+      "$ref": "sensorium-web-latest-state.v1.schema.json"
+    },
+    {
+      "$ref": "sensorium-web-latest-state.v2.schema.json"
+    }
+  ]
+}

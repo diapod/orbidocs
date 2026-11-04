@@ -1947,3 +1947,21 @@ exposure precedes signed bytes, and later P035 admission is a separate fact.
 LLR-006 qualifies this producer composition with a disclosed synthetic v2
 certificate; it does not qualify the ADC runtime or its transport. Detached
 anchors retain the receipt's witness reliance and omit the private record id.
+
+
+### Versioned capture composition (2026-11-04, in progress)
+
+The host-local finite path now uses `http.fetch.bounded.v2`,
+`http.fetch.bounded.capture.read` and `artifact.delivery.retain.v2`. Acquisition
+creates an AD transfer intent before file publication. Extraction reads do not
+consume retain authority. Retain accepts bounded inline representations or exact
+host transfers, commits one claim-specific owner-time receipt, and preserves the
+first result after response loss/session rotation. The P084 source journal
+coordinates both claims before handoff; it does not duplicate payloads or start a
+second journal. Independent-package admission and the explicit distribution
+Sensorium launch pin share current channel witness resolution. The three new ports explicitly select `host-configured-live-session` and its
+separate `CurrentCallerAdmission`; the old signed-package target is unchanged.
+The current caller proof grants no launch or scheduler authority and does not
+replace a failed package guard. This adds no ambient object-read, delivery,
+signer or publication authority. Composed v3
+qualification remains open.

@@ -1,0 +1,48 @@
+{
+  "schema": "artifact-delivery-retain-result.v2",
+  "schema/v": 2,
+  "outcome": "completed",
+  "claim": {
+    "id": "claim:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "generation": 1,
+    "body-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+  },
+  "retained/at": "2026-08-26T10:00:00Z",
+  "effective/until": "2026-08-27T10:00:00Z",
+  "policy/ref": "sha256:PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+  "artifact/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "artifact/size-bytes": 13,
+  "execution/receipt": {
+    "schema": "execution-receipt.v1",
+    "schema/v": 1,
+    "receipt/id": "execution-receipt:webretainfixture",
+    "causal/context": {
+      "schema": "causal-context.v1",
+      "schema/v": 1,
+      "context/id": "causal-context:web-retain-fixture",
+      "correlation/id": "correlation:web-retain-fixture",
+      "operation/id": "operation:web-retain-fixture",
+      "causation/refs": [
+        "sensorium-web-refresh:fixture"
+      ],
+      "origin/actor-ref": "module:sensorium-web",
+      "created/at": "2026-08-26T10:00:00Z"
+    },
+    "operation/id": "operation:web-retain-fixture",
+    "capability/id": "artifact.delivery.retain.v2",
+    "transition/from": "running",
+    "transition/to": "completed",
+    "attempt/no": 1,
+    "recorded/by": "component:artifact-delivery",
+    "recorded/at": "2026-08-26T10:00:01Z",
+    "effect/refs": [
+      "claim:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "outcome/refs": [
+      "claim:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "diagnostics": {
+      "retention": "content-addressed"
+    }
+  }
+}

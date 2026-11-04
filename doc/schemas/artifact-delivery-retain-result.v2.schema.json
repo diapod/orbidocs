@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-retain-result:v2",
+  "title": "artifact-delivery-retain-result.v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "outcome",
+    "claim",
+    "retained/at",
+    "effective/until",
+    "policy/ref",
+    "artifact/digest",
+    "artifact/size-bytes",
+    "execution/receipt"
+  ],
+  "properties": {
+    "schema": {
+      "const": "artifact-delivery-retain-result.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "outcome": {
+      "const": "completed"
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "generation",
+        "body-digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^[^\\s\\u0000]+$"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "body-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      }
+    },
+    "retained/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "effective/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy/ref": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "artifact/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "artifact/size-bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "execution/receipt": {
+      "$ref": "execution-receipt.v1.schema.json"
+    }
+  }
+}

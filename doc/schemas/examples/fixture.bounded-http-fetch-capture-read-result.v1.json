@@ -1,0 +1,8 @@
+{
+  "schema": "bounded-http-fetch-capture-read-result.v1",
+  "schema/v": 1,
+  "body/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "body/size-bytes": 13,
+  "offset": 0,
+  "bytes/base64": "Zml4dHVyZQ=="
+}

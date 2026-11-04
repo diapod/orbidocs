@@ -136,6 +136,9 @@ admission.
 | `sensorium.interface.invoke` | `sensorium/interface.invoke` | actuation | invoke an exact method on one explicitly granted actuation interface and coordinate its bounded shared or exclusive control | Sensorium Interfaces runtime | yes, `sensorium-interface-actuation@v1` | The implemented P083 foundation binds every effect to the authenticated caller, exact interface, method, classification, opaque source generation, grant and limits; exclusive effects additionally require the current lease, epoch, and caller sequence. Observation, Room membership, and carrier attachment confer no invoke authority. |
 | `sensorium.interface.manage` | `sensorium/interface.manage` | host control | source-local observation and actuation publication, lifecycle, grant, revocation, inspection, metrics, and policy-driven preemption | Sensorium Interfaces runtime | no; host-local only | The implemented capability is non-advertisable and Passport-ineligible. Its authorization policy enumerates a closed action set, including `control.preempt`; authenticated caller binding, an active exact invoke grant for an operator lease, immutable management facts, and restart reconstruction remain mandatory. |
 | `http.fetch.bounded` | `host/http.fetch.bounded` | host network effect | one bounded HTTP(S) fetch admitted for an exact middleware consumer, action, origin policy, and destination class | daemon bounded HTTP fetch host | no; host-local only | Implemented as a reusable daemon-owned primitive with P084 as its first consumer. It resolves and classifies every address, pins the selected connection, revalidates same-origin redirects, enforces intersected byte/time/concurrency limits, and returns only bounded bytes or an Artifact Delivery pointer. It is not a public proxy and grants no Sensorium observation or publication authority. |
+| `http.fetch.bounded.v2` | `host/http.fetch.bounded.v2` | host-local custody | Bounded acquisition with a durable host original transfer; no connector inline original. | Artifact Delivery and authenticated channel owner | no; host-local only | Requires the current owner/session and adopted finite custody policy. It grants no publication, external delivery or ambient object read. |
+| `http.fetch.bounded.capture.read` | `host/http.fetch.bounded.capture.read` | host-local custody | Repeatable bounded extraction pages under an independent exact caller/session/action/content binding. | Artifact Delivery and authenticated channel owner | no; host-local only | Requires the current owner/session and adopted finite custody policy. It grants no publication, external delivery or ambient object read. |
+| `artifact.delivery.retain.v2` | `host/artifact.delivery.retain.v2` | host-local custody | Explicit per-claim finite retention from inline representation or a single-use host transfer. | Artifact Delivery and authenticated channel owner | no; host-local only | Requires the current owner/session and adopted finite custody policy. It grants no publication, external delivery or ambient object read. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | data-only assessment | bounded evaluation of explicit receiving policy against declared or realized evidence | inference provenance core through daemon | no; host-local only | Returns admit, warn or deny for exact subjects. Does not authenticate source assertions, install policy, dispatch inference or authorize effects. |
 | `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | host admission | approves an exact task-pack offer draft against current host-owned bindings and policy | operator task-pack host approval and current admission | no; host-local only | Authenticated local operator approval is distinct from Dator signing and Agora publication. It grants no federated discovery or Passport authority. |
 | `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | host admission | admits immutable task-pack completion from the retained verified recipe and signed Corpus outcome | operator task-pack host immutable publication and completion admission | no; host-local only | Revalidates current publication authority; replay uses retained bytes and cannot rerun inference, publish twice, or authorize buyer settlement. |
@@ -170,7 +173,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **247** host-local / **279** total; **44** owner groups.
+Entries: **250** host-local / **282** total; **47** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -180,6 +183,18 @@ have the `federated` surface, shown explicitly below.
 Neither an entry nor `active` status guarantees an installed handler, a running
 endpoint, or caller authorization. Runtime availability, grants, approvals and
 domain policy remain separate checks. Wire names are not endpoint URLs.
+
+### <code>Artifact Delivery bounded extraction reader</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>http.fetch.bounded.capture.read</code> | <code>host/http.fetch.bounded.capture.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>Artifact Delivery custody owner</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>artifact.delivery.retain.v2</code> | <code>host/artifact.delivery.retain.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>Responsibility host / local operator maintenance</code>
 
@@ -343,6 +358,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>sensorium.virt.host</code> | <code>host/sensorium.virt.host</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon bounded HTTP capture host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>http.fetch.bounded.v2</code> | <code>host/http.fetch.bounded.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon bounded HTTP fetch host</code>
 

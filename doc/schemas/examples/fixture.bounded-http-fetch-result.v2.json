@@ -1,0 +1,24 @@
+{
+  "schema": "bounded-http-fetch-result.v2",
+  "schema/v": 2,
+  "request/id": "fetch-request:fixture-001",
+  "outcome": "completed",
+  "requested-url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "final-url/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "response/status": 200,
+  "media/type": "text/html",
+  "content/encoding": "identity",
+  "compressed-bytes": 13,
+  "decompressed-bytes": 13,
+  "body/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "body": {
+    "kind": "host-transfer",
+    "owner/component-id": "middleware.sensorium-web",
+    "read/binding": "read-binding:fixture",
+    "retain/binding": "transfer:fixture",
+    "body/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+    "body/size-bytes": 13,
+    "captured/at": "2026-08-26T10:00:00Z"
+  },
+  "redirects/followed": 0
+}
