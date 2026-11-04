@@ -142,6 +142,40 @@ verify signatures, access and payload schemas. The codec owns no durable state
 and performs no handoff; an owner persists its exact prepared ciphertext before AD.
 Its component tests do not qualify a concrete relay, host admission or Gate D.
 
+
+#### AD single-relay packet profile
+
+The AD transport owner carries the end-sealed PEX artifact in a binary packet:
+`"orbiplex.ad-relay.v1\0" || u32be(header-length) || JCS(header) || opaque-body`.
+The closed `artifact-delivery-relay-header.v1` binds direction, random 32-byte
+base64url return handle, family, issue/absolute expiry and body size. Only `forward`
+may name a configured circuit; `return` and `delivered` forbid it. The canonical
+header maximum is 443 bytes, within the 1024-byte framing allocation. The whole
+packet ceiling is 5 MiB. No origin identity, endpoint, origin grant or causal trace
+is copied into the delivered packet. Circuit/neighbor knowledge remains private
+to the origin and relay; the destination config admits only a relay and families.
+
+A configured circuit binds independently admitted hop targets and grants, separate
+forward/response size limits and a finite TTL. The relay atomically commits the
+capability with exact onward custody in the existing AD ledger. It binds the
+response to the authenticated destination, allowed family, original expiry and one
+exact body. Same-byte retry recovers that plan; changed bytes conflict. The domain
+owner persists its exact prepared packet before enqueue, without regenerating its
+header/ciphertext on retry. The AD owner is the only transport retry owner.
+
+Capacity accounts for live capabilities and reserved logical ciphertext bytes,
+including one bounded response. This is not physical database allocation. The
+explicit local classification of opaque transport bytes passes existing INAC
+egress policy at admission and retry; it never authorizes inner plaintext
+release. Receiver domain authentication/disclosure remains separate.
+
+Maintenance logically expires prepared transport copies and return capabilities
+at the original deadline, without discarding domain history. Active transfers are
+withheld from sweeping. HTTP clients may not impersonate the authenticated INAC
+source adapter. First-hop acceptance is durable relay custody; success still
+requires the final domain's receipt. Current component composition uses an
+injected session boundary. It does not close PEX-001/S010 or Gate D.
+
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
 consumer decisions; AD owns transport custody and retry. PEX owns no durable state.
