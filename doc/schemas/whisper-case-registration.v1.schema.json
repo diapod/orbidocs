@@ -38,7 +38,8 @@
     },
     "authorization/public-key": {
       "type": "string",
-      "maxLength": 48
+      "maxLength": 48,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
     },
     "request/id": {
       "type": "string",
