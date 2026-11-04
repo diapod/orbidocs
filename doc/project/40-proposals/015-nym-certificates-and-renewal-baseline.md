@@ -741,6 +741,11 @@ Optional stay-ready runtime, P015-004/005, other P081 consumers, global Whisper/
 Agora and release readiness remain separate. The dated checkpoints below retain
 their original partial/refused results; they are historical, not current status.
 
+The 2026-11-04 primary integration and repeated software gates are recorded in
+`node:docs/audits/WHISPER-INTEGRATION-2026-11-04.md`. They preserve this bounded
+qualification and the separately qualified P015-004/006 scopes. They are not a
+new AD/SQLite/Synapse recapture or completion of P015-005/007/008.
+
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P015-001 | Freeze private issuance/renewal exchange binding | done | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
@@ -769,7 +774,7 @@ remaining old-database, authority/status/privacy, backend and both-store gates
 open; no tracker row advances to `done`. See the
 [encrypted-provider checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#encrypted-provider-process-interruption-subset-2026-11-02).
 
-### Current qualification boundary — 2026-11-03
+### Historical qualification boundary — 2026-11-03
 
 Clean Node `c6f57910` / Orbidocs `92d0fe7b` independently verifies42/67 required
 prefix obligations. Six newly composed C-class requirements bind the original

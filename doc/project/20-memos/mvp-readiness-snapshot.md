@@ -2,8 +2,34 @@
 
 Snapshot date: 2026-09-05.
 
+## Current-status reconciliation — 2026-11-04
+
+This page preserves dated snapshots, not a second current implementation tracker.
+For current Node readiness use `node:docs/MVP.md`, the structured
+`node:docs/implementation-ledger.toml` and its generated view. The historical
+percentages below do not measure the subsequent changes.
+
+- [P015 delivery integration](../40-proposals/015-nym-certificates-and-renewal-baseline.md#delivery-integration-tracker):
+  P015-001–003 are done for the bounded phase-1 profile: A30/B31 plus six separate
+  conformance obligations. It is a source-specific composition with equivalent
+  loose/extracted and fresh two-store results, not an all-new single-binary run.
+  Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
+- [P015 succession](../40-proposals/015-nym-certificates-and-renewal-baseline.md#succession-tracker):
+  P015-004 has independently completed its pure MVP gate; the October amendment
+  below records its earlier open state. P015-006 has its own bounded lifecycle
+  qualification. P015-005/007/008 remain open; these results do not close all P015.
+- [Whisper](../60-solutions/011-whisper/011-whisper.md#certified-contextual-authorship):
+  the contextual continuation remains outside hard MVP. Optional stay-ready,
+  LLR/ADC, Anon and global/release readiness are separate.
+- The primary integration passed the repeated software gates documented in
+  `node:docs/audits/WHISPER-INTEGRATION-2026-11-04.md`. This does not renew runtime
+  acceptance or imply release approval. P035-001–003 remain mandatory unfinished
+  hard-MVP conditions under the separate 2026-11-04 scope amendment.
+
+## Earlier dated checkpoints
+
 MVP scope amendment — 2026-10-28: [P015-004](../40-proposals/015-nym-certificates-and-renewal-baseline.md#succession-tracker)
-is an open MVP gate (`todo`): the narrow `nym-succession.v2` schema and pure
+introduced an open MVP gate (`todo`) at that checkpoint: the narrow `nym-succession.v2` schema and pure
 semantic verifier, both authorization modes, Phase 1 suite and negative vectors,
 plus removal/migration of v1 schemas, references and acceptance together. In
 continuity-key mode this is a pure check over supplied anchor/key evidence.
