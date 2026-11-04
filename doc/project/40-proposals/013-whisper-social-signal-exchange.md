@@ -710,6 +710,39 @@ Suppression is a local propagation decision; the verifiable envelope
 and its curation verdicts coexist in Memarium as separate facts on
 the same timeline.
 
+### Rumors in a Future Resource Perspectives Client {#resource-perspectives-client}
+
+Future design profile, 2026-11-04; the client contract belongs to
+[P026](026-resource-opinions-and-discussion-surfaces.md#resource-perspectives-client).
+Whisper contributes accessible accounts and their curation, replies and corrections
+to a resource-centred view. This can support rumor's social function as distributed,
+revisable memory without turning rumor aggregation into a verdict about a person.
+P013-AE-003 is deferred and does not block the current alpha or web-retention slice.
+
+Reuse public gossip's envelope `record/about` and `gossip/see-also`, resource
+opinions targeting the rumor and existing Agora reply/revision paths. Preserve
+the distinction between a rumor about an action in a role, an opinion about that
+rumor's credibility, and an opinion about the underlying resource. None transfers
+automatically into a judgment of the person, another role, reputation or sanctions.
+Related-resource links alone imply neither accusation nor corroboration.
+
+This public-gossip binding does not extend the closed `whisper-signal.v2` body
+or generalize the planned `signal/related-to` contract. Access to a protected
+signal authorizes neither a public resource association nor disclosure of its
+existence through an index, count or link. Reuse existing disclosure/publication
+gates and viewer-bound exposure; private correlations require their own admitted
+read scope, with no public fallback. Urgent protection retains its existing path.
+
+Keep conflicting accounts, responses, corrections, temporal context and available
+origin/lineage visible within that scope; unknown provenance stays unknown.
+Threshold satisfaction, a signature or many copies do not establish truth or
+independent corroboration. The client reports bounded coverage, not a complete
+network consensus. P013-AE-003 qualifies this binding with offline admitted-record
+fixtures covering a contested action, a reply/correction, reprints, an unavailable
+reference and withheld/protected material. Assert no person-level verdict,
+implicit publication or private-reference leak; the joint client UI evidence
+belongs to P026-013, avoiding a second renderer or acceptance harness.
+
 ## M4 Acceptance Scenario
 
 Agora M4 uses Story-005 as the first full public/federated Whisper smoke:
@@ -915,6 +948,7 @@ association-room lifecycle policy as post-MVP questions.
 |---|---|---|---|---|
 | P013-AE-001 | Bind rumor curation to the common local gate | partial | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. The 2026-10-24 P026 local checkpoint proves withholding and later rendering of rumor extension fields through the shared view. Standalone overlay admission and the complete real Whisper curation/Agent/attention/propagation matrix remain outside that qualification; existing M4 evidence is unchanged. Review run 01 requalifies bounded rumor fields through the common view; complete Whisper workflow scope remains unchanged. |
 | P013-AE-002 | Optional sealed rumor-assessment profile | todo | P026-010/011 | Select an admitted round/opener policy and reuse the four Agora kinds; test missing reveal, duplicates, partial history and independent propagation. This is separate from local-gate completion and not an alpha dependency. |
+| P013-AE-003 | Bind rumors to the future resource perspectives client | deferred | Existing public-gossip/reference and curation contracts; P013-AE-001 for the selected viewer surface | Implement the [rumor binding](#resource-perspectives-client) against P026's client contract; preserve rumor/curation/resource and person/role/action distinctions, replies, revisions, origin and uncertainty. Reuse admission/exposure and existing read APIs; offline fixtures prove no protected-reference leakage, implicit disclosure, duplicate corroboration or person-level verdict. Supplies P026-013 without depending on its UI completion; no new alpha dependency. |
 
 ## Web Origin Publication Tracker
 
