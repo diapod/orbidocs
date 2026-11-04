@@ -173,8 +173,14 @@ Maintenance logically expires prepared transport copies and return capabilities
 at the original deadline, without discarding domain history. Active transfers are
 withheld from sweeping. HTTP clients may not impersonate the authenticated INAC
 source adapter. First-hop acceptance is durable relay custody; success still
-requires the final domain's receipt. Current component composition uses an
-injected session boundary. It does not close PEX-001/S010 or Gate D.
+requires the final domain's receipt. The maximum-size component composition uses
+an injected session boundary. A separate source probe (2026-11-05) uses production
+WSS/TLS/3DH in three independent loopback processes with real AD/INAC and explicit
+fixture-domain receipts. It covers source restart with exact prepared bytes,
+a lost post-custody push acknowledgement and bounded raw-store/trace privacy
+scans. These source probes do not close PEX-001/S010 or the full retained Gate D;
+admitted daemon policy, the real domain adapter and the remaining family, route
+policy, expiry and negative vectors remain pending.
 
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
