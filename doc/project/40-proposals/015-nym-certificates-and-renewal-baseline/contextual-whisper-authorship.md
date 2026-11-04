@@ -2040,3 +2040,21 @@ unchanged budgets remain required. Optional stay-ready is not enabled or
 runtime-qualified. P015-001--003, full Whisper/global Agora and release retain
 their partial scopes. No archive publication, merge or push occurred. See the
 [Node running audit](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md).
+
+### Campaign custody and cleanup owner decisions — 2026-11-04
+
+For `P015-003` only, necessary isolated fixture-owner database images and private
+capture dependencies may use an audited **operator-only** profile in the adopted
+private primary/replica stores. Git retains path-free metadata. Keystores, keys,
+passwords, live credentials and recovery bundles remain excluded; byte limits do
+not change. This resolves the public/private custody choice, without approving
+unaudited contents or completing the remaining qualification.
+
+The owner permits removal of unused producer-owned artifacts after actual
+ownership, active-use and dependency checks. Required A/B inputs, user data, keys,
+parallel work and worktrees remain protected. After A/B adjudication, a reviewed
+withdrawal of large evidence may retain only revisions, scope, original results,
+conclusions and an exact deletion inventory. Affected availability and loss of
+requalification must be explicit. The permission cannot promote an unfinished
+gate. Node's [bounded cleanup review](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-OWNED-CACHE-CLEANUP-2026-11-04.md)
+records removal of inactive Cargo cache only; campaign evidence remains intact.
