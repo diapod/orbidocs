@@ -1865,3 +1865,32 @@ pending. Optional stay-ready effects remain not-enabled. Neither full gate,
 P015-001--003, full Whisper/global Agora nor release readiness is promoted.
 Original refusals and earlier source/software scopes stay unchanged. See
 `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#actual-late-matrix-reception-2026-11-04`.
+
+
+### Original SQLite collection/emission freshness (2026-11-04)
+
+Clean Node51bf99a7c composition786 freshly verifies **60/67** obligations
+(A30/30, B24/31 and six C conformance),146 native calls and10,661 logical
+reads/455,448,168B. Result SHA-256:
+`11e641a0e860753e7c1fa3f7b7066e39e8649dcf9e88d68dd3745bab62fa59c7`.
+Candidate41 at d0af38a2f completes actual AD certification780A/782B with explicit
+fixture recovery exports. Genuine signed issuer status9 permits collection but
+returns `status-stale` for first emission. B then uses ordinary protected host
+preview/sign/readback; SQLite201 admits the second source, with no first emission.
+After controlled delivery releases genuine fresh status14, one signed
+threshold/proposal pair appears. Independent785 rechecks original certification,
+review, status and all three complete cuts in nine native calls.
+
+The result journal tracks changed bases, not every refreshed status. The frozen
+first threshold supplies the verified first status/time binding; the latest
+changed current basis may still contain the older collection-only status. Shared
+profile-owned host helpers preserve the already qualified late Matrix predicate.
+All388 profile tests and the light/scoped source gates pass. Seven B requirements
+remain: Matrix freshness, public privacy, retired acceptance environment and UI
+refusals on both backends. Final current-candidate/full-software and identical
+loose/extracted/fresh two-store qualification remain pending. Optional stay-ready
+remains not-enabled. Both full gates, P015-001--003, full Whisper/global Agora and
+release readiness retain their partial scope. No runtime PDU verifier, portable
+Matrix time proof or federation qualification is added; historical evidence and
+refusals remain unchanged. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independently-composed-sqlite-freshness-2026-11-04`.
