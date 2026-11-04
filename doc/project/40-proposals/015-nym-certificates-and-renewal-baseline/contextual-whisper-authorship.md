@@ -1894,3 +1894,34 @@ release readiness retain their partial scope. No runtime PDU verifier, portable
 Matrix time proof or federation qualification is added; historical evidence and
 refusals remain unchanged. See
 `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independently-composed-sqlite-freshness-2026-11-04`.
+
+
+### Independently composed both-backend freshness (2026-11-04)
+
+Clean Nodee09459884 composition808 freshly verifies **61/67** obligations
+(A30/30, B25/31 and six C conformance),163 native calls and11,576 logical
+reads/498,753,839B. Result SHA-256:
+`fd6f4066022bec13ad5255da8ed1a3eec8a48b2ecca7babdf24fa06f2994b268`.
+Actual SQLite783 and Matrix802 distinguish collection from first-emission
+freshness. Candidate/service42 at01378f863 completes ordinary AD799A/801B and
+protected late host signing. Matrix202 reaches actual sync admission; signed
+status8 permits two sources without first emission. After release, actual
+delivery of signed11 precedes the single frozen threshold/proposal pair.
+Separate read-only sync803 and a consistent PostgreSQL export804 bind all four
+room-v10 PDUs (9,271/9,271/2,442/2,187B), original stored rows, exact author bytes
+and unchanged independently adopted server keys. Native807 rechecks everything
+in15 fresh calls.
+
+Original793 remains a failed HTTP429 capture. Original805 retains its predicate
+refusal: first-available10 and first-used11 legitimately differ. Review replaces
+that false equality with monotonicity plus native verification of the actual
+status response delivered before freeze, including its exact freshness window.
+No lease, timer, admission or assertion limit is increased. All390 profile tests
+and scoped/light gates pass. Six B requirements remain: public privacy, retired
+acceptance environment and UI refusals on both backends. Final current-candidate
+cohort, full final software and identical loose/extracted/fresh two-store retention
+remain required. Optional stay-ready is not-enabled. Both full gates and
+P015-001--003 remain partial. The phase-1 authenticated-homeserver clock and
+acceptance-only PDU checks add no runtime PDU verifier, portable time or federation
+claim; global Agora/Whisper/release scope is unchanged. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independently-composed-both-backend-freshness-2026-11-04`.
