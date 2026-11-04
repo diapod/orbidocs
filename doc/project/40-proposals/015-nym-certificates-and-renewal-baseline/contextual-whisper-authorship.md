@@ -1958,3 +1958,48 @@ acceptance environment inertness on each backend. Full current-cohort/software
 and identical loose/extracted/fresh qualification from both stores remain open.
 Optional stay-ready is not enabled or runtime-qualified. No final A/B/global,
 archive publication, merge, push or protected-material cleanup claim is made.
+
+
+### Explicit retired-environment runtime and full software gate — 2026-11-04
+
+The `3ff8ed68b` capturer supplies the four fixed retired Whisper selectors to
+the actual ordinary applicant child after stripping ambient legacy variables.
+Original AD820/SQLite821 and AD840/Matrix841 use the protected Vault, ordinary
+private certification, confidence0.5 and genuine backend admission. Independent
+829 verifies SQLite; independent847 verifies unchanged Matrix840/841,
+read-only843 and complete PDU844 in five fresh native calls. The full PDU is
+9,311 bytes and preserves the exact author buffer. This tests the contextual
+owner under explicit selectors; it does not claim to execute a removed legacy
+intake signer. The separate historical-intake checks remain conformance.
+
+The original824/AD822 refusal remains: the first key request received
+`nym-issuer-status-maintenance-due`. The later834/AD832 source first received
+`nym-issuer-context-capacity-exceeded`, then expired. The fixture permits only
+one active context. Normal S020 closed the previous context at07:02:10,
+after that request's expiry. New842 checks the already closed source state
+before minting its new request; the read-only fixture check is advisory, and
+ordinary admission still owns the decision. No context capacity, profile, retry
+or request deadline was increased. AD840 completed in79.12s. The Matrix841 stage (owner startup, status,
+publication and reception) took11.85s. These are observations from this run,
+not latency bounds.
+
+Original845 independently refused because its predicate compared the signed
+author value to the locally stamped source record. `43cc273d9` reuses the existing
+conversion removing exactly the three unsigned relay facts; other differences
+still refuse. A real-shape Matrix regression and408 profile tests pass. Native
+input/output bindings are now included in both new proof families. No original
+runtime, author buffer, PDU or failed qualification was rewritten.
+
+Full workspace gate818 passed on exact clean `3ff8ed68b`: Clippy/all targets,
+9,319 passed, zero failed,128 explicitly ignored, formatting, ledger/retention
+and path checks. Cargo was nonincremental. The later qualifier-only change has
+408 profile tests and a passing light gate; Rust/Cargo inputs were unchanged.
+Fresh composition848 verifies **65/67** (A30/30, B29/31 and six C conformance),
+175 native calls and13,902 logical reads/627,498,895 bytes. Its result SHA-256
+is `5c0e24dbfd13ae8b59d12a3ae43b2c6d01ffdc76e4d7352e7841ad070c7d71df`. These repeated logical reads are not archive size.
+
+The two remaining B predicates concern public privacy on SQLite and Matrix.
+Final scope reconciliation and identical loose/extracted/fresh qualification in
+both stores remain mandatory. Optional stay-ready is not enabled or qualified.
+No full A/B, global Agora/Whisper, release, archive-publication, merge or push
+claim follows from this checkpoint.
