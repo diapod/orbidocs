@@ -52,7 +52,7 @@ is not the same as counting them as two qualified sources in one epoch.
 
 - **Receipt at first admission.** The admitting relay, or the counting
   authority for private carriage, issues an
-  [`agora-admission-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27).
+  [`agora-publication-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27).
   It binds the record id, the author-byte digest, the nym certificate digest
   and issuing council, the verification outcome, the gate policy, the relay
   identity and the acceptance time, and the relay signs it as an explicitly

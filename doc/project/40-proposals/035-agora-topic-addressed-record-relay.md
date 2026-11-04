@@ -2813,7 +2813,15 @@ valid then. P015 already relies on an allowlisted relay's signed durable
 admission receipt as publication-time evidence. This section makes that
 receipt a portable artifact instead of adding a second format.
 
-`agora-admission-receipt.v1`, signed by the admitting relay, binds:
+Naming reconciliation (2026-11-04): P035-019 promotes Node's existing
+`agora-publication-receipt.local.v1` into the portable
+`agora-publication-receipt.v1` contract. It does not create a parallel admission
+receipt family or rename retained v1 bytes. The local receipt already binds
+exact author bytes, record/topic, admitted relay and acceptance time. The portable
+profile's additional credential/policy bindings below require explicit versioned
+semantics and adapter-law fixtures; local implementation does not prove them.
+
+`agora-publication-receipt.v1`, signed by the admitting relay, binds:
 
 - the `record/id` and the digest of the exact author bytes;
 - the digest of the nym certificate or passport used, and its issuer;
@@ -2882,7 +2890,7 @@ P035-019's gate includes these adapter-law and local-fact-is-not-proof cases.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-publication-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 

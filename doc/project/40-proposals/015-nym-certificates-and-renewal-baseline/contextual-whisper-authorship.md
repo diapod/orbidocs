@@ -787,7 +787,7 @@ belongs to `P013-ADC-004`.
 [P013 long-lived rumors](../013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)
 keep certificates short. The SQLite admission receipt used above as
 publication-time evidence becomes an instance of the portable
-[`agora-admission-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
+[`agora-publication-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
 so other nodes can verify later that a record was admitted while its nym proof
 was valid. That historical validity grants no current authority and does not
 extend this profile's epoch or counting rules.
