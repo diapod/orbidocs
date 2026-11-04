@@ -887,3 +887,11 @@ for private INAC authorization disclosure, source boundaries and exact results.
 The final source-boundary review rejects hidden/generated columns and user tables
 resembling SQLite internals; fresh703 repeats the full57-predicate closure under
 that guard. The earlier702 source-bound result remains historical and unchanged.
+
+
+2026-11-04 later SQLite receipt checkpoint: clean Node61b27ba8 composition719
+verifies58/67 obligations, now including real first receipt after certificate
+expiry plus skew with the original signed publication time. Nine B predicates,
+final current-candidate cohort and two-store retained qualification remain open.
+P015-001--003 and both complete gates stay partial. See the
+[contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#actual-late-first-sqlite-reception-2026-11-04).

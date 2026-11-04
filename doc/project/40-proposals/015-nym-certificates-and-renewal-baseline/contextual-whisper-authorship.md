@@ -1815,3 +1815,28 @@ See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#private-adinac
 The final source-boundary review rejects hidden/generated columns and user tables
 resembling SQLite internals; fresh703 repeats the full57-predicate closure under
 that guard. The earlier702 source-bound result remains historical and unchanged.
+
+
+### Actual late first SQLite reception (2026-11-04)
+
+Clean Node61b27ba8 composition719 verifies **58/67** obligations (A30/30,
+B22/31 and six conformance),132 fresh native calls and9,359 logical reads/
+398,848,754 bytes. Result SHA-256:
+`d37a49f5ef00b0a160c708dcdd40caf4efb73ae3a19d36ef1483d1add0ac9ae4`.
+The separately qualified ordinary UI715 publication and later receiving716 bind
+the same exact author bytes and signed SQLite receipt. Publication is within
+certificate validity; actual first reception is after expiry plus5s and before
+epoch end. The receiving process uses existing SDK owner ports with SystemClock;
+it is not an HTTP import, another signer or an invented historical clock.
+Later consistent snapshots and original process observations are independently
+checked; close/reopen does not replace the separate restart/replay predicate.
+
+361 profile tests and scoped source/light checks pass. The original decoder,
+missing-command and expired-delivery refusals retain their original outcomes.
+Nine B predicates remain: Matrix late receipt and collection/emission freshness,
+public privacy, retired acceptance environment and UI refusals on each backend.
+The final current-candidate cohort and identical loose/extracted/fresh two-store
+qualification are still required. Optional stay-ready effects remain not-enabled;
+P015-001--003 and both full gates remain partial. No full software, transport,
+global Whisper or release qualification is renewed. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#actual-late-first-sqlite-reception-2026-11-04`.
