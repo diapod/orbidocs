@@ -150,3 +150,12 @@ that anonymity is implemented. All entries are `todo`.
 ## Notes
 
 Anon may be attached as a separate process or service. Callers should depend on the declared outbound privacy capability, not on the module name itself.
+
+## First bounded realization
+
+The [case-authority contract](../../40-proposals/013-whisper-social-signal-exchange/case-authority.md)
+adopts a single-relay profile behind AD selection. Origin, relay and destination
+have separate hop authority; the destination sees the relay, not origin metadata.
+Required privacy has no downgrade. Three local loopback processes qualify this
+profile separately from the domain verifier. This contract is not implementation
+or evidence of onion, collusion-resistant or globally anonymous delivery.

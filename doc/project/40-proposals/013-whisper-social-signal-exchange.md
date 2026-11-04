@@ -987,12 +987,13 @@ completed baselines remain scoped to their historical evidence.
    `ai.orbiplex.whispers/<topic-class>` as the conventional
    public/federated topic-key prefix, and reserve `private/<name>`
    for direct-only INAC artefacts outside Agora.
-9. Under [P013-PEX-001](#private-exchange-tracker), define the direct
-   node-to-node exchange contract as a thin binding
-   over the same `agora-record.v1` envelope, consuming the outbound
-   privacy capability for transport and the attestation gate for
-   peer admission, with Memarium as the sole persistent store on both
-   ends.
+9. Under [P013-PEX-001](#private-exchange-tracker), use existing AD/INAC
+   with declared outbound privacy and recipient/role admission. Memarium is the
+   sole persistent store for protected Whisper records on both ends. Typed case
+   exchanges persist in their domain owners (LLR-008 authority and S026 workflow),
+   retaining exact prepared bytes with the decision. PEX owns no durable store;
+   AD owns transport custody and retry. See the
+   [ordered case contract](013-whisper-social-signal-exchange/case-authority.md).
 10. Wire operator-mediated rumor curation
     (§Operator-mediated rumor curation) into the Node UI whisper
     inbox: per-rumor actions for `rumor/credibility` (1..5),
