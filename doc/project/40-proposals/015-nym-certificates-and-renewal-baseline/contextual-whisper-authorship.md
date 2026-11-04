@@ -2003,3 +2003,40 @@ Final scope reconciliation and identical loose/extracted/fresh qualification in
 both stores remain mandatory. Optional stay-ready is not enabled or qualified.
 No full A/B, global Agora/Whisper, release, archive-publication, merge or push
 claim follows from this checkpoint.
+
+### Original public-surface privacy composition — 2026-11-04
+
+Clean Node `035dd627c` freshly composes **67/67** obligations (A30/30,
+B31/31, six conformance), using179 native calls and13,979 logical reads.
+Original ordinary AD856 renewal and SQLite857 controls are completed by the
+read-only UI861 continuation. New ordinary AD862/Matrix863 has six nonempty
+API/UI/detail/topic/SSE controls, independent read-only sync865 and complete
+PDU866 (9,281 canonical bytes), original stored row and exact author bytes.
+Full PDU verification remains acceptance-only under the adopted phase-1 clock.
+
+The predicate independently binds original owner processes, closure, record
+controls and backend admission. Actual fixture participant, primary public-key
+and source-node canaries cover semantic JSON/HTML/URI/SSE and decoded v2 author
+buffers. Protected canaries use only byte length and digest, with bounded work;
+no secret value, Vault key or recovery bundle enters these controls. A fresh
+verified reset predicate owns the positive historical old-nym witness; current
+record/detail/SSE/author/PDU observations cannot link it. Private AD authority
+metadata and operator notification reads retain their separate access classes.
+An empty notification list does not invent a public Whisper notification emitter.
+
+Original readiness, clock-unlock503, CSRF-capture, expired-preflight and witness
+adoption refusals remain intact. A later read-only continuation does not turn a
+failed capture into success. Review corrected typed refusal preservation,
+secret-window limits, process/clock substitution and missing UI-pin refusal;
+427 profile tests pass. No Rust/Cargo input changed after the already-passed
+full gate818 on clean `3ff8ed68b` (9,319/0/128 ignored, nonincremental).
+Fresh873 result SHA-256:
+`4b2f1906c602d49d7ed28bf0a91fad316e83a7ddf455400104bb1a4ed5afcb4b`.
+
+The complete proof inventory is still **not final A/B qualification**. Original
+scope/current-cohort reconciliation, exact public retention dependencies and
+identical loose/extracted/fresh qualification from both stores within the
+unchanged budgets remain required. Optional stay-ready is not enabled or
+runtime-qualified. P015-001--003, full Whisper/global Agora and release retain
+their partial scopes. No archive publication, merge or push occurred. See the
+[Node running audit](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md).
