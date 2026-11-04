@@ -13,11 +13,6 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
-    "whisper-case-registration.v1.schema.json",
-    "whisper-case-acceptance.v1.schema.json",
-    "whisper-case-status.v1.schema.json",
-    "whisper-case-succession-presentation.v1.schema.json",
-
     "nym-exchange-key-request.v1.schema.json",
     "nym-bootstrap-recipient.v1.schema.json",
     "nym-key-request-sealed.v1.schema.json",
@@ -58,6 +53,11 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "whisper-case-registration.v1.schema.json",
+    "whisper-case-acceptance.v1.schema.json",
+    "whisper-case-status.v1.schema.json",
+    "whisper-case-succession-presentation.v1.schema.json",
+    "whisper-private-exchange-header.v1.schema.json",
     "nym-source-status-acquire.local.v1.schema.json",
     "nym-source-status-result.local.v1.schema.json",
     "whisper-contextual-source-view.local.v1.schema.json",
@@ -783,6 +783,11 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "whisper-case-registration.v1.json",
+    "whisper-case-acceptance.v1.json",
+    "whisper-case-status.v1.json",
+    "whisper-case-succession-presentation.v1.json",
+    "whisper-private-exchange-header.v1.json",
     "collect.nym-source-status-acquire.local.v1.json",
     "pending.nym-source-status-result.local.v1.json",
     "unknown.whisper-contextual-source-view.local.v1.json",
@@ -1425,6 +1430,11 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "unknown-field.whisper-case-registration.v1.json",
+    "unknown-field.whisper-case-acceptance.v1.json",
+    "unknown-field.whisper-case-status.v1.json",
+    "unknown-field.whisper-case-succession-presentation.v1.json",
+    "unknown-field.whisper-private-exchange-header.v1.json",
     "endpoint.nym-source-status-acquire.local.v1.json",
     "null-purpose.nym-source-status-acquire.local.v1.json",
     "missing-certificate.nym-source-status-acquire.local.v1.json",

@@ -106,6 +106,42 @@ privacy. Missing relay/onion provider refuses before transmission. The relay kno
 its neighbors and timing; collusion/global observation/onion guarantees are outside
 this profile. Gate D uses three loopback-only local processes.
 
+#### PEX binary sealed profile
+
+`whisper-private-exchange-header.v1` is the closed JCS header of a binary artifact:
+`"orbiplex.pex.v1\0" || u32be(header-length) || header || ciphertext-with-tag`.
+The NUL is one zero byte. Header length is at most 464 canonical UTF-8 bytes.
+Ciphertext is binary, with one 16-byte XChaCha20-Poly1305 tag; it is not wrapped in
+another whole-artifact base64 layer. The maximum is 4,194,803 bytes, below 5 MiB.
+The structural header maximum does not imply that every combination satisfies the
+stricter family/time laws. All owners retain their narrower domain deadlines.
+
+| Family | Recipient role | Plaintext maximum | Transport TTL ceiling |
+|---|---|---:|---:|
+| case-registration | authority | 4 MiB | 900 s |
+| case-request | authority | 4 MiB | 900 s |
+| case-result | requester | 16 KiB | 900 s |
+| case-status-request | authority | 4 KiB | 900 s |
+| case-status-response | requester | 4 KiB | 300 s |
+| case-presentation-carried | audience | 4 MiB | 900 s |
+| case-presentation-referenced | audience | 64 KiB | 900 s |
+
+Every family requires single-relay hard-fail privacy. These TTLs bound transport
+custody, not domain authority or status leases. KDF info binds the codec domain,
+family domain and exact header; HKDF salt is the bounded opaque exchange handle.
+Use existing X25519/HKDF-SHA256 and XChaCha20-Poly1305 primitives. The header binds
+recipient-key digest, fresh ephemeral key/nonce, family, handle, issue/expiry and
+plaintext size. It contains no source node, peer identity, case/record id or public
+plaintext digest. Low-order keys, noncanonical bytes and mismatched independently
+expected family/handle/role/recipient refuse before plaintext release.
+
+Requester reply keys must be scoped to an exchange and admitted from the protected
+request/workflow; an origin node key is not a private reply route. AEAD encryption
+authenticates bytes for a recipient, not sender authority. Domain owners still
+verify signatures, access and payload schemas. The codec owns no durable state
+and performs no handoff; an owner persists its exact prepared ciphertext before AD.
+Its component tests do not qualify a concrete relay, host admission or Gate D.
+
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
 consumer decisions; AD owns transport custody and retry. PEX owns no durable state.

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-private-exchange-header:v1",
+  "title": "whisper-private-exchange-header.v1",
+  "description": "Authenticated JCS header of the binary PEX sealed artifact. Encryption authenticates bytes, not sender or domain authority. No source node or plaintext digest is carried.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "family",
+    "exchange/handle",
+    "recipient/key-digest",
+    "sender/ephemeral-key",
+    "nonce",
+    "issued/at",
+    "expires/at",
+    "plaintext/size"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-private-exchange-header.v1"
+    },
+    "family": {
+      "type": "string",
+      "enum": [
+        "case-registration",
+        "case-request",
+        "case-result",
+        "case-status-request",
+        "case-status-response",
+        "case-presentation-carried",
+        "case-presentation-referenced"
+      ]
+    },
+    "exchange/handle": {
+      "type": "string",
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "maxLength": 52
+    },
+    "recipient/key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "sender/ephemeral-key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "maxLength": 43
+    },
+    "nonce": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{32}$",
+      "maxLength": 32
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "plaintext/size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4194304
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 464
+}
