@@ -304,6 +304,56 @@ precede a classified, reference-only local review candidate. It creates neither
 network acquisition nor a Whisper draft. The full P078-007 network-capable
 profile remains deferred, including remote handoff and automated correlation.
 
+### Web source retention and origin {#web-source-retention-and-origin}
+
+Adopted design extension, 2026-11-04; P078-015/016 remain `todo`. Web findings
+intended for publication consume the original-backed profile in
+[P084](084-sensorium-web-observation-connector.md#web-original-custody), including
+its exact original byte boundary and finite custody claim. Harvester retains
+references and review facts, not a second copy of HTML. Existing reference-only
+intake remains useful for local review, but cannot claim this stronger profile.
+
+At review, bind the original custody claim, snapshot/representation digests,
+source classification, requested/effective retention horizon and origin summary
+to the existing immutable finding/review identity. Recheck availability under
+current read authority before issuing a publication-ready handoff. A missing,
+expired or corrupt original leaves the candidate inspectable with that state,
+but blocks promotion under this profile. Never refetch silently or infer
+retention from an artifact reference. Changing source or extending retention
+requires explicit owner action; exact review replay remains idempotent, while
+current availability is a separate read projection.
+
+Reuse `weak-signal-finding.v1`, the dedicated SQLite review owner,
+`weak-signal-web-review.v1`, and the typed local draft serializer. Extend their
+versioned contracts as necessary; do not add a second review log or overload
+`source/classes` (currently `sensorium`/`document` for web intake) with publication semantics.
+Local draft provenance can bind precise sources, but its publishable projection
+carries only the independently reviewed origin summary specified by
+[P013](013-whisper-social-signal-exchange.md#web-origin-publication). Selecting
+"media monitoring" describes the approved collection purpose, not an inference
+from the presence of an HTTP URL. Model assistance is another axis. Mixed-source
+findings preserve their material origins rather than selecting one convenient
+label; legacy/missing provenance remains explicitly unknown.
+
+The operator sees the retained-original status, effective deadline, extracted
+representation and proposed public origin label before approving a draft. Raw
+HTML, full URLs, artifact refs and body digests stay private unless separately
+approved for disclosure. A public origin label is not a read grant. Existing
+urgent-protection paths remain available under their own contracts; unavailable
+web custody must not prevent a person from reporting their own situation, but
+that report cannot masquerade as an original-backed web finding.
+
+Implementation starts with a reuse inventory of P084 acquisition/custody,
+existing review/draft serialization, P091 configuration and the Whisper
+publication gate. Share the pure origin validator/projection between these
+consumers once its contract is frozen in P013; leave custody checks with P084
+and review decisions with Harvester. Test body loss between import/review/publish,
+clamped horizons, review replay after expiry, mixed and unknown origins, explicit
+media-monitoring selection, model-assisted transformation and secret canaries.
+Do not equate matching body digests with independent corroboration: local
+source lineage may identify copied material, while different hashes alone prove
+neither independent sources nor different claims.
+
 ### 8. Network-capable future
 
 The proposal intentionally omits "local" from the name. Later harvesters may
@@ -492,6 +542,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-012 | Local resonance scoring and link candidates | todo | Depends on P078-011, P013-DFR-002 and P036-008. Deterministic, explainable scores against the unnarrowed record projection; a configured threshold; `weak-signal-finding.v1` candidates that reference record and rumor; pair and context suppression; a per-epoch candidate cap. |
 | P078-013 | Dormant-fact derived artifact lifecycle | todo | Depends on P036-006. Profiles, scores and candidates carry `derived-from` references, expire with their source and are purged on forget; review-store retention is bounded. |
 | P078-014 | Authored rumors as dormant records | todo | Depends on P078-010 and P013-LLR-003. The dormant-fact profile also reads the participant's own authored rumors from Memarium, so a later twin can be matched for re-contact ([P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)). Authored-rumor matches produce findings for the author only; they never count as sources or re-publish the old record. |
+| P078-015 | Bind retained originals and finite horizons to web review and draft handoff | todo | Depends on P084-014 and P013-WEB-001. Extend existing finding/review/local-draft contracts with exact custody bindings and reviewed public origin summary; preserve source/representation identity and classification. Current authority, availability, deadline and quota refusals block only this original-backed promotion; no raw-copy store or implicit refetch. Legacy drafts remain explicitly unqualified. |
+| P078-016 | Qualify operator review and provenance handoff | todo | Depends on P078-015; feeds P084-015 and P013-WEB-002. Extend existing Harvester API/UI harnesses with retention deadline/status, mixed/unknown/media-monitoring labels, exact review replay, loss/expiry before publication and zero private-source leakage. Use deterministic offline sources and separately record UI evidence; synchronize Node ledger and owning solutions on implementation, without upgrading earlier reports. |
 
 ### Operator UI checkpoint (P084-012c)
 

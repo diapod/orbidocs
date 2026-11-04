@@ -247,6 +247,62 @@ When Whisper uses the nym path, the backing `participant-id` should remain on th
 local or issuing side of the boundary rather than being disclosed in the
 wire-level `whisper-signal` artifact itself.
 
+### 2.1. Web-derived origin through publication {#web-origin-publication}
+
+Adopted design extension, 2026-11-04; P013-WEB-001/002 are `todo`, not a claim
+about current wire formats or prior M4 acceptance. Whisper consumes
+[P078 reviewed drafts](078-weak-signal-harvester.md#web-source-retention-and-origin)
+backed by [P084 original custody](084-sensorium-web-observation-connector.md#web-original-custody).
+At publication admission, this profile requires a current owner-confirmed
+original-custody check and the exact reviewed origin summary. Publication must
+not silently drop provenance or replace a web-derived origin with `direct-user`.
+The review identity binds the approved content, origin summary and custody
+claim; changing any of them requires a new review, not an implicit retry.
+
+P013 owns the shared, bounded origin summary for local drafts, signed Whisper
+signals and `public-gossip` publication. Its proposed axes are:
+
+| Proposed field | Semantics / initial vocabulary |
+|---|---|
+| `origin/source-kinds` | Nonempty bounded set: `web`, `personal-report`, `document`, `mail`, `sensorium`, `unknown`; mixtures remain explicit |
+| `origin/collection-method` | `manual-selection`, `configured-monitoring`, `media-monitoring`, `mixed`, `unknown`; web alone does not imply monitoring or journalistic media |
+| `origin/processing` | Bounded set of material transformations: `extracted`, `summarized`, `grouped`, `model-assisted`, `redacted`; empty means no declared transformation, not proof of an untouched source |
+
+These names/vocabularies are recommendations for P013-WEB-001's schema freeze.
+Reuse one closed origin-summary sub-contract and pure validator/projector in the
+actual publication families, rather than copying fields or encoding semantics
+in free-form `gossip/tags`. Existing `source/class` and `gossip/source-kind`
+remain their own authorship/source-posture axes; contextual `source/ref` remains
+P015's participant-source identity, not a URL, body digest or article id.
+`epistemic/class`, confidence and authority are unchanged by an origin label.
+
+The summary is covered by the ordinary publication signature; it records an
+authenticated publisher assertion, not independently proven web provenance.
+Public views render a stable label such as "Web source" or "Media monitoring",
+with "AI-assisted" separately when declared. Legacy records render origin as
+unknown, never personal testimony by default. Promotion to `public-gossip`
+preserves the reviewed summary through the same publisher/Schema Gate path.
+Readers do not fetch source material to render it. Raw originals, exact URLs,
+local finding ids, private artifact refs, body digests and collection timing do
+not accompany the label automatically; each needs independent disclosure review.
+
+Before committing publication, revalidate the finite custody claim through its
+owner and bind that result to the exact prepared publication. Expired/missing
+material refuses new promotion under this profile. If a committed publication
+is later delivered or replayed after expiry, do not rewrite its signed bytes or
+pretend continued source availability; current availability belongs to a separate
+authorized view. Retention expiry does not retract a public record or grant
+indefinite custody. A stronger minimum publication-retention horizon, if wanted,
+must be an explicit admitted policy, not inferred from rumor lifetime.
+
+Collection is not corroboration: copies or summaries of one article do not
+become independent reports because different nodes republish them. Reuse local
+Harvester lineage/dedup and existing correlation policies; do not publish private
+hashes for global dedup or conflate content lineage with P015 distinct-participant
+counting. This extension makes origin visible; it does not solve syndicated-copy
+or Sybil independence. Urgent protection retains its existing path and authority,
+without silently waiving the origin claim's meaning.
+
 ### 3. Bounded anti-Sybil controls in v1
 
 The v1 baseline should use simpler controls instead of semantic dedup:
@@ -859,6 +915,17 @@ association-room lifecycle policy as post-MVP questions.
 |---|---|---|---|---|
 | P013-AE-001 | Bind rumor curation to the common local gate | partial | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. The 2026-10-24 P026 local checkpoint proves withholding and later rendering of rumor extension fields through the shared view. Standalone overlay admission and the complete real Whisper curation/Agent/attention/propagation matrix remain outside that qualification; existing M4 evidence is unchanged. Review run 01 requalifies bounded rumor fields through the common view; complete Whisper workflow scope remains unchanged. |
 | P013-AE-002 | Optional sealed rumor-assessment profile | todo | P026-010/011 | Select an admitted round/opener policy and reuse the four Agora kinds; test missing reveal, duplicates, partial history and independent propagation. This is separate from local-gate completion and not an alpha dependency. |
+
+## Web Origin Publication Tracker
+
+P084 owns original custody and its offline gate; P078 owns review/draft handoff;
+P013 owns the public origin contract and publication preservation. Existing
+completed baselines remain scoped to their historical evidence.
+
+| ID | Task | Status | Dependencies | Acceptance gate |
+|---|---|---|---|---|
+| P013-WEB-001 | Freeze shared origin summary and publication/custody boundary | todo | Existing P013 publication, P078 finding/review and P084 snapshot contracts | Freeze bounded shared vocabularies, versioning/migration for closed schemas, unchanged P015 source identity, local/private versus publishable fields and exact signature/review bindings. Cover unknown, mixed and media-monitoring cases; no automatic credibility weight, public raw digest or claim that a signature proves origin. Canonical schemas, Node mirrors and consumers change only in implementation. |
+| P013-WEB-002 | Preserve reviewed origin through signed publication and reader views | todo | P013-WEB-001; P078-015/016; P084-015 | Reuse prepared publication, Schema Gate, signer, existing Agora/INAC carriers and UI projections. Offline owner-path acceptance proves draft-to-signal-to-public-gossip preservation, refusal on origin mutation or expired/missing custody before admission, unknown legacy rendering, committed replay after expiry without rewrite, no raw/URL/digest leaks and no implicit fetch. Copy/summary cases gain no independent-corroboration assertion; urgent protection remains operational. Update owning solutions, Node ledger and retained acceptance scope at closeout. |
 
 ## Next Actions
 
