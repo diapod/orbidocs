@@ -2098,3 +2098,37 @@ runtime cannot carry the extended certificate and explicitly returns
 required before operators can obtain these grants through that runtime.
 Synthetic signed fixtures qualify the P035 producer and historical consumer,
 without claiming notice issuance or the complete P015-005 gate.
+
+## Transitional material-origin profile v3 (2026-11-05)
+
+The new closed source profile v3 independently admits exact uses of signal v2
+and v3. Certificate v3 retains the existing NymCertificate v1 signature framing;
+its `scope/content-schemas` is exactly `[whisper-signal.v2, whisper-signal.v3]`.
+Recognizing a new schema does not authorize it under an older profile. Exact
+profile and certificate use tuples remain mandatory. A new issuance exchange v2
+binds the new profile; historical exchange v1 and signed artifacts keep their
+original preimages and meaning.
+
+`publication/window-start` and `publication/window-end` delimit one half-open
+epoch: start equals epoch/anchor plus an integral multiple of epoch/seconds,
+end equals start plus epoch/seconds. Production remains limited to seven days.
+Certificate and document validity cannot cross end. At end, new issuance,
+preview, sign and first publication refuse for every producer using this
+profile, including v2 producers. Clock skew never extends the window. Original
+event-time verification and committed historical reads remain available.
+
+A production adoption is a separate owner decision, outside the Sensorium
+milestone. It requires named receivers with confirmed profile/certificate
+support and explicit acceptance of cutting off the others, including their v2
+reception. Other producers must migrate within the single window or the owner
+must accept the resulting publication outage. A new digest changes context and
+source/ref; renewal, thresholds and room proposals do not automatically bridge
+profiles. Existing rooms retain their own lifecycle. Case succession currently
+refuses a profile transition. Another window therefore needs a separate
+continuity assessment, not automatic rollover.
+
+Signal v3 carries all four `whisper-origin.v1` fields at its root. Receivers admit
+all current author classes with the complete origin vocabulary; restrictions on
+Harvester production (derived-local only) do not restrict recipient law. The
+summary is independent of source counting and never asserts independent
+corroboration. This contract checkpoint is not runtime Gate A/B qualification.
