@@ -1256,7 +1256,7 @@ showing source diagnostics. This does not implement P17 related-link navigation.
 
 ### Acceptance Boundary
 
-Publication transport is a separate planned continuation owned by
+Publication transport is a separate required Node hard-MVP integration owned by
 [P035-001–003](035-agora-topic-addressed-record-relay.md#delivery-integration-tracker):
 compose/opinion/comment producers sign through the existing host and hand exact
 records to AD's Agora adapter. Preserve `record/about`, open resource namespaces,
@@ -1264,7 +1264,9 @@ topic authority and record ids; expose queued versus relay-accepted publication.
 Do not introduce an opinion-specific sender or retry queue. P026-001–003 remain
 independently closable on the existing publication path; after migration, rerun
 their consumer assertions through AD rather than claiming old evidence proves
-the new path.
+the new path. The operator promoted P035-001–003 on 2026-11-04: all three must
+close before hard MVP or `alpha-node` can be ready. Historical P026 completion
+does not satisfy that separate integration gate.
 
 Use synthetic fixtures for `pl-nil-pwz` and an unregistered namespace, two kinds
 sharing an identical id, an id with leading zeroes, and an id containing colons

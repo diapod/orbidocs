@@ -68,6 +68,12 @@ protocol. Each owner freezes exact artifact/admission shapes before runtime
 exposure; new public contracts go through Schema Gate and normal compatibility
 review. Existing completed delivery profiles retain their status.
 
+The operator promoted the Node-owned Agora publisher binding P035-001–003 to
+mandatory Node hard-MVP completion conditions on 2026-11-04. All three tasks must
+close before hard MVP or `alpha-node` can be ready; the existing AD MVP adapter
+does not complete the producer migration. This changes only that consumer
+binding's release scope, not the scope of the other continuations below.
+
 | Consumer path | Delivery/admission composition | Authoritative plan and tracker |
 |---|---|---|
 | Node-owned Agora publishers | Sign first; AD `agora-default`; ordinary Agora admission | [P035-001–003](../../40-proposals/035-agora-topic-addressed-record-relay.md#delivery-integration-tracker), consumed by P026/P067 and Seed publishers |

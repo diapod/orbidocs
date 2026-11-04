@@ -169,11 +169,14 @@ It does not define:
 
 ## Must Implement
 
-### Planned Producer Delivery Consolidation
+### Required MVP Producer Delivery Consolidation
 
 [P035 producer delivery](../../40-proposals/035-agora-topic-addressed-record-relay.md#producer-delivery-through-artifact-delivery)
 and its `P035-001`–`P035-003` tracker own the planned migration of Node UI,
 Dator and accepted Seed Directory publication to S023 AD `agora-default`.
+The operator promoted these three tasks to mandatory Node hard-MVP completion
+conditions on 2026-11-04; they consequently block `alpha-node`. Other P035
+continuations are not promoted by this decision.
 Signing, caller/topic authorization and Agora admission remain separate from
 delivery. Preserve direct ingest compatibility, Matrix federation and read APIs;
 only producer delivery intent/retry/status moves to the common plane. Existing

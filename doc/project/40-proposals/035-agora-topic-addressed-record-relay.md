@@ -2768,7 +2768,10 @@ alone does not mark P035-007 or P035-010 done.
 
 ## Producer Delivery Through Artifact Delivery
 
-Planned continuation (2026-10-11), not a reopening of the completed relay MVP.
+Originally planned as a post-MVP continuation on 2026-10-11. On 2026-11-04 the
+operator promoted **P035-001, P035-002 and P035-003** to mandatory Node hard-MVP
+completion conditions and therefore blockers for `alpha-node`. This promotion
+does not reopen the completed relay baseline or include other P035 continuations.
 Node-owned producers should submit already signed `agora-record.v1` artifacts
 through [S023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
 and its existing `agora-default` adapter. This includes P026 authoring, P067
@@ -2805,9 +2808,13 @@ require INAC, and private artifacts must never acquire a public fallback.
 
 ### Delivery Integration Tracker
 
-All rows are post-MVP `todo`; `done` requires retained Node runtime evidence and
-reconciliation of its implementation ledger and any affected MVP scope. S008
-links here rather than maintaining duplicate task status.
+All three rows remain `todo` and are mandatory hard-MVP and `alpha-node` blockers.
+Hard MVP cannot be complete until all three are `done`, including the local and
+remote runtime acceptance in P035-003. Completion requires retained Node runtime
+evidence and reconciliation of `docs/MVP.md`, the
+`agora-producer-delivery-integration` ledger row and the release profile. Existing
+S023 adapter or relay baseline completion does not satisfy this gate. S008 links
+here rather than maintaining duplicate task status.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
