@@ -559,6 +559,144 @@ suite rejects nullifiers because this certificate profile cannot prove their dom
 separation. Stronger unlinkable suites and richer verifier-local non-revocation remain
 post-MVP work under P081 rather than hidden extensions of this certificate baseline.
 
+## Optional Confidential Affiliation Attestation {#confidential-affiliation-attestation}
+
+Proposed post-MVP direction (2026-11-04); no runtime or new credential-suite
+claim. P015 owns the identity binding, consent and attestation profile;
+[P013-ADC-010](013-whisper-social-signal-exchange/author-disclosure-conditions.md#confidential-affiliation-review)
+owns its optional use during a human disclosure decision. Neither task changes
+contextual source eligibility, source counts or existing alpha/MVP completion gates.
+
+### Decision and invariants
+
+A consenting author may ask a locally admitted assessor to check a specified
+relationship to a resource and issue a minimal signed result to explicitly
+authorized recipients. The assessor may be the nym issuer, but issuance authority
+does not automatically grant affiliation-assessment authority. An assessor related
+to the resource must disclose that limitation to the consenting author; the
+author may choose another admitted assessor or leave the check unperformed.
+
+Keep three proofs separate: control of a participant/nym binding; evidence of a
+specified affiliation; and any later interpretation of interests or intent.
+A root `participant-id` is not proof of civil identity, employment, ownership or
+representation. Such claims need separately admitted evidence with explicit
+provenance, coverage and effective time. A model suggestion is not that evidence.
+No attestation claims deception, absence of conflicts, truth of the rumor or
+psychological independence.
+
+Consent must precede identity/evidence acquisition and bind the exact assessment
+scope: signal binding, resource (reuse P026 `resource-ref.v1`), relationship rule,
+assessor, evidence sources, purpose, validity and retention limits. Consent to
+perform the check and consent to disclose its result are distinct authorities;
+both must be explicit before their respective effects. Recipients and result
+granularity are fixed by the latter. No consent, refusal to consent and an
+unavailable assessment confer neither suspicion nor an independence badge.
+Publication, ordinary participation and protected access must remain available
+on the existing rules without this optional check.
+
+The closed semantic outcomes proposed for contract freeze are:
+
+| Outcome | Exact claim |
+|---|---|
+| `relationship-confirmed` | Admitted evidence establishes the specified relationship under the pinned rule and time scope. |
+| `not-found-in-scope` | No matching relationship was found in the named, bounded evidence scope; this is not a universal absence claim. |
+| `indeterminate` | Evidence, identity binding, coverage or freshness is insufficient or contradictory. |
+
+`not-assessed` is a consumer state, not a signed negative finding. A private
+workflow may distinguish withdrawal, unavailability and refusal internally, but
+must not expose the author's reason for not proceeding. Missing material never
+becomes `not-found-in-scope`. The latter requires completion of the declared
+bounded check; even then the coverage limits remain attached to the result.
+
+The assessor learns the authorized linkage in this first profile; encryption in
+transit does not hide it from that assessor. Reuse contextual P015 mapping erasure
+and S026 custody boundaries, without extending issuer retention or reconstructing
+erased maps. A later check needs newly volunteered binding evidence when the
+original is gone. Assessment inputs, mappings, backups and private diagnostics
+have an explicit bounded lifecycle; portable results must not embed them.
+Withdrawal stops new acquisition and disclosure once accepted by the responsible
+owner, but cannot make an already authorized recipient forget a received result.
+
+### Implementation recommendations
+
+Use a thin affiliation profile over existing operations, not a second identity
+registry, generic deanonymization endpoint or new transport. Consult
+`node:docs/development/reuse-index.v1.json` and confirm candidate contracts in
+code before adding helpers:
+
+- Reuse P015 contextual possession/binding verification and the
+  [P081/S043 scoped-claim adapter](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md).
+  Freeze an explicit, domain-separated auxiliary use; current nym publication
+  permission and the adapter's existing predicates do not authorize it. Preserve
+  independently admitted assessor trust, request/audience binding, nonce/replay
+  checks and the distinction between historical signature validity and current use.
+- Compose a pure evaluator over supplied evidence and explicit time, then a
+  hosted service for consent, evidence acquisition and issuance. A pending check
+  gets no output authority. Reuse existing signer/key providers and Schema Gate
+  boundaries; do not introduce a second crypto implementation or algorithm selector.
+- Reuse P015 private exchange and S023 AD/S017 INAC for exact recipients,
+  idempotent requests and bounded recovery. Delivery admission is not consent to
+  assess or disclose. Recheck live authority before acquisition and result handoff;
+  timeouts and restart never turn a pending result into a successful finding.
+- Apply [P032's bounded verification contract](032-key-delegation-passports.md#shared-verification-operations)
+  to a private result package: carry the required assessor verification material
+  within fixed byte/item/work limits, admit trust locally, and refuse missing or
+  stale evidence without fetching identity data. Reuse P076's carrier lessons,
+  not Messaging grant semantics. New zero-knowledge or anonymous credential suites
+  remain separate P081 work, not a prerequisite or a claimed property here.
+
+Candidate internal shapes, not new schemas created by this amendment:
+
+```text
+AssessmentScope = (request_id, protected_signal_binding, resource_ref,
+                   relationship_rule_digest, evidence_scope, assessor,
+                   effective_at, assessment_consent_ref)
+DisclosureScope = (recipients, allowed_result_fields, not_after,
+                   disclosure_consent_ref)
+AffiliationResult = (assessment_binding, outcome, coverage,
+                     evaluated_at, not_after, assessor, policy_digest)
+```
+
+Contract freeze must specify authenticated, purpose-scoped signal binding and
+exact nym possession checks so a result cannot be substituted between authors,
+signals, resources or recipients. A private `record/id`, root identity, reusable
+cross-context handle or predictable identity digest must not escape in the result.
+If an authorized recipient cannot already see the signal, use a scoped opaque
+binding with authenticated resolution only inside that recipient's authorized
+view; an opaque string alone is not a proof. The assessor need not receive rumor
+text when the bounded check can operate without it. Reuse the existing consent
+and classification owners; assessment authority must never double as permission
+to retrieve other authors' protected rumors.
+
+### Trade-offs, failures and open questions
+
+Minimal signed results reduce disclosure to recipients, but concentrate knowledge
+and trust at the assessor. Even a correct relationship flag may identify a lone
+employee or expose a whistleblower. Default result access is private and narrow;
+no public badge, raw proof bundle, log, notification preview or stable identity
+hash may bypass the disclosure scope. Policy must refuse or reduce output when
+the approved audience/granularity still creates unacceptable identification risk.
+
+Stale, incomplete or conflicting affiliation data can mislead; bounded coverage,
+expiry, explicit uncertainty and an author-visible correction/reassessment path
+are required. Compromised assessors and colluding recipients remain residual
+risks. An employment link may explain first-hand knowledge rather than discredit
+it. Repeated resource probes could reconstruct a person's affiliations: purpose
+binding, request budgets and no bulk lookup surface are required.
+
+Before implementation, settle the first relationship vocabulary and admissible
+evidence sources, assessor admission/recusal policy, numerical freshness and
+retention limits, and the concrete anti-substitution binding. No universal civil
+identity or affiliation database is assumed. These decisions belong to P015-007;
+they do not justify retaining existing contextual mappings longer.
+
+### Confidential affiliation tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-007 | Freeze optional confidential affiliation profile | todo | P015 contextual authorship; P081/S043; P032 | Pin separate assessment/disclosure consent, explicit auxiliary scope, assessor admission, evidence coverage, closed outcomes, signal/nym/resource/recipient binding and numerical privacy/replay/retention budgets. Pure fixtures cover swapped bindings, self-supplied authority, possession mistaken for affiliation, incomplete scope, stale/conflicting evidence and consent refusal without adverse inference. Review the single-employee whistleblower and malicious-assessor cases. No new schema or runtime claim until this gate closes. |
+| P015-008 | Compose private assessment and bounded verification | todo | P015-007; P015-002 | Reuse hosted service, scoped verifier, signer, consent/classification, erasable custody and AD/INAC. Prove refusal before acquisition without consent, separate result-disclosure authority, withdrawal/expiry races, restart/idempotency and correction/reassessment. Offline fixtures verify a carried result with network access denied and locally admitted trust; missing evidence fails explicitly. Canary scans cover root identity, affiliations, private signal ids, logs, backups and unintended recipients. Two-node synthetic acceptance separately qualifies private delivery; offline proof alone does not. No public badge or silent retention extension. |
+
 ## Private Issuance Delivery: Implementation Recommendations
 
 Planned continuation (2026-10-11): issuance and renewal use

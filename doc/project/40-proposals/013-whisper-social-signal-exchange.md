@@ -1408,6 +1408,13 @@ Proposed post-MVP continuation; no runtime claim. The
 [owning design and tracker](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
 now live in a sidecar. The domain, decisions and task ids are unchanged.
 
+An optional [confidential affiliation review](013-whisper-social-signal-exchange/author-disclosure-conditions.md#confidential-affiliation-review)
+may inform the author's disclosure decision. P015 owns consent, identity binding
+and the bounded attestation; P013-ADC-010 owns its private presentation. A
+relationship is neither proof of a trap nor grounds for discrediting a
+whistleblower. This post-MVP profile does not change source counting or block
+the existing disclosure path.
+
 <!-- Compatibility anchors for the former inline section and its subheadings. -->
 <a id="author-disclosure-conditions-2026-10-27"></a>
 <a id="summary_1"></a>
