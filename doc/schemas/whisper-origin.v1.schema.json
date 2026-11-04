@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-origin:v1",
+  "title": "whisper-origin.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "origin/source-kinds",
+    "origin/collection-method",
+    "origin/processing",
+    "origin/coverage"
+  ],
+  "properties": {
+    "origin/source-kinds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "web",
+          "personal-report",
+          "document",
+          "mail",
+          "sensorium",
+          "unknown"
+        ]
+      }
+    },
+    "origin/collection-method": {
+      "enum": [
+        "manual-selection",
+        "configured-monitoring",
+        "media-monitoring",
+        "mixed",
+        "unknown"
+      ]
+    },
+    "origin/processing": {
+      "type": "array",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "extracted",
+          "summarized",
+          "grouped",
+          "model-assisted",
+          "redacted"
+        ]
+      }
+    },
+    "origin/coverage": {
+      "enum": [
+        "complete",
+        "partial"
+      ],
+      "description": "Declared coverage of the material lineage presented for this review, not a claim of independent corroboration or global source completeness."
+    }
+  },
+  "description": "Minimized declared material origin. Authorship posture and distinct-source counting remain independent. Private evidence references and retention horizons are excluded."
+}

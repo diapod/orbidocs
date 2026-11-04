@@ -950,6 +950,34 @@ association-room lifecycle policy as post-MVP questions.
 | P013-AE-002 | Optional sealed rumor-assessment profile | todo | P026-010/011 | Select an admitted round/opener policy and reuse the four Agora kinds; test missing reveal, duplicates, partial history and independent propagation. This is separate from local-gate completion and not an alpha dependency. |
 | P013-AE-003 | Bind rumors to the future resource perspectives client | deferred | Existing public-gossip/reference and curation contracts; P013-AE-001 for the selected viewer surface | Implement the [rumor binding](#resource-perspectives-client) against P026's client contract; preserve rumor/curation/resource and person/role/action distinctions, replies, revisions, origin and uncertainty. Reuse admission/exposure and existing read APIs; offline fixtures prove no protected-reference leakage, implicit disclosure, duplicate corroboration or person-level verdict. Supplies P026-013 without depending on its UI completion; no new alpha dependency. |
 
+### Shared material-origin law (2026-11-05)
+
+`whisper-origin.v1` is the closed, minimized summary carried by the new reviewed
+publication profile. It contains `origin/source-kinds` (web, personal-report,
+document, mail, sensorium, unknown), `origin/collection-method` (manual-selection,
+configured-monitoring, media-monitoring, mixed, unknown), `origin/processing`
+(extracted, summarized, grouped, model-assisted, redacted), and `origin/coverage`
+(complete or partial). Coverage describes the reviewed material inventory, not
+external truth, corroboration, or completeness of the world. Exact private basis
+references stay in the review; the public summary contains no URL, raw digest,
+private claim identifier or custody deadline.
+
+Every finding source class has an explicit mapping: document/note/filesystem-text/
+markdown to document; mail/mbox/maildir to mail; sensorium to sensorium; manual to
+unknown. A verified P084 snapshot overrides its technical carrier with web.
+Unknown new classes refuse until mapped. Explicit selection, admitted monitoring
+runs and purpose facts ground collection method; receipts of actual material
+steps ground processing. Missing grounds remain unknown/empty. A URL alone does
+not establish monitoring and a declared author class does not establish origin.
+
+All six current author classes accept all six source kinds at receivers. Author
+class describes authorship/preparation posture; producer restrictions remain a
+separate admission rule. Summary projection preserves the entire declared value:
+it neither drops provenance nor replaces uncertainty. Historical v2 absence stays
+distinct from explicit v3 unknown. Source counting still uses distinct source/ref,
+never this label. These pure laws and parity checks are implemented; reviewed v3
+publication and composed runtime qualification remain in progress.
+
 ## Web Origin Publication Tracker
 
 P084 owns original custody and its offline gate; P078 owns review/draft handoff;
