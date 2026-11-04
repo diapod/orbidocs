@@ -6,6 +6,8 @@ Based on:
 - `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/063-inquirium-model-inquiry-organ.md`
+- `doc/project/40-proposals/064-inquirium-implementation-recommendations.md`
+- `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 - `doc/project/40-proposals/073-agent-orchestration-organ.md`
 - `doc/project/60-solutions/019-middleware/019-middleware.md`
 
@@ -289,9 +291,10 @@ existing Artifact Delivery admission boundary. The Harvester may consume an
 explicitly admitted P084 snapshot or P088-derived intake artifact, but it does
 not inherit fetch, crawl, source-registration, or publication authority.
 
-Inquirium may be used for classification, summarization, entity redaction, and
-semantic grouping, but model output is evidence only. Inquirium does not choose
-publication.
+Inquirium may be used for classification, summarization, entity redaction,
+semantic grouping and advisory epistemic analysis under
+[P078-006](#inquirium-epistemic-analysis). Model output is a proposed interpretation,
+not independent corroboration or a publication decision.
 
 Agent may orchestrate a bounded harvesting pass: schedule scan, ask Inquirium to
 cluster candidates, write findings, and stop. The Agent must not bypass source
@@ -303,6 +306,155 @@ read access; independent P082 admission and bounded retained-artifact verificati
 precede a classified, reference-only local review candidate. It creates neither
 network acquisition nor a Whisper draft. The full P078-007 network-capable
 profile remains deferred, including remote handoff and automated correlation.
+
+### Inquirium-assisted epistemic analysis {#inquirium-epistemic-analysis}
+
+Design refinement, 2026-11-04; implementation remains deferred under P078-006.
+This opt-in profile consumes explicitly admitted source representations and
+produces local analysis for review. It is not a prerequisite for P078-015/016,
+P084-014/015 or P013-WEB-001/002: retention, origin propagation and manual review
+must work with the profile disabled, absent or unavailable. Its web path consumes
+those custody/origin contracts when applicable; it does not introduce another
+acquisition or retention mechanism.
+
+**Keep three records of meaning distinct.** The following are recommended logical
+shapes to freeze in versioned contracts during implementation, not fields already
+implemented in `weak-signal-finding.v1`:
+
+| Layer | Minimum binding and content | What it does not establish |
+|---|---|---|
+| Source claim | `claim/ref`, admitted `source/ref`, exact representation digest and bounded fragment selector; quotation or explicitly labelled paraphrase | That the claim is true, first-hand or independent of another source. Model-extracted claims remain proposed extractions until checked against the fragment. |
+| Model analysis | `analysis/ref`, input claim refs, question/profile revision, existing execution provenance ref, proposed classifications/inferences, supporting/contradicting refs, alternatives and gaps | Source authorship, verification of the event, independent corroboration, or permission to publish. |
+| Human decision | Existing immutable review identity, reviewer, exact finding/analysis/input revision and accepted, amended or rejected interpretation | That accepting a summary proves the event or approves every model inference. Publication still requires its own gate. |
+
+Source statements and model conclusions must remain separately inspectable. A
+proposed relation such as supports, contradicts or provides context names its
+target claim and basis; unverified relations remain advisory. The assistant may
+present these layers and collect corrections, but cannot manufacture a review
+fact on the user's behalf. Corrections create a new bound revision rather than
+rewriting the source or the earlier analysis. A change to the accepted content
+or analysis invalidates approval for that changed version.
+
+For example, a retained article says that a person sent a document to an
+institution. The source claim is "the article reports a sending", with its
+fragment reference. A model may propose "possible administrative delay", while
+recording that neither delivery nor the institution's response is evidenced.
+The reviewer can accept the source summary and reject that inference. Three
+reprints of the article do not become three independent accounts; where lineage
+is unknown, independence remains unknown.
+
+**Implementation recommendations and reuse.**
+
+1. Start with `node:docs/development/reuse-index.v1.json` and verify the actual
+   contracts of Harvester review/draft storage, P084 admitted representations,
+   [P063 Inquirium](063-inquirium-model-inquiry-organ.md) requests and
+   [P064](064-inquirium-implementation-recommendations.md) adapters, quality gates
+   and execution provenance. Use an existing Inquirium request or bounded Flow
+   for a single analysis. Use [P073 Agent](073-agent-orchestration-organ.md) only
+   when bounded multi-step orchestration is needed; no Harvester model adapter,
+   inference loop, review log or blob store is added in parallel.
+2. Reuse [P066 Decision 8](066-inquirium-assistant-channel.md#decision-8-epistemic-posture-and-dignity)
+   for `epistemic.stance`, `confidence`, `grounded_in` and `caveats`, preserving
+   alternatives. This describes the model response's epistemic posture, not a
+   probability that a source claim is true. Neither this confidence nor
+   `finding/confidence` automatically changes rumor credibility, source counts,
+   reputation or publication authority. Execution provenance records how the
+   answer was produced, not whether its claim is correct.
+3. Keep domain analysis as a bounded structured result validated through Schema
+   Gate, referring to existing source and review identities. Verify every claimed
+   fragment/ref against admitted inputs; fabricated or mismatched grounding is
+   rejected, not repaired by fetching another source. Treat source text as
+   untrusted data, including instructions embedded in web pages. Apply existing
+   context, egress, privacy and token/time limits before dispatch; local source
+   access does not authorize sending private text to a remote model.
+4. Reuse owner-controlled source custody and derived-artifact lifecycle rules.
+   Analysis does not extend source retention or make private refs public. Inspect
+   availability at use time; expired or missing evidence is explicit and cannot
+   be silently reacquired. Reuse the P013 reviewed origin projection to preserve
+   `model-assisted` processing where applicable, without publishing private
+   reasoning, prompts or input references by default.
+5. Keep unavailable, refused, malformed and insufficient-evidence results
+   distinct from "no concern found". Bound analysis size and retries through the
+   existing quality contract. Failure leaves manual review available and cannot
+   mark an unperformed analysis successful. Do not retry or raise limits silently.
+
+**Acceptance for P078-006.** Extend existing Harvester and Inquirium harnesses;
+do not build a separate acceptance runner or require a real model for structural
+offline checks:
+
+- With deterministic source fixtures and stubbed Inquirium responses, verify the
+  three layers, exact input/fragment bindings, human amendment, stale-review
+  refusal and replay without duplicate decisions or drafts.
+- Cover contradiction, insufficient evidence, copied articles with shared
+  lineage, unknown independence and conflicting interpretations. Confidence must
+  not become truth probability or an additional corroborating source.
+- Reject fabricated citations, out-of-range selectors, source-digest mismatch,
+  authoritative/effect-bearing output and prompt-injection attempts. Check
+  private-text canaries across model dispatch, review and public projection;
+  no fetch or publication is triggered by an analysis response.
+- Exercise timeout/refusal, malformed output, exhausted budgets and expired
+  source access. With analysis disabled or failing, run the retention/origin
+  handoff fixtures unchanged and prove manual review remains available.
+- Qualify a concrete model/profile separately using P064's quality gate and a
+  preregistered, human-labelled set of extraction, attribution, contradiction and
+  abstention cases. Record per-case results and failure thresholds before the
+  run; offline stubs prove integration, not semantic quality. Real model runs
+  require separate explicit authorization. A failed calibration keeps that
+  profile unavailable without blocking the retention slice.
+- Close P078-006 only with contract/integration evidence and the explicitly
+  scoped model/profile qualification; update the Node ledger and owning solution
+  status without upgrading earlier reports. Record reuse decisions and any
+  intentionally separate domain types in the closeout.
+
+### Web source retention and origin {#web-source-retention-and-origin}
+
+Adopted design extension, 2026-11-04; P078-015/016 remain `todo`. Web findings
+intended for publication consume the original-backed profile in
+[P084](084-sensorium-web-observation-connector.md#web-original-custody), including
+its exact original byte boundary and finite custody claim. Harvester retains
+references and review facts, not a second copy of HTML. Existing reference-only
+intake remains useful for local review, but cannot claim this stronger profile.
+
+At review, bind the original custody claim, snapshot/representation digests,
+source classification, requested/effective retention horizon and origin summary
+to the existing immutable finding/review identity. Recheck availability under
+current read authority before issuing a publication-ready handoff. A missing,
+expired or corrupt original leaves the candidate inspectable with that state,
+but blocks promotion under this profile. Never refetch silently or infer
+retention from an artifact reference. Changing source or extending retention
+requires explicit owner action; exact review replay remains idempotent, while
+current availability is a separate read projection.
+
+Reuse `weak-signal-finding.v1`, the dedicated SQLite review owner,
+`weak-signal-web-review.v1`, and the typed local draft serializer. Extend their
+versioned contracts as necessary; do not add a second review log or overload
+`source/classes` (currently `sensorium`/`document` for web intake) with publication semantics.
+Local draft provenance can bind precise sources, but its publishable projection
+carries only the independently reviewed origin summary specified by
+[P013](013-whisper-social-signal-exchange.md#web-origin-publication). Selecting
+"media monitoring" describes the approved collection purpose, not an inference
+from the presence of an HTTP URL. Model assistance is another axis. Mixed-source
+findings preserve their material origins rather than selecting one convenient
+label; legacy/missing provenance remains explicitly unknown.
+
+The operator sees the retained-original status, effective deadline, extracted
+representation and proposed public origin label before approving a draft. Raw
+HTML, full URLs, artifact refs and body digests stay private unless separately
+approved for disclosure. A public origin label is not a read grant. Existing
+urgent-protection paths remain available under their own contracts; unavailable
+web custody must not prevent a person from reporting their own situation, but
+that report cannot masquerade as an original-backed web finding.
+
+Implementation starts with a reuse inventory of P084 acquisition/custody,
+existing review/draft serialization, P091 configuration and the Whisper
+publication gate. Share the pure origin validator/projection between these
+consumers once its contract is frozen in P013; leave custody checks with P084
+and review decisions with Harvester. Test body loss between import/review/publish,
+clamped horizons, review replay after expiry, mixed and unknown origins, explicit
+media-monitoring selection, model-assisted transformation and secret canaries.
+Do not equate matching body digests with independent corroboration: local
+source lineage may identify copied material, while different hashes alone prove
+neither independent sources nor different claims.
 
 ### 8. Network-capable future
 
@@ -483,7 +635,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-003 | Node import and review read-model | done | Daemon exposes explicit operator import/list/detail/review endpoints backed by a dedicated SQLite Harvester review store; continuous directory watch remains a later opt-in profile. |
 | P078-004 | Whisper draft handoff | done | Accepted findings can create a local `weak-signal-whisper-draft.local.v1` stub with `publication/state = not-published`; Whisper publication remains a separate approval gate. |
 | P078-005 | First source adapter acceptance fixture | done | Filesystem Markdown/text import is the first adapter: it reads only under the configured Harvester `sources/` root, bounds source size/snippets, and emits schema-valid findings. |
-| P078-006 | Inquirium/Agent-assisted grouping profile | deferred | Bounded model-assisted clustering and summarization; model output remains advisory. |
+| P078-006 | Inquirium-assisted grouping and epistemic analysis profile | deferred | Optional profile under [the analysis contract and acceptance](#inquirium-epistemic-analysis). Reuse P063/P064 inference, P066 epistemic posture, existing source bindings and immutable Harvester review; P073 orchestrates only when needed. Separate source claims, model inferences and human decisions; validate grounding and preserve uncertainty. Require offline boundary fixtures and separately authorized, calibrated model/profile evidence. Not a prerequisite for P078-015/016, P084-014/015 or P013-WEB-001/002; manual review and origin/retention handoff remain usable without it. |
 | P078-007 | Network-capable Harvester profile | deferred | Future Artifact Delivery handoff for explicitly configured remote sources; P084 owns changing web observation, P088 owns carrier-neutral artifact custody, and P078 consumes only explicitly admitted snapshots or derived intake artifacts under findings-only, bounded/quarantined semantics. |
 | P078-008 | Public Harvester Gateway profile | deferred | Separate future proposal for public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue; P078 only keeps hook compatibility. |
 | P078-009 | Collector-submitted corroboration profile | deferred | Umbrella-operated collectors submit supporting/contradicting/context findings anchored to accepted phenomena or reviewer-approved queries. |
@@ -492,6 +644,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-012 | Local resonance scoring and link candidates | todo | Depends on P078-011, P013-DFR-002 and P036-008. Deterministic, explainable scores against the unnarrowed record projection; a configured threshold; `weak-signal-finding.v1` candidates that reference record and rumor; pair and context suppression; a per-epoch candidate cap. |
 | P078-013 | Dormant-fact derived artifact lifecycle | todo | Depends on P036-006. Profiles, scores and candidates carry `derived-from` references, expire with their source and are purged on forget; review-store retention is bounded. |
 | P078-014 | Authored rumors as dormant records | todo | Depends on P078-010 and P013-LLR-003. The dormant-fact profile also reads the participant's own authored rumors from Memarium, so a later twin can be matched for re-contact ([P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)). Authored-rumor matches produce findings for the author only; they never count as sources or re-publish the old record. |
+| P078-015 | Bind retained originals and finite horizons to web review and draft handoff | todo | Depends on P084-014 and P013-WEB-001. Extend existing finding/review/local-draft contracts with exact custody bindings and reviewed public origin summary; preserve source/representation identity and classification. Current authority, availability, deadline and quota refusals block only this original-backed promotion; no raw-copy store or implicit refetch. Legacy drafts remain explicitly unqualified. |
+| P078-016 | Qualify operator review and provenance handoff | todo | Depends on P078-015; feeds P084-015 and P013-WEB-002. Extend existing Harvester API/UI harnesses with retention deadline/status, mixed/unknown/media-monitoring labels, exact review replay, loss/expiry before publication and zero private-source leakage. Use deterministic offline sources and separately record UI evidence; synchronize Node ledger and owning solutions on implementation, without upgrading earlier reports. |
 
 ### Operator UI checkpoint (P084-012c)
 

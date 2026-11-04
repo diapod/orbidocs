@@ -104,7 +104,7 @@ The certificate carries:
 - issue and expiry timestamps,
 - optional leniency window for late continuity handoff,
 - issuer identity in canonical `council:did:key:...` form,
-- optional predecessor and succession proof for public continuity,
+- optional predecessor identity for public continuity; succession is a separate artifact,
 - council signature.
 
 Public continuation is the default renewal mode for this baseline. Private reset is
@@ -177,7 +177,7 @@ epoch.
 The request includes:
 
 - participant identity,
-- succession proof already signed by the old `nym`,
+- domain-separated proof of predecessor control, before successor certification,
 - request freshness,
 - participant signature over the whole request.
 
@@ -348,8 +348,8 @@ evidence retain their scope. Its two runtime gates remain pending.
 
 The planned narrow `nym-succession.v2` will replace v1 without a compatibility
 path before the first release, when P015-004 closes. That single migration will
-remove the v1 schema, example and acceptance, move `line/succession` in
-`nym-certificate.v1` and `succession` in `nym-renew-request.v1` to v2, and update
+remove the v1 schema, example and acceptance, remove `line/succession` from
+`nym-certificate.v1` and `succession` from `nym-renew-request.v1`, and update
 all references, generated COVERAGE/schema pages and Node acceptance together.
 The existing v1 artifacts and section 3 are the current baseline, not evidence
 that this migration has happened.
@@ -374,7 +374,7 @@ issuer.
 | `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the `case/anchor` record |
 | `successor/nym` | The successor nym id |
 | `successor/certificate` | The digest of the successor's current certificate |
-| `case/anchor` | The original signed record digest, from the shared case request header of P013; required for scope `case` and forbidden for scope `line`. The order of a `case` succession comes from the case authority's acceptance, not from this artifact |
+| `case/anchor` | The digest of exact signed author bytes (`author/bytes-digest` in P035), from the shared case request header of P013; required for scope `case` and forbidden for scope `line`. The order of a `case` succession comes from the case authority's acceptance, not from this artifact |
 | `audience` | The named recipients; `line` successions are public by nature |
 | `issued-at`, `not-after` | A short validity window |
 | `signatures` | Exactly two semantic authorizations: predecessor authorization and successor acceptance; both Ed25519 in Phase 1 |
@@ -509,9 +509,19 @@ post-MVP follow-up.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id` with different bytes, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. Follow the pure verifier sequence and shared byte-law fixtures in the implementation recommendations; supplied replay state remains separate from durable LLR runtime. |
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | done | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; inline references in `nym-certificate.v1` and `nym-renew-request.v1` removed. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id` with different bytes, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. Follow the pure verifier sequence and shared byte-law fixtures in the implementation recommendations; supplied replay state remains separate from durable LLR runtime. |
 
 ### Embargo Authorship Scope Tracker
+
+P035-019 freezes `whisper-source-profile.v2`, the extended contextual certificate
+and the domain-bound manifest input as prerequisites for admission receipts.
+The shared exact-use matcher and negative producer vectors exist in that slice.
+P015-005 remains open: current decision-v1 issuer runtime rejects the new profile
+before effects and needs a versioned exchange rather than an in-place widening.
+The 2026-10-29 P035-019 A–E qualification covers the receiving input contract and
+synthetic full/detached producer/inspection, not that issuer exchange. See
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md`; no P015 runtime gate is
+promoted by the receipt qualification.
 
 Post-MVP; independent of the narrow MVP verifier in P015-004. The existing
 contextual profile remains restricted to `whisper-signal`/`whisper-signal.v2`.
@@ -548,6 +558,144 @@ presentation to request digest, audience, context, expiry, and linkability. The 
 suite rejects nullifiers because this certificate profile cannot prove their domain
 separation. Stronger unlinkable suites and richer verifier-local non-revocation remain
 post-MVP work under P081 rather than hidden extensions of this certificate baseline.
+
+## Optional Confidential Affiliation Attestation {#confidential-affiliation-attestation}
+
+Proposed post-MVP direction (2026-11-04); no runtime or new credential-suite
+claim. P015 owns the identity binding, consent and attestation profile;
+[P013-ADC-010](013-whisper-social-signal-exchange/author-disclosure-conditions.md#confidential-affiliation-review)
+owns its optional use during a human disclosure decision. Neither task changes
+contextual source eligibility, source counts or existing alpha/MVP completion gates.
+
+### Decision and invariants
+
+A consenting author may ask a locally admitted assessor to check a specified
+relationship to a resource and issue a minimal signed result to explicitly
+authorized recipients. The assessor may be the nym issuer, but issuance authority
+does not automatically grant affiliation-assessment authority. An assessor related
+to the resource must disclose that limitation to the consenting author; the
+author may choose another admitted assessor or leave the check unperformed.
+
+Keep three proofs separate: control of a participant/nym binding; evidence of a
+specified affiliation; and any later interpretation of interests or intent.
+A root `participant-id` is not proof of civil identity, employment, ownership or
+representation. Such claims need separately admitted evidence with explicit
+provenance, coverage and effective time. A model suggestion is not that evidence.
+No attestation claims deception, absence of conflicts, truth of the rumor or
+psychological independence.
+
+Consent must precede identity/evidence acquisition and bind the exact assessment
+scope: signal binding, resource (reuse P026 `resource-ref.v1`), relationship rule,
+assessor, evidence sources, purpose, validity and retention limits. Consent to
+perform the check and consent to disclose its result are distinct authorities;
+both must be explicit before their respective effects. Recipients and result
+granularity are fixed by the latter. No consent, refusal to consent and an
+unavailable assessment confer neither suspicion nor an independence badge.
+Publication, ordinary participation and protected access must remain available
+on the existing rules without this optional check.
+
+The closed semantic outcomes proposed for contract freeze are:
+
+| Outcome | Exact claim |
+|---|---|
+| `relationship-confirmed` | Admitted evidence establishes the specified relationship under the pinned rule and time scope. |
+| `not-found-in-scope` | No matching relationship was found in the named, bounded evidence scope; this is not a universal absence claim. |
+| `indeterminate` | Evidence, identity binding, coverage or freshness is insufficient or contradictory. |
+
+`not-assessed` is a consumer state, not a signed negative finding. A private
+workflow may distinguish withdrawal, unavailability and refusal internally, but
+must not expose the author's reason for not proceeding. Missing material never
+becomes `not-found-in-scope`. The latter requires completion of the declared
+bounded check; even then the coverage limits remain attached to the result.
+
+The assessor learns the authorized linkage in this first profile; encryption in
+transit does not hide it from that assessor. Reuse contextual P015 mapping erasure
+and S026 custody boundaries, without extending issuer retention or reconstructing
+erased maps. A later check needs newly volunteered binding evidence when the
+original is gone. Assessment inputs, mappings, backups and private diagnostics
+have an explicit bounded lifecycle; portable results must not embed them.
+Withdrawal stops new acquisition and disclosure once accepted by the responsible
+owner, but cannot make an already authorized recipient forget a received result.
+
+### Implementation recommendations
+
+Use a thin affiliation profile over existing operations, not a second identity
+registry, generic deanonymization endpoint or new transport. Consult
+`node:docs/development/reuse-index.v1.json` and confirm candidate contracts in
+code before adding helpers:
+
+- Reuse P015 contextual possession/binding verification and the
+  [P081/S043 scoped-claim adapter](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md).
+  Freeze an explicit, domain-separated auxiliary use; current nym publication
+  permission and the adapter's existing predicates do not authorize it. Preserve
+  independently admitted assessor trust, request/audience binding, nonce/replay
+  checks and the distinction between historical signature validity and current use.
+- Compose a pure evaluator over supplied evidence and explicit time, then a
+  hosted service for consent, evidence acquisition and issuance. A pending check
+  gets no output authority. Reuse existing signer/key providers and Schema Gate
+  boundaries; do not introduce a second crypto implementation or algorithm selector.
+- Reuse P015 private exchange and S023 AD/S017 INAC for exact recipients,
+  idempotent requests and bounded recovery. Delivery admission is not consent to
+  assess or disclose. Recheck live authority before acquisition and result handoff;
+  timeouts and restart never turn a pending result into a successful finding.
+- Apply [P032's bounded verification contract](032-key-delegation-passports.md#shared-verification-operations)
+  to a private result package: carry the required assessor verification material
+  within fixed byte/item/work limits, admit trust locally, and refuse missing or
+  stale evidence without fetching identity data. Reuse P076's carrier lessons,
+  not Messaging grant semantics. New zero-knowledge or anonymous credential suites
+  remain separate P081 work, not a prerequisite or a claimed property here.
+
+Candidate internal shapes, not new schemas created by this amendment:
+
+```text
+AssessmentScope = (request_id, protected_signal_binding, resource_ref,
+                   relationship_rule_digest, evidence_scope, assessor,
+                   effective_at, assessment_consent_ref)
+DisclosureScope = (recipients, allowed_result_fields, not_after,
+                   disclosure_consent_ref)
+AffiliationResult = (assessment_binding, outcome, coverage,
+                     evaluated_at, not_after, assessor, policy_digest)
+```
+
+Contract freeze must specify authenticated, purpose-scoped signal binding and
+exact nym possession checks so a result cannot be substituted between authors,
+signals, resources or recipients. A private `record/id`, root identity, reusable
+cross-context handle or predictable identity digest must not escape in the result.
+If an authorized recipient cannot already see the signal, use a scoped opaque
+binding with authenticated resolution only inside that recipient's authorized
+view; an opaque string alone is not a proof. The assessor need not receive rumor
+text when the bounded check can operate without it. Reuse the existing consent
+and classification owners; assessment authority must never double as permission
+to retrieve other authors' protected rumors.
+
+### Trade-offs, failures and open questions
+
+Minimal signed results reduce disclosure to recipients, but concentrate knowledge
+and trust at the assessor. Even a correct relationship flag may identify a lone
+employee or expose a whistleblower. Default result access is private and narrow;
+no public badge, raw proof bundle, log, notification preview or stable identity
+hash may bypass the disclosure scope. Policy must refuse or reduce output when
+the approved audience/granularity still creates unacceptable identification risk.
+
+Stale, incomplete or conflicting affiliation data can mislead; bounded coverage,
+expiry, explicit uncertainty and an author-visible correction/reassessment path
+are required. Compromised assessors and colluding recipients remain residual
+risks. An employment link may explain first-hand knowledge rather than discredit
+it. Repeated resource probes could reconstruct a person's affiliations: purpose
+binding, request budgets and no bulk lookup surface are required.
+
+Before implementation, settle the first relationship vocabulary and admissible
+evidence sources, assessor admission/recusal policy, numerical freshness and
+retention limits, and the concrete anti-substitution binding. No universal civil
+identity or affiliation database is assumed. These decisions belong to P015-007;
+they do not justify retaining existing contextual mappings longer.
+
+### Confidential affiliation tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-007 | Freeze optional confidential affiliation profile | todo | P015 contextual authorship; P081/S043; P032 | Pin separate assessment/disclosure consent, explicit auxiliary scope, assessor admission, evidence coverage, closed outcomes, signal/nym/resource/recipient binding and numerical privacy/replay/retention budgets. Pure fixtures cover swapped bindings, self-supplied authority, possession mistaken for affiliation, incomplete scope, stale/conflicting evidence and consent refusal without adverse inference. Review the single-employee whistleblower and malicious-assessor cases. No new schema or runtime claim until this gate closes. |
+| P015-008 | Compose private assessment and bounded verification | todo | P015-007; P015-002 | Reuse hosted service, scoped verifier, signer, consent/classification, erasable custody and AD/INAC. Prove refusal before acquisition without consent, separate result-disclosure authority, withdrawal/expiry races, restart/idempotency and correction/reassessment. Offline fixtures verify a carried result with network access denied and locally admitted trust; missing evidence fails explicitly. Canary scans cover root identity, affiliations, private signal ids, logs, backups and unintended recipients. Two-node synthetic acceptance separately qualifies private delivery; offline proof alone does not. No public badge or silent retention extension. |
 
 ## Private Issuance Delivery: Implementation Recommendations
 
@@ -891,3 +1039,182 @@ and Matrix, with exact original bytes and full Matrix PDU acceptance. Eight B
 predicates, final current-candidate cohort and two-store qualification remain open;
 P015-001--003 and both complete gates stay partial. See the
 [contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#actual-late-matrix-reception-2026-11-04).
+## V2 status lifecycle and portable epoch closure (2026-10-30)
+
+The bounded runtime acceptance below passed. P015-006 is independent of
+P015-005 certificate exchange. Lifecycle configuration admits profiles v1 and v2;
+decision-v1 exchange admits only v1 and refuses v2 before effects. V2 certificate
+fixtures remain synthetic until P015-005 independently qualifies issuance.
+
+`nym-epoch-closure.v1` binds issuer, immutable profile, context, epoch bounds,
+final status digest/revision and `closed/at >= epoch/end`. Its dedicated signing
+operation and domain cannot be reached through generic status signing. The owner
+freezes status mutations before preparing closure and durably preserves identical
+closure bytes across recovery. A closed revision store rejects subsequent domain
+mutations. Retention transitions remain separate from status mutation authority.
+The final status must match both digest and revision. Any authentic higher status
+revision or conflicting closure is evidence of conflict, not a replacement head.
+Closure proves the issuer's terminal statement; it creates no post-epoch lease.
+Ordinary status expiry at epoch end and an unsigned local Closed fact are not
+portable closure. Missing retained terminal state cannot be reconstructed by guess.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-006 | V2 status and epoch-closure lifecycle | done | P015 contextual status; P035-019 | Real issuer v2 lifecycle, typed decision-v1 refusal before effects, dedicated closure signing, terminal revision fence, exact replay/recovery, conflicting closure/higher revision refusals. V2 certificate issuance remains outside this gate. |
+
+The operator may initialize a v2 status scope through
+`POST /v1/identity/nym-issuer/status-scope` with its authorized topic use and
+similarity inputs. The issuer derives the context and current epoch from its
+configured immutable profile and fenced clock. This provisions status lifecycle
+only, without a certificate, source member or decision-v1 exchange. Closure is
+read through the separate public epoch-closure projection.
+
+### Known closure liveness boundary
+
+`recover_closing` publishes the preserved closure before reaching `Closed`.
+Persistent publisher failure therefore delays close confirmation and destruction
+of identifying keys, as with final-status publication. The revision fence still
+refuses domain mutation. Decoupling publication retry from key retirement requires
+a separately reviewed durable outbox transition; the current acceptance does not
+claim publisher-independent retirement.
+
+### Bounded acceptance, 2026-10-30
+
+P015-006 passed its independent gate at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.
+
+### Custody boundary requalification (2026-10-30)
+
+Boundary review requalification at clean Node febf8b33 / Orbidocs 6eb1f6b6 passed 593
+component tests, one existing ignored case, four cold custody consumers and six isolated
+historical cases, scoped Clippy and 16 mutation refusals. Extracted replay and
+both-store retrieval agree for bundle
+4c2dba4a43c2d6670f3c9397aa5164955d5b216931a96057f9932bc8f1a19600. Dedicated checkpoints,
+explicit provider replacement, current operator disclosure/private read, bounded local
+observations and independent historical sequences are covered. P036-005b full backup and
+publisher/key-destruction liveness remain separate. See
+`node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-REVIEW-2026-10-30.md`.
+
+The prior dated qualification remains unchanged. This follow-up preserves the
+bounded claim and does not close parent P036, P015-005 or LLR-009.
+
+
+### Adopted Narrow Succession Contract (2026-11-02)
+
+Status: accepted design; implementation and acceptance remain separately tracked.
+This amendment supersedes conflicting draft wording above.
+
+The closed family table is `line/predecessor -> general nym-certificate.v1`,
+`line/successor -> general nym-certificate.v1`, and `case/successor -> contextual
+whisper-source-certificate.v1 or v2`. Case predecessor certificates are forbidden.
+A contextual document must never fall back to the open general schema: that
+adapter rejects `whisper/*`, `privacy/*` and `scope/authorized-uses`. Verified
+certificate values are minted only by family adapters; family is not another
+on-wire field. Case successors preserve the anchor federation and context,
+with the same profile digest and issuer. The v1/v2 choice follows the anchor profile.
+Their status must be usable for Collection at the evaluation time, meet the
+certificate floor and preserve supplied negative/high-water knowledge.
+
+`authorization/public-key` is canonical Ed25519 multibase (multicodec plus 32 raw
+key bytes); weak keys refuse. Continuity commitments are
+`sha256:` plus unpadded base64url of SHA-256 over
+`orbiplex.whisper-case-continuity-key.v1`, NUL, and the raw 32-byte Ed25519 key.
+The two signatures are unpadded base64url strings in the closed object roles
+`predecessor` and `successor`. Both cover `orbiplex.nym-succession.v2`, NUL, then
+JCS with only `signatures` removed. Audience is absent for public line scope;
+case audience has 1..16 canonical principals, bytewise sorted and unique, and
+includes the committed case authority. Signed input is never silently sorted.
+Succession IDs are canonical random UUIDv4. Canonical UTC, byte/depth limits and
+closed field combinations precede signature work. The schema-derived canonical
+upper bound is 2026 bytes, under the independent 8192-byte ingress ceiling.
+
+Renewal is two-phase. The request binds the predecessor certificate, proposed
+successor nym, council, random request identity and bounded time window. The
+predecessor signs the renewal domain `orbiplex.nym-renew-control.v1`, NUL, and
+JCS of the request without `signature` and `predecessor/control-proof`; the
+participant then signs the request including that proof. This is not succession.
+After certification, both nym keys sign succession during predecessor grace.
+There is no embedded succession in either certificate or renewal request; those
+legacy fields are explicitly forbidden even by otherwise open schemas. Certificate
+signing bytes do not change. Frozen historical `source.json` pins are not rewritten.
+
+Evaluation time is typed: an observed owner clock, or independently verified
+acceptance bound to the exact succession digest. Historical case time comes from
+the admitted case authority; historical line time comes from admitted P035
+publication. Neither `issued-at` nor anchor publication time proves succession
+acceptance time. `not-after` bounds signing and acceptance, not later historical
+verification. The host bounds requests by profile request TTL and the relevant
+certificate/grace/case horizon; general line policy defaults to at most 900 s.
+Historical certificate/status checks use admitted acceptance time. Current effects
+still require current certificate, source status and case currency at actual now.
+No runtime case acceptance verifier is claimed before LLR-008.
+
+P015-004 closes independently after pure-contract gate A, succession budgets E
+and Schema Gate/regression F. Network-denied host/custody gates B-D are LLR-006,
+not MVP conditions. The pure verifier owns no I/O, clocks, persistence or replay
+cache. Supplied replay state distinguishes identical bytes from conflicting reuse.
+It returns AuthenticSuccession, never AcceptedCaseSuccession or current authority.
+
+
+Adopted context decision (2026-11-02): retain the existing P015 context derivation
+and strict equality of anchor/successor context, federation and profile. A changed
+profile or issuer changes the counting and status domain. Different contexts
+under different profiles refuse `ContextTransitionUnsupported`; different contexts
+under the same profile refuse binding mismatch. A forged equal context under a
+different profile also refuses binding mismatch. There is no profile/context
+migration in P015-004. P013-LLR-010 owns the separate case-context transition
+contract and does not block same-context LLR-008/009 completion.
+
+Case succession remains available only while the anchor's context remains issuable.
+A profile revision or issuer rotation ends succession for open cases until case
+context transition is specified; the author may open a new, unlinked case.
+Operators must consider open cases before revising profile policy or rotating its
+issuer. TTL, retention and limit edits also change the complete profile digest.
+The wire succession artifact gains no context field; no signed derivation changes.
+
+
+### Independent P015-004 acceptance (2026-11-02)
+
+Pure gates A, E-succession and F-MVP passed on Node `92b780bf011f59710d8bbec21c266281f779672c`
+and Orbidocs `bdfac821e953d4f02ebf867c0535835d455c5892`: 276 Rust tests, scoped Clippy, 22 ledger
+and 10 schema-sync checks, exact changed examples and six repaired-inventory
+mutations. Loose/extracted results agree for archive `b09c9502c5de8c8d715ea3052d6cb5cb2a52ba6439996d539a7a2be4bca40d16`.
+Evidence: `node:docs/evidence/portable-admission/2026-11-02-succession-pure-qualified/README.md`.
+P015-004 is done independently; LLR-006 host custody/recovery and network-denied
+composition remain open. No accepted history, current-case or release claim follows.
+
+
+### Succession boundary review (2026-11-02)
+
+P015-004 rejects self-succession (equal predecessor/successor nym, and for line,
+equal certificates). A successor line certificate's optional predecessor declaration
+must match the signed transition. Case anchor claims include the verified author nym.
+`AuthenticSuccession.predecessor_binding` distinguishes `certificate`, `anchor-author`
+and `case-history-required`. The latter authenticates the signed claim only: LLR-008
+must compare-and-swap against its current successor. Initial acceptance requires the
+anchor author; a stale predecessor refuses with retry condition `evidence-change`.
+A subsequent B->C is authentic without pretending B authored the anchor.
+
+The pre-release signal widening and recovery accounting decision are recorded in
+P013/LLR and S026. Historical source manifests and evidence are not rewritten.
+
+
+### Corrected boundary qualification (2026-11-02)
+
+P015-004 independently passed its own gate after the boundary review on clean
+Node `57c4026384a5024839117ca64fbabb72e0df216e` / Orbidocs `ce27aa027bc74a87bf22010ae0c61c41b0142bf8`:
+278 scoped Rust tests, required regressions and qualifier mutations. The
+ordinary qualifier returns the same result on loose and extracted bytes;
+archive SHA-256 `3e53184bda3608b00c90aa9d81770ae113925563528c625a0fc4c8b6bb0a4c8a`. See
+`node:docs/audits/ACCEPTANCE-SUCCESSION-CUSTODY-REVIEW-2026-11-02.md` for exact
+inputs, times, limitations and the preserved unqualified first pure attempt.
+The original capsules are unchanged; current authority, LLR-007–010, P015-005,
+transport and release readiness are not implied.

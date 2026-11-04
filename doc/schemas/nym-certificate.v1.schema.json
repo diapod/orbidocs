@@ -60,10 +60,6 @@
       "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
       "description": "Optional public predecessor line when the nym continues an earlier visible pseudonymous history."
     },
-    "line/succession": {
-      "$ref": "nym-succession.v1.schema.json",
-      "description": "Optional public continuity proof signed by the predecessor nym."
-    },
     "signature": {
       "$ref": "#/$defs/signature"
     },
@@ -96,26 +92,9 @@
   },
   "allOf": [
     {
-      "if": {
-        "required": [
-          "line/predecessor-nym-id"
-        ]
-      },
-      "then": {
+      "not": {
         "required": [
           "line/succession"
-        ]
-      }
-    },
-    {
-      "if": {
-        "required": [
-          "line/succession"
-        ]
-      },
-      "then": {
-        "required": [
-          "line/predecessor-nym-id"
         ]
       }
     }

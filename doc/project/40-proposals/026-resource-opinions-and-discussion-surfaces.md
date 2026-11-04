@@ -19,6 +19,12 @@ freeze, implementation, focused component tests and real host/browser acceptance
 are separate claims. The wider consumer continuation remains partial; sealed
 rounds remain planned. The P026-001–003 qualification retains its original scope.
 
+Current local continuation status (2026-11-01): P026-012c-01 and joint 02/03
+are qualified only within their pinned profiles. The all-owner closeout below
+adds durable S029, capsules/checkpoints and S020; context provenance and later
+profiles remain open, and parent P026-012c/P073 stay partial. Earlier dated
+checkpoints describe their original historical revisions.
+
 ## Date
 
 2026-04-10
@@ -435,6 +441,72 @@ Those are placeholders only. This proposal freezes only the layering rule:
 2. opinions are one append-only expression layer over that base,
 3. richer discussion media may attach later without replacing the opinion
    artifact.
+
+#### Future Resource Perspectives Client {#resource-perspectives-client}
+
+Future design profile, 2026-11-04; P026-013 is deferred and adds no prerequisite
+to current MVP/alpha work. A client may compose accessible accounts, rumors,
+opinions, comments, replies and corrections around a resource: a place, company,
+public person in a particular role, or a specific action. Its purpose is shared
+social orientation and revisable memory, not a universal reputation score.
+
+**One reference, many perspectives.** Reuse envelope `record/about` with
+`ResourceRef`, the subject index, `gossip/see-also`, opinion relations and existing
+comment/reply threads. References are not all equivalent: `record/about` names
+subjects, `see-also` supplies related context, and a curation opinion targets the
+rumor record rather than the person it mentions. A loose link establishes neither
+support nor contradiction. New typed relations, if needed, require an explicit
+domain contract; do not infer their meaning from co-occurrence in an array.
+
+**Separate person, role and action.** Preserve the referenced person, the role
+and institution relevant to the account, and the particular action/event with
+its time and context as distinct meanings. Role occupancy is a contextual claim,
+not an intrinsic property of a person or a grant of authority. For example,
+an account about a physician's handling of one appointment can name a
+`pl-nil-pwz` resource, the professional role and the event; it does not become a
+judgment of the whole person, all their roles or all appointments. A company or
+place mentioned in the same account is not automatically another accused party.
+Reuse existing identifiers and domain contracts where adequate; missing role or
+event identity stays explicit rather than inventing an equivalence. Freeze any
+required role/action relation shape in P026-013 before implementation. No new
+namespace, public-person registry or person-resolution service is adopted here.
+
+The read model preserves attribution, original epistemic class, available source
+lineage, event time versus publication time, disagreements and revision history.
+Separate what a source asserts, what a model infers, and what a reviewer accepts;
+optional analysis follows [P078](078-weak-signal-harvester.md#inquirium-epistemic-analysis).
+Replies and corrections remain discoverable alongside the assertions they address.
+Scores retain their named domain and scale; no combined person-level verdict is
+derived from rumor counts, popularity or a mean across unrelated criteria.
+Copied reports do not become independent corroboration, and uncertain aliases
+or cross-namespace matches remain proposed links rather than silent identity merges.
+
+**Scope and implementation boundaries.** This is a viewer-bound projection over
+available records, not "all knowledge in the network". State query scope, freshness
+and known incompleteness without revealing withheld records. No results means no
+accessible results within that scope, not absence of events or a clean record.
+Reuse Agora read APIs and projections through host admission followed by the
+[assessment exposure policy](#6-assessment-exposure-and-sealed-rounds); do not
+assemble a client-side index from raw records to bypass withholding. Search,
+ordering, counts, summaries and notifications preserve the same viewer boundary.
+Any caching is bounded and subject to the owning retention/access contracts.
+Public identifiers alone authorize neither private linkage nor broader disclosure.
+
+[P013](013-whisper-social-signal-exchange.md#resource-perspectives-client)
+owns the rumor-specific binding. Reuse existing retrieval, publication and reply
+paths; this profile introduces no crawler, network-wide aggregation protocol,
+publication permission or reputation/enforcement mechanism. Its benefit is
+contextual social memory; its risks include selection bias, stale context and
+reputational amplification, mitigated by explicit scope, preserved disagreement,
+correction links and host-enforced exposure rather than a single client verdict.
+
+Before closing P026-013, retain offline projection fixtures for one person in two
+roles, two people with similar names, a role change, a time-bounded action, conflicting
+accounts, reprints, a reply/correction and partial/unavailable history. Prove that
+role/action assessments do not spread to the whole person, unknown namespaces
+remain usable, references preserve their meaning, and withheld data does not leak
+through summaries, counts or ordering. Qualify browser presentation separately;
+neither fixture nor UI success proves network completeness or social effectiveness.
 
 ### 6. Assessment Exposure and Sealed Rounds
 
@@ -1184,7 +1256,7 @@ showing source diagnostics. This does not implement P17 related-link navigation.
 
 ### Acceptance Boundary
 
-Publication transport is a separate planned continuation owned by
+Publication transport is a separate required Node hard-MVP integration owned by
 [P035-001–003](035-agora-topic-addressed-record-relay.md#delivery-integration-tracker):
 compose/opinion/comment producers sign through the existing host and hand exact
 records to AD's Agora adapter. Preserve `record/about`, open resource namespaces,
@@ -1192,7 +1264,9 @@ topic authority and record ids; expose queued versus relay-accepted publication.
 Do not introduce an opinion-specific sender or retry queue. P026-001–003 remain
 independently closable on the existing publication path; after migration, rerun
 their consumer assertions through AD rather than claiming old evidence proves
-the new path.
+the new path. The operator promoted P035-001–003 on 2026-11-04: all three must
+close before hard MVP or `alpha-node` can be ready. Historical P026 completion
+does not satisfy that separate integration gate.
 
 Use synthetic fixtures for `pl-nil-pwz` and an unregistered namespace, two kinds
 sharing an identical id, an id with leading zeroes, and an id containing colons
@@ -1276,8 +1350,8 @@ community's judgments.
 ## Implementation Tracker
 
 This tracker covers the consumer continuation, not a retrospective inventory of
-the already implemented substrate. Statuses are `todo`, `partial`, `done` and
-`blocked`; `done` requires the stated gate and linked Node evidence.
+the already implemented substrate. Statuses are `todo`, `in-progress`, `partial`,
+`done`, `blocked` and `deferred`; `done` requires the stated gate and linked Node evidence.
 
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
@@ -1353,7 +1427,8 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-012 | Provision represented local callers | partial | Identity host; P073; P066; P026-005 | Accepted 2026-10-24 v2 split: 012a is production ChannelJson module provisioning; 012b owns the separate P073 consumer. See [the frozen 012a contract](026-assessment-viewer-grants.md). Historical Q-02 remains fixture-bound evidence. |
 | P026-012a | Provision an operator's assessment viewer over ChannelJson | done | P066; identity host; P080 | Bounded checkpoint 2026-10-25: run 06 at clean Node e726624c / Orbidocs 2e73ed3a qualifies eight ordinary-daemon/application/browser cases with no acceptance feature, actual SDK calls, P066 consumption, privacy, budget and lifecycle. Separate component proofs cover captured queued origin, clocks, persistence and concurrency. Current normal/-O/extracted qualification and 59 negative controls per location agree. Critical review run 01 at Node 9b2e3b47 / Orbidocs 298671c5 additionally qualifies lifecycle/source repairs with eight runtime cases, 16 owner/nine pin tests and 67 controls normally/-O/extracted. See the checkpoints and frozen contract; no product module, positive P073 consumer or release claim. |
 | P026-012b | Bind a closed P073 consumer to production viewer authority | done | 012a; P073; P066 | Bounded 2026-10-25 checkpoint: [closed consumer](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25), nine ordinary cases at Node ea9138ba / Orbidocs 6097c43b; separate component faults and 77 normal/-O loose/extracted controls. Fresh host context, exact holder, independent consent and RAM-only result. No model/product-module/012c/release claim. |
-| P026-012c | Extend dependent Agent context and recipients | todo | 012b; P073; P066 | Separately freeze and qualify durable memory/recall/history, inherited forks and other recipients. No capability is supplied by 012b contract acceptance. |
+| P026-012c | Extend dependent Agent context and recipients | in-progress | 012b; S028; P036; P073; P066 | [Staged accepted design](026-assessment-dependent-context.md): owned streams precede unit retention/dispatch, provenance, continuation and same-viewer operator delivery. Stage 01 is done for the frozen local storage/cutover profile. Stages 02/03 are done for the [qualified local joint profile](026-assessment-dependent-context.md#p026-012c-0203-review-qualification-2026-11-01): whole-owner retention, durable S029, capsules/checkpoints and S020, with six ordinary cases and separate explicit-time component evidence after the R-01–R-17 review. Context provenance and later stages remain open. Memory/forks are separately qualified; implementation evidence is not implied by acceptance of the plan. |
+| P026-013 | Future resource perspectives client | deferred | P026-001–003; viewer admission/exposure for the selected surface; P013-AE-003 for rumor integration | Freeze the [profile](#resource-perspectives-client), including any missing role/action relation contract; reuse subject indexes, resource/opinion/comment relations and viewer-safe APIs. Offline fixtures and scoped browser evidence preserve person/role/action boundaries, competing perspectives, corrections, lineage and explicit incompleteness without a universal verdict or withheld-data leaks. No new MVP/alpha prerequisite. |
 
 ## Open Questions
 
@@ -1446,3 +1521,18 @@ P026-012b-r1 review corrections are frozen in [the revision contract](026-assess
 ### P026 primary integration checkpoint (2026-10-26)
 
 The merged local profile passes ten ordinary-process cases at clean Node `660c4a1d` / Orbidocs `4a8a6d4e`, with normal/-O qualification before and after extraction and 93 negative controls per variant (372 refusals). See `node:docs/evidence/agent-runtime/2026-10-26-rate-exposure-integration/README.md` and `node:docs/audits/P026-PRIMARY-INTEGRATION-2026-10-26.md`. Current builders select the exact Cargo binary; two earlier attempts remain unqualified, including an unresolved UI hydration timeout and a correctly rejected wrong-binary receipt. Historical evidence and the retained feature branches are unchanged. This checkpoint does not promote parent P026-012/P073, 012c, replication, models or release readiness.
+
+
+P026-012c-02/03 local closeout (2026-10-30): Node `da1d14a7` / Orbidocs `127843fb`
+qualifies five ordinary cases, 172 component checks and 70 controls per mode/location
+(280 normal/-O loose/extracted refusals). Whole-owner copies/fences, durable S029,
+bounded capsules/checkpoints, S020 and exact dispatch are closed only for this local
+profile. The [stage tracker](026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+records the retained failures, lossless capsule correction and physical/legacy/model
+limits. Parent P026-012c/P073 and all context/memory/recipient work stay partial.
+
+### P026-012c-02/03 review qualification (2026-11-01)
+
+Node `1e264cab` / Orbidocs `bc62fab1` qualify the repaired local profile: six ordinary browser/ChannelJson cases, 234 component checks in 11 byte-bound groups and 81 rejecting controls per normal/`-O`, loose/extracted variant (324). The ordinary pending-consent restart reaches owner timeout before freeze and releases both pending slots. The prior daemon refuses the question-owner version barrier without changing owner populations. The retained proof is `node:docs/evidence/agent-runtime/2026-11-01-p026-012c-retention-review/README.md`.
+
+Orphan reclamation, same-process replay, owner barriers and terminal-only freeze are repaired. Retention advances only observed monotonic credit capped by UTC, with no offline age; clock divergence requires review and does not clear on restart. S020 publishes once per pass, with durable plan/bucket pointers before effects. The 347/545 ms lock observations are not a hard 250 ms latency guarantee. SQLite receipts still permit residual bytes. Lossless metadata compression remains; replacing it with a shared-reference graph is separate design work. Historical proofs are unchanged; context provenance and later 012c stages, parent P073 and release qualification remain partial.

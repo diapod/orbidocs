@@ -2364,7 +2364,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-005a` | Pass the named security boundary fixtures before exposure | `P091-005`, `P091-006` | `partial` | All eight `config-security-*` fixtures cover relevant transports/offline/export paths; instrumented denial precedes source acquisition. Route flags do not grant scope or operator authority. No UI/compatibility adoption or enabled new API without this proof. Later adapters require equivalent coverage. 2026-10-06 all eight named fixtures pass for the exposed task-pack adapter: path escape, cross-module, losing secret, diff secret, digest oracle, scope enumeration, deny-before-acquire and control dispatch. The inventory gate checks each identity and executes nonzero proofs. This does not qualify later generic/P080/non-Unix adapters. **2026-10-18 delivery checkpoint:** Named scoped security cases, real operator/CSRF denial, scoped diffs, stale approval and recovery pass for this delivery. New generic/non-Unix adapters retain their exposure gates. |
 | `P091-005p` | Supply confined source acquisition on non-Unix hosts | `P091-005` | `todo` | Exposure gate: implement the Windows reader using pinned handles and reparse-point protection, with tests for directory replacement, regular-file enforcement, enumeration and byte budgets, missing/unreadable sources and fail-closed errors. Other supported non-Unix platforms require equivalent evidence before enabling acquisition; the current Step 3 Unix-only reader is not platform-complete. |
 | `P091-006` | Implement shared targets, predicted-value plans and durable commit | `P091-003`, `P091-004` | `partial` | Reuse owner/stem and explicit domain targets; preserve 80/90 lexical order and legacy 90 common-file case. Sparse patch/reset retains unrelated values and empty `{}`. Plans predict every affected effective value and derive shadowing. Affected/unrelated/unclassified conflict diagnostics and bounded replan without stale authorization are tested. Source membership, bootstrap writers and separate descriptor/constraint changes conflict. Intent/rename/outcome ordering, old/new/third/no-op recovery, durable failure and no pre-outcome apply are tested behind the exposure gate. 2026-10-06 shared Unix CommitHost now supplies exact target/source/descriptor/raw-byte plans, temporal intent/rename+sync/outcome, nonblocking ownership, protected outcome capacity and old/new/third/no-op recovery for P094 bindings. Subprocess interruption, quota and projection substitution pass. General sparse/reset, other targets, full historical input retention and 90-day archival remain open. **2026-10-18 delivery checkpoint:** Sparse middleware decisions, ordinary logging and create-only bootstrap share durable CommitHost/CAS/recovery; actual intent/rename interruptions, exact receipt replay and operator edits are covered. |
-| `P091-007` | Bind application identity, consumption and lifecycle recovery | `P091-006` | `partial` | Reuse supervisor/daemon control and S028 facts/projections. Per-instance `activation/generation` binds a durably admitted resolution (commit or observed-source admission); provisioned, acknowledged, pending, rejected and invalidated remain distinct. `config-time-expiry-between-phases` and controlled-clock edge cases prove fresh current-use checks before apply/retry/recovery; expiry yields `constraint-conflict` / `constraint-expired` and `application-rejected` without effects, preserving replay and save facts. Pre-channel scoped provisioning, restart fencing and idempotent retry pass without repeating effects or reviving authority. 2026-10-06 task-pack consumption requires a verified durable outcome and exact current target bytes; explicit recovery never renews operator consent, package activation or run authority. Current operator/revision fences and daemon restart pass. General component activation receipts/ACK/clock-expiry scenarios remain open. **2026-10-18 delivery checkpoint:** UI/S020 application reservations prevent duplicate dispatch; unchanged polls cannot start omitted defaults. OperatorStopped and process/readiness remain independent; logging uses honest restart-required and controlled restart evidence. |
+| `P091-007` | Bind application identity, consumption and lifecycle recovery | `P091-006` | `partial` | Reuse supervisor/daemon control and S028 facts/projections. Per-instance `activation/generation` binds a durably admitted resolution (commit or observed-source admission); provisioned, acknowledged, pending, rejected and invalidated remain distinct. `config-time-expiry-between-phases` and controlled-clock edge cases prove fresh current-use checks before apply/retry/recovery; expiry yields `constraint-conflict` / `constraint-expired` and `application-rejected` without effects, preserving replay and save facts. Pre-channel scoped provisioning, restart fencing and idempotent retry pass without repeating effects or reviving authority. 2026-10-06 task-pack consumption requires a verified durable outcome and exact current target bytes; explicit recovery never renews operator consent, package activation or run authority. Current operator/revision fences and daemon restart pass. General component activation receipts/ACK/clock-expiry scenarios remain open. **2026-10-18 delivery checkpoint:** UI/S020 application reservations prevent duplicate dispatch; unchanged polls cannot start omitted defaults. OperatorStopped and process/readiness remain independent; logging uses honest restart-required and controlled restart evidence.  **2026-11-02 bounded lifecycle checkpoint:** shared completion reservations, strict v1/v2 recovery, exact no-replay reconciliation and journal-bound carrier disposal are implemented for Flow/Inquirium/Arca; scoped owner/CLI/browser/no-JS/actual WebView evidence is retained in the Node consumption lifecycle audit. This row remains partial outside those pilots. |
 | `P091-007a` | Wrap retained middleware on/off and repoint existing callers | `P091-005a`, `P091-007` | `partial` | Preserve the existing toggle/supervisor implementation and domain guards. Repoint handlers/UI/CLI to the shared contract with minimal helper extraction, no bypass writer, dual-file mirror or duplicate apply. Test eligibility, dependencies, operator-stopped, shadowing, saved-not-applied and restart; reads never materialize. 2026-10-07 scoped eligibility adapter implemented: exact private source pins, bounded opaque approval, shared commit/recovery journal and existing supervisor lifecycle guards; pending/third-party source changes withhold eligibility, explicit recovery does not start components, and committed replay does not repeat apply. The executable middleware security/owner checkpoint below gates exposure. Complete per-child configuration-consumption ACK remains open; physical source migration remains P091-010. **2026-10-18 delivery checkpoint:** Retained callers now use shared resolution, asymmetric observed admission, sparse exact set/remove/adopt and explicit recovery without implicit start; real browser/CLI/runtime regressions pass. |
 | `P091-007b` | Reconcile external sources and asymmetric decision admission | `P091-006`, `P091-007`, `P091-007a` | `partial` | Adopted 2026-10-18: reuse S020 for bounded file-configured one-second source observation; external false disables, true/enabling deletion requires exact-revision approval, unchanged keys remain eligible and malformed documents withhold their unit. Retain last valid ordinary application, expose stale/unavailable observation and record minimal temporal facts. Runtime tests cover edits, removal, restart, scheduler overload and recovery. **2026-10-18 delivery checkpoint:** S020 default-one-second bounded reconciliation and per-key false/true/enabling-removal rules are implemented. Actual edits, malformed sources, restart and scheduler-disabled staleness pass; wider scheduler-pressure qualification remains open.  **2026-10-19 scoped pressure checkpoint:** Admitted false is attempted before observation persistence; an unpersisted process-local baseline prevents later true from reviving old durable consent. Positive work waits for persistence. Explicit archive/reserve/recent-result flows pass real daemon/no-JS/browser-panel/WKWebView tests at 1,024 injected events. This is not general retention completion; one hardening JS error and historical attribution gaps remain open.  **Private-loader follow-up (2026-10-19):** The scoped undefined-rejection mechanism is now reproduced/fixed with pinned old/current assets and final browser/native regressions; unique attribution of the original missing trace remains unavailable. See the Node PRIVATE-LOADER-JS-20261019 report. Earlier campaign failures and broader partial gates are unchanged. |
 | `P091-008` | Project shared contracts into Node UI | `P091-005a`, `P091-007`, `P091-007a` | `partial` | Expose keys, files, projected derivation, source and predicted-value diffs, apply modes and per-instance receipts. No private setting store or implicit pinning; file/GUI changes agree after reload/restart. 2026-10-07 scoped middleware UI now reviews the owner's exact opaque approval and separately displays saved eligibility, actual supervisor launch instances and readiness. A saved acknowledgement renders without a second inventory request; bounded mutation transport does not retry an uncertain operation. Generic derivation/diff/reset and full application identity projections remain open. **2026-10-18 delivery checkpoint:** Full-page no-JS and first-pair panel clients expose owner inspection/preview/result, bindings, shadowing, observation freshness and separate lifecycle/readiness. Actual browser and native owner flows have distinct reports. |
@@ -2375,7 +2375,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-010b` | Selectively materialize factory seeds and preserve existing files | `P091-002`, `P091-003`, `P091-004`, `P091-006` | `partial` | Adopted 2026-10-18: preserve seed_config without a list; validate module-relative seed_config_pointers, full arrays, empty/escaped/nested pointers, duplicates/overlaps and finite limits before shared create-only publication. Disabled modules may be seeded without starting; existing declarations/files and operator deletions survive update/restart; seeded enabled is not a protected decision. P091-005a gates exposed operations and all seed acceptance cases are mandatory. **2026-10-18 delivery checkpoint:** Pure selection/limits and shared create-only publication are implemented, including omitted-enabled inheritance and metadata stripping. Existing edits, disabled seeding and actual intent/rename recovery pass; consult the explicit delivery-scope evidence rather than promote unrelated migrations. |
 | `P091-011` | Prove cross-process and standalone consumption | `P091-004`, `P091-005a`, `P091-007`, `P091-009`, `P091-010` | `partial` | Actual supervised Python and separate-process Rust consumers, plus daemon/Node UI, consume explained resolutions. Cover pre-channel inline/ref snapshots, acknowledgement, host denial/outage without fallback, pinned Rust helper and Python exports/injection. Histories retain descriptor/context evidence and no current-use grant is inferred. **2026-10-23 partial proof:** a real built Rust one-shot helper and privately verified pinned Python transport consume the same named setting projection. The subsequent bounded Arca catalog pilot adds actual supervised Python pre-channel provisioning, P080 read and durable exact consumption ACK, with new-instance/high-water and no-fallback refusals; see its checkpoint below. Installed packaging, larger carriers, other Python owners and full multi-owner/client qualification remain open. |
 | `P091-012` | Publish shared manual, component references and HOWTOs | `P091-002`, `P091-005`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Exact keys/sources, four identity names, views, shadowed commits, restore/invalidation and apply modes agree across manual/navigation/CLI/UI. Separate proposed, legacy and supported behavior.  **2026-10-23 partial documentation:** node:configuration-flow/README.md documents the exact address, sources, operator projections, shared reads, restart/consumption distinction and offline helper. The complete shared manual and remaining owners stay open. |
-| `P091-013` | Complete refusal, concurrency and recovery evidence | `P091-005a`, `P091-007`, `P091-007a`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Every failure row has retained executable evidence, including journal/file crash points, host-seed races, descriptor withdrawal/expiry, clock failures, shared-file conflict classification and replan, no-op/third-version recovery, secret redaction and evicted replay inputs. 2026-10-06 scoped task-pack proofs cover all eight security fixtures, real subprocess crash points (intent, partial staging, rename, outcome), old/new/third/no-op, event quota reservation, substituted heads and current-operator daemon restart. This does not close every general P091 refusal/concurrency/platform row. **2026-10-18 delivery checkpoint:** The bounded D1/D2 instruction and real CLI examples explain lexical order, seed inheritance, sparse decisions, receipts and recovery without requiring new JSONL history. |
+| `P091-013` | Complete refusal, concurrency and recovery evidence | `P091-005a`, `P091-007`, `P091-007a`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Every failure row has retained executable evidence, including journal/file crash points, host-seed races, descriptor withdrawal/expiry, clock failures, shared-file conflict classification and replan, no-op/third-version recovery, secret redaction and evicted replay inputs. 2026-10-06 scoped task-pack proofs cover all eight security fixtures, real subprocess crash points (intent, partial staging, rename, outcome), old/new/third/no-op, event quota reservation, substituted heads and current-operator daemon restart. This does not close every general P091 refusal/concurrency/platform row. **2026-10-18 delivery checkpoint:** The bounded D1/D2 instruction and real CLI examples explain lexical order, seed inheritance, sparse decisions, receipts and recovery without requiring new JSONL history.  **2026-11-02 bounded lifecycle checkpoint:** shared completion reservations, strict v1/v2 recovery, exact no-replay reconciliation and journal-bound carrier disposal are implemented for Flow/Inquirium/Arca; scoped owner/CLI/browser/no-JS/actual WebView evidence is retained in the Node consumption lifecycle audit. This row remains partial outside those pilots. |
 | `P091-014` | Retain the four-case operator slice and synchronize evidence | `P091-011`, `P091-012`, `P091-013` | `partial` | All cases complete locate/explain/edit/apply/restart/reset through files and interfaces. Update `node:docs/implementation-ledger.toml`, regenerate via `node:tools/generate-implementation-ledger.py`, reconcile `node:docs/MVP.md` for affected scope. Record usability obstacles, not universal cognitive-load reduction. **2026-10-18 delivery checkpoint:** Node contract/inventory/ledger/MVP and separate D1/D2 evidence are reconciled for this worktree. Historical baseline is unavailable-closed, current scripted baseline/v1 is frozen, and broader platform/release proofs remain gaps. |
 | `P091-015` | Close broad coverage and enforce drift/promotion gates | `P091-001`, `P091-010a`, `P091-014` | `todo` | `check-configuration-inventory.py --verify-current` and `check-config-source-boundaries.py` run in Node `.github/workflows/docs.yml`; `--promote` rejects unfinished required settings. Every ordinary durable setting has file-backed shared control; bootstrap/non-setting exceptions stay narrow. Reconcile ledger, generated view, affected MVP/manual coverage and schema indexes; hidden ordinary stores or partial same-surface ledger rows prevent done. |
 
@@ -3147,3 +3147,127 @@ epoch, request duration and requests per sender per epoch. Limits are safety
 values composed with the domain-owned `min` relation, so a later layer can
 tighten but not silently widen a stricter one. Changes apply to new requests and
 the next plan; already accepted requests keep their bounds until they expire.
+
+## Consumption completion and carrier lifecycle (2026-11-02)
+
+Status: accepted implementation contract; runtime qualification is separate.
+This checkpoint closes the two bounded follow-ups of the consumption availability
+review: completion capacity and crash-orphan carrier disposal. It adds no setting,
+owner, alias/multi-instance policy, platform or release qualification.
+
+An attempt is keyed by `(application unit, generation)`. Instance and resolution
+are binding attributes; allocation high-water survives every incarnation. The
+frozen ActivationBinding is unchanged. Flow and Inquirium declare
+`transactional-withheld`: executor/profile admission is withheld until durable
+ACK. Inquirium ACK means configuration acceptance, not subsequent authorized use.
+Arca declares an external observation boundary: a child may read its snapshot
+before ACK, so missing ACK cannot establish non-consumption.
+
+| Input | Transition | Permitted effect |
+|---|---|---|
+| New unit/incarnation | Allocate above durable high-water | Provision only after durable allocation |
+| Exact current receipt | ACK; exact duplicate is idempotent | No repeated consumption |
+| Proven refusal before admission | Close exact pending attempt | No consumption |
+| Ended Flow/Inquirium incarnation | Withheld, `incarnation-ended-before-ack` | No inherited Active |
+| Ended Arca incarnation | Retain unresolved binding and reservation | New incarnation subject to capacity |
+| Operator accepts unknowability | Close with operator/time and unresolved outcome | No fabricated ACK or non-consumption |
+| Stale plan/foreign binding | Refuse | None |
+
+At most four open obligations per unit are admitted, including the slot needed to
+retain a current pending after crash. Size admission additionally proves that
+pending and all allowed completion facts fit VALUE_MAX (16 KiB), including JSON
+escaping. Facts are versioned: strict original v1 reader and strict v2 reader;
+reads never migrate. Known v1 Flow/Inquirium ordering withholds the effect until
+ACK (revisions 6cfc843f, 236eb9db, 78db8439); their ended pending is classified as
+withheld on read. Legacy Arca pending is unresolved. The next authorized write
+folds that classification without rewriting old facts.
+
+Open attempts themselves reserve one event and VALUE_MAX value_json bytes.
+Reservations are derived from latest facts, never a second authority store or
+config_heads entry. New attempts use ordinary capacity; exact completion follows
+the same hard-limit rule as commit outcomes. The ordinary safety reserve remains
+for disabling admission. Logical reservations do not guarantee physical storage.
+The database physical cap, logical value bytes and SQLite free pages are distinct.
+
+Legacy overcommit is a read-only reconciliation-required diagnosis. No write may
+cross the hard limit. Initial daemon startup must retain its operator recovery
+plane when a closed pre-effect history-capacity, unresolved-attempt-limit or
+carrier-backlog refusal withholds Arca. Required dependents are withheld with it;
+explicit start still refuses before effect. This is not permission to ignore
+other admission/security/storage failures or retry consumption. Recovery remains
+operator-approved and does not create a new scheduler.
+Recovery is explicit approved existing export/checkpoint/prune, then a freshly
+prepared reconciliation plan. Archive keeps latest complete
+unit facts, unresolved bindings, high-water and outstanding disposer metadata;
+its sentinel limits refuse incomplete snapshots. No startup/background eviction.
+
+Reconciliation uses prepare/approve-exact-plan/stale-refusal. It never invokes the
+consumer, renews authority/TTL, restarts a component or promotes a historical ACK
+into current activity. Public state uses ConfigApplicationState with typed reasons;
+owner-derived actions are hypermedia and pass P091-005a before exposure.
+
+Carriers declare `ephemeral-revertible`: deterministic launch/generation names,
+allocation-bound byte count and digest, private 0700 directory and exactly one
+0400 regular snapshot.json of at most 16 KiB. Disposal uses pinned directory
+handles and exact unlink operations, never recursive deletion. Current launch
+ownership excludes live admitted carriers. Ended-incarnation carriers can be
+removed without proving child death: already-read bytes remain in memory, and
+an unread obsolete managed input refuses without fallback. Identity uncertainty,
+substitution and extra entries refuse disposal. Legacy random carriers without
+journal identity are not deletion candidates. Cleanup occurs at owned startup
+and after ACK/closure, not during inspection or in a private polling loop.
+
+Implementation order: (1) contract and base; (2) behavior-preserving shared attempt
+host; (3) shared history budget/reservations; (4) versioned recovery; (5) carrier;
+(6) operator surface then qualification. Review and scoped regressions gate each
+milestone. Final qualification covers quotas, old facts, crash boundaries,
+identity/authority, archive, carrier and CLI/browser/no-JS/native operator clients.
+Whole P091-011/014 and release qualification remain partial.
+
+Implementation checkpoint (2026-11-02): Node's shared owner/budget and carrier
+mechanisms are delivered for these three pilots. The bounded operator surface
+has distinct CLI, JS/no-JS and actual application WebView qualification on
+c7dc09f7, with intermediate outcomes preserved rather than retagged. The local
+report and immutable external-reference receipts live in
+`node:docs/audits/P091-CONSUMPTION-LIFECYCLE-2026-11-02.md` and
+`node:docs/evidence/configuration-contracts/consumption-lifecycle-20261102-completion.qualification-loose.json`.
+Old unidentified carriers, physical I/O failures, other owners/platforms and
+whole-proposal/release qualification retain their explicit boundaries.
+
+### Consumption critical review (2026-11-02)
+
+The scoped lifecycle delivery is corrected without expanding owners, settings,
+TTL, or safety quotas. Node owns implementation and test results in
+`node:docs/audits/P091-CONSUMPTION-REVIEW-2026-11-02.md`.
+
+- Unreadable, future-version or unknown-unit application heads preserve four
+  completion obligations each. Their diagnostics name the unit. Ordinary writes
+  refuse; disabling writes and approved archival remain admitted within hard
+  capacity. Archival preserves the exact uninterpreted head, never repairs it.
+- The supervisor receives a typed recovery refusal from the owner. Textual
+  diagnostics do not determine whether the recovery plane remains available.
+- Transactional pending is withheld/provisioned with a reason, not external
+  uncertainty. Retrying an identical withheld attempt retries only its durable
+  ACK after current admission, without a new generation or renewed authority.
+- Successful Arca ACK may atomically carry disposal intent after the supervisor
+  validates the exact input. Verified removal is folded into the next allocation;
+  a crash retains the metadata for exact idempotent re-verification. Partial
+  construction is separately disposed by its creator through pinned identities.
+- Reconciliation binds exact unit revision and archive checkpoint, not unrelated
+  writes. New actor attribution identifies the authenticated local-control role,
+  never a hash of its shared control token. Time is validated RFC3339; nonce, TTL,
+  fresh authorization and exact review remain required.
+
+Remaining work: releasing reservations for ended transactional units that are
+never allocated again requires an explicit incarnation-retirement proof, including
+removed Flow units. Configuration absence is not that proof. The five local
+approval buffers remain a tracked convergence candidate; they must not share
+owner authority. Physical page forecasts do not upgrade logical reservation into
+an I/O guarantee. P091-007/013 and release qualification remain scoped/partial.
+
+Scoped review qualification at Node `f59d8d33` covers 335 code/CLI regressions and
+nine browser JS/no-JS/actual WebView paths. Node retains source/image pins, normal
+and optimized qualifier agreement, archive extraction and fresh private-store
+retrieval in `node:docs/evidence/configuration-contracts/consumption-review-20261102.summary.json`.
+This is client/owner evidence for the named slice, not whole-proposal or release
+qualification; the remaining work above is unchanged.

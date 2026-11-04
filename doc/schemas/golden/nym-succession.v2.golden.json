@@ -1,0 +1,25 @@
+{
+  "schema": "nym-succession.v2.golden",
+  "artifact": {
+    "schema": "nym-succession.v2",
+    "succession/id": "8e9e0cf0-1f42-40ba-8a01-0ae917355cee",
+    "succession/scope": "line",
+    "succession/purpose": "continue-line",
+    "predecessor/nym": "nym:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+    "predecessor/certificate": "sha256:GRakMskHOktPn_8IiAcSdi-YvYhvNbBGbK58QNP16Xo",
+    "authorization/mode": "nym-key",
+    "authorization/public-key": "z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+    "successor/nym": "nym:did:key:z6MkgAnvkP45uNxwCKeNdt6wrYkEjpYX4f7Nrd8MQqFL8Fbn",
+    "successor/certificate": "sha256:CqpbEmptKv7yNMB8bLvbdUhqwcYN0mz9cLkPH4KRMsM",
+    "issued-at": "2026-10-25T12:00:10.000000000Z",
+    "not-after": "2026-10-25T12:00:25.000000000Z",
+    "signatures": {
+      "predecessor": "EildED6ThUdS4nXFTcv_Jfo7n8SQS9Sl11HT3-j4NI3gwjn3wStgDTHAj944S7Jo8-CgrIKL6FElU06XHJ3cCA",
+      "successor": "dUicTu_8NsgkaQDdv6fw6FI5QHySuBz-WT2T5vjNYos3a_MSW8iid1uHBApRxZe87XIQWfLixSiXIkWgdvhrAA"
+    }
+  },
+  "preimage/base64url": "b3JiaXBsZXgubnltLXN1Y2Nlc3Npb24udjIAeyJhdXRob3JpemF0aW9uL21vZGUiOiJueW0ta2V5IiwiYXV0aG9yaXphdGlvbi9wdWJsaWMta2V5IjoiejZNa3dKRnB2SlZGZTE1eWdHZ1lMVFl1aVB3Zmhra0RSa01HNGVLUUZUOGc2NXlFIiwiaXNzdWVkLWF0IjoiMjAyNi0xMC0yNVQxMjowMDoxMC4wMDAwMDAwMDBaIiwibm90LWFmdGVyIjoiMjAyNi0xMC0yNVQxMjowMDoyNS4wMDAwMDAwMDBaIiwicHJlZGVjZXNzb3IvY2VydGlmaWNhdGUiOiJzaGEyNTY6R1Jha01za0hPa3RQbl84SWlBY1NkaS1Zdllodk5iQkdiSzU4UU5QMTZYbyIsInByZWRlY2Vzc29yL255bSI6Im55bTpkaWQ6a2V5Ono2TWt3SkZwdkpWRmUxNXlnR2dZTFRZdWlQd2Zoa2tEUmtNRzRlS1FGVDhnNjV5RSIsInNjaGVtYSI6Im55bS1zdWNjZXNzaW9uLnYyIiwic3VjY2Vzc2lvbi9pZCI6IjhlOWUwY2YwLTFmNDItNDBiYS04YTAxLTBhZTkxNzM1NWNlZSIsInN1Y2Nlc3Npb24vcHVycG9zZSI6ImNvbnRpbnVlLWxpbmUiLCJzdWNjZXNzaW9uL3Njb3BlIjoibGluZSIsInN1Y2Nlc3Nvci9jZXJ0aWZpY2F0ZSI6InNoYTI1NjpDcXBiRW1wdEt2N3lOTUI4Ykx2YmRVaHF3Y1lOMG16OWNMa1BINEtSTXNNIiwic3VjY2Vzc29yL255bSI6Im55bTpkaWQ6a2V5Ono2TWtnQW52a1A0NXVOeHdDS2VOZHQ2d3JZa0VqcFlYNGY3TnJkOE1RcUZMOEZibiJ9",
+  "artifact/digest": "sha256:0uX8NivU6_J6jHHnzevdsZ1e75zuxIWmpFsHx0PnI7E",
+  "continuity/key": "z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk",
+  "continuity/digest": "sha256:CWdIcZKszvKrCgebSeLpG1pc0ovmu8rbaBUGQc2o7Kg"
+}

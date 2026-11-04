@@ -299,3 +299,55 @@ remains authoritative, every D7 field is false, and lifecycle writers, cutover
 and suspension runtime remain separate. Draft maturity, default-off rollout and
 hard-MVP/release status are unchanged.
 See the [current S040 maintenance status](../60-solutions/040-capability-limited-restrictions/040-safe-maintenance-contracts.md).
+
+V4-prep checkpoint (2026-10-30): the isolated fresh-format owner, operator slots,
+source-local writers, receipt recovery and outbox preparation pass the scoped
+65-case software profile at Node `04afd5a4` / Orbidocs `1968960c`. Evidence:
+`node:docs/evidence/local-accountability/2026-10-30-v4-prep/README.md`. This includes 18 real v1 runtime
+cases; the 37 v2 conformance cases, seven v1/D7 conformance cases and three cost
+controls are distinct classes. v2 enforcement and V4s shared-WAL I/O are not
+qualified. v1 remains authoritative and all five D7 fields remain false. P018-12,
+13 and 14 retain their original qualified scope; fresh dataset cutover, encrypted
+v2 archival, restore and V5 remain open.
+
+### V4-prep review amendments (2026-11-01)
+
+The frozen 2026-10-30 profile remains historical. Follow-up review identified a
+same-source outbox stall after semantic refusal and a missing default-closed
+readiness check inside the isolated owner. Current amendments separate terminal
+refusals from CAS replan and capacity backoff, bind fixture readiness to the whole
+host context, reject future operator decisions, preserve the core protective
+policy and recover committed cache state in writer turns. Authenticated current
+observation can confirm an unchanged source after incarnation change; receipt
+recovery alone cannot. No active v1 or live D7 behavior is enabled.
+
+Source/operation indexes are finite epoch-lifetime budgets. V4s must qualify an
+explicit authorized epoch rollover, including draining obligations, protected
+historical inspection, archive verification and crash-safe joint host/service
+publication. Exhaustion cannot silently reset identity or drop live appeals.
+V4s also removes historical shadow composition/types and migration paths, alongside
+active v1 and legacy reconciliation. See
+`node:docs/development/RESPONSIBILITY-LIFECYCLE-CONTRACT.md#review-amendments-2026-11-01`.
+The new qualification profile is `responsibility.v4-prep.fresh-format.v2`; no
+new runtime/performance result is inferred from native regression tests. Broader
+tracker statuses and historical P018-12/13/14 closure remain unchanged.
+
+### Revised V4-prep qualification (2026-11-02)
+
+`responsibility.v4-prep.fresh-format.v2` passed all 72 cases at Node `4f7ede5c`
+and Orbidocs `58c492ae`: 18 runtime v1, 44 isolated conformance v2, seven
+conformance v1/D7 and three orientational performance controls. Original and
+extracted qualification agree exactly. The candidate passed 9,332 workspace
+tests/doctests, zero failures, 128 explicit ignores, strict all-target Clippy,
+fmt and check-paths; six portable qualifier controls passed. Evidence and review:
+`node:docs/evidence/local-accountability/2026-11-02-v4-prep/README.md` and
+`node:docs/audits/RESPONSIBILITY-V4-PREP-Q72-REVIEW-2026-11-02.md`.
+
+This closes only the revised V4-prep profile, including same-source correction
+after semantic refusal and default-closed owner readiness. Active v1 remains
+authoritative and all five live D7 components false. Isolated WAL measurements
+do not qualify V4s contention; fresh host/service cutover, explicit epoch rollover,
+retirement of v1/shadow/migration paths, live authority wiring, archival/restore
+and V5 readiness remain open. Broader P051/P018 tracker statuses, contract maturity,
+hard-MVP and release readiness do not advance. Historical reports retain their
+original bytes, sources and scopes.

@@ -181,3 +181,12 @@ projection:
 2. Add examples for a sponsored candidate, a probationary newcomer profile, a default effective limits projection, and a high-risk surface requiring sponsor diversity.
 3. Add a first Node read model for local participant entry profile once membership onboarding is implemented.
 4. Reuse existing capability-limit runtime hooks where operation names overlap, but keep entry policy distinct from sanctions.
+
+## Responsibility preparation boundary — 2026-10-30
+
+The separately qualified V4-prep software profile prepares isolated lifecycle
+writers and projections without granting entry privileges or an applied stay.
+v1 remains authoritative and all five D7 components stay false. Missing entry
+policy inputs and mappings remain missing; receipt history cannot establish
+current protection. See `node:docs/evidence/local-accountability/2026-10-30-v4-prep/README.md`.
+Fresh dataset activation and whole-path readiness remain V4s/V5 work.

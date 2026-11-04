@@ -84,8 +84,11 @@ The material is split into two payloads and an independently verifiable manifest
 
 The manifest is created first. It includes neither the protected signal's body
 nor its record id: the signal then commits the signed manifest's digest, and
-P035-019's signed admission receipt binds **both** that signal's `record/id`
-and the manifest digest after verifying the complete private publication.
+P035-019's detached admission receipt binds the digest of the exact **signed**
+author bytes and the manifest digest after verifying the complete private
+publication. The private `record/id` excludes the signature and is forbidden in
+the public receipt, URLs, logs, metric labels and traces: it would allow a
+dictionary to confirm guessed low-entropy content.
 There is no reverse manifest-to-signal hash dependency and no field-stripping
 from a signed Agora envelope. The receiver can verify the author's manifest
 and the authority's claim about admission without seeing the protected body;
@@ -640,7 +643,71 @@ orders. A permutation/replay fixture must produce the same eligible-source set
 and evidence commitment from the same admitted inputs. Historical M4 counting
 and ids stay unchanged.
 
+## Optional Confidential Affiliation Review {#confidential-affiliation-review}
+
+Proposed post-MVP addition (2026-11-04), independently tracked as P013-ADC-010.
+The [P015 profile](../015-nym-certificates-and-renewal-baseline.md#confidential-affiliation-attestation)
+owns the proof and privacy contract. Whisper consumes a scoped finding, not the
+author-to-participant mapping. This profile is optional for each signal author;
+it is not a prerequisite for ADC-000 or existing alpha/MVP gates.
+
+During `confirm`, the releasing author may inspect other signals or affiliation
+results only within their separately authorized view. Being asked to confirm a
+release grants no access to other authors' protected bodies, root identities or
+assessment inputs. The subject author of each checked signal must consent before
+assessment and separately authorize who may see which result fields. The
+releasing author's request for context cannot supply that consent on their behalf.
+
+The purpose is to support a human decision about this payload and audience, not
+to certify absence of bait. Display `relationship-confirmed`,
+`not-found-in-scope`, `indeterminate` and the local `not-assessed` state with their
+P015 meanings and coverage/time limits. No badge means no conclusion, not
+independence; declining assessment carries no penalty. No finding automatically
+changes eligibility, source counts, rankings or publication rights. Any future
+counting policy would need its own explicit proposal and acceptance, not a UI rule.
+
+For example, a confirmed employment relationship to the institution may describe
+both an interested spokesperson and a whistleblower with direct knowledge. The
+interface must not label either as deceptive. It may help the releasing author
+decide to proceed or decline under the existing confirmation contract. Absence
+of affiliation evidence does not make a coordinated trap safe.
+
+Reuse ADC-008's editor/view, P015-007/008's verifier and result semantics, existing
+classification/redaction and authorization owners, and P013-PEX-001 for private
+exchange. Host-side read admission precedes projection; UI, Agent, exports,
+notifications and other clients must consume the same authorized projection.
+Do not add an Agora-indexed affiliation record or public proof field to the
+embargo manifest/release. The assessment result has its own narrower recipients;
+consent to release the rumor never widens access to that result.
+
+Public labels are excluded from this first profile: even a minimal flag can
+identify the sole employee in a small group. Show only authorized granularity;
+otherwise withhold the result without exposing a sensitive reason. Respect
+P015 expiry, accepted withdrawal and correction through the existing lifecycle
+owners. An old signed finding is historical evidence, not a permanent live badge;
+already disclosed information cannot be made unseen. Never revive an erased
+issuer mapping to refresh a result.
+
+The main trade-off is useful context versus an additional disclosure and trust
+concentration. The initial supported relationship/evidence scope and assessor
+recusal policy remain P015-007 open decisions. This profile does not introduce
+cryptographic protection against the assessor itself, nor does it resolve
+collusion or psychological intent. Safe context review remains possible without
+affiliation assessment, using material already shared with the deciding author.
+
 ## Author Disclosure Condition Tracker {#author-disclosure-condition-tracker}
+
+P035-019 freezes the minimum `whisper-embargo-manifest.v1` proof input before
+this runtime: exact authorized publication-use tuple, certified nym key, profile
+and certificate digests, case continuity-key digest, canonical public authority
+principal and bounded `case/not-after`. P015-005 owns issuance authorization;
+LLR-006 owns the case key. The manifest precedes the signal, whose private fields
+must match; the receipt attests those checks. This prerequisite does not close
+ADC-001's condition/release/amendment contracts or any ADC execution gate.
+P035-019 qualified that synthetic detached producer and cold OS-isolated
+inspection on 2026-10-29. The witness attestation remains distinct from an
+independent hidden-body check; see
+`node:docs/audits/ACCEPTANCE-P035-019-2026-10-29.md` for the bounded claim.
 
 All rows are post-MVP `todo` unless marked otherwise. The grouping row closes
 only on the composed Story 014 variant run.
@@ -667,3 +734,4 @@ an execution dependency of ADC-005 on LLR-009.
 | P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002; P015-005 | `whisper-correlation-notice.v1` is signed under an explicitly admitted publication tuple, content-free, expiring and discoverable through the term bucket. The editor warns about disclosure of the matter. Related signals point to the public notice record/id with a closed target kind; no hidden signal id is required or leaked. Tests refuse wrong kind/schema/topic/scope tuples and verify a notice-only reader can author a related signal. |
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | Render N and its effective epoch threshold, public criterion and proof disclosure, window, concrete audiences, mode, authorized holders, notice and coordination participation. Keep condition, proposal and per-slot execution states separate. Declining suppresses that proposal across restart; no renewed prompt without an explicit retry or consented bounded policy. Show widening as a new independent case and withdrawal as effective only after authority acceptance. |
 | P013-ADC-009 | Sealed pre-threshold confidentiality | deferred | P013-ADC-004; cryptographic review | A mechanism in which no correlator can read protected material before N sources exist, for example threshold or escrow-style encryption. It needs a separate, proposal-grade review. |
+| P013-ADC-010 | Optional private affiliation context at disclosure confirmation | todo | P015-007–008; P013-ADC-008; P013-PEX-001 | Reuse the bounded result verifier and one host-authorized projection for UI/Agent and other consumers. Acceptance includes separate consent by the checked author, no-consent/unavailable paths with no penalty, no access to protected peer bodies, employee-as-whistleblower and employee-as-interested-party cases without an intent verdict, limited coverage/expiry, swapped-result refusal, small-group identification risk and no leakage through Agora, release proof, exports, logs or notifications. Existing counts and release authority stay identical with the feature absent, refused or unavailable; authorized context informs only the human confirmation decision. Offline synthetic fixtures qualify semantics without claiming live affiliation verification; private delivery composes the separately qualified P015-008 path. |

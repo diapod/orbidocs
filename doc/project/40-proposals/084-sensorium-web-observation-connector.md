@@ -604,6 +604,77 @@ or content-mismatched read is refused as `artifact-binding-mismatch`. Tombstone
 expiry intentionally collapses back to `artifact-binding-mismatch`, so the
 diagnostic does not become an unbounded history or an artifact-discovery oracle.
 
+### 8.1. Original web content for reviewed rumors {#web-original-custody}
+
+Adopted design extension, 2026-11-04; implementation is P084-014/015 (`todo`).
+The metadata-first default above remains valid for ordinary web observation.
+A source explicitly selected for the original-backed Harvester publication
+profile must retain its original response body as well as its extracted
+representation before it can produce a publication-ready draft. Enabling this
+profile requires explicit source/retention admission; selecting an existing
+snapshot must not silently enable retention, refetch it, or widen acquisition.
+[P078](078-weak-signal-harvester.md#web-source-retention-and-origin) owns review
+and [P013](013-whisper-social-signal-exchange.md#web-origin-publication) owns
+publication. Existing 012a/b/c evidence does not qualify this extension.
+
+**Byte boundary.** The original is the exact bounded response body after HTTP
+content decoding/decompression and before charset decoding, HTML parsing,
+normalization or redaction, bound to the existing `body/digest`. It is not a
+packet capture, rendered browser state or complete website archive. Preserve the
+existing digest law; do not relabel parsed text or recompressed bytes as the
+original. Bind the byte count, media type, charset/encoding metadata, fetched
+instant, source generation, extraction profile and representation digest through
+the existing snapshot. Private URL identity stays restricted; display URLs
+remain redacted. Cookies and request credentials are not part of the archive.
+
+**Custody and retention.** Reuse `artifact.delivery.retain`, its digest/size
+checks, authenticated owner, content-addressed storage and P081 receipt chain.
+Both inline and artifact-transfer responses must reach the same durable custody
+boundary. A transient fetch binding or `body/artifact-ref` alone is not a
+retention receipt. No second Harvester blob store or independent cleanup worker
+is introduced. Before accepting this extension, freeze an owner-bound retention
+claim using the existing artifact lifecycle and S028 facts, with at least:
+
+| Proposed claim field | Meaning |
+|---|---|
+| `owner/ref`, `purpose/ref`, `snapshot/digest` | Owning source/workflow, concrete review/publication purpose and exact captured snapshot |
+| `body/ref`, `body/digest`, `body/bytes`, `retention/receipt-ref` | Durable original and verified custody receipt |
+| `retention/requested-until`, `retention/effective-until`, `retention/policy-ref` | Requested and admitted finite horizon, separately from metadata/cache TTL |
+| `retention/state` | Closed lifecycle: `retained`, `expired`, `released`, `missing` or `corrupt`; a timestamp alone does not prove availability |
+
+These are proposed contract fields, not currently implemented schemas. P091
+composes defaults and operator ceilings; the source/workflow owner admits them.
+A shortened horizon is shown before approval and cannot be silently accepted as
+the requested duration. No indefinite retention or lifetime-of-rumor promise is
+implied. An explicit extension needs current authority and capacity. S020 may
+schedule expiry through the existing owner; reads and admission check expiry
+independently of scheduler execution. Metadata and original/representation
+retention have separate finite policies.
+
+A refresh never overwrites previously claimed bytes. Shared content is reclaimed
+only after all applicable owner claims permit it; releasing one finding cannot
+remove another consumer's retained original. Early deletion, expiry, corruption
+or loss must become an explicit availability fact. Original and representation
+claims are acquired idempotently before a publication-ready handoff; a crash
+between them leaves an incomplete state, never a false complete receipt. Recovery
+reuses exact pinned inputs and the existing owner journals. Missing originals
+block this profile's promotion; an authorized later fetch creates a new capture
+and cannot repair the identity of an older one. A `304` records a new validation
+time against the same retained capture; it neither creates new original bytes
+nor silently renews their retention horizon. Do not claim the representation
+was originally fetched at the later validation time.
+
+**Limits and acceptance.** Preservation supports checking what the collector
+received; it does not prove that the remote publisher authored the claim or that
+it is true. Classification and read admission apply to original bytes separately
+from redacted summaries. Storage cost and shorter approved retention are explicit
+trade-offs. Offline fixtures must cover small inline and large artifact bodies,
+compressed/non-UTF-8 HTML, exact digest equality, extraction that omits content,
+retention refusal/quota/ceiling, `304` without horizon renewal, shared-reference
+release, expiry with Scheduler
+stopped, lost replies/restart between custody steps and unavailable originals.
+No live website, crawler, model or new transport is needed for that gate.
+
 ### 9. Sensorium Interface projection
 
 The connector-specific source-provider adapter registers through P082's open,
@@ -1357,6 +1428,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P084-012b | Explicit web finding redaction to optional local Whisper draft | done | Immutable digest-bound operator decision, explicit draft intent, atomic fact/projection persistence; deterministic daemon HTTP/restart, refusal and canary acceptance recorded in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`. Broader integration remains partial. |
 | P084-012c | Operator UI over admitted web finding review | done | Bounded operator queue, explicit redaction/draft forms, auth/CSRF, safe failures, real UI/daemon replay/restart, zero extra acquisition/delivery and no escaped canaries; evidence in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`. |
 | P084-013 | Define and implement the separate credential-bound authenticated-source profile | deferred | Starts only after static public-web acceptance; host-owned secret use is fail-closed and no credential, cookie, authenticated handle, or secret-bearing diagnostic reaches consumer-visible or durable evidence. |
+| P084-014 | Retain exact original web bodies under an explicit finite custody contract | todo | Freeze and implement [original custody](#web-original-custody) using existing fetch bytes, AD retain/owner lifecycle, P081 receipts, S028 facts and P091 policy. Cover inline and artifact paths, source-generation binding, original/representation claim ordering, finite horizons and shared-reference-safe release. No new blob store; no promotion from a transient transfer ref. |
+| P084-015 | Qualify original custody and Harvester handoff offline | todo | Depends on P084-014 and P078-015. Run the byte, quota, expiry, sharing, lost-reply/restart and missing-original cases in the existing Sensorium Web/Harvester harness; prove zero implicit refetch and zero raw-body/secret leakage to drafts or public views. Record separate current evidence and update owning Solutions/Node ledger at implementation closeout; historical 012a/b/c qualifications remain unchanged. |
 
 ### Single-URL operator acceptance (2026-09-08)
 

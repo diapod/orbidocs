@@ -68,6 +68,12 @@ protocol. Each owner freezes exact artifact/admission shapes before runtime
 exposure; new public contracts go through Schema Gate and normal compatibility
 review. Existing completed delivery profiles retain their status.
 
+The operator promoted the Node-owned Agora publisher binding P035-001–003 to
+mandatory Node hard-MVP completion conditions on 2026-11-04. All three tasks must
+close before hard MVP or `alpha-node` can be ready; the existing AD MVP adapter
+does not complete the producer migration. This changes only that consumer
+binding's release scope, not the scope of the other continuations below.
+
 | Consumer path | Delivery/admission composition | Authoritative plan and tracker |
 |---|---|---|
 | Node-owned Agora publishers | Sign first; AD `agora-default`; ordinary Agora admission | [P035-001–003](../../40-proposals/035-agora-topic-addressed-record-relay.md#delivery-integration-tracker), consumed by P026/P067 and Seed publishers |
@@ -1918,3 +1924,12 @@ it leaves the logical release slot consumed. The protected-holder union includes
 a separately named counting authority, but transport budget never admits a new
 holder. PEX-001 and ADC-005 acceptance cover recipient refusal, lost reply,
 restart before submission and exact-byte/id replay, without a new AD retry owner.
+
+### Case commitment reuse (LLR-006, 2026-11-02)
+
+The detached Whisper manifest producer consumes the same typed case preparation as
+ordinary SignalPreview. It does not invent a continuity-key digest. Commitment
+exposure precedes signed bytes, and later P035 admission is a separate fact.
+LLR-006 qualifies this producer composition with a disclosed synthetic v2
+certificate; it does not qualify the ADC runtime or its transport. Detached
+anchors retain the receipt's witness reliance and omit the private record id.

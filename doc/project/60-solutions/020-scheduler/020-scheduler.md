@@ -939,3 +939,27 @@ resonance. S020 dispatches the due work; AD owns holds, erasure and diagnostics.
 | Job | Owner | Cadence | Task |
 |---|---|---|---|
 | Minimal-trace purge | Artifact Delivery | After the retry horizon, skip-missed | [S023-002](../023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) |
+
+## Responsibility V4-prep boundary — 2026-10-30
+
+V4-prep qualifies bounded host-owned due-resume materialization only in the
+isolated lifecycle fixture owner, outside admission. Read-only composition uses
+the original resume deadline even if materialization cannot commit. This adds no
+production S020 job or dispatch authority and changes no existing scheduler
+budget. The maintenance/shadow qualification remains scoped to its original
+profile; V4s/V5 require explicit live owner integration and fresh evidence.
+See `node:docs/evidence/local-accountability/2026-10-30-v4-prep/README.md`.
+
+## Local assessment audit consumer (2026-10-30)
+
+The P026 audit job `assessment-audit-retention` is locally qualified with ordinary
+run-once and terminal owner settlement, separately from explicit-time retirement.
+Cadence is 900 seconds with at most 60-second jitter and SkipIfRunning. The domain
+limits new work to sixteen units, 4 MiB and 250 ms before starting further work;
+a started fsync/transaction is not preempted. S020 remains the only cadence owner.
+The [P026 stage closeout](../../40-proposals/026-assessment-dependent-context.md#local-stages-0203-closeout-2026-10-30)
+pins Node `da1d14a7` / Orbidocs `127843fb`, five ordinary cases and 172 separate
+component checks with 70 controls per mode/location. The capability catalog is
+unchanged: this composes existing owner ports and scheduling, and adds no generic
+grant-bearing operation. Historical evidence, unknown coverage, models and release
+scope remain separate.

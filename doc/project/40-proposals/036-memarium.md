@@ -778,7 +778,9 @@ and exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
   `node:memarium-runtime/src/lib.rs`).
 - **Fact.** `retention/max-duration-sec` in `node:memarium/src/export.rs` bounds
   archival export packages, not stored facts.
-- **Inference.** Personal facts live until an explicit `memarium.forget`. The
+- **Fact.** `memarium.forget` addresses entries, records a decision and hides
+  them in read projections. It neither physically deletes source bytes nor
+  addresses Agent facts written through `write_fact`. The
   30-day default seen in Whisper material belongs to the local metadata view of
   `whisper-trace.v1`, not to Memarium.
 
@@ -808,7 +810,8 @@ outlive the usual horizon.
    capture. Automatic capture emits a notice
    ([P057-016](057-user-and-operator-notifications.md#tracking)).
 5. **Expiry.** An S020 job executes the space's ordinary forget path:
-   immediate erasure in personal space, a tombstone in public space. Community
+   immediate logical removal from personal entry views, a tombstone in public space.
+   Physical fact retirement is a separate S028/P036-009–011 contract. Community
    expiry needs the governed path and crisis keeps its constitutional minimum,
    so both stay outside v1 and are skipped with a typed reason.
 6. **Pre-expiry review.** A batched digest lists records that expire soon.
@@ -865,7 +868,7 @@ All rows are post-MVP `todo`.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P036-004 | Freeze the fact retention horizon contract | todo | P091; S028 | `memarium-retention-decision.v1` schema; class-keyed default and ceiling descriptors with the asymmetric ceiling rule. Fixtures: clamp with warning, `until-forget` refused under a bounded ceiling, latest decision wins, history retained, clock from `recorded/at`. |
-| P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job erases expired personal records and tombstones public ones through the existing forget path. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
+| P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job logically hides expired personal entries and tombstones public ones through the existing forget path; it does not physically erase Agent facts. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
 | P036-006 | Cascade forget and expiry to derived artifacts | todo | P036-005 | `derived-from` references on sidecar rows, indexes and Harvester artifacts; forget or expiry purges them. Negative fixture: the matcher cannot see an expired record. A lowered ceiling re-clamps after the grace period with a notice. |
 | P036-007 | Freeze the personal record contract | todo | P036-004; `memarium-blob.v1` | `memarium-personal-record.v1` with attachments, digests, the three content forms and size bounds. Capture validates before the write. A Story 014 record fixture passes, and diagnostics carry no path or content. |
 | P036-008 | Record fact–rumor link decisions | todo | P036-007 | `memarium-fact-rumor-link.v1`; decisions are idempotent and both projections show them. Pair and context suppression is proven over two epochs, and decisions expire with the record. |
@@ -907,3 +910,233 @@ window. Test co-retention, partial bundle loss, expiry and redelivery offline.
 P036-006 and P036-008 own lifecycle/link contracts before their consumers:
 P078-013 and P013-DFR-003 respectively. Consumer acceptance must prove the joined
 behavior, but it is not a reverse implementation dependency of these contracts.
+
+## Portable admission custody profile (2026-10-30)
+
+The bounded LLR-003 runtime qualification below passed. P036 owns retention
+and erasure; LLR adds no independent retention policy. P036-004a freezes this
+bounded profile and P036-005a implements it without closing their parent rows.
+
+Every custody capture, including the first import at a new holder, derives its
+absolute payload horizon from original verified admission time, bounded by the
+local P091 ceiling and, for detached material, `case/not-after`. Import time is
+an audit fact, never a renewed lease. Missing finite policy refuses capture.
+Evidence holds never extend payload retention. Proof dependencies are content
+addressed and held while their receipts are retained; no public access follows
+from using an unencrypted proof CAS. The pure lifetime laws are shared with Agora;
+transactions and storage remain owned by each component.
+
+All payload classes use independent random DEKs and existing AEAD. No derivation
+from a durable root and no DEK backups in v1. AAD binds schema/purpose, entry ID,
+signature-bearing commitment and absolute `until`. The journal stores references,
+not inline plaintext or base64 bundles. Detached metadata, tombstones and key
+handles never expose the unsigned private record ID.
+
+Capture commits in this order: durable DEK file, durable ciphertext blob, then
+journal fact. Each fact binds `provider/revision`. Recovery destroys orphan keys
+and blobs before serving requests. A journal ahead of its provider triggers
+reconciliation, never silent revision reset. Erasure commits `erase-requested`,
+drains/cancels bounded key-use leases, unlinks the key and fsyncs its directory,
+then commits `erased`. Startup completes interrupted erasures before decrypting.
+Restored keys contradicted by journal facts are destroyed with `re-erased`;
+missing keys without an erasure fact produce `payload-unavailable`. Minimal
+erasure knowledge lives in the journal at least until the original payload
+horizon. Every key open/use checks the horizon with the shared observed-time fence.
+
+After `erased`, the local provider holds no key that can decrypt the payload,
+and no Memarium operation, projection, export or journal replay yields its
+plaintext. Exclusions: copies already exported to other holders; simultaneous
+restoration of provider and journal from before erasure; physical media remanence.
+The provider assurance projection explicitly reports `rollback-anchor: absent`
+in v1; no independent anchor is configured. A common rollback of
+provider, journal and time fence cannot be detected without an independent anchor.
+The built-in application backup reads journal facts and never reads provider
+keys or payload files. This is the `by-construction` scope of `backup/exclusion`; it is
+not a full custody recovery backup. Exported proof/ciphertext replicas require
+separate retention metadata. External backups and volume encryption are reported
+as `unknown`; operator-declared snapshot retention is not evidence of destruction.
+Relay NULL/WAL removal is only `unreachable`.
+
+The acceptance criteria distinguish two levels of custody completeness: `verifiable` contains the LLR-002 basis;
+`ingestible` additionally contains the P041 revocation basis. These are evaluation criteria, not persisted summary flags: the summary reports
+payload/evidence availability only. Recompute LLR-002 or P041 with current local
+trust and time to determine the respective level. They convey neither imported
+trust nor cached authorization. Evidence
+can be appended with local first-seen facts without renewing payload horizons.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P036-004a | Bounded portable-admission custody retention contract | done | P036-004; P035-019 | Finite origin-bound horizons, P091 ceilings, separate payload/proof holds, replay and first-import laws. |
+| P036-005a | Erasable portable-admission custody | done | P036-004a; custody fence | Real capture/export/import, key-destroyed gate, crash recovery, provider/journal rollback reconciliation, detached privacy and bounded carriers. No media sanitization claim. |
+| P036-005b | Custody backup and replica adapter | todo | P036-005a | Replicate journal/checkpoints, ciphertext and proof CAS with bounded retention; exclude DEKs, verify restore and explicit provider replacement. Existing selected-fact backup is not this adapter. |
+
+### Recovery and release boundaries (review, 2026-10-30)
+
+Custody has a dedicated owner stream per scope, not a tag-filtered personal fact
+stream. A committed checkpoint selects the live entries, provider identity/head,
+and erasure knowledge still within its original horizon, followed by a new tail.
+The checkpoint head is committed after its bounded snapshot. Recovery never
+replays earlier generations. Limits apply to live entries (16,384), individual
+facts and evaluation work, not the number of facts since installation. Legacy
+personal facts migrate once by reserved kind, without a personal-history page cap.
+Snapshot work is amortized over at least max(128, live entries) tail facts;
+restarts retain that accounting. Historical generations remain append-only;
+checkpointing bounds replay, not total disk usage or retirement authority.
+
+`replace-provider` is an explicit authenticated operator action. It binds a new
+provider identity to the existing journal and marks older payloads unavailable
+without changing their horizons or erasure/tombstone facts. A missing provider
+root also makes its proof CAS unavailable. If only `keys/` was lost, replacement
+preserves `blobs/` and `proofs/`; proof-only exports remain possible. An existing
+healthy provider is never silently reset. Interrupted replacement is retryable
+through its durable intent and journal fact. New custody captures work afterwards.
+
+The storage classes are distinct even when under one private root: `keys/` must
+not enter backups; ciphertext `blobs/`, public proof `proofs/`, owner journal and
+checkpoint records may be replicated under their own horizons and holds. The
+existing selected-personal-facts backup does not include these custody streams
+or implement a custody backup. P036-005b owns that missing adapter; losing the
+entire provider currently loses both payload and proof, without disabling future
+custody. Do not infer a recoverable replica from the assurance label.
+
+`export` and `read-private` resolve the current local
+`disclosure/classification` under P091 and use the Memarium egress gate. Missing
+classification is quarantined and refuses. The local operator route accepts only
+Personal-to-Personal disclosure; it performs no implicit declassification.
+`read-private` has a closed request, requires local operator authentication,
+checks provider health, erasure and horizon, and commits a payload-read fact before
+returning exact bytes. Failed audit returns no bytes. Portable detached exports
+still exclude private payloads. `status` reads availability facts without releasing
+payload. Neither authentication alone nor receipt trust authorizes disclosure. Operator
+responses use HTTP no-store. These additions correct the unreleased local-v1
+request/export contracts; unknown operations still refuse under closed schemas.
+
+### Bounded acceptance, 2026-10-30
+
+P036-004a and P036-005a passed their bounded gates at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.
+
+### Custody boundary requalification (2026-10-30)
+
+Boundary review requalification at clean Node febf8b33 / Orbidocs 6eb1f6b6 passed 593
+component tests, one existing ignored case, four cold custody consumers and six isolated
+historical cases, scoped Clippy and 16 mutation refusals. Extracted replay and
+both-store retrieval agree for bundle
+4c2dba4a43c2d6670f3c9397aa5164955d5b216931a96057f9932bc8f1a19600. Dedicated checkpoints,
+explicit provider replacement, current operator disclosure/private read, bounded local
+observations and independent historical sequences are covered. P036-005b full backup and
+publisher/key-destruction liveness remain separate. See
+`node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-REVIEW-2026-10-30.md`.
+
+The prior dated qualification remains unchanged. This follow-up preserves the
+bounded claim and does not close parent P036, P015-005 or LLR-009.
+
+## Owned runtime fact streams (P026-012c, 2026-10-29)
+
+This is separate from P036-004–008 personal-entry horizons. Physical stream
+mechanics are owned by [S028](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md#owned-stream-retirement-tracker).
+The [P026 continuation design](026-assessment-dependent-context.md) is its first
+consumer. Legacy mixed Personal remains protected; no historical erasure is claimed.
+
+| ID | Task | Status | Depends on | Completion gate |
+| --- | --- | --- | --- | --- |
+| P036-009 | Freeze private owner fact streams | done | S028-OS-001 | Owner-only read/write/import, no generic Personal view/export/index exposure, per-schema fact identity and retired-stream refusal. |
+| P036-010 | Cut over Agent writes at startup | done | P036-009; S028-OS-002 | Expected-head barrier before Agent load, digest-verified locator, new generation after barrier, old writer/recovery/import fenced; no legacy copy or deletion. |
+| P036-011 | Qualify dedicated versus legacy recovery | done | P036-010; S028-OS-003 | Fresh S=0 and actual previous-binary legacy, cutover crash matrix, old-binary refusal, bounded range I/O and exact unchanged legacy bytes. |
+
+
+The 2026-10-29 Node implementation installs the owner journal before Agent load
+and admission. It preserves the immutable legacy prefix, appends an expected-head
+barrier, checks an exact descriptor and routes new facts outside Personal discovery.
+The owner port exposes no generic import/export/read surface; ordinary Memarium
+owner-tag writes refuse before idempotency. Per-schema identities and controlled
+restart/refusal tests live in `node:memarium-runtime/docs/OWNER-JOURNALS.md` and
+`node:memarium-runtime/docs/AGENT-FACT-IDENTITIES.md`. The bounded clean executable profile is qualified at Node `d5ad1392` / Orbidocs
+`365a3796`: eight exact legacy facts, one barrier, two dedicated facts, current
+restart and previous-binary exit 2 on the exact unknown schema. Normal/-O loose
+and extracted results agree; twenty controls refuse in each variant. See
+`node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01/README.md`.
+P036-009/010/011 close only this owner-journal/cutover profile. Controlled
+interruption, capacity and locator/allocator faults remain component evidence;
+at that checkpoint, independent S028 physical-failure/cost qualification remained partial. No physical
+erasure, audit-unit retirement or total-Node startup bound is implied.
+
+
+### Owner-journal review boundary (2026-10-29)
+
+A subsequent critical review found that generic JSONL materialization could repair
+a torn owner suffix during append/seal/retirement verification. The owner contract
+requires non-repairing validation for every such read, not only startup replay;
+refused bytes must remain unchanged. Current-head discovery also needs exact
+byte-bound EOF and stable anchors in the presence of legitimate trailing blank lines.
+Agent recovery must bind the persisted wrapper identity, schema metadata and source
+correlation to the complete validated domain payload before registry admission.
+
+The prior checkpoint and v1 qualifier remain frozen. Its independent checker did
+not bind all owner facts to the same Agent/request, so it is insufficient for the
+stronger reviewed claim. A versioned verifier must preserve the old source pin,
+verify fact/command/session links and complete anchor extents, exercise an ordinary
+fresh S=0 restart as well as previous-binary legacy, and observe temporary-root
+cleanup before reporting it. New component and ordinary-process evidence are
+recorded separately; none of these requirements establishes physical media erasure
+or independent S028 failure/cost qualification.
+
+
+The reviewed profile is qualified separately at clean Node `5d62641f` / Orbidocs
+`9690ac42` (ordinary run 02). It verifies eight unchanged legacy facts plus the
+barrier and two dedicated resume records, and a fresh S=0 case with eight dedicated
+facts unchanged across restart. Normal/-O loose/extracted results agree; 41 controls
+refuse per variant (164 refusals). The final implementation materializes verified
+envelopes directly from one non-repairing scanner; it never invokes generic repair
+for owned lifecycle reads. All 155 storage/Memarium and six Agent-adapter tests pass.
+See `node:docs/evidence/agent-runtime/2026-10-29-p026-012c-01-review/README.md`.
+P036's named cutover profile remains done; independent S028 failure/cost gates and
+later P026 audit/context work remain partial or open. Historical v1 is preserved,
+including its explicitly demonstrated verifier limitation.
+
+The subsequent S028 checkpoint at clean Node `6fc81f7d` / Orbidocs `050d8d58`
+renews the same named previous/current-daemon cutover profile and corrects the
+remaining post-append generic-reader call. Its independent public-API/cost cases
+are recorded in the [Node storage report](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+Native ENOSPC remains unqualified after image-mount refusal. P036-009/010/011 stay
+done only within their named cutover profile; S028-OS-003 and parent stage01 are
+not closed by this renewal.
+
+The later clean Node `4f8369ff` / Orbidocs `c85d213f` run 05 renews this same
+ordinary legacy/fresh restart and prior-binary refusal bridge with all 11 scoped
+S028 native/cost cases qualified. See the [retained closeout](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage/README.md).
+S028-OS-003 and P026-012c-01 are now done within the frozen local profile;
+P036-009/010/011 retain their named scope. General Personal forget remains logical,
+legacy facts remain protected, and later cross-owner audit-unit/dispatch/context
+retention is not implemented or qualified by this result.
+
+### Startup and source-retention limits (2026-10-29 review)
+
+Before upgrading, the operator must allow for the initial Personal discovery limit:
+1,000,000 records and 512 MiB, including facts unrelated to Agent. Exceeding it
+refuses the whole daemon's startup; isolated Agent degradation is not implemented.
+The selected Agent replay limit is shared across legacy and dedicated facts:
+100,000 wrappers / 256 MiB. The dedicated stream also has an independent encoded
+JSONL-envelope ceiling, which can refuse sooner because it includes framing.
+These are admission/recovery bounds, not retention or a supported pruning recipe.
+The protected legacy prefix currently fences relocation, archive and compaction
+of the entire Personal fact stream indefinitely. Stage01 has no release operation;
+a future replacement-source protocol must discharge this dependency explicitly.
+
+### Catalog-v3 review renewal (2026-10-29)
+
+The [v3 qualification](https://github.com/diapod/node/blob/main/docs/evidence/agent-runtime/2026-10-29-p026-012c-01-storage-v3/README.md)
+at Node `0ec8dbac` / Orbidocs `1b870593` renews the fresh/legacy ordinary-daemon
+restart and previous-binary refusal proof with S028 byte-anchor recovery and
+physical reclamation. Startup transfers the verified owner projection once to
+Agent load; subsequent explicit recovery rechecks it. The documented shared
+recovery ceilings, whole-daemon discovery refusal and permanent Personal fence
+remain unchanged. No context authority, retention saga or memory is restored.

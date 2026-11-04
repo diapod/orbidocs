@@ -409,3 +409,25 @@ recovering poisoned domain state. The writer reservation itself makes no hard
 filesystem-latency promise. Historical F02 traces/refusals remain unchanged; trace
 v4 distinguishes actual unlock from durable completion. This implementation
 boundary does not change source rights, the S028 fact authority or D7 status.
+
+### V4-prep review amendments (2026-11-01)
+
+The frozen 2026-10-30 profile remains historical. Follow-up review identified a
+same-source outbox stall after semantic refusal and a missing default-closed
+readiness check inside the isolated owner. Current amendments separate terminal
+refusals from CAS replan and capacity backoff, bind fixture readiness to the whole
+host context, reject future operator decisions, preserve the core protective
+policy and recover committed cache state in writer turns. Authenticated current
+observation can confirm an unchanged source after incarnation change; receipt
+recovery alone cannot. No active v1 or live D7 behavior is enabled.
+
+Source/operation indexes are finite epoch-lifetime budgets. V4s must qualify an
+explicit authorized epoch rollover, including draining obligations, protected
+historical inspection, archive verification and crash-safe joint host/service
+publication. Exhaustion cannot silently reset identity or drop live appeals.
+V4s also removes historical shadow composition/types and migration paths, alongside
+active v1 and legacy reconciliation. See
+`node:docs/development/RESPONSIBILITY-LIFECYCLE-CONTRACT.md#review-amendments-2026-11-01`.
+The new qualification profile is `responsibility.v4-prep.fresh-format.v2`; no
+new runtime/performance result is inferred from native regression tests. Broader
+tracker statuses and historical P018-12/13/14 closure remain unchanged.

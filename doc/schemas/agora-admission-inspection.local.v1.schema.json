@@ -1,0 +1,557 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-admission-inspection.local:v1",
+  "title": "agora-admission-inspection.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "inputs/digest",
+    "result/digest",
+    "evaluated_at",
+    "receipt/profile",
+    "record/authenticity",
+    "receipt/authenticity",
+    "historical/admission",
+    "current/status",
+    "basis",
+    "compromise",
+    "revocation/ordering",
+    "receipts",
+    "issuance",
+    "verification/signature-work"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-admission-inspection.local.v1"
+    },
+    "inputs/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "result/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "receipt/profile": {
+      "enum": [
+        "full-record",
+        "detached-manifest"
+      ]
+    },
+    "record/authenticity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "reason"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "verified",
+            "snapshot-missing",
+            "profile-missing",
+            "certificate-missing",
+            "author-bytes-missing",
+            "insufficient-claim",
+            "unsupported-time-policy",
+            "untrusted-witness",
+            "untrusted-issuer",
+            "signature-invalid",
+            "binding-mismatch",
+            "commit-budget-exceeded",
+            "time-invalid",
+            "revoked",
+            "status-stale",
+            "status-conflict",
+            "certificate-expired",
+            "witness-compromised",
+            "witness-retired",
+            "witness-equivocation",
+            "manifest-missing",
+            "manifest-invalid",
+            "interrupted",
+            "signing-window-closed",
+            "current-status-unknown",
+            "admission-conflict"
+          ]
+        }
+      }
+    },
+    "receipt/authenticity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "reason"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "verified",
+            "snapshot-missing",
+            "profile-missing",
+            "certificate-missing",
+            "author-bytes-missing",
+            "insufficient-claim",
+            "unsupported-time-policy",
+            "untrusted-witness",
+            "untrusted-issuer",
+            "signature-invalid",
+            "binding-mismatch",
+            "commit-budget-exceeded",
+            "time-invalid",
+            "revoked",
+            "status-stale",
+            "status-conflict",
+            "certificate-expired",
+            "witness-compromised",
+            "witness-retired",
+            "witness-equivocation",
+            "manifest-missing",
+            "manifest-invalid",
+            "interrupted",
+            "signing-window-closed",
+            "current-status-unknown",
+            "admission-conflict"
+          ]
+        }
+      }
+    },
+    "historical/admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "reason"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "verified",
+            "snapshot-missing",
+            "profile-missing",
+            "certificate-missing",
+            "author-bytes-missing",
+            "insufficient-claim",
+            "unsupported-time-policy",
+            "untrusted-witness",
+            "untrusted-issuer",
+            "signature-invalid",
+            "binding-mismatch",
+            "commit-budget-exceeded",
+            "time-invalid",
+            "revoked",
+            "status-stale",
+            "status-conflict",
+            "certificate-expired",
+            "witness-compromised",
+            "witness-retired",
+            "witness-equivocation",
+            "manifest-missing",
+            "manifest-invalid",
+            "interrupted",
+            "signing-window-closed",
+            "current-status-unknown",
+            "admission-conflict"
+          ]
+        }
+      }
+    },
+    "current/status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "reason"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "verified",
+            "snapshot-missing",
+            "profile-missing",
+            "certificate-missing",
+            "author-bytes-missing",
+            "insufficient-claim",
+            "unsupported-time-policy",
+            "untrusted-witness",
+            "untrusted-issuer",
+            "signature-invalid",
+            "binding-mismatch",
+            "commit-budget-exceeded",
+            "time-invalid",
+            "revoked",
+            "status-stale",
+            "status-conflict",
+            "certificate-expired",
+            "witness-compromised",
+            "witness-retired",
+            "witness-equivocation",
+            "manifest-missing",
+            "manifest-invalid",
+            "interrupted",
+            "signing-window-closed",
+            "current-status-unknown",
+            "admission-conflict"
+          ]
+        }
+      }
+    },
+    "basis": {
+      "const": "admission-snapshot"
+    },
+    "compromise": {
+      "const": "not-assessable"
+    },
+    "revocation/ordering": {
+      "enum": [
+        "before",
+        "after",
+        "unknown"
+      ]
+    },
+    "receipts": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "receipt/digest",
+          "record/authenticity",
+          "receipt/authenticity",
+          "historical/admission",
+          "current/status",
+          "revocation/ordering",
+          "witness/chain"
+        ],
+        "properties": {
+          "receipt/digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "revocation/ordering": {
+            "enum": [
+              "before",
+              "after",
+              "unknown"
+            ]
+          },
+          "record/authenticity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "reason"
+            ],
+            "properties": {
+              "state": {
+                "enum": [
+                  "valid",
+                  "invalid",
+                  "unknown"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  "verified",
+                  "snapshot-missing",
+                  "profile-missing",
+                  "certificate-missing",
+                  "author-bytes-missing",
+                  "insufficient-claim",
+                  "unsupported-time-policy",
+                  "untrusted-witness",
+                  "untrusted-issuer",
+                  "signature-invalid",
+                  "binding-mismatch",
+                  "commit-budget-exceeded",
+                  "time-invalid",
+                  "revoked",
+                  "status-stale",
+                  "status-conflict",
+                  "certificate-expired",
+                  "witness-compromised",
+                  "witness-retired",
+                  "witness-equivocation",
+                  "manifest-missing",
+                  "manifest-invalid",
+                  "interrupted",
+                  "signing-window-closed",
+                  "current-status-unknown",
+                  "admission-conflict"
+                ]
+              }
+            }
+          },
+          "receipt/authenticity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "reason"
+            ],
+            "properties": {
+              "state": {
+                "enum": [
+                  "valid",
+                  "invalid",
+                  "unknown"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  "verified",
+                  "snapshot-missing",
+                  "profile-missing",
+                  "certificate-missing",
+                  "author-bytes-missing",
+                  "insufficient-claim",
+                  "unsupported-time-policy",
+                  "untrusted-witness",
+                  "untrusted-issuer",
+                  "signature-invalid",
+                  "binding-mismatch",
+                  "commit-budget-exceeded",
+                  "time-invalid",
+                  "revoked",
+                  "status-stale",
+                  "status-conflict",
+                  "certificate-expired",
+                  "witness-compromised",
+                  "witness-retired",
+                  "witness-equivocation",
+                  "manifest-missing",
+                  "manifest-invalid",
+                  "interrupted",
+                  "signing-window-closed",
+                  "current-status-unknown",
+                  "admission-conflict"
+                ]
+              }
+            }
+          },
+          "historical/admission": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "reason"
+            ],
+            "properties": {
+              "state": {
+                "enum": [
+                  "valid",
+                  "invalid",
+                  "unknown"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  "verified",
+                  "snapshot-missing",
+                  "profile-missing",
+                  "certificate-missing",
+                  "author-bytes-missing",
+                  "insufficient-claim",
+                  "unsupported-time-policy",
+                  "untrusted-witness",
+                  "untrusted-issuer",
+                  "signature-invalid",
+                  "binding-mismatch",
+                  "commit-budget-exceeded",
+                  "time-invalid",
+                  "revoked",
+                  "status-stale",
+                  "status-conflict",
+                  "certificate-expired",
+                  "witness-compromised",
+                  "witness-retired",
+                  "witness-equivocation",
+                  "manifest-missing",
+                  "manifest-invalid",
+                  "interrupted",
+                  "signing-window-closed",
+                  "current-status-unknown",
+                  "admission-conflict"
+                ]
+              }
+            }
+          },
+          "current/status": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "state",
+              "reason"
+            ],
+            "properties": {
+              "state": {
+                "enum": [
+                  "valid",
+                  "invalid",
+                  "unknown"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  "verified",
+                  "snapshot-missing",
+                  "profile-missing",
+                  "certificate-missing",
+                  "author-bytes-missing",
+                  "insufficient-claim",
+                  "unsupported-time-policy",
+                  "untrusted-witness",
+                  "untrusted-issuer",
+                  "signature-invalid",
+                  "binding-mismatch",
+                  "commit-budget-exceeded",
+                  "time-invalid",
+                  "revoked",
+                  "status-stale",
+                  "status-conflict",
+                  "certificate-expired",
+                  "witness-compromised",
+                  "witness-retired",
+                  "witness-equivocation",
+                  "manifest-missing",
+                  "manifest-invalid",
+                  "interrupted",
+                  "signing-window-closed",
+                  "current-status-unknown",
+                  "admission-conflict"
+                ]
+              }
+            }
+          },
+          "witness/chain": {
+            "enum": [
+              "complete",
+              "incomplete",
+              "equivocated"
+            ]
+          }
+        }
+      }
+    },
+    "issuance": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "const": "pending"
+            },
+            "retry/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "const": "issued"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "reason"
+          ],
+          "properties": {
+            "state": {
+              "const": "refused"
+            },
+            "reason": {
+              "enum": [
+                "verified",
+                "snapshot-missing",
+                "profile-missing",
+                "certificate-missing",
+                "author-bytes-missing",
+                "insufficient-claim",
+                "unsupported-time-policy",
+                "untrusted-witness",
+                "untrusted-issuer",
+                "signature-invalid",
+                "binding-mismatch",
+                "commit-budget-exceeded",
+                "time-invalid",
+                "revoked",
+                "status-stale",
+                "status-conflict",
+                "certificate-expired",
+                "witness-compromised",
+                "witness-retired",
+                "witness-equivocation",
+                "manifest-missing",
+                "manifest-invalid",
+                "interrupted",
+                "signing-window-closed",
+                "current-status-unknown",
+                "admission-conflict"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "verification/signature-work": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32
+    }
+  }
+}

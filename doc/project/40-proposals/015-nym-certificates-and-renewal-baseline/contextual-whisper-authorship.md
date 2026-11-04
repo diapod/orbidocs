@@ -2081,3 +2081,20 @@ conclusions and an exact deletion inventory. Affected availability and loss of
 requalification must be explicit. The permission cannot promote an unfinished
 gate. Node's [bounded cleanup review](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-OWNED-CACHE-CLEANUP-2026-11-04.md)
 records removal of inactive Cargo cache only; campaign evidence remains intact.
+### Witnessed SQLite admission profile (2026-10-29)
+
+The new `whisper-source-profile.v2` selects
+`publication/sqlite-time-policy = witnessed-admission-receipt-v1`. It binds the
+receipt key-window and five-second commit budget, plus exact authorized signing
+use tuples. Version one remains unchanged and its SQLite time policy is
+unsupported by the portable admission consumer. Auxiliary manifest signatures
+have their own domain and do not grant publication. Receipt snapshot history
+establishes admission-relative status, not retroactive compromise time.
+
+P035-019 supplies this bounded input contract and receiving-side tuple matcher;
+it does not qualify the P015-005 issuer exchange. The existing decision-v1
+runtime cannot carry the extended certificate and explicitly returns
+`UnsupportedProfile` before issuer effects. A versioned issuance exchange is
+required before operators can obtain these grants through that runtime.
+Synthetic signed fixtures qualify the P035 producer and historical consumer,
+without claiming notice issuance or the complete P015-005 gate.

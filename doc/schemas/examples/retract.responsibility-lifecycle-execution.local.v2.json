@@ -1,0 +1,40 @@
+{
+  "schema": "responsibility-lifecycle-execution.local.v2",
+  "kind": "attempt",
+  "value": {
+    "context": {
+      "host": "fixture-host",
+      "incarnation": "fixture-incarnation",
+      "epoch": "fixture-dataset"
+    },
+    "operation": {
+      "epoch": "fixture-dataset",
+      "target": "fixture-source",
+      "authority": {
+        "command": "fixture-correct",
+        "digest": "sha256:fixture",
+        "actor": "fixture-actor",
+        "subject": "fixture-subject",
+        "case": {
+          "case": "A",
+          "decision": "D",
+          "effect": "E"
+        }
+      },
+      "request-revision": 2,
+      "action": {
+        "kind": "retract"
+      }
+    },
+    "expected-set": {
+      "id": "host-restriction-lifecycles",
+      "revision": 4,
+      "digest": "sha256:fixture-set"
+    },
+    "predecessor": {
+      "id": "fixture-source",
+      "revision": 4,
+      "digest": "sha256:fixture-source"
+    }
+  }
+}

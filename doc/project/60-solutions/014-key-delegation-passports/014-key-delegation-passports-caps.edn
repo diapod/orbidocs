@@ -165,7 +165,8 @@
   "Operator management HTTP surfaces"]
 
  :notes
- ["This solution catalog entry maps to the 014-key-delegation-passports coding guide and its daemon-side implementation."
+ ["P015-004 has independent pure qualification; LLR-006 is a separate post-MVP custody/anchor composition and does not close LLR-007/008/009. Context transitions remain LLR-010."
+  "This solution catalog entry maps to the 014-key-delegation-passports coding guide and its daemon-side implementation."
   "Statuses reflect the single-hop MVP path; multi-hop delegation chains remain explicitly guarded at `max_chain_depth > 0`."
   "The inline-verifier design keeps proxy-signed artifacts self-contained: consumers verify from the embedded proof without fetching the full delegation passport."
   "Delegation revocation reuses the existing `capability-passport-revocation.v1` feed and wire contract, carrying `target_id` for delegation-scoped revocations."]}

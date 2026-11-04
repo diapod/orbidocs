@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-embargo-manifest:v1",
+  "title": "whisper-embargo-manifest.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile/digest",
+    "certificate/digest",
+    "context/digest",
+    "epoch",
+    "nym/id",
+    "publication/context",
+    "case/continuity-key-digest",
+    "case/status-authority",
+    "case/not-after",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-embargo-manifest.v1"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "certificate/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "context/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nym/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180
+    },
+    "publication/context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record/kind",
+        "content/schema",
+        "topic/key",
+        "disclosure/scope",
+        "signing/use"
+      ],
+      "properties": {
+        "record/kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "content/schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "topic/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "disclosure/scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "signing/use": {
+          "enum": [
+            "publication",
+            "embargo-manifest"
+          ]
+        }
+      }
+    },
+    "case/continuity-key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "case/status-authority": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "case/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  }
+}

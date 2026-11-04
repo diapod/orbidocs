@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:memarium-admission-custody-request:local:v1",
+  "title": "memarium-admission-custody-request.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "command"
+  ],
+  "properties": {
+    "schema": {
+      "const": "memarium-admission-custody-request.local.v1"
+    },
+    "command": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "initialize"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "material"
+          ],
+          "properties": {
+            "operation": {
+              "const": "capture"
+            },
+            "material": {
+              "oneOf": [
+                {
+                  "$ref": "agora-admission-material.v1.schema.json"
+                },
+                {
+                  "$ref": "agora-admission-material.v2.schema.json"
+                }
+              ]
+            },
+            "private/author-bytes": {
+              "type": "string",
+              "maxLength": 87382,
+              "pattern": "^[A-Za-z0-9_-]*$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment"
+          ],
+          "properties": {
+            "operation": {
+              "const": "export"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment"
+          ],
+          "properties": {
+            "operation": {
+              "const": "inspect"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment",
+            "material"
+          ],
+          "properties": {
+            "operation": {
+              "const": "enrich"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "material": {
+              "oneOf": [
+                {
+                  "$ref": "agora-admission-material.v1.schema.json"
+                },
+                {
+                  "$ref": "agora-admission-material.v2.schema.json"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment"
+          ],
+          "properties": {
+            "operation": {
+              "const": "erase"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment",
+            "until"
+          ],
+          "properties": {
+            "operation": {
+              "const": "hold"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "until": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "sweep"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "replace-provider"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment"
+          ],
+          "properties": {
+            "operation": {
+              "const": "status"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "commitment"
+          ],
+          "properties": {
+            "operation": {
+              "const": "read-private"
+            },
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

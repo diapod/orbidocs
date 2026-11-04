@@ -17,6 +17,9 @@ AD `agora-default`. Directory admission/commit precedes publication intent;
 delivery failure must not undo that accepted fact. Reuse AD retries and expose
 pending/confirmed status without publishing raw rejected requests. Bootstrap,
 query, endpoint attestation and provider synchronization are not moved behind AD.
+The operator promoted P035-001–003 to mandatory Node hard-MVP completion
+conditions on 2026-11-04; this accepted-fact publication migration therefore blocks
+hard MVP and `alpha-node` until its contract, implementation and runtime gate close.
 
 ## Date
 

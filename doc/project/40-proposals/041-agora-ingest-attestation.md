@@ -689,4 +689,118 @@ not reopen counting windows.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P041-001 | Historical nym admission mode | todo | P035-019; P013-LLR-002 | The gate option, the predicate and the `historical_admission_unproven` refusal; the default stays strict. Fixtures: an expired certificate with a valid receipt is accepted only in the historical mode; altered bytes, an unknown time authority and revocation before admission refuse; the current policy still applies. |
+| P041-001 | Historical nym admission mode | done | P035-019; P013-LLR-002 | The gate option, the predicate and the `historical_admission_unproven` refusal; the default stays strict. Fixtures: an expired certificate with a valid receipt is accepted only in the historical mode; altered bytes, an unknown time authority and revocation before admission refuse; the current policy still applies. |
+
+## Historical admission decision refinement (2026-10-30)
+
+This accepted design supersedes the shorthand effective-revocation wording above;
+P041-001 passed the bounded independent gate recorded below. Reuse LLR-002
+facts, but evaluate a separate historical-ingest predicate. Witness trust is
+use-scoped (`inspection`, `historical-ingest`); legacy trust grants inspection only.
+
+| Historical evidence (record, receipt and history valid unless stated) | Decision |
+|---|---|
+| Revocation ordering `after` | Continue to current policy and presenter authorization; basis `revocation-interval`. |
+| `none-observed`, still inside epoch, usable Collection status with matching scope/minimum revision and `issued/at >= committed/at + profile skew` | Continue; basis `fresh-status`, binding the exact status digest. |
+| `none-observed` with verified epoch closure and final status without revocation | Continue; basis `epoch-closure`, binding closure and status digests. |
+| `before` | `revoked-before-admission`. |
+| Unknown required axis/order, missing closure after epoch end, stale or too-early status | `historical-admission-unproven`; retry only after evidence change. |
+| Invalid required axis or conflicting closure | Specific typed refusal. |
+| Detached receipt presented as full-record ingest | Refuse profile mismatch. |
+
+Resolve attached and local status through one verifier and cumulative cursor.
+Authentic newer local knowledge cannot be omitted by a presenter. Local observations
+are separate owner inputs, not additional slots in the presented three-status
+carrier. They have their own finite byte/count bounds and share the 32-signature
+work budget. A full valid carrier plus a newer local cursor is not itself a carrier
+limit violation. Invalid attached
+material never falls back to cache. A later proof of `before` records
+`post-admission-evidence: revoked-before-admission`; it does not silently delete
+the record. Any withdrawal is a separate current policy decision. An honest
+cumulative stream containing the post-commit no-revocation status cannot later
+prove ordinary `before`: antedating a higher revision or removing known entries
+is an issuer contradiction. That case records `issuer-status-conflict`, retains
+the authenticated proof under existing receipt holds, and preserves the historical
+row. These annotations are owner-write facts, never effects of GET inspection.
+A bounded carrier unable to include known contradictory evidence refuses with a
+material limit rather than silently omitting the contradiction.
+
+Use a distinct historical-ingest route/contract and a versioned host authorization
+request. The presenter comes from authenticated transport, not a JSON identity
+label. Require current topic-scoped `agora.historical.present`, disabled by default,
+and recheck current authority at use. The author's expired delegation proves no
+present authorization. Retain ordinary topic/content/disclosure gates.
+
+Historical publication is atomic and records `local/admission: historical-accepted`,
+original accepted/committed times, current decision time and revocation basis.
+It issues no local receipt. Live duplicates remain live and preserve foreign
+receipts without a new publication. Retention starts at original admission even
+at a new holder; tombstones and expired horizons refuse. Existing SSE/query views
+remain live-only; versioned historical views require opt-in. Current counters and
+P078 emission windows ignore historical publication.
+
+| Existing name | Canonical new-surface reason | Retry condition |
+|---|---|---|
+| `historical_admission_unproven` | `historical-admission-unproven` | evidence-change |
+| `nym_certificate_expired` | `certificate-expired` | new valid authorization material, never retrying unchanged bytes |
+
+Existing response contracts keep their established aliases; typed mappings own
+translation, not string-prefix matching. Presenter authorization has its own
+bounded proof budget, separate from P035 material verification.
+
+### Current host binding and exposure boundary
+
+This profile is **operator-presenter, v1**: the reference service authenticates
+the presenting Agora module through the host transport. The local client must also authenticate to that service; a client JSON
+field cannot select the presenter. In this profile the module presents under its
+own current topic-scoped grant. This does not implement remote-human identity
+forwarding or LLR-009 author continuity. An operator must deliberately enable the
+route and grant the service `agora.historical.present`; a historical author grant
+is never passed to that authorization operation. The operation and binding
+digest include `record/digest`, the digest of exact signed author bytes. The local
+acceptance fact separately records the authenticated HTTP client's token-derived
+principal (never the token). That audit principal supplies no host authority.
+Expiry of the five-second authorization interval is
+`historical-authorization-expired`, retry condition `new-attempt`, not a request
+for policy change.
+
+Historical rows use a separate local projection and per-topic historical sequence
+space. They never consume live-topic sequence numbers. Upgrade preserves existing
+historical sequence values and does not rewrite earlier live gaps. They have explicit versioned
+single-record readback and inspection, and never enter the legacy topic query,
+SSE stream or emission counters. An opt-in historical subscription is not part of
+this profile. Original admission and current local acceptance remain separate
+facts. The bounded implementation passed the independent qualification below.
+
+All supplied receipts must satisfy the historical predicate. A weak/unknown
+receipt refuses the entire presentation, even beside a stronger receipt; the
+presenter must construct a sufficient carrier rather than rely on best-receipt
+selection. Known local contradictions cannot be removed with a carrier edit.
+
+### Bounded acceptance, 2026-10-30
+
+P041-001 passed its independent gate at Node `db1153640f234cfa3e8c049e3e55ddbc5d93bc5f`
+and Orbidocs `d7a0eaaa3a5fb6e07ad4a849d994600842a6d938`. The joint run passed
+543 Rust component tests (one pre-existing ignored), four cold custody processes
+and five historical-store cases under measured OS network denial, separate
+HTTP/current-presenter checks, scoped Clippy and 14 qualifier mutations. Extracted
+replay and two-store retrieval agreed for bundle `8c2f6a078c6232997c0a66d365ad19119beedf2a2783b4ca106b258c52bfbd9c`.
+Evidence: `node:docs/evidence/portable-admission/2026-10-30-custody-qualified/README.md`; audit: `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
+V2 certificates remain synthetic; P015-005 certificate exchange, P036 parent
+tasks, LLR-009, remote-human presentation, external-backup erasure, simultaneous
+journal/provider rollback, media sanitization and release readiness remain separate.
+
+### Custody boundary requalification (2026-10-30)
+
+Boundary review requalification at clean Node febf8b33 / Orbidocs 6eb1f6b6 passed 593
+component tests, one existing ignored case, four cold custody consumers and six isolated
+historical cases, scoped Clippy and 16 mutation refusals. Extracted replay and
+both-store retrieval agree for bundle
+4c2dba4a43c2d6670f3c9397aa5164955d5b216931a96057f9932bc8f1a19600. Dedicated checkpoints,
+explicit provider replacement, current operator disclosure/private read, bounded local
+observations and independent historical sequences are covered. P036-005b full backup and
+publisher/key-destruction liveness remain separate. See
+`node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-REVIEW-2026-10-30.md`.
+
+The prior dated qualification remains unchanged. This follow-up preserves the
+bounded claim and does not close parent P036, P015-005 or LLR-009.

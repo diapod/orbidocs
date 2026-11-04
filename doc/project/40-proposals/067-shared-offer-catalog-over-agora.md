@@ -438,7 +438,10 @@ provider admission and queries remain unchanged. Withdrawal sequence/expiry and
 P090 offer bindings survive byte-for-byte; receipt of a snapshot by one relay
 does not prove all catalog projections have applied it. The integration gate
 must cover delayed/reordered snapshots and restart without resurrecting an offer.
-This is post-MVP transport consolidation, not a reopening of the completed catalog.
+On 2026-11-04 the operator promoted P035-001–003, including this publisher
+migration, to mandatory Node hard-MVP completion conditions and `alpha-node`
+blockers. The completed catalog baseline retains its historical scope; it does
+not establish completion of the AD migration.
 
 Current implementation evidence:
 

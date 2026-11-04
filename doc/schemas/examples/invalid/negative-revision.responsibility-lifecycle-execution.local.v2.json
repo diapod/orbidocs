@@ -1,0 +1,11 @@
+{
+  "schema": "responsibility-lifecycle-execution.local.v2",
+  "kind": "dataset",
+  "value": {
+    "revision": -1,
+    "sources": {},
+    "terminal": [],
+    "watermarks": {},
+    "completed": {}
+  }
+}
