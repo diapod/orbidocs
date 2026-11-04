@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-custody-policy:v1",
+  "title": "artifact-custody-policy.v1",
+  "description": "Complete inactive-by-default P091 policy declaration. The factory digest covers normative factory fields only; admission and current host ceilings are separate.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/084-sensorium-web-observation-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "enabled",
+    "factory-digest",
+    "limits"
+  ],
+  "properties": {
+    "schema": {
+      "const": "artifact-custody-policy.v1"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "factory-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default-seconds",
+        "max-seconds",
+        "object-bytes",
+        "total-bytes",
+        "active-claims",
+        "active-holds",
+        "parallel-writes",
+        "tombstone-seconds"
+      ],
+      "properties": {
+        "default-seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2592000
+        },
+        "max-seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2592000
+        },
+        "object-bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 67108864
+        },
+        "total-bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8589934592
+        },
+        "active-claims": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16384
+        },
+        "active-holds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "parallel-writes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "tombstone-seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7776000
+        }
+      }
+    }
+  }
+}

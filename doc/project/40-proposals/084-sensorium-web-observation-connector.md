@@ -606,7 +606,7 @@ diagnostic does not become an unbounded history or an artifact-discovery oracle.
 
 ### 8.1. Original web content for reviewed rumors {#web-original-custody}
 
-Adopted design extension, 2026-11-04; implementation is P084-014/015 (`todo`).
+Adopted design extension, 2026-11-04; implementation is P084-014/015 (`in-progress`).
 The metadata-first default above remains valid for ordinary web observation.
 A source explicitly selected for the original-backed Harvester publication
 profile must retain its original response body as well as its extracted
@@ -695,6 +695,10 @@ adoption is explicitly outside its acceptance gate.
 - Claim idempotency binds owner, purpose, snapshot and body digest; changed
   normative parameters refuse as `idempotency-conflict`. A replay never renews
   the original horizon. Default 24-hour custody starts at acquisition retain.
+  Exact results remain available through the finite claim tombstone. Afterwards
+  `idempotency-result-expired` refuses that consumed key. Its minimal hashed
+  use fact remains in the existing AD journal; full private claim metadata is
+  omitted from current projections after its horizon. This is not a new retain.
 - P091 admits a complete, digest-pinned inactive factory policy without field
   inheritance. Only normative factory fields enter its digest. Factory drift
   and a policy above current host ceilings are distinct refusals. Claims retain

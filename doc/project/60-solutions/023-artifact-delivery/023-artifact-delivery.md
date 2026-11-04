@@ -1896,6 +1896,20 @@ Status:
    Matrix mailbox remains the sealed control carrier for the pointer and token
    metadata.
 
+## Finite custody owner checkpoint (2026-11-04)
+
+[P084-014/015](../../40-proposals/084-sensorium-web-observation-connector.md#web-original-custody)
+adds a finite owner lifecycle alongside delivery. The pure state/release law lives
+in Node `artifact-delivery-core::custody`; `artifact-delivery::custody` owns S028
+facts in the existing ledger, reservations before payload staging, one-use host
+transfer consumption with claim commit, monotonic owner time, atomic mixed-claim
+holds and managed cleanup. Old objects retain monotonic legacy interest.
+`artifact-custody-policy.v1` is complete, inactive by default and bound to a P091
+resolution. See Node `artifact-delivery/src/custody/README.md` for the exact
+implementation boundary. This owner checkpoint does not qualify fetch/handoff,
+Harvester review, preview/sign or publication v3, and does not adopt production.
+The composed milestone and broader P084/P015 remain open.
+
 ## Next Actions
 
 1. Use profiling counters from operator/status snapshots to decide whether a
