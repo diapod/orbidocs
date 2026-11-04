@@ -1,6 +1,7 @@
 # Contextual Whisper authorship
 
-Status: accepted design; implementation and both runtime gates remain pending.
+Status: accepted phase-1 design; bounded Gate A/B qualified 2026-11-04.
+Historical checkpoints below keep their original results; broader scopes remain separate.
 Date: 2026-10-25.
 Based on: [P015](../015-nym-certificates-and-renewal-baseline.md),
 [P013](../013-whisper-social-signal-exchange.md), P081-021, S017 and S023.
@@ -17,10 +18,32 @@ Gate B qualifies real host/Vault authorship and contextual thresholds on SQLite
 and unmodified Synapse. Neither gate proves unique humans, an honest council,
 anonymous transport, federation, or complete Whisper readiness.
 
+## Measured closeout (2026-11-04)
+
+P015-001--003 and both bounded runtime gates are qualified: A30/30, B31/31,
+plus six separate C conformance obligations. Clean qualifier `edd7b895d` rechecks
+6,877 original source files and 5,351 observations. Loose, archive-extracted and
+fresh primary/secondary results are identical. The operator-only retained set
+has 6,369,295 B at XZ128MiB; compact path-free Git controls stay below64KiB.
+[Full result, source genealogy, receipts and exclusions](https://github.com/diapod/node/blob/master/docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md).
+
+This is a reviewed composition of exact original runtime/capture/verifier sources,
+not a new single-binary recapture. Council policy, AD admission, host consent,
+trusted publication time and eligibility remain distinct decisions. Real SQLite
+and pinned unmodified Synapse qualify ordinary confidence0.5 host/Vault/UI,
+source counts, status/expiry/reset, restart/replay, privacy and required full PDUs.
+Matrix runtime uses `authenticated-admitted-homeserver-v1`; full-PDU verification
+is acceptance evidence, not a portable runtime time proof. The owner-selected
+image-backup fixture opt-in does not extend controlled-copy erasure to retained
+keystore/image backups. Optional stay-ready runtime, P015-004/005, P081's other
+consumers, Anon, federation, full Whisper/global Agora and release readiness are
+excluded. No large evidence withdrawal was performed. Unknown hold/dependency/
+minimum-retention coverage remains protected. Historical refusals are unchanged.
+
 ## Context and problem
 
-The existing certificate verifier and historical acceptance nym signer do not
-provide an ordinary participant's issuance, signing and renewal path. Transport
+Before this slice, the certificate verifier and historical acceptance nym signer
+did not provide an ordinary participant's issuance, signing and renewal path. Transport
 admission, certification policy, permission to sign and eligibility to count are
 four different decisions. The optional issuer service owns policy and decisions;
 the host owns private nym keys; AD owns delivery of already encrypted bytes.
@@ -556,11 +579,11 @@ availability and metadata-concentration limitation of Phase 1.
 
 ## Open questions
 
-No policy question blocks the accepted profile. Runtime adapter support, maximum
-key population, issue latency and evidence size remain measured implementation
-gates, not assumptions of completion.
+No policy question blocks the accepted profile. The bounded adapter, capacity,
+lifecycle and evidence-size gates have measured scope in the closeout above;
+new workloads/profiles still require their own measurements.
 
-## Next actions and acceptance
+## Acceptance contract
 
 1. Freeze schema/DTO parity, negative fixtures and shared JCS golden vectors.
 2. Qualify Gate A: issue, lazy renew, reject, private reset, readback, duplicates,

@@ -24,6 +24,26 @@ requalifies identically. Evidence:
 This does not qualify all Whisper/issuance flows, elevate signal epistemic status,
 prove homeserver federation or imply independent backups/production readiness.
 
+## Certified contextual authorship
+
+The accepted P015 phase-1 profile has a separately qualified 2026-11-04 path:
+local Vault nym, recipient-encrypted AD/INAC certification, protected host review/
+signing, no-JS UI and contextual signals/thresholds on SQLite and admitted
+Synapse. It counts council-admitted participant sources, not nyms or source
+nodes. Ordinary confidence0.5 publication, status/expiry/reset, trusted late time,
+privacy, restart/replay and full-PDU acceptance are covered by A30/B31 plus six
+separate conformance obligations. Exact loose/extracted and fresh primary/
+secondary qualification results match. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
+
+This is a bounded source-specific composition with operator-only payload; it does
+not renew the historical node-counting M4 scope. Host/Vault owns keys and signing,
+the optional issuer owns policy, AD owns ciphertext delivery, Agora owns immutable
+admission facts, and the contextual evaluator owns current eligibility and the
+first-emission latch. Matrix time trusts the authenticated admitted homeserver;
+PDU signatures/hashes/size are checked in acceptance. Optional stay-ready runtime,
+other P015/P081 consumers, rooms/opt-in, Anon, LLR/ADC, federation and global/release
+readiness remain outside this qualification. Component status remains partial.
+
 Threshold and association artifacts are public meta-signals, not public gossip.
 `whisper-threshold-reached.v1` states that an issuer or projection observed a
 policy-defined correlation. `association-room-proposal.v1` states that there is a

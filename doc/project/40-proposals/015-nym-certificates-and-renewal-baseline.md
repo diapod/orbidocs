@@ -581,35 +581,23 @@ bound applicant-to-nym mappings in logs, ledgers, status and retained artifacts.
 ### Delivery Integration Tracker
 
 These rows track the contextual continuation separately from the existing P081
-verification adapter. The 2026-10-25 schema, pure-verifier and erasable custody
-foundation does not qualify issuer/applicant runtime or either acceptance gate.
-The optional Node issuer foundation now includes ciphertext-only phase preparation,
-metadata-only offer bootstrap, key custody, encrypted-image preflight and the
-context-scoped decision/status lifecycle. Its ordinary applicant and issuer host
-adapters and closed local API contracts are being integrated on the authorship
-branch. Software conformance does not qualify the two-daemon AD/INAC path: actual
-issue/renew/reject/reset, host signing, cleanup, restart and replay still require
-Gate A/B runtime evidence. Partial Node diagnostics recorded on 2026-10-30 now
-observe real private AD issue, source-preserving renewal, private reset activation
-waiting and ordinary protected host signing. Explicitly authenticated HTTP UI
-readback and independent signature inspections remain narrow observations: the
-complete lifecycle/refusal, erasure, aggregate, SQLite/Synapse and retained-replica
-gates are still open. See `node:docs/MVP.md` and the current authorship runner at
-`node:tools/acceptance/whisper-authorship/README.md`; these prefixes do not change
-the partial tracker states below. A subsequent clean Node continuation observes
-actual SQLite/Synapse source-journal/replay, stable expiry, renewal/reset basis
-`2 -> 1 -> 2`, held AD reply recovery and bounded old-ciphertext erasure checks.
-Those are private prefixes with original refusals, not the complete authority,
-uniqueness, erasure/privacy matrix or qualified two-store evidence. Both formal
-gates remain open. The new public v2 content contracts do not renew the
-historical node-counting M4 qualification. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
-implementation evidence exists.
+verification adapter. **Closed 2026-11-04 for the bounded phase-1 profile**:
+ordinary complete qualification covers A30/30, B31/31 and six separate C
+conformance obligations, with exact loose/extracted and fresh two-store results.
+The private AD/INAC lifecycle, protected host/Vault/UI, SQLite and admitted
+Synapse paths are a reviewed composition of original source-specific captures;
+no all-new single-binary recapture is claimed. The audited payload remains
+operator-only and Git contains path-free controls. Evidence and precise limits:
+`node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
+Optional stay-ready runtime, P015-004/005, other P081 consumers, global Whisper/
+Agora and release readiness remain separate. The dated checkpoints below retain
+their original partial/refused results; they are historical, not current status.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-001 | Freeze private issuance/renewal exchange binding | partial | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
-| P015-002 | Wire issuer and applicant acceptors | partial | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
-| P015-003 | Prove two-node issue/renew/reject recovery | partial | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
+| P015-001 | Freeze private issuance/renewal exchange binding | done | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
+| P015-002 | Wire issuer and applicant acceptors | done | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
+| P015-003 | Prove two-node issue/renew/reject recovery | done | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
 
 
 Checkpoint 2026-11-02: ordinary protected AD issue, real-expiry lazy renewal and

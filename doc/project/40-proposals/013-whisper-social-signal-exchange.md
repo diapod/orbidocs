@@ -1072,8 +1072,13 @@ The accepted [P015 contextual profile](015-nym-certificates-and-renewal-baseline
 introduces v2 signals and aggregate threshold/proposal artifacts. It counts
 council-admitted participant sources within one rumor context and epoch, with
 no fallback to a source node, author string or record/about. This is a new
-qualification; historical node-counting M4 results remain unchanged. Runtime
-Gate A (certification) and Gate B (ordinary host authoring) remain pending.
+qualification; historical node-counting M4 results remain unchanged. On
+2026-11-04 the bounded phase-1 Gate A (certification) and Gate B (ordinary host
+and UI authorship on SQLite/admitted Synapse) pass A30/30, B31/31 and six separate
+C conformance obligations, with identical loose/extracted/fresh two-store reads.
+The source-specific composition and operator-only custody are recorded in
+`node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
+Optional stay-ready, LLR/ADC, Anon, full Whisper and release readiness are separate.
 
 ## Dormant-Fact Resonance (2026-10-27)
 
