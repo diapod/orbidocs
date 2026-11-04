@@ -675,6 +675,62 @@ release, expiry with Scheduler
 stopped, lost replies/restart between custody steps and unavailable originals.
 No live website, crawler, model or new transport is needed for that gate.
 
+### 8.2. Custody and origin implementation contract (2026-11-04)
+
+Status: accepted implementation contract; P084-014/015 are in progress, not
+qualified. P013-WEB-001/002 and P078-015/016 share this milestone. Production
+adoption is explicitly outside its acceptance gate.
+
+- The owner is Artifact Delivery: pure transitions in `artifact-delivery-core`,
+  durable claim/transfer/hold facts in its existing ledger and S028 journal;
+  the daemon authenticates and wires ports. No Harvester blob store is added.
+- A durable reservation (claim key, digest, size) precedes staging. File and
+  parent-directory synchronization precede claim commit and its receipt.
+  Recovery completes or releases an interrupted reservation; its files never
+  become `legacy-unclaimed`. Legacy interest is monotonic until explicit
+  operator release. GC considers only managed history and all active interests.
+- Retain v2 consumes either bounded inline bytes or an exact, single-use host
+  transfer binding. The AD transaction consumes that binding with the claim.
+  A transfer is a byte source, not custody evidence. Extraction reads are separate.
+- Claim idempotency binds owner, purpose, snapshot and body digest; changed
+  normative parameters refuse as `idempotency-conflict`. A replay never renews
+  the original horizon. Default 24-hour custody starts at acquisition retain.
+- P091 admits a complete, digest-pinned inactive factory policy without field
+  inheritance. Only normative factory fields enter its digest. Factory drift
+  and a policy above current host ceilings are distinct refusals. Claims retain
+  their original terms and `resolution/id` policy reference.
+- The owner persists its time high-water mark before deadline decisions. A
+  regressed clock cannot revive claims; new timed effects refuse. Expiry is
+  enforced without Scheduler. Extending a claim requires explicit pre-expiry
+  admission; an expired web input requires a new observation and review.
+- Preview refuses when any required claim ends before document validity. It
+  never shortens public validity to a private custody deadline. Sign atomically
+  holds all required claims until preview expiry (at most 900 seconds), keyed
+  by preview digest and claim id. A retry reuses those holds. The prepared
+  check token stays within the daemon process and cannot be deserialized.
+- P084's existing source journal and BDO own the two-custody handoff. Neither
+  `304`, restart nor review performs an implicit fetch or retention renewal.
+
+| Effect | Recovery class | Commit / recovery boundary |
+|---|---|---|
+| Claim reservation/retain | transactional-withheld | Durable reservation; synchronized payload before claim receipt; reconcile exact intent |
+| Release/expiry | compensatable metadata; irreversible payload erasure | Durable deletion intent and tombstone, then idempotent owner cleanup |
+| Publication | irreversible-external | First admitted publication within document validity; signature alone is an artifact |
+
+The reviewed Harvester path produces v3 for web, mixed and non-web findings.
+The receiver law supports every existing source class. The bounded dual-v2/v3
+profile spans exactly one epoch aligned to its anchor (at most seven days in
+production). End-of-window refusal applies to every producer. Fixture acceptance
+covers the whole window. Production adoption separately requires ready receiver
+inventory and accepted exclusion of other receivers, plus a feasible remaining
+producer migration or explicit publication-outage acceptance. A profile change
+changes context/source identity; cross-profile case succession is unsupported.
+
+Evidence uses this milestone's operator-only development profile. Keep private
+originals/canaries out of Git, record path-free inventory and actual results,
+and review retention by concrete technical purpose, without a fixed minimum.
+Historical P084 and P015 qualifications remain pinned and unchanged.
+
 ### 9. Sensorium Interface projection
 
 The connector-specific source-provider adapter registers through P082's open,
@@ -1428,8 +1484,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P084-012b | Explicit web finding redaction to optional local Whisper draft | done | Immutable digest-bound operator decision, explicit draft intent, atomic fact/projection persistence; deterministic daemon HTTP/restart, refusal and canary acceptance recorded in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`. Broader integration remains partial. |
 | P084-012c | Operator UI over admitted web finding review | done | Bounded operator queue, explicit redaction/draft forms, auth/CSRF, safe failures, real UI/daemon replay/restart, zero extra acquisition/delivery and no escaped canaries; evidence in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`. |
 | P084-013 | Define and implement the separate credential-bound authenticated-source profile | deferred | Starts only after static public-web acceptance; host-owned secret use is fail-closed and no credential, cookie, authenticated handle, or secret-bearing diagnostic reaches consumer-visible or durable evidence. |
-| P084-014 | Retain exact original web bodies under an explicit finite custody contract | todo | Freeze and implement [original custody](#web-original-custody) using existing fetch bytes, AD retain/owner lifecycle, P081 receipts, S028 facts and P091 policy. Cover inline and artifact paths, source-generation binding, original/representation claim ordering, finite horizons and shared-reference-safe release. No new blob store; no promotion from a transient transfer ref. |
-| P084-015 | Qualify original custody and Harvester handoff offline | todo | Depends on P084-014 and P078-015. Run the byte, quota, expiry, sharing, lost-reply/restart and missing-original cases in the existing Sensorium Web/Harvester harness; prove zero implicit refetch and zero raw-body/secret leakage to drafts or public views. Record separate current evidence and update owning Solutions/Node ledger at implementation closeout; historical 012a/b/c qualifications remain unchanged. |
+| P084-014 | Retain exact original web bodies under an explicit finite custody contract | in-progress | Freeze and implement [original custody](#web-original-custody) using existing fetch bytes, AD retain/owner lifecycle, P081 receipts, S028 facts and P091 policy. Cover inline and artifact paths, source-generation binding, original/representation claim ordering, finite horizons and shared-reference-safe release. No new blob store; no promotion from a transient transfer ref. |
+| P084-015 | Qualify original custody and Harvester handoff offline | in-progress | Depends on P084-014 and P078-015. Run the byte, quota, expiry, sharing, lost-reply/restart and missing-original cases in the existing Sensorium Web/Harvester harness; prove zero implicit refetch and zero raw-body/secret leakage to drafts or public views. Record separate current evidence and update owning Solutions/Node ledger at implementation closeout; historical 012a/b/c qualifications remain unchanged. |
 
 ### Single-URL operator acceptance (2026-09-08)
 
