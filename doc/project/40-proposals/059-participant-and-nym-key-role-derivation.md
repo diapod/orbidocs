@@ -334,6 +334,17 @@ and `supersedes` lineage. Import accepts only a higher version that supersedes
 the current latest local snapshot. Older snapshots are rejected as rollback;
 parallel higher-version snapshots are rejected as conflicts.
 
+A newly exported participant recovery bundle carries the latest cumulative vault
+snapshot, rather than every superseded snapshot. That latest snapshot retains
+all current private entries, seeds and their statuses; export does not remove
+local snapshot history. A missing current pointer with surviving history refuses;
+export never substitutes an older snapshot or an empty payload. An empty target
+can restore it without predecessor snapshots. Import into an existing target keeps the same rollback and immediate
+supersession checks: a recovery bundle is not permission to replace a conflicting
+lineage or skip those checks. It is a recovery snapshot, not a snapshot-history
+archive. This selection applies equally to both sealed recovery profiles and
+changes neither the public vault schema nor its cryptographic framing.
+
 The remote store must see only technical metadata needed for retrieval and
 rollback detection, for example:
 
