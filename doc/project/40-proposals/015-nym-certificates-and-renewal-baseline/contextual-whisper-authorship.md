@@ -1840,3 +1840,28 @@ qualification are still required. Optional stay-ready effects remain not-enabled
 P015-001--003 and both full gates remain partial. No full software, transport,
 global Whisper or release qualification is renewed. See
 `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#actual-late-first-sqlite-reception-2026-11-04`.
+
+
+### Actual late Matrix reception (2026-11-04)
+
+Clean Nodebf607f06 composition727 freshly verifies **59/67** obligations
+(A30/30, B23/31 and six conformance),137 native calls and9,710 logical reads/
+412,471,376 bytes. Result SHA-256:
+`f75c33d9ce748abecae8c40458a897dd2ca1871db2c363ad2a1050399473dc15`.
+Ordinary AD/protected host721 and confidence0.5 publication reach actual Synapse;
+controlled503 sync/history refusal delays first C reception until after real
+certificate expiry plus5s, before epoch end. Separate read-only observer723 and
+complete9,317B room-v10 PDU724 bind exact author bytes, authenticated publication
+time and original source/nonce to independently verified hashes/signature/size.
+The controlled fault is not a homeserver failure; this is host/API authoring,
+not another UI case. PDU verification is acceptance-only and adds no runtime
+PDU verifier, portable time or federation guarantee.
+
+All372 profile conformance tests and scoped source/light checks pass. Eight B
+predicates remain: collection/emission freshness, public privacy, retired
+acceptance environment and UI refusals on each backend. Final current-candidate
+qualification and identical loose/extracted/fresh two-store retention remain
+pending. Optional stay-ready effects remain not-enabled. Neither full gate,
+P015-001--003, full Whisper/global Agora nor release readiness is promoted.
+Original refusals and earlier source/software scopes stay unchanged. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#actual-late-matrix-reception-2026-11-04`.

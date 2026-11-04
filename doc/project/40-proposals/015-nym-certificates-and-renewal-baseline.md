@@ -895,3 +895,11 @@ expiry plus skew with the original signed publication time. Nine B predicates,
 final current-candidate cohort and two-store retained qualification remain open.
 P015-001--003 and both complete gates stay partial. See the
 [contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#actual-late-first-sqlite-reception-2026-11-04).
+
+
+2026-11-04 later Matrix receipt checkpoint: clean Nodebf607f06 composition727
+verifies59/67 obligations. Actual late first reception is now covered on SQLite
+and Matrix, with exact original bytes and full Matrix PDU acceptance. Eight B
+predicates, final current-candidate cohort and two-store qualification remain open;
+P015-001--003 and both complete gates stay partial. See the
+[contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#actual-late-matrix-reception-2026-11-04).
