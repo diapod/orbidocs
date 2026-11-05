@@ -447,6 +447,20 @@ are recorded in the Node re-use index. PEX sealing extraction remains deferred
 until a second real ADC-005 adapter exists; this source installation is another
 consumer of the existing case adapter, not that second semantic family.
 
+The protected node-audience opener now binds the delivered AD family, role,
+handle, exact interval and recipient before the P037 key call. After decryption
+it checks canonical closed presentation structure and profile/family agreement.
+It grants no membership or action. The installed command port and audience port
+reuse one protected node-self agreement mechanism with separate principal rules;
+local recipient rotation is dependency loss, not case-authority equivocation.
+A real P035/P037 component composition reaches durable CaseKnowledge in all four
+full/detached × carried/referenced variants. Restart re-evaluates current input;
+a still-decryptable carrier cannot replay an expired permission. Daemon recipient
+adoption, protected nym custody, actual AD audience handoff and cold isolated
+qualification remain pending; no gate closes from this adapter composition.
+The re-use review retained separate domain owners and deferred sealing extraction
+until the already declared second real ADC-005 adapter.
+
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
 consumer decisions; AD owns transport custody and retry. PEX owns no durable state.
