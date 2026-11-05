@@ -82,6 +82,31 @@ If verified `Before` evidence causes registration refusal, that refusal still
 commits the negative observation and its proofs, including at first admission.
 Later presentation of older positive material cannot undo this knowledge.
 
+### Recipient continuation decision
+
+The recipient supplies its own saved exact source-status proof to presentation
+verification. It commits high-water knowledge, scoped source conflicts, proof holds
+and the final continue-case decision together. The local closed projection
+`whisper-case-continuation-decision.local.v1` keeps case and source currency as
+separate axes; an allowed result requires both. This point-in-time decision grants
+no publication right and never merges source identities or counting units.
+
+Original independently admitted registration completeness is not renewed on each
+use. Current policy still applies; later Before evidence remains terminal. A pair
+of incompatible signed revision-zero events is durable authority conflict. P015
+source equivocation instead stays scoped to that status stream and retains its
+exact proof pair; it does not manufacture a conflict of the case authority.
+
+A future signed source status can establish high-water knowledge, but no positive
+source result exists before its issued/at. The recipient checks its owned time and
+fence after persistence and withholds an expired positive decision. The effective
+case deadline includes any already known shorter same-issue lease. An effect owner
+rechecks time/fencing at execution; stored positive decisions are not permission
+caches. First source revocation/conflict has reserved negative-write capacity. A later
+negative-proof capacity failure records a bounded local suspension; subsequent use
+requires retaining the exact pending evidence. This is a dependency failure, not
+an authority or issuer assertion, and older input cannot clear it.
+
 ### Saved results and audience reads
 
 The closed `whisper-case-result.v1` reports one accepted signed acceptance or a

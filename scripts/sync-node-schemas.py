@@ -13,6 +13,7 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
+    "whisper-case-continuation-decision.local.v1.schema.json",
     "nym-exchange-key-request.v1.schema.json",
     "nym-bootstrap-recipient.v1.schema.json",
     "nym-key-request-sealed.v1.schema.json",
@@ -786,6 +787,7 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "whisper-case-continuation-decision.local.v1.json",
     "artifact-delivery-relay-header.v1.json",
     "whisper-case-status-request.v1.json",
     "whisper-case-result.v1.json",
@@ -1436,6 +1438,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "unknown-field.whisper-case-continuation-decision.local.v1.json",
     "unknown-field.artifact-delivery-relay-header.v1.json",
     "unknown-field.whisper-case-status-request.v1.json",
     "unknown-field.whisper-case-result.v1.json",
