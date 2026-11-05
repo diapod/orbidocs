@@ -304,6 +304,17 @@ material refuses without reserving an id. Saved replay never repeats historical
 verification, signing or sealing. Initial admission and current local negative
 knowledge remain separate owner decisions.
 
+The destination adapter binds the admitted delivered AD header to the PEX family,
+random handle, exact interval and recipient before dispatching native command
+bytes. It receives no origin peer identity. Request/response associations are one
+closed profile table used by both source and destination. The deterministic return
+packet is prepared only from the authority owner's committed token: result bodies
+bind the exact native control digest; status bodies bind the case. Its lease is
+bounded by the stored inner ciphertext and original request, without resealing or
+extending either. Header framing establishes no native authorization or current
+AD policy by itself. Authenticated host installation and retained qualification
+remain separate from this source component composition.
+
 #### Source workflow and requester-key lifetime
 
 The S026 workflow commits an exchange-scoped random requester key and independent
