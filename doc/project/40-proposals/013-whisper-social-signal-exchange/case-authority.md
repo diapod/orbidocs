@@ -254,6 +254,56 @@ and performs no handoff; an owner persists its exact prepared ciphertext before 
 Its component tests do not qualify a concrete relay, host admission or Gate D.
 
 
+#### Portable registration input binding
+
+Registration request and revision-zero acceptance `inputs/digest` equal the
+immutable anchor-identity defined above. The exact P035 receipt commits author,
+certificate, profile and admission-snapshot bindings. This input identity excludes
+evaluator trust, first-seen/provenance and later completeness observations; source,
+authority and recipient may independently admit different trust inventories.
+
+The authority separately retains its basis-evaluation digest and exact proof
+references, which include the actual local completeness, trust and observations
+used for its decision. Signed AnchorBasis remains the admitted authority's claim;
+a consumer choosing independent evaluation applies its own evidence and trust.
+Later valid Before evidence remains terminal regardless of unchanged portable
+anchor identity. This correction affects the unreleased LLR foundation only;
+frozen P035/P015 evidence and earlier source pins are not rewritten.
+
+#### Authority command carrier
+
+`whisper-case-command.v1` is the closed authority-input carrier for
+case-registration, case-request (succession), and case-status-request. It binds
+the family, signed-byte case anchor, random exchange handle, raw canonical
+base64url X25519 response public key, one exact base64url native control and
+carried digest-addressed evidence roles. It contains no route, peer, sender-node
+identity, URL or acquisition reference. The destination independently admits its
+own authority/trust policy; neither encryption nor a carried key grants authority.
+The native status-read signature also binds the exact raw response-key digest.
+
+The evidence roles reuse the presentation's exact-byte role limits and resolution
+mechanics, with separate command completeness: registration needs full record or
+manifest, receipt, anchor certificate, profile and status. Succession carries only
+the profile, successor certificate and acceptance-time status; the authority uses
+its originally admitted fenced anchor claims, without reevaluating registration.
+Closures are optional registration conflict/completeness evidence. A status read carries no evidence. All supplied
+items are checked; a bad attachment is never hidden by another copy. Command
+resolution has no local-store or network fallback. Detached supplements remain
+separate LLR roles, without widening frozen P035 detached material.
+
+The maximum decoded command is 1684 KiB, derived from shared role maxima plus
+8 KiB control and 32 KiB metadata. The carrier ceiling remains 4 MiB (status reads
+retain their 4 KiB family ceiling); the shared complete-evaluation limit remains
+2740 KiB/32 signatures, including independent local observations. Base64 and
+packet/seal framing retain their own bounds. These are structural ceilings, not a
+claim that contradictory closures or incomplete evidence are admissible.
+
+A previously committed result may replay from possession of the exact native
+request control before expired proofs are resolved. A new command without complete
+material refuses without reserving an id. Saved replay never repeats historical
+verification, signing or sealing. Initial admission and current local negative
+knowledge remain separate owner decisions.
+
 #### Source workflow and requester-key lifetime
 
 The S026 workflow commits an exchange-scoped random requester key and independent

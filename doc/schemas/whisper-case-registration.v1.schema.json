@@ -70,7 +70,8 @@
     "inputs/digest": {
       "type": "string",
       "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
-      "maxLength": 50
+      "maxLength": 50,
+      "description": "Immutable anchor identity from exact signed P035 receipt/author bindings; excludes evaluator trust, provenance and later completeness observations. The authority retains its local evaluation digest separately."
     },
     "signature": {
       "type": "string",

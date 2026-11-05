@@ -15,7 +15,7 @@ Source schema: [`doc/schemas/whisper-case-registration.v1.schema.json`](../../sc
 | [`issued/at`](#field-issued-at) | `yes` | string |  |
 | [`not-after`](#field-not-after) | `yes` | string |  |
 | [`audience`](#field-audience) | `yes` | array |  |
-| [`inputs/digest`](#field-inputs-digest) | `yes` | string |  |
+| [`inputs/digest`](#field-inputs-digest) | `yes` | string | Immutable anchor identity from exact signed P035 receipt/author bindings; excludes evaluator trust, provenance and later completeness observations. The authority retains its local evaluation digest separately. |
 | [`signature`](#field-signature) | `yes` | string |  |
 ## Field Semantics
 
@@ -78,6 +78,8 @@ Source schema: [`doc/schemas/whisper-case-registration.v1.schema.json`](../../sc
 
 - Required: `yes`
 - Shape: string
+
+Immutable anchor identity from exact signed P035 receipt/author bindings; excludes evaluator trust, provenance and later completeness observations. The authority retains its local evaluation digest separately.
 
 <a id="field-signature"></a>
 ## `signature`

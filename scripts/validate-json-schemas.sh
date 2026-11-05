@@ -30,6 +30,7 @@ choose_validator() {
 schema_for_file() {
   case "$1" in
     *artifact-delivery-relay-header.v1.json) echo "$SCHEMAS_DIR/artifact-delivery-relay-header.v1.schema.json" ;;
+    *whisper-case-command.v1.json) echo "$SCHEMAS_DIR/whisper-case-command.v1.schema.json" ;;
     *whisper-case-registration.v1.json) echo "$SCHEMAS_DIR/whisper-case-registration.v1.schema.json" ;;
     *whisper-case-acceptance.v1.json) echo "$SCHEMAS_DIR/whisper-case-acceptance.v1.schema.json" ;;
     *whisper-case-status.v1.json) echo "$SCHEMAS_DIR/whisper-case-status.v1.schema.json" ;;
