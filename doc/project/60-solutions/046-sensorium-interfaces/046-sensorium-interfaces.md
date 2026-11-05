@@ -1525,3 +1525,11 @@ nor grants raw-original reads or Whisper publication. An original read is a
 separate classified local operator admission. This continuation retains the
 historical P082/P084 carrier qualifications and requires new scoped privacy
 evidence for the custody/origin milestone.
+
+
+The new composed local handoff qualification independently exercises refusal
+before read grant, success, refusal after the actual grant is revoked and a
+positive duplicate read after regrant. This is local authorization evidence;
+new-profile direct-peer/Room and signed/gossip privacy obligations remain open
+in the separate campaign matrix. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.

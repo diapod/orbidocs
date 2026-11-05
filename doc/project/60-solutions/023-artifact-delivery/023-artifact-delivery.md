@@ -1996,3 +1996,11 @@ remain monotonic and do not satisfy this stronger profile. See the Node
 `artifact-delivery/src/custody/README.md` and `daemon/docs/HARVESTER-REVIEW.md`
 for current implementation boundaries. The composed quota, fault, privacy and
 publication qualification remains open.
+
+
+A separately qualified deterministic process run now binds both original and
+representation claims, their immutable retain results and unchanged terms after
+restart to the exact Harvester review. This supplies scoped custody/replay
+evidence, without native ENOSPC, quota or publication-hold qualification. The
+separate campaign gate reports the missing obligations explicitly. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.

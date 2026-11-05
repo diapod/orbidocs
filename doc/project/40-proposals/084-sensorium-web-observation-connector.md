@@ -1630,9 +1630,25 @@ refusals preserved. The Node record is
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPONENT-PREFLIGHT-20261105.md`.
 Neither component conformance nor fixture preparation supplies fresh complete
 A/B, native APFS/ENOSPC, window-end publication or rollout qualification.
-P084-014/015 remain in progress; the complete new campaign matrix/qualifier is
-still open. These measured results do not change the accepted contract or the
-production-adoption conditions.
+P084-014/015 remain in progress. At that checkpoint the complete new campaign
+matrix/qualifier was still open. These measured results do not change the
+accepted contract or the production-adoption conditions.
+
+
+### Composed review and independent campaign inventory (2026-11-05)
+
+A separate APFS-image-independent continuation now qualifies one deterministic
+fetch, two finite claims, independent read grant/revocation/regrant, mixed
+web/document review and actual restart with exact replay and no refetch. This
+ends at an unpublished local draft. The separately adopted P084 v3 campaign
+reader freezes 131 mandatory obligations, freshly verifies seven composed and
+six component obligations, and explicitly leaves 118 missing. Ordinary and
+optimized inspection agree. Missing signed/native/carrier cases still block the
+full milestone; additional runtime predicates remain owned work rather than
+claims inferred from component tests. No production adoption or historical
+qualification is renewed. P084-014/015 remain in progress. Source pins, original
+refusals, retention review and measured limits live in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
 
 ## Next Actions
 

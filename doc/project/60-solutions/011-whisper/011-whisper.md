@@ -570,3 +570,10 @@ and feasible migration or accepted publication downtime remain rollout condition
 Public gossip preserves exact per-record origin declarations and lineage coverage
 under P013's versioned projector. This continuation is implemented in stages and
 not yet qualified as a composed runtime milestone.
+
+
+The separate composed-review qualification ends before protected authoring:
+one local draft and exact restart/replay are verified, while fresh signed Gate
+A/B and the full v3 window remain open. The independent P084 campaign gate keeps
+those obligations missing. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.

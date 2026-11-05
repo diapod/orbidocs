@@ -849,3 +849,10 @@ Harvester owns subsequent common review and Whisper owns publication. This
 continuation does not enable browser/crawl, authenticated sources or model use.
 Current implementation and component tests are distinct from the still-open
 full P084 custody/origin fixture qualification.
+
+
+The separately qualified composed run now proves one explicit deterministic
+acquisition, both exact retained bodies, the admitted source/observation binding
+and no implicit fetch across actual review-owner restart. The broader original
+custody/privacy/load/publication matrix remains open. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
