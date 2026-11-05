@@ -453,6 +453,28 @@ already signed control documents. Host signing composition, the private source
 audience workflow, active control adapters and the full retained gates remain
 pending. No tracker closure follows from these probes.
 
+The source workflow now persists an encrypted per-case head/negative view in the
+same transaction as the authenticated result and requester-key retirement. It
+shares the pure status fold and head comparator, not authority or recipient
+lifecycle. A bounded per-revision index retains signed acceptance contradictions
+after head advance. A later request cannot extend the original horizon or weaken
+the fixed skew basis. Old active results cannot override known closure/conflict;
+future signed knowledge is retained without earlier permission. Late terminal
+proofs independently block source effects without classifying ordinary old
+status replay as equivocation. Historical exact
+result reads remain available. Existing rows without this new projection do not
+synthesize current permission. This is source-owner component coverage, including
+restart and an injected failed commit, not private audience handoff or cold Gate C.
+Disclosure, audience membership and final effect authorization remain separate.
+Convergence review also found and fixed the recipient counterpart: a late signed
+terminal proof is held independently of its high-water head and blocks later
+positive decisions across restart. The first negative hold uses reserved capacity;
+a status beyond admitted future skew cannot create it. The original stale refusal
+and conflict taxonomy stay unchanged. No older head replaces the newer one.
+The convergence disposition retains the distinct source view within the existing
+S026 owner/store; no new persistence engine, PEX retry or case-history authority
+is introduced. Full provider/composition work accounting remains Gate E.
+
 The source-adoption convergence review shared the actual zero-queue executor and
 closed delivered-frame preflight across authority/source adapters. Stores, trust,
 root leases and domain admission remain with their distinct owners. Both consumers
