@@ -173,7 +173,7 @@ def load_machine_registry(path: Path = MACHINE_REGISTRY) -> dict[str, dict[str, 
         else:
             by_wire[wire_name] = capability_id
         channel_binding = entry.get("caller/channel-binding")
-        if channel_binding is not None and channel_binding not in {"live-session", "host-configured-live-session"}:
+        if channel_binding is not None and channel_binding not in {"bound-module-or-live-session", "live-session", "host-configured-live-session"}:
             errors.append(f"{prefix}: unsupported caller/channel-binding")
         if channel_binding is not None and isinstance(flags, dict) and (
             not flags.get("dispatchable") or not flags.get("host-route")

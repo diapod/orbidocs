@@ -25,6 +25,17 @@ and this document is its mechanically checked human-facing projection. The curat
 semantic table covers entries selected by `docs.human-registry`; the generated
 [complete host-local catalogue](#host-local-capabilities) covers all host capabilities.
 
+## Host channel identity
+
+Host-local registry rows select their caller binding explicitly. The three
+existing ports `signer.sign`, `signer.status` and
+`identity.nym.source-status.acquire` preserve a current host-owned module binding
+through `bound-module-or-live-session`; otherwise they require the exact live
+session of an admitted independent instance. The ordinary capability/domain
+policy still applies. This choice creates no module binding. Other live-session
+ports, including finite custody and reviewed publication, always require their
+registered owner proof. Unknown or stale authority refuses.
+
 ## Assertion Layers
 
 Capability advertising and capability passports are related, but not

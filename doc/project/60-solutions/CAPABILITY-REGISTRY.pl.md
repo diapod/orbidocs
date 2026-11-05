@@ -26,6 +26,17 @@ zrozumiałej dla człowieka. Ręczna tabela semantyczna obejmuje wpisy wybrane p
 `docs.human-registry`; generowany [pełny katalog host-local](#host-local-capabilities)
 obejmuje wszystkie host capabilities.
 
+## Tożsamość kanału hosta
+
+Wpis host-local jawnie wybiera wiązanie wywołującego. Trzy istniejące porty
+`signer.sign`, `signer.status` i `identity.nym.source-status.acquire` zachowują
+jawne hostowe wiązanie modułu przez `bound-module-or-live-session`; w pozostałych
+przypadkach wymagają dokładnej bieżącej sesji dopuszczonej niezależnej instancji.
+Nadal obowiązuje polityka capability i domeny. Ten wybór nie tworzy wiązania
+modułu. Inne porty live-session, w tym custody i kontrola recenzowanej publikacji,
+zawsze wymagają zadeklarowanego dowodu właściciela. Nieznany lub nieaktualny
+autorytet oznacza odmowę.
+
 ## Warstwy deklarowania capability
 
 Capability advertisement i capability passport są powiązane, ale nie są
