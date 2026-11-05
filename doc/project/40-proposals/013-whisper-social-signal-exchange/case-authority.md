@@ -71,6 +71,17 @@ not conflict. A refreshed timestamp at an unchanged head is not equivocation.
 Local database rollback is a local integrity error. CaseKnowledge persists negative
 knowledge with the consumer decision; restart cannot restore old permission.
 
+The recipient records whether registration relies on the admitted authority's
+basis or on an independently verified P035/completeness evaluation. If local policy
+withdraws authority-only reliance, current use refuses until explicit independent
+evidence strengthens that basis. This update preserves the existing head,
+negative knowledge and original horizon. A locally verified later `Before` proof
+commits its refusal and exact proof holds without an authority callback. It does
+not forge an authority-signed closure or alter the observed authority head.
+If verified `Before` evidence causes registration refusal, that refusal still
+commits the negative observation and its proofs, including at first admission.
+Later presentation of older positive material cannot undo this knowledge.
+
 ### Saved results and audience reads
 
 The closed `whisper-case-result.v1` reports one accepted signed acceptance or a
@@ -104,8 +115,10 @@ a new authenticated request id is required for a new decision.
 The authority's accepted-operation limit is derived from the finite case horizon,
 operation-window length and permitted operations per window, plus registration.
 Admission also reserves objects, events and bytes for negative knowledge for each
-admitted case. The byte reserve covers new maximum-sized P015 boundary statuses,
-closures, bounded snapshots/facts, control documents and one prepared response.
+admitted case. The byte reserve covers the complete bounded resolved negative-evidence token,
+including additional local status history, plus bounded snapshots/facts, control
+documents and one prepared response. The recipient reserves that complete token
+and its local refusal independently; carried role counts alone do not size it.
 Global physical-storage failures remain dependency failures, not a persistence
 guarantee from a logical reservation.
 
