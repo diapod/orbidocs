@@ -2132,3 +2132,26 @@ all current author classes with the complete origin vocabulary; restrictions on
 Harvester production (derived-local only) do not restrict recipient law. The
 summary is independent of source counting and never asserts independent
 corroboration. This contract checkpoint is not runtime Gate A/B qualification.
+
+### Issuance v2 integration checkpoint
+
+The anonymous key-request/key-offer bootstrap remains v1 and binds the exact
+adopted profile digest. Full participant requests and council decisions use
+separate v2 plaintext and sealed families under profile v3. Request v2 fixes the
+v2/v3 content vocabulary; it does not grant those uses. Profile and certificate
+exact-use admission still decides authority. Participant, nym and bootstrap
+proofs and council decisions have distinct v2 signing domains. Certificate
+signing retains the NymCertificate v1 framing.
+
+Current carrier adapters accept the closed six-phase envelope vocabulary and
+check the exact selected phase; original v1 contracts are unchanged. The AD
+prepared-phase owner keeps ciphertext, input identity and readback together.
+Retained reply lookup creates no new signature or validity after window end.
+Profile v2 retains historical parsing and its separate status lifecycle; new
+issuance for it remains refused. This integration is not fresh Gate A/B evidence
+or production adoption.
+
+Local readback/delivery and applicant/issuer offer inputs have new closed v2
+shapes. Current routes bind named version unions, including offline OpenAPI
+closure, instead of widening any historical v1 contract. Actor, phase, profile
+and existing key-recovery admission remain separate owner checks.

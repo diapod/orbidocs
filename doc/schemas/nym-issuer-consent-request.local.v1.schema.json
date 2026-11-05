@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuer-consent-request.local:v1",
+  "title": "nym-issuer-consent-request.local.v1",
+  "description": "Explicit version union for the current local adapter; both historical closed contracts remain unchanged.",
+  "anyOf": [
+    {
+      "$ref": "nym-issuer-consent.local.v1.schema.json"
+    },
+    {
+      "$ref": "nym-issuer-consent.local.v2.schema.json"
+    }
+  ]
+}
