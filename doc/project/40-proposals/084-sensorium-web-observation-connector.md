@@ -1619,6 +1619,21 @@ Component and process regression results remain distinct from the freshly pinned
 full fixture qualification, which is still open on SQLite and unmodified Synapse.
 This checkpoint does not renew the historical 012a/b/c reports or close P084.
 
+A later scoped component preflight on 2026-11-05 verified all 64 selected named Rust
+assertions and 96 mirrored contract pairs: 333 Rust tests and eleven named
+schema-sync tests passed; two unselected manual fixtures were not executed.
+Ordinary local preparation also verified five distinct nodes/four protected
+participants and restart/unlock controls. Actual local fetch, independently
+authorized mixed review/replay and a supplementary ordinary-network randomseed
+capture remain bounded observations, with their earlier harness/availability
+refusals preserved. The Node record is
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPONENT-PREFLIGHT-20261105.md`.
+Neither component conformance nor fixture preparation supplies fresh complete
+A/B, native APFS/ENOSPC, window-end publication or rollout qualification.
+P084-014/015 remain in progress; the complete new campaign matrix/qualifier is
+still open. These measured results do not change the accepted contract or the
+production-adoption conditions.
+
 ## Next Actions
 
 1. Reproduce the static acceptance gates when changing the profile, host boundary,
