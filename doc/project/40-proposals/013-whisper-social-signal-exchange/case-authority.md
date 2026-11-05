@@ -449,8 +449,8 @@ or rewrite its namespace. Actual source handoff and signed-result receipt share
 the authority executor mechanism, with separate domain owners and AD-only retry.
 Component tests compose real Vault/P035/P037 with full/detached anchors; native
 authority and authenticated return ingress are explicit fixtures. The API accepts
-already signed control documents. Host signing composition, recipient adoption,
-private audience, active control adapters and the full retained gates remain
+already signed control documents. Host signing composition, the private source
+audience workflow, active control adapters and the full retained gates remain
 pending. No tracker closure follows from these probes.
 
 The source-adoption convergence review shared the actual zero-queue executor and
@@ -476,8 +476,7 @@ reuse one protected node-self agreement mechanism with separate principal rules;
 local recipient rotation is dependency loss, not case-authority equivocation.
 A real P035/P037 component composition reaches durable CaseKnowledge in all four
 full/detached × carried/referenced variants. Restart re-evaluates current input;
-a still-decryptable carrier cannot replay an expired permission. Protected nym
-custody, source audience workflow, actual AD audience handoff and cold isolated
+a still-decryptable carrier cannot replay an expired permission. Source audience workflow, actual AD audience handoff and cold isolated
 qualification remain pending; no gate closes from this adapter composition.
 Native daemon `mode: recipient` now adopts the owned node's protected P037 key,
 independent receipt/authority/profile policy and actual `CaseKnowledge`. Only the
@@ -496,10 +495,30 @@ private detached text remain Memarium's law; no new payload store, acquisition
 operation or exported first-seen authority is introduced. Full/detached ×
 carried/referenced native component probes use real daemon/P035/P037/Memarium and
 recipient persistence/restart with explicit authenticated-relay and authority-reply
-fixtures. Protected nym adoption, combined source/audience workflows, actual host
+fixtures. Source/audience workflows and actual host
 signing, cold isolation and retained A–F qualification remain open. The current
 one-role incarnation configuration is an implementation limit, not a prohibition
 on participants acting in several roles. No tracker closes from this checkpoint.
+
+The native recipient can now explicitly select protected S026 nym custody.
+Omission preserves the owned-node configuration/paths. A named custody profile,
+certification id and nym principal only locate a key: the current active local
+Vault must independently prove possession. Framing precedes provider access;
+AEAD/structure is followed by another custody check and a final owned-time check
+using the existing fenced watermark. Missing/retired keys do not remint or fall
+back to node identity. Read membership remains independent of publication rights.
+The temporary agreement uses the nym principal's Ed25519 public conversion, not
+P015's separate exchange-reply key. No raw DH/signing/export operation or root
+recovery slot is introduced. The custody profile neither admits a source
+certificate nor relaxes the strict case-context law.
+
+Each nym scopes its own CaseKnowledge store and fence. Selecting another audience
+does not erase old state or reset its horizon; inactive-scope retention still
+requires qualification. Actual Vault framing/clock vectors and a native nym-domain
+composition reach real P035/authority/CaseKnowledge with controlled time and an
+explicit delivered-frame fixture. Full source audience/control composition,
+private transport, cold isolation and retained A–F remain open. This checkpoint
+closes no tracker and does not broaden hard-MVP or P015-005 claims.
 
 The re-use review retained separate domain owners and deferred sealing extraction
 until the already declared second real ADC-005 adapter.

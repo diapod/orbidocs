@@ -613,6 +613,18 @@ Schema Gate and current disclosure/private-route checks; AD remains the sole
 transport retry owner. It accepts already signed native controls and persists
 exact prepared packets and signature-checked results. Component tests use actual
 Vault/P035/P037 with full/detached anchors and explicit authority/relay-ingress
-fixtures. Complete case-key/successor signing composition, protected-nym recipient adoption,
-private audience and independent cold/transport gates remain pending. This does
+fixtures. Complete case-key/successor signing composition, private source audience
+delivery and independent cold/transport gates remain pending. This does
 not add a recovery slot for case continuity keys or widen S026 hard-MVP closure.
+
+The explicit native case recipient now supports a protected owned-nym audience.
+Its configuration locates an existing custody profile/operation/principal, while
+the current active local Vault independently proves key possession. The narrow
+port opens only bounded PEX presentations, with framing before Vault access,
+current key checks around AEAD/parsing and owned-clock checks after I/O. It reuses
+the existing persisted key-use watermark and Ed25519-to-X25519 mechanism, without
+exporting keys, accepting arbitrary DH requests or adding recovery slots. Read
+possession does not require a current publication certificate and does not grant
+case permission. Actual Vault and native recipient-owner component probes retain
+explicit synthetic-certificate/delivered-frame limits; source audience workflows,
+host signing composition and cold/transport qualification remain separate.
