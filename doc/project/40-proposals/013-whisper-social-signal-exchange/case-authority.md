@@ -352,8 +352,10 @@ short requester seeds. It must not derive or recover the independent case
 continuity key. No private requester seed is serialized into domain JSON or
 exported by a generic signing API. Expiry and reference collection prove local
 application reachability only; they do not revoke filesystem copies or constitute
-forensic erasure. The component implementation is not yet admitted host dispatch
-or retained PEX/LLR qualification.
+forensic erasure. Explicit source-role adoption now installs that root lease and finite owner in
+the daemon. Its protected operator API accepts already signed controls. Complete
+host signing composition, recipient/audience adoption and retained PEX/LLR
+qualification remain separate work.
 
 #### AD single-relay packet profile
 
@@ -426,8 +428,24 @@ A source component probe uses the actual daemon, P035 producer, P037 and native
 owner for full/detached registration and prepared AD return. Its relay provenance
 is an explicit in-process ingress fixture and its v2 nym credentials/statuses are
 synthetic. It does not qualify real WSS audience delivery or an OS-denied cold
-consumer. Source/recipient runtime adoption, active control adapters and the full
-retained gates remain pending. No tracker closure follows from this probe.
+consumer. The source is now independently adopted through a finite restart-bound
+profile, current disclosure/private-route policy and per-call unlocked S026 root
+lease. Its closed host-owned operator API checks session and current operator
+authority before Schema Gate, protected input or Vault; middleware cannot inspect
+or rewrite its namespace. Actual source handoff and signed-result receipt share
+the authority executor mechanism, with separate domain owners and AD-only retry.
+Component tests compose real Vault/P035/P037 with full/detached anchors; native
+authority and authenticated return ingress are explicit fixtures. The API accepts
+already signed control documents. Host signing composition, recipient adoption,
+private audience, active control adapters and the full retained gates remain
+pending. No tracker closure follows from these probes.
+
+The source-adoption convergence review shared the actual zero-queue executor and
+closed delivered-frame preflight across authority/source adapters. Stores, trust,
+root leases and domain admission remain with their distinct owners. Both consumers
+are recorded in the Node re-use index. PEX sealing extraction remains deferred
+until a second real ADC-005 adapter exists; this source installation is another
+consumer of the existing case adapter, not that second semantic family.
 
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns

@@ -602,3 +602,17 @@ gates on clean Node `57c40263` / Orbidocs `ce27aa02`: 278 and 376 scoped Rust te
 two cold OS-denied consumers for custody, and equivalent extracted qualification.
 See `node:docs/audits/ACCEPTANCE-SUCCESSION-CUSTODY-REVIEW-2026-11-02.md`.
 This does not qualify the deferred successor caller or accepted/current case history.
+
+
+### Adopted source workflow boundary (2026-11-05)
+
+The daemon's explicit finite source role now leases the existing S026 operational
+root per call for separately scoped encrypted case-workflow metadata and short
+requester keys. Its host-owned operator API enforces session, active operator,
+Schema Gate and current disclosure/private-route checks; AD remains the sole
+transport retry owner. It accepts already signed native controls and persists
+exact prepared packets and signature-checked results. Component tests use actual
+Vault/P035/P037 with full/detached anchors and explicit authority/relay-ingress
+fixtures. Complete case-key/successor signing composition, recipient adoption,
+private audience and independent cold/transport gates remain pending. This does
+not add a recovery slot for case continuity keys or widen S026 hard-MVP closure.

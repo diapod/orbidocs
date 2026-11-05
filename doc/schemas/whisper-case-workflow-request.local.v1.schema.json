@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-workflow-request.local:v1",
+  "title": "whisper-case-workflow-request.local.v1",
+  "x-dia-maximum-canonical-bytes": 4194304,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "command"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-workflow-request.local.v1"
+    },
+    "command": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "intent"
+          ],
+          "properties": {
+            "operation": {
+              "const": "begin"
+            },
+            "intent": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "operation/id",
+                "case/anchor",
+                "case/authority",
+                "case/not-after",
+                "request/not-after",
+                "family",
+                "recipient/public-key",
+                "clock/skew-seconds"
+              ],
+              "properties": {
+                "operation/id": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                  "maxLength": 36
+                },
+                "case/anchor": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+                  "maxLength": 50
+                },
+                "case/authority": {
+                  "type": "string",
+                  "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+                  "maxLength": 180
+                },
+                "case/not-after": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 40
+                },
+                "request/not-after": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 40
+                },
+                "family": {
+                  "enum": [
+                    "case-registration",
+                    "case-request",
+                    "case-status-request"
+                  ]
+                },
+                "recipient/public-key": {
+                  "type": "array",
+                  "minItems": 32,
+                  "maxItems": 32,
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                  }
+                },
+                "clock/skew-seconds": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 300
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "control",
+            "evidence"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "control": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "maxLength": 10923
+            },
+            "evidence": {
+              "type": "array",
+              "maxItems": 13,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "role",
+                  "digest",
+                  "bytes"
+                ],
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "anchor-record",
+                      "anchor-manifest",
+                      "anchor-receipt",
+                      "anchor-certificate",
+                      "profile",
+                      "anchor-status",
+                      "anchor-closure",
+                      "successor-certificate",
+                      "successor-acceptance-status"
+                    ]
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+                    "maxLength": 50
+                  },
+                  "bytes": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]+$",
+                    "maxLength": 699051
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id"
+          ],
+          "properties": {
+            "operation": {
+              "const": "handoff"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id"
+          ],
+          "properties": {
+            "operation": {
+              "const": "read"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            }
+          }
+        }
+      ]
+    }
+  }
+}
