@@ -476,9 +476,31 @@ reuse one protected node-self agreement mechanism with separate principal rules;
 local recipient rotation is dependency loss, not case-authority equivocation.
 A real P035/P037 component composition reaches durable CaseKnowledge in all four
 full/detached × carried/referenced variants. Restart re-evaluates current input;
-a still-decryptable carrier cannot replay an expired permission. Daemon recipient
-adoption, protected nym custody, actual AD audience handoff and cold isolated
+a still-decryptable carrier cannot replay an expired permission. Protected nym
+custody, source audience workflow, actual AD audience handoff and cold isolated
 qualification remain pending; no gate closes from this adapter composition.
+Native daemon `mode: recipient` now adopts the owned node's protected P037 key,
+independent receipt/authority/profile policy and actual `CaseKnowledge`. Only the
+two presentation families have admitted one-way routes; no response or outbound
+permission follows. The lifecycle-owned zero-queue executor holds the sole writer
+directly, with SQLite/FULL and a separate fence. Domain receipt records processing,
+including a saved refusal, rather than a reusable permission. The PEX lease is
+checked around decision work; no transport peer enters the case facts.
+
+An explicit local source is either absent or existing Memarium custody. The
+latter resolves current classification and exact anchor bytes together with the
+holder's own first-seen observations. Missing proof remains unresolved; provider,
+policy and integrity failure cannot become successful absence. Capture disablement
+does not disable existing reads. Payload horizons/erasure and the omission of
+private detached text remain Memarium's law; no new payload store, acquisition
+operation or exported first-seen authority is introduced. Full/detached ×
+carried/referenced native component probes use real daemon/P035/P037/Memarium and
+recipient persistence/restart with explicit authenticated-relay and authority-reply
+fixtures. Protected nym adoption, combined source/audience workflows, actual host
+signing, cold isolation and retained A–F qualification remain open. The current
+one-role incarnation configuration is an implementation limit, not a prohibition
+on participants acting in several roles. No tracker closes from this checkpoint.
+
 The re-use review retained separate domain owners and deferred sealing extraction
 until the already declared second real ADC-005 adapter.
 

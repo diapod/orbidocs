@@ -613,6 +613,6 @@ Schema Gate and current disclosure/private-route checks; AD remains the sole
 transport retry owner. It accepts already signed native controls and persists
 exact prepared packets and signature-checked results. Component tests use actual
 Vault/P035/P037 with full/detached anchors and explicit authority/relay-ingress
-fixtures. Complete case-key/successor signing composition, recipient adoption,
+fixtures. Complete case-key/successor signing composition, protected-nym recipient adoption,
 private audience and independent cold/transport gates remain pending. This does
 not add a recovery slot for case continuity keys or widen S026 hard-MVP closure.
