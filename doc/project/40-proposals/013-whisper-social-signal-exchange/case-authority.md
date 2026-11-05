@@ -610,3 +610,13 @@ success. Qualifiers test mutations and extracted evidence. Before retaining evid
 apply current retention/retirement/external-retention policy and record owner,
 classification, inventory/hashes, holds, retention, recovery/replicas; unknown remains
 unknown. Source and evidence commits are separate. Done requires each owner's gate.
+
+
+Memarium now exposes a separate host-local finite disclosure lease for a concrete
+node/nym audience. It checks current private classification and the original
+material/profile horizons around provider work. Full-record requires the retained
+payload; detached leases only public proof material, never its private author
+bytes. Local case-knowledge inspection is not an egress decision. Real custody
+component vectors cover erasure, distinct horizons, exact expiry and a policy
+change during owner work. Source-gate/API adoption of this real port remains
+pending, with cold/transport gates and all tracker closures unchanged.
