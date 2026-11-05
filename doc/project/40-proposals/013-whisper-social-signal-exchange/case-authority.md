@@ -398,6 +398,13 @@ the runtime before peer admission, and creates no outbound or domain permission.
 Authenticated INAC source provenance cannot be supplied through HTTP, including
 under an incorrectly configured source allowlist. This courier adoption is not a
 claim of installed authority/source/recipient workflows or completed Gate D.
+The L2 authority recipient now calls the existing protected P037 node DH port,
+checking its pinned principal/key metadata before and after agreement and its
+owned clock/deadline before exposing opened command bytes. The static key stays
+with the existing provider; the common crypto transcript is unchanged. Component
+coverage uses the real P037 engine with structural command fixtures, including
+cached-key rotation, revocation and post-call clock/expiry refusal. This port is
+not yet installed in the daemon's bounded domain executor.
 
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
