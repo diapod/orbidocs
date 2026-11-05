@@ -404,7 +404,30 @@ owned clock/deadline before exposing opened command bytes. The static key stays
 with the existing provider; the common crypto transcript is unchanged. Component
 coverage uses the real P037 engine with structural command fixtures, including
 cached-key rotation, revocation and post-call clock/expiry refusal. This port is
-not yet installed in the daemon's bounded domain executor.
+now installed by an explicit restart-bound daemon authority role. Adoption supplies
+finite receiving routes, independent CaseAnchor trust and owner policy; it creates
+no outbound or implicit INAC permission. One lifecycle-owned native thread opens
+commands through P037, executes the actual SQLite/fenced dispatcher and enqueues
+the committed exact response into AD. Its rendezvous has no pending queue; a busy
+authority returns retryable and AD alone retries. Effect and reply ceilings cannot
+exceed the received PEX lease. Signed candidates and ciphertext stay withheld
+until the owner commit.
+
+The authority now owns P015 source floors alongside its decisions, instead of
+relying on a caller to remember them. Positive knowledge is atomic with the
+acceptance using it; a verified issuer contradiction persists independently and
+cannot silently be healed by a higher revision. This source-axis refusal is not
+case-authority equivocation. Pending unsigned registrations consume case capacity.
+Host-triggered, one-case maintenance resumes pending negative closures when the
+signer recovers, independently from read traffic. Historical basis and saved exact
+replay keep their distinct semantics.
+
+A source component probe uses the actual daemon, P035 producer, P037 and native
+owner for full/detached registration and prepared AD return. Its relay provenance
+is an explicit in-process ingress fixture and its v2 nym credentials/statuses are
+synthetic. It does not qualify real WSS audience delivery or an OS-denied cold
+consumer. Source/recipient runtime adoption, active control adapters and the full
+retained gates remain pending. No tracker closure follows from this probe.
 
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
