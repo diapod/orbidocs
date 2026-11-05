@@ -391,8 +391,13 @@ WSS/TLS/3DH in three independent loopback processes with real AD/INAC and explic
 fixture-domain receipts. It covers source restart with exact prepared bytes,
 a lost post-custody push acknowledgement and bounded raw-store/trace privacy
 scans. These source probes do not close PEX-001/S010 or the full retained Gate D;
-admitted daemon policy, the real domain adapter and the remaining family, route
-policy, expiry and negative vectors remain pending.
+the real domain adapter and the remaining family, route policy, expiry and
+negative vectors remain pending. An explicit restart-bound daemon courier profile
+now binds every relay hop to the owned node, requires finite capacity, installs
+the runtime before peer admission, and creates no outbound or domain permission.
+Authenticated INAC source provenance cannot be supplied through HTTP, including
+under an incorrectly configured source allowlist. This courier adoption is not a
+claim of installed authority/source/recipient workflows or completed Gate D.
 
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
