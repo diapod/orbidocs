@@ -1965,3 +1965,14 @@ The current caller proof grants no launch or scheduler authority and does not
 replace a failed package guard. This adds no ambient object-read, delivery,
 signer or publication authority. Composed v3
 qualification remains open.
+
+### Inactive restart preserves custody
+
+New timed grants remain opt-in. Once AD has recorded owner history, startup
+reattaches that owner even with inactive policy, preserving old terms, read
+fences, legacy interests and expiry. The read-only attachment probe creates
+nothing for a fresh inactive store. An identity marker without source history
+refuses as unknown/corrupt ownership rather than promoting managed files to
+legacy. Node's controlled restart tests cover old reads, blocked aliases,
+unchanged claims, refused new retain/extension/holds and missing history; these
+are component regressions, not the composed milestone qualification.

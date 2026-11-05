@@ -1614,3 +1614,14 @@ Harvester review, v3 publication, A/B qualification or production adoption.
 - [Playwright supported languages](https://playwright.dev/docs/languages)
 - [Trafilatura documentation](https://trafilatura.readthedocs.io/en/stable/index.html)
 - [Reqwest `ClientBuilder`](https://docs.rs/reqwest/latest/reqwest/struct.ClientBuilder.html)
+
+### Inactive owner restart guard (2026-11-05)
+
+Turning off adoption stops new retain, extension and holds. It does not detach
+previously recorded custody, remove managed read fences, alter granted terms,
+clear legacy interests or suspend expiry enforcement. AD selects reattachment
+from durable owner history independently of the current opt-in flag. A fresh
+inactive store creates no owner. An owner identity marker without source history
+is an explicit corruption/reconciliation refusal, never a reason to classify
+its payload as legacy. This guard changes no historical evidence or production
+adoption; composed original/review/publication qualification remains open.
