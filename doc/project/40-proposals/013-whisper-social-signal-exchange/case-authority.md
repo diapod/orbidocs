@@ -122,6 +122,41 @@ and its local refusal independently; carried role counts alone do not size it.
 Global physical-storage failures remain dependency failures, not a persistence
 guarantee from a logical reservation.
 
+### Accepted material identity
+
+Succession acceptance binds the exact historical successor certificate, profile
+and status used for its decision. Let `H` be SHA-256 encoded as `sha256:` plus
+unpadded base64url and let every array below use JCS v1. Their order is fixed:
+
+- `anchor-identity = H(JCS([author-nym, author/bytes-digest,
+  continuity-key-digest, status-authority, canonical-case-not-after, federation,
+  context-digest, profile-digest, receipt-digest, detached-witness-or-null]))`;
+- `certificate-evidence = H(JCS([certificate-digest, profile-digest,
+  status-at-acceptance-digest]))`;
+- succession acceptance `inputs/digest = H(JCS([anchor-identity,
+  succession-digest, certificate-evidence]))`.
+
+All element digests address exact signed bytes. The registration acceptance's
+`inputs/digest` equals the original signed registration request's `inputs/digest`;
+its request digest addresses those exact request bytes. Another valid receipt
+cannot silently replace the receipt or witness admitted at registration.
+
+The receiver verifies the original control at the signed registration acceptance
+time and the succession at its own exactly bound acceptance time, never at the
+artifact's self-declared issue time. Succession acceptance cannot predate
+registration, and a case status cannot predate the succession it names. These
+three timestamps share one authority's clock. Across the P035 witness/authority
+boundary, registration cannot precede the receipt's commit time by more than the
+profile's admitted clock skew; no new constant or lease extension is introduced.
+Current successor status remains a separate role and cannot replace the bound
+historical snapshot. Conversely, the authenticated historical snapshot is already
+known evidence: an explicitly older current role cannot roll it back. Historical
+and local observations are folded by the existing P015 scope/revision/negative
+knowledge laws before current source use. Exact status/certificate signatures
+are reused across roles, without caching a positive time-dependent permission.
+An expired current certificate or later revocation does not rewrite successful
+historical succession authentication.
+
 ### Presentation profiles and budgets
 
 LLR-007 freezes whisper-case-succession-presentation.v1; LLR-009 qualifies that
