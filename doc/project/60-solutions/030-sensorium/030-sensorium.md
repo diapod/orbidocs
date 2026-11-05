@@ -837,3 +837,15 @@ claim remains quarantined; no new hardware, reset, recovery, renewal, migration
 or merge occurred. Preparation manifest
 sha256:93a87ec5420aebcee4648d5ca952755d8a4a7e23fe8e8518382344fd26bc6063.
 P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-OPERATION-RETRIES-2026-10-21.md.
+
+### Original-backed web review continuation (2026-11-05)
+
+An explicitly adopted P084 source v2 captures decompressed HTTP bytes into AD
+before extraction. Independent extraction-read and one-use retain bindings carry
+no publication authority. The existing source operation journal coordinates the
+original and representation claims, collection basis and extraction receipt;
+partial writes expose no ready handoff, and 304/replay do not renew retention.
+Harvester owns subsequent common review and Whisper owns publication. This
+continuation does not enable browser/crawl, authenticated sources or model use.
+Current implementation and component tests are distinct from the still-open
+full P084 custody/origin fixture qualification.

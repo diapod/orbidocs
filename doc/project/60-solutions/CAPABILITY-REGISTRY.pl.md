@@ -152,6 +152,7 @@ odrzucane na admission gate.
 | `http.fetch.bounded.v2` | `host/http.fetch.bounded.v2` | host-local custody | Ograniczone pobranie z trwałym transferem oryginału hosta; bez oryginału inline w connectorze. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
 | `http.fetch.bounded.capture.read` | `host/http.fetch.bounded.capture.read` | host-local custody | Powtarzalne, ograniczone strony dla ekstrakcji z niezależnym dokładnym wiązaniem wywołującego, sesji, akcji i treści. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
 | `artifact.delivery.retain.v2` | `host/artifact.delivery.retain.v2` | host-local custody | Jawna skończona retencja osobnego roszczenia z reprezentacji inline lub jednorazowego transferu hosta. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
+| `whisper.reviewed-publication.check` | `host/whisper.reviewed-publication.check` | bieżące dopuszczenie lokalne | Sprawdza dokładny zachowany kandydat publikacji Harvestera v3 względem bieżącej recenzji, wymaganych bajtów i istniejących holdów. | Właściciele recenzji Harvestera i Artifact Delivery | nie; tylko host-local | Wymaga żywego dopuszczonego kanału ze skonfigurowanego inwentarza odbiorców. Nie tworzy holdu, retencji, podpisu ani grantu publikacji; nie zwraca prywatnych referencji roszczeń ani terminów. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | ocena danych | ograniczona ocena jawnej polityki odbiorcy względem deklaracji lub dowodu wykonania | inference provenance core przez daemon | nie; tylko host-local | Zwraca admit, warn lub deny dla dokładnych podmiotów. Nie uwierzytelnia źródeł, nie instaluje polityki, nie uruchamia inferencji i nie nadaje uprawnień do efektów. |
 | `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | admisja hosta | zatwierdza dokładny draft oferty task-pack względem bieżących bindingów i polityki należących do hosta | operator task-pack host approval and current admission | nie; tylko host-local | Uwierzytelniona zgoda lokalnego operatora jest odrębna od podpisania przez Dator i publikacji w Agorze. Nie nadaje uprawnień federacyjnego discovery ani Passportu. |
 | `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | admisja hosta | dopuszcza niezmienne zakończenie task-pack z zatrzymanej zweryfikowanej receptury i podpisanego wyniku Corpus | operator task-pack host immutable publication and completion admission | nie; tylko host-local | Ponownie sprawdza bieżące uprawnienie publikacji; replay używa zatrzymanych bajtów, nie powtarza inferencji ani publikacji i nie autoryzuje rozliczenia kupującego. |
@@ -186,7 +187,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **250** host-local / **282** ogółem; grupy właścicieli: **47**.
+Wpisy: **254** host-local / **286** ogółem; grupy właścicieli: **51**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -209,6 +210,18 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 |---|---|---|---|---|---|---|
 | <code>artifact.delivery.retain.v2</code> | <code>host/artifact.delivery.retain.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
+### <code>Artifact Delivery finite custody extension owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>artifact.delivery.extend</code> | <code>host/artifact.delivery.extend</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>Harvester reviewed publication and AD custody owners</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>whisper.reviewed-publication.check</code> | <code>host/whisper.reviewed-publication.check</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
 ### <code>Responsibility host / local operator maintenance</code>
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
@@ -230,6 +243,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>sensorium.interface.remote-feed</code> | <code>sensorium/interface.remote-feed</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>sensorium.interface.subscribe</code> | <code>sensorium/interface.subscribe</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 
+### <code>Sensorium Web local deterministic extraction step</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>sensorium.web.extract</code> | <code>host/sensorium.web.extract</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
 ### <code>Sensorium Workbench connector</code>
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
@@ -238,6 +257,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>sensorium.workbench.file</code> | <code>sensorium/workbench.file</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 | <code>sensorium.workbench.patch</code> | <code>sensorium/workbench.patch</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 | <code>sensorium.workbench.terminal</code> | <code>sensorium/workbench.terminal</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>Weak Signal Harvester local review owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>weak-signal.review</code> | <code>host/weak-signal.review</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>Whisper Intake trace authoring provider</code>
 

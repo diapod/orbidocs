@@ -1976,3 +1976,23 @@ refuses as unknown/corrupt ownership rather than promoting managed files to
 legacy. Node's controlled restart tests cover old reads, blocked aliases,
 unchanged claims, refused new retain/extension/holds and missing history; these
 are component regressions, not the composed milestone qualification.
+
+### Reviewed material custody continuation (2026-11-05)
+
+AD owns original bytes, durable write intents, exact per-claim idempotency,
+one-use retain transfers, budgets, high-water observed time, finite tombstones
+and atomic publication holds. The daemon only authenticates, resolves P091 policy
+and wires existing owners. Explicit batch extension commits all exact claim
+generations and its execution receipt together; immutable retry results grant
+no new horizon. New holds retain the current policy resolution and expire with
+the preview within 900 seconds. A first-publication read checks existing holds
+without acquiring or extending them.
+
+Sensorium capture uses host transfers for originals and the existing source
+journal for its original/representation handoff. Harvester review records which
+claim generations were approved. Extensions require a new review; expiry cannot
+be repaired by restart, 304 or implicit reacquisition. Historical legacy interests
+remain monotonic and do not satisfy this stronger profile. See the Node
+`artifact-delivery/src/custody/README.md` and `daemon/docs/HARVESTER-REVIEW.md`
+for current implementation boundaries. The composed quota, fault, privacy and
+publication qualification remains open.

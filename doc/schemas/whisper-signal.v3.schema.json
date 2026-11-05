@@ -121,7 +121,7 @@
         "monus-derived",
         "monus-sensorium-derived"
       ],
-      "description": "High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals."
+      "description": "Authorship and preparation posture of the signal; material origin is declared independently by origin/source-kinds. Existing Monus and Sensorium evidence requirements remain in force. This axis alone cannot supply or replace a material-origin declaration."
     },
     "source/signal-kinds": {
       "type": "array",

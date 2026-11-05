@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:weak-signal-review-result.local:v1",
+  "title": "weak-signal-review-result.local.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "review/no-op",
+    "record"
+  ],
+  "properties": {
+    "schema": {
+      "const": "weak-signal-finding.review-result.v1"
+    },
+    "review/no-op": {
+      "type": "boolean"
+    },
+    "record": {
+      "type": "object",
+      "required": [
+        "schema",
+        "finding/id",
+        "content/digest",
+        "status",
+        "review/decision"
+      ],
+      "properties": {
+        "schema": {
+          "const": "weak-signal-finding.record.v1"
+        },
+        "review/decision": {
+          "$ref": "weak-signal-review.v1.schema.json"
+        },
+        "whisper/draft": {
+          "$ref": "weak-signal-whisper-draft.local.v2.schema.json"
+        }
+      }
+    }
+  }
+}

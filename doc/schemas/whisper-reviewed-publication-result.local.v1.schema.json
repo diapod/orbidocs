@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-reviewed-publication-result.local:v1",
+  "title": "whisper-reviewed-publication-result.local.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record/id",
+    "schema",
+    "checked"
+  ],
+  "properties": {
+    "record/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "schema": {
+      "const": "whisper-reviewed-publication-result.local.v1"
+    },
+    "checked": {
+      "const": true
+    }
+  },
+  "description": "Fresh check of an existing exact locally reviewed signed artifact. Contains no custody token, claim references or private horizons."
+}

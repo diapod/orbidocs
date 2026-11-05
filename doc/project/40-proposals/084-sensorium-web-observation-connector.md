@@ -1596,6 +1596,29 @@ API has an explicit offline-bundled version union, and P082 descriptors select t
 exact snapshot contract. This checkpoint is integration in progress, not shared
 Harvester review, v3 publication, A/B qualification or production adoption.
 
+
+### Common review and protected publication checkpoint (2026-11-05)
+
+Current implementation resolves snapshot v2 into the common Harvester review,
+with immutable material digests, explicit revision CAS and a local draft v2.
+The queue exposes current claim generations and nearest custody deadlines. An
+explicit extension commits the full claim set and receipt together; changed
+terms require another review. A separate classified read admits original bytes
+as inert bounded file pages, never rendered source HTML. No action implicitly
+fetches or renews custody.
+
+Protected preview/sign v2 resolve the approved draft at the host. Preview refuses
+insufficient custody instead of disclosing its deadline through document expiry.
+Sign rechecks after key unlock and atomically obtains the mixed-material holds.
+First publication checks existing exact review/holds through a current live
+channel; no AD prepared token crosses a module boundary. Public-gossip v2
+preserves minimized admitted origin lineage, including legacy absence, through
+the existing promotion projection. It remains an explicit unpublished candidate.
+
+Component and process regression results remain distinct from the freshly pinned
+full fixture qualification, which is still open on SQLite and unmodified Synapse.
+This checkpoint does not renew the historical 012a/b/c reports or close P084.
+
 ## Next Actions
 
 1. Reproduce the static acceptance gates when changing the profile, host boundary,

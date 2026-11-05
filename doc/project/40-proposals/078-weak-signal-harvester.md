@@ -408,7 +408,7 @@ offline checks:
 
 ### Web source retention and origin {#web-source-retention-and-origin}
 
-Adopted design extension, 2026-11-04; P078-015/016 remain `todo`. Web findings
+Adopted design extension, 2026-11-04; P078-015/016 remain `in-progress`. Web findings
 intended for publication consume the original-backed profile in
 [P084](084-sensorium-web-observation-connector.md#web-original-custody), including
 its exact original byte boundary and finite custody claim. Harvester retains
@@ -715,3 +715,38 @@ permitted grouping key. P078-012 and P013-DFR-004 qualify a reader who has only 
 notice: acceptance authors a related signal targeting that notice without
 fetching, guessing or publishing any protected signal id. A finding remains a
 local proposal; the author still confirms both the link and new publication.
+
+## Common reviewed v3 publication contract (2026-11-05)
+
+All new Harvester decisions use `weak-signal-review.v1`; accepted decisions carry
+explicit redacted summary, topic and polarity. Rejected/archived decisions carry
+neither redaction nor a draft. Actor identity comes from authenticated local
+operator admission. Historical web reviews/drafts retain their bytes and decoder;
+they cannot become v3 publication evidence without a new common review.
+
+A review binds one primary finding and up to fifteen additional admitted findings
+as a canonical semantic set, with every immutable finding digest. This admits a
+mixed inventory without mutating old findings. The owner, never request metadata,
+derives origin and collects at most thirty-two exact original/representation
+claim bindings. Web classification requires the independently admitted P084
+binding. Missing collection/processing grounds remain unknown/empty. Material
+coverage concerns that private reviewed inventory, not independent corroboration.
+
+`expected/review-revision` provides the projection CAS. Idempotency binds the
+normalized request, exact material inventory and current claim generations;
+review time is the first committed owner observation. New extension generations
+need a new review. A committed replay does not renew custody. Request size is at
+most 24 KiB, decision size at most 64 KiB, with at most 4096 decisions. Capacity
+and host storage/corruption remain distinct from malformed input. These limits
+are checked before SQLite effects. Facts and projections use the existing review
+store, not a source-acquisition journal.
+
+Only `weak-signal-whisper-draft.local.v2` feeds the new protected authoring
+profile. It carries the exact review reference/digest, origin and private claim
+requirements, with derived-local author posture. Publication parameters remain
+an explicit later review; neither raw findings nor HTML become publishable text.
+A queue shows and sorts by the nearest required claim deadline (no-deadline
+findings last). Expiry before review marks the web ingredient unpublishable;
+only a new observation and review can proceed. Explicit extension is available
+before expiry, never automatic revival. Implementation and composed acceptance
+remain in progress.

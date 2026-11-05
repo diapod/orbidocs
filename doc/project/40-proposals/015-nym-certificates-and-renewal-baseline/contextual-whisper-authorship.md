@@ -2155,3 +2155,20 @@ Local readback/delivery and applicant/issuer offer inputs have new closed v2
 shapes. Current routes bind named version unions, including offline OpenAPI
 closure, instead of widening any historical v1 contract. Actor, phase, profile
 and existing key-recovery admission remain separate owner checks.
+
+
+### Protected common-review and current-status continuation (2026-11-05)
+
+The separate authoring preview/sign/readback v2 contracts select an exact current
+Harvester review. The host supplies approved text, topic, polarity, derived-local
+authorship and origin. Caller publication parameters cannot replace them. Sign
+rechecks review and custody after key unlock; first publication independently
+checks the retained candidate and existing AD holds. Historical signed readback
+does not authorize a new publication or renew an expired profile window.
+
+Source-status request v2 accepts certificate v3 under the unchanged status-result
+contract. Current routes use the named exact v1/v2 request union; the original
+certificate-v1 request is unchanged. Actual profile/issuer, clock and signed status
+admission remain mandatory. This removes a closed-request mismatch rather than
+using schema recognition as authority. Fresh A/B for this continuation is open;
+the phase-1 result keeps its original source, profile and scope.

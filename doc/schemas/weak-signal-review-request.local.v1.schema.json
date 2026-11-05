@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:weak-signal-review-request.local:v1",
+  "title": "weak-signal-review-request.local.v1",
+  "$ref": "weak-signal-review.v1.schema.json#/$defs/request",
+  "description": "Explicit local operator material selection and review. Identity, origin and custody are derived by the host."
+}

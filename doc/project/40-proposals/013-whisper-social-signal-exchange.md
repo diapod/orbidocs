@@ -249,7 +249,7 @@ wire-level `whisper-signal` artifact itself.
 
 ### 2.1. Web-derived origin through publication {#web-origin-publication}
 
-Adopted design extension, 2026-11-04; P013-WEB-001/002 are `todo`, not a claim
+Adopted design extension, 2026-11-04; P013-WEB-001/002 are `in-progress`, not a claim
 about current wire formats or prior M4 acceptance. Whisper consumes
 [P078 reviewed drafts](078-weak-signal-harvester.md#web-source-retention-and-origin)
 backed by [P084 original custody](084-sensorium-web-observation-connector.md#web-original-custody).
@@ -988,6 +988,7 @@ completed baselines remain scoped to their historical evidence.
 |---|---|---|---|---|
 | P013-WEB-001 | Freeze shared origin summary and publication/custody boundary | in-progress | Existing P013 publication, P078 finding/review and P084 snapshot contracts | Freeze bounded shared vocabularies, versioning/migration for closed schemas, unchanged P015 source identity, local/private versus publishable fields and exact signature/review bindings. Cover unknown, mixed and media-monitoring cases; no automatic credibility weight, public raw digest or claim that a signature proves origin. Canonical schemas, Node mirrors and consumers change only in implementation. |
 | P013-WEB-002 | Preserve reviewed origin through signed publication and reader views | in-progress | P013-WEB-001; P078-015/016; P084-015 | Reuse prepared publication, Schema Gate, signer, existing Agora/INAC carriers and UI projections. Offline owner-path acceptance proves draft-to-signal-to-public-gossip preservation, refusal on origin mutation or expired/missing custody before admission, unknown legacy rendering, committed replay after expiry without rewrite, no raw/URL/digest leaks and no implicit fetch. Copy/summary cases gain no independent-corroboration assertion; urgent protection remains operational. Update owning solutions, Node ledger and retained acceptance scope at closeout. |
+| P013-WEB-003 | Migrate remaining Whisper producers to explicit origin v3 | todo | Owner: Whisper producer maintainers; follow-up “Migracja pozostałych producentów Whisper do jawnego origin v3” | Cover each remaining producer, operator UI and qualification. Revisit before production adoption: migration must fit one aligned window or the owner must accept publication downtime; record confirmed recipient support and accepted cutoff of all remaining nodes, including their new v2 traffic. A further profile/window requires a separate continuity decision. This task does not narrow complete v3 receiver support. |
 
 ## Next Actions
 
@@ -1539,3 +1540,24 @@ control proof), and replaced active nym-succession.v1 with v2. Before first rele
 widening requires an explicit note and vectors; narrowing additionally requires
 that no admitted artifact/evidence uses the removed form. After release, use a new
 version or explicit profile, never an in-place semantic change.
+
+### Public gossip origin lineage for the reviewed v3 milestone (2026-11-05)
+
+The accepted preservation law uses a bounded `whisper-origin-lineage.v1` value
+when projecting contextual signals into `public-gossip.v2`. Each selected public
+Agora record reference keeps its exact origin declaration. A v2 signal has
+`state = absent`; a v3 signal has `state = declared` and its complete minimized
+origin value. Declared unknown is never substituted for absent legacy metadata.
+The selected set and its explicit complete/partial coverage survive projection
+without dropping a member, uncertainty, kind or processing step. Canonical
+ordering does not add a source. No private snapshot, raw body digest, URL, claim,
+retention horizon or prepared token belongs to this public value.
+
+The projector is pure law owned by Whisper core. Agora resolves immutable
+lineage from its already admitted record and author-byte history; a caller cannot
+provide replacement origin. Versioned promotion drafts retain this value in the
+existing promotion owner transaction. Historical drafts and `public-gossip.v1`
+retain their original bytes and semantics. A draft is not a publication or a
+verification of its source assertions. Actual public publication still requires
+its explicit redaction/approval and existing signer/relay admission. Runtime
+qualification of this continuation remains open under P013-WEB-002.

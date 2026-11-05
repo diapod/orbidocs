@@ -162,6 +162,74 @@
           "$ref": "artifact-delivery-retain-result.v2.schema.json"
         }
       }
+    },
+    "lineage/evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "collection",
+        "steps"
+      ],
+      "properties": {
+        "collection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "method",
+            "operation/ref",
+            "configuration/digest"
+          ],
+          "properties": {
+            "method": {
+              "enum": [
+                "manual-selection",
+                "configured-monitoring",
+                "unknown"
+              ]
+            },
+            "operation/ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "configuration/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "step",
+              "input/digest",
+              "output/digest",
+              "execution/receipt"
+            ],
+            "properties": {
+              "step": {
+                "const": "extracted"
+              },
+              "input/digest": {
+                "type": "string",
+                "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+              },
+              "output/digest": {
+                "type": "string",
+                "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+              },
+              "execution/receipt": {
+                "$ref": "execution-receipt.v1.schema.json"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

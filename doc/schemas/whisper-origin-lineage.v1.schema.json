@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "urn:orbiplex:schema:whisper-origin-lineage:v1",
+  "title": "whisper-origin-lineage.v1",
+  "required": [
+    "origin/lineage",
+    "origin/lineage-coverage"
+  ],
+  "properties": {
+    "origin/lineage": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "record/ref",
+          "declaration"
+        ],
+        "properties": {
+          "record/ref": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "declaration": {
+            "oneOf": [
+              {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "state"
+                ],
+                "properties": {
+                  "state": {
+                    "const": "absent"
+                  }
+                }
+              },
+              {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "state",
+                  "origin"
+                ],
+                "properties": {
+                  "state": {
+                    "const": "declared"
+                  },
+                  "origin": {
+                    "$ref": "whisper-origin.v1.schema.json"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "origin/lineage-coverage": {
+      "enum": [
+        "complete",
+        "partial"
+      ]
+    }
+  },
+  "description": "Exact minimized declarations of selected already admitted public records. Legacy absence differs from declared unknown. Coverage concerns this selected lineage; it is not independent corroboration, a source count or disclosure authority."
+}

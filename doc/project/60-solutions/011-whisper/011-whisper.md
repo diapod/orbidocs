@@ -552,3 +552,21 @@ decisions, correlation policy explanations, association-room proposal lifecycle,
 and public-gossip promotion. These are data contracts and pure decision helpers;
 concrete UI affordances and real relay execution belong in later runtime/product
 layers that consume the same data rather than changing Whisper's core semantics.
+
+### Reviewed Harvester v3 continuation (2026-11-05)
+
+P013-WEB and P078 common review own the approved minimized origin and exact
+material inventory. Protected preview/sign v2 resolve an immutable current
+review; callers cannot replace text, topic, polarity, origin or custody. AD owns
+the finite claims and atomic preview-bound holds. First local publication checks
+current review, bytes, generations and holds independently of signature creation.
+
+The v3 receiver law covers every existing author class. New reviewed Harvester
+production is derived-local; other producers remain v2 pending the named origin
+migration follow-up. The epoch-aligned transitional profile stops new operations
+for every producer at its end. Fixture qualification may close this milestone
+without production adoption; named recipient support, accepted old-node cutoff
+and feasible migration or accepted publication downtime remain rollout conditions.
+Public gossip preserves exact per-record origin declarations and lineage coverage
+under P013's versioned projector. This continuation is implemented in stages and
+not yet qualified as a composed runtime milestone.

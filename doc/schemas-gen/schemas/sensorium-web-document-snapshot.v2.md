@@ -35,6 +35,7 @@ Source schema: [`doc/schemas/sensorium-web-document-snapshot.v2.schema.json`](..
 | [`causal/context`](#field-causal-context) | `yes` | ref: `causal-context.v1.schema.json` |  |
 | [`custody/owner`](#field-custody-owner) | `yes` | string |  |
 | [`custody/claims`](#field-custody-claims) | `yes` | object |  |
+| [`lineage/evidence`](#field-lineage-evidence) | `no` | object |  |
 
 ## Definitions
 
@@ -215,6 +216,12 @@ Source schema: [`doc/schemas/sensorium-web-document-snapshot.v2.schema.json`](..
 ## `custody/claims`
 
 - Required: `yes`
+- Shape: object
+
+<a id="field-lineage-evidence"></a>
+## `lineage/evidence`
+
+- Required: `no`
 - Shape: object
 
 ## Definition Semantics

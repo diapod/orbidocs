@@ -150,6 +150,7 @@ admission.
 | `http.fetch.bounded.v2` | `host/http.fetch.bounded.v2` | host-local custody | Bounded acquisition with a durable host original transfer; no connector inline original. | Artifact Delivery and authenticated channel owner | no; host-local only | Requires the current owner/session and adopted finite custody policy. It grants no publication, external delivery or ambient object read. |
 | `http.fetch.bounded.capture.read` | `host/http.fetch.bounded.capture.read` | host-local custody | Repeatable bounded extraction pages under an independent exact caller/session/action/content binding. | Artifact Delivery and authenticated channel owner | no; host-local only | Requires the current owner/session and adopted finite custody policy. It grants no publication, external delivery or ambient object read. |
 | `artifact.delivery.retain.v2` | `host/artifact.delivery.retain.v2` | host-local custody | Explicit per-claim finite retention from inline representation or a single-use host transfer. | Artifact Delivery and authenticated channel owner | no; host-local only | Requires the current owner/session and adopted finite custody policy. It grants no publication, external delivery or ambient object read. |
+| `whisper.reviewed-publication.check` | `host/whisper.reviewed-publication.check` | host-local current admission | Checks an exact retained Harvester v3 publication candidate against the current review, required bytes and existing holds. | Harvester review and Artifact Delivery owners | no; host-local only | Requires a live admitted channel from the configured consumer inventory. Creates no hold, retention, signature or publication grant; returns no private claim refs or deadlines. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | data-only assessment | bounded evaluation of explicit receiving policy against declared or realized evidence | inference provenance core through daemon | no; host-local only | Returns admit, warn or deny for exact subjects. Does not authenticate source assertions, install policy, dispatch inference or authorize effects. |
 | `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | host admission | approves an exact task-pack offer draft against current host-owned bindings and policy | operator task-pack host approval and current admission | no; host-local only | Authenticated local operator approval is distinct from Dator signing and Agora publication. It grants no federated discovery or Passport authority. |
 | `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | host admission | admits immutable task-pack completion from the retained verified recipe and signed Corpus outcome | operator task-pack host immutable publication and completion admission | no; host-local only | Revalidates current publication authority; replay uses retained bytes and cannot rerun inference, publish twice, or authorize buyer settlement. |
@@ -184,7 +185,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **250** host-local / **282** total; **47** owner groups.
+Entries: **254** host-local / **286** total; **51** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -207,6 +208,18 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 |---|---|---|---|---|---|---|
 | <code>artifact.delivery.retain.v2</code> | <code>host/artifact.delivery.retain.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
+### <code>Artifact Delivery finite custody extension owner</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>artifact.delivery.extend</code> | <code>host/artifact.delivery.extend</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>Harvester reviewed publication and AD custody owners</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.reviewed-publication.check</code> | <code>host/whisper.reviewed-publication.check</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
 ### <code>Responsibility host / local operator maintenance</code>
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
@@ -228,6 +241,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>sensorium.interface.remote-feed</code> | <code>sensorium/interface.remote-feed</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>sensorium.interface.subscribe</code> | <code>sensorium/interface.subscribe</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 
+### <code>Sensorium Web local deterministic extraction step</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>sensorium.web.extract</code> | <code>host/sensorium.web.extract</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
 ### <code>Sensorium Workbench connector</code>
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
@@ -236,6 +255,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>sensorium.workbench.file</code> | <code>sensorium/workbench.file</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 | <code>sensorium.workbench.patch</code> | <code>sensorium/workbench.patch</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 | <code>sensorium.workbench.terminal</code> | <code>sensorium/workbench.terminal</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>Weak Signal Harvester local review owner</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>weak-signal.review</code> | <code>host/weak-signal.review</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>Whisper Intake trace authoring provider</code>
 

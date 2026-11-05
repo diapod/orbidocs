@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-source-status-acquire-request.local:v1",
+  "title": "nym-source-status-acquire-request.local.v1",
+  "description": "Named current adapter union; historical closed v1 remains unchanged. Certificate and independently adopted profile still require owner verification.",
+  "anyOf": [
+    {
+      "$ref": "nym-source-status-acquire.local.v2.schema.json"
+    },
+    {
+      "$ref": "nym-source-status-acquire.local.v1.schema.json"
+    }
+  ]
+}

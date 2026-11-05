@@ -3243,3 +3243,20 @@ network plus adapter counters are required, with the actual mechanism and its
 negative probe recorded (including deprecated sandbox-exec when used). V2
 certificate generation remains synthetic pending P015-005, even when status and
 closure producers are real. Preserve independent source pins and gate outcomes.
+
+### Reviewed Harvester v3 publication continuation (2026-11-05)
+
+The Sensorium Web milestone adds protected host preview/sign v2 and fresh
+producer custody checks immediately before first local v3 publication. SQLite
+rechecks its document deadline inside the owner transaction; Matrix checks the
+exact retained review and holds before staging and again before sending, then
+rechecks the original deadline. Existing retry, unknown outcome and historical
+read rules remain effective. No prepared custody token crosses the channel.
+
+Receivers implement all current author classes for v3 independently of the
+milestone producer restriction to derived-local. The public-gossip projection
+uses the P013 `whisper-origin-lineage.v1` preservation law and versioned v2
+content, retaining legacy absence separately from declared unknown. This adds no
+origin input to source thresholds. Full fixture A/B on SQLite and the unmodified
+pinned Synapse profile, including the aligned window end, remains a separate
+qualification gate. Production adoption and federation readiness are not implied.

@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-authorship-preview.local:v2",
+  "title": "nym-authorship-preview.local.v2",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profile/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "operation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "certification/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "local-passphrase": {
+      "type": "string",
+      "maxLength": 4096,
+      "writeOnly": true
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status-authority": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "not-after": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 30
+        }
+      },
+      "required": [
+        "status-authority",
+        "not-after"
+      ]
+    },
+    "review/ref": {
+      "type": "string",
+      "pattern": "^weak-signal-review:[a-f0-9]{64}$"
+    },
+    "review/digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context/facets",
+        "confidence",
+        "disclosure/scope",
+        "signal/grade",
+        "routing/profile",
+        "routing/failure-mode",
+        "forwarding/max-hops",
+        "signal/similarity-key"
+      ],
+      "properties": {
+        "signal/similarity-key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact contextual correlation key. This required value is bound by the certificate profile/context; semantic similarity remains separate policy.",
+          "maxLength": 256
+        },
+        "context/facets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": "Normalized, low-resolution facets that help correlation without forcing raw disclosure.",
+          "maxItems": 16
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Local confidence in the quality and relevance of the prepared signal."
+        },
+        "disclosure/scope": {
+          "type": "string",
+          "enum": [
+            "federation-scoped",
+            "cross-federation",
+            "public-aggregate-only"
+          ],
+          "description": "Maximum disclosure posture for the contextual signal. Public Agora ingress does not admit private-correlation; this value grants no dissemination authority."
+        },
+        "signal/grade": {
+          "type": "string",
+          "enum": [
+            "low",
+            "moderate",
+            "high",
+            "critical"
+          ],
+          "description": "Signal salience grade. For `problem` signals this grades protective risk and urgency. For `idea` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`."
+        },
+        "routing/profile": {
+          "type": "string",
+          "enum": [
+            "direct",
+            "relayed",
+            "onion-relayed"
+          ],
+          "description": "Requested outbound transport posture."
+        },
+        "routing/failure-mode": {
+          "type": "string",
+          "enum": [
+            "soft-fail",
+            "hard-fail"
+          ],
+          "description": "Whether the sender allows downgrade if the requested transport posture cannot be satisfied."
+        },
+        "relay/acceptable-classes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": "Optional relay classes acceptable for outbound privacy realization.",
+          "maxItems": 16
+        },
+        "forwarding/max-hops": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Maximum number of relay hops allowed for the signal."
+        },
+        "forwarding/budget": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum number of bounded forwards allowed under local policy."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "routing/profile": {
+                "const": "direct"
+              }
+            },
+            "required": [
+              "routing/profile"
+            ]
+          },
+          "then": {
+            "properties": {
+              "forwarding/max-hops": {
+                "const": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "routing/failure-mode": {
+                "const": "hard-fail"
+              }
+            },
+            "required": [
+              "routing/failure-mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "routing/profile": {
+                "enum": [
+                  "relayed",
+                  "onion-relayed"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "required": [
+    "profile/digest",
+    "operation/id",
+    "certification/id",
+    "review/ref",
+    "review/digest",
+    "publication"
+  ],
+  "description": "Resolve the exact current common Harvester review in the protected host. Caller cannot replace approved text, origin, claims or author class. Preview refuses custody shorter than document validity; it never clips document expiry to a private horizon."
+}

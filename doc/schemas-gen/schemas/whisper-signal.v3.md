@@ -30,7 +30,7 @@ Contextual authored signal with reviewed material origin; origin grants no sourc
 | [`context/facets`](#field-context-facets) | `yes` | array | Normalized, low-resolution facets that help correlation without forcing raw disclosure. |
 | [`confidence`](#field-confidence) | `yes` | number | Local confidence in the quality and relevance of the prepared signal. |
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `federation-scoped`, `cross-federation`, `public-aggregate-only` | Maximum disclosure posture for the contextual signal. Public Agora ingress does not admit private-correlation; this value grants no dissemination authority. |
-| [`source/class`](#field-source-class) | `yes` | enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, `monus-sensorium-derived` | High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals. |
+| [`source/class`](#field-source-class) | `yes` | enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, `monus-sensorium-derived` | Authorship and preparation posture of the signal; material origin is declared independently by origin/source-kinds. Existing Monus and Sensorium evidence requirements remain in force. This axis alone cannot supply or replace a material-origin declaration. |
 | [`source/signal-kinds`](#field-source-signal-kinds) | `no` | array | Optional high-level local signal classes that materially informed a derived or sensorium-assisted rumor draft. |
 | [`signal/grade`](#field-signal-grade) | `yes` | enum: `low`, `moderate`, `high`, `critical` | Signal salience grade. For `problem` signals this grades protective risk and urgency. For `idea` signals this grades convergence strength, co-creation potential, or urgency of matching interested participants. Routing and disclosure policy MAY interpret the same scale differently by `signal/polarity`. |
 | [`routing/profile`](#field-routing-profile) | `yes` | enum: `direct`, `relayed`, `onion-relayed` | Requested outbound transport posture. |
@@ -209,7 +209,7 @@ Maximum disclosure posture for the contextual signal. Public Agora ingress does 
 - Required: `yes`
 - Shape: enum: `direct-user`, `pod-user`, `operator-observed`, `derived-local`, `monus-derived`, `monus-sensorium-derived`
 
-High-level origin class of the signal. `monus-derived` is used when a local Monus-like wellbeing module prepared the draft before Whisper publication. `monus-sensorium-derived` is used when Monus relied materially on Sensorium-originated local signals.
+Authorship and preparation posture of the signal; material origin is declared independently by origin/source-kinds. Existing Monus and Sensorium evidence requirements remain in force. This axis alone cannot supply or replace a material-origin declaration.
 
 <a id="field-source-signal-kinds"></a>
 ## `source/signal-kinds`

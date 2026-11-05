@@ -1513,3 +1513,15 @@ reverse mapping is maintained at `orbidocs:local/host-pseudonyms.json` and is no
 distributed. See the [documentation pseudonym convention](../../../ops/howto/documentation-pseudonyms-howto.md).
 Original evidence bytes, signatures and digests remain unchanged; these labels
 only change the documentary presentation.
+
+### Original-backed web snapshot handoff (2026-11-05)
+
+P084 snapshot v2 can be an explicitly published interface result. Independent
+recipient authorization remains required on local, direct-peer and Room reads.
+Harvester independently binds the exact source generation, profile, classification
+and snapshot digest before and after artifact I/O, then resolves original and
+representation custody at AD. The interface neither transfers a prepared token
+nor grants raw-original reads or Whisper publication. An original read is a
+separate classified local operator admission. This continuation retains the
+historical P082/P084 carrier qualifications and requires new scoped privacy
+evidence for the custody/origin milestone.

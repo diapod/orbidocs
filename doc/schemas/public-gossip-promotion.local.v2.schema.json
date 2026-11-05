@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "urn:orbiplex:schema:public-gossip-promotion.local:v2",
+  "title": "public-gossip-promotion.local.v2",
+  "required": [
+    "schema",
+    "lineage_refs",
+    "approval_policy_ref",
+    "redaction_review_ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "public-gossip-promotion.local.v2"
+    },
+    "lineage_refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      }
+    },
+    "approval_policy_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "redaction_review_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^\\s\\u0000]+$"
+    }
+  },
+  "description": "Operator request for a versioned promotion draft. The owner resolves origin from already admitted records; the caller cannot replace it. No signature or publication is created."
+}

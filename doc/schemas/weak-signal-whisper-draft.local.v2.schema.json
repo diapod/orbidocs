@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:weak-signal-whisper-draft.local:v2",
+  "title": "weak-signal-whisper-draft.local.v2",
+  "x-dia-basis": [
+    "doc/project/40-proposals/078-weak-signal-harvester.md",
+    "doc/project/40-proposals/084-sensorium-web-observation-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "draft/id",
+    "created/at",
+    "finding/id",
+    "source/finding-digest",
+    "source/review-ref",
+    "source/review-digest",
+    "status",
+    "publication/state",
+    "summary/redacted",
+    "topic/class",
+    "signal/polarity",
+    "source/class",
+    "origin",
+    "custody/claims",
+    "privacy/review-required",
+    "next/gate"
+  ],
+  "properties": {
+    "schema": {
+      "const": "weak-signal-whisper-draft.local.v2"
+    },
+    "draft/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "created/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finding/id": {
+      "type": "string",
+      "pattern": "^finding:[A-Za-z0-9._:-]{6,160}$"
+    },
+    "source/finding-digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "source/review-ref": {
+      "type": "string",
+      "pattern": "^weak-signal-review:[a-f0-9]{64}$"
+    },
+    "source/review-digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "status": {
+      "const": "draft"
+    },
+    "publication/state": {
+      "const": "not-published"
+    },
+    "summary/redacted": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "pattern": "\\S"
+    },
+    "topic/class": {
+      "type": "string",
+      "maxLength": 160,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "signal/polarity": {
+      "enum": [
+        "problem",
+        "idea"
+      ]
+    },
+    "source/class": {
+      "const": "derived-local"
+    },
+    "origin": {
+      "$ref": "whisper-origin.v1.schema.json"
+    },
+    "custody/claims": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "owner/component-id",
+          "claim",
+          "snapshot/ref",
+          "role",
+          "classification"
+        ],
+        "properties": {
+          "owner/component-id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[^\\s\\u0000]+$"
+          },
+          "claim": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "generation",
+              "body-digest"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[^\\s\\u0000]+$"
+              },
+              "generation": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "body-digest": {
+                "type": "string",
+                "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+              }
+            }
+          },
+          "snapshot/ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "pattern": "^[^\\s\\u0000]+$"
+          },
+          "role": {
+            "enum": [
+              "original",
+              "representation"
+            ]
+          },
+          "classification": {
+            "$ref": "classification.v1.schema.json"
+          }
+        }
+      }
+    },
+    "privacy/review-required": {
+      "const": true
+    },
+    "next/gate": {
+      "const": "whisper-publication-review-v3"
+    }
+  }
+}
