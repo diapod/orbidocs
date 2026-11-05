@@ -254,6 +254,33 @@ and performs no handoff; an owner persists its exact prepared ciphertext before 
 Its component tests do not qualify a concrete relay, host admission or Gate D.
 
 
+#### Source workflow and requester-key lifetime
+
+The S026 workflow commits an exchange-scoped random requester key and independent
+random handle before returning public preparation. Repeating the same immutable
+intent returns those values, never a replacement key. The native signed control,
+exact evidence and admitted response recipient are frozen before packet
+preparation. Current disclosure/privacy and owned time are checked both before
+commit and immediately before handoff; AD alone retries the exact saved packet.
+Transport custody is an independent fact and cannot regress a received result.
+
+Short request keys/packets and historical result metadata have separate original
+horizons. Request expiry never extends the case horizon. A completed exact result
+may be read during the case/replay window without the requester key; this is
+historical information, not a cached current permission. The source verifies the
+native authority signature, exact request/case/operation, accepted time and
+registration-input binding after AEAD decryption. An unsigned refusal remains a
+bounded diagnostic and cannot preempt a later signed acceptance or establish
+negative case knowledge.
+
+A scoped operational-root lease may protect private source-workflow metadata and
+short requester seeds. It must not derive or recover the independent case
+continuity key. No private requester seed is serialized into domain JSON or
+exported by a generic signing API. Expiry and reference collection prove local
+application reachability only; they do not revoke filesystem copies or constitute
+forensic erasure. The component implementation is not yet admitted host dispatch
+or retained PEX/LLR qualification.
+
 #### AD single-relay packet profile
 
 The AD transport owner carries the end-sealed PEX artifact in a binary packet:
