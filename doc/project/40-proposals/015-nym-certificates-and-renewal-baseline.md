@@ -1136,7 +1136,15 @@ The two signatures are unpadded base64url strings in the closed object roles
 `predecessor` and `successor`. Both cover `orbiplex.nym-succession.v2`, NUL, then
 JCS with only `signatures` removed. Audience is absent for public line scope;
 case audience has 1..16 canonical principals, bytewise sorted and unique, and
-includes the committed case authority. Signed input is never silently sorted.
+includes the committed case authority. An audience principal may be a `nym:did:key`
+reader: this proves possession for audience reads, not status-authority or issuer
+admission. Authority and issuer kind checks remain separate and exclude nym.
+Signed input is never silently sorted.
+The pre-release schema expansion explicitly admits nym audience members, matching
+registration and status-read contracts. Earlier validators may reject that new
+form; historical schema pins and signed artifacts are not rewritten. The maximum
+canonical size is unchanged because nym principals are shorter than the existing
+longest allowed kind.
 Succession IDs are canonical random UUIDv4. Canonical UTC, byte/depth limits and
 closed field combinations precede signature work. The schema-derived canonical
 upper bound is 2026 bytes, under the independent 8192-byte ingress ceiling.

@@ -323,6 +323,16 @@ registration-input binding after AEAD decryption. An unsigned refusal remains a
 bounded diagnostic and cannot preempt a later signed acceptance or establish
 negative case knowledge.
 
+A private audience read uses the owned nym key, not the originating node key. Its
+closed signing intent binds the case, committed authority, reader, short original
+deadline and exchange-scoped response public key. The source first persists the
+unsigned request and observed time in its encrypted workflow. Signer or packet
+preparation failure resumes the same preimage; completed preparation replays the
+exact packet without signing or sealing again. The authority rechecks current
+audience membership even when its status cache hits. This separate read right
+neither requires nor revives publication authority. The protected host nym lease
+reuses the owned clock/fence and rejects rollback or expiry around signing.
+
 A scoped operational-root lease may protect private source-workflow metadata and
 short requester seeds. It must not derive or recover the independent case
 continuity key. No private requester seed is serialized into domain JSON or
