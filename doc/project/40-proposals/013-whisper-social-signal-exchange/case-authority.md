@@ -311,7 +311,10 @@ closed profile table used by both source and destination. The deterministic retu
 packet is prepared only from the authority owner's committed token: result bodies
 bind the exact native control digest; status bodies bind the case. Its lease is
 bounded by the stored inner ciphertext and original request, without resealing or
-extending either. Header framing establishes no native authorization or current
+extending either. AD treats the forward deadline as the return-capability
+ceiling; the response packet may expire sooner. Packet expiry removes its transport
+copy while the consumed-response identity remains until that original ceiling.
+Cleanup cannot restore the right to choose another response. Header framing establishes no native authorization or current
 AD policy by itself. Authenticated host installation and retained qualification
 remain separate from this source component composition.
 
