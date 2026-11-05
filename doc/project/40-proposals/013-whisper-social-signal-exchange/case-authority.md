@@ -361,6 +361,18 @@ qualification remain separate work.
 
 The AD transport owner carries the end-sealed PEX artifact in a binary packet:
 `"orbiplex.ad-relay.v1\0" || u32be(header-length) || JCS(header) || opaque-body`.
+Local AD circuits and receive routes distinguish `exchange/mode`:
+`request-response` (the omitted legacy default) and explicit `one-way`. The latter
+requires an empty response family and zero response-byte budget, creates no return
+capability and reserves only its forward packet. Its opaque handle is an
+idempotency identity, not a response grant. The persisted mode/circuit digest
+prevents later policy changes from upgrading an existing one-way binding. Unknown
+or non-string mode values and contradictory fields refuse. This local policy
+extension leaves packet/header bytes, PEX profiles and existing request/response
+serialization unchanged. Audience presentations use the one-way profile; native
+authority requests retain scoped request/response. Destination admission returns
+no reply route for one-way, and source/relay/ledger checks refuse returns.
+
 The closed `artifact-delivery-relay-header.v1` binds direction, random 32-byte
 base64url return handle, family, issue/absolute expiry and body size. Only `forward`
 may name a configured circuit; `return` and `delivered` forbid it. The canonical
@@ -371,14 +383,15 @@ to the origin and relay; the destination config admits only a relay and families
 
 A configured circuit binds independently admitted hop targets and grants, separate
 forward/response size limits and a finite TTL. The relay atomically commits the
-capability with exact onward custody in the existing AD ledger. It binds the
-response to the authenticated destination, allowed family, original expiry and one
-exact body. Same-byte retry recovers that plan; changed bytes conflict. The domain
+exchange mode and exact onward custody in the existing AD ledger. For
+request/response it also binds one response to the authenticated destination,
+allowed family, original expiry and exact body; one-way has no such right.
+Same-byte retry recovers that plan; changed bytes conflict. The domain
 owner persists its exact prepared packet before enqueue, without regenerating its
 header/ciphertext on retry. The AD owner is the only transport retry owner.
 
-Capacity accounts for live capabilities and reserved logical ciphertext bytes,
-including one bounded response. This is not physical database allocation. The
+Capacity accounts for live transport bindings and reserved logical ciphertext
+bytes, including one bounded response only for request/response. This is not physical database allocation. The
 explicit local classification of opaque transport bytes passes existing INAC
 egress policy at admission and retry; it never authorizes inner plaintext
 release. Receiver domain authentication/disclosure remains separate.
@@ -446,6 +459,14 @@ root leases and domain admission remain with their distinct owners. Both consume
 are recorded in the Node re-use index. PEX sealing extraction remains deferred
 until a second real ADC-005 adapter exists; this source installation is another
 consumer of the existing case adapter, not that second semantic family.
+
+The one-way AD regression covers memory/SQLite/reopen, response-reservation
+absence, mode changes at retry and finite expiry. The shared three-process
+WSS/3DH/AD/INAC probe separately observes an audience-family fixture at its
+recipient, no return output, source restart/exact-byte replay, lost custody ack
+and raw privacy scans. Destination control reuses the actual AD `ReceiveRoute`
+without origin/circuit fields. This remains fixture-domain component transport,
+not installed recipient/private-nym or full Gate D qualification.
 
 The protected node-audience opener now binds the delivered AD family, role,
 handle, exact interval and recipient before the P037 key call. After decryption

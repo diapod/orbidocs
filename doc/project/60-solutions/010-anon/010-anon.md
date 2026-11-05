@@ -159,3 +159,13 @@ have separate hop authority; the destination sees the relay, not origin metadata
 Required privacy has no downgrade. Three local loopback processes qualify this
 profile separately from the domain verifier. This contract is not implementation
 or evidence of onion, collusion-resistant or globally anonymous delivery.
+
+
+The AD single-relay foundation now distinguishes explicit one-way custody from
+request/response. Audience presentations carry no return capability; omitted
+mode preserves legacy scoped responses. Mode and exact circuit policy remain
+bound across restart/retry and retain finite custody horizons. A separate
+three-loopback-process WSS/AD/INAC fixture observes one-way receipt, exact source
+replay and no return output with raw privacy scans. Domain ports remain fixtures:
+this does not close S010 or PEX retained qualification, implement onion routing,
+or establish resistance to relay/destination collusion or physical independence.
