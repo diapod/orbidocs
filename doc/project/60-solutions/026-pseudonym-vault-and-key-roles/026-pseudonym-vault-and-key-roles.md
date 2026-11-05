@@ -628,3 +628,14 @@ possession does not require a current publication certificate and does not grant
 case permission. Actual Vault and native recipient-owner component probes retain
 explicit synthetic-certificate/delivered-frame limits; source audience workflows,
 host signing composition and cold/transport qualification remain separate.
+
+
+The source workflow's one-way audience owner now keeps exact prepared PEX packets
+and encrypted accepted/status proof holds in that same finite Store, without
+requester keys or return grants. It binds a verified exact presentation and reader
+policy before sealing, and requires a current finite material-disclosure lease
+before preparation/handoff. Receipt of transport custody remains historical data,
+not recipient success or case permission. Full/detached, carried/referenced and
+node/nym component composition uses the actual recipient decision; native
+audience API, real material-owner egress lease and independent transport/cold
+gates remain pending. This adds no Vault recovery slot or hard-MVP claim.

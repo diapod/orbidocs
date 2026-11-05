@@ -475,6 +475,26 @@ The convergence disposition retains the distinct source view within the existing
 S026 owner/store; no new persistence engine, PEX retry or case-history authority
 is introduced. Full provider/composition work accounting remains Gate E.
 
+The S026 source now also owns a separate one-way audience lifecycle in its
+existing bounded SQLite/fence store. An exact opaque presentation token binds
+canonical bytes, reader, admitted policy and evaluation time before sealing.
+Its signed acceptance/status facts and source head commit together; preparation
+failure resumes the frozen basis, and exact committed packet replay never
+reseals. Current policy and a finite lease from the material-disclosure owner
+bound each handoff. A shortened lease or advanced source head refuses older
+prepared output. Closed evidence remains deliverable without granting a current
+effect. No reply key, return grant, PEX store or transport retry is introduced.
+
+Component composition uses actual P035/P037/PEX and the recipient owner for
+full/detached × carried/referenced × node/nym audience. It covers restart, lost
+preparation/final commit, current policy/lease changes, a later head, terminal
+history and expired current successor permission. Authority/transport ingress
+remain explicit fixtures. Native source-audience API and the real material-owner
+egress lease are not yet adopted; private AD delivery and cold Gate C/D remain
+pending. Indexed source controls reuse this owner's prior authenticated/fenced
+fact without repeating signature work or exposing a deserialized verified-token
+constructor. This does not close any tracker or qualify the full work budget.
+
 The source-adoption convergence review shared the actual zero-queue executor and
 closed delivered-frame preflight across authority/source adapters. Stores, trust,
 root leases and domain admission remain with their distinct owners. Both consumers
