@@ -71,6 +71,44 @@ not conflict. A refreshed timestamp at an unchanged head is not equivocation.
 Local database rollback is a local integrity error. CaseKnowledge persists negative
 knowledge with the consumer decision; restart cannot restore old permission.
 
+### Saved results and audience reads
+
+The closed `whisper-case-result.v1` reports one accepted signed acceptance or a
+stable typed refusal, its retry class, exact request id/digest and decision time.
+A refusal is diagnostic, never portable negative evidence or authority. Positive
+claims rely on the embedded signed acceptance. The exact sealed result is stored
+with its outcome; replay neither reevaluates the request nor reseals the reply.
+Expired request/certificate material does not revoke the retained exact-request
+replay right. Delivery of its stored ciphertext remains limited by the separately
+committed handoff deadline; expiry does not trigger resealing or reevaluation. A changed authenticated request under the same scoped id conflicts;
+invalid traffic is rejected before it can reserve an id or reveal a saved result.
+
+`whisper-case-status-request.v1` is an audience-member signature over the exact
+case/authority, request id, short owner-checked interval and response-key digest.
+It uses `orbiplex.whisper-case-status-request.v1\0` and canonical unsigned JCS.
+The key digest is SHA-256 of the raw exchange-scoped X25519 response public key.
+The current audience, independently committed authority and response recipient
+are checked before a cache hit or new signature. All did:key principal kinds in
+the admitted audience prove their own Ed25519 key; they are not authority signers.
+No transport peer becomes a reader by implication. New status and response
+preparation are budgeted; response encryption is preparation only, with no I/O.
+
+Commands and audience reads share the scoped request-id namespace. Ordinary
+status signature work has a finite window budget and cache per current head.
+One signature and one prepared response for a terminal head may use reserved
+capacity; additional fresh read ids cannot consume the terminal storage reserve.
+Recovery of an unsigned command preserves signature-budget observations made by
+intervening reads. Saved refusals remain refusals after a budget window changes;
+a new authenticated request id is required for a new decision.
+
+The authority's accepted-operation limit is derived from the finite case horizon,
+operation-window length and permitted operations per window, plus registration.
+Admission also reserves objects, events and bytes for negative knowledge for each
+admitted case. The byte reserve covers new maximum-sized P015 boundary statuses,
+closures, bounded snapshots/facts, control documents and one prepared response.
+Global physical-storage failures remain dependency failures, not a persistence
+guarantee from a logical reservation.
+
 ### Presentation profiles and budgets
 
 LLR-007 freezes whisper-case-succession-presentation.v1; LLR-009 qualifies that

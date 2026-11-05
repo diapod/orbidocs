@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-result:v1",
+  "title": "whisper-case-result.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "case/authority",
+    "request/id",
+    "request/digest",
+    "evaluated/at",
+    "outcome"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-result.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "case/authority": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "request/id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "request/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "evaluated/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "acceptance"
+          ],
+          "properties": {
+            "state": {
+              "const": "accepted"
+            },
+            "acceptance": {
+              "type": "string",
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "reason",
+            "retry"
+          ],
+          "properties": {
+            "state": {
+              "const": "refused"
+            },
+            "reason": {
+              "enum": [
+                "structure",
+                "limit",
+                "binding",
+                "signature",
+                "authority-unavailable",
+                "authority-kind-not-enabled",
+                "stale-predecessor",
+                "stale-status",
+                "not-yet-valid",
+                "terminal",
+                "conflicted",
+                "unresolved",
+                "signing-policy-refused",
+                "operation-not-enabled",
+                "dependency-unavailable",
+                "anchor-revoked-before-admission",
+                "anchor-unproven",
+                "access-denied",
+                "request-id-conflict",
+                "status-budget-exhausted",
+                "operation-budget-exhausted"
+              ]
+            },
+            "retry": {
+              "enum": [
+                "never",
+                "evidence-change",
+                "policy-change",
+                "dependency-recovery",
+                "at-deadline"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 5929
+}

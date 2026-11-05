@@ -54,6 +54,8 @@ NODE_SCHEMA_FILENAMES = {
 
 SCHEMA_WHITELIST = (
     "artifact-delivery-relay-header.v1.schema.json",
+    "whisper-case-status-request.v1.schema.json",
+    "whisper-case-result.v1.schema.json",
     "whisper-case-registration.v1.schema.json",
     "whisper-case-acceptance.v1.schema.json",
     "whisper-case-status.v1.schema.json",
@@ -785,6 +787,8 @@ SCHEMA_WHITELIST = (
 
 EXAMPLE_WHITELIST = (
     "artifact-delivery-relay-header.v1.json",
+    "whisper-case-status-request.v1.json",
+    "whisper-case-result.v1.json",
     "whisper-case-registration.v1.json",
     "whisper-case-acceptance.v1.json",
     "whisper-case-status.v1.json",
@@ -1433,6 +1437,8 @@ EXAMPLE_WHITELIST = (
 
 INVALID_EXAMPLE_WHITELIST = (
     "unknown-field.artifact-delivery-relay-header.v1.json",
+    "unknown-field.whisper-case-status-request.v1.json",
+    "unknown-field.whisper-case-result.v1.json",
     "unknown-field.whisper-case-registration.v1.json",
     "unknown-field.whisper-case-acceptance.v1.json",
     "unknown-field.whisper-case-status.v1.json",
