@@ -1474,6 +1474,9 @@ now live in a sidecar. The domain, decisions and task ids are unchanged.
 
 ## Long-Lived Rumors and Historical Authorship {#long-lived-rumors-and-historical-authorship}
 
+Accepted execution contract: [private case continuity](013-whisper-social-signal-exchange/private-case-continuity.md).
+PEX and LLR-001/008/007 remain unqualified until their separate A/B gates pass.
+
 Proposed post-MVP continuation; no runtime claim. The
 [owning design and tracker](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)
 now live in a sidecar. The domain, decisions and task ids are unchanged.

@@ -1,0 +1,218 @@
+# Private Case Continuity {#private-case-continuity}
+
+Decision date: 2026-11-06. Status: accepted execution contract; implementation
+and runtime qualification pending. Owners: P013-PEX-001, P013-LLR-001/008/007
+and the S023-001 route profile. No completion claim follows from this decision.
+
+## Executive Summary
+
+A named recipient receives protected Whisper material through AD/INAC. An author
+explicitly opens a case anchored to an admitted signal, then continues that case
+under a current nym when an action requires it. Private delivery, historical
+admission, accepted case history and current authorization are independent facts.
+
+Gate A qualifies private exchange independently. Gate B qualifies opening and
+succession on both SQLite and Synapse, including restart and replay. A Synapse
+anchor-unresolved refusal does not substitute for its positive path.
+
+Based on the [P013 domain map](../013-whisper-social-signal-exchange.md),
+[LLR owner](long-lived-rumors.md), [P015 contextual authorship](../015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md),
+[S023 Artifact Delivery](../../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
+and S026 case-key custody. Voluntary disclosure, privacy and accountable authority
+are preserved as concrete recipient/scope checks, explicit consent and replayable
+outcomes; transport success confers no domain permission.
+
+## Context and Problem
+
+Existing host authoring already prepares an exposed case commitment before
+preview and binds exact signed bytes before returning them. Custody qualification
+used a disclosed synthetic v2 certificate; it does not establish real case
+succession. The ordinary v1 issuance path and P015-004's WhisperV1 verifier must
+compose in Gate B without fixture-only signing authority.
+
+The current Matrix relay has a SQLite local store but no admission-store adapter.
+The current authoring path also confuses case retention with issuer identifying
+data retention. Both gaps require implementation, not a different success claim.
+
+## Adopted Model
+
+### Four independent periods and opening
+
+Certificate validity belongs to P015. Record/proof retention belongs to the
+respective P036/local custody owners. Counting belongs to Whisper. Consent belongs
+to its particular operation owner. No period extends another. Counting cannot
+outlive its evidence. Succession does not renew consent or counting eligibility.
+
+The authority publishes a signed policy declaring scope, maximum case horizon,
+history limits, status freshness and supported operations. P091
+`whisper/case-authorities` admits exact authority identity and policy digest;
+policy updates do not rewrite existing commitments. Missing admission refuses.
+
+Opening is an explicit new-case intent. The reviewed not-after is the minimum of
+the requested deadline, authority guarantee, record custody guarantee, proof
+custody guarantee and key horizon. Missing guarantees refuse before key exposure;
+issuer identifying-data retention is not a custody guarantee.
+
+The host durably prepares Exposed, includes the complete case tuple in preview,
+stores the exact signed author bytes, binds their digest and only then releases
+them for admission. Preview expiry does not erase an exposed key. UI lists exposed
+unbound keys and offers explicit abandonment. Repeated operation IDs cannot mint
+another key. Original signed records cannot acquire commitments retroactively.
+
+The case anchor is the digest of exact signed author bytes admitted with
+`agora-admission-receipt.v1`; the protected PEX signal is a separate case artifact.
+A local time-only receipt or Matrix timestamp is insufficient for LLR-002.
+Opening needs a positive historical admission result and acceptance by the
+committed, independently admitted authority. Revision zero is the original anchor.
+
+### Private exchange and recipient keys
+
+Reuse P015's cryptographic key-offer mechanism beneath closed family adapters.
+Do not reinterpret council-bound `nym-exchange-key-offer.v1` as a generic recipient
+offer. PEX has a recipient-signed adapter binding purpose `whisper-pex`, family,
+exchange identity, recipient/reply keys and expiry (at most fifteen minutes and
+no later than exchange expiry). P091 admits exact recipient identity and role.
+Labels never derive recipient keys. Keep P015 wire bytes and signing domains.
+
+Encrypt before any AD custody. Outer transport correlation is independent random
+data; private anchors, nyms and request digests stay inside ciphertext. AD alone
+owns transport retry. Domain outcomes are durable before reply handover; readback
+never repeats a mutation. Exact request identity binds saved bytes. Authenticate
+before exposing an outcome or reserving an idempotency key.
+
+S023-001 is an explicit route property: inac-direct only, inline only, at most
+65536 bytes for the complete sealed artifact, no peer artifact cache or generic
+object-store payload. After acceptor decision, AD retains reduced delivery/admission
+outcome metadata without domain correlation. Active retry retains the necessary
+ciphertext. Logs, notifications and observers contain neither body nor nym links.
+Large evidence is independently available verified local material; PEX never
+silently fetches it or bypasses the inline limit.
+
+Gate A has two production consumers: protected-signal custody and a domain inbox
+that persists exact case-request bytes and returns transport-accepted/owner-pending.
+Gate B attaches the authority to that inbox without changing delivery semantics.
+Authorized domain custody is distinct from AD's reduced transport ledger.
+
+S023-002 purge is separate. The recipient sees the INAC sender node; metadata and
+timing correlation remain possible. No anonymity or forensic-erasure claim follows.
+
+### Admission on SQLite and Synapse
+
+Compose the existing portable admission producer and local indexing for both
+backends. Matrix admission binds exact author bytes, the actual local admission
+decision, its policy/evidence and the observed Matrix source. A receipt is not a
+wrapper around origin_server_ts. Runtime publication time retains the declared
+`authenticated-admitted-homeserver-v1` policy; full PDU verification is acceptance
+work. Missing evidence, nonfinal admission or changed bytes gives anchor-unresolved.
+Replay preserves the original decision/material and never invents historical time.
+
+### One case authority
+
+`whisper-case-core` owns pure typed transitions and history-page verification;
+`whisper-case-authority-service` owns durable acceptance, the AD acceptor and S020
+maintenance. Daemon only composes. Reuse S028 and storage::owner_checkpoint, issuer
+prepared-result laws and the authenticated-head comparison beneath StatusCursor;
+do not import issuer-specific custody or create a parallel ADC state store.
+
+A request names anchor and request ID, not a client-assigned history revision.
+Acceptance binds its digest, assigned revision, previous accepted digest and
+explicit evaluation inputs. Authenticate first. In one durable transaction append
+the accepted event, update head/projection and save the exact result. An exact
+duplicate returns that result even after later withdrawal; changed bytes conflict.
+
+Evaluate/sign outside the write transaction, then recheck head and evidence with
+CAS before commit and exposure. Signer audits cannot expose signed losing
+candidates. Losing CAS discards the candidate and reevaluates. A contradictory
+signed acceptance observed by a recipient cannot be excused as an internal draft.
+A Clock port with durable high-water and independent rollback witness governs time;
+restoring the same database alone must not restore authority. No ambient now_utc.
+
+Status is fresh for 300 seconds. Refresh at an unchanged accepted head is not
+equivocation. Missing/stale status defers effects. Known closure or a newer
+succession wins over an older still-fresh status. Incomplete chains are unavailable,
+not empty active cases; conflicted is reserved for contradictory accepted history.
+
+The fold has typed amendment, withdrawal, confirmation, closure, succession,
+release-commit and abandonment transitions. ADC operations have no production
+route/capability in this slice. Exercise both withdrawal/release orders against
+the actual transactional owner as conformance, not runtime disclosure evidence.
+
+### Lazy succession
+
+Use P015-004 and S026 keys, not another signature verifier. Both roles sign one
+validated preimage. Successor stays in the original context/profile. The first
+predecessor is anchor-author; later requests name the effective successor. In
+concurrent A-to-B and A-to-C, the first accepted wins and the other receives
+stale-predecessor, not conflicted. Ordinary amendments preserve the successor.
+
+There is no periodic succession. Prepare it only for an explicit action when the
+current successor lacks a valid certificate. Allow at most 64 accepted successions
+per case and four in the rolling previous 24 hours (the left boundary is excluded).
+Duplicates consume no quota; quota exhaustion cannot prevent closure or readback.
+Certificate expiry emits no case event: status still names that successor while
+current action authorization fails. UI says successor-without-current-certificate.
+
+UI is usable without JavaScript, uses POST/CSRF, preserves the exact document on
+423 and requires another review after expiry. Show audience, accumulated disclosed
+links, status freshness, delivery and acceptance separately. A private succession
+links nyms to its audience; it grants continue-case only, never source merging,
+reputation, additional threshold contribution or human-identity proof.
+
+## Trade-offs and Exclusions
+
+Named recipients learn sender-node identity. Admission and case authority are
+separately trusted roles. Private-only anchors from a new case time authority,
+S023-002 purge, LLR-009 portable presentations, LLR-010 context transitions,
+automatic recontact, Anon and ADC execution remain outside this contract. Key loss
+has no invented authority recovery; explicit existing opt-in custody recovery is
+separate. New unlinked cases remain possible. Global Whisper/Agora stay partial.
+
+## Failure Modes and Qualification
+
+Gate A requires real two-node AD/INAC signal and request/reply, both acceptors,
+wrong recipient/key/purpose/signature/scope, expiry, duplicates, changed bytes,
+lost replies, restart/replay and non-inline/oversize refusals. Inspect DB/WAL,
+cache, object stores, logs, SSE and notifications by access class. Separate private
+domain custody from prohibited transport plaintext. No public fallback is allowed.
+
+Gate B requires ordinary certification and host signing, preview/prepare/bind,
+portable receipt and opening on SQLite and Synapse; real sync, exact bytes and full
+PDUs; missing-receipt refusal; expired original certificate and current successor;
+A-to-B-to-C; concurrent succession/closure/retry; exact lost-response readback;
+stale/missing/rollback/equivocating status; unbound keys/abandonment/erasure/recovery;
+restart and replay without sending, signing or performing commands again. Keep
+Node and homeserver gates separate. Controlled-clock tests are not long observation.
+
+Conformance includes quota boundaries, clock rollback, retention guarantees,
+pre/post-CAS crashes, unchanged-head status refresh and both ADC race orders.
+Runtime cases have their own process/HTTP observations; conformance has no invented
+HTTP success. Real v1 issuance is mandatory; synthetic v2 does not close Gate B.
+
+Retain one campaign through P035-011 with XZ dictionary 128 MiB: complete set
+16 MiB, refusal capsule 1 MiB, campaign/profile refusals 4 MiB and current aggregate
+limits. New Git controls total at most 64 KiB. Measure headroom before runtime.
+Loose, safely extracted and freshly retrieved qualifications from both adopted
+stores must agree. Read current retention/retirement contracts before capture;
+record owner, classification, inventory, dependencies, minimum retention and
+restore/replica facts; unknown remains unknown. No keys or recovery bundles.
+
+## Open Questions
+
+No owner-policy decision is deferred to implementation. Discovering incompatible
+existing wire contracts requires an explicit correction here before changing the
+claimed scope. A failed gate preserves its real result and leaves its task open.
+
+## Next Actions
+
+Baseline/test collection, contracts/schema mirrors/refusal fixtures, PEX/S023-001,
+Gate A, case owner/Matrix admission, ordinary UI/succession/P072, Gate B, then
+convergence and status reconciliation. After each substantial stage: review,
+repair, recheck and commit. Runtime uses clean committed revisions. Compile without
+incremental. Preserve feature worktrees; no integration or push is authorized.
+
+Before closure compare result stores with issuer decisions, AD idempotency and
+P091 CommitHost; folds/cursors, PEX/P015 offers and SQLite/Matrix admission.
+Every candidate is consolidated, intentionally separate or assigned a concrete
+owned follow-up. Reconcile P013/S011/S023, schemas/Schema Gate, P072 PL/EN,
+COVERAGE, Node ledger/MVP and the existing MVP readiness snapshot. Gate A can close
+PEX/S023-001 alone; the full slice requires both A and B.

@@ -1,6 +1,6 @@
 # Long-Lived Rumors and Historical Authorship {#long-lived-rumors-and-historical-authorship}
 
-Created: 2026-10-27. Revised: 2026-10-28.
+Created: 2026-10-27. Revised: 2026-11-06.
 
 Based on: [P013 domain map](../013-whisper-social-signal-exchange.md).
 
@@ -25,8 +25,9 @@ longer.
   Memarium with its lifecycle trace and privacy policy. No rule deletes it
   because its author's certificate expired.
 - **Fact.** P015 keeps contributions after natural certificate expiry at the
-  counting authority, and proves publication time with verified Matrix PDUs or
-  an allowlisted relay's signed admission receipt.
+  counting authority. Phase 1 runtime publication time uses an authenticated
+  admitted homeserver observation or a local receipt; portable historical
+  admission requires the distinct evidence described below.
 - **Inference.** A gate that demands current validity refuses an old envelope,
   redelivery included. Replacing `author/nym-proof` would change the signed
   bytes and the `record/id`, so renewing the author's authority and preserving
@@ -34,6 +35,10 @@ longer.
 - **Fact.** Story 014's 10-minute epochs and 2-minute certificates are fixture
   parameters, not production lifetimes, and that story tests a dormant fact
   followed by a rumor, not two rumors a year apart.
+
+The accepted [private case execution contract](private-case-continuity.md) freezes
+PEX and LLR-001/008/007 gates, ordinary v1 authorship, recipient privacy and
+positive SQLite/Synapse admission. Its adoption does not close those tasks.
 
 ## Four Periods {#four-periods}
 
@@ -50,25 +55,21 @@ is not the same as counting them as two qualified sources in one epoch.
 
 ## Historical Admission Evidence {#historical-admission-evidence}
 
-- **Receipt at first admission.** The admitting relay, or the counting
-  authority for private carriage, issues an
-  [`agora-publication-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27).
-  It binds the record id, the author-byte digest, the nym certificate digest
-  and issuing council, the verification outcome, the gate policy, the relay
-  identity and the acceptance time, and the relay signs it as an explicitly
-  admitted time authority. A verified Matrix PDU is an equivalent proof under
-  P015. This generalizes the P015 publication-time evidence rather than adding
-  a second format.
-- **Storage.** Nodes keep receipts beside the envelope bytes in Memarium, under
-  the same retention.
-- **Historical verification.** "Was authorized then" means: verify the
-  signature; verify the nym proof against the certificate validity window at
-  the receipt's acceptance time, within five seconds of skew; verify that the
-  receipt signer is an admitted time authority; and evaluate revocation by its
-  effective time. The verifier returns two separate facts: historical validity
-  and current status. Neither `authored/at` nor a bare `relay/received-at`
-  suffices. RFC 3161 timestamping is a comparable general technique; it is not
-  an Orbiplex feature.
+- **Receipt at first admission.** An independently admitted relay issues
+  [`agora-admission-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
+  binding exact author bytes, admission policy, decision and verification material.
+  A Matrix time observation, even supported by a PDU, is not by itself evidence
+  of the relay's complete admission decision. The phase-1
+  `agora-publication-receipt.local.v1` remains a narrower local publication-time fact.
+- **Storage.** Preserve byte-identical records and receipts/proof material under
+  their separate origin-bound payload and proof custody horizons. A counting or
+  case horizon cannot exceed the evidence horizon it needs.
+- **Historical verification.** LLR-002 returns four separate tri-state axes:
+  record authenticity, receipt authenticity, historical admission and current
+  status. It evaluates the signed historical material under independently admitted
+  trust; it does not simulate historical admission by running the live certificate
+  verifier with an old clock. Neither authored/at nor bare relay/received-at is
+  sufficient. Current revocation and current case permission remain separate.
 - **Admission after expiry.** A gate may enable historical admission for
   archival or redelivery topics
   ([P041-001](../041-agora-ingest-attestation.md#historical-nym-admission-2026-10-27)).
