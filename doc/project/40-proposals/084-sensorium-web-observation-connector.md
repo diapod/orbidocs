@@ -1689,10 +1689,30 @@ original intent, terms and payload, including lost-response replay. Original and
 exact durable-copy reads agree in ordinary and optimized processes. Earlier
 location/pressure refusals and rehearsal remain unqualified and unchanged.
 
-This is the focused AD prerequisite, not the full P084 campaign. Its native-case
-adapter and fresh composition are still required; the last complete-matrix
-checkpoint remains 13/131 verified with 118 missing at its recorded revision.
+This is the focused AD prerequisite, not the full P084 campaign. At that
+standalone checkpoint its native-case adapter and fresh composition were still
+required; the then-current complete-matrix result was 13/131 verified with 118
+missing at its recorded revision.
 P084-014/015 and the signed, remaining native, remote privacy and two-backend
 qualification remain in progress. No production adoption follows. Exact pins,
 private retention review and measured limits are in
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-NATIVE-CUSTODY-20261106.md`.
+
+### Native composition and expiry-before-review checkpoint (2026-11-06)
+
+A fresh independently qualified campaign now credits 18/131 mandatory
+requirements and leaves 113 missing, with identical ordinary/optimized incomplete
+results. The original three native AD cases are explicitly adopted across a
+reviewed tooling/documentation-only source bridge; their original revisions and
+scope remain visible. Fresh same-source review/component captures are joined by
+actual-clock expiry before review and explicit new observation/review acceptance.
+
+The expired pending finding has no decision/draft and remains unpublishable
+across restart without another fetch. Only a new source generation, explicit P082
+source-slot supersession, fresh grant/claims and new review permit continuation.
+This uses a five-second fixture policy without changing factory 24-hour identity
+or terms. P084-014/015 remain in progress; signed Gate A/B, remaining fault/load
+and new-profile carrier privacy cases are still missing. No production adoption
+or historical evidence renewal follows. Exact source/reader pins, paired controls
+and scoped retention review are in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.

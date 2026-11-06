@@ -750,3 +750,19 @@ findings last). Expiry before review marks the web ingredient unpublishable;
 only a new observation and review can proceed. Explicit extension is available
 before expiry, never automatic revival. Implementation and composed acceptance
 remain in progress.
+
+### Actual expiry and new-review qualification checkpoint (2026-11-06)
+
+The real-clock local fixture now verifies W7 with a live successful control review
+and a second unreviewed finding on the same initial material. After expiry, the
+latter remains without decision/draft across actual restart and receives a typed
+custody conflict. Only an explicitly acquired new generation/snapshot with new
+claims, source-slot supersession, grant and common review succeeds. No implicit
+fetch or retention renewal occurs; the queue retains the old unpublishable item.
+
+This supplies two scoped retention requirements within the current 18/131
+campaign checkpoint (113 missing), alongside fresh review/component and original
+native prerequisites. P078-015/016 and composed signed publication remain in
+progress. The five-second fixture adoption does not change factory 24-hour terms.
+Measured pins, original HTTP/owner-image bindings and refusal controls are owned by
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.

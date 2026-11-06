@@ -2016,7 +2016,19 @@ bounded private filesystem and detaches its exact image.
 
 This qualifies only that local I/O prerequisite. Quota/hold saturation, power
 loss, composed signed publication/privacy and the complete two-backend campaign
-remain separate. The three native cases have not yet been credited by the P084
-campaign reader. Earlier refusals and their evidence remain unchanged. See
+remain separate. At that standalone checkpoint the three native cases had not
+yet been credited by the P084 campaign reader. Earlier refusals and their
+evidence remain unchanged. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-NATIVE-CUSTODY-20261106.md` for pins,
 controls, custody review and the remaining qualification boundary.
+
+### Native campaign composition and expiry checkpoint (2026-11-06)
+
+The current P084 reader now explicitly credits the three original native
+fault/recovery requirements. Fresh actual-clock expiry/reobservation acceptance
+also checks unchanged old claim terms, no revival across restart and four exact
+old/new original/representation claims. It grants no automatic extension or
+publication hold. Together with fresh local review and component inputs, the
+campaign verifies 18/131 requirements with 113 missing. Atomic holds, quota/load,
+remaining faults and signed two-backend qualification remain open. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.

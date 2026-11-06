@@ -856,3 +856,14 @@ acquisition, both exact retained bodies, the admitted source/observation binding
 and no implicit fetch across actual review-owner restart. The broader original
 custody/privacy/load/publication matrix remains open. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
+
+### Expired web ingredient and explicit observation checkpoint (2026-11-06)
+
+Actual-clock acceptance now keeps an expired pending finding unpublishable over
+restart with no implicit fetch. A separately commanded new source generation
+and observation, followed by a new grant/claims/review, succeeds. Exactly two
+explicit observations account for the two article fetches; factory 24-hour
+retention is unchanged by the short fixture adoption. The current combined
+campaign is 18/131 verified with 113 missing; broader signed/privacy/load and
+two-backend qualification remains open. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.

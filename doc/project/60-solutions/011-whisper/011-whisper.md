@@ -577,3 +577,13 @@ one local draft and exact restart/replay are verified, while fresh signed Gate
 A/B and the full v3 window remain open. The independent P084 campaign gate keeps
 those obligations missing. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
+
+### Custody prerequisite checkpoint (2026-11-06)
+
+The current Sensorium campaign explicitly composes native AD prerequisites and
+actual expiry-before-review/new-observation checks: 18/131 requirements verified,
+113 missing. The new expiry path ends at a local reviewed draft; it performs no
+key unlock, authoring sign or Whisper publication. Full signed Gate A/B, the
+fixture-window end and recipient cutoff remain open. Production adoption and
+global Whisper readiness are unchanged. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.

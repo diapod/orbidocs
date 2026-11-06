@@ -1533,3 +1533,14 @@ positive duplicate read after regrant. This is local authorization evidence;
 new-profile direct-peer/Room and signed/gossip privacy obligations remain open
 in the separate campaign matrix. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
+
+### Explicit source-slot supersession checkpoint (2026-11-06)
+
+The new observation after actual custody expiry uses the existing P082
+descriptor supersession and replacement-reason contract, followed by a fresh
+recipient grant. Its exact new snapshot/interface/finding bindings are checked
+independently; neither a foreign supersession nor old-generation metadata can
+substitute. This is local handoff acceptance within the current 18/131 campaign
+(113 missing). New-profile direct-peer/Room and signed/gossip privacy remain
+open; the earlier carrier evidence retains its historical scope. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.
