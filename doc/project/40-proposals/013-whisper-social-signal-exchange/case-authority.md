@@ -715,6 +715,12 @@ same unsigned bytes; prepared replay performs neither anchor verification nor
 provider use. A policy change refuses replay rather than silently adopting new
 trust. Current disclosure and time remain separate gates.
 
+Source and authority adapters share the historical registration projection, with
+independent adopted trust and local observations. Carried registration roles can
+be checked before the signed control exists, reserving its maximum size without
+a placeholder signature. This projection performs no I/O or trust admission;
+current key custody, disclosure and private transport remain separate host gates.
+
 Public raw-control preparation cannot replace a frozen native registration or
 status-read attempt, including with a valid external control. Only the native
 owner operation enters the shared private commit boundary after its core finish
