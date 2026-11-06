@@ -649,3 +649,14 @@ Memarium, P035/P037, AD enqueue and a durable receiver decision. Authority and
 relay ingress plus recipient key agreement remain explicit fixtures. Native host
 signing, private transport, cold-process A-F and independent tracker closure
 remain pending; transport custody alone proves no domain delivery.
+
+A presentation's current successor assessment now folds all signature-checked
+anchor statuses from the exact same cumulative P015 scope, including holder-local
+custody observations. Different epochs remain separate. Weaker current-role
+attachments cannot hide that high-water or a later revocation. The recipient
+commits the effective source proof with its refusal and preserves it across
+restart, while historical succession authenticity and the shared signature budget
+remain unchanged. A refused cursor advance preserves the prior revocation proof,
+including when a larger revision omits cumulative revocations. This has
+full/detached and carried/referenced component coverage; independent native
+transport/cold gates remain open.
