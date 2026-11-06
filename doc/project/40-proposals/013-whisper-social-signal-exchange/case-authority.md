@@ -877,3 +877,41 @@ negative knowledge; transport custody remains solely with AD. Earlier per-nym
 prototype stores cannot be silently abandoned when adopting a group. Their
 presence requires explicit reconciliation. This does not qualify inactive-scope
 retention or the clean-source private-delivery gate.
+
+
+### Explicit external domain reception (2026-11-06)
+
+Legacy `case-presentation-carried` and `case-presentation-referenced` remain
+one-way. Their relay ACK establishes onward custody, never `delivered-ad`.
+Confirmed delivery uses separate `*-confirmed` families and
+`whisper-private-exchange-header.v2`. The presentation itself and its 4 MiB /
+64 KiB bounds do not change. A random exchange-scoped response public key is
+part of the authenticated header; it is not a source-node route or identity.
+Legacy v1 header bytes and schema stay unchanged. The v2 header maximum is
+542 canonical bytes; the complete PEX and AD frame remain under the existing
+5 MiB ceiling without another payload wrapper or base64 layer.
+
+`whisper-case-reception.v1` is a separate recipient-signed reception fact. It
+binds the original exchange, confirmed request family, exact presentation digest,
+recipient, response-key digest, received-time observation and original handoff
+horizon. Its maximum is 663 canonical bytes, derived from the closed fields.
+It carries no participant/owner scope, source node, private record id or permission.
+The receiver's node/nym key signs the dedicated reserved reception domain; the
+transport peer cannot establish that key. Source verification uses its retained
+exact context and expected recipient, never a key selected by the receipt.
+`received/at` is sampled by the receiver before its decision commit; it is not a
+claim of physical durability by that instant. The fact grants no `continue-case`.
+
+The recipient CaseKnowledge owner must commit its reception/decision and exact
+prepared response before revealing the response. It owns that bounded response,
+not PEX. Replay returns the retained ciphertext without another sign or seal;
+AD alone retries delivery. The response ciphertext expires at the original
+handoff horizon without extending the retained knowledge. The source accounts
+`delivered-ad` only after verifying this end-recipient receipt. Missing return
+routing or a failed domain verification never falls back to one-way success,
+direct delivery or local co-held delivery.
+
+Implementation status: schemas, closed family profiles, stateless codec and pure
+receipt verifier have component coverage. Dedicated recipient signing, atomic
+prepared-response persistence and source accounting remain to be connected.
+This protocol foundation closes no PEX/LLR tracker or ordinary transport gate.

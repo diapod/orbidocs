@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-private-exchange-header:v2",
+  "title": "whisper-private-exchange-header.v2",
+  "description": "Authenticated binary PEX header for explicit confirmed audience delivery and its private domain receipt. A scoped random response key is not a source-node route; legacy one-way v1 is unchanged.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "family",
+    "exchange/handle",
+    "recipient/key-digest",
+    "sender/ephemeral-key",
+    "nonce",
+    "issued/at",
+    "expires/at",
+    "plaintext/size"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-private-exchange-header.v2"
+    },
+    "family": {
+      "type": "string",
+      "enum": [
+        "case-presentation-carried-confirmed",
+        "case-presentation-referenced-confirmed",
+        "case-reception"
+      ]
+    },
+    "exchange/handle": {
+      "type": "string",
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "maxLength": 52
+    },
+    "recipient/key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "sender/ephemeral-key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "maxLength": 43
+    },
+    "nonce": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{32}$",
+      "maxLength": 32
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "plaintext/size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4194304
+    },
+    "response/public-key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "maxLength": 43
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 542,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "enum": [
+              "case-presentation-carried-confirmed",
+              "case-presentation-referenced-confirmed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "response/public-key"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "response/public-key"
+          ]
+        }
+      }
+    }
+  ]
+}

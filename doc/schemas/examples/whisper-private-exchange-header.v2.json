@@ -1,0 +1,12 @@
+{
+  "schema": "whisper-private-exchange-header.v2",
+  "family": "case-presentation-referenced-confirmed",
+  "exchange/handle": "exchange:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "recipient/key-digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "sender/ephemeral-key": "CQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "nonce": "BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcH",
+  "issued/at": "2026-11-04T12:00:00.000000000Z",
+  "expires/at": "2026-11-04T12:05:00.000000000Z",
+  "plaintext/size": 65536,
+  "response/public-key": "CQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
