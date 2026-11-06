@@ -794,7 +794,20 @@ another or unknown basis is unproven. New control effects and active audience
 presentation consult the local refusal; historical result reads and status reads
 remain separate. Finite source reservations include the full negative-token bound,
 so insufficient explicit prototype policies refuse rather than auto-expanding.
-Automatic local-material freshness witnesses on cached replay, inactive-scope
-maintenance, ordinary-process cold/private acceptance and independent closure remain
-open. This source-owner mechanism changes no historical LLR-002 verdict and issues
+Inactive-scope maintenance, ordinary-process cold/private acceptance and independent
+closure remain open. This source-owner mechanism changes no historical LLR-002 verdict and issues
 no signed authority statement.
+
+
+Cached native source controls and audience effects now freeze a scoped Memarium
+exact-evidence witness with their original inputs. The witness covers this entry's
+proof sets per role, local first-seen facts and accepted cursor identity, without
+reading blobs/private text or verifying signatures. Duplicate/reordered references
+and unrelated journal, payload-read or time-fence activity do not invalidate it.
+A newly admitted proof or cursor identity makes cached prepare/handoff refuse
+`anchor-unproven` and requires a new bounded request ID. Missing prototype witnesses
+also refuse effects. Explicit later-anchor observation never renews an existing
+packet, witness or deadline. Historical local reads do not demand a disclosure
+witness; current custody, classification, trust, independent successor floors and
+original finite horizons remain separate. Public P035 detached material is unchanged.
+This is a local input-change guard, not a global knowledge epoch or current permission.
