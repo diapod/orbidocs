@@ -331,7 +331,8 @@
           "enum": [
             "preparing",
             "prepared",
-            "transport-custody"
+            "transport-custody",
+            "delivered-local"
           ]
         },
         "exchange/handle": {
@@ -384,6 +385,30 @@
               "phase": {
                 "const": "transport-custody"
               }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "delivered-local"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence/bound": {
+                "const": true
+              }
+            },
+            "not": {
+              "required": [
+                "delivery/id"
+              ]
             }
           }
         }

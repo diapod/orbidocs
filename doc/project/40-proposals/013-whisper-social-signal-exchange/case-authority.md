@@ -853,3 +853,17 @@ Whether the author's own node may be the case authority is a separate policy
 question. This decision creates no local authority fallback and no independent
 ordering claim for an authority controlled by that author. The suggested editor
 default requiring explicit consent for a self-owned authority remains unimplemented.
+
+The recipient may already hold the exact presentation from an earlier admitted
+operation. Its immutable local receipt retains that earlier time; a later source
+operation can account for that fact without making it a new receipt. Sender route
+freezing applies per operation. A recipient may separately retain local and AD
+reception facts for identical bytes and reader, sharing one knowledge head.
+
+Source local preparation encrypts exact presentation bytes under a separate
+workflow purpose, with its original handoff horizon. It does not call a PEX
+preparer. After a recipient commit and source-side crash, reconciliation can read
+the original opaque recipient fact within the case/replay horizon; it cannot
+redisclose an expired packet or restore permission. `delivered-local` requires
+bound evidence and has no AD delivery id. This is an explicit additive unreleased
+local-result contract change; historical schema pins remain unchanged.
