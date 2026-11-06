@@ -97,6 +97,154 @@
               "$ref": "whisper-case-status.v1.schema.json"
             }
           ]
+        },
+        "request/material": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "control",
+            "evidence"
+          ],
+          "properties": {
+            "control": {
+              "oneOf": [
+                {
+                  "$ref": "whisper-case-registration.v1.schema.json"
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "nym-succession.v2.schema.json"
+                    },
+                    {
+                      "properties": {
+                        "succession/scope": {
+                          "const": "case"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "role",
+                  "digest",
+                  "bytes"
+                ],
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "profile",
+                      "successor-certificate",
+                      "successor-acceptance-status"
+                    ]
+                  },
+                  "digest": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                  },
+                  "bytes": {
+                    "type": "string",
+                    "maxLength": 699052,
+                    "pattern": "^[A-Za-z0-9_-]+$"
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "role": {
+                          "enum": [
+                            "profile",
+                            "successor-certificate"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "bytes": {
+                          "maxLength": 21848
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "control": {
+                    "properties": {
+                      "schema": {
+                        "const": "whisper-case-registration.v1"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence": {
+                    "maxItems": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "evidence": {
+                    "minItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "profile"
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "successor-certificate"
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "successor-acceptance-status"
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
         }
       }
     },

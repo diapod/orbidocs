@@ -774,3 +774,13 @@ and council discovery remain explicitly synthetic; P015-005 is not implemented b
 these vectors. Succession transport/authority roundtrip, source-local later negative
 basis, retained signed material for audience assembly, inactive-scope maintenance
 and the independent cold/private A-F gates remain open. No tracker closes.
+
+
+The source now retains native signed controls in a bounded scoped encrypted blob,
+committed atomically with its exact packet. Registration retains no anchor roles;
+succession retains only the three non-payload successor roles. Original case/replay
+holds outlive packet and reply-key expiry, and current-classification local result
+read exposes the optional assembly inputs without resigning, resealing or fetching.
+Protected record/manifest bytes remain solely in Memarium. Prototype/raw rows without
+this material remain explicitly incomplete. This is source workflow composition,
+not an independent presentation/private/cold qualification or a new permission.
