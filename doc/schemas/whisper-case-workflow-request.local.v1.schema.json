@@ -244,6 +244,13 @@
                   "type": "string",
                   "format": "date-time",
                   "maxLength": 40
+                },
+                "delivery/mode": {
+                  "enum": [
+                    "one-way",
+                    "confirmed"
+                  ],
+                  "default": "one-way"
                 }
               }
             }

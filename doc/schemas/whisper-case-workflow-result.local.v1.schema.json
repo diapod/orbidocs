@@ -333,7 +333,8 @@
             "preparing",
             "prepared",
             "transport-custody",
-            "delivered-local"
+            "delivered-local",
+            "delivered-ad"
           ]
         },
         "exchange/handle": {
@@ -384,7 +385,10 @@
           "then": {
             "properties": {
               "phase": {
-                "const": "transport-custody"
+                "enum": [
+                  "transport-custody",
+                  "delivered-ad"
+                ]
               }
             }
           }
@@ -410,6 +414,25 @@
               "required": [
                 "delivery/id"
               ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "delivered-ad"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence/bound": {
+                "const": true
+              }
             }
           }
         }
