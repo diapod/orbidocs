@@ -761,3 +761,16 @@ P035 producer, source SQLite and L2 PEX against the authority's A→B→C CAS, w
 explicit custody/policy fixtures and synthetic v2 certificates/statuses. Native
 source command adoption and the independent cold/private gates remain open; this
 foundation changes no signed wire artifact, case-authority claim or MVP status.
+
+
+The native source now adopts two-owner succession preparation. It uses independent
+source `CaseAnchor` trust, current finite Memarium disclosure, actual S026 continuity
+custody and an owned successor nym with current managed recovery. The source freezes
+the exact anchor-input and custody-selector bindings before signatures; the key
+provider independently enforces its original profile/context/authority/horizon.
+Full/detached native component vectors produce exact prepared PEX bytes and cover
+replay, altered inputs, key erasure and raw-control refusal. The successor certificate
+and council discovery remain explicitly synthetic; P015-005 is not implemented by
+these vectors. Succession transport/authority roundtrip, source-local later negative
+basis, retained signed material for audience assembly, inactive-scope maintenance
+and the independent cold/private A-F gates remain open. No tracker closes.
