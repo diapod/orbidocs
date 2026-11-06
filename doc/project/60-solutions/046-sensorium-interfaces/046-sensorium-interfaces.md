@@ -1632,3 +1632,25 @@ v2 bindings and all native complete-basis, first-pair, public-readback and expir
 requirements remain unchanged. Mixed-version and substitution tests do not award
 runtime credit. Matrix, common-receiver/threshold and full A/B qualification stay
 open; the preceding source-bound two-publisher report is unchanged.
+
+
+### First reviewed Matrix publication and status-cache withdrawal (2026-11-06)
+
+The source-bound Sensorium fixture independently verifies A's private AD
+certificate, reviewed protected v3 UI signing and Matrix HTTP 202/public readback.
+Its separately pinned campaign reaches 21/131, with 110 missing and identical
+ordinary/optimized results. B fails startup before export: status-cache compaction
+requires a formerly adopted profile absent from current configuration. C is
+reaped; no common-receiver, threshold, complete-PDU or full A/B credit follows.
+The earlier SQLite 22/131 retains its separate source and result.
+
+The owner correction validates retained canonical bytes, digest and source links
+before withholding unadopted status. It preserves facts and existing budgets,
+refuses current use without adoption and restores signature/cursor verification
+only on exact readoption. Other adopted profiles can operate and missing
+projections can rebuild; corruption remains a refusal. Component regressions
+pass and the next v3 conformance selection requires both withdrawal/corruption
+assertions. Fresh current-source native/runtime and Matrix qualification remain
+open; no historical gate or production adoption is renewed. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-MATRIX-PUBLICATION-20261106.md`
+and `node:daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md`.
