@@ -2062,3 +2062,20 @@ recipient/privacy and remaining load/fault qualification remains open. Existing
 P084/P078 and dependent owner trackers stay in progress. This does not adopt
 production or renew historical evidence. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-ISSUANCE-20261106.md`.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+Fresh native AD qualification observes actual APFS ENOSPC, a published-file
+crash and controlled database-abort recovery; original/copy ordinary/optimized
+readers agree. Ordinary A/B publication also exercises custody at each producer's
+own review owner. This does not award the unexecuted byte, capacity, mixed-hold,
+clock, legacy or remaining controlled-fault matrix rows. The full milestone and
+production policy adoption remain separate.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.

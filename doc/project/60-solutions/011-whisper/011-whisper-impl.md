@@ -862,3 +862,20 @@ assertions. Fresh current-source native/runtime and Matrix qualification remain
 open; no historical gate or production adoption is renewed. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-MATRIX-PUBLICATION-20261106.md`
 and `node:daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md`.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+Two ordinary reviewed producers and an independent C/D projection form one
+verified first pair on Synapse. A separate client and native reader bind every
+complete PDU to the original author buffer. The expiry proof reuses persisted
+current-view verification because status-only evaluation does not rewrite
+membership-change history. Existing phase-1 acceptance retains its original scope;
+this scoped v3 checkpoint does not close full A/B or production readiness.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.

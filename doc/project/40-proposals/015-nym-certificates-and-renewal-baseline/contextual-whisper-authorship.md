@@ -2243,3 +2243,20 @@ assertions. Fresh current-source native/runtime and Matrix qualification remain
 open; no historical gate or production adoption is renewed. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-MATRIX-PUBLICATION-20261106.md`
 and `node:daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md`.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+The source-bound fixture now verifies two ordinary AD certifications and reviewed
+v3 publications, an independent C/D first pair, persisted post-expiry evaluation
+and exact full-PDU delivery through a separate read-only client. The owner cache
+withdrawal repair has live positive B startup and both named conformance controls.
+A historical C read after the window closes is retained separately; it does not
+qualify all-producer refusal or old-node v2 cutoff. Full Gate A/B remains open.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.

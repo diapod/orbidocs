@@ -1561,3 +1561,21 @@ retain their original bytes and semantics. A draft is not a publication or a
 verification of its source assertions. Actual public publication still requires
 its explicit redaction/approval and existing signer/relay admission. Runtime
 qualification of this continuation remains open under P013-WEB-002.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+Two ordinary reviewed producers published v3 from the same 507-byte synthetic
+article. Independent C admitted two participant sources and published one threshold
+and one proposal; this is collection without a corroboration or unique-human claim.
+Original first-basis/current-view checks also verify unchanged contribution after
+certificate expiry, an independent read-only client and all four complete PDUs.
+P013-WEB-001/002 remain in progress: gossip/origin, remaining producers and window
+controls still need their own qualification.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.
