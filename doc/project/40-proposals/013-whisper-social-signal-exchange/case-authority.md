@@ -919,6 +919,26 @@ Neither signature grants publication or current case permission. Recipient-owned
 atomic prepared-response persistence, original-deadline expiry and exact restart
 replay now have real SQLite/PEX component coverage. Failure to prepare/store an
 acknowledgement cannot suppress newer negative knowledge; optional output cannot
-consume terminal capacity. Native confirmed routing and source accounting remain
-to be connected.
+consume terminal capacity. Native recipient return routing is connected through
+opaque committed output, with one-way/confirmed mode admission before key access
+and post-commit access, possession, time and stop checks. Source end accounting
+and ordinary external-reception qualification remain to be connected.
 This protocol foundation closes no PEX/LLR tracker or ordinary transport gate.
+
+
+The source's optional local intent `delivery/mode` is explicit: `one-way` is the
+legacy default and is omitted from its normalized private metadata; `confirmed`
+selects the separate confirmed family. Existing operations cannot silently
+upgrade. On a frozen external route, confirmed mode requires the matching AD
+request/response circuit and one random exchange-scoped response key. The source
+retains that key only in a purpose-separated protected row until the original
+handoff deadline. A receipt must match the retained packet context and expected
+reader before `delivered-ad`; transport custody alone remains insufficient.
+
+Actual custody classification still selects the route before effects. A frozen
+co-held route uses the verified local receipt, without a response key or AD
+return capability; the external confirmation preference does not force a trip
+through a relay or create an AD claim. Neither route falls back to the other.
+The additive unreleased local intent/result changes leave historical pins and
+legacy one-way wire bytes unchanged. Source mode/key/accounting implementation
+and qualification are pending.
