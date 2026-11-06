@@ -1229,6 +1229,20 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-036 | `messaging.accept` capability advertisement for messaging-capable nodes | done | Registered in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` / `.pl.md` and node `capability` mapping as `app/messaging.accept`. Solution 007 documents it as an application advertisement tied to the canonical `messaging-receive@v1` profile and `privacy = private-direct`; lookup consumers may filter candidates by it, while admission still requires a concrete `messaging-receive` passport and local `contacts` policy. |
 | P060-037 | Recorded messaging over generic Agora Vault | done | `message-envelope.v1` has optional `recording`; `agora-vault-entry.v1` and `agora-vault-ref.v1` are schema-gated and mirrored into Node protocol contracts; `messaging-core` validates recorded envelope invariants and lineage policy; `messaging-service` persists recording/vault status in SQLite, refuses replies to known recorded parents when the flag is missing, best-effort stores encrypted message-envelope artifacts through `agora.vault.put`, and retries due `vault.failed-retryable` jobs from the outbox worker; `agora-service` stores encrypted generic vault artifacts, exposes filtered public lookup by opaque `artifact/id`, scoped list/get/delete by opaque `vault/subject`, and rejects plaintext vault entries. |
 
+## Independent local participant tracker — 2026-11-06
+
+[P098's Message someone category](098-alpha-ui.md#9-integration-boundaries-and-delivery-scope)
+requires more than the existing operator readiness flow. At the inspected Node
+revision, `node:daemon/src/identity_host.rs` resolves `messaging_route_binding`
+through `operator_participant_required()` and returns no binding for another
+participant. P060-032's legacy operator mailbox fallback is not an independent
+participant routing contract. These new tasks do not change earlier `done` claims.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P060-038 | Freeze participant-owned Messaging routes and operations | todo | P007-LP-001; P024-009 | Bind preparation, send, receive, mailbox lookup, route/nym selection, contacts and retained results to the admitted participant and their Vault/keys. Preserve P076 grant/consent and transport rules. Freeze independent-participant API/ownership and migration semantics; a missing participant-owned route has a typed result, never operator fallback. Any historical fallback remains explicitly confined to its legacy profile and cannot cross into an addressed participant mailbox. Freeze bounded participant conversation/operation activity references, retained result status and permitted return links, with owner-local continuation and explicit unknown/expired states. No claim that a compose draft is durable unless the owner retains it. | P060-039; P098-012 |
+| P060-039 | Deliver Messaging for an independent local participant | todo | P060-038; P007-LP-002; P024-010; P060-013 | Implement host/service adapters accepting `AdmittedParticipant`, owner-specific route/Vault selection and mailbox/action/result admission. Qualify actual O/P/Q identities through preparation, send/receive, restart, locked/expired/revoked keys and wrong actor/route/recipient references. Prove P can message through P's route without becoming operator; route failure cannot select O's mailbox/key. Retain per-profile evidence and existing operator regressions; P098 owns screen integration. Deliver that activity/status projection from existing owner state; bind continuation/readback to the admitted participant and test pending/lost-reply/expired references. | P098-012; P098-014 |
+
 ## P076-036 receive-consent handoff
 
 Delegated receive consent uses the strict V2 presentation carrier with an optional

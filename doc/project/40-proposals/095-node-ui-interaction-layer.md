@@ -746,6 +746,48 @@ whole P095/platform/release status remains unchanged.
   native integration, and which command/window/frame permissions are required?
   P095-008 must resolve actual IPC authority separately from that flag.
 
+### Participant session adapter tracker — 2026-11-06
+
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+requires the UI service to convey its verified participant session without lending
+operator authority. P024-009 owns the shared contract and P024-010 its host verifier;
+P095 owns this producer and presentation lifecycle. The existing private-view and
+confinement rules still apply. P098 and domain UI completion are consumers, not
+prerequisites of this adapter.
+
+| ID | Status | Depends on | Task and completion gate |
+|---|---|---|---|
+| P095-012 | todo | P024-010; P095-013 | Produce the P024-009 admitted context from the verified session through the authenticated UI/host port; preserve participant/operator separation in the daemon client. Bind pending work to identity/session generation and invalidate on logout, expiry, switch or revocation. Prove O/P/Q, forged body/header IDs, bare control credentials and delayed results in browser and supported native transport using a bounded host fixture. No UI-stored domain grants or generic browser signer. Supplies P098-004b/005b/006/009/012/014/015 and P013-DFR-003; those consumers do not gate this task. |
+
+### Separate daemon clients and the initial local-primary profile
+
+P098's first home slice admits the session subject matching an explicit local
+operator-role binding, even when other participants exist. The sole-participant
+rule is a versioned legacy compatibility branch only before that role model is
+activated; it is never a fallback for missing role data. This does not establish
+independent-participant access. The client API
+separation below can precede P024-010/P095-012; the later participant-context
+adapter must use the same restricted participant-facing interface.
+
+| ID | Status | Depends on | Task and completion gate |
+|---|---|---|---|
+| P095-013 | todo | P095-014; P007-LP-001; existing Node UI operator/participant guards | Split `OperatorDaemonClient` and `ParticipantDaemonClient` plus their router state/extractors. No participant handler receives operator methods, a generic privileged request escape hatch, or an operator client through shared state. A restricted local-primary adapter checks the authenticated session subject against the explicit local operator-role binding and exposes allowlisted participant operations. Additional P/Q identities do not disable O's access. Only the host-declared pre-migration legacy model may use sole-participant inference; unavailable/corrupt explicit-role state refuses without fallback. Authenticated P/Q receive typed independent-participant-not-supported until their adapter is enabled. P095-012 supplies the later independently admitted actor adapter. Compile-time negative tests and route/dependency checks complement host refusals; sharing a low-level HTTP transport does not share authority. In Axum 0.8, build participant and operator `Router` values with separate state types, provide each state before composing the stateless services, and expose no `FromRef<ParticipantState>` for operator clients/state. Shared public render/config data must not carry authority. Audit middleware extensions, captured state and privileged transport constructors as well as `FromRef`; compile-fail coverage alone does not prove the host authorization boundary. Prefer `compile_fail` doctests with positive controls where rustdoc discovers library tests; current binary-only targets need an existing compiler harness or an appropriate owner-library seam. No `trybuild` dependency is required. Qualify role-model activation and a multiple-identity fixture with O continuity and P/Q refusal; live provisioning interoperability is a later consumer gate. |
+
+### Alpha surface conformance and advanced styling tracker — 2026-11-06
+
+Existing P095-007/008/010/011 rows retain their partial statuses. Their accepted
+contracts apply to Alpha, but neither an unspecified "applicable output" nor
+old operator-route evidence qualifies a new participant surface. P095-014 freezes
+an independently reviewable conformance profile; P098 owns exercising it on its
+new routes. P095-015 is a later styling admission decision, outside Alpha V1.
+Neither task depends on P098 completion. P091 still owns declaration composition,
+provenance and activation; these rows do not define another configuration system.
+
+| ID | Status | Depends on | Task and completion gate |
+|---|---|---|---|
+| P095-014 | todo | Accepted P095 private-view, fragment, representation and lifecycle contracts | Freeze a versioned Alpha surface conformance profile with exact route/representation classes, owner DTO boundaries and case IDs for public initial shells, private fragments, context/cache/history fences, passive modules, no-JS and browser/native transport. Identify reused accepted outputs and their evidence limits without closing unrelated partial rows. Include public versus operator/participant-private configuration metadata and CSP-compatible host theme delivery. Map each case to its existing mechanism and owner evidence; any missing shared mechanism requires a named P095 runtime prerequisite before consumer closure, not an Alpha-specific replacement. A profile freeze is a contract output; new-route runtime evidence belongs to its consumer. |
+| P095-015 | deferred | P095-014; existing P095 surface-admission contracts | Freeze the admission/isolation profile for a future operator CSS package and synthetic preview: resource/network bounds, privileged-control protection, private-view lifecycle, browser/native behavior, failure refusal and unthemed recovery. Decide the actual permitted style surface; namespaces, signatures and CSS layers alone are not confinement. Record a refusal if no proposed profile preserves these boundaries. P098-013 may implement only an admitted profile; this task supplies no V1 CSS permission. |
+
 ## Next Actions
 
 Land P095-007 first: it removes an existing history exposure and does not depend

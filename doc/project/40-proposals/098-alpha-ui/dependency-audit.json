@@ -1,0 +1,2944 @@
+{
+  "format": "p098-dependency-review.v1",
+  "date": "2026-11-06",
+  "kind": "temporary-documentation-review",
+  "checker_task_status": "P098-011 remains todo",
+  "qualification": "Generated during this documentation review using a temporary extractor, not the proposed repository Make/CI checker. Scopes and rules are checked in; the extractor is not. Topological sorting and a separate DFS agree. No implementation/runtime acceptance is claimed.",
+  "orbidocs_head": "1776cf30d799acac66c74ecf25cb759c211c9fc6",
+  "scope_file": "098-alpha-ui/dependency-scopes.json",
+  "scope_file_sha256": "718cfed57a103b84d203eff1d3f8e26b0a218dad73a7a43f106b5e194e078a7b",
+  "extraction_rule_revision": "p098-task-edges.v1",
+  "temporary_extractor_sha256": "05d41e5925c0cf8f396bd1f7bccec4375b7eefbd1f9620de77ff5a52fc6cdda0",
+  "temporary_scope_auditor_sha256": "db596cff71a5b29fa2f1e953b042611e9d908518b792504b654cdf96d2c0051c",
+  "source_content_sha256": {
+    "001-licensing-proposal.md": "8d3689d85cc32ce15c9f866b29ace82f57b5d9a0356a8f44ee989485633c3ee1",
+    "002-comm-protocol.md": "0d0bee95a978576873006f5916067b575f357d28b4c58ac77b2046a12647902c",
+    "003-question-envelope-and-answer-channel.md": "ec926bfe71299a746355e893c216b85f1eab39b6685799c241d9316efedd90ac",
+    "004-human-origin-flags-and-operator-participation.md": "c500e5fea2836ca11e72a127b5c13093a5aa555982cc070686a987d44a072292",
+    "005-operator-participation-room-policy-profiles.md": "1acb7a170d3cd501c46782a61a38c78a38e93f05e0c97fd543ff048421d7fac8",
+    "006-pod-access-layer-for-thin-clients.md": "438360708514b3f274cb0f23967f1c434ea5fca78ee514076bb162bd3754547e",
+    "007-pod-identity-and-tenancy-model.md": "1cf7ac817687f855dec52383bd2d4764a0f8dce0afb7e7a488a6719dce85bb94",
+    "008-transcription-monitors-and-public-vaults.md": "09b11d22d28e03375a00339f49d87a3c9f1a118550a31c7ec8f6585791a5181b",
+    "009-communication-exposure-modes.md": "fa8206c28cdd7cd12f0bfa217a37d686b5c903902ca77d0578a526817103533e",
+    "010-operator-proxy-co-regulation.md": "1f877802707455fa47ed24ac0fd7e37860e5b9818757d43b468b5a0e6e9c2d1a",
+    "011-federated-answer-procurement-lifecycle.md": "208e2c7996f86806b104c9ee805d48ff43249f8e67904155963af278081fd22f",
+    "012-learning-outcomes-and-archival-contracts.md": "4f21929519f8036e0dc4f3a46ad3b06291f5b7c5388c375ffb834b4599a43d00",
+    "013-whisper-social-signal-exchange.md": "e164d06a1b2141edd9a7b8dfff5381687812666995a45a36b4276960cda90f9b",
+    "013-whisper-social-signal-exchange/author-disclosure-conditions.md": "33b3151bbc414bdbf280fd8fe9cc2d7d5180a70d7249edd2410f2634a328afb7",
+    "013-whisper-social-signal-exchange/contract-review-2026-10-28.md": "b280d7641ce5aedf209f89433ddf7c3c29b8063613e1eab4e086433ba4e3946c",
+    "013-whisper-social-signal-exchange/cooperative-interest-masking.md": "e79b61750ba1d680c58e31b9ef744d0306d2be52440a0f18ebf7826e0cc693a6",
+    "013-whisper-social-signal-exchange/long-lived-rumors.md": "c96edef48fc02ce0c245dab4f19859607df2705a4bdbf29864b78420fc201c0c",
+    "014-node-transport-and-discovery-mvp.md": "0f5e26a9f7def17535af11a17313e8a21bca3760a05ba40680029aea0be09b2d",
+    "015-nym-certificates-and-renewal-baseline.md": "7e8623cf75efeb089ef43fef08ae6a6e1df9548e85b6520e47b2b1185adf4950",
+    "015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md": "46c6ba348c0be0442e4f0a88bd89f4ae5104f265c436dc0593808be80fe88221",
+    "016-supervised-prepaid-gateway-and-escrow-mvp.md": "eeb80c9f5ab70a6ad8ff4fe3280a312acbce4cc0087dbaaecfd0a599cff4912f",
+    "017-organization-subjects-and-org-did-key.md": "115110f7d6b7f3c0a043a7711d9839c833a589d87e681dbdb7838cd51664fc35",
+    "018-layered-capability-limited-participant-restrictions.md": "1500c4f708eb1bf345ce4cf741148b8401a4a646090de836981147747e7b12ab",
+    "019-supervised-local-http-json-middleware-executor.md": "9628c2f713216d18bbddf7716338caac86ff5b17ef3a7434467c82df2ceb1ba7",
+    "020-bundled-python-middleware-modules.md": "fd76abc1890bfde064fd4d4bdb110032f7bf4f3c8e7bf6f049248ddd23aa3615",
+    "021-service-offers-orders-and-procurement-bridge.md": "90b3feef4acfa8065a81b22ea16ba5840826c7b5a9df9ec3388846bcf9b4186a",
+    "022-monus-as-host-granted-local-observation-middleware.md": "5e9ae5639fd4cf5e46f2bf14380dd1e66f2e3e57ff16262684a02869cae84797",
+    "023-federated-offer-distribution-and-catalog-listener.md": "72b413f41d1b02471679fbc92073be597b09ffaf4b65592c11cf8437989766a9",
+    "024-capability-passports-and-network-ledger-delegation.md": "f0dd0b34543c446aae8373b0d04c89bdbb5cb63586d2c6148cdda6f7159123de",
+    "025-seed-directory-as-capability-catalog.md": "89ae269f209c44a5acc07b25bbd30ff319246f98a6d0b503a94872d30c3e7b93",
+    "026-assessment-agent-consumer-r1.md": "0d320190cac15b5d99b2fd5dd59ac5b7d7c2d56edfdc7b910aacca2b53a9865a",
+    "026-assessment-agent-consumer.md": "f5661bc296aac0c59cd87edcb3a1b8911e0919467751f490e96308a6eaf2b3fd",
+    "026-assessment-audit-dispatch.md": "f92450bf20f8b7861e6ce622f74142c48b6dfe6aa23f93f383af8a4aa28d8f89",
+    "026-assessment-dependent-context.md": "b33e3528163a9f07c936f8c2532f72a6036985bf6a42b207c0d691099417303a",
+    "026-assessment-viewer-grants.md": "224fd825f93a39c0259a168e08c828da9fba87a89c692d05623839137dd5e37f",
+    "026-resource-opinions-and-discussion-surfaces.md": "541e22d4bbb067a868624482fce3137209c6b97d6d2923358bebad7921c14225",
+    "027-middleware-peer-message-dispatch.md": "87b6e7a5744f6b6594340a81f509bcdf80cec4967afad35f15a9bbdb5ae9e8d7",
+    "028-service-schema-catalog.md": "ec0cfd73fb9f9852038fce7ce2a52be1905ec3e981c2d00c8306448bcf2e7986",
+    "029-workflow-template-catalog.md": "e42aca6fa6359b73993c58ac6be82ee9278323f8b7b6dcf7d2535248cb97ce07",
+    "030-identity-recovery-service.md": "95b9fc942c2c24ccc3c9f3f90a1c7cf8442f31ff16cee32a0910410929cc1f74",
+    "031-participant-key-passphrase-lock.md": "c8278107e6954466852c36d55ef3066fcfb00ca7fb4df45fc61d817ab11ab333",
+    "032-key-delegation-passports.md": "bb7960e5326beec2f4f055742b997af7295da2636f9c4cd87572a05d332404a9",
+    "033-workflow-fan-out-and-temporal-orchestration.md": "b7de377101c49f7feeedae3ad404031c42daa98359d85504fff4c0a9368b0235",
+    "034-node-operator-binding-and-derived-node-assurance.md": "f94a0d6d7024f00849e297609dae75167bdbf6afa364f5898e0dfbbeabd9a7c7",
+    "035-agora-topic-addressed-record-relay.md": "f5a737839323fe6753d151435229e26cd560beb66ec81ef716b9107789d1549d",
+    "036-memarium.md": "afef5359783a33139a9e43bd56de6fc4cd52dfbcab28505e470db85ae716e430",
+    "037-generic-signing-service.md": "e1065245bef5a243be90ec75e719d3c96f99f49ab5cf7c8bb25cc9f20b90d528",
+    "038-key-roles-and-key-use-taxonomy.md": "97d4130a4768a12ea206a220c5ae16b1d3b00c421f8868bc6a640c01250f5162",
+    "039-crisis-space-seed-v1-review.md": "bfda11890ef38de2199c76492ad3b34dd994648d980559eb972391cafcb22e17",
+    "039-crisis-space-seed-v1.md": "2fc456a0e7ea0a1b795842931f094c65a894e43d4574bc6084c8301c25c6c5fe",
+    "040-custodial-redelivery-and-tombstones.md": "065144fe7a8be1d14a5d85bee34e4b23b235212d8ba46466024f76afeaa2235e",
+    "041-agora-ingest-attestation.md": "99e5512fc6a365740bd8affdbdeb4941a565e3b3e09a41a2e8e4858fac6f3450",
+    "042-inter-node-artifact-channel.md": "e0c58b99f3ba94cb8278376a4b8e5a6277d7a751e974074c077c84c88ac7d8ff",
+    "043-node-address-attestation-fallback.md": "1f4a02a234b7e01077c335304e14f80ebb36cea4a43a33e3e20758ee68ce8ce1",
+    "044-host-owned-generic-module-store.md": "b45f295caeb9afc611e2cf1b6fe8d1ab36d8c9b1aa029e97bc43f209fc6a8e8f",
+    "045-sensorium-local-enaction-stratum.md": "19a7e2ec91b8041d44661f79a480752c01128d58231d9475d20c496308f49279",
+    "046-agora-topic-key-namespace-conventions.md": "91ea7c22a4a74e1fd24d3df4d566d107185beabf4d0d365b2a1c5ad10ccb6fae",
+    "047-classification-label-propagation.md": "659c3ea770ce8f567d20f4dd7a4da93cf08933b22d98f4eabd8802007361c59b",
+    "048-sensorium-os-connector-action-classes.md": "d1264c79bdaa5dfe743b6a7a3cfdb6da91ee5ab04367fab5cb71c602f13b3c03",
+    "049-json-e-middleware-transformer-executor.md": "25500885688b16a48a0e8f84cd5712b0998c9084d1fbd8c33fd27fc5811656e3",
+    "050-local-readiness-gate.md": "d9122d2d03ae4cc26e3dbf9137cc0c2f2c048c86ffd66307bc119dee3757a9e9",
+    "051-swarm-membership-and-reputation-bootstrap.md": "b5da085aa9563dc0299b506ca8a71ef00142a3ca020819a9a0c7951706d56b81",
+    "052-tauri-hosted-node-ui.md": "f04353b3480075ad4b01d31fd8372e771198de0d585b7fc41ac7dfd9b4d4bda1",
+    "053-raw-signal-access.md": "07c4007096b534bf6020a6d8f66f119d635951c26102683edb9fa2b5ca834457",
+    "054-user-maintained-federated-seed-directory.md": "12bd025240e7fe5291dcde9766a7bb4df87754b5a9e92dfdec1fab95725f4547",
+    "055-bounded-deferred-operation-contract.md": "9f7aa7f9a5a05319c70084bf4e5d263171ae62dbde6b78e0ae60540898067a58",
+    "056-orbiplex-tls-trust-policy.md": "6e8d43566e7f10fcf1a1cc9f0c5185b60cb61da9cb9f45996fcde3882d8f605a",
+    "057-user-and-operator-notifications.md": "394696b78c4c181d5f9fdf689ad43a9ac2670e24abef15dea9e80e45aab23b7a",
+    "058-contact-catalog.md": "9491e77ae44ad12c849fd7051e54ab5c57e41071dae2680df807fa1b49be7fb7",
+    "059-participant-and-nym-key-role-derivation.md": "6750a5c2c0a25af03be350236df431523e8f5b8038df61cd00a42f4ff67e0807",
+    "060-messaging-middleware.md": "4314b457f0db8ecee162b90477cd155bdb96514a5616f66c8eb3bd238c60c3d7",
+    "061-contact-attestation-service.md": "25523afbe5d1de9cd813161d7ce6843253d365a685ad250ebfcc455342233f02",
+    "062-temporal-storage-convention.md": "5b22b7cd006b4242313b510bab548901f01422e65dae1c03a62dc63b44f4f1ea",
+    "063-inquirium-model-inquiry-organ.md": "031970c9f21d2939c38e3a26466812e856067b7a657fd46cb35ec5f9fcee1e02",
+    "064-inquirium-implementation-recommendations.md": "4d24918c7118ffefd691574e63b4f009d8c865911f80c1413ff7949867ba8d4f",
+    "065-local-relationship-layer.md": "e52f4a93c05a1419c8aec67c6d060cae62164e374d07f228933642de398da016",
+    "066-inquirium-assistant-channel.md": "7093b4cd13ace70787ded38867d52f9c9c39c94fe791d30ee13e8b68c48cda10",
+    "067-shared-offer-catalog-over-agora.md": "38346ae0f14f40602aef8f9a63bf76bdb7757324f291ded54782d46bccbafd20",
+    "068-api-surface-projection.md": "721b6acf2de73c6920cf4951a69d30f50917506a59929a512e5265ee39d978c9",
+    "069-corpus.md": "7ee758d1eb7a60d49ee661489cba017d00238347a4d83a4efb7f4821c4f47e4f",
+    "070-room-primitive.md": "247da1aaa15d952704d48f16561d9ed73cfcf57a63c46cea13fda605f040cea6",
+    "071-sensorium-workbench.md": "8e598a02935e150dfe7be150eaf088a2db879cc30368fca4ebed8eb406aae6c2",
+    "072-capability-registry.md": "7945f751faa7bb2a0739856bd551419908a3c88a1296ad021dbdb43635388071",
+    "073-agent-orchestration-organ.md": "9fdd870452e219ac69f0c1c710f0fd63ca6da268e13a494a63e547f5ef516dea",
+    "074-multi-node-federation-harness-and-trace-explorer.md": "53b7201b9f351651d3470aaa2dba08c2a4e62bc297378ffc91f6ed5209f9abd5",
+    "075-matrix-homeserver-runtime-profile.md": "89f579f2268dcc0dac7ed6f3c10c075c68ba2184b694263f4177e980c15d85ea",
+    "076-federation-identity-and-network-selector.md": "943e1a5a6ed3aefc071e6dd336dd87038cc4c3b75b86335f7b7a76dcbe2db926",
+    "076-limited-messaging-grants-decision.md": "0a4aa2493e805ebc8fe6f136897315ad7f67e59b63c9673c79e35e2c61059d58",
+    "077-swarm-broadcast-assistance.md": "e741e6d60b3680f56fabf02167925d146cdd1298ee0a15ad5a90bba52c6391b8",
+    "078-weak-signal-harvester.md": "7d52c5626a0fcb83631b76a9d765bea15433a4fe2ff7b0d91eda935aa08e6857",
+    "079-cross-federation-alliance.md": "55a80489a5fc08a82f2e62b0c738ab418fb9e5859711c44da7ca2e782afe0dbc",
+    "080-multiplexed-middleware-channel-executor.md": "8d1a9dcd0788eb9a8b1bb333187c817d7ac5038361060a774e301e0b3556dbe1",
+    "081-horizontal-protocol-primitives.md": "a3b3f47c02207465cafbc479e3f059f12d9a5e21a4912129f5d74fbd2d7fa1f7",
+    "082-sensorium-interfaces.md": "ccd980d1538f32a47689c6ab94a201affea4ca3404b3872dcc598fada4c97907",
+    "083-sensorium-interactive-interfaces.md": "180ffed0b5ef2a18303d09c6720306abc180e4c769c280b9ab246d8ca277f7f1",
+    "084-sensorium-web-observation-connector.md": "9930b7cec9e43f91794e12c764305c1eda9400f99c66851b05ab92fb17113ae8",
+    "085-operator-sovereign-extensibility-and-experiment-packages.md": "1410ff229830494c111c27b5696d09c02f664fe4b6d770f15dd71757c3f2feaf",
+    "086-component-communication-observation-and-trace-sessions.md": "5cb8147aea111a92dde42c5b196569c581633c2bbf909f8c1fdf07bbf29b84b7",
+    "087-wasm-nse-decision-backend.md": "b669ef445981f8941cd147b03c68c71d74bb2a88d757841295795552282f13e5",
+    "088-pull-based-artifact-acquisition.md": "649c8de2d0d64e676fa1c558e62e4a6702e68e1176b2da9011826062b4a79cdd",
+    "089-external-agent-runtime-adapter-contract.md": "22907b5f4720ac955aafee6dcb9f3f0b9734b5ae8a11ecfa744946f057892916",
+    "090-inference-execution-provenance-and-non-local-disclosure.md": "51f1c02aa90c49961c9ea697c82ebc447299d336b662e9ff91c423e307f3fab7",
+    "091-file-backed-configuration-and-explainable-composition.md": "cb315c64125cb356096ce5309779c8ac706286bf183d0cdd5a6c3c9613a867e8",
+    "092-node-contract-maturity-baseline.md": "90572eb9f62ab1750bbc45cb7d7e8ffc47352f640a47bcd0b234c0975ee867e1",
+    "093-package-scoped-private-capabilities.md": "596de445beb9a992756d18d9961e77438a7355c468437990bdab215d6d077b8f",
+    "094-operator-task-packs-for-bounded-problem-solving.md": "d01aa8773a417ce3adc148e6ce787facdb5daa1178fc2c8912d77764088a7d1f",
+    "095-node-ui-interaction-layer.md": "0acc06dbe02f24957cda9fdb3ccc6adabb0a79ef7fde086a25556bf70c108d51",
+    "096-sensorium-brainflow-connector.md": "7749feb5bf7ee65336ef0b7bdb124f0ab809d7a38795121ed80a78b26ea0a795",
+    "096-sensorium-brainflow-implementation-history.md": "74767c1f808fe2421e566e1d6b64f193d902b0119002a8a6509fac7b63e0ccbc",
+    "097-fresh-identity-onboarding-and-messaging-readiness.md": "5fce1b346f90bed7af9247ad689bb73e9d54418ebe92f96724963061e6021a71",
+    "098-alpha-ui.md": "56e9cabb23cdc993d8a8dc511280251d0f49b1a37d682dba2f2a07fe3abd669e",
+    "098-alpha-ui/delivery-plan.md": "e4ff5d948557667236a04b4975f0d549060adec81bc966eb90faa7474db76fce",
+    "098-alpha-ui/dependency-review.md": "2e884dcf963e6dae18cca60450b6ec90871a29cd8f69398aa7f939f892b42a30",
+    "PROPOSALS.en.md": "61e1fd11ae827f2a1c1d7a9217829cf792dfc2b1c70fcfefc959588df9874a27",
+    "PROPOSALS.pl.md": "16d2012ccd0de03d18bc67d0c7ec215c9a0c580742d10ea8c8e0eb4ca99f323b"
+  },
+  "scopes": {
+    "local_primary": {
+      "expanded_roots": [
+        "P098-017"
+      ],
+      "node_count": 25,
+      "edge_count": 43,
+      "graph": {
+        "MSG-ONB-001a": [],
+        "MSG-ONB-001b": [
+          "MSG-ONB-001a"
+        ],
+        "MSG-ONB-001c-01": [
+          "MSG-ONB-004"
+        ],
+        "MSG-ONB-001c-02": [
+          "MSG-ONB-001c-01"
+        ],
+        "MSG-ONB-001c-03": [
+          "MSG-ONB-001c-02"
+        ],
+        "MSG-ONB-001c-04": [
+          "MSG-ONB-001c-01",
+          "MSG-ONB-001c-02",
+          "MSG-ONB-001c-03"
+        ],
+        "MSG-ONB-002": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-003": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-004": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b",
+          "MSG-ONB-002",
+          "MSG-ONB-003"
+        ],
+        "MSG-ONB-005": [
+          "MSG-ONB-001c-04"
+        ],
+        "MSG-ONB-006": [
+          "MSG-ONB-005"
+        ],
+        "P007-LP-001": [],
+        "P057-003": [],
+        "P057-018": [
+          "P057-003"
+        ],
+        "P057-019": [
+          "P057-018"
+        ],
+        "P095-013": [
+          "P007-LP-001",
+          "P095-014"
+        ],
+        "P095-014": [],
+        "P098-001": [],
+        "P098-002": [
+          "P095-014",
+          "P098-001"
+        ],
+        "P098-003": [
+          "P095-014",
+          "P098-002"
+        ],
+        "P098-004a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P057-019",
+          "P095-013",
+          "P098-001",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-005a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P095-013",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-011": [],
+        "P098-016": [
+          "P095-014",
+          "P098-001",
+          "P098-011"
+        ],
+        "P098-017": [
+          "P098-004a",
+          "P098-005a",
+          "P098-016"
+        ]
+      },
+      "topological_order": [
+        "MSG-ONB-001a",
+        "P007-LP-001",
+        "P057-003",
+        "P095-014",
+        "P098-001",
+        "P098-011",
+        "MSG-ONB-001b",
+        "P057-018",
+        "P095-013",
+        "P098-002",
+        "P098-016",
+        "MSG-ONB-002",
+        "MSG-ONB-003",
+        "P057-019",
+        "P098-003",
+        "MSG-ONB-004",
+        "MSG-ONB-001c-01",
+        "MSG-ONB-001c-02",
+        "MSG-ONB-001c-03",
+        "MSG-ONB-001c-04",
+        "MSG-ONB-005",
+        "MSG-ONB-006",
+        "P098-004a",
+        "P098-005a",
+        "P098-017"
+      ]
+    },
+    "independent_profile": {
+      "expanded_roots": [
+        "P098-023"
+      ],
+      "node_count": 89,
+      "edge_count": 199,
+      "graph": {
+        "MSG-ONB-001a": [],
+        "MSG-ONB-001b": [
+          "MSG-ONB-001a"
+        ],
+        "MSG-ONB-001c-01": [
+          "MSG-ONB-004"
+        ],
+        "MSG-ONB-001c-02": [
+          "MSG-ONB-001c-01"
+        ],
+        "MSG-ONB-001c-03": [
+          "MSG-ONB-001c-02"
+        ],
+        "MSG-ONB-001c-04": [
+          "MSG-ONB-001c-01",
+          "MSG-ONB-001c-02",
+          "MSG-ONB-001c-03"
+        ],
+        "MSG-ONB-002": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-003": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-004": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b",
+          "MSG-ONB-002",
+          "MSG-ONB-003"
+        ],
+        "MSG-ONB-005": [
+          "MSG-ONB-001c-04"
+        ],
+        "MSG-ONB-006": [
+          "MSG-ONB-005"
+        ],
+        "P007-LP-001": [],
+        "P007-LP-002": [
+          "P007-LP-001"
+        ],
+        "P013-DFR-003": [
+          "P013-PA-003",
+          "P036-008",
+          "P095-012"
+        ],
+        "P013-LLR-006": [],
+        "P013-PA-001": [
+          "P024-009",
+          "P036-012"
+        ],
+        "P013-PA-002": [
+          "P013-PA-001",
+          "P024-010",
+          "P036-014",
+          "P080-049"
+        ],
+        "P013-PA-003": [
+          "P013-PA-002",
+          "P015-010",
+          "P026-015"
+        ],
+        "P015-001": [],
+        "P015-002": [
+          "P015-001"
+        ],
+        "P015-003": [
+          "P015-002"
+        ],
+        "P015-006": [
+          "P035-019"
+        ],
+        "P015-009": [
+          "P013-PA-001",
+          "P015-001",
+          "P024-009"
+        ],
+        "P015-010": [
+          "P013-LLR-006",
+          "P015-002",
+          "P015-003",
+          "P015-006",
+          "P015-009",
+          "P024-010"
+        ],
+        "P024-001": [],
+        "P024-002": [],
+        "P024-009": [
+          "P007-LP-001",
+          "P024-001",
+          "P024-002"
+        ],
+        "P024-010": [
+          "P007-LP-002",
+          "P024-009"
+        ],
+        "P024-011": [
+          "P024-009",
+          "P036-012"
+        ],
+        "P024-012": [
+          "P024-010",
+          "P024-011"
+        ],
+        "P024-013": [
+          "P024-011",
+          "P024-012",
+          "P036-014"
+        ],
+        "P026-005": [],
+        "P026-006": [
+          "P026-005"
+        ],
+        "P026-014": [
+          "P024-009"
+        ],
+        "P026-015": [
+          "P024-010",
+          "P026-006",
+          "P026-014"
+        ],
+        "P035-019": [],
+        "P036-004": [],
+        "P036-005": [
+          "P036-004"
+        ],
+        "P036-006": [
+          "P036-005"
+        ],
+        "P036-007": [
+          "P036-004"
+        ],
+        "P036-008": [
+          "P036-007"
+        ],
+        "P036-012": [
+          "P024-009"
+        ],
+        "P036-013": [
+          "P024-013",
+          "P036-004",
+          "P036-005",
+          "P036-006",
+          "P036-007",
+          "P036-012",
+          "P036-014"
+        ],
+        "P036-014": [
+          "P024-010",
+          "P036-012"
+        ],
+        "P047-001": [
+          "P036-013"
+        ],
+        "P057-003": [],
+        "P057-018": [
+          "P057-003"
+        ],
+        "P057-019": [
+          "P057-018"
+        ],
+        "P057-020": [
+          "P007-LP-002",
+          "P024-010",
+          "P057-019"
+        ],
+        "P060-013": [],
+        "P060-038": [
+          "P007-LP-001",
+          "P024-009"
+        ],
+        "P060-039": [
+          "P007-LP-002",
+          "P024-010",
+          "P060-013",
+          "P060-038"
+        ],
+        "P066-PA-001": [
+          "P024-009"
+        ],
+        "P066-PA-002": [
+          "P024-010",
+          "P066-PA-001"
+        ],
+        "P073-PA-001": [
+          "P024-009"
+        ],
+        "P073-PA-002": [
+          "P024-010",
+          "P073-PA-001"
+        ],
+        "P080-003": [],
+        "P080-011": [],
+        "P080-045": [],
+        "P080-048": [
+          "P024-009",
+          "P080-003",
+          "P080-045"
+        ],
+        "P080-049": [
+          "P024-010",
+          "P080-011",
+          "P080-048"
+        ],
+        "P095-012": [
+          "P024-010",
+          "P095-013"
+        ],
+        "P095-013": [
+          "P007-LP-001",
+          "P095-014"
+        ],
+        "P095-014": [],
+        "P098-001": [],
+        "P098-002": [
+          "P095-014",
+          "P098-001"
+        ],
+        "P098-003": [
+          "P095-014",
+          "P098-002"
+        ],
+        "P098-004": [
+          "P098-004a",
+          "P098-004b"
+        ],
+        "P098-004a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P057-019",
+          "P095-013",
+          "P098-001",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-004b": [
+          "P024-010",
+          "P057-020",
+          "P095-012",
+          "P098-004a",
+          "P098-010a"
+        ],
+        "P098-005": [
+          "P098-005a",
+          "P098-005b"
+        ],
+        "P098-005a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P095-013",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-005b": [
+          "P013-PA-003",
+          "P095-012",
+          "P098-005a"
+        ],
+        "P098-006": [
+          "P013-DFR-003",
+          "P013-PA-003",
+          "P080-049",
+          "P095-012",
+          "P098-002",
+          "P098-003",
+          "P098-010a",
+          "P098-010c"
+        ],
+        "P098-007": [
+          "P098-003",
+          "P098-004",
+          "P098-005",
+          "P098-006",
+          "P098-009",
+          "P098-010",
+          "P098-011",
+          "P098-012",
+          "P098-014",
+          "P098-015"
+        ],
+        "P098-009": [
+          "P036-013",
+          "P047-001",
+          "P095-012",
+          "P098-001",
+          "P098-002",
+          "P098-003",
+          "P098-010a",
+          "P098-010b"
+        ],
+        "P098-010": [
+          "P066-PA-001",
+          "P073-PA-001",
+          "P098-001",
+          "P098-010a",
+          "P098-010b",
+          "P098-010c"
+        ],
+        "P098-010a": [
+          "P024-009",
+          "P080-048"
+        ],
+        "P098-010b": [
+          "P024-011",
+          "P036-012"
+        ],
+        "P098-010c": [
+          "P013-PA-001",
+          "P015-009",
+          "P026-014"
+        ],
+        "P098-011": [],
+        "P098-012": [
+          "P060-039",
+          "P095-012",
+          "P098-003",
+          "P098-010a"
+        ],
+        "P098-014": [
+          "P013-PA-003",
+          "P060-039",
+          "P066-PA-002",
+          "P073-PA-002",
+          "P095-012",
+          "P098-003"
+        ],
+        "P098-015": [
+          "P066-PA-002",
+          "P073-PA-002",
+          "P095-012",
+          "P098-003",
+          "P098-010a"
+        ],
+        "P098-016": [
+          "P095-014",
+          "P098-001",
+          "P098-011"
+        ],
+        "P098-017": [
+          "P098-004a",
+          "P098-005a",
+          "P098-016"
+        ],
+        "P098-018": [
+          "P024-010",
+          "P095-012"
+        ],
+        "P098-022": [
+          "P098-005b",
+          "P098-012",
+          "P098-014",
+          "P098-015"
+        ],
+        "P098-023": [
+          "P098-007",
+          "P098-017",
+          "P098-018",
+          "P098-022"
+        ]
+      },
+      "topological_order": [
+        "MSG-ONB-001a",
+        "P007-LP-001",
+        "P013-LLR-006",
+        "P015-001",
+        "P035-019",
+        "P024-001",
+        "P024-002",
+        "P026-005",
+        "P036-004",
+        "P057-003",
+        "P060-013",
+        "P080-003",
+        "P080-011",
+        "P080-045",
+        "P095-014",
+        "P098-001",
+        "P098-011",
+        "MSG-ONB-001b",
+        "P007-LP-002",
+        "P015-002",
+        "P015-006",
+        "P024-009",
+        "P026-006",
+        "P036-005",
+        "P036-007",
+        "P057-018",
+        "P095-013",
+        "P098-002",
+        "P098-016",
+        "MSG-ONB-002",
+        "MSG-ONB-003",
+        "P015-003",
+        "P024-010",
+        "P026-014",
+        "P036-012",
+        "P060-038",
+        "P066-PA-001",
+        "P073-PA-001",
+        "P080-048",
+        "P036-006",
+        "P036-008",
+        "P057-019",
+        "P098-003",
+        "MSG-ONB-004",
+        "P095-012",
+        "P026-015",
+        "P013-PA-001",
+        "P024-011",
+        "P036-014",
+        "P060-039",
+        "P066-PA-002",
+        "P073-PA-002",
+        "P080-049",
+        "P098-010a",
+        "P057-020",
+        "MSG-ONB-001c-01",
+        "P098-018",
+        "P015-009",
+        "P024-012",
+        "P098-010b",
+        "P013-PA-002",
+        "P098-012",
+        "P098-015",
+        "MSG-ONB-001c-02",
+        "P015-010",
+        "P098-010c",
+        "P024-013",
+        "MSG-ONB-001c-03",
+        "P013-PA-003",
+        "P098-010",
+        "P036-013",
+        "MSG-ONB-001c-04",
+        "P013-DFR-003",
+        "P098-014",
+        "P047-001",
+        "MSG-ONB-005",
+        "P098-006",
+        "P098-009",
+        "MSG-ONB-006",
+        "P098-004a",
+        "P098-005a",
+        "P098-004b",
+        "P098-005b",
+        "P098-017",
+        "P098-004",
+        "P098-005",
+        "P098-022",
+        "P098-007",
+        "P098-023"
+      ]
+    },
+    "independent_with_follow_on": {
+      "expanded_roots": [
+        "P013-ADC-008",
+        "P013-AE-001",
+        "P013-DFR-003",
+        "P013-LLR-007",
+        "P013-LLR-008",
+        "P013-LLR-009",
+        "P026-007",
+        "P026-008",
+        "P057-014",
+        "P057-015",
+        "P057-016",
+        "P057-017",
+        "P098-023"
+      ],
+      "node_count": 116,
+      "edge_count": 258,
+      "graph": {
+        "MSG-ONB-001a": [],
+        "MSG-ONB-001b": [
+          "MSG-ONB-001a"
+        ],
+        "MSG-ONB-001c-01": [
+          "MSG-ONB-004"
+        ],
+        "MSG-ONB-001c-02": [
+          "MSG-ONB-001c-01"
+        ],
+        "MSG-ONB-001c-03": [
+          "MSG-ONB-001c-02"
+        ],
+        "MSG-ONB-001c-04": [
+          "MSG-ONB-001c-01",
+          "MSG-ONB-001c-02",
+          "MSG-ONB-001c-03"
+        ],
+        "MSG-ONB-002": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-003": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-004": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b",
+          "MSG-ONB-002",
+          "MSG-ONB-003"
+        ],
+        "MSG-ONB-005": [
+          "MSG-ONB-001c-04"
+        ],
+        "MSG-ONB-006": [
+          "MSG-ONB-005"
+        ],
+        "P007-LP-001": [],
+        "P007-LP-002": [
+          "P007-LP-001"
+        ],
+        "P013-ADC-001": [
+          "P013-LLR-006",
+          "P015-005",
+          "P035-019"
+        ],
+        "P013-ADC-002": [
+          "P013-DFR-001"
+        ],
+        "P013-ADC-003": [
+          "P013-ADC-001"
+        ],
+        "P013-ADC-004": [
+          "P013-ADC-001",
+          "P013-PEX-001"
+        ],
+        "P013-ADC-005": [
+          "P013-ADC-003",
+          "P013-ADC-004",
+          "P013-LLR-008"
+        ],
+        "P013-ADC-008": [
+          "P013-ADC-001",
+          "P013-ADC-002",
+          "P013-DFR-003",
+          "P057-017"
+        ],
+        "P013-AE-001": [
+          "P026-005",
+          "P026-006",
+          "P026-007",
+          "P057-014"
+        ],
+        "P013-DFR-001": [],
+        "P013-DFR-002": [
+          "P013-DFR-001",
+          "P035-016",
+          "P035-017",
+          "P078-011"
+        ],
+        "P013-DFR-003": [
+          "P013-PA-003",
+          "P036-008",
+          "P095-012"
+        ],
+        "P013-LLR-002": [
+          "P035-019"
+        ],
+        "P013-LLR-006": [],
+        "P013-LLR-007": [
+          "P013-LLR-002",
+          "P013-LLR-006",
+          "P013-LLR-008",
+          "P015-004"
+        ],
+        "P013-LLR-008": [
+          "P013-LLR-006",
+          "P013-PEX-001"
+        ],
+        "P013-LLR-009": [
+          "P013-ADC-001",
+          "P013-LLR-002",
+          "P013-LLR-006",
+          "P013-LLR-007",
+          "P013-LLR-008",
+          "P015-004",
+          "P035-019"
+        ],
+        "P013-PA-001": [
+          "P024-009",
+          "P036-012"
+        ],
+        "P013-PA-002": [
+          "P013-PA-001",
+          "P024-010",
+          "P036-014",
+          "P080-049"
+        ],
+        "P013-PA-003": [
+          "P013-PA-002",
+          "P015-010",
+          "P026-015"
+        ],
+        "P013-PEX-001": [],
+        "P015-001": [],
+        "P015-002": [
+          "P015-001"
+        ],
+        "P015-003": [
+          "P015-002"
+        ],
+        "P015-004": [
+          "P015-001"
+        ],
+        "P015-005": [
+          "P015-001"
+        ],
+        "P015-006": [
+          "P035-019"
+        ],
+        "P015-009": [
+          "P013-PA-001",
+          "P015-001",
+          "P024-009"
+        ],
+        "P015-010": [
+          "P013-LLR-006",
+          "P015-002",
+          "P015-003",
+          "P015-006",
+          "P015-009",
+          "P024-010"
+        ],
+        "P024-001": [],
+        "P024-002": [],
+        "P024-009": [
+          "P007-LP-001",
+          "P024-001",
+          "P024-002"
+        ],
+        "P024-010": [
+          "P007-LP-002",
+          "P024-009"
+        ],
+        "P024-011": [
+          "P024-009",
+          "P036-012"
+        ],
+        "P024-012": [
+          "P024-010",
+          "P024-011"
+        ],
+        "P024-013": [
+          "P024-011",
+          "P024-012",
+          "P036-014"
+        ],
+        "P026-005": [],
+        "P026-006": [
+          "P026-005"
+        ],
+        "P026-007": [
+          "P026-006"
+        ],
+        "P026-008": [
+          "P013-AE-001",
+          "P026-007",
+          "P057-014"
+        ],
+        "P026-014": [
+          "P024-009"
+        ],
+        "P026-015": [
+          "P024-010",
+          "P026-006",
+          "P026-014"
+        ],
+        "P035-016": [
+          "P013-DFR-001"
+        ],
+        "P035-017": [
+          "P035-016"
+        ],
+        "P035-019": [],
+        "P036-004": [],
+        "P036-005": [
+          "P036-004"
+        ],
+        "P036-006": [
+          "P036-005"
+        ],
+        "P036-007": [
+          "P036-004"
+        ],
+        "P036-008": [
+          "P036-007"
+        ],
+        "P036-012": [
+          "P024-009"
+        ],
+        "P036-013": [
+          "P024-013",
+          "P036-004",
+          "P036-005",
+          "P036-006",
+          "P036-007",
+          "P036-012",
+          "P036-014"
+        ],
+        "P036-014": [
+          "P024-010",
+          "P036-012"
+        ],
+        "P047-001": [
+          "P036-013"
+        ],
+        "P057-003": [],
+        "P057-014": [
+          "P026-005",
+          "P026-006",
+          "P026-007"
+        ],
+        "P057-015": [
+          "P036-008",
+          "P078-012"
+        ],
+        "P057-016": [
+          "P036-004",
+          "P036-005"
+        ],
+        "P057-017": [
+          "P013-ADC-004",
+          "P013-ADC-005"
+        ],
+        "P057-018": [
+          "P057-003"
+        ],
+        "P057-019": [
+          "P057-018"
+        ],
+        "P057-020": [
+          "P007-LP-002",
+          "P024-010",
+          "P057-019"
+        ],
+        "P060-013": [],
+        "P060-038": [
+          "P007-LP-001",
+          "P024-009"
+        ],
+        "P060-039": [
+          "P007-LP-002",
+          "P024-010",
+          "P060-013",
+          "P060-038"
+        ],
+        "P066-PA-001": [
+          "P024-009"
+        ],
+        "P066-PA-002": [
+          "P024-010",
+          "P066-PA-001"
+        ],
+        "P073-PA-001": [
+          "P024-009"
+        ],
+        "P073-PA-002": [
+          "P024-010",
+          "P073-PA-001"
+        ],
+        "P078-010": [
+          "P036-007"
+        ],
+        "P078-011": [
+          "P013-DFR-001",
+          "P078-010"
+        ],
+        "P078-012": [
+          "P013-DFR-002",
+          "P036-008",
+          "P078-011"
+        ],
+        "P080-003": [],
+        "P080-011": [],
+        "P080-045": [],
+        "P080-048": [
+          "P024-009",
+          "P080-003",
+          "P080-045"
+        ],
+        "P080-049": [
+          "P024-010",
+          "P080-011",
+          "P080-048"
+        ],
+        "P095-012": [
+          "P024-010",
+          "P095-013"
+        ],
+        "P095-013": [
+          "P007-LP-001",
+          "P095-014"
+        ],
+        "P095-014": [],
+        "P098-001": [],
+        "P098-002": [
+          "P095-014",
+          "P098-001"
+        ],
+        "P098-003": [
+          "P095-014",
+          "P098-002"
+        ],
+        "P098-004": [
+          "P098-004a",
+          "P098-004b"
+        ],
+        "P098-004a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P057-019",
+          "P095-013",
+          "P098-001",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-004b": [
+          "P024-010",
+          "P057-020",
+          "P095-012",
+          "P098-004a",
+          "P098-010a"
+        ],
+        "P098-005": [
+          "P098-005a",
+          "P098-005b"
+        ],
+        "P098-005a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P095-013",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-005b": [
+          "P013-PA-003",
+          "P095-012",
+          "P098-005a"
+        ],
+        "P098-006": [
+          "P013-DFR-003",
+          "P013-PA-003",
+          "P080-049",
+          "P095-012",
+          "P098-002",
+          "P098-003",
+          "P098-010a",
+          "P098-010c"
+        ],
+        "P098-007": [
+          "P098-003",
+          "P098-004",
+          "P098-005",
+          "P098-006",
+          "P098-009",
+          "P098-010",
+          "P098-011",
+          "P098-012",
+          "P098-014",
+          "P098-015"
+        ],
+        "P098-009": [
+          "P036-013",
+          "P047-001",
+          "P095-012",
+          "P098-001",
+          "P098-002",
+          "P098-003",
+          "P098-010a",
+          "P098-010b"
+        ],
+        "P098-010": [
+          "P066-PA-001",
+          "P073-PA-001",
+          "P098-001",
+          "P098-010a",
+          "P098-010b",
+          "P098-010c"
+        ],
+        "P098-010a": [
+          "P024-009",
+          "P080-048"
+        ],
+        "P098-010b": [
+          "P024-011",
+          "P036-012"
+        ],
+        "P098-010c": [
+          "P013-PA-001",
+          "P015-009",
+          "P026-014"
+        ],
+        "P098-011": [],
+        "P098-012": [
+          "P060-039",
+          "P095-012",
+          "P098-003",
+          "P098-010a"
+        ],
+        "P098-014": [
+          "P013-PA-003",
+          "P060-039",
+          "P066-PA-002",
+          "P073-PA-002",
+          "P095-012",
+          "P098-003"
+        ],
+        "P098-015": [
+          "P066-PA-002",
+          "P073-PA-002",
+          "P095-012",
+          "P098-003",
+          "P098-010a"
+        ],
+        "P098-016": [
+          "P095-014",
+          "P098-001",
+          "P098-011"
+        ],
+        "P098-017": [
+          "P098-004a",
+          "P098-005a",
+          "P098-016"
+        ],
+        "P098-018": [
+          "P024-010",
+          "P095-012"
+        ],
+        "P098-022": [
+          "P098-005b",
+          "P098-012",
+          "P098-014",
+          "P098-015"
+        ],
+        "P098-023": [
+          "P098-007",
+          "P098-017",
+          "P098-018",
+          "P098-022"
+        ]
+      },
+      "topological_order": [
+        "MSG-ONB-001a",
+        "P007-LP-001",
+        "P013-LLR-006",
+        "P035-019",
+        "P013-DFR-001",
+        "P013-PEX-001",
+        "P026-005",
+        "P015-001",
+        "P024-001",
+        "P024-002",
+        "P036-004",
+        "P057-003",
+        "P060-013",
+        "P080-003",
+        "P080-011",
+        "P080-045",
+        "P095-014",
+        "P098-001",
+        "P098-011",
+        "MSG-ONB-001b",
+        "P007-LP-002",
+        "P013-LLR-002",
+        "P015-006",
+        "P013-ADC-002",
+        "P035-016",
+        "P013-LLR-008",
+        "P026-006",
+        "P015-002",
+        "P015-004",
+        "P015-005",
+        "P024-009",
+        "P036-005",
+        "P036-007",
+        "P057-018",
+        "P095-013",
+        "P098-002",
+        "P098-016",
+        "MSG-ONB-002",
+        "MSG-ONB-003",
+        "P035-017",
+        "P026-007",
+        "P015-003",
+        "P013-LLR-007",
+        "P013-ADC-001",
+        "P024-010",
+        "P026-014",
+        "P036-012",
+        "P060-038",
+        "P066-PA-001",
+        "P073-PA-001",
+        "P080-048",
+        "P036-006",
+        "P057-016",
+        "P036-008",
+        "P078-010",
+        "P057-019",
+        "P098-003",
+        "MSG-ONB-004",
+        "P057-014",
+        "P013-ADC-003",
+        "P013-ADC-004",
+        "P013-LLR-009",
+        "P095-012",
+        "P026-015",
+        "P013-PA-001",
+        "P024-011",
+        "P036-014",
+        "P060-039",
+        "P066-PA-002",
+        "P073-PA-002",
+        "P080-049",
+        "P098-010a",
+        "P078-011",
+        "P057-020",
+        "MSG-ONB-001c-01",
+        "P013-AE-001",
+        "P013-ADC-005",
+        "P098-018",
+        "P015-009",
+        "P024-012",
+        "P098-010b",
+        "P013-PA-002",
+        "P098-012",
+        "P098-015",
+        "P013-DFR-002",
+        "MSG-ONB-001c-02",
+        "P026-008",
+        "P057-017",
+        "P015-010",
+        "P098-010c",
+        "P024-013",
+        "P078-012",
+        "MSG-ONB-001c-03",
+        "P013-PA-003",
+        "P098-010",
+        "P036-013",
+        "P057-015",
+        "MSG-ONB-001c-04",
+        "P013-DFR-003",
+        "P098-014",
+        "P047-001",
+        "MSG-ONB-005",
+        "P013-ADC-008",
+        "P098-006",
+        "P098-009",
+        "MSG-ONB-006",
+        "P098-004a",
+        "P098-005a",
+        "P098-004b",
+        "P098-005b",
+        "P098-017",
+        "P098-004",
+        "P098-005",
+        "P098-022",
+        "P098-007",
+        "P098-023"
+      ]
+    },
+    "full_review": {
+      "expanded_roots": [
+        "P013-ADC-008",
+        "P013-AE-001",
+        "P013-DFR-003",
+        "P013-LLR-007",
+        "P013-LLR-008",
+        "P013-LLR-009",
+        "P026-007",
+        "P026-008",
+        "P057-014",
+        "P057-015",
+        "P057-016",
+        "P057-017",
+        "P098-008",
+        "P098-013",
+        "P098-017",
+        "P098-023"
+      ],
+      "node_count": 119,
+      "edge_count": 263,
+      "graph": {
+        "MSG-ONB-001a": [],
+        "MSG-ONB-001b": [
+          "MSG-ONB-001a"
+        ],
+        "MSG-ONB-001c-01": [
+          "MSG-ONB-004"
+        ],
+        "MSG-ONB-001c-02": [
+          "MSG-ONB-001c-01"
+        ],
+        "MSG-ONB-001c-03": [
+          "MSG-ONB-001c-02"
+        ],
+        "MSG-ONB-001c-04": [
+          "MSG-ONB-001c-01",
+          "MSG-ONB-001c-02",
+          "MSG-ONB-001c-03"
+        ],
+        "MSG-ONB-002": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-003": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b"
+        ],
+        "MSG-ONB-004": [
+          "MSG-ONB-001a",
+          "MSG-ONB-001b",
+          "MSG-ONB-002",
+          "MSG-ONB-003"
+        ],
+        "MSG-ONB-005": [
+          "MSG-ONB-001c-04"
+        ],
+        "MSG-ONB-006": [
+          "MSG-ONB-005"
+        ],
+        "P007-LP-001": [],
+        "P007-LP-002": [
+          "P007-LP-001"
+        ],
+        "P013-ADC-001": [
+          "P013-LLR-006",
+          "P015-005",
+          "P035-019"
+        ],
+        "P013-ADC-002": [
+          "P013-DFR-001"
+        ],
+        "P013-ADC-003": [
+          "P013-ADC-001"
+        ],
+        "P013-ADC-004": [
+          "P013-ADC-001",
+          "P013-PEX-001"
+        ],
+        "P013-ADC-005": [
+          "P013-ADC-003",
+          "P013-ADC-004",
+          "P013-LLR-008"
+        ],
+        "P013-ADC-008": [
+          "P013-ADC-001",
+          "P013-ADC-002",
+          "P013-DFR-003",
+          "P057-017"
+        ],
+        "P013-AE-001": [
+          "P026-005",
+          "P026-006",
+          "P026-007",
+          "P057-014"
+        ],
+        "P013-DFR-001": [],
+        "P013-DFR-002": [
+          "P013-DFR-001",
+          "P035-016",
+          "P035-017",
+          "P078-011"
+        ],
+        "P013-DFR-003": [
+          "P013-PA-003",
+          "P036-008",
+          "P095-012"
+        ],
+        "P013-LLR-002": [
+          "P035-019"
+        ],
+        "P013-LLR-006": [],
+        "P013-LLR-007": [
+          "P013-LLR-002",
+          "P013-LLR-006",
+          "P013-LLR-008",
+          "P015-004"
+        ],
+        "P013-LLR-008": [
+          "P013-LLR-006",
+          "P013-PEX-001"
+        ],
+        "P013-LLR-009": [
+          "P013-ADC-001",
+          "P013-LLR-002",
+          "P013-LLR-006",
+          "P013-LLR-007",
+          "P013-LLR-008",
+          "P015-004",
+          "P035-019"
+        ],
+        "P013-PA-001": [
+          "P024-009",
+          "P036-012"
+        ],
+        "P013-PA-002": [
+          "P013-PA-001",
+          "P024-010",
+          "P036-014",
+          "P080-049"
+        ],
+        "P013-PA-003": [
+          "P013-PA-002",
+          "P015-010",
+          "P026-015"
+        ],
+        "P013-PEX-001": [],
+        "P015-001": [],
+        "P015-002": [
+          "P015-001"
+        ],
+        "P015-003": [
+          "P015-002"
+        ],
+        "P015-004": [
+          "P015-001"
+        ],
+        "P015-005": [
+          "P015-001"
+        ],
+        "P015-006": [
+          "P035-019"
+        ],
+        "P015-009": [
+          "P013-PA-001",
+          "P015-001",
+          "P024-009"
+        ],
+        "P015-010": [
+          "P013-LLR-006",
+          "P015-002",
+          "P015-003",
+          "P015-006",
+          "P015-009",
+          "P024-010"
+        ],
+        "P024-001": [],
+        "P024-002": [],
+        "P024-009": [
+          "P007-LP-001",
+          "P024-001",
+          "P024-002"
+        ],
+        "P024-010": [
+          "P007-LP-002",
+          "P024-009"
+        ],
+        "P024-011": [
+          "P024-009",
+          "P036-012"
+        ],
+        "P024-012": [
+          "P024-010",
+          "P024-011"
+        ],
+        "P024-013": [
+          "P024-011",
+          "P024-012",
+          "P036-014"
+        ],
+        "P026-005": [],
+        "P026-006": [
+          "P026-005"
+        ],
+        "P026-007": [
+          "P026-006"
+        ],
+        "P026-008": [
+          "P013-AE-001",
+          "P026-007",
+          "P057-014"
+        ],
+        "P026-014": [
+          "P024-009"
+        ],
+        "P026-015": [
+          "P024-010",
+          "P026-006",
+          "P026-014"
+        ],
+        "P035-016": [
+          "P013-DFR-001"
+        ],
+        "P035-017": [
+          "P035-016"
+        ],
+        "P035-019": [],
+        "P036-004": [],
+        "P036-005": [
+          "P036-004"
+        ],
+        "P036-006": [
+          "P036-005"
+        ],
+        "P036-007": [
+          "P036-004"
+        ],
+        "P036-008": [
+          "P036-007"
+        ],
+        "P036-012": [
+          "P024-009"
+        ],
+        "P036-013": [
+          "P024-013",
+          "P036-004",
+          "P036-005",
+          "P036-006",
+          "P036-007",
+          "P036-012",
+          "P036-014"
+        ],
+        "P036-014": [
+          "P024-010",
+          "P036-012"
+        ],
+        "P047-001": [
+          "P036-013"
+        ],
+        "P057-003": [],
+        "P057-014": [
+          "P026-005",
+          "P026-006",
+          "P026-007"
+        ],
+        "P057-015": [
+          "P036-008",
+          "P078-012"
+        ],
+        "P057-016": [
+          "P036-004",
+          "P036-005"
+        ],
+        "P057-017": [
+          "P013-ADC-004",
+          "P013-ADC-005"
+        ],
+        "P057-018": [
+          "P057-003"
+        ],
+        "P057-019": [
+          "P057-018"
+        ],
+        "P057-020": [
+          "P007-LP-002",
+          "P024-010",
+          "P057-019"
+        ],
+        "P060-013": [],
+        "P060-038": [
+          "P007-LP-001",
+          "P024-009"
+        ],
+        "P060-039": [
+          "P007-LP-002",
+          "P024-010",
+          "P060-013",
+          "P060-038"
+        ],
+        "P066-PA-001": [
+          "P024-009"
+        ],
+        "P066-PA-002": [
+          "P024-010",
+          "P066-PA-001"
+        ],
+        "P073-PA-001": [
+          "P024-009"
+        ],
+        "P073-PA-002": [
+          "P024-010",
+          "P073-PA-001"
+        ],
+        "P078-010": [
+          "P036-007"
+        ],
+        "P078-011": [
+          "P013-DFR-001",
+          "P078-010"
+        ],
+        "P078-012": [
+          "P013-DFR-002",
+          "P036-008",
+          "P078-011"
+        ],
+        "P080-003": [],
+        "P080-011": [],
+        "P080-045": [],
+        "P080-048": [
+          "P024-009",
+          "P080-003",
+          "P080-045"
+        ],
+        "P080-049": [
+          "P024-010",
+          "P080-011",
+          "P080-048"
+        ],
+        "P095-012": [
+          "P024-010",
+          "P095-013"
+        ],
+        "P095-013": [
+          "P007-LP-001",
+          "P095-014"
+        ],
+        "P095-014": [],
+        "P095-015": [
+          "P095-014"
+        ],
+        "P098-001": [],
+        "P098-002": [
+          "P095-014",
+          "P098-001"
+        ],
+        "P098-003": [
+          "P095-014",
+          "P098-002"
+        ],
+        "P098-004": [
+          "P098-004a",
+          "P098-004b"
+        ],
+        "P098-004a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P057-019",
+          "P095-013",
+          "P098-001",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-004b": [
+          "P024-010",
+          "P057-020",
+          "P095-012",
+          "P098-004a",
+          "P098-010a"
+        ],
+        "P098-005": [
+          "P098-005a",
+          "P098-005b"
+        ],
+        "P098-005a": [
+          "MSG-ONB-004",
+          "MSG-ONB-006",
+          "P095-013",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-005b": [
+          "P013-PA-003",
+          "P095-012",
+          "P098-005a"
+        ],
+        "P098-006": [
+          "P013-DFR-003",
+          "P013-PA-003",
+          "P080-049",
+          "P095-012",
+          "P098-002",
+          "P098-003",
+          "P098-010a",
+          "P098-010c"
+        ],
+        "P098-007": [
+          "P098-003",
+          "P098-004",
+          "P098-005",
+          "P098-006",
+          "P098-009",
+          "P098-010",
+          "P098-011",
+          "P098-012",
+          "P098-014",
+          "P098-015"
+        ],
+        "P098-008": [
+          "P098-002"
+        ],
+        "P098-009": [
+          "P036-013",
+          "P047-001",
+          "P095-012",
+          "P098-001",
+          "P098-002",
+          "P098-003",
+          "P098-010a",
+          "P098-010b"
+        ],
+        "P098-010": [
+          "P066-PA-001",
+          "P073-PA-001",
+          "P098-001",
+          "P098-010a",
+          "P098-010b",
+          "P098-010c"
+        ],
+        "P098-010a": [
+          "P024-009",
+          "P080-048"
+        ],
+        "P098-010b": [
+          "P024-011",
+          "P036-012"
+        ],
+        "P098-010c": [
+          "P013-PA-001",
+          "P015-009",
+          "P026-014"
+        ],
+        "P098-011": [],
+        "P098-012": [
+          "P060-039",
+          "P095-012",
+          "P098-003",
+          "P098-010a"
+        ],
+        "P098-013": [
+          "P095-015",
+          "P098-002",
+          "P098-003"
+        ],
+        "P098-014": [
+          "P013-PA-003",
+          "P060-039",
+          "P066-PA-002",
+          "P073-PA-002",
+          "P095-012",
+          "P098-003"
+        ],
+        "P098-015": [
+          "P066-PA-002",
+          "P073-PA-002",
+          "P095-012",
+          "P098-003",
+          "P098-010a"
+        ],
+        "P098-016": [
+          "P095-014",
+          "P098-001",
+          "P098-011"
+        ],
+        "P098-017": [
+          "P098-004a",
+          "P098-005a",
+          "P098-016"
+        ],
+        "P098-018": [
+          "P024-010",
+          "P095-012"
+        ],
+        "P098-022": [
+          "P098-005b",
+          "P098-012",
+          "P098-014",
+          "P098-015"
+        ],
+        "P098-023": [
+          "P098-007",
+          "P098-017",
+          "P098-018",
+          "P098-022"
+        ]
+      },
+      "topological_order": [
+        "MSG-ONB-001a",
+        "P007-LP-001",
+        "P013-LLR-006",
+        "P035-019",
+        "P013-DFR-001",
+        "P013-PEX-001",
+        "P026-005",
+        "P015-001",
+        "P024-001",
+        "P024-002",
+        "P036-004",
+        "P057-003",
+        "P060-013",
+        "P080-003",
+        "P080-011",
+        "P080-045",
+        "P095-014",
+        "P098-001",
+        "P098-011",
+        "MSG-ONB-001b",
+        "P007-LP-002",
+        "P013-LLR-002",
+        "P015-006",
+        "P013-ADC-002",
+        "P035-016",
+        "P013-LLR-008",
+        "P026-006",
+        "P015-002",
+        "P015-004",
+        "P015-005",
+        "P024-009",
+        "P036-005",
+        "P036-007",
+        "P057-018",
+        "P095-013",
+        "P095-015",
+        "P098-002",
+        "P098-016",
+        "MSG-ONB-002",
+        "MSG-ONB-003",
+        "P035-017",
+        "P026-007",
+        "P015-003",
+        "P013-LLR-007",
+        "P013-ADC-001",
+        "P024-010",
+        "P026-014",
+        "P036-012",
+        "P060-038",
+        "P066-PA-001",
+        "P073-PA-001",
+        "P080-048",
+        "P036-006",
+        "P057-016",
+        "P036-008",
+        "P078-010",
+        "P057-019",
+        "P098-003",
+        "P098-008",
+        "MSG-ONB-004",
+        "P057-014",
+        "P013-ADC-003",
+        "P013-ADC-004",
+        "P013-LLR-009",
+        "P095-012",
+        "P026-015",
+        "P013-PA-001",
+        "P024-011",
+        "P036-014",
+        "P060-039",
+        "P066-PA-002",
+        "P073-PA-002",
+        "P080-049",
+        "P098-010a",
+        "P078-011",
+        "P057-020",
+        "P098-013",
+        "MSG-ONB-001c-01",
+        "P013-AE-001",
+        "P013-ADC-005",
+        "P098-018",
+        "P015-009",
+        "P024-012",
+        "P098-010b",
+        "P013-PA-002",
+        "P098-012",
+        "P098-015",
+        "P013-DFR-002",
+        "MSG-ONB-001c-02",
+        "P026-008",
+        "P057-017",
+        "P015-010",
+        "P098-010c",
+        "P024-013",
+        "P078-012",
+        "MSG-ONB-001c-03",
+        "P013-PA-003",
+        "P098-010",
+        "P036-013",
+        "P057-015",
+        "MSG-ONB-001c-04",
+        "P013-DFR-003",
+        "P098-014",
+        "P047-001",
+        "MSG-ONB-005",
+        "P013-ADC-008",
+        "P098-006",
+        "P098-009",
+        "MSG-ONB-006",
+        "P098-004a",
+        "P098-005a",
+        "P098-004b",
+        "P098-005b",
+        "P098-017",
+        "P098-004",
+        "P098-005",
+        "P098-022",
+        "P098-007",
+        "P098-023"
+      ]
+    }
+  },
+  "task_provenance": {
+    "MSG-ONB-001a": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 690,
+      "dependencies_text": "–",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-001b": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 691,
+      "dependencies_text": "MSG-ONB-001a",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-001c-01": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 695,
+      "dependencies_text": "MSG-ONB-004",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-001c-02": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 696,
+      "dependencies_text": "MSG-ONB-001c-01",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-001c-03": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 697,
+      "dependencies_text": "MSG-ONB-001c-02",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-001c-04": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 698,
+      "dependencies_text": "MSG-ONB-001c-01, MSG-ONB-001c-02, MSG-ONB-001c-03",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-002": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 692,
+      "dependencies_text": "MSG-ONB-001a, MSG-ONB-001b",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-003": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 693,
+      "dependencies_text": "MSG-ONB-001a, MSG-ONB-001b",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-004": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 694,
+      "dependencies_text": "MSG-ONB-001a, MSG-ONB-001b, MSG-ONB-002, MSG-ONB-003",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-005": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 699,
+      "dependencies_text": "MSG-ONB-001c-04",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "MSG-ONB-006": {
+      "file": "097-fresh-identity-onboarding-and-messaging-readiness.md",
+      "line": 700,
+      "dependencies_text": "MSG-ONB-005",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P007-LP-001": {
+      "file": "007-pod-identity-and-tenancy-model.md",
+      "line": 386,
+      "dependencies_text": "Existing root/participant identity and S026 custody contracts",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P007-LP-002": {
+      "file": "007-pod-identity-and-tenancy-model.md",
+      "line": 387,
+      "dependencies_text": "P007-LP-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-ADC-001": {
+      "file": "013-whisper-social-signal-exchange/author-disclosure-conditions.md",
+      "line": 728,
+      "dependencies_text": "P015 v2 signal; P015-005; P013-LLR-006; P035-019",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-ADC-002": {
+      "file": "013-whisper-social-signal-exchange/author-disclosure-conditions.md",
+      "line": 729,
+      "dependencies_text": "P013-DFR-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-ADC-003": {
+      "file": "013-whisper-social-signal-exchange/author-disclosure-conditions.md",
+      "line": 730,
+      "dependencies_text": "P013-ADC-001; S018",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-ADC-004": {
+      "file": "013-whisper-social-signal-exchange/author-disclosure-conditions.md",
+      "line": 731,
+      "dependencies_text": "P013-ADC-001; P015 Gate B; P013-PEX-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-ADC-005": {
+      "file": "013-whisper-social-signal-exchange/author-disclosure-conditions.md",
+      "line": 732,
+      "dependencies_text": "P013-ADC-003–004; P013-LLR-008; P070",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-ADC-008": {
+      "file": "013-whisper-social-signal-exchange/author-disclosure-conditions.md",
+      "line": 735,
+      "dependencies_text": "P013-ADC-001–002; P013-DFR-003; P057-017",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-AE-001": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 949,
+      "dependencies_text": "P026-005/006/007; P057-014",
+      "status": "partial",
+      "qualified_status_text": "partial",
+      "edge_source": "dependency-column"
+    },
+    "P013-DFR-001": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 1403,
+      "dependencies_text": "P091; P046",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-DFR-002": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 1404,
+      "dependencies_text": "P013-DFR-001; P078-011; P035-016–017; S020",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-DFR-003": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 1405,
+      "dependencies_text": "P036-008; P013-PA-003; P095-012",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-LLR-002": {
+      "file": "013-whisper-social-signal-exchange/long-lived-rumors.md",
+      "line": 566,
+      "dependencies_text": "P035-019; P015",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P013-LLR-006": {
+      "file": "013-whisper-social-signal-exchange/long-lived-rumors.md",
+      "line": 570,
+      "dependencies_text": "P015 v2 signal; S026 Pseudonym Vault",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P013-LLR-007": {
+      "file": "013-whisper-social-signal-exchange/long-lived-rumors.md",
+      "line": 571,
+      "dependencies_text": "P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-LLR-008": {
+      "file": "013-whisper-social-signal-exchange/long-lived-rumors.md",
+      "line": 572,
+      "dependencies_text": "P013-LLR-006; P013-PEX-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-LLR-009": {
+      "file": "013-whisper-social-signal-exchange/long-lived-rumors.md",
+      "line": 573,
+      "dependencies_text": "P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-PA-001": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 1422,
+      "dependencies_text": "P024-009; P036-012",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-PA-002": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 1423,
+      "dependencies_text": "P013-PA-001; P024-010; P036-014; P080-049",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-PA-003": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 1424,
+      "dependencies_text": "P013-PA-002; P015-010; P026-015",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P013-PEX-001": {
+      "file": "013-whisper-social-signal-exchange.md",
+      "line": 1168,
+      "dependencies_text": "S023/S017 admission contracts; P015 private exchange binding",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P015-001": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 751,
+      "dependencies_text": "S023/S017 admission contracts",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P015-002": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 752,
+      "dependencies_text": "P015-001",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P015-003": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 753,
+      "dependencies_text": "P015-002",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P015-004": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 512,
+      "dependencies_text": "P015-001",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P015-005": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 532,
+      "dependencies_text": "P015-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P015-006": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 1082,
+      "dependencies_text": "P015 contextual status; P035-019",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P015-009": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 822,
+      "dependencies_text": "P024-009; P013-PA-001; P015-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P015-010": {
+      "file": "015-nym-certificates-and-renewal-baseline.md",
+      "line": 823,
+      "dependencies_text": "P015-009; P024-010; P015-002; P015-003; P015-006; P013-LLR-006",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P024-001": {
+      "file": "024-capability-passports-and-network-ledger-delegation.md",
+      "line": 680,
+      "dependencies_text": "",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "none"
+    },
+    "P024-002": {
+      "file": "024-capability-passports-and-network-ledger-delegation.md",
+      "line": 681,
+      "dependencies_text": "",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "none"
+    },
+    "P024-009": {
+      "file": "024-capability-passports-and-network-ledger-delegation.md",
+      "line": 701,
+      "dependencies_text": "P024-001; P024-002; P007-LP-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P024-010": {
+      "file": "024-capability-passports-and-network-ledger-delegation.md",
+      "line": 702,
+      "dependencies_text": "P024-009; P007-LP-002",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P024-011": {
+      "file": "024-capability-passports-and-network-ledger-delegation.md",
+      "line": 703,
+      "dependencies_text": "P024-009; P036-012",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P024-012": {
+      "file": "024-capability-passports-and-network-ledger-delegation.md",
+      "line": 704,
+      "dependencies_text": "P024-010; P024-011",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P024-013": {
+      "file": "024-capability-passports-and-network-ledger-delegation.md",
+      "line": 705,
+      "dependencies_text": "P024-011; P024-012; P036-014",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P026-005": {
+      "file": "026-resource-opinions-and-discussion-surfaces.md",
+      "line": 1420,
+      "dependencies_text": "Existing P026 identity and admission contracts; P091; S028",
+      "status": "partial",
+      "qualified_status_text": "partial",
+      "edge_source": "dependency-column"
+    },
+    "P026-006": {
+      "file": "026-resource-opinions-and-discussion-surfaces.md",
+      "line": 1421,
+      "dependencies_text": "005 local contracts",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P026-007": {
+      "file": "026-resource-opinions-and-discussion-surfaces.md",
+      "line": 1422,
+      "dependencies_text": "006",
+      "status": "partial",
+      "qualified_status_text": "partial",
+      "edge_source": "dependency-column"
+    },
+    "P026-008": {
+      "file": "026-resource-opinions-and-discussion-surfaces.md",
+      "line": 1423,
+      "dependencies_text": "007; P013-AE-001; P057-014; P073 assessment-exposure-observations",
+      "status": "partial",
+      "qualified_status_text": "partial",
+      "edge_source": "dependency-column"
+    },
+    "P026-014": {
+      "file": "026-resource-opinions-and-discussion-surfaces.md",
+      "line": 1445,
+      "dependencies_text": "P024-009",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P026-015": {
+      "file": "026-resource-opinions-and-discussion-surfaces.md",
+      "line": 1446,
+      "dependencies_text": "P026-014; P024-010; P026-006",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P035-016": {
+      "file": "035-agora-topic-addressed-record-relay.md",
+      "line": 2862,
+      "dependencies_text": "P013-DFR-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P035-017": {
+      "file": "035-agora-topic-addressed-record-relay.md",
+      "line": 2863,
+      "dependencies_text": "P035-016",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P035-019": {
+      "file": "035-agora-topic-addressed-record-relay.md",
+      "line": 3156,
+      "dependencies_text": "P015 publication-time evidence contract",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "dependency-column"
+    },
+    "P036-004": {
+      "file": "036-memarium.md",
+      "line": 870,
+      "dependencies_text": "P091; S028",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P036-005": {
+      "file": "036-memarium.md",
+      "line": 871,
+      "dependencies_text": "P036-004; S020",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P036-006": {
+      "file": "036-memarium.md",
+      "line": 872,
+      "dependencies_text": "P036-005",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P036-007": {
+      "file": "036-memarium.md",
+      "line": 873,
+      "dependencies_text": "P036-004; `memarium-blob.v1`",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P036-008": {
+      "file": "036-memarium.md",
+      "line": 874,
+      "dependencies_text": "P036-007",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P036-012": {
+      "file": "036-memarium.md",
+      "line": 890,
+      "dependencies_text": "P024-009",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P036-013": {
+      "file": "036-memarium.md",
+      "line": 891,
+      "dependencies_text": "P036-012; P036-014; P024-013; P036-004; P036-005; P036-006; P036-007",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P036-014": {
+      "file": "036-memarium.md",
+      "line": 892,
+      "dependencies_text": "P036-012; P024-010",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P047-001": {
+      "file": "047-classification-label-propagation.md",
+      "line": 649,
+      "dependencies_text": "P036-013",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P057-003": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 908,
+      "dependencies_text": "",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "none"
+    },
+    "P057-014": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 919,
+      "dependencies_text": "P026-005/006/007",
+      "status": "partial",
+      "qualified_status_text": "partial",
+      "edge_source": "explicit-legacy-statement"
+    },
+    "P057-015": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 920,
+      "dependencies_text": "P078-012 and P036-008",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "explicit-legacy-statement"
+    },
+    "P057-016": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 921,
+      "dependencies_text": "P036-004 and P036-005",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "explicit-legacy-statement"
+    },
+    "P057-017": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 922,
+      "dependencies_text": "P013-ADC-004 and P013-ADC-005",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "explicit-legacy-statement"
+    },
+    "P057-018": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 936,
+      "dependencies_text": "P057-003",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P057-019": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 937,
+      "dependencies_text": "P057-018",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P057-020": {
+      "file": "057-user-and-operator-notifications.md",
+      "line": 938,
+      "dependencies_text": "P007-LP-002; P024-010; P057-019",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P060-013": {
+      "file": "060-messaging-middleware.md",
+      "line": 1206,
+      "dependencies_text": "",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "none"
+    },
+    "P060-038": {
+      "file": "060-messaging-middleware.md",
+      "line": 1243,
+      "dependencies_text": "P007-LP-001; P024-009",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P060-039": {
+      "file": "060-messaging-middleware.md",
+      "line": 1244,
+      "dependencies_text": "P060-038; P007-LP-002; P024-010; P060-013",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P066-PA-001": {
+      "file": "066-inquirium-assistant-channel.md",
+      "line": 1839,
+      "dependencies_text": "P024-009",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P066-PA-002": {
+      "file": "066-inquirium-assistant-channel.md",
+      "line": 1840,
+      "dependencies_text": "P066-PA-001; P024-010",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P073-PA-001": {
+      "file": "073-agent-orchestration-organ.md",
+      "line": 1070,
+      "dependencies_text": "P024-009",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P073-PA-002": {
+      "file": "073-agent-orchestration-organ.md",
+      "line": 1071,
+      "dependencies_text": "P073-PA-001; P024-010",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P078-010": {
+      "file": "078-weak-signal-harvester.md",
+      "line": 642,
+      "dependencies_text": "P036-007 and a scoped `memarium",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "explicit-legacy-statement"
+    },
+    "P078-011": {
+      "file": "078-weak-signal-harvester.md",
+      "line": 643,
+      "dependencies_text": "P078-010 and P013-DFR-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "explicit-legacy-statement"
+    },
+    "P078-012": {
+      "file": "078-weak-signal-harvester.md",
+      "line": 644,
+      "dependencies_text": "P078-011, P013-DFR-002 and P036-008",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "explicit-legacy-statement"
+    },
+    "P080-003": {
+      "file": "080-multiplexed-middleware-channel-executor.md",
+      "line": 1367,
+      "dependencies_text": "",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "none"
+    },
+    "P080-011": {
+      "file": "080-multiplexed-middleware-channel-executor.md",
+      "line": 1375,
+      "dependencies_text": "",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "none"
+    },
+    "P080-045": {
+      "file": "080-multiplexed-middleware-channel-executor.md",
+      "line": 1429,
+      "dependencies_text": "",
+      "status": "done",
+      "qualified_status_text": "done",
+      "edge_source": "none"
+    },
+    "P080-048": {
+      "file": "080-multiplexed-middleware-channel-executor.md",
+      "line": 1421,
+      "dependencies_text": "P024-009; P080-003; P080-045",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P080-049": {
+      "file": "080-multiplexed-middleware-channel-executor.md",
+      "line": 1422,
+      "dependencies_text": "P080-048; P024-010; P080-011",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P095-012": {
+      "file": "095-node-ui-interaction-layer.md",
+      "line": 760,
+      "dependencies_text": "P024-010; P095-013",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P095-013": {
+      "file": "095-node-ui-interaction-layer.md",
+      "line": 774,
+      "dependencies_text": "P095-014; P007-LP-001; existing Node UI operator/participant guards",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P095-014": {
+      "file": "095-node-ui-interaction-layer.md",
+      "line": 788,
+      "dependencies_text": "Accepted P095 private-view, fragment, representation and lifecycle contracts",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P095-015": {
+      "file": "095-node-ui-interaction-layer.md",
+      "line": 789,
+      "dependencies_text": "P095-014; existing P095 surface-admission contracts",
+      "status": "deferred",
+      "qualified_status_text": "deferred",
+      "edge_source": "dependency-column"
+    },
+    "P098-001": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 74,
+      "dependencies_text": "Owning solutions",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-002": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 75,
+      "dependencies_text": "P098-001; P095-014; accepted P091 composition and S019 package contracts",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-003": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 76,
+      "dependencies_text": "P098-002; P095-014",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-004": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 77,
+      "dependencies_text": "P098-004a; P098-004b",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-004a": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 94,
+      "dependencies_text": "P098-001; P098-002; P098-003; P095-013; P057-019; MSG-ONB-004; MSG-ONB-006",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-004b": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 95,
+      "dependencies_text": "P098-004a; P098-010a; P024-010; P095-012; P057-020",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-005": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 78,
+      "dependencies_text": "P098-005a; P098-005b",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-005a": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 101,
+      "dependencies_text": "P098-002; P098-003; P095-013; MSG-ONB-004; MSG-ONB-006",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-005b": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 102,
+      "dependencies_text": "P098-005a; P013-PA-003; P095-012",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-006": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 79,
+      "dependencies_text": "P098-002; P098-003; P098-010a; P098-010c; P080-049; P095-012; P013-PA-003; P013-DFR-003",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-007": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 80,
+      "dependencies_text": "P098-003; P098-004; P098-005; P098-006; P098-009; P098-010; P098-011; P098-012; P098-014; P098-015",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-008": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 81,
+      "dependencies_text": "P098-002; P091 change/approval contracts",
+      "status": "deferred",
+      "qualified_status_text": "deferred",
+      "edge_source": "dependency-column"
+    },
+    "P098-009": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 82,
+      "dependencies_text": "P098-001; P098-002; P098-003; P098-010a; P098-010b; P095-012; P036-013; P047-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-010": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 83,
+      "dependencies_text": "P098-001; P098-010a; P098-010b; P098-010c; P066-PA-001; P073-PA-001",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-010a": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 108,
+      "dependencies_text": "P024-009; P080-048",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-010b": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 109,
+      "dependencies_text": "P036-012; P024-011",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-010c": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 110,
+      "dependencies_text": "P013-PA-001; P015-009; P026-014",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-011": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 84,
+      "dependencies_text": "Existing tracker declarations",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-012": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 85,
+      "dependencies_text": "P098-003; P098-010a; P060-039; P095-012",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-013": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 86,
+      "dependencies_text": "P098-002; P098-003; P095-015",
+      "status": "deferred",
+      "qualified_status_text": "deferred",
+      "edge_source": "dependency-column"
+    },
+    "P098-014": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 87,
+      "dependencies_text": "P098-003; P095-012; P013-PA-003; P060-039; P066-PA-002; P073-PA-002",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-015": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 88,
+      "dependencies_text": "P098-003; P098-010a; P095-012; P066-PA-002; P073-PA-002",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-016": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 132,
+      "dependencies_text": "P098-001; P098-011; P095-014",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-017": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 133,
+      "dependencies_text": "P098-016; P098-004a; P098-005a",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-018": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 134,
+      "dependencies_text": "P024-010; P095-012",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-022": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 135,
+      "dependencies_text": "P098-014; P098-012; P098-015; P098-005b",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    },
+    "P098-023": {
+      "file": "098-alpha-ui/delivery-plan.md",
+      "line": 136,
+      "dependencies_text": "P098-017; P098-018; P098-022; P098-007",
+      "status": "todo",
+      "qualified_status_text": "todo",
+      "edge_source": "dependency-column"
+    }
+  },
+  "delivery_views": {
+    "communication": {
+      "required_output_statuses": {
+        "P098-004b": "todo",
+        "P098-012": "todo",
+        "P098-015": "todo"
+      },
+      "complete": false,
+      "qualification": "Current owner/task scope still governs evidence; a qualified or unclassified result cannot be expanded by this view."
+    },
+    "rumors_guided": {
+      "required_output_statuses": {
+        "P098-005b": "todo",
+        "P098-006": "todo"
+      },
+      "complete": false,
+      "qualification": "Current owner/task scope still governs evidence; a qualified or unclassified result cannot be expanded by this view."
+    },
+    "memory": {
+      "required_output_statuses": {
+        "P098-009": "todo"
+      },
+      "complete": false,
+      "qualification": "Current owner/task scope still governs evidence; a qualified or unclassified result cannot be expanded by this view."
+    }
+  },
+  "checks": {
+    "cycles": [],
+    "missing_ids": [],
+    "duplicate_definitions": [],
+    "independent_dfs": "passed",
+    "owner_direction": "passed",
+    "initial_profile_independence": "passed",
+    "early_guided_frame": "passed",
+    "return_without_unrelated_views": "passed",
+    "retired_ids_excluded": "passed",
+    "full_required_scope": "passed"
+  }
+}

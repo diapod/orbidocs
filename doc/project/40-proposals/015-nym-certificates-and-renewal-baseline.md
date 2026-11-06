@@ -808,6 +808,20 @@ Resolved 2026-07-04:
 3. Messaging, contact, and Corpus application families should inherit the same
    nym-certificate embedding pattern where artifacts are nym-authored.
 
+### Participant applicant and authorship tracker — 2026-11-06
+
+The operator-qualified Gates A/B and P015-001–003/006 remain their recorded evidence.
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+requires a separate participant caller path. P015 and S026 own actor selection,
+Vault custody and retained cryptographic operations; P013 owns intake and the
+reviewed candidate. P013-PA-001 supplies that input contract before P015-009 freezes
+its consumption. P013 runtime then consumes P015-010, never the other way round.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P015-009 | Freeze participant certification and authorship operations | todo | P024-009; P013-PA-001; P015-001 | Freeze verified actor/context selection, participant-specific Vault/key/certificate custody, operation/idempotency/readback namespaces and exact candidate-to-v2-review binding. Preserve current status, first-emission, audience/consent and recovery rules; candidate/context changes invalidate review. Record canonical operation/schema/registry mappings and the independent operator adapter. No arbitrary client clock/certificate, raw signer or local-primary substitution. | P015-010; P098-010c |
+| P015-010 | Deliver participant-bound applicant and authorship paths | todo | P015-009; P024-010; P015-002; P015-003; P015-006; P013-LLR-006 | Implement actor-bound certification, Vault/review/signing, retained cryptographic result and authorized operation readback. Preserve the existing authorized publication handoff; P013-PA-003 owns integrated contribution orchestration/result projection, not a second cryptographic operation store. Participant methods take verifier-created `AdmittedParticipant`; implicit operator selection is confined to the explicit operator adapter. Prove O/P/Q separation, locked/wrong key, stale status, changed review, cross-participant operation/certificate references and lost-reply recovery without repeating effects. Preserve independent certification/signing/transport/disclosure states and operator regressions. Use typed candidate fixtures; do not depend on P013's integrated intake/UI runtime. ADC/LLR succession stays under its own gates. | P013-PA-003; P098-006 |
+
 ## Next Actions
 
 1. Document `public-continuation` as the default renewal mode in `nym-certificate.v1`

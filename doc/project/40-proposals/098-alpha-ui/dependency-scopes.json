@@ -1,0 +1,116 @@
+{
+  "format": "p098-dependency-scopes.v1",
+  "purpose": "Documentation input for P098-011; no runtime configuration or checker implementation.",
+  "source_root": "..",
+  "source_glob": "**/*.md",
+  "extraction_rules": {
+    "revision": "p098-task-edges.v1",
+    "task_definition": "Markdown tracker row with a complete task ID in its first cell; duplicate definitions refuse.",
+    "dependency_columns": [
+      "Dependencies",
+      "Depends on",
+      "Prerequisites"
+    ],
+    "legacy_prose_rule": "Only an explicit Depends on statement in a task row lacking such a column supplies prerequisite edges; stop at the first period or semicolon terminating that statement. Preserve its exact text/provenance. Other prose never silently becomes an edge.",
+    "boundary_inputs": "Non-task owner/solution/schema contracts in dependency cells are retained separately, not expanded into every task of a proposal.",
+    "qualification": "An accepted scoped output remains an edge with its qualification; it does not close the whole upstream task.",
+    "normalization": "Resolve links to their label; expand same-prefix inclusive numeric ranges and slash shorthand. Full hyphenated suffixes belong to the task ID. A legacy bare numeric ID inherits the current proposal prefix only when unambiguous; current P098 declarations use full IDs.",
+    "excluded": [
+      "Consumers columns",
+      "ordinary links and examples",
+      "delivery view membership",
+      "historical or retired task mentions"
+    ],
+    "direction": "consumer -> prerequisite",
+    "counting": "Transitive closure including roots; count unique task IDs and unique directed prerequisite pairs within each named scope. Never count view/status projections as tasks or edges.",
+    "failures": [
+      "missing task",
+      "duplicate definition",
+      "cycle",
+      "ambiguous or unparsed prerequisite"
+    ]
+  },
+  "scopes": {
+    "local_primary": {
+      "roots": [
+        "P098-017"
+      ],
+      "include_scopes": []
+    },
+    "independent_profile": {
+      "roots": [
+        "P098-023"
+      ],
+      "include_scopes": []
+    },
+    "independent_with_follow_on": {
+      "roots": [
+        "P013-DFR-003",
+        "P013-ADC-008",
+        "P013-LLR-007",
+        "P013-LLR-008",
+        "P013-LLR-009",
+        "P057-015",
+        "P057-016",
+        "P057-017",
+        "P026-007",
+        "P026-008",
+        "P013-AE-001",
+        "P057-014"
+      ],
+      "include_scopes": [
+        "independent_profile"
+      ]
+    },
+    "full_review": {
+      "roots": [
+        "P098-008",
+        "P098-013"
+      ],
+      "include_scopes": [
+        "local_primary",
+        "independent_with_follow_on"
+      ]
+    }
+  },
+  "delivery_views": {
+    "communication": {
+      "required_outputs": [
+        "P098-004b",
+        "P098-012",
+        "P098-015"
+      ],
+      "retired_task_id": "P098-019"
+    },
+    "rumors_guided": {
+      "required_outputs": [
+        "P098-005b",
+        "P098-006"
+      ],
+      "retired_task_id": "P098-020"
+    },
+    "memory": {
+      "required_outputs": [
+        "P098-009"
+      ],
+      "retired_task_id": "P098-021"
+    }
+  },
+  "view_status_rule": "Read output status and evidence qualification from canonical trackers. Report complete only for all required applicable outputs; otherwise report the outstanding outputs and their statuses. Never persist a manually edited view status or use a view as a prerequisite.",
+  "reserved_retired_ids": [
+    "P098-019",
+    "P098-020",
+    "P098-021"
+  ],
+  "required_parser_fixtures": [
+    "MSG-ONB-001c-04 remains one full ID",
+    "P098-008 historical bare 002 resolves to P098-002 only under explicit legacy scope",
+    "ranges and slash abbreviations",
+    "false consumer edges",
+    "qualified partial outputs",
+    "missing/duplicate IDs",
+    "cycles",
+    "unparseable prerequisite refuses",
+    "retired IDs and derived views add no task/edge"
+  ]
+}
