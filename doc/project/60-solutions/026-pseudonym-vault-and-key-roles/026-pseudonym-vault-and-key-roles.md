@@ -700,3 +700,14 @@ survives restart without an extra AD delivery. Initial P035/authority/certificat
 material is explicitly fixture-based. Independent ordinary-process cold/private
 qualification, external end acknowledgement and the remaining LLR gates stay
 open; no task or hard-MVP status changes here.
+
+
+Native source workflow withdrawal now leaves its previously adopted physical
+SQLite owner in the host's bounded retention catalog. The same mechanism serves
+authority and receiver stores, using original exact holds/horizons and external
+fences without a Vault key, signer, transport or a second domain fold. Unknown
+history remains protected; optional locator failure does not turn into fresh
+state or block unrelated recovery. Physical empty retirement keeps the outside
+clock/revision fence. See `node:whisper-case-service/README.md` for implementation
+bounds and reachability limits. This is retention component progress, not an
+independent private-delivery/cold qualification or a hard-MVP status change.

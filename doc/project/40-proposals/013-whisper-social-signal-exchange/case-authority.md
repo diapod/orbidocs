@@ -609,6 +609,16 @@ Reserve closure/invalidation/conflict capacity before registration. Expired repl
 returns expiry, not reevaluation. Ciphertext handoff retention and proof/history
 retention have separate horizons. Proof holds never prolong private payload life.
 
+Withdrawal of a native runtime role does not suspend these horizons. Previously
+adopted physical owners remain subject to the same scope, time and revision fence
+and existing-only maintenance; cleanup cannot bootstrap fresh domain state. A
+bounded host locator catalog is not another domain fold or an authority source.
+Unknown unregistered history stays protected. A locator may retire only after
+verified domain/audit emptiness while the external fence remains. Active writers
+retain their ordinary maintenance and exclude inactive maintenance. This runtime
+mechanism is documented in `node:whisper-case-service/README.md`; its component
+checks do not close the independent clean-source A-F gates.
+
 ## Open boundaries
 
 P015-005, ADC runtime, LLR-009 full qualification, LLR-010 context/authority
