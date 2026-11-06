@@ -620,3 +620,14 @@ bytes. Local case-knowledge inspection is not an egress decision. Real custody
 component vectors cover erasure, distinct horizons, exact expiry and a policy
 change during owner work. Source-gate/API adoption of this real port remains
 pending, with cold/transport gates and all tracker closures unchanged.
+
+
+Native source configuration now separately admits a closed optional audience
+policy: independently selected receipt trust, authority/profile sets and explicit
+end-recipient-to-one-way-circuit mappings. A nym principal is not its transport
+node. The declaration has finite cardinalities; duplicate recipient/family
+choices, missing mappings, return budgets and unsupported kinds refuse. Legacy
+source serialization is unchanged when omitted. This is an unreleased local
+configuration extension, without changing signed artifacts. It does not itself
+provide the native audience API, disclosure authorization or an outbound grant;
+those adoption/composition gates remain open.

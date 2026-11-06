@@ -639,3 +639,11 @@ not recipient success or case permission. Full/detached, carried/referenced and
 node/nym component composition uses the actual recipient decision; native
 audience API, real material-owner egress lease and independent transport/cold
 gates remain pending. This adds no Vault recovery slot or hard-MVP claim.
+
+
+The native source's optional audience declaration binds independent trust and an
+explicit node/nym end recipient to a one-way relay circuit. A transport-node
+identity never stands in for a nym audience key. Finite canonical targets and
+unique recipient/family choices are configuration prerequisites, not source API,
+disclosure or current-case authority. The S026 workflow and Memarium disclosure
+owner retain their separate decisions; native audience API adoption remains open.
