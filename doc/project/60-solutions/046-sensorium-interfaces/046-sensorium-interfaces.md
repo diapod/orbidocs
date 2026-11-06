@@ -1574,3 +1574,14 @@ recipient/privacy and remaining load/fault qualification remains open. Existing
 P084/P078 and dependent owner trackers stay in progress. This does not adopt
 production or renew historical evidence. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-ISSUANCE-20261106.md`.
+
+### Local reviewed-v3 producer preparation (2026-11-06)
+
+The current UI fixture selects the applicant's local review/custody owner for
+first v3 publication; receiving C remains a separate carrier/admission claim.
+The inspector rejects a remote-owner process topology. Inline v2 keeps its
+historical topology. Three actual applicants retain mixed reviews after exactly
+three explicit controlled fetches and paused schedules. A separate 4096-claim
+saturation/reopen observation is not campaign load qualification. None of this
+adds to the source-bound 20/131 checkpoint or completes signed Gate A/B. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-LOCAL-PRODUCER-PREPARATION-20261106.md`.
