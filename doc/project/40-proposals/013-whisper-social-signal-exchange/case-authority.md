@@ -712,7 +712,7 @@ identity; full author bytes or detached manifest and all non-payload roles must
 match that verified evidence. The shared signature budget includes finish's
 returned-signature check. Failure at custody or packet preparation resumes the
 same unsigned bytes; prepared replay performs neither anchor verification nor
-provider use. A policy change refuses replay rather than silently adopting new
+signing use. A policy change refuses replay rather than silently adopting new
 trust. Current disclosure and time remain separate gates.
 
 Source and authority adapters share the historical registration projection, with
@@ -727,6 +727,17 @@ owner operation enters the shared private commit boundary after its core finish
 verified the signature; binding checks there do not repeat cryptography. Full
 and detached component vectors compose actual P035, SQLite, PEX preparation and
 independent authority admission, with explicit policy/continuity-signer fixture
-ports. Native case-key registration and successor signing adoption, private
-transport and cold gates remain open. This changes no signed carrier, authority
-semantics or tracker status.
+ports. The native operator adapter now also composes actual S026 continuity
+custody, the shared P035 projection and current finite Memarium disclosure.
+It requires independent optional `registration/trust`; it accepts only public
+commitment, sorted audience and carried roles, without secrets, caller times,
+trust or signed controls. The provider owner remains held through preparation
+and AD enqueue. Saved native handoff checks key erasure/provider availability,
+original anchor/authority/horizon, policy identity and current disclosure; replay
+signs and seals nothing again. Contention remains retryable. Missing full/detached
+profile in an older encrypted native row is unknown and refuses this adapter.
+The unreleased local request schema is extended in place with exact mirrors;
+there is no signed-carrier change. Full/detached native vectors use actual random
+case keys, P035, Vault, Memarium and AD enqueue with synthetic v2 credentials and
+fixture authority opening. Successor signing, complete later source-local negative
+basis handling, private transport and cold gates remain open. No tracker closes.

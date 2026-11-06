@@ -373,6 +373,79 @@
               }
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "continuity/key-digest",
+            "audience",
+            "evidence"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-registration"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "continuity/key-digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "maxLength": 50
+            },
+            "audience": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "maxLength": 128,
+                "pattern": "^(node|nym|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
+            },
+            "evidence": {
+              "type": "array",
+              "maxItems": 13,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "role",
+                  "digest",
+                  "bytes"
+                ],
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "anchor-record",
+                      "anchor-manifest",
+                      "anchor-receipt",
+                      "anchor-certificate",
+                      "profile",
+                      "anchor-status",
+                      "anchor-closure"
+                    ]
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+                    "maxLength": 50
+                  },
+                  "bytes": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]+$",
+                    "maxLength": 699051
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     }
