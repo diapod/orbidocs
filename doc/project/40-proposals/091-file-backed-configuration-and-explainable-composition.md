@@ -3271,3 +3271,63 @@ and optimized qualifier agreement, archive extraction and fresh private-store
 retrieval in `node:docs/evidence/configuration-contracts/consumption-review-20261102.summary.json`.
 This is client/owner evidence for the named slice, not whole-proposal or release
 qualification; the remaining work above is unchanged.
+
+
+### Shared operator control revision 3 (2026-11-06)
+
+Accepted bounded design: one operator process for existing Logging, Messaging,
+Flow `max_flow_steps`, Inquirium `classify/labels-max` and Arca `catalog_peer_max`.
+Node owns the executable contract, stage tracker and results in
+`node:daemon/docs/CONFIGURATION-OPERATOR.md`. This is design acceptance, not a
+claim that extraction or client qualification has completed.
+
+| Decision | Contract |
+| --- | --- |
+| D1 | Add ReadOnly GET Flow inspection at `/v1/operator/configuration/json-e-flow/{id}`, plus `/result?approval_ref=...` and `/results`. Existing tagged POST remains compatible. |
+| D2 | Panel D2 covers Flow, Logging and Messaging; Arca and Inquirium retain full-page controls. Broader panel coverage stays open. |
+| D3 | Logging, middleware and guidance editors/buffers remain separate. Revisit convergence at their next material change. |
+| D4 | Flow retains one 128-entry family review pool; exact id binding provides unit isolation. |
+| D5 | Zero requires truthful owner effect metadata in the new operator path. Flow zero is invalid. Arca zero is a selection default/limit, not a global network ban; Inquirium effective zero refuses classification admission before model dispatch. |
+| D6 | Intentional fail-closed changes: full Flow review-reference character validation, descriptor pinning in Arca prepared plans, and approved Arca value as the sole effect source. |
+| D7 | Flow historical result v2 adds `setting/address`; existing scalar result v1 meaning remains unchanged. |
+| D8 | Catalogue lists only current managed launch Flow ids, at most 64. Removed ids remain available for explicit historical lookup, not editing. No abandoned-unit counter is added here. |
+
+Zero semantics preserve existing domain behavior. Arca zero prevents configured
+peer selection/fetch using that limit and yields no peers for a remote query that
+uses the configured default; an explicit positive request limit may override the
+default for registered peers. It neither stops the module nor disables Agora
+replay or all network activity. Inquirium effective zero permits no valid
+nonempty labels request for the affected classification profile; local narrowing
+survives a widening envelope. Neither zero cancels running work. A saved zero may
+be shadowed by a later declaration, and save/restart/consumption remain separate.
+The owner must describe the predicted effective result. Missing effect metadata
+refuses new operator zero previews and commits; it introduces no global loader
+ban and is an implementation gate, not a baseline property.
+
+Reset removes only the local declaration. Ordinary file recovery, history archival
+and acceptance of unknowability remain separate operations. Five review pools
+share storage/TTL/nonce mechanics but preserve two typed disciplines:
+`ConsumeFirst` (history, Arca reconciliation; mismatches consume their reference)
+and `JournalReplay` (three leaf editors; durable replay precedes review lookup,
+then fresh preparation and exact approval under the writer). Limits remain
+300 seconds and 32/128 entries. Reading history neither repeats effects nor renews
+authority. The catalogue does not create grants; client route admission remains
+closed and disagreement must be visible. All exposed operations pass P091-005a.
+
+Delivery gates are 1 contract/characterization, 2a review store, 2b leaf editor,
+3 Flow read resources/CLI, 4 owner catalogue/inputs, 5 full pages/panel,
+6 candidate-pinned cross-case qualification. Each requires review and scoped
+regressions. The initial gate has no new runtime operation. Existing journal,
+completion reservations and carrier lifecycle are reused; no new crate, setting,
+platform or general descriptor registry is introduced. F12 abandoned-unit
+retirement remains separate and cannot infer death from configuration absence.
+P091-005/007/008/012/013/014 remain partial until their respective wider gates.
+
+
+Stage 1 checkpoint (2026-11-06): Node retains passing characterization for the
+owner-specific zero, review mismatch disciplines and a shared grammar vector.
+Arca zero's explicit-request override and independent Agora replay are tested;
+Inquirium zero is a bound pre-dispatch refusal, with local narrowing and later-file
+shadowing covered. The Node stage tracker owns exact counts and development
+failures. This establishes the extraction baseline only: stages 2a through 6,
+new exposed operations, final clients and P091-014 completion remain pending.
