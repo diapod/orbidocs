@@ -684,7 +684,21 @@ route/config/AD budget, while retaining separate SQLite/FULL stores, fences and
 zero-queue workers. Closed PEX end-family selection dispatches to exactly one
 owner; refusal does not fall through. The existing strict presence parser keeps
 omission distinct from invalid null, and legacy declarations serialize unchanged.
-Standalone nym recipients remain supported; paired nym/source combinations are
-not enabled. Component vectors cover admission, both real owner lifecycles and
+Standalone nym recipients remain supported. Source/recipient co-adoption is
+independently described below; authority/source co-adoption is not enabled. Component vectors cover admission, both real owner lifecycles and
 real authority registration while both are active. Actual private delivery to
 the authority audience, inactive-role retention and independent A-F remain open.
+
+
+A source can now explicitly adopt an independent recipient through the same
+closed paired-role mechanism used by an authority. Its recipient declaration
+chooses owned-node or owned-nym custody, independent receipt trust, knowledge
+policy and local material source. Source responses and audience presentations
+route by the existing PEX end-family role, with no fallback, new queue or shared
+domain fold. Source and CaseKnowledge keep separate stores, fences and workers;
+combined transport routes and custody retain the existing finite budget. Missing
+adoption preserves the legacy profile; explicit null refuses. The actual-daemon
+dual-store vector and real protected nym recipient through the paired sink are
+component evidence with explicit authority/relay-ingress fixtures. They do not
+qualify private audience delivery, cold Gate C or PEX/LLR closure. Authority/source
+co-adoption remains unsupported.

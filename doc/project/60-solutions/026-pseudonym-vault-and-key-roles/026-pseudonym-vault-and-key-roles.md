@@ -667,3 +667,15 @@ no new nym key lease; this is separate from publication eligibility. Actual Vaul
 mint, native signing and AD enqueue have component coverage with synthetic
 council discovery. Private status-response transport and registration/successor
 signing composition remain separate unfinished LLR gates.
+
+
+The explicit source role may now also adopt a separately configured recipient.
+Requester responses stay with the source workflow; audience presentations go to
+CaseKnowledge under independent trust, key possession and effect checks. The
+existing S026 nym lease is installed in both adapters without exporting a key or
+combining their stores. Owned-node and owned-nym recipients are explicit choices;
+configuration is not proof of possession. Combined route/classification/custody
+limits remain bounded. Actual dual-store startup and protected nym receipt through
+the paired sink have component coverage, with explicit authority/ingress fixtures.
+Native private transport, full signing composition and cold gates remain open;
+S026 recovery and hard-MVP claims are unchanged.
