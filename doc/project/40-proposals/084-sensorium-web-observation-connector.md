@@ -1812,3 +1812,17 @@ unchanged; same-certificate negative/positive isolation confirms the selector.
 No threshold, common receiver, replica-renewal, Matrix, full A/B or production
 claim follows. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-TWO-PUBLISHERS-20261106.md`.
+
+
+### Independent reviewed-v3 Matrix receiver preparation (2026-11-06)
+
+Owned Synapse preparation observes healthy admitted A/B producer instances and a
+separate C receiver, with existing local instances and signer defaults preserved.
+It performs no certification, recovery export or Whisper publication. The shared
+first-pair reader now binds each reviewed-v3 producer's custody/publication
+process independently of the original C/D projection continuation. Both producers
+must use the same issuer D; C must differ from each producer and from D. Inline
+v2 bindings and all native complete-basis, first-pair, public-readback and expiry
+requirements remain unchanged. Mixed-version and substitution tests do not award
+runtime credit. Matrix, common-receiver/threshold and full A/B qualification stay
+open; the preceding source-bound two-publisher report is unchanged.
