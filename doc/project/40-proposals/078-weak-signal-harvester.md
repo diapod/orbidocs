@@ -812,3 +812,14 @@ three explicit controlled fetches and paused schedules. A separate 4096-claim
 saturation/reopen observation is not campaign load qualification. None of this
 adds to the source-bound 20/131 checkpoint or completes signed Gate A/B. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-LOCAL-PRODUCER-PREPARATION-20261106.md`.
+
+### Ordinary UI continuation refusal (2026-11-06)
+
+A later approved SQLite series issued A's v3 certificate and retained its two
+exact recovery exports, then stopped on a capture-tool `UnboundLocalError` after
+the first UI form. B/A2 did not start and no Whisper was signed or published.
+Node corrected the local name shadowing and added complete doubled v2/v3 UI
+orchestration regressions on both backends; 516 Python and 21 optimized UI tests
+pass. The original runtime refusal remains preserved and adds no campaign credit.
+Fresh corrected-source UI, common receiver and full A/B qualification remain open.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-UI-REFUSAL-20261106.md`.
