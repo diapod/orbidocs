@@ -702,3 +702,25 @@ dual-store vector and real protected nym recipient through the paired sink are
 component evidence with explicit authority/relay-ingress fixtures. They do not
 qualify private audience delivery, cold Gate C or PEX/LLR closure. Authority/source
 co-adoption remains unsupported.
+
+
+The source owner now also stages unsigned registration before its dedicated
+continuity-key signer port. Exact carried roles, audience, original observed time,
+continuity commitment and independently admitted receipt-policy digest are frozen
+in that owner's encrypted metadata. The P035 token carries the actual policy
+identity; full author bytes or detached manifest and all non-payload roles must
+match that verified evidence. The shared signature budget includes finish's
+returned-signature check. Failure at custody or packet preparation resumes the
+same unsigned bytes; prepared replay performs neither anchor verification nor
+provider use. A policy change refuses replay rather than silently adopting new
+trust. Current disclosure and time remain separate gates.
+
+Public raw-control preparation cannot replace a frozen native registration or
+status-read attempt, including with a valid external control. Only the native
+owner operation enters the shared private commit boundary after its core finish
+verified the signature; binding checks there do not repeat cryptography. Full
+and detached component vectors compose actual P035, SQLite, PEX preparation and
+independent authority admission, with explicit policy/continuity-signer fixture
+ports. Native case-key registration and successor signing adoption, private
+transport and cold gates remain open. This changes no signed carrier, authority
+semantics or tracker status.
