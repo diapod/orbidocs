@@ -3368,3 +3368,27 @@ The scoped CLI requires --flow and preserves tagged POST compatibility. Node
 retains passing owner/route/port/API/CLI regressions, strict Clippy and the diagnosed
 fixture failure; exact scope is in its stage tracker. This does not qualify client
 presentation: catalogue/D5 metadata enforcement and stages 5-6 remain pending.
+
+
+Stage 4 checkpoint (2026-11-06): authenticated ReadOnly catalogue discovery now
+composes contributions from the five existing owners, using descriptor/schema
+metadata and at most 64 cached launch Flow ids. It neither acquires source files
+nor evaluates P085/envelope/history state, creates grants or admits new module
+owners. One provider refusal preserves the remaining entries. The closed UI
+transport catalogue independently admits address/link/operation/version bindings
+and diagnoses disagreement; UI presentation remains a separate local owner.
+
+Arca/Inquirium inspection local v3 replaces fixed choices with numeric declaration
+syntax and owner effect metadata. Effective public constraints remain separate
+from syntactic bounds; preview retains exact composition and shadowing. D5 now
+requires the owner explanation for either declared or predicted zero, including
+positive declarations shadowed by zero and resets inheriting zero. Missing
+metadata refuses new effects, while exact journal readback remains inert and
+available. Raw loaders and the established consumer meanings of zero are unchanged.
+
+Node retains scoped owner, route, port, API, UI-projection and CLI regression
+results plus strict Clippy in its stage tracker. These checks do not qualify
+browser/WebView clients. Flow full-page/panel delivery and the joint final
+campaign remain stages 5-6; F12, broader descriptor admission, P091-014 completion
+and release qualification remain open. No main-branch integration or publication
+is implied.
