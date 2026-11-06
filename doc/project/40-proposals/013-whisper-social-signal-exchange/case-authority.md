@@ -751,3 +751,13 @@ issuer-decision guard. The real two-owner/P035 component vector uses a synthetic
 v2 certificate/discovery, checks both signatures, and refuses clock rollback or
 stale recovery. No wire/preimage changes, v2 issuer completion or native source
 succession-workflow/private/cold qualification follows from this internal port.
+
+The source-owner succession preparation now persists only unsigned candidate bytes
+before its two narrow signing roles. Original owner time, predecessor, audience,
+anchor-policy identity and exact successor roles survive failures and restart.
+The checked certificate/status deadline also bounds prepared output and handoff;
+replay neither resigns nor reseals. Full/detached component vectors use the actual
+P035 producer, source SQLite and L2 PEX against the authority's A→B→C CAS, with
+explicit custody/policy fixtures and synthetic v2 certificates/statuses. Native
+source command adoption and the independent cold/private gates remain open; this
+foundation changes no signed wire artifact, case-authority claim or MVP status.
