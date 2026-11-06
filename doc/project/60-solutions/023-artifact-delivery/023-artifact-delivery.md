@@ -2004,3 +2004,19 @@ restart to the exact Harvester review. This supplies scoped custody/replay
 evidence, without native ENOSPC, quota or publication-hold qualification. The
 separate campaign gate reports the missing obligations explicitly. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
+
+### Native custody I/O prerequisite (2026-11-06)
+
+The ordinary AD owner now has a scoped, fresh APFS qualification for payload-write
+ENOSPC (numeric errno 28), observed process death after publication/before claim
+commit and a distinct controlled SQLite abort (1811). Independent original and
+exact-copy readers preserve baseline bytes, same-intent recovery and immutable
+retry terms; no interrupted managed object becomes legacy. The collector uses a
+bounded private filesystem and detaches its exact image.
+
+This qualifies only that local I/O prerequisite. Quota/hold saturation, power
+loss, composed signed publication/privacy and the complete two-backend campaign
+remain separate. The three native cases have not yet been credited by the P084
+campaign reader. Earlier refusals and their evidence remain unchanged. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-NATIVE-CUSTODY-20261106.md` for pins,
+controls, custody review and the remaining qualification boundary.

@@ -1679,3 +1679,20 @@ inactive store creates no owner. An owner identity marker without source history
 is an explicit corruption/reconciliation refusal, never a reason to classify
 its payload as legacy. This guard changes no historical evidence or production
 adoption; composed original/review/publication qualification remains open.
+
+### Native AD I/O prerequisite (2026-11-06)
+
+A fresh independently qualified APFS run now covers actual owner payload ENOSPC
+(errno 28), a killed process after payload publication but before claim commit,
+and a distinct controlled SQLite commit abort (1811). Recovery preserves the
+original intent, terms and payload, including lost-response replay. Original and
+exact durable-copy reads agree in ordinary and optimized processes. Earlier
+location/pressure refusals and rehearsal remain unqualified and unchanged.
+
+This is the focused AD prerequisite, not the full P084 campaign. Its native-case
+adapter and fresh composition are still required; the last complete-matrix
+checkpoint remains 13/131 verified with 118 missing at its recorded revision.
+P084-014/015 and the signed, remaining native, remote privacy and two-backend
+qualification remain in progress. No production adoption follows. Exact pins,
+private retention review and measured limits are in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-NATIVE-CUSTODY-20261106.md`.
