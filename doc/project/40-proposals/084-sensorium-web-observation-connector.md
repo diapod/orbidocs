@@ -1773,3 +1773,23 @@ orchestration regressions on both backends; 516 Python and 21 optimized UI tests
 pass. The original runtime refusal remains preserved and adds no campaign credit.
 Fresh corrected-source UI, common receiver and full A/B qualification remain open.
 See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-UI-REFUSAL-20261106.md`.
+
+
+### Scoped ordinary SQLite publication and stopped series (2026-11-06)
+
+The next clean-source fixture completed A through AD certification, reviewed UI,
+restart/locked-sign refusal, protected v3 signing and a signed SQLite publication
+receipt/public readback. Independent inspection credits four exact requirements.
+The source-bound aggregate is 16/131 with 115 missing; its fresh C domain command
+failed and earns no six-row credit. B arrived before request expiry but was
+refused during later owner validation; A2 did not start. The once-selected series
+stopped without retry or deadline extension. Historical 18/131 and 20/131 reports
+retain their distinct source bindings. Full A/B, shared receiver, Matrix, remote
+privacy and remaining window/load/fault qualification stay open.
+
+A deterministic provider-lock regression separately demonstrates an incidental
+descriptor prolonging a dropped owner. Explicit RAII unlock preserves replacement
+exclusion; fresh clean-source qualification is required after this Rust change.
+This does not establish the unique cause of the original parallel C failure.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-PUBLICATION-20261106.md`
+for exact inputs, original refusals, canary scope and retained-evidence boundaries.

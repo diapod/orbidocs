@@ -919,3 +919,14 @@ orchestration regressions on both backends; 516 Python and 21 optimized UI tests
 pass. The original runtime refusal remains preserved and adds no campaign credit.
 Fresh corrected-source UI, common receiver and full A/B qualification remain open.
 See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-UI-REFUSAL-20261106.md`.
+
+
+### Scoped reviewed v3 SQLite publication (2026-11-06)
+
+The next independently inspected A fixture completes reviewed v3 signing and a
+signed local SQLite publication receipt. The distinct source-bound aggregate is
+16/131, with failed fresh C and stopped B expiry retaining their missing rows;
+A2, Matrix, shared receiver and full remote privacy qualification remain open.
+The provider-lock correction requires fresh clean-source qualification. See the
+P084 scoped-publication checkpoint and
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-PUBLICATION-20261106.md`.
