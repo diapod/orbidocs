@@ -679,3 +679,24 @@ limits remain bounded. Actual dual-store startup and protected nym receipt throu
 the paired sink have component coverage, with explicit authority/ingress fixtures.
 Native private transport, full signing composition and cold gates remain open;
 S026 recovery and hard-MVP claims are unchanged.
+
+
+### Existing-nym use lifecycle (2026-11-06)
+
+Using an already owned nym is distinct from progressing its finite certificate
+issuance workflow. Audience possession/opening, successor PoP, status-read proofs
+and ordinary authoring must retain an observed-time floor without spending an
+issuance checkpoint for every use. The protected host shares the custody-fence
+clock law, preserves the legacy time floor and checks the actual active key and
+current participant selection. The separate public fence is not another secret
+store, an issuance fact, or current permission. Losing an established fence
+refuses use rather than resetting time; whole-provider restoration remains beyond
+the local rollback guarantee.
+
+The same-S026 audience path now has a whole native operator component vector for
+full/detached and carried/referenced presentation, real owned mint/recovery,
+Memarium capture and local begin/prepare/handoff. Its one durable reception
+survives restart without an extra AD delivery. Initial P035/authority/certificate
+material is explicitly fixture-based. Independent ordinary-process cold/private
+qualification, external end acknowledgement and the remaining LLR gates stay
+open; no task or hard-MVP status changes here.
