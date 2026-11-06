@@ -660,3 +660,15 @@ remain unchanged. A refused cursor advance preserves the prior revocation proof,
 including when a larger revision omits cumulative revocations. This has
 full/detached and carried/referenced component coverage; independent native
 transport/cold gates remain open.
+
+Native authority adoption now permits an explicit owned-node recipient attachment
+with independently admitted knowledge policy, witness trust and material source.
+The roles share one transport incarnation under its original finite combined
+route/config/AD budget, while retaining separate SQLite/FULL stores, fences and
+zero-queue workers. Closed PEX end-family selection dispatches to exactly one
+owner; refusal does not fall through. The existing strict presence parser keeps
+omission distinct from invalid null, and legacy declarations serialize unchanged.
+Standalone nym recipients remain supported; paired nym/source combinations are
+not enabled. Component vectors cover admission, both real owner lifecycles and
+real authority registration while both are active. Actual private delivery to
+the authority audience, inactive-role retention and independent A-F remain open.
