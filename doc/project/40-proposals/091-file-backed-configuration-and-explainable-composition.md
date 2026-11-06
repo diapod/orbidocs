@@ -3392,3 +3392,23 @@ browser/WebView clients. Flow full-page/panel delivery and the joint final
 campaign remain stages 5-6; F12, broader descriptor admission, P091-014 completion
 and release qualification remain open. No main-branch integration or publication
 is implied.
+
+
+Stage 5 checkpoint (2026-11-07): Flow catalogue entries now have canonical per-id
+full pages and bounded D2 transport. The closed client adapts mutations to the
+existing tagged POST and requires exact Flow/value/reference binding; v2 result
+and list reads require the exact setting address. Owner metadata supplies numeric
+forms, previous/predicted values, reset eligibility and application meaning,
+without deriving domain policy in the client. Save, restart and actual consumption
+remain distinct. Historical reads retain no-live-launch behavior.
+
+Rust/JS panel admission now agrees on Logging, Messaging and Flow roots/results,
+including Flow ids named result/results/catalog/consumption. Arca, Inquirium and
+UI presentation remain full-page representations. Opener focus and the existing
+epoch/generation response fences are preserved; full-page default and durable
+rollback do not change. Node records passing scoped UI/owner/route/port/API/CLI/JS
+regressions, strict Clippy and diagnosed development refusals in its owning
+operator tracker. Those code/model checks do not establish measured browser or
+WebView acceptance. The joint fresh-image campaign, actual interaction review,
+final convergence review and evidence closeout remain stage 6. F12, whole P091
+and release qualification remain open; no integration or publication is implied.
