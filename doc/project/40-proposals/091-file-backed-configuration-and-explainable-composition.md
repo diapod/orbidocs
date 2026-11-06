@@ -3341,3 +3341,19 @@ comparison and disposal do not run under the registry mutex. The shared entropy
 primitive also serves Flow/Inquirium incarnation ids. Scoped owner regressions
 and strict Clippy pass; this neither exposes new routes nor renews client
 qualification. Stage 2b single-leaf extraction and D6 hardening remain pending.
+
+
+Stage 2b checkpoint (2026-11-06): Flow, Inquirium and Arca now adapt one shared
+single-leaf editor protocol. Typed approvals and all private source, descriptor,
+context, expected/intended and byte pins remain compared under the existing
+writer; exact journal replay precedes volatile review lookup. Current Inquirium
+binding admission remains an owner check immediately before writing. D6 now
+refuses invalid Flow reference characters, binds the Arca descriptor and prepares
+only the approved Arca value, retaining its compatible outer equality check.
+
+Node retains the common real-adapter laws and controlled private-pin contrast;
+183 configuration-host regressions and strict all-target Clippy pass. The Node
+stage tracker records compilation corrections, exact commands and remaining
+limits. This is scoped extraction evidence, not client or release qualification.
+Stages 3-6, D5 metadata enforcement in the new operator path, broader panel
+coverage and F12 remain open. No main-branch integration or publication occurred.
