@@ -289,7 +289,8 @@
             "owner-dependency-unavailable",
             "owner-expired",
             "owner-binding",
-            "owner-schema-unsupported"
+            "owner-schema-unsupported",
+            "cross-owner-local-delivery-not-supported"
           ]
         },
         "retry": {

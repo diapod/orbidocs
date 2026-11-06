@@ -867,3 +867,13 @@ the original opaque recipient fact within the case/replay horizon; it cannot
 redisclose an expired packet or restore permission. `delivered-local` requires
 bound evidence and has no AD delivery id. This is an explicit additive unreleased
 local-result contract change; historical schema pins remain unchanged.
+
+Native recipient adoption may group a bounded set of owned nyms under one
+participant's knowledge owner. Configuration supplies only key locators and a
+negative owner boundary. Private-key derivation establishes possession. Duplicate
+selectors or Ed25519 identities mapping to the same X25519 key refuse adoption.
+The local and AD adapters share the same nonqueued owner, exact-byte verifier and
+negative knowledge; transport custody remains solely with AD. Earlier per-nym
+prototype stores cannot be silently abandoned when adopting a group. Their
+presence requires explicit reconciliation. This does not qualify inactive-scope
+retention or the clean-source private-delivery gate.
