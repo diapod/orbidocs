@@ -3331,3 +3331,13 @@ Inquirium zero is a bound pre-dispatch refusal, with local narrowing and later-f
 shadowing covered. The Node stage tracker owns exact counts and development
 failures. This establishes the extraction baseline only: stages 2a through 6,
 new exposed operations, final clients and P091-014 completion remain pending.
+
+
+Stage 2a checkpoint (2026-11-06): the five named Node pools use one typed review
+store with separate ConsumeFirst and JournalReplay APIs and independent mutexes.
+Owner authorization, exact approval, public prefixes, TTL and 32/128 quotas remain
+local and compatible. Explicit-time admission follows lookup unlock; payload
+comparison and disposal do not run under the registry mutex. The shared entropy
+primitive also serves Flow/Inquirium incarnation ids. Scoped owner regressions
+and strict Clippy pass; this neither exposes new routes nor renews client
+qualification. Stage 2b single-leaf extraction and D6 hardening remain pending.
