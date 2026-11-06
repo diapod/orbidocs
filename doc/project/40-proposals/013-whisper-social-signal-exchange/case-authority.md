@@ -811,3 +811,45 @@ packet, witness or deadline. Historical local reads do not demand a disclosure
 witness; current custody, classification, trust, independent successor floors and
 original finite horizons remain separate. Public P035 detached material is unchanged.
 This is a local input-change guard, not a global knowledge epoch or current permission.
+
+
+### Co-held audience delivery decision, 2026-11-06
+
+Adopted contract; runtime qualification remains pending. An audience nym held by
+this exact S026 participant owner receives the exact presentation through a verified
+local delivery. An external recipient uses the declared PEX relayed posture. The
+route follows actual private-key possession and the derived nym principal, never a
+configured label. A different local participant is a distinct owner and receives
+`cross-owner-local-delivery-not-supported`, without network traffic or a shortcut
+across participant boundaries. A locked or unavailable possession provider is not
+evidence that a recipient is external.
+
+Both paths use the same closed presentation-family admission, limits, verifier,
+independently adopted recipient policy and CaseKnowledge mechanism. Local delivery
+has no synthetic AD header or peer identity. The local ownership proof is an opaque
+host value, not a caller-supplied flag. Route selection is a pure function of the
+verified ownership classification. A frozen local route never retries over PEX;
+a refused external relay never falls back to direct or local delivery.
+
+The recipient commits a `local-coheld` receipt with the exact presentation digest,
+recipient nym, participant-owner scope and observed decision time in the transaction
+that records the verified recipient decision. Receipt replay is idempotent after
+restart and does not roll back newer knowledge. A refused continuation can still
+have a verified receipt: delivery is not current permission. Invalid presentation
+bytes produce the same refusal on local and remote paths and no receipt. The
+sender records `delivered-local` separately from `delivered-ad`. Existing AD queue
+or first-hop custody remains `transport-custody`; it is not end-recipient delivery.
+Local reception is a transactional-withheld effect; AD handoff remains an
+irreversible-external effect. Temporary source bytes retain their original handoff
+horizon; no new PEX store, retry owner or payload archive is introduced.
+
+LLR-007 private audience delivery includes this verified local case. PEX-001's
+external delivery and privacy gate is unchanged. Acceptance must prove actual key
+possession, zero AD/network activity for local delivery, local/remote verifier and
+knowledge parity, other-owner refusal, exact-byte replay after restart, and no
+fallback. It must separately observe domain reception for an external recipient.
+
+Whether the author's own node may be the case authority is a separate policy
+question. This decision creates no local authority fallback and no independent
+ordering claim for an authority controlled by that author. The suggested editor
+default requiring explicit consent for a self-owned authority remains unimplemented.
