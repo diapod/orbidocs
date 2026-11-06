@@ -3357,3 +3357,14 @@ stage tracker records compilation corrections, exact commands and remaining
 limits. This is scoped extraction evidence, not client or release qualification.
 Stages 3-6, D5 metadata enforcement in the new operator path, broader panel
 coverage and F12 remain open. No main-branch integration or publication occurred.
+
+
+Stage 3 checkpoint (2026-11-06): the three per-id Flow GET resources are operator
+ReadOnly routes, backed by a typed host port. Inspection reuses Application and
+one admitted declaration acquisition. Historical v2 result/list reads include the
+exact setting address, validate retained approval binding and remain available
+for explicitly named removed units, without restoring edit or Active authority.
+The scoped CLI requires --flow and preserves tagged POST compatibility. Node
+retains passing owner/route/port/API/CLI regressions, strict Clippy and the diagnosed
+fixture failure; exact scope is in its stage tracker. This does not qualify client
+presentation: catalogue/D5 metadata enforcement and stages 5-6 remain pending.
