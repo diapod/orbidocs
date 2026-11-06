@@ -565,6 +565,61 @@
               }
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "evidence"
+          ],
+          "properties": {
+            "operation": {
+              "const": "observe-anchor"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "evidence": {
+              "type": "array",
+              "maxItems": 13,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "role",
+                  "digest",
+                  "bytes"
+                ],
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "anchor-record",
+                      "anchor-manifest",
+                      "anchor-receipt",
+                      "anchor-certificate",
+                      "profile",
+                      "anchor-status",
+                      "anchor-closure"
+                    ]
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+                    "maxLength": 50
+                  },
+                  "bytes": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]+$",
+                    "maxLength": 699051
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     }

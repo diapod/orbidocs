@@ -388,6 +388,31 @@
           }
         }
       ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "anchor/observation"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "anchor/observation": {
+          "enum": [
+            "unchanged",
+            "refuted"
+          ]
+        }
+      }
     }
   ]
 }

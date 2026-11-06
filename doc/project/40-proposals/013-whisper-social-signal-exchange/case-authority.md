@@ -784,3 +784,17 @@ read exposes the optional assembly inputs without resigning, resealing or fetchi
 Protected record/manifest bytes remain solely in Memarium. Prototype/raw rows without
 this material remain explicitly incomplete. This is source workflow composition,
 not an independent presentation/private/cold qualification or a new permission.
+
+
+The source's explicit later-anchor observation now has a separate local refutation
+fact, without inventing authority revision/closure. It retains encrypted exact
+non-payload proof dependencies under the original case/replay horizon. The evidence
+must match the source's frozen native receipt/time identity and adopted policy;
+another or unknown basis is unproven. New control effects and active audience
+presentation consult the local refusal; historical result reads and status reads
+remain separate. Finite source reservations include the full negative-token bound,
+so insufficient explicit prototype policies refuse rather than auto-expanding.
+Automatic local-material freshness witnesses on cached replay, inactive-scope
+maintenance, ordinary-process cold/private acceptance and independent closure remain
+open. This source-owner mechanism changes no historical LLR-002 verdict and issues
+no signed authority statement.
