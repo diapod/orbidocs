@@ -637,8 +637,8 @@ policy before sealing, and requires a current finite material-disclosure lease
 before preparation/handoff. Receipt of transport custody remains historical data,
 not recipient success or case permission. Full/detached, carried/referenced and
 node/nym component composition uses the actual recipient decision; native
-audience API, real material-owner egress lease and independent transport/cold
-gates remain pending. This adds no Vault recovery slot or hard-MVP claim.
+audience API and the real material-owner egress lease are now adopted as described
+below, while independent transport/cold gates remain pending. This adds no Vault recovery slot or hard-MVP claim.
 
 
 The native source's optional audience declaration binds independent trust and an
@@ -646,4 +646,13 @@ explicit node/nym end recipient to a one-way relay circuit. A transport-node
 identity never stands in for a nym audience key. Finite canonical targets and
 unique recipient/family choices are configuration prerequisites, not source API,
 disclosure or current-case authority. The S026 workflow and Memarium disclosure
-owner retain their separate decisions; native audience API adoption remains open.
+owner retain their separate decisions. The native operator API now adopts the
+one-way source owner through audience-begin/prepare/handoff/read and the current
+real Memarium disclosure lease. Exact nested presentation bytes and reader policy
+freeze before sealing; saved replay avoids new resolution or resealing. Live
+classification withdrawal and original material horizons can refuse new handoff
+without hiding historical local custody facts. Actual native component coverage
+uses Vault/Memarium/P035/P037/AD enqueue and a durable receiver, with explicit
+authority/relay-ingress and receiver-key fixtures. Full host signing, native
+private transport and OS-isolated acceptance remain open. This changes no
+recovery policy, hard-MVP scope or tracker closure.

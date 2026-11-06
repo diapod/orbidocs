@@ -154,6 +154,92 @@
           ]
         }
       }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "workflow/kind",
+        "operation/id",
+        "phase",
+        "exchange/handle",
+        "handoff/not-after",
+        "evidence/bound"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "workflow/kind": {
+          "const": "audience"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "phase": {
+          "enum": [
+            "preparing",
+            "prepared",
+            "transport-custody"
+          ]
+        },
+        "exchange/handle": {
+          "type": "string",
+          "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+          "maxLength": 52
+        },
+        "handoff/not-after": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "evidence/bound": {
+          "type": "boolean"
+        },
+        "delivery/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "preparing"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "delivery/id"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "delivery/id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "phase": {
+                "const": "transport-custody"
+              }
+            }
+          }
+        }
+      ]
     }
   ]
 }

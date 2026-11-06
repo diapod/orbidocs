@@ -618,8 +618,8 @@ material/profile horizons around provider work. Full-record requires the retaine
 payload; detached leases only public proof material, never its private author
 bytes. Local case-knowledge inspection is not an egress decision. Real custody
 component vectors cover erasure, distinct horizons, exact expiry and a policy
-change during owner work. Source-gate/API adoption of this real port remains
-pending, with cold/transport gates and all tracker closures unchanged.
+change during owner work. Native source-gate/API adoption now consumes this real
+port as described below; cold/transport gates and all tracker closures remain open.
 
 
 Native source configuration now separately admits a closed optional audience
@@ -629,5 +629,23 @@ node. The declaration has finite cardinalities; duplicate recipient/family
 choices, missing mappings, return budgets and unsupported kinds refuse. Legacy
 source serialization is unchanged when omitted. This is an unreleased local
 configuration extension, without changing signed artifacts. It does not itself
-provide the native audience API, disclosure authorization or an outbound grant;
-those adoption/composition gates remain open.
+grant disclosure or outbound authority. The native audience API now separately
+adopts the real S026 one-way owner and current Memarium disclosure lease.
+
+The authenticated operator workflow offers audience-begin/prepare/handoff/read.
+Preparation accepts direct nested presentation JSON, rejects duplicate fields and
+excess depth before Vault access, and binds exact bytes to independently admitted
+reader policy. Saved preparation resumes its committed evidence basis without
+new resolution, signature work or resealing. Each handoff checks current retained
+material/profile horizons, classification, source head and concrete recipient/
+family/circuit mapping. Historical custody metadata is not a disclosure lease.
+Full payload erasure stops new full-record handoff; retained detached public proof
+has a separate horizon and never discloses private author bytes.
+
+These additive unreleased local-workflow v1 extensions preserve legacy branches,
+signed artifacts and historical schema pins. Native component composition covers
+full/detached, carried/referenced and node/nym recipients using actual Vault,
+Memarium, P035/P037, AD enqueue and a durable receiver decision. Authority and
+relay ingress plus recipient key agreement remain explicit fixtures. Native host
+signing, private transport, cold-process A-F and independent tracker closure
+remain pending; transport custody alone proves no domain delivery.
