@@ -930,3 +930,14 @@ A2, Matrix, shared receiver and full remote privacy qualification remain open.
 The provider-lock correction requires fresh clean-source qualification. See the
 P084 scoped-publication checkpoint and
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-PUBLICATION-20261106.md`.
+
+
+### Two verified local reviewed publishers (2026-11-06)
+
+The next independently inspected A/B SQLite publications and fresh prerequisites
+reach a source-bound 22/131, with 109 missing and identical normal/optimized
+incomplete results. A2's second issue is refused; the positive replica path needs
+same-context predecessor-bound renew. The explicit derived epoch-selector
+correction preserves original refusals. Common receiver/threshold, Matrix, remote
+privacy and full A/B remain open. See P084 and
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-TWO-PUBLISHERS-20261106.md`.

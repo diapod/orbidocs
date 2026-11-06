@@ -1793,3 +1793,22 @@ exclusion; fresh clean-source qualification is required after this Rust change.
 This does not establish the unique cause of the original parallel C failure.
 See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-PUBLICATION-20261106.md`
 for exact inputs, original refusals, canary scope and retained-evidence boundaries.
+
+
+### Two verified local publishers; replica recipe correction (2026-11-06)
+
+The next source-bound fixture independently verifies A and B through actual
+reviewed v3 signing, local SQLite publication and signed receipts. Fresh component,
+review, expiry and native AD inputs plus four distinct runtime predicates yield
+22/131 verified, 109 missing. Both publishers satisfy the same four predicates;
+credit is not doubled. A2's second `issue` for participant A receives typed
+`policy-denied` and stops the series before decision export. A positive replica
+must use `renew` bound to A's verified predecessor in the same profile/context.
+An ended profile window cannot be extended or replaced while retaining context.
+
+A separately versioned one-based epoch selector corrects the read adapter from
+pinned profile/window law. The original refusal and all runtime bytes remain
+unchanged; same-certificate negative/positive isolation confirms the selector.
+No threshold, common receiver, replica-renewal, Matrix, full A/B or production
+claim follows. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-TWO-PUBLISHERS-20261106.md`.
