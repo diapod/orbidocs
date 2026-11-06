@@ -911,7 +911,10 @@ handoff horizon without extending the retained knowledge. The source accounts
 routing or a failed domain verification never falls back to one-way success,
 direct delivery or local co-held delivery.
 
-Implementation status: schemas, closed family profiles, stateless codec and pure
-receipt verifier have component coverage. Dedicated recipient signing, atomic
+Implementation status: schemas, closed family profiles, stateless codec, pure
+receipt verifier and restricted protected node/nym signing ports have component
+coverage. The node operation fixes its key, closed schema, internal caller and
+clock; the S026 operation requires actual nym possession and its key-use fence.
+Neither signature grants publication or current case permission. Atomic
 prepared-response persistence and source accounting remain to be connected.
 This protocol foundation closes no PEX/LLR tracker or ordinary transport gate.
