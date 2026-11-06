@@ -462,6 +462,13 @@ signature or seal. The actual Vault-mint/native-sign/AD-enqueue component vector
 uses explicit synthetic council discovery and makes no private status-response
 transport claim. Registration and succession signing composition remain open.
 
+Prepared request handoff also rechecks the current named circuit against the
+owner's frozen domain recipient and forward family/direction. Another currently
+allowed route to the original authority cannot authorize a saved circuit that
+has been remapped elsewhere. This is an in-memory dispatch binding over existing
+saved metadata, without a wire change, new sealing operation or retry owner.
+AD independently retains current transport-policy enforcement.
+
 The source workflow now persists an encrypted per-case head/negative view in the
 same transaction as the authenticated result and requester-key retirement. It
 shares the pure status fold and head comparator, not authority or recipient
