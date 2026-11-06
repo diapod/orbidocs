@@ -1544,3 +1544,15 @@ substitute. This is local handoff acceptance within the current 18/131 campaign
 (113 missing). New-profile direct-peer/Room and signed/gossip privacy remain
 open; the earlier carrier evidence retains its historical scope. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.
+
+### Issuer authority prerequisite checkpoint (2026-11-06)
+
+The fresh ordinary encrypted-owner attempt reached full issuance request v2 but
+refused before a terminal certificate. Separate bootstrap-v2 root authority now
+preserves the original v1 signed scope. AD transport admission, local consent,
+council certification and P082 recipient authorization remain independent; the
+correction grants no publication or raw-original read. Component regressions
+pass, while the new ordinary exchange and full signed two-backend qualification
+remain open. The historical 18/131 campaign result is not relabelled for changed
+runtime/schema bytes. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ISSUER-AUTHORITY-20261106.md`.

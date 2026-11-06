@@ -647,6 +647,20 @@ INAC offer key (including the ciphertext digest) remains the consent reference.
 The four families are `nym-key-request-sealed.v1`, `nym-key-offer-sealed.v1`,
 `nym-issuance-request-sealed.v1` and `nym-issuance-decision-sealed.v1`.
 
+The P084 origin-v3 exchange requires a separate, explicit
+`nym-bootstrap-consent-v2` singleton template (accepted extension, 2026-11-06).
+Its four families are the same key request/offer v1 plus
+`nym-issuance-request-sealed.v2` and `nym-issuance-decision-sealed.v2`.
+Both templates retain the same beneficiary equality, host caller, exact peer,
+phase-qualified artifact/digest consent, single use and 900-second parent-bound
+TTL. Neither template admits the other's request/decision version. The original
+template keeps its four-family meaning; an existing signed grant does not gain
+v2 authority. The host selects a revision explicitly from its adopted exchange,
+and a root must separately approve that template. Nym grants of either revision
+cannot mix with Messaging templates or make Messaging readiness ready. Transport
+delegation is independent of council certification, profile admission and the
+publication window. Runtime qualification of this extension remains open.
+
 An active parent delegation is not local consent. A/B's host must bind incoming
 replies to a durable, approved local exchange intent, expected D peer, phase and
 digest. D's host uses its separately installed issuer-receive policy to approve
@@ -2172,3 +2186,20 @@ certificate-v1 request is unchanged. Actual profile/issuer, clock and signed sta
 admission remain mandatory. This removes a closed-request mismatch rather than
 using schema recognition as authority. Fresh A/B for this continuation is open;
 the phase-1 result keeps its original source, profile and scope.
+
+### Bootstrap-v2 implementation and issuer checkpoint (2026-11-06)
+
+The accepted separate template is implemented in pure capability law, mirrored
+schemas, local request/consent owners, offline root ceremony and independent
+native grant/revocation inspection. An absent local revision selector preserves
+v1; explicit v2 selects the new singleton before delegate creation. Both live
+consent owners derive the selector from the adopted full exchange. Current
+component selection requires 74 named assertions and 96 mirrored schema pairs.
+
+An ordinary encrypted-owner attempt reached D with the full v2 request but
+refused at local consent. Source analysis identifies the old v1-only parent as
+the incompatible authority; original generic refusal bytes remain unchanged.
+The correction does not reinterpret that parent or reuse the expired case. Fresh
+ordinary issuance and two-backend Gate A/B remain open, with no production
+adoption. Exact prerequisite/refusal scope is recorded in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ISSUER-AUTHORITY-20261106.md`.

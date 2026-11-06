@@ -40,7 +40,10 @@ When:
       "contains": {
         "properties": {
           "template": {
-            "const": "nym-bootstrap-consent"
+            "enum": [
+              "nym-bootstrap-consent",
+              "nym-bootstrap-consent-v2"
+            ]
           }
         },
         "required": [
@@ -65,7 +68,10 @@ Then:
       "items": {
         "properties": {
           "template": {
-            "const": "nym-bootstrap-consent"
+            "enum": [
+              "nym-bootstrap-consent",
+              "nym-bootstrap-consent-v2"
+            ]
           },
           "issuance_caller": {
             "const": "host:nym-bootstrap.accept"

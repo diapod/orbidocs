@@ -766,3 +766,20 @@ native prerequisites. P078-015/016 and composed signed publication remain in
 progress. The five-second fixture adoption does not change factory 24-hour terms.
 Measured pins, original HTTP/owner-image bindings and refusal controls are owned by
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.
+
+### Issuer authority continuation (2026-11-06)
+
+Strict encrypted-media and native provider checks are prerequisites, not Gate
+A/B. Three separately approved one-shot attempts respectively missed the fixed
+start cutoff, refused an unadmitted AD outbound scope, and reached full request
+v2 before D refused consent. No terminal certificate, decision export or signed
+Whisper was observed. The corrected shared path requires a separately
+root-approved `nym-bootstrap-consent-v2`; original signed v1 grants retain their
+four-family scope. Component/schema tests cover the separation, while a new
+ordinary exchange and the signed two-backend campaign remain open.
+
+The earlier 18/131 result retains its historical source pins. New runtime/schema
+bytes require fresh native/source campaign admission, not an implicit bridge or
+repin. Existing P084-014/015 and P078-015/016 status stays in progress; no
+production adoption follows. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ISSUER-AUTHORITY-20261106.md`.
