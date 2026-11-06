@@ -915,6 +915,10 @@ Implementation status: schemas, closed family profiles, stateless codec, pure
 receipt verifier and restricted protected node/nym signing ports have component
 coverage. The node operation fixes its key, closed schema, internal caller and
 clock; the S026 operation requires actual nym possession and its key-use fence.
-Neither signature grants publication or current case permission. Atomic
-prepared-response persistence and source accounting remain to be connected.
+Neither signature grants publication or current case permission. Recipient-owned
+atomic prepared-response persistence, original-deadline expiry and exact restart
+replay now have real SQLite/PEX component coverage. Failure to prepare/store an
+acknowledgement cannot suppress newer negative knowledge; optional output cannot
+consume terminal capacity. Native confirmed routing and source accounting remain
+to be connected.
 This protocol foundation closes no PEX/LLR tracker or ordinary transport gate.
