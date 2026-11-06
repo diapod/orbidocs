@@ -656,3 +656,14 @@ uses Vault/Memarium/P035/P037/AD enqueue and a durable receiver, with explicit
 authority/relay-ingress and receiver-key fixtures. Full host signing, native
 private transport and OS-isolated acceptance remain open. This changes no
 recovery policy, hard-MVP scope or tracker closure.
+
+
+The native source operator API now adopts S026's existing owned-nym status-read
+port. A closed custody selector locates an existing profile, certification and
+principal; no secret or request clock crosses the route. The workflow freezes
+its unsigned intent and reader/audience hint before the Vault-owned signature.
+The authority still proves membership independently. Exact committed replay needs
+no new nym key lease; this is separate from publication eligibility. Actual Vault
+mint, native signing and AD enqueue have component coverage with synthetic
+council discovery. Private status-response transport and registration/successor
+signing composition remain separate unfinished LLR gates.

@@ -306,6 +306,73 @@
               "maxLength": 36
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "reader/custody",
+            "audience"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-status-read"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "reader/custody": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "mode",
+                "profile",
+                "certification",
+                "principal"
+              ],
+              "properties": {
+                "mode": {
+                  "const": "owned-nym"
+                },
+                "profile": {
+                  "oneOf": [
+                    {
+                      "$ref": "whisper-source-profile.v1.schema.json"
+                    },
+                    {
+                      "$ref": "whisper-source-profile.v2.schema.json"
+                    }
+                  ]
+                },
+                "certification": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^[A-Za-z0-9._:-]+$"
+                },
+                "principal": {
+                  "type": "string",
+                  "maxLength": 128,
+                  "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+                }
+              }
+            },
+            "audience": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "maxLength": 128,
+                "pattern": "^(node|nym|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              }
+            }
+          }
         }
       ]
     }

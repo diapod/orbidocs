@@ -448,10 +448,19 @@ authority before Schema Gate, protected input or Vault; middleware cannot inspec
 or rewrite its namespace. Actual source handoff and signed-result receipt share
 the authority executor mechanism, with separate domain owners and AD-only retry.
 Component tests compose real Vault/P035/P037 with full/detached anchors; native
-authority and authenticated return ingress are explicit fixtures. The API accepts
-already signed control documents. Host signing composition, the private source
-audience workflow, active control adapters and the full retained gates remain
-pending. No tracker closure follows from these probes.
+authority and authenticated return ingress are explicit fixtures. Registration and
+succession still accept already signed controls. Native status-read and audience
+adoption are described below; complete host signing, active control adapters and
+the full retained gates remain pending. No tracker closure follows from these probes.
+
+The native `prepare-status-read` adapter now composes the existing S026 owned-nym
+port. It freezes the reader, sorted audience hint and unsigned preimage before
+key use; Vault owns key possession and observed-time fencing. Membership remains
+an independent authority decision, not a consequence of the supplied hint or a
+publication certificate. Saved preparation replays without another nym lease,
+signature or seal. The actual Vault-mint/native-sign/AD-enqueue component vector
+uses explicit synthetic council discovery and makes no private status-response
+transport claim. Registration and succession signing composition remain open.
 
 The source workflow now persists an encrypted per-case head/negative view in the
 same transaction as the authenticated result and requester-key retirement. It
