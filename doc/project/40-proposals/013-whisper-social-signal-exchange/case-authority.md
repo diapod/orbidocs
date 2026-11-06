@@ -741,3 +741,13 @@ there is no signed-carrier change. Full/detached native vectors use actual rando
 case keys, P035, Vault, Memarium and AD enqueue with synthetic v2 credentials and
 fixture authority opening. Successor signing, complete later source-local negative
 basis handling, private transport and cold gates remain open. No tracker closes.
+
+The owned successor PoP port now checks compact bindings from the opaque prepared
+intent against the actual Vault nym's profile, context, epoch and known private
+status floor. It samples its own observed clock and retains the current managed
+recovery requirement. It does not require a decision-v1 publication grant for an
+independently admitted certificate, and publication keeps its strict separate
+issuer-decision guard. The real two-owner/P035 component vector uses a synthetic
+v2 certificate/discovery, checks both signatures, and refuses clock rollback or
+stale recovery. No wire/preimage changes, v2 issuer completion or native source
+succession-workflow/private/cold qualification follows from this internal port.
