@@ -323,7 +323,8 @@ command-offer operation remains distinct. Both direct consumers share bounded
 AD/INAC framing controls. Their authority/offer maintenance runs through S020;
 disabled offer owners use the existing bounded retention catalog. Native seam
 conformance is not the real two-node Gate A. Native direct source/response adapters
-are installed; authority inbox processing and both runtime gates remain open.
+are installed; separately adopted owner progression is described below and both
+runtime gates remain open.
 
 ### Original pending-command lease
 
@@ -335,3 +336,22 @@ and response preparation inherit the original ceiling; delivery custody is not
 permission to create another exchange lease. Missing historical lease material
 refuses rather than being reconstructed from a longer date. This contract is not
 an additional runtime-qualification claim.
+
+### Separately adopted owner progression
+
+Native direct command custody remains `transport-accepted-owner-unprocessed`.
+An independently adopted processing profile attaches the existing authority via
+S020; it visits at most one bounded inbox row per run and rechecks current
+peer/key/role and command-family admission. Tightening the current family adoption
+after restart also applies to already retained pending commands. Native command
+validation is independent of transport.
+No second transport retry or native decision queue is introduced.
+
+Committed native output is immutable across lost handoff acknowledgement, newer
+heads and restart. Status-response references are retained atomically with the
+native output until the original inbox horizon, without extending status or
+network validity. Expired output cannot be replaced with a newly signed status
+under the same exchange. A separate owner fact records durable AD custody; AD
+alone subsequently forwards or retries the original ciphertext. Current gates,
+exact target and absolute original deadline still apply. Component evidence does
+not replace either runtime gate.
