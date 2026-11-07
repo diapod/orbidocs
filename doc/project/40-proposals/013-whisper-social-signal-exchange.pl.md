@@ -584,14 +584,14 @@ polityka ingestu odbierającego relaya zachowują moc przy każdym ponownym wys�
 ### Profil ekspozycji ocen {#assessment-exposure-profile}
 
 **Częściowa kontynuacja lokalna, 2026-10-24; osobna względem istniejącej
-kwalifikacji M4.** [Lokalny checkpoint P026](026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+kwalifikacji M4.** [Lokalny checkpoint P026](026-resource-opinions-and-discussion-surfaces.pl.md#local-pilot-evidence-checkpoint-2026-10-24)
 zapisuje ograniczoną implementację wspólnego widoku oraz jej rzeczywistą akceptację
 lokalnego hosta/przeglądarki. Fixture runtime'u zachowuje pola wiarygodności/odrzucenia
 pogłoski przy ogólnej otwartej referencji zasobu. Nie kwalifikuje nowego samodzielnego
 schematu overlayu pogłoski ani pełnego workflowu kuracji i propagacji Whisper.
 Oceny wiarygodności/odrzucenia pogłoski już korzystają z `resource-opinion.v1`
 z polami właściwymi dla pogłoski. Wybierają więc wspólny
-[kontrakt ekspozycji P026](026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds),
+[kontrakt ekspozycji P026](026-resource-opinions-and-discussion-surfaces.pl.md#6-assessment-exposure-and-sealed-rounds),
 a nie drugi silnik głosowania lub prywatności Whisper. Istniejący klucz podmiotu
 pogłoski i `opinion/subject-kind = rumor` identyfikują wiązanie; kanoniczna walidacja
 kind/id oraz dopuszczony overlay pogłoski muszą być zgodne z kontraktem ciała opinii.
@@ -643,7 +643,7 @@ i tożsamości; nie wprowadza się osobnego schematu "przeglądu pogłoski".
 
 Celem kuracji jest rekord pogłoski, nie osoba ani inny zasób wspomniany w niej.
 Przestrzenie nazw zasobów o zakresie krajowym i zwarte referencje zasobów
-powiązanych podlegają [P026 §1.1–1.2](026-resource-opinions-and-discussion-surfaces.md#11-country-scoped-identifier-namespaces);
+powiązanych podlegają [P026 §1.1–1.2](026-resource-opinions-and-discussion-surfaces.pl.md#11-country-scoped-identifier-namespaces);
 nie zmieniają klasy epistemicznej pogłoski ani polityki ujawnienia.
 
 Konkretne mapowanie (według `rumor-opinion.overlay.v1` z proposala 026 §2.4):
@@ -687,13 +687,13 @@ kuracji współistnieją w Memarium jako odrębne fakty na tej samej osi czasu.
 ### Pogłoski w przyszłym kliencie perspektyw zasobów {#resource-perspectives-client}
 
 Przyszły profil projektu, 2026-11-04; kontrakt klienta należy do
-[P026](026-resource-opinions-and-discussion-surfaces.md#resource-perspectives-client).
+[P026](026-resource-opinions-and-discussion-surfaces.pl.md#resource-perspectives-client).
 Whisper wnosi dostępne relacje oraz ich kurację, odpowiedzi i korekty do widoku
 skupionego na zasobie. Może to wspierać społeczną funkcję plotki jako rozproszonej,
 korygowalnej pamięci, bez zamieniania agregacji pogłosek w werdykt o osobie.
 P013-AE-003 jest odłożone i nie blokuje bieżącej alfy ani slice'a retencji webowej.
 
-[Przykład pamięci obywatelskiej i wymagania osi czasu P026](026-resource-opinions-and-discussion-surfaces.md#resource-perspectives-client)
+[Przykład pamięci obywatelskiej i wymagania osi czasu P026](026-resource-opinions-and-discussion-surfaces.pl.md#resource-perspectives-client)
 łączą tę pamięć z odpowiedzialnością mimo zmian stanowiska lub instytucji.
 Pogłoski i opinie zachowują odrębny status obok odpowiedzi, korekt i naprawy;
 Whisper dostarcza rekordy do wspólnej projekcji, a nie osobną chronologię ani
