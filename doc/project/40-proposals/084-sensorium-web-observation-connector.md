@@ -1524,3 +1524,19 @@ OpenAPI schema bundling; top-level URN resolution alone does not close that debt
 - [Playwright supported languages](https://playwright.dev/docs/languages)
 - [Trafilatura documentation](https://trafilatura.readthedocs.io/en/stable/index.html)
 - [Reqwest `ClientBuilder`](https://docs.rs/reqwest/latest/reqwest/struct.ClientBuilder.html)
+
+### Participant observation integration tracker — 2026-11-06
+
+These tasks expose existing admitted representations through P082; they do not
+convert operator source management or the operator P084-012c review route into a
+participant surface. Refresh/fetch, observation, finite custody, reviewed draft
+handoff and publication remain separate decisions. The participant reviewed
+handoff belongs to P078-017/018 and P013-PA-001/002; original custody remains
+P084-014. A supported snapshot version must be selected explicitly on both sides.
+P084-016 may freeze against accepted P082 delivery semantics in parallel with
+P082-023; P084-017 checks the actual source/carrier contract pair at runtime.
+
+| ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P084-016 | todo | P024-009; P084-006; P084-008; accepted P082 delivery and original-custody contracts | Freeze participant-safe Web source/snapshot/status DTOs: exact schema/profile, source generation, snapshot/representation identity, classification, retained availability/deadline and typed supersession/refusal. Separate not-started admission refusal from an existing terminal operation and HTTP transport status. No signed URL/query credential or host-private source metadata enters the UI contract. Pin current legacy and planned finite-original version mappings with unsupported-version refusal; a planned mapping grants no runtime support. | P084-017; optional P098-025 |
+| P084-017 | todo | P084-016; P082-024; P084-008 | Deliver participant-authorized read-only snapshot/status mapping for explicitly supported existing representation profiles. Recheck exact source generation before cache/availability fallback; no GET, lease reconnect or expired material causes fetch/retain/publication. Prove current source/profile/custody refusals, no acquisition counters changed and private-source canaries absent. Finite-original-backed promotion additionally needs P084-014 and P078-018; ordinary admitted observation does not wait for those paths. | P098-025 |

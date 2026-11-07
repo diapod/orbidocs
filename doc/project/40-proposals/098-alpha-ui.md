@@ -24,6 +24,12 @@ Based on:
 - [P085: Operator-Sovereign
   Extensibility](085-operator-sovereign-extensibility-and-experiment-packages.md)
 - [P013: Whisper](013-whisper-social-signal-exchange.md)
+- [P051: Responsibility](051-swarm-membership-and-reputation-bootstrap.md) and
+  [P018: Protected Participation](018-layered-capability-limited-participant-restrictions.md)
+- [P082: Sensorium Interfaces](082-sensorium-interfaces.md), [P084: Sensorium
+  Web](084-sensorium-web-observation-connector.md), [P096:
+  BrainFlow/EEG](096-sensorium-brainflow-connector.md)
+  and [P078: Reviewed Findings](078-weak-signal-harvester.md)
 - [P015: Contextual Whisper
   Authorship](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md)
 - [Solution 026: Pseudonym Vault and Key
@@ -64,6 +70,12 @@ explorer over authorized memory views; it does not require a new search engine o
 store browser. The target includes Browse, Contribute and My rumors. Missing owner
 capabilities are delivery dependencies, not reasons to remove these functions. Earlier
 usable slices remain partial until the target's owner and integration gates pass.
+
+The first engineering slice is the integration-contract foundation P098-002a,
+before the first usable local-primary home. It freezes the receiving seams for
+parallel owners and supplies two executable projection examples, with separate participant
+and operator state/client ports. Optional Responsibility and Sensorium integrations
+have named owner and UI gates; they do not enlarge or block the baseline profiles.
 
 The request to prepare this proposal establishes its scope, not acceptance of every
 detail below. New identifiers and JSON shapes are contract candidates. No schemas are
@@ -521,6 +533,106 @@ cover deterministic composition, one placement per key, repeated move/hide,
 inheritance/omission, unavailable owners and admission-generation changes. P098-001
 supplies a reproducible inventory fixture, not participant secrets or a snapshot
 mistaken for live authorization.
+
+#### Integration boundary for parallel owners
+
+P098 receives owner facts through bounded adapters. It preserves subject, binding,
+revision, classification, validity and outcome evidence while reducing domain detail
+to navigation and interaction. Category/placement and display copy are UI decisions;
+they add no grants, signatures, effect receipts or domain state. The source reference
+and schema/profile version remain traceable through an authorized owner inspection
+path, never by exposing private raw payloads or source configuration in public HTML.
+The [first engineering
+slice](098-alpha-ui/delivery-plan.md#first-engineering-slice-integration-contract-and-adapter-conformance)
+tests the shared boundary with two examples before a full home is connected.
+The remaining domain laws below are obligations of the named owner adapters;
+they are not all completion requirements of P098-002a.
+
+| Boundary | Preserved input and receiving decision | Authority and detail retained by owner |
+|---|---|---|
+| Session to domain port | Authenticated session/context and exact admitted operation scope; select only the declared participant adapter | P007/P024 own identity/role/verifier. P095 owns session production and restricted clients. Body IDs and UI types never mint authority. |
+| P091 to layout/catalog | Resolved values and exact consumed application/launch identity; project only admitted layout fields | P091 owns composition/provenance/activation. Source/descriptor details and private configuration labels remain protected. Saved, resolved, consumed, process-ready and participant-ready are distinct. |
+| Owner to catalog | Versioned declaration plus current subject/binding-matched witness; decide authorized placement and display availability | Package admission, operation permission, readiness and execution remain separate. An absent or stale private witness cannot disclose an otherwise inaccessible entry. |
+| Owner to guided action/result | Opaque operation/action reference, expected revision and review binding, owner result/refusal and readback relation | Owner keeps idempotency, retained intent, effect receipts, retry/cancellation rules and exact wire schema. UI maps only admitted transitions. |
+| Owner to activity/attention | Bounded references, permitted return links, expiry/resumability and separate notification state | Owners retain drafts/results; P057 retains notifications. No global transcript, task store, total ordering or aggregate unread scan is introduced. |
+| Owner to private fragment | Classified bounded DTO and applicable session/source/admission fences; render the allowed representation | P095 owns private-view lifecycle and final DOM admission. Web content/module HTML stays passive; source inspection or a signature cannot activate scripts or styles. |
+
+**Contract shape and compatibility.** Share presentation laws and the smallest
+neutral data contract that owns their meaning. Keep each domain DTO and action set
+with its owner; adapters live at the consuming boundary and backend crates do not
+depend on Node UI. A common record may bind contract/profile version, owner/reference,
+subject scope, revision, validity and bounded disclosed fields; it is not a common
+domain state machine or generic effect request. An owner witness is a trusted-port
+observation with its existing admission provenance, not a new UI-issued credential.
+Do not require a new signature family merely to render a catalog.
+
+Each mapping records producer/consumer versions, source pins, owner task, positive
+and negative case IDs, accepted scope and incompatible-version behavior. Unknown
+schema/profile variants refuse before rendering or effects; a label or permissive
+JSON parser is not compatibility negotiation. Keep extension fields only when the
+owning schema admits them and bounds them. In particular, HTTP 200 does not prove
+domain success, and an unknown enum must not become ready, empty or retryable.
+Owner contract changes update its schema/tests and adapter mapping together. Earlier
+fixtures remain explicitly scoped; planned mappings never advertise runtime support.
+
+**Identity and time.** Keep session generation, package admission occurrence,
+module instance/launch, consumed configuration revision, domain entity/attempt
+revision and Sensorium acquisition/source/publication identities as separate axes.
+Bind only the axes that actually govern a projection; never compress them into one
+global generation or invalidate all unrelated owners on one owner's outage. Each
+axis has its own issuer, lifetime and restart/restore rule. Preserve exact existing
+wire shapes and owner clocks. Snapshot acquisition precedes pure projection; current
+owner authorization and P095's final commit fence still guard use and disclosure.
+Missing availability is `unknown` only for metadata already authorized to be shown;
+it is not a way to expose a private catalog or participant identity.
+
+**Commands and return.** Keep read projection separate from effect submission and
+authoritative result lookup. Domain-owned action hints bind the applicable object,
+revision, review/intent and subject, but reauthorization remains necessary at use.
+Owner schemas determine which actions need review, an idempotency key or confirmation;
+do not impose one universal command payload on reads, signed appeals and device stop.
+Lost replies, browser Back and restoration read retained owner outcomes. They never
+reconstruct command bytes from rendered text or automatically repeat an effect.
+Preserve draft/review/sign/submission/disclosure for Whisper; consent, attempt and
+receiver confirmation for Messaging; decision/effect/receipt for Responsibility;
+and acquisition/phase/freshness/cleanup for BrainFlow. A notification handled state
+confirms none of these domain outcomes.
+
+**Responsibility and protected navigation.** Inventory the current participant
+case routes, even though they are not a new default category. Source inspection
+finds their host participant-context/signing bridge selecting operator_caller_binding;
+P051-019/020 own its independent-participant replacement. P095-013b preserves the
+accepted local profile during state migration. A generic unavailable/restricted flag
+or hidden category cannot suppress an owner-admitted protected inspection/appeal
+path; keep an authorized route through protected recovery/All functions. Actual
+case desynchronization or missing authority stays a typed owner refusal. Approved
+correction is not confirmed retraction without the exact host receipt. My activity's
+`cases` key is navigation and never substitutes for a Responsibility case identity.
+
+**Sensorium Web and Mind.** "Mind" here means P096 BrainFlow/EEG, not a new component.
+P082 owns the authorized observation port: bounded read/read-next, lease, cursor,
+backpressure and revocation. P084/P096 own the source-specific projections. UI never
+calls a connector or bounded-fetch capability directly. Acquisition, observation,
+recording/custody and publication are separately admitted operations. Device operator,
+viewer and measured person may differ; neither login nor device ownership is consent.
+Source generation changes invalidate the corresponding publication; new page bytes
+under one Web source do not automatically mean a new source generation. EEG reconnect
+has its own acquisition epoch. Channel ready is not fresh data; Stop requested is
+not cleanup confirmed. Expired Web custody does not authorize a replacement fetch.
+
+Closing or invalidating a view terminates its observation work under the owner lease
+contract; it does not invent producer stop or automatic resume. Consent loss fences
+owner outputs before further delivery, while the UI rejects late fragments/frames.
+Protected device stop remains the P096 owner operation, including its saturation and
+cleanup guarantees. Actual source data travels through admitted P082 carriers, never
+through the global home notification stream or an unbounded UI sample cache.
+
+**Reviewed producer handoff.** Web/Harvester to Whisper preserves exact finding,
+snapshot, review, classification, finite custody and intended participant ownership,
+with producer/receiver version agreement. P078-017/018 and P013-PA-001/002 own this
+handoff. A successful observation, finding review or draft creation is not permission
+to sign or publish. Operator review evidence does not qualify a participant route.
+No UI-owned copy store, implicit refetch or operator-as-default-draft-owner is allowed.
 
 P091 owns configuration addressing, composition, provenance and activation. Node UI owns
 descriptors for these presentation settings and their supported scopes. The UI bundle
@@ -1126,13 +1238,13 @@ new wire credentials or authority classes:
 
 | Profile | Scope and admission | Completion boundary |
 |---|---|---|
-| `alpha-local-primary@v1` | Authenticated `/app` session whose subject matches the explicit local operator-role binding. P095-013 supplies the restricted adapter and current owner guards; other local identities do not disable O. The legacy cardinality branch is available only in the host-declared pre-migration model. | P098-004a supplies home/attention/people and P098-005a qualifies the P097 guided frame. P098-017 records this delivery without P024-010, P095-012 or independent domain runtimes; it proves no P/Q access. |
+| `alpha-local-primary@v1` | Authenticated `/app` session whose subject matches the explicit local operator-role binding. P095-013b supplies the restricted adapter and current owner guards; other local identities do not disable O. The legacy cardinality branch is available only in the host-declared pre-migration model. | P098-004a supplies home/attention/people and P098-005a qualifies the P097 guided frame. P098-017 records this delivery without P024-010, P095-012 or independent domain runtimes; it proves no P/Q access. |
 | `alpha-independent-participant@v1` | P007-LP-002 supplies actual O/P/Q credentials and custody; P024/P095 bind the current participant, while P060/P057/P013/P036 own their domains. | P098-004b, P098-006/009/012/014/015 and final P098-007 acceptance. Supported owner provisioning is required; manually inserted IDs or fixture-only callers are insufficient. |
 
 Before explicit-role activation, the declared legacy model may identify the existing
 sole participant as operator. P007-LP-001 freezes that migration; after activation,
 cardinality never substitutes for a role, even if only one participant remains.
-P007-LP-002 must preserve O's role/legacy operation lookup when it adds P/Q. P095-013
+P007-LP-002 must preserve O's role/legacy operation lookup when it adds P/Q. P095-013b
 returns `independent-participant-not-supported` for authenticated P/Q until the
 independent adapter is enabled; it does not impersonate O. Unknown role state refuses,
 and role revocation invalidates affected contexts. A new participant must not make the
@@ -1166,7 +1278,7 @@ proposal a prerequisite. A partial owner task can satisfy only a separately acce
 evidenced output within its stated scope. This does not close that owner's remaining
 work; if no such output can be isolated, wait for the task to complete.
 
-The table records source statuses on `2026-11-06`, not a second status authority.
+The table records source statuses reviewed on `2026-11-07`, not a second status authority.
 Recheck the owning tracker before scheduling or closing a consumer. A `done` row proves
 only its recorded profile: it cannot supply the missing participant binding by analogy
 with an operator or module path.
@@ -1174,7 +1286,13 @@ with an operator or module path.
 | P098 outcome / consumer | Owning tasks and inspected status | Required output or remaining owner gap |
 |---|---|---|
 | Multiple local participants / 010a and independent runtime | [P007-LP-001/002](007-pod-identity-and-tenancy-model.md#multiple-local-participants-prerequisite-tracker-2026-11-06), `todo` | Freeze explicit local activation/operator roles, then provision real O/P/Q credentials, Vaults, key/lease/recovery and recipient ownership. P024-009 consumes the contract; P024-010 requires its runtime. Full pod portability is not required, and sole-participant MVP assumptions do not qualify P/Q. |
-| Initial local-primary client / 004a | [P095-013](095-node-ui-interaction-layer.md#separate-daemon-clients-and-the-initial-local-primary-profile), `todo` | Separate client/state interfaces and a role-aware O=subject adapter with versioned legacy migration; P095-012 later supplies independent participant context. No operator method is exposed to `/app`. |
+| Client foundation / 002a; local-primary runtime / 004a | [P095-013a/013b](095-node-ui-interaction-layer.md#separate-daemon-clients-and-the-initial-local-primary-profile), `todo` | 013a supplies separate client/state ports and compiler evidence without actor/runtime admission. 013b supplies the role-aware O=subject adapter and exactly the Alpha route migration with versioned legacy rules; P095-013c retains other legacy migrations without blocking Alpha. P095-012 later supplies independent context. No operator method is exposed to participant handlers. |
+| Consumed configuration / 002b | [P091-016](091-file-backed-configuration-and-explainable-composition.md#ui-consumption-handoff-tracker-2026-11-06), `todo` | Reuse resolved snapshots and the actual UI consumption/launch acknowledgement; freeze public/private disclosure and unapplied/refused states. No second resolver or inference of authority from enabled. |
+| Optional Responsibility / 024 | [P051-019/020](051-swarm-membership-and-reputation-bootstrap.md#participant-ui-integration-tracker-2026-11-06), `todo` | Freeze protected case/action/result projection, then replace operator-derived context/signing for independent actors. Existing protected route preservation remains P098-001/P095-013b work; optional independent integration does not delay baseline. |
+| Optional Sensorium observation / 025, 026 | [P082-023/024](082-sensorium-interfaces.md#participant-presentation-adapter-tracker-2026-11-06), `todo` | Freeze and deliver admitted participant read/lease/provisioning over existing P082; keep acquisition/control separate. Source and UI runtime evidence remain respective consumer gates. |
+| Optional Web / 025 | [P084-016/017](084-sensorium-web-observation-connector.md#participant-observation-integration-tracker-2026-11-06), `todo` | Exact version/source/snapshot/custody-safe projection and no implicit fetch; read-only observation does not wait for original-backed promotion. |
+| Optional reviewed Web contribution / 027 | [P078-017/018](078-weak-signal-harvester.md#participant-reviewed-producer-handoff-tracker-2026-11-06), `todo`; P013-PA-001/002 and existing P078-015 | Participant review and exact receiver-bound unpublished draft/summary readback, with source/classification/finite original custody and explicit draft intent. Reuse the common 005a frame; 005b gates onward contribution separately. Ordinary Whisper inputs and observation remain independent. |
+| Optional BrainFlow/Mind / 026, 028 | [P096-019/020/021](096-sensorium-brainflow-connector.md#participant-presentation-integration-tracker-2026-11-06), `todo` | Freeze distinct identity/consent/lifecycle axes, deliver synthetic participant adapter, then qualify a selected real tuple. 026 is synthetic UI evidence; 028 requires 021 and actual route/device evidence. No two-device gate for the one-device profile. |
 | Ask or delegate / 015 | [P066-PA-001/002](066-inquirium-assistant-channel.md#participant-channel-access-tracker-2026-11-06), [P073-PA-001/002](073-agent-orchestration-organ.md#participant-delegation-tracker-2026-11-06), `todo` | Independent participant conversation and one bounded delegated task, with current provider/context/budget/effect admission and authorized status/result. Reuse existing owner profiles; Assistant advice is not an Agent grant or Messaging send. |
 | My activity and Resume / 014 | P066-PA-002, P073-PA-002, P060-039 and P013-PA-002/003, `todo` | Bounded owner references/status/continuation and truthful retention/resumability. At least one real retained Whisper draft resumes; an aggregate UI store or arbitrary existing function does not satisfy the target. Local-primary P057 history alone is partial. |
 | Guided reuse / 005a, 005b | [MSG-ONB-004/006](097-fresh-identity-onboarding-and-messaging-readiness.md#implementation-tracker), `done` for its bounded profile; P013-PA-003 `todo` | Reuse the P097 local-primary preparation/recovery contract, qualify common PRG/idempotency in 005a first, then independent Whisper review in 005b. No inference of P/Q readiness from P097's operator evidence. |
@@ -1211,8 +1329,10 @@ report](098-alpha-ui/dependency-review.md) retains the last historical result an
 supersedes prose totals with named scopes.
 
 [dependency-scopes.json](098-alpha-ui/dependency-scopes.json) declares exact roots, edge
-rules and read-only delivery views. Keep the local-primary, independent-profile,
-follow-on and full-review closures separate. P098-011 will generate their counts, edge
+rules and read-only delivery views. Keep engineering-foundation, local-primary,
+independent-profile, follow-on, optional-integration and full-review closures separate.
+Named Web-observation and synthetic/real BrainFlow scopes preserve their different
+completion gates. P098-011 will generate their counts, edge
 provenance and view status from the trackers; no count in this prose is an acceptance
 gate. Source links, consumer columns, examples and retired task IDs are not
 prerequisites. Accepted-contract inputs remain typed boundary data.
@@ -1224,10 +1344,15 @@ outputs, ranges, legacy shorthand and false consumer edges. Canonical P098 task 
 use full IDs. The audit must pin the scope-file digest, extraction-rule version, source
 revision/content digests and evidence qualifications.
 
-Keep owner tasks independent of P098 delivery records. The initial profile and P098-005a
-do not wait for independent participant runtime. Whisper producer bindings precede
-read-view provisioning; authoring does not wait for the explorer. Coordination records
-consume actual outputs, while delivery-lane summaries derive status and create no
+Keep owner tasks independent of P098 delivery records and consumers. P098-002a
+waits only for P095-013a's type boundary and existing accepted contracts. P091-016
+consumption and P095-014 representation join at P098-002b, not 002a. Inventory/graph
+tooling, route migration, independent actor runtime and optional provider gates
+remain separate.
+Optional P098-024–028 have named closures and never become P098-017/023 prerequisites.
+The initial profile and P098-005a do not wait for independent participant runtime.
+Whisper producer bindings precede read-view provisioning; authoring does not wait
+for the explorer. Coordination records consume actual outputs, while delivery-lane summaries derive status and create no
 additional mutable task or execution gate.
 
 ## Trade-offs
@@ -1301,12 +1426,17 @@ These are recommendations for future Node work, with ownership and completion in
 implementation. Local source inspection confirms Axum 0.8 in Node UI, `proptest` in
 existing Node crates, and a SQLite notification event/queue store.
 
-1. **Keep the core value-oriented.** Freeze the three pure configuration/catalog/
-   participant projections before wiring handlers. Acquire bounded owner snapshots
-   beforehand; reject stale-binding witnesses and keep missing authority unknown. Reuse
+1. **Keep the core value-oriented.** P098-002a takes supplied validated values and
+   proves catalog/participant projection with two examples. Keep runtime I/O, P091
+   consumption and the full theme/manifest contract in P098-002b, which completes
+   the three pure configuration/catalog/participant transformations before production
+   handlers. Acquire bounded owner snapshots beforehand; reject stale-binding witnesses and keep missing authority unknown. Reuse
    `proptest` conventions for move/hide, inheritance and reinstall races; add a test
    dependency only in the owning crate that actually needs it.
-2. **Separate router state by authority.** Under P095-013, build
+2. **Separate router state by authority.** P095-013a establishes the new boundary;
+   P095-013b owns role-aware runtime for the explicit Alpha route set; P095-013c
+   owns remaining legacy migrations. No legacy shared state can enter the Alpha
+   composition through nested routers, captures or middleware. Build
    `Router<ParticipantState>` and `Router<OperatorState>`, supply each state, then
    compose the resulting stateless services. Participant state contains no operator
    client, privileged transport escape hatch or `FromRef` conversion to operator state.
@@ -1363,6 +1493,32 @@ existing Node crates, and a SQLite notification event/queue store.
     dirty-source digests. A temporary audit does not complete the repository Make/CI
     task or qualify runtime behavior.
 
+11. **Reuse owner schemas and configuration semantics.** Consume P091-016 through
+    the existing Node UI descriptor/resolution port; keep actual consumption separate
+    from current file contents. Owner DTOs stay beside owners and canonical wire
+    schemas; Node UI adapters perform bounded translation. Prefer an existing module
+    or suitable library seam over a new shared crate with speculative responsibilities.
+12. **Test differences before generalizing.** Start with Contacts availability and a
+    Whisper pending/unknown reference, plus common negative witness/disclosure cases.
+    Use the existing test/CI path. Keep configuration application, protected cases,
+    Web custody and EEG consent/cleanup as pending compatibility-map entries until
+    their named owner gates supply executable cases. Do not make all adapters or a
+    new conformance framework prerequisites of 002a. Share projection laws, not a
+    universal ready/success/retry state machine. Source/schema changes update the
+    mapping and its fixtures; unsupported versions refuse. Test data never supplies
+    live authority or measured runtime readiness.
+13. **Keep parallel merges local.** Domain owners maintain their DTOs; each feature
+    contributes its consuming adapter, route builder and conformance mapping inside
+    Node UI. A small explicit host registry composes them; do not add
+    another package loader or a central switch over domain business states. Pin the
+    common contract commit early, preserve deliberate domain differences and review
+    the producer/consumer version pair before enabling a new profile. Keep optional
+    profile completion separate from baseline and from physical-device evidence.
+    Source-specific contract freezes may proceed against accepted carrier semantics;
+    verify exact producer/carrier versions at the runtime join, not by serializing
+    every contract freeze. A reviewed Web handoff ends at an unpublished draft and
+    its receiver-owned summary; onward contribution needs its separate Whisper gate.
+
 ## Next Actions
 
 Use the canonical [delivery plan and tracker](098-alpha-ui/delivery-plan.md) for
@@ -1373,8 +1529,9 @@ future repository tooling.
 
 ## Change History
 
-All amendments below are dated **2026-11-06**. They record design evolution;
-current contracts and the delivery tracker supersede earlier wording.
+The initial amendments below are dated **2026-11-06**. The final row records the
+**2026-11-07** review. Current contracts and the delivery tracker supersede earlier
+wording; the history records design evolution, not additional completion gates.
 
 | Amendment | Preserved decision / correction |
 |---|---|
@@ -1386,6 +1543,8 @@ current contracts and the delivery tracker supersede earlier wording.
 | Whole-scope review | Add Assistant/Agent and activity providers, split memory binding/read work, track grant provisioning and P095 conformance. |
 | Delivery sequencing | Add delivery records and parallel work guidance; initially use lane aggregation tasks. |
 | Delivery review | Preserve operator-role continuity; supply local-primary people entries; split 005a/005b; retire lane-only 019–021; name transient Resume state; pin theme derivation and audit scopes; move the canonical tracker to its subdocument. |
+| Integration-seam foundation | Split 002a/002b and P095-013a/013b; reuse P091 consumption, preserve owner outcomes/identity axes and add conformance cases. Name Responsibility, P082, Web, reviewed handoff and BrainFlow owner tasks and optional 024–028 profiles without blocking baseline delivery. |
+| Foundation scope review — 2026-11-07 | Limit 002a to supplied values, two examples and one type-boundary consumer; join P091/P095 contracts at 002b. Separate Alpha route migration from remaining legacy routes, parallelize source-specific freezes and end Web handoff at draft/readback before optional onward contribution. Preserve all runtime, custody and real-device gates. |
 
 No amendment establishes runtime completion. Active implementation tasks remain
 `todo`; deferred extensions and historical evidence retain their stated scope.

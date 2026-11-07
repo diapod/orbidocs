@@ -31,6 +31,12 @@
     ]
   },
   "scopes": {
+    "engineering_foundation": {
+      "roots": [
+        "P098-002a"
+      ],
+      "include_scopes": []
+    },
     "local_primary": {
       "roots": [
         "P098-017"
@@ -65,11 +71,42 @@
     "full_review": {
       "roots": [
         "P098-008",
-        "P098-013"
+        "P098-013",
+        "P095-013"
       ],
       "include_scopes": [
         "local_primary",
-        "independent_with_follow_on"
+        "independent_with_follow_on",
+        "optional_integrations"
+      ]
+    },
+    "optional_web_observation": {
+      "roots": [
+        "P098-025"
+      ],
+      "include_scopes": []
+    },
+    "optional_brainflow_synthetic": {
+      "roots": [
+        "P098-026"
+      ],
+      "include_scopes": []
+    },
+    "optional_brainflow_real": {
+      "roots": [
+        "P098-028"
+      ],
+      "include_scopes": []
+    },
+    "optional_integrations": {
+      "roots": [
+        "P098-024",
+        "P098-027"
+      ],
+      "include_scopes": [
+        "optional_web_observation",
+        "optional_brainflow_synthetic",
+        "optional_brainflow_real"
       ]
     }
   },
@@ -94,6 +131,31 @@
         "P098-009"
       ],
       "retired_task_id": "P098-021"
+    },
+    "optional_responsibility": {
+      "required_outputs": [
+        "P098-024"
+      ]
+    },
+    "optional_web_observation": {
+      "required_outputs": [
+        "P098-025"
+      ]
+    },
+    "optional_web_review": {
+      "required_outputs": [
+        "P098-027"
+      ]
+    },
+    "optional_brainflow_synthetic": {
+      "required_outputs": [
+        "P098-026"
+      ]
+    },
+    "optional_brainflow_real": {
+      "required_outputs": [
+        "P098-028"
+      ]
     }
   },
   "view_status_rule": "Read output status and evidence qualification from canonical trackers. Report complete only for all required applicable outputs; otherwise report the outstanding outputs and their statuses. Never persist a manually edited view status or use a view as a prerequisite.",

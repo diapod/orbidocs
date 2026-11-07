@@ -3271,3 +3271,16 @@ and optimized qualifier agreement, archive extraction and fresh private-store
 retrieval in `node:docs/evidence/configuration-contracts/consumption-review-20261102.summary.json`.
 This is client/owner evidence for the named slice, not whole-proposal or release
 qualification; the remaining work above is unchanged.
+
+### UI consumption handoff tracker — 2026-11-06
+
+Alpha configuration integration (P098-002b) consumes the existing P091 resolver
+and Node UI-owned descriptor port. A declared or resolved value is not the value consumed by
+a running UI, process readiness or participant permission. Public layout DTOs may
+contain only explicitly public fields; source/provenance and private provider labels
+remain on their authorized inspection surfaces. This is an owner contract task, not
+a second resolver, activation system or editor.
+
+| ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P091-016 | todo | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |

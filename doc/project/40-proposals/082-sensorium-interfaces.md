@@ -1464,3 +1464,17 @@ requires operational evidence and an explicit contract revision.
 5. Add a two-deployed-node direct-peer terminal-feed profile only when deployment
    evidence beyond the existing real peer-runtime transport test is needed; keep it
    an evidence layer over the same Passport, pull-batch, cursor, and SSE contracts.
+
+### Participant presentation adapter tracker — 2026-11-06
+
+P098 may present an admitted interface through the existing bounded read or lease
+contract. UI transport/session admission never grants source acquisition,
+publication or another subject's read authority. Viewer identity, measured-person
+consent, source generation, publication identity and UI/session generation are
+distinct. Closing a view releases its observation lease under the owner contract;
+it neither invents a new subscription protocol nor implicitly stops the producer.
+
+| ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P082-023 | todo | P024-009; P082-011; P082-012; accepted P095 private-view contract | Freeze the participant host port for interface discovery/read/subscribe/read-next/release, exact profile/schema negotiation, issuer/grantee provisioning path, resource/operation scope, classification, current revocation and bounded cursor/lease semantics. Preserve source versus publication versus session identity and opaque references. Supply Web latest-state and BrainFlow sample vectors, no-change/gap/refusal and late-frame-after-invalidation cases; source acquisition and control are separate owner APIs. Unsupported or unavailable grants/profiles cannot fall back to operator control or direct connector access. | P082-024; source adapters joined at P084-017/P096-020 |
+| P082-024 | todo | P082-023; P024-010; P082-011; P082-012 | Implement the verifier-admitted local participant adapter over existing P082 owners, including an explicit supported owner-issued grant handoff for its selected local profile. Prove P/Q isolation, per-batch revocation, generation/lease expiry, bounded buffering/backpressure, owner failure and release/reconnect without reacquisition. Use source doubles for this adapter boundary; real-source and P095 browser/native qualification remain with consumers. No UI grant issuer, second stream store, direct source fetch or producer-start side effect. | P098-025; P098-026; P084-017; P096-020 |
