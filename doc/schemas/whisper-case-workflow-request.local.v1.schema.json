@@ -752,6 +752,31 @@
               "maxLength": 40
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "offer/bytes"
+          ],
+          "properties": {
+            "operation": {
+              "const": "bind-recipient-offer"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "offer/bytes": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5464,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
         }
       ]
     }

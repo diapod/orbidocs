@@ -801,6 +801,7 @@ EXAMPLE_WHITELIST = (
     "whisper-case-command.v1.json",
     "whisper-case-workflow-request.local.v1.json",
     "prepare-recipient-offer.whisper-case-workflow-request.local.v1.json",
+    "bind-recipient-offer.whisper-case-workflow-request.local.v1.json",
     "prepare-protected-signal-offer.whisper-case-workflow-request.local.v1.json",
     "recipient-offer.whisper-case-workflow-result.local.v1.json",
     "whisper-case-workflow-result.local.v1.json",

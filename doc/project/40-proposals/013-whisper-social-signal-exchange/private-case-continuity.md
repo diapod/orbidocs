@@ -84,6 +84,19 @@ no layer extends another's lease. Direct and historical relay preparation are
 explicit alternatives without fallback. A retained signed result remains a
 historical read after the exchange lease, under current disclosure policy.
 
+Direct source adoption names the exact recipient/family and configured AD route;
+it cannot overlap the historical relay posture for that same pair. Handoff binds
+an absolute transport lease and exact target inside AD's existing idempotent
+owner, independent from domain admission. Recovery cannot turn it into a fresh
+relative timeout or redirect it under a remapped named route. Active custody
+retains the encrypted original input; terminal compaction removes the lease with
+that input. Previously transferred custody obeys current AD route/outbound/egress
+grants; withdrawing only the source role cannot rewrite that separate fact.
+The direct response receiver binds the authenticated peer to the saved recipient
+and offered exchange before opening the original reply key. Relay and direct
+responses cannot be substituted. Neither transport custody nor a protected frame
+claims a processed command, open case or current permission.
+
 Encrypt before any AD custody. Outer transport correlation is independent random
 data; private anchors, nyms and request digests stay inside ciphertext. AD alone
 owns transport retry. Domain outcomes are durable before reply handover; readback

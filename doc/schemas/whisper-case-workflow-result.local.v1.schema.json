@@ -484,31 +484,59 @@
           "type": "array",
           "maxItems": 64,
           "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "route/id",
-              "destination",
-              "relay",
-              "privacy/profile"
-            ],
-            "properties": {
-              "route/id": {
-                "type": "string",
-                "maxLength": 43
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "route/id",
+                  "destination",
+                  "relay",
+                  "privacy/profile"
+                ],
+                "properties": {
+                  "route/id": {
+                    "type": "string",
+                    "maxLength": 43
+                  },
+                  "destination": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "relay": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "privacy/profile": {
+                    "const": "single-relay-hard-fail"
+                  }
+                }
               },
-              "destination": {
-                "type": "string",
-                "maxLength": 180
-              },
-              "relay": {
-                "type": "string",
-                "maxLength": 180
-              },
-              "privacy/profile": {
-                "const": "single-relay-hard-fail"
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "route/id",
+                  "destination",
+                  "privacy/profile"
+                ],
+                "properties": {
+                  "route/id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "destination": {
+                    "type": "string",
+                    "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+                    "maxLength": 180
+                  },
+                  "privacy/profile": {
+                    "const": "direct-minimal-trace"
+                  }
+                }
               }
-            }
+            ]
           }
         }
       }
