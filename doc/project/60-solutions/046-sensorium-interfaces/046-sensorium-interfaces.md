@@ -1766,7 +1766,7 @@ Legacy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-N
 
 ### Original bytes and explicit revalidation checkpoint (2026-11-07)
 
-The original-input campaign now verifies **48/131**, with **83 missing**,
+At this original-byte checkpoint the campaign verified **48/131**, with **83 missing**,
 identically in ordinary and optimized readers (incomplete, exit 2). All previous 43
 cases reverify. Five composed predicates cover exact original transfer/inline
 representation custody, actual gzip and typed ISO-8859-2 refusal without handoff,
@@ -1785,4 +1785,31 @@ protected; no retained deletion/move/retirement authorization/execution occurred
 
 The local granted one-shot imports only the small snapshot. This adds no direct-peer/Room or public-gossip v3 privacy qualification.
 Full gates and production remain open; parent statuses are unchanged.
-Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGINAL-BYTES-20261107.md`.
+Original-byte checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGINAL-BYTES-20261107.md`.
+
+### Finding origin and adopted monitoring checkpoint (2026-11-07)
+
+The original-input campaign verifies **51/131**, with **80 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous 48 cases
+reverify. Three new rows cover all nine canonical finding-class mappings,
+non-web Sensorium/mixed material, and collection bound to an adopted configuration
+after its real 60-second interval. Thirteen immutable reviews replay across an
+actual owner restart, with two web snapshots and four exact custody refs.
+Scalar metadata cannot create web, monitoring or model lineage. These synthetic
+operator-inline finding classes imply no mail/filesystem/device acquisition or
+signed author-class reception. Scheduler is disabled; due execution is explicit.
+
+Collector/reader `bfb0d90b0` / Orbidocs `f2abbe21` remain separate from runtime
+`985964ee83` / normative `2b5ea4fd`. Six coherently rehashed controls per mode
+refuse, each followed by a restored-original positive; 82 Python tests per mode
+pass. The original capture is unchanged and runs once. Six-root catalog/dry-run
+review records 138 selected files/4863454 bytes, three duplicate-output candidates
+1294585 bytes and zero eligible. Active qualification and authority dependencies
+remain protected; no retained deletion/move/retirement authorization/execution.
+These numbers are run observations, not contract thresholds.
+
+Full processing/inference provenance, signed v2 absence versus v3 unknown,
+author-class reception, mixed authorship holds, clock/load/fault, all-producer
+window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
+statuses and production adoption are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
