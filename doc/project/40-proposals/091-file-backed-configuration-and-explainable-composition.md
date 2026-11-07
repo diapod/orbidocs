@@ -3435,3 +3435,22 @@ separations and D3 owner follow-ups. Scoped regressions remain separate from
 measured acceptance. The final common-source actual-WebView campaign and retained
 qualification/retrieval are not yet available, so P091-014 is not promoted.
 F12, broader panel coverage and release qualification remain open.
+
+
+Stage 6 scoped closeout (2026-11-07): the accepted R3 existing-setting operator
+slice passed its final common-source campaign on Node `341e4eb90`: CLI,
+Chromium JS/no-JS full pages, the bounded Flow/Logging/Messaging panel and actual
+application WebView. Save, restart and consumer acknowledgement remain separate;
+controlled response loss uses readback rather than mutation replay. The campaign
+also covers shared-history archival and durable UI-only full-page rollback.
+Node preserves the two failed intermediate candidates and a controlled
+asynchronous-form contrast without claiming the missing original DOM/count.
+Fourteen negative report controls, bounded convergence/artifact review and
+equivalent loose/extracted/fresh-store qualification are recorded in
+`node:docs/evidence/configuration-contracts/operator-r3-20261107.summary.json`.
+
+This completes the agreed R3 sub-slice of P091-014, not the whole task/proposal.
+Arca/Inquirium panel, F12 transactional incarnation retirement, D3 owner-buffer
+follow-ups, installed helper distribution, Windows and broader adoption/release
+qualification remain open. No normative authority, setting scope, TTL or domain
+zero algorithm changed at closeout. No merge or push is implied.
