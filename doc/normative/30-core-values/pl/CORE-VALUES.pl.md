@@ -1117,6 +1117,16 @@ Celem nie jest zastraszanie uczestników, lecz utrzymanie żywego kontaktu międ
 działaniem a jego skutkiem. Kontaktu, który w złożonych systemach naturalnie zanika,
 gdy architektura na to pozwala.
 
+Rozproszona pamięć społeczna pozwala zachowywać związek między działaniami,
+osobami pełniącymi określone role i następstwami ich decyzji, również po zmianie
+stanowiska lub instytucji. Zestawienie relacji, opinii, źródeł, odpowiedzi i korekt
+może pomagać uczestnikom świadomie decydować, komu i w jakim zakresie zaufać.
+Pamięć ta obejmuje zarówno szkody i niespełnione zobowiązania, jak i rzetelne
+działania, naprawę oraz odbudowę zaufania.
+
+**Pamięć działań podtrzymuje odpowiedzialność; decyzja o zaufaniu pozostaje przy
+człowieku.**
+
 ## Epistemika i inteligencja zbiorowa
 
 ### Ugruntowanie w rzeczywistości
