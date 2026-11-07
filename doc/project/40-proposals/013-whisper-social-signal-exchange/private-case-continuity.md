@@ -93,6 +93,25 @@ that persists exact case-request bytes and returns transport-accepted/owner-pend
 Gate B attaches the authority to that inbox without changing delivery semantics.
 Authorized domain custody is distinct from AD's reduced transport ledger.
 
+The first protected-signal payload profile is exact signed `agora-record.v1`
+author bytes with private-correlation/direct `whisper-signal.v1` content, not an
+additional JSON wrapper. Its offer label is `whisper-protected-signal.v1`; its
+closed PEX family is `protected-signal`, custodian role and 48-KiB plaintext
+ceiling. It is one-way and acquires no response key or authority-command role.
+The complete frame remains within 64 KiB and never enters the historical relay
+resolver. Existing contextual v2 content excludes private-correlation and is not
+silently widened. Its public anchor remains a separate admitted artifact.
+
+Memarium may preserve the original encrypted frame and signed offer in its
+reserved Personal fact journal, with independent current peer/record admission,
+original finite local read deadline and exact storage idempotency. No plaintext
+record store or second retry queue is permitted. Such custody grants no portable
+admission, guaranteed future key access or additional opening horizon. Recovering
+author bytes still requires the authorized original recipient key; loss refuses.
+Local read expiry does not claim purge of filesystem copies or retained keys.
+Native offer/current-policy adoption and actual transport must qualify together;
+standalone journal tests do not complete Gate A.
+
 S023-002 purge is separate. The recipient sees the INAC sender node; metadata and
 timing correlation remain possible. No anonymity or forensic-erasure claim follows.
 

@@ -881,7 +881,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) | `11` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
 | [`whisper-pex-key-offer.v1.schema.json`](schemas-gen/schemas/whisper-pex-key-offer.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
-| [`whisper-private-exchange-header.v2.schema.json`](schemas-gen/schemas/whisper-private-exchange-header.v2.md) | `10` | `0` | `no` | `yes` | `0` | `1` |
+| [`whisper-private-exchange-header.v2.schema.json`](schemas-gen/schemas/whisper-private-exchange-header.v2.md) | `10` | `0` | `no` | `yes` | `1` | `2` |
 | [`whisper-redaction-prepare-request.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-request.v1.md) | `9` | `6` | `yes` | `yes` | `1` | `0` |
 | [`whisper-redaction-prepare-response.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-response.v1.md) | `11` | `1` | `yes` | `yes` | `1` | `1` |
 | [`whisper-signal-draft.local.v1.schema.json`](schemas-gen/schemas/whisper-signal-draft.local.v1.md) | `19` | `18` | `yes` | `yes` | `0` | `0` |
@@ -1956,5 +1956,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `868`
 - Generated schema docs: `869`
-- Positive examples: `794`
-- Negative examples: `790`
+- Positive examples: `795`
+- Negative examples: `791`

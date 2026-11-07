@@ -32,7 +32,8 @@
         "case-presentation-referenced",
         "case-presentation-carried-confirmed",
         "case-presentation-referenced-confirmed",
-        "case-reception"
+        "case-reception",
+        "protected-signal"
       ]
     },
     "exchange/handle": {
@@ -99,6 +100,22 @@
           "required": [
             "response/public-key"
           ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "protected-signal"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plaintext/size": {
+            "maximum": 49152
+          }
         }
       }
     }

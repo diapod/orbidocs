@@ -437,8 +437,10 @@ The design and tracker live in
 
 The [private-case execution profile](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
 separates private exchange Gate A from ordinary-v1 SQLite/Synapse continuity Gate B.
-Native offer preparation and direct pending-command custody are component scope,
-not proof of either gate. Memarium remains the protected-record owner; the case
+Native offer preparation, direct pending-command custody and protected-signal
+custody in the existing Memarium Personal journal are component scope, not proof
+of either gate. Native Memarium peer/status/offer adoption and actual direct
+carriage remain open. Memarium remains the protected-record owner; the case
 service owns ordered decisions, and AD owns transport retry. Current implementation
 and remaining composition are indexed in `node:docs/integration/whisper-private-case-continuity.md`.
 
