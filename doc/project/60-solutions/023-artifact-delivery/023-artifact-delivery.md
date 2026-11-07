@@ -1790,6 +1790,29 @@ erase any of them. Some consumers, first the Whisper cover requests of
 need a declared profile that minimizes these traces. The profile is a route
 property chosen by the domain owner, not a per-call flag.
 
+The private-case execution profile declares local `trace/profile`:
+`minimal-trace-v1`; omission or explicit `standard` retains ordinary behavior.
+Explicit null and unknown profile values refuse. The configured profile is carried
+through expanded, resolved and dispatch plans and bound to plan identity; it is
+not an envelope field. Standard serialization omits it, preserving ordinary plan
+preimages. This configuration contract is validated by the local configuration
+owner, not accepted as a sender's claim about receiver retention.
+
+Its first bounded shape is one explicit Node target over `inac-direct`, one stage,
+all-target success, no fallback/discovery and one inline complete sealed artifact
+of at most 64 KiB. Content size and encoded length are bounded before base64
+decoding, followed by exact content/digest validation. Receiver policy must be
+independently locally admitted. Active encrypted retry material remains owned by
+AD until decision; reduced terminal metadata must preserve exact idempotency
+without exposing private domain correlation. S023-002 scheduled purge is not
+implied by reduction.
+
+Implementation checkpoint (2026-11-07): pure planning carries and validates the
+profile. Runtime startup and recovery explicitly refuse activation pending reduced
+outbound/inbound persistence, receive policy and observer enforcement. This is no
+Gate A runtime or privacy qualification; the complete S023-001 gate remains open.
+
+
 Responsibilities:
 
 - accept only inline payloads within a small bound, with no object-store
@@ -1807,7 +1830,7 @@ traces, and only the scheduled purge does.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| S023-001 | Define the minimal-trace route profile | todo | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no peer-cache or object-store writes occur; ledger rows carry only the reduced fields; schema-gated fixtures cover refusal paths. |
+| S023-001 | Define the minimal-trace route profile | partial | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no peer-cache or object-store writes occur; ledger rows carry only the reduced fields; schema-gated fixtures cover refusal paths. |
 | S023-002 | Scheduled purge of minimal-trace rows | todo | S023-001; S020 | An S020 job purges delivery and admission rows after the retry horizon using indexed cleanup that spares active work; restart is idempotent; status shows the last purge; a disk scan after purge finds no request payload in AD stores. |
 
 Status:
