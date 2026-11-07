@@ -1058,3 +1058,25 @@ P078-018 checks the exact producer/custody/receiver versions during integration.
 |---|---|---|---|---|---|
 | P078-017 | todo | P024-009; P013-PA-001; accepted finding and original-custody schemas | Freeze participant-owned finding review and receiver-bound draft handoff: exact finding/source/snapshot/review identity, classification, original/representation custody horizons, explicit draft intent and intended participant owner. Pin producer/receiver versions, idempotency/result lookup and typed changed-review/expired-custody refusal. A reference or accepted finding confers no fetch, signing or publication authority. | P078-018; optional P098-027 |
 | P078-018 | todo | P078-017; P024-010; P013-PA-002; P078-015 | Deliver independent-participant review and exact finite-original-backed draft handoff through existing stores/APIs. Prove P/Q ownership, bounded review/results, changed revision, missing/expired original, lost reply and restart; preserve the receiver's exact draft/result and authorized summary/readback without automatic reacquisition or publication. Draft creation/readback is complete without later Whisper signing or publication support. Keep operator review evidence separate. | P098-027 |
+
+
+### Receiver and closed-window checkpoint (2026-11-07)
+
+Node runtime/capture `78911310` and Orbidocs `7a3a3b4f` independently re-execute
+7/131 requirements (124 missing), identically with ordinary and optimized readers.
+A issue, exact predecessor-bound A2 renew and B issue each publish reviewed v3
+through the ordinary SQLite UI. C verifies one source across A/A2; actual A/B
+reception produces a threshold and Room proposal after correcting the fixture's
+effective exact consumer list. Operator status access is a separate authority
+boundary from a supervised module's live channel.
+
+The original R37 parent refuses during post-certificate-expiry S020 polling:
+the selected D job is interrupted after 17231 ms against 9999 ms; its refresh
+takes 14313 ms. This is not complete contribution-after-expiry qualification.
+Separate 21 all-producer v2/v3 end-window refusals and a before-end-adopted,
+after-end four-record C read pass native ordinary/optimized inspection. No failed
+parent is relabelled, no historical runtime counts are added, and full Gates A/B
+and production adoption remain open. A follow-up removes duplicate constructor
+recovery in the existing single slot, preserving profile, capacity and media
+guards; its native qualification remains open. Exact identities and limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RECEPTION-WINDOW-20261107.md`.
