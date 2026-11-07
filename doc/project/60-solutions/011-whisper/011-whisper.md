@@ -617,3 +617,10 @@ recipient/privacy and remaining load/fault qualification remains open. Existing
 P084/P078 and dependent owner trackers stay in progress. This does not adopt
 production or renew historical evidence. See
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-ISSUANCE-20261106.md`.
+
+
+### Ordinary cohort scope (2026-11-07)
+
+Exact A2 renewal and separate two-producer v2/v3 end-window controls pass. B and complete independent C/D remain open; successful producer prefixes preserve their refused parent status.
+The parent campaign, full Gates A/B and production adoption stay open.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.

@@ -2052,3 +2052,19 @@ The original shutdown/wait refusals remain preserved. Complete A/B independent
 C/D post-certificate-expiry continuation, full Gate A/B and production adoption
 remain open. Details and retention limits:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-S020-CHECKPOINT-20261107.md`.
+
+
+### Ordinary renewal/window continuation (2026-11-07)
+
+Node runtime/capture `b8c45e5dd` with Orbidocs `8588f942` independently verifies
+A issue, exact predecessor-bound A2 renew and both reviewed-v3 SQLite publications
+(201). Fourteen separate A/A2 v2/v3 end-window refusals and four signed unpublished
+controls pass native inspection; protected historical reads remain available.
+The whole R35 campaign stays refused: B's final request records twelve
+`nym-issuer-busy` refusals then expiry, and a separate C/D attempt stops at C's
+`nym-status-refresh-unavailable` after a successful issuer launch. No complete
+receiver/expiry contribution, full Gate A/B or production claim follows.
+Follow-up bounded phase/timing diagnostics and source-readiness waiting preserve
+policy and wire errors;
+they have no fresh runtime qualification. Exact sources, retained failures and
+retention limits: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.

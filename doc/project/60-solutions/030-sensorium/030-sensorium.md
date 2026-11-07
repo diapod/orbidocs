@@ -1138,3 +1138,10 @@ author-class reception, mixed authorship holds, clock/load/fault, all-producer
 window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
 statuses and production adoption are unchanged.
 Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+
+### Ordinary cohort scope (2026-11-07)
+
+Fresh observations/reviews replace expired web custody rather than revive it. Current-source A/A2 reviewed-v3 publication and two-producer end-window controls pass; the independent receiver pipeline and full two-backend qualification remain open.
+The parent campaign, full Gates A/B and production adoption stay open.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.

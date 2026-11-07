@@ -1813,3 +1813,10 @@ author-class reception, mixed authorship holds, clock/load/fault, all-producer
 window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
 statuses and production adoption are unchanged.
 Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+
+### Ordinary cohort scope (2026-11-07)
+
+The separate C/D attempt stops at C status refresh after successful issuer S020. It establishes no native receiver admission, source count or renewed direct-peer/Room privacy qualification. Current A/A2 producer and end-window results retain their narrower scope.
+The parent campaign, full Gates A/B and production adoption stay open.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.

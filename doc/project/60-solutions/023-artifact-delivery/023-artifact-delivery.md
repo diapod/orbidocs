@@ -2223,3 +2223,10 @@ author-class reception, mixed authorship holds, clock/load/fault, all-producer
 window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
 statuses and production adoption are unchanged.
 Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+
+### Ordinary cohort scope (2026-11-07)
+
+R35 B transport delivers its key offer, but final owner admission records twelve busy refusals then expiry. Transport acceptance grants no certificate; retry preserves the original deadline. The two completed A/A2 producers remain separate facts.
+The parent campaign, full Gates A/B and production adoption stay open.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.
