@@ -364,9 +364,16 @@ refuses; it does not try another framing. The direct opener uses the same protec
 agreement provider as the independently scoped relay path. No generic signing
 operation, new listener or private-key export is introduced.
 
-The reference owner implements this component seam and authenticated exact-byte
-readback. Real host role/key-lease adoption, Memarium protected-signal custody,
-actual direct AD/INAC consumers and the new Gate A remain unqualified. Historical
+The reference native authority now installs this component seam through a
+separately adopted, expiring named-peer direct profile and an operator-only offer
+preparer. The existing AD runtime's independently registered minimal receiver
+shares the authority's zero-capacity executor and store with its relayed role;
+there is no synthetic relay header or fallback from a denied relay. Peer-scoped
+receive reads only committed original offers and cannot mint or sign one. Its
+reduced transport result still means pending custody, not native acceptance.
+Native component tests supply bridge identity and structural command signatures;
+actual two-node direct AD/INAC, Memarium protected-signal custody and the new
+Gate A remain unqualified. Historical
 single-relay and synthetic-v2 case results retain their original scope.
 
 #### Source workflow and requester-key lifetime

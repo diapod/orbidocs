@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **247** host-local / **279** total; **44** owner groups.
+Entries: **248** host-local / **280** total; **45** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -343,6 +343,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>sensorium.virt.host</code> | <code>host/sensorium.virt.host</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Whisper case authority host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.pex.offer.prepare</code> | <code>host/whisper.pex.offer.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>daemon bounded HTTP fetch host</code>
 

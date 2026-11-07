@@ -1845,8 +1845,12 @@ The actual INAC bridge preserves detailed/minimal read variants and emits reduce
 metadata without private domain references or acceptor diagnostics. The trusted
 session still supplies the authenticated peer; the bridge label grants no identity
 or domain permission. This is component conformance with supplied session fixtures,
-not two-node authenticated runtime qualification. Both actual consumers, current
-recipient/key lease checks, P091 adoption and Gate A remain open. S023-001 stays
+not two-node authenticated runtime qualification. The native case authority now
+has a separately adopted named-peer/expiry direct receiver and operator-only
+protected offer preparation, sharing its existing zero-capacity executor and
+exact owner-pending inbox. It does not invent a relay header or dispatch a native
+case decision. Actual Memarium protected-signal custody, two-node direct Gate A
+and its complete current-admission/privacy proof remain open. S023-001 stays
 partial and S023-002 scheduled purge is separate.
 
 

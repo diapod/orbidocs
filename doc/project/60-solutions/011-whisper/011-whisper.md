@@ -435,6 +435,13 @@ Responsibilities:
 The design and tracker live in
 [P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 
+The [private-case execution profile](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
+separates private exchange Gate A from ordinary-v1 SQLite/Synapse continuity Gate B.
+Native offer preparation and direct pending-command custody are component scope,
+not proof of either gate. Memarium remains the protected-record owner; the case
+service owns ordered decisions, and AD owns transport retry. Current implementation
+and remaining composition are indexed in `node:docs/integration/whisper-private-case-continuity.md`.
+
 The portable receipt format and authenticated admission claim are owned by
 [P035-019](../../40-proposals/035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
 not by a second Whisper receipt implementation. The unchanged aggregate-only
