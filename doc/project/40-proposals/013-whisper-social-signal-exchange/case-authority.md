@@ -339,6 +339,31 @@ worker or PEX record store is created. Pending requests use ordinary bounded
 capacity, leaving terminal reserves intact. Their deadline cannot exceed the
 native command or offered exchange deadline; duplicate reads never extend it.
 
+The same owner also freezes exact unsigned recipient offers before protected
+signing, and exact signed bytes before disclosure. Recipient/sender/exchange bind
+the complete input, including the reply key and original absolute request ceiling.
+Retry after signer recovery, restart or a lost response never picks another issue
+time, recipient key or longer lease. Current local admission is mandatory before
+readback and effects. An unavailable signer leaves the original unsigned
+preparation; a failed signed commit withholds output. A previously committed offer
+replays without signing again, without granting native case rights. New offer
+requests fit the authority's adopted request TTL (at most 900 seconds); the offer
+and retained slot share the original absolute request deadline. The original
+request therefore remains expired after pruning. This bounded idempotency horizon
+does not promise perpetual exchange-id retention: a new host operation requires a
+fresh explicit exchange handle.
+
+The reference P037 port fixes the internal caller, node-self key and
+`whisper.exchange-key.offer.v1` policy tag through a closed selector of the existing
+internal node-control operation. Both domain and raw prefix refuse generic
+signing, including another otherwise authorized domain. External callers cannot
+invoke this internal operation; the native case-control type still refuses a
+recipient offer. Signatures retain the existing
+`orbiplex.whisper-pex-key-offer.v1` prefix/JCS preimage. A wrapping configuration
+refuses; it does not try another framing. The direct opener uses the same protected
+agreement provider as the independently scoped relay path. No generic signing
+operation, new listener or private-key export is introduced.
+
 The reference owner implements this component seam and authenticated exact-byte
 readback. Real host role/key-lease adoption, Memarium protected-signal custody,
 actual direct AD/INAC consumers and the new Gate A remain unqualified. Historical
