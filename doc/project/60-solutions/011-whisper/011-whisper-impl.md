@@ -959,7 +959,7 @@ Claim checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NA
 
 ### Native legacy checkpoint (2026-11-07)
 
-The original-input campaign now verifies **43/131**, with **88 missing**,
+The native legacy checkpoint verified **43/131**, with **88 missing**,
 identically in ordinary and optimized readers (incomplete, exit 2). All previous41
 predicates reverify. Two native AD rows add digest collision/monotonic interest
 through ordinary release, actual expiry/sweep and unadopted reopen, plus explicit
@@ -972,4 +972,27 @@ substitutions each refuse and restore the original. Native build/capture/reader
 Native owner cleanup does not qualify authoring, first publication or
 complete receiver behavior.
 Full gates and production remain open; parent statuses are unchanged.
-Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-LEGACY-20261107.md`.
+Legacy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-LEGACY-20261107.md`.
+
+### Original bytes and explicit revalidation checkpoint (2026-11-07)
+
+The original-input campaign now verifies **48/131**, with **83 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous 43
+cases reverify. Five composed predicates cover exact original transfer/inline
+representation custody, actual gzip and typed ISO-8859-2 refusal without handoff,
+original-preserved extractor omissions, acquisition horizons and three explicit 304
+through delayed review, restart and replay. Two owners are reaped; no unsolicited
+fetch or renewed claim occurs. Six coherently rehashed controls per mode each
+refuse then restore original positives. 73 Python tests per mode pass.
+
+Capture `dade45982` and corrected reader `945a2bf9c` / Orbidocs `e37021ad` remain
+separate from the pinned runtime `985964ee83` / normative `2b5ea4fd`. The original
+capture runs once; three reader precondition refusals remain preserved. No
+production Rust, schema or capability contract changed. Ten-root catalog/dry-run
+review records 158 selected files/6264441 bytes, seven exact duplicate-output
+candidates 1767461 bytes and zero eligible. Active 48 evidence/authority remains
+protected; no retained deletion/move/retirement authorization/execution occurred.
+
+This checkpoint stops at a reviewed local draft; signing, publication, full receiver/privacy and window/cutoff requirements remain separate.
+Full gates and production remain open; parent statuses are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGINAL-BYTES-20261107.md`.
