@@ -169,3 +169,9 @@ three-loopback-process WSS/AD/INAC fixture observes one-way receipt, exact sourc
 replay and no return output with raw privacy scans. Domain ports remain fixtures:
 this does not close S010 or PEX retained qualification, implement onion routing,
 or establish resistance to relay/destination collusion or physical independence.
+
+
+### Ordered-case runtime qualification, 2026-11-07
+
+The narrow S010 single-relay profile is qualified with PEX-001 for real loopback WSS/AD/INAC and ordinary source/authority/audience actors. Missing relay and withdrawn retry policy hard-fail. This is no onion, collusion, physical-host or global-observer guarantee; S010 parent scope remains open.
+See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.

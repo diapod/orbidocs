@@ -1166,7 +1166,7 @@ success never means case acceptance, source admission or consent to disclose.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-PEX-001 | Recipient-bound private Whisper exchange | todo | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+| P013-PEX-001 | Recipient-bound private Whisper exchange | done | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
 
 ## Contextual participant-source authorship (2026-10-25)
 
@@ -1512,3 +1512,20 @@ control proof), and replaced active nym-succession.v1 with v2. Before first rele
 widening requires an explicit note and vectors; narrowing additionally requires
 that no admitted artifact/evidence uses the removed form. After release, use a new
 version or explicit profile, never an in-place semantic change.
+
+
+### PEX-001 scoped carrier qualification, 2026-11-07
+
+The admitted single-relay S010 profile passed independently from case semantics:
+real WSS/AD/INAC fixtures cover both directions, missing relay, policy withdrawal
+on retry, expiry, wrong role/recipient, restart and lost response. Ordinary native
+source/authority/audience actors prove actual domain receipt and exact saved
+ciphertext replay. Legacy protected signal/trace refusal regressions also passed.
+Only AD retries; no direct/onion downgrade exists. The loopback-only exception is
+explicit and is not physical-host or global-observer evidence. Destination scans
+cover source-route canaries; the relay legitimately knows its neighboring source.
+Bounded raw/JSON/base64/SQLite scans do not inspect encrypted or forensic media.
+See `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified` and `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` for source pins and limits.
+P015-009 tracks the pre-existing authoring replay retention gap; Memarium remains
+the accepted sole-custody design for protected records, not a claim that this gap
+has been erased by the PEX transport gate.

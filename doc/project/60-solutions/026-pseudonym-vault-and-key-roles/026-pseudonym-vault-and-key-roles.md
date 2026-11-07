@@ -711,3 +711,9 @@ state or block unrelated recovery. Physical empty retirement keeps the outside
 clock/revision fence. See `node:whisper-case-service/README.md` for implementation
 bounds and reachability limits. This is retention component progress, not an
 independent private-delivery/cold qualification or a hard-MVP status change.
+
+
+### Ordered-case runtime qualification, 2026-11-07
+
+The actual S026 source workflow now qualifies B/C owned-nym signing and local-coheld reception through the same verifier as external relayed PEX. Local delivery requires current same-participant key possession; another local participant refuses without fallback. Independent key-use time fencing does not consume issuance revisions. Scoped source/audience retention includes inactive-owner maintenance. P015-009 separately tracks the pre-existing recoverably sealed authoring replay journal; this gate claims no global source-payload erasure.
+See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.

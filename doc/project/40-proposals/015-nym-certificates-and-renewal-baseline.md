@@ -1231,3 +1231,20 @@ archive SHA-256 `3e53184bda3608b00c90aa9d81770ae113925563528c625a0fc4c8b6bb0a4c8
 inputs, times, limitations and the preserved unqualified first pure attempt.
 The original capsules are unchanged; current authority, LLR-007–010, P015-005,
 transport and release readiness are not implied.
+
+
+## Protected authoring prepared-output retention follow-up, 2026-11-07
+
+The S026 certified-authoring operation journal predates the ordered-case workflow.
+`node:daemon/src/identity_host/nym_authorship.rs` seals the frozen preview and signed
+output under the recoverable operational Vault key, with no finite exchange expiry.
+Its completion marker intentionally supports exact readback after case-key erasure.
+This is an implementation gap against the accepted sole-custody/finite-retention
+design, not a new normative store or a cryptographic-erasure guarantee.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-009 | Bound protected authoring prepared-output retention | todo | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
+
+The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.
+No new retention implementation or retroactive cleanup is authorized by this note.

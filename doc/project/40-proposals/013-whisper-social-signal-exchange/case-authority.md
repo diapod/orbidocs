@@ -1,6 +1,8 @@
 # Ordered case authority and private exchange
 
-Date: 2026-11-04. Status: owner-adopted implementation contract; runtime qualification pending.
+Adopted: 2026-11-04. Qualified: 2026-11-07 for enabled LLR-008 operations,
+LLR-007 synthetic-v2 first consumer and the independent PEX-001 single-relay profile.
+Production issuance, full LLR-009 and P015-009 authoring retention remain separate.
 
 ## Executive summary
 
@@ -621,12 +623,16 @@ checks do not close the independent clean-source A-F gates.
 
 ## Open boundaries
 
+P015-009 owns finite retention of the pre-existing protected authoring prepared-output
+journal. Its sealed rows can survive independently of the new case workflow; this
+qualification proves neither global source-payload erasure nor root-recovery erasure.
+
 P015-005, ADC runtime, LLR-009 full qualification, LLR-010 context/authority
 transition, onion routing and global/physical privacy remain separate. Synthetic
 v2 certificates in acceptance do not qualify production issuance. No power-loss,
 whole-machine rollback or global copy-erasure claim follows.
 
-## Next actions and gates
+## Implementation stages and acceptance history
 
 Implement contracts -> pure core and PEX/S010 -> durable owners -> LLR-007 ->
 independent A-F acceptance. Review, fix and commit each stage on the feature branch;
@@ -791,7 +797,9 @@ committed atomically with its exact packet. Registration retains no anchor roles
 succession retains only the three non-payload successor roles. Original case/replay
 holds outlive packet and reply-key expiry, and current-classification local result
 read exposes the optional assembly inputs without resigning, resealing or fetching.
-Protected record/manifest bytes remain solely in Memarium. Prototype/raw rows without
+The new CaseWorkflow retains protected record/manifest bytes only through Memarium;
+the pre-existing P015 authoring replay journal is a separate implementation gap
+tracked by P015-009 before nonsynthetic rollout. Prototype/raw rows without
 this material remain explicitly incomplete. This is source workflow composition,
 not an independent presentation/private/cold qualification or a new permission.
 
@@ -952,3 +960,16 @@ through a relay or create an AD claim. Neither route falls back to the other.
 The additive unreleased local intent/result changes leave historical pins and
 legacy one-way wire bytes unchanged. Source mode/key/accounting implementation
 and qualification are pending.
+
+
+### Current qualified scope, 2026-11-07
+
+The staged implementation notes above preserve the sequence of work; their pending
+native/cold gates are superseded by the independently qualified A–F results in
+`node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. LLR-008, LLR-007 and PEX-001 close independently for the
+enabled operations, synthetic-v2 first consumer and single-relay loopback profile.
+LLR-009, production issuance, ADC adapters, context/authority transition and the
+P015-009 source-journal retention dependency remain open. No earlier capsule changes.
+The runtime source pins are Node `a23af72f14205efcbf6cb0598b3ff20535bc3084` and
+Orbidocs `81a651666067c859e7635bfcb1f1f44b29753d4f`; later closeout documentation
+and diagnostic-reader commits do not rewrite those measured sources.

@@ -1137,3 +1137,13 @@ every CaseKeyUse and renewal control prefix, with both wrapping policies. The
 successor's protected port samples the host-owned clock and persists the common
 custody-fence observed-time floor before output. This does not connect its deferred
 P015-005/LLR-007 caller or grant authority from a pure succession result.
+
+
+### Ordered-case restricted operations, 2026-11-07
+
+Dedicated node authority acceptance/status and protected node/nym reception signing
+now participate in LLR-008/LLR-007's qualified path. S026 signs only its currently
+owned key and prepared domain intent under the owner clock; the node operation fixes
+its own key and internal caller. Generic signing, alternate domains and wrapped
+preimages remain refused by the shared reserved-use registry. Cached durable replay
+requires neither signer nor re-sealing. See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md`. P015-005 and ADC stay separate.
