@@ -2437,3 +2437,15 @@ or authority. No complete A/B post-certificate-expiry claim or full current-sour
 campaign credit follows. Historical 51/131 belongs to its original runtime;
 parent trackers and production adoption remain open. Scoped implementation review:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-WINDOW-20261107.md`.
+
+### Post-issue S020 fixture checkpoint (2026-11-07)
+
+An ordinary private-AD issue followed by four actual S020 freshness cycles passes
+independent ordinary/optimized signature and exact-launch readers on runtime
+`aa36c538` / capture `d028ac8b` / Orbidocs `79240ab8`. This diagnostic adds no
+registered rows. A separate runtime `653eac2b` aggregate re-executes 6/131, with
+125 missing; it must not be added to the historical 51/131 on another runtime.
+The original shutdown/wait refusals remain preserved. Complete A/B independent
+C/D post-certificate-expiry continuation, full Gate A/B and production adoption
+remain open. Details and retention limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-S020-CHECKPOINT-20261107.md`.
