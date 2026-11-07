@@ -1830,9 +1830,24 @@ active record JSON each to 1 MiB; terminal outcome JSON to 2 KiB. Ordinary profi
 bytes and prepared Messaging semantics remain unchanged. The initial complete
 sealed-artifact ceiling remains 64 KiB.
 
-The receive-side locally admitted profile, no-peer-cache custody, both actual
-consumers and Gate A remain open. This component checkpoint is not private runtime
-qualification and does not close S023-001. S023-002 scheduled purge is separate.
+The independently installed receive profile now reserves body-free identity/input/
+result hashes in the same AD owner's migration v8. Exact schema/content type and
+bridge policy are local, not sender assertions. A minimal schema excludes standard
+and wildcard registrations; malformed MIME cannot choose detailed retention. The
+same preflight/acceptor pipeline handles only bounded inline buffers. References,
+streams and pointer wrappers targeting the family refuse before resolver/cache
+custody or HTTP fetch. Final duplicates return the frozen transport outcome;
+interrupted/retryable attempts require the domain acceptor's exact durable
+reconciliation. Existing detailed bridge/peer/schema history without provable
+transport binding refuses adoption rather than inventing missing identity.
+
+The actual INAC bridge preserves detailed/minimal read variants and emits reduced
+metadata without private domain references or acceptor diagnostics. The trusted
+session still supplies the authenticated peer; the bridge label grants no identity
+or domain permission. This is component conformance with supplied session fixtures,
+not two-node authenticated runtime qualification. Both actual consumers, current
+recipient/key lease checks, P091 adoption and Gate A remain open. S023-001 stays
+partial and S023-002 scheduled purge is separate.
 
 
 Responsibilities:
