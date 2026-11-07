@@ -1691,7 +1691,7 @@ Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB
 
 ### Later 2026-11-07 SQLite/late-receipt checkpoint
 
-The latest source-bound fixture campaign verifies **32/131**, with **99 missing**,
+The SQLite/late-receipt fixture checkpoint verifies **32/131**, with **99 missing**,
 identically in ordinary and optimized readers. One reviewed Harvester v3 owner
 completed protected UI preview/sign across restart, SQLite publication (201) and
 a signed receipt. A new SDK receiving store first admitted the exact original
@@ -1711,3 +1711,23 @@ remaining99 obligations stay open, including all-producer end refusal, boundary/
 old-node-v2 cutoff and full P082/gossip privacy.
 
 Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-LATE-RECEIPT-20261107.md`.
+
+### Native owner-policy checkpoint (2026-11-07)
+
+The current source-bound fixture campaign verifies **37/131**, with **94 missing**,
+identically in ordinary and optimized readers, exit 2. All previous32 original
+predicates reverify. Five native AD/P091 obligations add inactive/complete
+adoption, editorial versus normative factory identity, separate ceiling refusal
+and unchanged old claim terms. Eleven actual system-clock stages include restored
+controls and owner reopen; three coherently rehashed scratch substitutions each
+refuse and restore the original positive.
+
+Native build `190552c41`, capture `a8933630` and final reader `714e0bc10` remain
+separate from existing runtime `985964ee83` / normative `2b5ea4fd`. Original
+rehearsals, cold-WAL collector refusal and hold-field reader refusal remain
+preserved; the successful runtime was not repeated for reader correction.
+Full gates and production adoption remain open, and parent statuses are unchanged.
+
+The policy case adds no direct-peer/Room or public-gossip disclosure proof.
+The new custody/origin campaign retains their separate mandatory privacy rows.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-POLICY-20261107.md`.
