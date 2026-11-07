@@ -74,6 +74,16 @@ exchange identity, recipient/reply keys and expiry (at most fifteen minutes and
 no later than exchange expiry). P091 admits exact recipient identity and role.
 Labels never derive recipient keys. Keep P015 wire bytes and signing domains.
 
+The source commits its random exchange and reply key before requesting the offer.
+It then binds the exact canonical signed offer in its existing encrypted workflow
+metadata. A changed valid offer is a conflicting preparation, not a retry. A
+prepared unoffered exchange cannot switch profiles. Restart and lost response
+preserve the original reply key, offer identity and prepared ciphertext. The
+shorter of offer, native-control and original request deadlines governs effects;
+no layer extends another's lease. Direct and historical relay preparation are
+explicit alternatives without fallback. A retained signed result remains a
+historical read after the exchange lease, under current disclosure policy.
+
 Encrypt before any AD custody. Outer transport correlation is independent random
 data; private anchors, nyms and request digests stay inside ciphertext. AD alone
 owns transport retry. Domain outcomes are durable before reply handover; readback
