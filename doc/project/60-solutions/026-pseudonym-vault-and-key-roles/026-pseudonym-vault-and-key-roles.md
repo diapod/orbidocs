@@ -715,5 +715,14 @@ independent private-delivery/cold qualification or a hard-MVP status change.
 
 ### Ordered-case runtime qualification, 2026-11-07
 
-The actual S026 source workflow now qualifies B/C owned-nym signing and local-coheld reception through the same verifier as external relayed PEX. Local delivery requires current same-participant key possession; another local participant refuses without fallback. Independent key-use time fencing does not consume issuance revisions. Scoped source/audience retention includes inactive-owner maintenance. P015-009 separately tracks the pre-existing recoverably sealed authoring replay journal; this gate claims no global source-payload erasure.
+The actual S026 source workflow now qualifies B/C owned-nym signing and local-coheld reception through the same verifier as external relayed PEX. Local delivery requires current same-participant key possession; another local participant refuses without fallback. Independent key-use time fencing does not consume issuance revisions. Scoped source/audience retention includes inactive-owner maintenance. P015-011 separately tracks the pre-existing recoverably sealed authoring replay journal; this gate claims no global source-payload erasure.
 See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.
+
+The subsequent review in
+`node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md` qualified the operator's continuity-key closure through S026, private PEX and the
+same durable authority. Closure does not require the current successor's signature
+or predecessor CAS; exact saved requests replay without another signature. It
+preserves the historical successor while preventing further case continuation.
+Closing the case before erasing its local key is the recommended order: local
+key erasure cannot disable a copied key. Remaining ADC controls belong to
+P013-LLR-011, and observer-load qualification remains P013-PEX-002.

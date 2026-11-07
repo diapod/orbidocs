@@ -2,7 +2,7 @@
 
 Adopted: 2026-11-04. Qualified: 2026-11-07 for enabled LLR-008 operations,
 LLR-007 synthetic-v2 first consumer and the independent PEX-001 single-relay profile.
-Production issuance, full LLR-009 and P015-009 authoring retention remain separate.
+Production issuance, full LLR-009 and P015-011 authoring retention remain separate.
 
 ## Executive summary
 
@@ -623,7 +623,7 @@ checks do not close the independent clean-source A-F gates.
 
 ## Open boundaries
 
-P015-009 owns finite retention of the pre-existing protected authoring prepared-output
+P015-011 owns finite retention of the pre-existing protected authoring prepared-output
 journal. Its sealed rows can survive independently of the new case workflow; this
 qualification proves neither global source-payload erasure nor root-recovery erasure.
 
@@ -799,7 +799,7 @@ holds outlive packet and reply-key expiry, and current-classification local resu
 read exposes the optional assembly inputs without resigning, resealing or fetching.
 The new CaseWorkflow retains protected record/manifest bytes only through Memarium;
 the pre-existing P015 authoring replay journal is a separate implementation gap
-tracked by P015-009 before nonsynthetic rollout. Prototype/raw rows without
+tracked by P015-011 before nonsynthetic rollout. Prototype/raw rows without
 this material remain explicitly incomplete. This is source workflow composition,
 not an independent presentation/private/cold qualification or a new permission.
 
@@ -969,7 +969,7 @@ native/cold gates are superseded by the independently qualified A–F results in
 `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. LLR-008, LLR-007 and PEX-001 close independently for the
 enabled operations, synthetic-v2 first consumer and single-relay loopback profile.
 LLR-009, production issuance, ADC adapters, context/authority transition and the
-P015-009 source-journal retention dependency remain open. No earlier capsule changes.
+P015-011 source-journal retention dependency remain open. No earlier capsule changes.
 The runtime source pins are Node `a23af72f14205efcbf6cb0598b3ff20535bc3084` and
 Orbidocs `81a651666067c859e7635bfcb1f1f44b29753d4f`; later closeout documentation
 and diagnostic-reader commits do not rewrite those measured sources.
@@ -1027,4 +1027,4 @@ onion fallback occurs. P013-PEX-002 separately tracks the unexplained 40 ms poll
 liveness failure; passing at 200 ms is not its root-cause diagnosis.
 
 P013-LLR-011 retains the still-disabled durable ADC control requirements in the
-same owner. P015-005 now explicitly depends on P015-009. Historical qualification remains attached to its original enabled scope. The boundary review at clean Node `a002a1d2d` / Orbidocs `a9dbed36` independently qualified the expanded author-closure/native-header scope: 1031 tests, actual full/detached closure, cold terminal knowledge, mutation refusals and equal loose/extracted/two-store qualification. See `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`. PEX-002 remains open for observer-load liveness; the separately reproduced idle WSS read-budget defect was corrected without extending the result deadline.
+same owner. P015-005 now explicitly depends on P015-011. Historical qualification remains attached to its original enabled scope. The boundary review at clean Node `a002a1d2d` / Orbidocs `a9dbed36` independently qualified the expanded author-closure/native-header scope: 1031 tests, actual full/detached closure, cold terminal knowledge, mutation refusals and equal loose/extracted/two-store qualification. See `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`. PEX-002 remains open for observer-load liveness; the separately reproduced idle WSS read-budget defect was corrected without extending the result deadline.

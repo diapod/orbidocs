@@ -784,7 +784,7 @@ traffic to the versioned 200 ms did not extend the 20 s result/reception budgets
 
 No onion, colluding-relay resistance, physical-host independence, release readiness
 or global copy erasure follows. The pre-existing protected authoring replay journal
-is an explicit P015-009 retention dependency before nonsynthetic rollout; the new
+is an explicit P015-011 retention dependency before nonsynthetic rollout; the new
 case workflow does not duplicate protected payload into its proof holds. Context
 and authority transitions remain LLR-010. Hard-MVP scope is unchanged.
 

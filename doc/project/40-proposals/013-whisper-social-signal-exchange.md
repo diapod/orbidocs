@@ -1543,6 +1543,6 @@ explicit and is not physical-host or global-observer evidence. Destination scans
 cover source-route canaries; the relay legitimately knows its neighboring source.
 Bounded raw/JSON/base64/SQLite scans do not inspect encrypted or forensic media.
 See `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified` and `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` for source pins and limits.
-P015-009 tracks the pre-existing authoring replay retention gap; Memarium remains
+P015-011 tracks the pre-existing authoring replay retention gap; Memarium remains
 the accepted sole-custody design for protected records, not a claim that this gap
 has been erased by the PEX transport gate.
