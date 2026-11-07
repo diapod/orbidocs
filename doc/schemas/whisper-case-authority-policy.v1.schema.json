@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-authority-policy:v1",
+  "title": "whisper-case-authority-policy.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "authority/id",
+    "federation/id",
+    "profile/digest",
+    "issued/at",
+    "expires/at",
+    "case/max-lifetime-seconds",
+    "case/max-history-events",
+    "case/max-active",
+    "case/max-successions",
+    "case/max-successions-per-day",
+    "case/status-freshness-seconds",
+    "operations",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-authority-policy.v1"
+    },
+    "authority/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "profile/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "case/max-lifetime-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "case/max-history-events": {
+      "type": "integer",
+      "minimum": 65,
+      "maximum": 4096
+    },
+    "case/max-active": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1024
+    },
+    "case/max-successions": {
+      "const": 64
+    },
+    "case/max-successions-per-day": {
+      "const": 4
+    },
+    "case/status-freshness-seconds": {
+      "const": 300
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "open",
+          "succession",
+          "closure"
+        ]
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  }
+}

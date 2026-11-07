@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-pex-key-offer:v1",
+  "title": "whisper-pex-key-offer.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "purpose",
+    "recipient/id",
+    "recipient/role",
+    "sender/id",
+    "exchange/handle",
+    "payload/schema",
+    "recipient/key",
+    "recipient/key-ref",
+    "reply/key",
+    "issued/at",
+    "expires/at",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-pex-key-offer.v1"
+    },
+    "purpose": {
+      "const": "whisper-pex"
+    },
+    "recipient/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "recipient/role": {
+      "enum": [
+        "protected-signal-custodian",
+        "case-authority",
+        "case-applicant"
+      ]
+    },
+    "sender/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "exchange/handle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 52,
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$"
+    },
+    "payload/schema": {
+      "enum": [
+        "whisper-protected-signal.v1",
+        "whisper-case-command.v1",
+        "whisper-case-result.v1"
+      ]
+    },
+    "recipient/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "recipient/key-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "reply/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  }
+}

@@ -108,9 +108,11 @@ Replay preserves the original decision/material and never invents historical tim
 
 ### One case authority
 
-`whisper-case-core` owns pure typed transitions and history-page verification;
-`whisper-case-authority-service` owns durable acceptance, the AD acceptor and S020
-maintenance. Daemon only composes. Reuse S028 and storage::owner_checkpoint, issuer
+The existing `whisper-core::case` owns pure typed transitions, opening horizons
+and history-page verification; `whisper-case-service` owns durable acceptance,
+the AD acceptor and S020 maintenance. These concrete owners replace the initial
+planned whisper-case-core/whisper-case-authority-service package names after
+integration on 2026-11-07. Daemon only composes. Reuse S028 and storage::owner_checkpoint, issuer
 prepared-result laws and the authenticated-head comparison beneath StatusCursor;
 do not import issuer-specific custody or create a parallel ADC state store.
 
@@ -157,6 +159,34 @@ UI is usable without JavaScript, uses POST/CSRF, preserves the exact document on
 links, status freshness, delivery and acceptance separately. A private succession
 links nyms to its audience; it grants continue-case only, never source merging,
 reputation, additional threshold contribution or human-identity proof.
+
+### Initial wire boundary
+
+The canonical schemas are whisper-pex-key-offer.v1, whisper-pex-sealed.v1 and
+whisper-case-authority-policy.v1. Their examples are shape fixtures, not valid
+cryptographic exchange or usable recipient keys. Runtime verifies canonical
+base64url, key digest, X25519 non-low-order keys, independent admission, signature,
+exact offer/envelope binding and time. Key offers live at most 900 seconds.
+The offer signature uses `orbiplex.whisper-pex-key-offer.v1` followed by NUL and
+JCS of the document without signature. The policy domain is
+`orbiplex.whisper-case-authority-policy.v1` followed by NUL and JCS without signature.
+
+Offer role binds case-authority, protected-signal-custodian or case-applicant;
+reply delivery requires its own admitted recipient offer. PEX family names are
+closed. Runtime must reject role/family mismatch, same-key unsafe constructions
+and use outside the named exchange. No body or private case correlation is an
+outer field. Ciphertext string validation does not establish the 65536-byte
+complete serialized-envelope limit; runtime checks the complete bytes before
+AD handover and before accepting/decrypting.
+
+The authority policy binds a federation and exact source profile, not one private
+anchor. Initial host/service support is open/succession/closure only; ADC remains
+without a route. Max history is 4096 accepted events, max active cases 1024;
+a policy may lower either bound (history at least 65 to accommodate 64 successions
+and closure). Succession and freshness constants cannot be relaxed by policy.
+Durable owner storage must reserve closure capacity before accepting operations;
+full capacity cannot prevent closure or readback. Policy duration uses checked
+arithmetic; JSON number validity alone proves no feasible custody horizon.
 
 ## Trade-offs and Exclusions
 

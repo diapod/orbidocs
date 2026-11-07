@@ -1,0 +1,23 @@
+{
+  "schema": "whisper-case-authority-policy.v1",
+  "authority/id": "node:did:key:z6MkhQLVRJmSctZWXSwm9KPq8wBPmfZykiY7uhD1fqSiw1Tv",
+  "federation/id": "fixture-federation",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "issued/at": "2026-11-06T12:00:00Z",
+  "expires/at": "2026-11-07T12:00:00Z",
+  "case/max-lifetime-seconds": 86400,
+  "case/max-history-events": 256,
+  "case/max-active": 64,
+  "case/max-successions": 64,
+  "case/max-successions-per-day": 4,
+  "case/status-freshness-seconds": 301,
+  "operations": [
+    "open",
+    "succession",
+    "closure"
+  ],
+  "signature": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

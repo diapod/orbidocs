@@ -18,6 +18,22 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_private_case_contracts_have_mirrors_and_explicit_dispatch(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        for name in ("whisper-pex-key-offer.v1", "whisper-pex-sealed.v1",
+                     "whisper-case-authority-policy.v1"):
+            self.assertIn(name + ".schema.json", SYNC.SCHEMA_WHITELIST)
+            self.assertIn("shape." + name + ".json", SYNC.EXAMPLE_WHITELIST)
+            for filename in ("shape." + name + ".json", "refusal." + name + ".json"):
+                with self.subTest(filename=filename):
+                    result = subprocess.run(
+                        ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+                         str(script), "--syntax-only", str(SYNC.EXAMPLES_DIR / filename)],
+                        text=True, capture_output=True, check=False)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / (name + ".schema.json")))
+
     def test_new_local_nym_examples_have_explicit_validator_dispatch(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         # Invoke the actual shell dispatcher without the full corpus driver.
