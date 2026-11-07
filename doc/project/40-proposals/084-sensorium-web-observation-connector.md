@@ -2025,3 +2025,18 @@ P082-023; P084-017 checks the actual source/carrier contract pair at runtime.
 |---|---|---|---|---|---|
 | P084-016 | todo | P024-009; P084-006; P084-008; accepted P082 delivery and original-custody contracts | Freeze participant-safe Web source/snapshot/status DTOs: exact schema/profile, source generation, snapshot/representation identity, classification, retained availability/deadline and typed supersession/refusal. Separate not-started admission refusal from an existing terminal operation and HTTP transport status. No signed URL/query credential or host-private source metadata enters the UI contract. Pin current legacy and planned finite-original version mappings with unsupported-version refusal; a planned mapping grants no runtime support. | P084-017; optional P098-025 |
 | P084-017 | todo | P084-016; P082-024; P084-008 | Deliver participant-authorized read-only snapshot/status mapping for explicitly supported existing representation profiles. Recheck exact source generation before cache/availability fallback; no GET, lease reconnect or expired material causes fetch/retain/publication. Prove current source/profile/custody refusals, no acquisition counters changed and private-source canaries absent. Finite-original-backed promotion additionally needs P084-014 and P078-018; ordinary admitted observation does not wait for those paths. | P098-025 |
+
+
+### Exact SQLite renew and bounded window review (2026-11-07)
+
+Independent ordinary/optimized readers on runtime `653eac2b` / Orbidocs
+`be10c3bc` verify A2 exact-predecessor renew, the completed A/A2 C/D same-source
+group and 21 actual post-window refusals across A/A2/B and v2/v3, with native
+signed inputs, positive controls and historical readback. The prepare descriptor
+remains valid beyond window end. The later A/B S020 launch refusal and a fresh A
+status-refresh owner failure remain unresolved; the original parent campaigns
+stay refused. Closed host diagnostics preserve safe causes without new retries
+or authority. No complete A/B post-certificate-expiry claim or full current-source
+campaign credit follows. Historical 51/131 belongs to its original runtime;
+parent trackers and production adoption remain open. Scoped implementation review:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-WINDOW-20261107.md`.

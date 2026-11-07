@@ -2422,3 +2422,18 @@ Profile/certificate use, current status and the half-open publication window
 remain owner admission conditions; recognizing the reply is not permission.
 This repair follows an actual fixture response-contract refusal after a
 successful reviewed-v3 publication. It is not all-producer end-window qualification.
+
+
+### Exact SQLite renew and bounded window review (2026-11-07)
+
+Independent ordinary/optimized readers on runtime `653eac2b` / Orbidocs
+`be10c3bc` verify A2 exact-predecessor renew, the completed A/A2 C/D same-source
+group and 21 actual post-window refusals across A/A2/B and v2/v3, with native
+signed inputs, positive controls and historical readback. The prepare descriptor
+remains valid beyond window end. The later A/B S020 launch refusal and a fresh A
+status-refresh owner failure remain unresolved; the original parent campaigns
+stay refused. Closed host diagnostics preserve safe causes without new retries
+or authority. No complete A/B post-certificate-expiry claim or full current-source
+campaign credit follows. Historical 51/131 belongs to its original runtime;
+parent trackers and production adoption remain open. Scoped implementation review:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-WINDOW-20261107.md`.
