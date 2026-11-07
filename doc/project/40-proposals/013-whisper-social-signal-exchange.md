@@ -719,6 +719,12 @@ to a resource-centred view. This can support rumor's social function as distribu
 revisable memory without turning rumor aggregation into a verdict about a person.
 P013-AE-003 is deferred and does not block the current alpha or web-retention slice.
 
+[P026's civic-memory example and timeline requirements](026-resource-opinions-and-discussion-surfaces.md#resource-perspectives-client)
+connect this memory to accountability across changes of office or institution.
+Rumors and opinions retain their distinct status alongside responses, corrections
+and repair; Whisper supplies records to that shared projection, not a separate
+chronology or an automatic verdict about whom to trust.
+
 Reuse public gossip's envelope `record/about` and `gossip/see-also`, resource
 opinions targeting the rumor and existing Agora reply/revision paths. Preserve
 the distinction between a rumor about an action in a role, an opinion about that

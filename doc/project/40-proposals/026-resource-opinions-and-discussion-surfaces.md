@@ -481,6 +481,46 @@ derived from rumor counts, popularity or a mean across unrelated criteria.
 Copied reports do not become independent corroboration, and uncertain aliases
 or cross-namespace matches remain proposed links rather than silent identity merges.
 
+**Civic memory across changes of role.** This profile gives a concrete use to
+[Core Values: Accountability Without Dissolving into Procedure](../../normative/30-core-values/en/CORE-VALUES.en.md#accountability-without-dissolving-into-procedure):
+retained accounts and opinions can help a participant decide whom to trust, in
+which role and for which responsibility. A change of office or institution need
+not sever the accessible history of that person's actions. Responsibility does
+not transfer automatically to a successor or everyone in the institution.
+
+For example, before entrusting a local councillor with another term, a participant
+may review an earlier commitment, the councillor's subsequent vote, residents'
+accounts and opinions about its effects, the councillor's response and later
+corrective action. Preserve reliable conduct and fulfilled commitments alongside
+criticism. A rumor remains a rumor, an opinion remains an attributed assessment,
+and a document supports only what its content establishes. Their placement on
+one timeline neither establishes causation nor turns the account into a fact.
+
+**Timeline requirements.** Reuse Agora records, revisions, subject indexes and
+viewer-safe reads; the timeline is a projection, not another authoritative store.
+
+1. Distinguish event time or interval, publication time and correction/revision
+   time. Keep unknown, approximate and disputed dates explicit; a late publication
+   must not move the underlying event into the present. Declare the ordering basis
+   and a stable tie-breaker without suggesting a causal order among simultaneous
+   or uncertain events.
+2. Bind each action to its claimed actor, role and institution at that time, with
+   sources for the binding and any known role interval. A later title change must
+   not relabel earlier actions; a new officeholder does not inherit the predecessor's
+   assessments. Uncertain identity or role matches remain unresolved links.
+3. Link replies, disputes, corrections and repair to the assertions or actions
+   they address. Keep the distinction between what was asserted then and what was
+   corrected later visible, within retention and access policy; do not silently
+   overwrite the earlier account or keep resurfacing a superseded accusation alone.
+4. Preserve each item's epistemic class, attribution and source lineage. Reprints
+   do not add independent support. Assessments stay attached to their particular
+   action, role and criterion; there is no automatic person-level trust score.
+5. State the selected time window, query scope and known coverage limits. Missing
+   or unavailable periods do not establish inactivity or a clean record. Apply
+   the existing admission/exposure policy to timeline entries, ordering, summaries
+   and notices; gap indicators must not reveal protected records. This profile
+   creates no indefinite-retention obligation.
+
 **Scope and implementation boundaries.** This is a viewer-bound projection over
 available records, not "all knowledge in the network". State query scope, freshness
 and known incompleteness without revealing withheld records. No results means no
@@ -502,7 +542,10 @@ correction links and host-enforced exposure rather than a single client verdict.
 
 Before closing P026-013, retain offline projection fixtures for one person in two
 roles, two people with similar names, a role change, a time-bounded action, conflicting
-accounts, reprints, a reply/correction and partial/unavailable history. Prove that
+accounts, reprints, a reply/correction and partial/unavailable history. Include
+the councillor example with late publication, an unknown event date, an office
+successor, a fulfilled commitment and repair; verify event/publication/revision
+ordering and that a correction remains linked to the earlier account. Prove that
 role/action assessments do not spread to the whole person, unknown namespaces
 remain usable, references preserve their meaning, and withheld data does not leak
 through summaries, counts or ordering. Qualify browser presentation separately;
@@ -1428,7 +1471,7 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-012a | Provision an operator's assessment viewer over ChannelJson | done | P066; identity host; P080 | Bounded checkpoint 2026-10-25: run 06 at clean Node e726624c / Orbidocs 2e73ed3a qualifies eight ordinary-daemon/application/browser cases with no acceptance feature, actual SDK calls, P066 consumption, privacy, budget and lifecycle. Separate component proofs cover captured queued origin, clocks, persistence and concurrency. Current normal/-O/extracted qualification and 59 negative controls per location agree. Critical review run 01 at Node 9b2e3b47 / Orbidocs 298671c5 additionally qualifies lifecycle/source repairs with eight runtime cases, 16 owner/nine pin tests and 67 controls normally/-O/extracted. See the checkpoints and frozen contract; no product module, positive P073 consumer or release claim. |
 | P026-012b | Bind a closed P073 consumer to production viewer authority | done | 012a; P073; P066 | Bounded 2026-10-25 checkpoint: [closed consumer](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25), nine ordinary cases at Node ea9138ba / Orbidocs 6097c43b; separate component faults and 77 normal/-O loose/extracted controls. Fresh host context, exact holder, independent consent and RAM-only result. No model/product-module/012c/release claim. |
 | P026-012c | Extend dependent Agent context and recipients | in-progress | 012b; S028; P036; P073; P066 | [Staged accepted design](026-assessment-dependent-context.md): owned streams precede unit retention/dispatch, provenance, continuation and same-viewer operator delivery. Stage 01 is done for the frozen local storage/cutover profile. Stages 02/03 are done for the [qualified local joint profile](026-assessment-dependent-context.md#p026-012c-0203-review-qualification-2026-11-01): whole-owner retention, durable S029, capsules/checkpoints and S020, with six ordinary cases and separate explicit-time component evidence after the R-01–R-17 review. Context provenance and later stages remain open. Memory/forks are separately qualified; implementation evidence is not implied by acceptance of the plan. |
-| P026-013 | Future resource perspectives client | deferred | P026-001–003; viewer admission/exposure for the selected surface; P013-AE-003 for rumor integration | Freeze the [profile](#resource-perspectives-client), including any missing role/action relation contract; reuse subject indexes, resource/opinion/comment relations and viewer-safe APIs. Offline fixtures and scoped browser evidence preserve person/role/action boundaries, competing perspectives, corrections, lineage and explicit incompleteness without a universal verdict or withheld-data leaks. No new MVP/alpha prerequisite. |
+| P026-013 | Future resource perspectives client | deferred | P026-001–003; viewer admission/exposure for the selected surface; P013-AE-003 for rumor integration | Freeze the [profile](#resource-perspectives-client), including any missing role/action relation contract; reuse subject indexes, resource/opinion/comment relations and viewer-safe APIs. Offline fixtures and scoped browser evidence preserve person/role/action boundaries, competing perspectives, event/publication/revision chronology, role succession, corrections and repair, lineage and explicit incompleteness without a universal verdict or withheld-data leaks. No new MVP/alpha prerequisite. |
 
 ### Participant viewer tracker — 2026-11-06
 
