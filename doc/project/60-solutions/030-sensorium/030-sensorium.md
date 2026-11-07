@@ -994,3 +994,20 @@ and identical ordinary/optimized incomplete results. Runtime/capture Node
 separately pinned. Both original reader refusals and every source observation are
 preserved; no certification/publication retry, production adoption or historical
 gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.
+
+### Later 2026-11-07 fixture replica/window checkpoint
+
+The source-bound campaign now verifies **29/131**, with **102 missing**, identically
+in ordinary and optimized readers. Exact-predecessor A2 renewal on a distinct
+registered node of A's participant retains one source and no first emission at
+independent C. A newly started C reads the same signed records after the single
+aligned window ends. Runtime `985964ee83` / `2b5ea4fd`, capture `845bf6f7` /
+`ca9b73c9` and window reader `fb4301fb` remain separate pins. Earlier source-bound
+reports and the original four-PDU scope remain unchanged.
+
+This adds two replica/source-count and two window/history obligations. It does
+not qualify certificate-at-boundary, all-producer end refusal, old-node v2 cutoff,
+complete public/P082 direct-peer/Room/gossip privacy or full Gate A/B. Production
+is not adopted. The remaining fixture matrix and existing parent trackers stay
+open; another profile digest does not automatically preserve source continuity.
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-REPLICA-WINDOW-20261107.md`.
