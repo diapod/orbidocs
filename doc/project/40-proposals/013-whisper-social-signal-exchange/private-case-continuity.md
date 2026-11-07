@@ -189,7 +189,17 @@ cryptographic exchange or usable recipient keys. Runtime verifies canonical
 base64url, key digest, X25519 non-low-order keys, independent admission, signature,
 exact offer/envelope binding and time. Key offers live at most 900 seconds.
 The offer signature uses `orbiplex.whisper-pex-key-offer.v1` followed by NUL and
-JCS of the document without signature. The policy domain is
+JCS of the document without signature.
+For the direct offered profile, derive a 32-byte HKDF-SHA256 intermediate from raw
+X25519 agreement, with salt equal to the UTF-8 exchange handle and info equal to
+`orbiplex.whisper-pex-offered-key.v1`, NUL and the UTF-8 `sha256:<base64url>` digest
+of exact canonical signed offer bytes. Apply the existing binary PEX family/header
+key schedule to that intermediate. The verified offer must already be exact JCS.
+This binds independently admitted peers, purpose, reply key and original lease
+cryptographically; another valid offer with the same key/exchange/time is not
+interchangeable. Historical unoffered traffic keeps its original schedule.
+There is no offered-to-unoffered decryption fallback.
+ The policy domain is
 `orbiplex.whisper-case-authority-policy.v1` followed by NUL and JCS without signature.
 
 Offer role binds case-authority, protected-signal-custodian or case-applicant;
@@ -267,3 +277,15 @@ Every candidate is consolidated, intentionally separate or assigned a concrete
 owned follow-up. Reconcile P013/S011/S023, schemas/Schema Gate, P072 PL/EN,
 COVERAGE, Node ledger/MVP and the existing MVP readiness snapshot. Gate A can close
 PEX/S023-001 alone; the full slice requires both A and B.
+
+### Offer-control composition checkpoint
+
+The receiving implementation now shares exact public-offer reservation/signing
+law between separately fenced case-command and protected-signal owners. The
+protected-signal port composes actual P037 agreement and Memarium Personal-journal
+custody under independent current gates. Exact committed custody acknowledgement
+can be recovered before live-offer lookup after a crash, even after offer expiry
+or cleanup; this neither renews admission nor extends record read authority.
+Component regressions cover cross-offer substitution, actual owner restart and
+expired-result recovery. Native adoption/direct AD wiring and real two-node
+Gate A are still required; ordinary-v1 SQLite/Synapse Gate B remains open.
