@@ -320,6 +320,30 @@ Cleanup cannot restore the right to choose another response. Header framing esta
 AD policy by itself. Authenticated host installation and retained qualification
 remain separate from this source component composition.
 
+#### Direct-profile custody before owner processing
+
+For the separately adopted direct/minimal-trace execution profile, transport
+custody and native acceptance remain distinct. The existing authority owner may
+reserve exact command bytes with a private `transport-accepted-owner-unprocessed`
+receipt before dispatching a native operation. The receipt is a frozen custody
+snapshot, not proof of an active case. It does not escape through AD's reduced
+transport status or authorize a signed response.
+
+Current authenticated sender/recipient-role and key-lease admission precedes any
+saved-result lookup and remains held across custody. Recipient, sender and exchange
+bind one exact offer and command; changing the native request id inside that
+exchange refuses. These transport keys do not reserve native case ids against
+other peers before native authentication. Exact bytes and the receipt share the
+existing domain store/fence commit; no parallel inbox database, transport retry
+worker or PEX record store is created. Pending requests use ordinary bounded
+capacity, leaving terminal reserves intact. Their deadline cannot exceed the
+native command or offered exchange deadline; duplicate reads never extend it.
+
+The reference owner implements this component seam and authenticated exact-byte
+readback. Real host role/key-lease adoption, Memarium protected-signal custody,
+actual direct AD/INAC consumers and the new Gate A remain unqualified. Historical
+single-relay and synthetic-v2 case results retain their original scope.
+
 #### Source workflow and requester-key lifetime
 
 The S026 workflow commits an exchange-scoped random requester key and independent
