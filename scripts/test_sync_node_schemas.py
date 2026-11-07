@@ -23,6 +23,7 @@ class ResolveNodeRootTests(unittest.TestCase):
         setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
         fixtures = (
             ("prepare-recipient-offer.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("prepare-protected-signal-offer.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
             ("recipient-offer.whisper-case-workflow-result.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
             ("short-reply.whisper-case-workflow-request.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
         )

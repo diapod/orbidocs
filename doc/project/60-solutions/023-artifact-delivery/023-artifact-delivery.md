@@ -1841,6 +1841,15 @@ interrupted/retryable attempts require the domain acceptor's exact durable
 reconciliation. Existing detailed bridge/peer/schema history without provable
 transport binding refuses adoption rather than inventing missing identity.
 
+A protocol owner may install a bounded refusal-only minimal-schema guard for
+recognized private families, independently of an active recipient. The guard
+never authorizes delivery or payload access. Missing current receive adoption
+refuses before either detailed/minimal admission persistence or indirect material
+resolution, including new opaque identities after restart/role withdrawal.
+Ordinary acceptor registration cannot downgrade a guarded schema. AD owns this
+mechanical boundary; the host supplies schema membership and independently admits
+the exact minimal receiver/source. No Whisper family knowledge is built into AD.
+
 The actual INAC bridge preserves detailed/minimal read variants and emits reduced
 metadata without private domain references or acceptor diagnostics. The trusted
 session still supplies the authenticated peer; the bridge label grants no identity
@@ -1849,7 +1858,8 @@ not two-node authenticated runtime qualification. The native case authority now
 has a separately adopted named-peer/expiry direct receiver and operator-only
 protected offer preparation, sharing its existing zero-capacity executor and
 exact owner-pending inbox. It does not invent a relay header or dispatch a native
-case decision. Actual Memarium protected-signal custody, two-node direct Gate A
+case decision. Native Memarium protected-signal custody is now composed through an independently
+adopted recipient and the same bounded executor. Actual two-node direct Gate A
 and its complete current-admission/privacy proof remain open. S023-001 stays
 partial and S023-002 scheduled purge is separate.
 

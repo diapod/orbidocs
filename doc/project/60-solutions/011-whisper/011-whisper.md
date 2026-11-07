@@ -439,8 +439,10 @@ The [private-case execution profile](../../40-proposals/013-whisper-social-signa
 separates private exchange Gate A from ordinary-v1 SQLite/Synapse continuity Gate B.
 Native offer preparation, direct pending-command custody and protected-signal
 custody in the existing Memarium Personal journal are component scope, not proof
-of either gate. Native Memarium peer/status/offer adoption and actual direct
-carriage remain open. Memarium remains the protected-record owner; the case
+of either gate. An optional native P037/Memarium custodian now supplies separate
+finite peer/record-custody adoption; exact-author storage permission grants no
+council, source-counting or case authority. S020 owns authority/offer maintenance.
+Actual two-node direct carriage and ordinary-v1 SQLite/Synapse Gate B remain open. Memarium remains the protected-record owner; the case
 service owns ordered decisions, and AD owns transport retry. Current implementation
 and remaining composition are indexed in `node:docs/integration/whisper-private-case-continuity.md`.
 

@@ -23,7 +23,8 @@ percentages below do not measure the subsequent changes.
   LLR/ADC, Anon and global/release readiness are separate. The
   [private-case execution profile](../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
   still requires Gates A/B; native direct command-custody and exact encrypted
-  Memarium signal custody/readback are component conformance. They do not qualify
+  Memarium signal custody/readback, optional native adoption and S020 maintenance
+  are component conformance. They do not qualify
   actual two-node protected-signal carriage or ordinary-v1 Synapse continuity.
 - The primary integration passed the repeated software gates documented in
   `node:docs/audits/WHISPER-INTEGRATION-2026-11-04.md`. This does not renew runtime

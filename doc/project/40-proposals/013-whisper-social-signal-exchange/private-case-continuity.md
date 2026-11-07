@@ -287,5 +287,17 @@ custody under independent current gates. Exact committed custody acknowledgement
 can be recovered before live-offer lookup after a crash, even after offer expiry
 or cleanup; this neither renews admission nor extends record read authority.
 Component regressions cover cross-offer substitution, actual owner restart and
-expired-result recovery. Native adoption/direct AD wiring and real two-node
-Gate A are still required; ordinary-v1 SQLite/Synapse Gate B remains open.
+expired-result recovery. Native direct adoption is composed below; real two-node
+Gate A and ordinary-v1 SQLite/Synapse Gate B remain open.
+
+The optional native custodian now installs the offer/P037/Memarium composition
+with a finite, separately adopted peer/record-custody policy. A standalone role
+does not require case authority; an explicitly paired authority keeps separate
+owners and trust. Exact admitted record-author keys authorize storage only, not
+source eligibility or certificate issuance. The closed operator operation
+`prepare-protected-signal-offer` selects this recipient purpose, while the existing
+command-offer operation remains distinct. Both direct consumers share bounded
+AD/INAC framing controls. Their authority/offer maintenance runs through S020;
+disabled offer owners use the existing bounded retention catalog. Native seam
+conformance is not the real two-node Gate A; direct source/reply and both runtime
+gates remain open.
