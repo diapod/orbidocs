@@ -1850,6 +1850,15 @@ Ordinary acceptor registration cannot downgrade a guarded schema. AD owns this
 mechanical boundary; the host supplies schema membership and independently admits
 the exact minimal receiver/source. No Whisper family knowledge is built into AD.
 
+Direct INAC negotiation uses a metadata-only `offer` before its inline `push`.
+AD passes its frozen local trace profile to the adapter; no schema inference or
+peer assertion selects it. A minimal offer never manufactures an `artifact/ref`
+from a content digest. Its push preserves the original canonical opaque transport
+handle, without prefixing it with delivery/stage identifiers. Standard offer and
+push wire behavior, AD input/plan identity and author bytes remain unchanged. Minimal
+receivers continue to refuse any ref/href or streamed transfer at the offer/push
+boundary. Offer acceptance is not custody or domain admission.
+
 The actual INAC bridge preserves detailed/minimal read variants and emits reduced
 metadata without private domain references or acceptor diagnostics. The trusted
 session still supplies the authenticated peer; the bridge label grants no identity
