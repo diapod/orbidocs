@@ -37,6 +37,24 @@ It does not define:
 - emergency activation policy,
 - or a separate plugin system outside the daemon middleware host.
 
+## Proposed Mobile Observation Edge
+
+[P099: Companion App and Device Bridge](../../40-proposals/099-companion-app-and-device-bridge.md)
+plans read-only HealthKit export to one paired Node. Sample history with
+deletions stays with a durable owner outside the observation store; Sensorium
+admits only host-built latest-state summaries.
+[`P045-OBS-001`](../../40-proposals/045-sensorium-local-enaction-stratum.md#observation-admission-continuation) tracks the generic
+admission prerequisites: producer-bound connector fields and sensitivity, a
+per-class TTL ceiling, producer/participant-scoped observation ids, ordered
+replacement and current-read freshness checks. Capacity exhaustion returns
+backpressure instead of evicting other producers; retention gaps remain explicit.
+P099-008 separately qualifies this binding with synthetic summary candidates;
+completion of the generic task alone does not complete the consumer.
+P099-004 must qualify scoped receipt replay, deletions and private read
+projections; P099-006 owns offline and separately authorized device acceptance.
+This reference adds no implemented capability and grants no publication or model
+access.
+
 ## Must Implement
 
 ### Sensorium Core Boundary

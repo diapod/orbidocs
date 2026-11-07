@@ -56,6 +56,13 @@ Related schemas:
 - `vendor-media-type-registry.v1`
 - `room-relay-delivery.v1`
 
+Related proposed source:
+[P099: Companion App and Device Bridge](../../40-proposals/099-companion-app-and-device-bridge.md)
+adds phone-to-Node ingestion, not a provider-push variant of P082. Any later
+HealthKit interface reads an admitted private projection under existing grants;
+subscription cannot activate phone collection or broaden export consent. P099
+owns its new acceptance and does not change the status below.
+
 ## Status
 
 Implemented observation and actuation MVP solution.
