@@ -1027,6 +1027,4 @@ onion fallback occurs. P013-PEX-002 separately tracks the unexplained 40 ms poll
 liveness failure; passing at 200 ms is not its root-cause diagnosis.
 
 P013-LLR-011 retains the still-disabled durable ADC control requirements in the
-same owner. P015-005 now explicitly depends on P015-009. Historical qualification
-remains attached to its original enabled scope; the review's closure/native-header
-changes require a new clean-source run before claiming expanded qualification.
+same owner. P015-005 now explicitly depends on P015-009. Historical qualification remains attached to its original enabled scope. The boundary review at clean Node `a002a1d2d` / Orbidocs `a9dbed36` independently qualified the expanded author-closure/native-header scope: 1031 tests, actual full/detached closure, cold terminal knowledge, mutation refusals and equal loose/extracted/two-store qualification. See `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`. PEX-002 remains open for observer-load liveness; the separately reproduced idle WSS read-budget defect was corrected without extending the result deadline.

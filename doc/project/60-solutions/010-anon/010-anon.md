@@ -175,3 +175,5 @@ or establish resistance to relay/destination collusion or physical independence.
 
 The narrow S010 single-relay profile is qualified with PEX-001 for real loopback WSS/AD/INAC and ordinary source/authority/audience actors. Missing relay and withdrawn retry policy hard-fail. This is no onion, collusion, physical-host or global-observer guarantee; S010 parent scope remains open.
 See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.
+
+The boundary review confirms one sticky admitted relay per destination, an operator-only privacy profile projection and no downgrade. It fixes an idle WSS service-budget defect but leaves PEX-002 concurrent-observer liveness open. See `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`.
