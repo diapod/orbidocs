@@ -1057,7 +1057,7 @@ Policy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-N
 
 ### Native claim and transfer checkpoint (2026-11-07)
 
-The source-bound campaign now verifies **41/131**, with **90 missing**, identically
+The native claim checkpoint verifies **41/131**, with **90 missing**, identically
 in ordinary and optimized readers (incomplete, exit 2). All previous37 original
 predicates reverify. Four native AD obligations add same-key parameter conflict,
 overlapping concurrent retain and lost-response reopen/retry, atomic transfer/
@@ -1070,4 +1070,21 @@ original positive. The native build/capture `069e95bbd` and corrected reader
 The native transaction does not qualify a host fetch or connector transfer;
 source-journal/original/representation integration keeps its separate gates.
 Full gates and production adoption remain open; parent statuses are unchanged.
-Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-CLAIMS-20261107.md`.
+Claim checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-CLAIMS-20261107.md`.
+
+### Native legacy checkpoint (2026-11-07)
+
+The original-input campaign now verifies **43/131**, with **88 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous41
+predicates reverify. Two native AD rows add digest collision/monotonic interest
+through ordinary release, actual expiry/sweep and unadopted reopen, plus explicit
+native operator-method release with a withdrawn admission witness. Same-object,
+managed-only GC and healthy controls establish the causes; four rehashed scratch
+substitutions each refuse and restore the original. Native build/capture/reader
+`6fcf49a3d` / `35c23a9c` remains separate from runtime `985964ee83` / normative
+`2b5ea4fd`. Both pre-effect preparation refusals remain preserved.
+
+Fetch/original/representation handoff and source scheduling retain their
+separate runtime qualification requirements.
+Full gates and production remain open; parent statuses are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-LEGACY-20261107.md`.
