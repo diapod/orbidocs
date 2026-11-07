@@ -11,6 +11,9 @@
   "required": ["schema", "delivery/id", "status"],
   "properties": {
     "schema": { "const": "artifact-delivery-status.v1" },
+    "trace/profile": { "const": "minimal-trace-v1" },
+    "artifact/schema": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "observed-at": { "type": "string", "format": "date-time" },
     "delivery/id": { "type": "string", "pattern": "^delivery:[A-Za-z0-9_-]+$" },
     "submitted-at": { "type": "string", "format": "date-time" },
     "status": { "type": "string", "enum": ["accepted", "running", "succeeded", "partial", "failed-retryable", "failed-permanent", "expired"] },
@@ -20,5 +23,16 @@
     "diagnostic": { "type": ["object", "null"], "additionalProperties": true },
     "expires-at": { "type": ["string", "null"], "format": "date-time" },
     "retry/history": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
-  }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["trace/profile"] },
+      "then": {
+        "required": ["schema", "trace/profile", "delivery/id", "artifact/schema", "status", "submitted-at", "observed-at", "expires-at", "failure/class"],
+        "propertyNames": {
+          "enum": ["schema", "trace/profile", "delivery/id", "artifact/schema", "status", "submitted-at", "observed-at", "expires-at", "failure/class"]
+        }
+      }
+    }
+  ]
 }

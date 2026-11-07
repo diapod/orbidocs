@@ -18,6 +18,22 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_minimal_ad_status_fixtures_have_mirrors_and_validator_dispatch(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        for name, folder, whitelist in (
+            ("minimal.artifact-delivery-status.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("payload-minimal.artifact-delivery-status.json", SYNC.INVALID_EXAMPLES_DIR,
+             SYNC.INVALID_EXAMPLE_WHITELIST),
+        ):
+            self.assertIn(name, whitelist)
+            result = subprocess.run(
+                ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+                 str(script), "--syntax-only", str(folder / name)],
+                text=True, capture_output=True, check=False)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / "artifact-delivery-status.v1.schema.json"))
+
     def test_private_case_contracts_have_mirrors_and_explicit_dispatch(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)

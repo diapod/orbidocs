@@ -1210,6 +1210,7 @@ EXAMPLE_WHITELIST = (
     "extraction.artifact-acquisition-record.json",
     "staged.artifact-acquisition-record.json",
     "running.artifact-delivery-status.json",
+    "minimal.artifact-delivery-status.json",
     "basic.interaction-broker-watch.json",
     "file-exists.interaction-broker-wait.request.json",
     "satisfied.interaction-broker-wait.outcome.json",
@@ -1451,6 +1452,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "payload-minimal.artifact-delivery-status.json",
     "unknown-field.whisper-case-continuation-decision.local.v1.json",
     "unknown-field.artifact-delivery-relay-header.v1.json",
     "unknown-field.whisper-case-status-request.v1.json",

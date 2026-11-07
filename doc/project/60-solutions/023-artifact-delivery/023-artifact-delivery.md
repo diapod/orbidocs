@@ -1807,10 +1807,32 @@ AD until decision; reduced terminal metadata must preserve exact idempotency
 without exposing private domain correlation. S023-002 scheduled purge is not
 implied by reduction.
 
-Implementation checkpoint (2026-11-07): pure planning carries and validates the
-profile. Runtime startup and recovery explicitly refuse activation pending reduced
-outbound/inbound persistence, receive policy and observer enforcement. This is no
-Gate A runtime or privacy qualification; the complete S023-001 gate remains open.
+Implementation checkpoint (2026-11-07): the outbound owner binds the exact
+input under a component-scoped opaque transport handle before I/O. Active work
+retains input, plan and the causal receipt chain needed by the existing retry
+worker, without domain/provider diagnostics. The original classification is used
+for current outbound authorization; a changed route/target or withdrawn allow
+refuses. Terminal outcome and opaque idempotency hashes commit atomically with
+removal of input, full plan and receipts. Missing bound state never permits a
+replacement ciphertext. Multi-query SQLite reads keep one WAL snapshot across
+concurrent compaction. An expired pending delivery can compact after its route
+or outbound allow is withdrawn, without a transport effect. This is logical
+compaction, not physical SQLite/WAL purge.
+
+The typed readback distinguishes ordinary detailed state from minimal metadata,
+including active list/recovery results. Minimal operator status uses the existing
+`artifact-delivery-status.v1` discriminator with `trace/profile: minimal-trace-v1`;
+that profile is closed to delivery id, artifact schema, outcome/failure class and
+times. Its observation time is sampled for active readback and frozen in a terminal
+result. It cannot export plans, payloads, peer lists, diagnostics or domain ids.
+Schema/content-type input labels are limited to 128 UTF-8 bytes; exact input and
+active record JSON each to 1 MiB; terminal outcome JSON to 2 KiB. Ordinary profile
+bytes and prepared Messaging semantics remain unchanged. The initial complete
+sealed-artifact ceiling remains 64 KiB.
+
+The receive-side locally admitted profile, no-peer-cache custody, both actual
+consumers and Gate A remain open. This component checkpoint is not private runtime
+qualification and does not close S023-001. S023-002 scheduled purge is separate.
 
 
 Responsibilities:

@@ -113,7 +113,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-delivery-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-delivery-retain-request.v1.schema.json`](schemas-gen/schemas/artifact-delivery-retain-request.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `1` |
 | [`artifact-delivery-retain-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-retain-result.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `1` |
-| [`artifact-delivery-status.v1.schema.json`](schemas-gen/schemas/artifact-delivery-status.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
+| [`artifact-delivery-status.v1.schema.json`](schemas-gen/schemas/artifact-delivery-status.v1.md) | `13` | `0` | `yes` | `yes` | `2` | `1` |
 | [`artifact-extraction-profile.v1.schema.json`](schemas-gen/schemas/artifact-extraction-profile.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `2` |
 | [`artifact-location-advice.v1.schema.json`](schemas-gen/schemas/artifact-location-advice.v1.md) | `3` | `0` | `yes` | `yes` | `2` | `4` |
 | [`artifact-mailbox-sealed.v1.schema.json`](schemas-gen/schemas/artifact-mailbox-sealed.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
@@ -1956,5 +1956,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `868`
 - Generated schema docs: `869`
-- Positive examples: `791`
-- Negative examples: `788`
+- Positive examples: `792`
+- Negative examples: `789`
