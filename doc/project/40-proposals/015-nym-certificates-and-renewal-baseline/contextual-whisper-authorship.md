@@ -2303,7 +2303,7 @@ Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB
 
 ### Native owner-policy checkpoint (2026-11-07)
 
-The current source-bound fixture campaign verifies **37/131**, with **94 missing**,
+The native policy checkpoint verifies **37/131**, with **94 missing**,
 identically in ordinary and optimized readers, exit 2. All previous32 original
 predicates reverify. Five native AD/P091 obligations add inactive/complete
 adoption, editorial versus normative factory identity, separate ceiling refusal
@@ -2319,4 +2319,21 @@ Full gates and production adoption remain open, and parent statuses are unchange
 
 These policy rows add no issuance, key/media or certificate-window qualification.
 Finite fixture authority remains separate from standing operator consent.
-Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-POLICY-20261107.md`.
+Policy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-POLICY-20261107.md`.
+
+### Native claim and transfer checkpoint (2026-11-07)
+
+The source-bound campaign now verifies **41/131**, with **90 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous37 original
+predicates reverify. Four native AD obligations add same-key parameter conflict,
+overlapping concurrent retain and lost-response reopen/retry, atomic transfer/
+claim/first-result commit, and explicit live extension with real expiry controls.
+Four coherently rehashed scratch substitutions each refuse with a restored
+original positive. The native build/capture `069e95bbd` and corrected reader
+`b7d0d6fc8` stay separate from unchanged runtime `985964ee83` / normative
+`2b5ea4fd`; the original reader expiry-model refusal remains preserved.
+
+No issuance, signing or media authority is exercised. Standing consent does
+not extend finite fixture grants.
+Full gates and production adoption remain open; parent statuses are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-CLAIMS-20261107.md`.
