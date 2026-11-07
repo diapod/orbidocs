@@ -3426,3 +3426,12 @@ Node preserves that failed candidate and its correction separately. This is a
 preflight checkpoint only: final joint browser/actual WebView qualification,
 retained evidence, final convergence and cleanup remain open. P091-014, F12,
 broader platform and release statuses are not promoted.
+
+
+Stage 6 code-convergence checkpoint (2026-11-07): Node completed the bounded
+retrospective review of the R3 abstractions and their existing counterparts.
+The owning operator document records consolidation, intentional authority/runtime
+separations and D3 owner follow-ups. Scoped regressions remain separate from
+measured acceptance. The final common-source actual-WebView campaign and retained
+qualification/retrieval are not yet available, so P091-014 is not promoted.
+F12, broader panel coverage and release qualification remain open.
