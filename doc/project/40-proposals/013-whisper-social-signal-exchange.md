@@ -987,12 +987,13 @@ completed baselines remain scoped to their historical evidence.
    `ai.orbiplex.whispers/<topic-class>` as the conventional
    public/federated topic-key prefix, and reserve `private/<name>`
    for direct-only INAC artefacts outside Agora.
-9. Under [P013-PEX-001](#private-exchange-tracker), define the direct
-   node-to-node exchange contract as a thin binding
-   over the same `agora-record.v1` envelope, consuming the outbound
-   privacy capability for transport and the attestation gate for
-   peer admission, with Memarium as the sole persistent store on both
-   ends.
+9. Under [P013-PEX-001](#private-exchange-tracker), use existing AD/INAC
+   with declared outbound privacy and recipient/role admission. Memarium is the
+   sole persistent store for protected Whisper records on both ends. Typed case
+   exchanges persist in their domain owners (LLR-008 authority and S026 workflow),
+   retaining exact prepared bytes with the decision. PEX owns no durable store;
+   AD owns transport custody and retry. See the
+   [ordered case contract](013-whisper-social-signal-exchange/case-authority.md).
 10. Wire operator-mediated rumor curation
     (§Operator-mediated rumor curation) into the Node UI whisper
     inbox: per-rumor actions for `rumor/credibility` (1..5),
@@ -1165,7 +1166,8 @@ success never means case acceptance, source admission or consent to disclose.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-PEX-001 | Recipient-bound private Whisper exchange | todo | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+| P013-PEX-001 | Recipient-bound private Whisper exchange | done | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+| P013-PEX-002 | AD liveness under concurrent status observation | todo | P013-PEX-001 | Reproduce the preserved detached timeout with a 40 ms observer cadence and 15 ms active wait, beside the qualified 200 ms cadence. Instrument queue admission, each AD/INAC hop, custody/retry and domain reception using bounded phase/timing labels without principals or case ids. Separate CPU scheduling, owner-lock wait and SQLite/WAL hypotheses; report measured evidence rather than selecting a cause from timing alone. Declare a finite end-to-end liveness budget under concurrent reads, verify timeout/cancellation and retain refused runs. The closure review also reproduced a result deadline at 200 ms polling after a durable revision-3 closure: idle WSS reads retained the connection timeout and delayed outgoing work. The corrected worker read budget and focused regression do not alone establish the cause of the earlier 40 ms refusal or close this load gate. This follow-up does not silently widen the existing local transport qualification. |
 
 ## Contextual participant-source authorship (2026-10-25)
 
@@ -1527,3 +1529,20 @@ control proof), and replaced active nym-succession.v1 with v2. Before first rele
 widening requires an explicit note and vectors; narrowing additionally requires
 that no admitted artifact/evidence uses the removed form. After release, use a new
 version or explicit profile, never an in-place semantic change.
+
+
+### PEX-001 scoped carrier qualification, 2026-11-07
+
+The admitted single-relay S010 profile passed independently from case semantics:
+real WSS/AD/INAC fixtures cover both directions, missing relay, policy withdrawal
+on retry, expiry, wrong role/recipient, restart and lost response. Ordinary native
+source/authority/audience actors prove actual domain receipt and exact saved
+ciphertext replay. Legacy protected signal/trace refusal regressions also passed.
+Only AD retries; no direct/onion downgrade exists. The loopback-only exception is
+explicit and is not physical-host or global-observer evidence. Destination scans
+cover source-route canaries; the relay legitimately knows its neighboring source.
+Bounded raw/JSON/base64/SQLite scans do not inspect encrypted or forensic media.
+See `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified` and `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` for source pins and limits.
+P015-009 tracks the pre-existing authoring replay retention gap; Memarium remains
+the accepted sole-custody design for protected records, not a claim that this gap
+has been erased by the PEX transport gate.

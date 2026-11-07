@@ -1,0 +1,7 @@
+{
+  "schema": "whisper-case-succession-presentation.v1",
+  "profile": "referenced",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "evidence": [],
+  "unexpected": true
+}

@@ -83,8 +83,9 @@
       "items": {
         "type": "string",
         "maxLength": 68,
-        "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
-      }
+        "pattern": "^(node|nym|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "description": "Named Ed25519 principals, including a private nym reader; this audience grant does not enable the nym kind as a case authority."
     },
     "issued-at": {
       "type": "string",

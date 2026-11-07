@@ -568,10 +568,11 @@ extract a generic library; the later implementation owns that comparison.
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
 | P013-LLR-006 | Case continuity key | done | P015 v2 signal; S026 Pseudonym Vault | Single owner of the case key commitment, Phase 1 suite, lifetime and uses. Generate one key per case in the Vault; commit case/continuity-key-digest and case/status-authority in the first signed signal, independently of whether ADC is used. One key for amendments, confirmations and succession; bounded lifetime, deletion erasure fact and explicit opt-in recovery. Fixtures cover missing key, wrong commitment, deletion/recovery exclusion and independent cases. ADC-001 consumes this contract; no execution dependency points back to ADC. |
-| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. Call the P015-004 verifier; do not duplicate its cryptographic or mode/scope logic. |
-| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; P013-PEX-001 | Case requests with `case/anchor` and `request/id`, and `whisper-case-acceptance.v1` assigning revision and previous digest; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; one durable transaction per acceptance that checks the head, evaluates the request, appends the event and stores the outcome by `request/id`; a durable high-water mark refusing rollback; `conflicted` only for contradictory accepted histories; a 300-second freshness bound that defers effects. Fixtures cover a missed withdrawal, competing requests that are not conflicts, a lost commit response followed by a withdrawal, rollback, an authority equivocation, a missing status, an amendment after a succession that leaves the successor authorized, a succession from B to C that ends B's authority, and a withdrawal racing a release commit on both orders. One fold/store serves all typed case operations. Share only authenticated-head comparison with P015; test refreshed case-status timestamps at an unchanged history head, source-status regression parity and crashes before signed result exposure. |
-| P013-LLR-009 | Bounded portable succession verification | todo | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Freeze `whisper-case-succession-presentation.v1` and qualify the [portable profile](#portable-case-succession-verification): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all negative/privacy/cache-conflict/restart cases listed above pass. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |
+| P013-LLR-007 | Case-bound succession | done | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience (verified local receipt for nyms actually co-held by the same S026 participant; external recipients through PEX, with no fallback), effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. Call the P015-004 verifier; do not duplicate its cryptographic or mode/scope logic. |
+| P013-LLR-008 | Case state and currency | done | P013-LLR-006; P013-PEX-001 | Case registration, succession, author closure, status, anchor invalidation and terminal knowledge use the single durable owner and recipient CaseKnowledge. The 2026-11-07 boundary review qualified actual author closure, both race orders, exact replay, exhausted ordinary capacity, wrong-key refusal and recipient restart with older still-fresh Active material. Withdrawal/release ordering, amendment-after-succession and remaining ADC controls have pure-fold coverage only; durable enablement is P013-LLR-011. |
+| P013-LLR-009 | Bounded portable succession verification | todo | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Qualify the LLR-007-frozen `whisper-case-succession-presentation.v1` and its [portable profile](#portable-case-succession-verification): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all negative/privacy/cache-conflict/restart cases listed above pass. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |
 | P013-LLR-010 | Case context transition | todo | P015-005; P013-LLR-008 | Specify who attests transition; forward-only bounded steps; no preimage disclosure outside audience; successor status in the new context; no merging of source/ref values across counting domains. Golden/refusal vectors cover rollback to an old profile, foreign federation and replay. This does not block LLR-008/009 for one context, which claim no cross-context succession. |
+| P013-LLR-011 | ADC control operations in the case owner | todo | P013-LLR-008; P013-ADC-001; P013-ADC-005 | Enable amendment, withdrawal, confirmation, release commit and abandonment in the existing LLR-008 owner, never a second store. Durable fixtures: missed withdrawal; lost commit response then withdrawal; amendment after succession retaining the successor; withdrawal racing release commit in both orders. Each operation retains its own signers and typed ADC preconditions; disabled adapters refuse `operation-not-enabled` (`use-not-enabled` at custody). |
 
 ### Bounded acceptance, 2026-10-30
 
@@ -738,3 +739,75 @@ archive SHA-256 `496b92ee09877d6247926fe4d12b111e22fef301721d2194b4feb7b40e3d7bf
 inputs, times, limitations and the preserved unqualified first pure attempt.
 The original capsules are unchanged; current authority, LLR-007–010, P015-005,
 transport and release readiness are not implied.
+
+### Adopted ordered-case implementation contract, 2026-11-04
+
+The [case-authority contract](case-authority.md) supersedes the proposed 64 KiB
+all-evidence budget and rollback/conflict wording above. It adds explicit revision-0
+anchor registration, late invalidation, node-only authority, separate CaseKnowledge,
+carried/referenced roles and separate historical/current successor statuses. LLR-007
+freezes the presentation schema; LLR-009 retains its independent qualification gate.
+No runtime completion is claimed by this contract adoption.
+
+
+### Scoped ordered-case qualification, 2026-11-07
+
+LLR-008 is complete for the enabled register/succession/status/terminal-knowledge
+operations; ADC release, amendment and confirmation adapters remain disabled.
+LLR-007 is complete as its first synthetic-v2 consumer. This does not close
+LLR-009's separate presentation qualification or P015-005 issuance.
+
+Clean Node `a23af72f14205efcbf6cb0598b3ff20535bc3084` and Orbidocs
+`81a651666067c859e7635bfcb1f1f44b29753d4f` passed 21 scoped commands / 960 tests.
+Three ordinary loopback-only daemons completed full and detached A→B→C,
+registration and status roundtrips, both actual co-held nym receptions and the
+external recipient's signed reception. After restarting all actors, exact result
+replay and referenced C delivery passed. Eighteen committed receiver facts and
+six independently checked signatures establish domain reception, not queue entry.
+The co-held route uses actual same-participant S026 keys, never label equality or
+an AD delivery claim. Other-owner and missing-custody refusals remain covered.
+
+Cold recipients used independently admitted trust and fixed observed times,
+macOS whole-process network denial with a negative listener probe and acquisition
+counters. Positive/negative replay and 24 supplemental restart/closure/current
+certificate-expiry decisions made zero proof acquisitions. The supplemental
+producer uses real P035/P037 with explicitly synthetic credentials/custody and a
+signed closure fixture, not a production ADC transaction. The ordinary native
+producer uses the real P015-006 status lifecycle. Neither backdates the system clock.
+
+Eight repaired/unrepaired evidence mutations refused; unchanged original bytes,
+loose/extracted qualification and retrieval from two local stores were checked.
+Evidence: `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`, bundle `df2b93b09ef03cb1881a0647a2d7d5b0e0b2ce1611fa04fcf2d3f30c007df054`; review: `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md`.
+The first complete-profile detached observer timeout is retained separately as an
+observed refusal, with full qualification not applicable. Reducing controller poll
+traffic to the versioned 200 ms did not extend the 20 s result/reception budgets.
+
+No onion, colluding-relay resistance, physical-host independence, release readiness
+or global copy erasure follows. The pre-existing protected authoring replay journal
+is an explicit P015-009 retention dependency before nonsynthetic rollout; the new
+case workflow does not duplicate protected payload into its proof holds. Context
+and authority transitions remain LLR-010. Hard-MVP scope is unchanged.
+
+### Author closure boundary review (2026-11-07)
+
+The continuity key can terminate a registered case through
+`whisper-case-closure.v1`. It binds `case/anchor`, `request/id`,
+`closure/reason` (`author-ended` or `key-compromise-suspected`), `issued-at` and
+`not-after`; its single signature uses `orbiplex.whisper-case-closure.v1` plus
+NUL and the canonical document without `signature`. No predecessor or successor
+signature is required. The registered continuity key is the authority for this
+operation, independently of the current successor and predecessor CAS.
+
+From Active the operation produces Closed and preserves historical
+`current-succession`. It bypasses ordinary rate/command budgets using one bounded
+reserved terminal preparation/result. Exact replay returns the committed bytes;
+changed bytes under the same request ID refuse. Closed is terminal for subsequent
+new requests. An unavailable signer cannot invent a signed closure; an unsigned
+candidate can be retried under the sole writer and current time/head checks.
+The author-side operation requires the authenticated local operator and bound
+S026 continuity custody. Erasing that key is not closure: an attacker may still
+hold a copy. Close the case before erasing the local key.
+
+Closure is independent of ADC. LLR-011 owns the remaining durable ADC control
+operations. The previous retained capsule qualifies only its recorded scope;
+the clean-source review at Node `a002a1d2d` / Orbidocs `a9dbed36` qualified actual author closure, both race orders, replay, exhausted ordinary capacity, wrong-key refusal and recipient restart with older still-fresh Active material. Its 1031 scoped tests, native full/detached runs, cold consumers and two fresh local-store qualifications are recorded in `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`. The review catalogue is `node:docs/evidence/portable-admission/2026-11-07-case-continuity-review-qualified`, bundle `e4614aa9faa3282e7fa70a180ddd1cf5a8353b616c5877f6c660f43ca2e1d2a8`. The idle WSS read-budget regression is fixed; PEX-002 retains the separate concurrent-observer liveness gate.

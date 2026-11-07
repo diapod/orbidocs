@@ -627,3 +627,15 @@ component checks with 70 controls per mode/location. The capability catalog is
 unchanged: this composes existing owner ports and scheduling, and adds no generic
 grant-bearing operation. Historical evidence, unknown coverage, models and release
 scope remain separate.
+
+
+The admission-custody host also owns a narrow, nonserializable private disclosure
+lease for current case-audience use. It combines the existing retained material's
+finite availability with current Personal/private Whisper classification and a
+canonical node/nym recipient. Full-record requires the live payload/DEK; detached
+checks only public evidence and never releases private text. Profile substitution,
+erasure/expiry, missing provider and policy/time changes refuse. Disabling new
+capture does not silently disable retained evidence. No HTTP/module route,
+additional secret store, first-seen export or acquisition port is introduced.
+Source-audience adoption and independent cold/transport qualification remain
+separate; this port does not extend existing custody qualification or retention.

@@ -329,3 +329,11 @@ admitted detached witness claim. It does not create local trust, ordered case
 history, current authority or a P032 grant. Status scope checks reuse immutable
 verified material without re-signing, truncating or silently fetching it.
 LLR-008/009 retain their own acceptance/time and current-status gates.
+
+
+### Ordered-case runtime qualification, 2026-11-07
+
+P015 AuthenticSuccession now feeds qualified LLR-008 acceptance and LLR-007 continue-case as separate results. Historical status at acceptance and current source/case status remain distinct; no publication capability or source/ref merge follows. Full LLR-009 and production P015-005 remain open.
+See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.
+
+Author closure now follows the actual continuity-key custody/PEX/authority path without predecessor CAS; a closed head preserves the historical successor and prevents current effects after recipient restart. Erasure alone is not closure. The expanded scoped review is recorded in `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`.

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-closure:v1",
+  "title": "whisper-case-closure.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "request/id",
+    "not-after",
+    "signature",
+    "issued-at",
+    "closure/reason"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-closure.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "request/id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "maxLength": 86
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "closure/reason": {
+      "enum": [
+        "author-ended",
+        "key-compromise-suspected"
+      ]
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 390
+}
