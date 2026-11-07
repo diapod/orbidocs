@@ -1016,12 +1016,13 @@ completed baselines remain scoped to their historical evidence.
    `ai.orbiplex.whispers/<topic-class>` as the conventional
    public/federated topic-key prefix, and reserve `private/<name>`
    for direct-only INAC artefacts outside Agora.
-9. Under [P013-PEX-001](#private-exchange-tracker), define the direct
-   node-to-node exchange contract as a thin binding
-   over the same `agora-record.v1` envelope, consuming the outbound
-   privacy capability for transport and the attestation gate for
-   peer admission, with Memarium as the sole persistent store on both
-   ends.
+9. Under [P013-PEX-001](#private-exchange-tracker), use existing AD/INAC
+   with declared outbound privacy and recipient/role admission. Memarium is the
+   sole persistent store for protected Whisper records on both ends. Typed case
+   exchanges persist in their domain owners (LLR-008 authority and S026 workflow),
+   retaining exact prepared bytes with the decision. PEX owns no durable store;
+   AD owns transport custody and retry. See the
+   [ordered case contract](013-whisper-social-signal-exchange/case-authority.md).
 10. Wire operator-mediated rumor curation
     (§Operator-mediated rumor curation) into the Node UI whisper
     inbox: per-rumor actions for `rumor/credibility` (1..5),
@@ -1194,7 +1195,8 @@ success never means case acceptance, source admission or consent to disclose.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-PEX-001 | Recipient-bound private Whisper exchange | todo | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+| P013-PEX-001 | Recipient-bound private Whisper exchange | done | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+| P013-PEX-002 | AD liveness under concurrent status observation | todo | P013-PEX-001 | Reproduce the preserved detached timeout with a 40 ms observer cadence and 15 ms active wait, beside the qualified 200 ms cadence. Instrument queue admission, each AD/INAC hop, custody/retry and domain reception using bounded phase/timing labels without principals or case ids. Separate CPU scheduling, owner-lock wait and SQLite/WAL hypotheses; report measured evidence rather than selecting a cause from timing alone. Declare a finite end-to-end liveness budget under concurrent reads, verify timeout/cancellation and retain refused runs. The closure review also reproduced a result deadline at 200 ms polling after a durable revision-3 closure: idle WSS reads retained the connection timeout and delayed outgoing work. The corrected worker read budget and focused regression do not alone establish the cause of the earlier 40 ms refusal or close this load gate. This follow-up does not silently widen the existing local transport qualification. |
 
 ## Contextual participant-source authorship (2026-10-25)
 
@@ -1428,13 +1430,33 @@ run.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
+| P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#acceptance-contract) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
 | P013-DFR-001 | Freeze the decorrelation vocabulary | todo | P091; P046 | `whisper-decorrelation-vocabulary.v1` JSON Schema and a factory JSON shipped with the Node distribution. A P091 descriptor provides keyed composition, explicit retirement, an empty-base replacement and immutable id-to-topic-key bindings; local ids are namespaced. Typed diagnostics follow factory upgrades, resolutions apply at epoch boundaries, and no vocabulary version or digest appears on the wire. Authoring and pulling validate against the same resolution; golden fixtures cover each rule. |
 | P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `whisper-pull-plan.local.v1` per epoch, one entry abstraction whose local `origin` is `need`, `decoy` or `cover` ([P013-CIM-001](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)): a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. Compile coalesced jobs once per epoch; keep local causes outside the executor, persist sampled offsets and cover mixed-origin/restart/incomplete-slice fixtures from the shared implementation recommendations. |
-| P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P095 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. |
+| P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P013-PA-003; P095-012 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. Bind list/detail/link decisions to the verified participant; no inferred authorship, cross-nym reverse index or cross-participant references. Reuse P095 guarded-view contracts. Supplies P098-006; that consumer is not a prerequisite. Project optional room/ADC/LLR states only from their owners; distinguish not-applicable, not-yet-available and unknown. This view does not create those workflows or qualify their operational controls; selected profiles requiring them retain their separate prerequisites. |
 | P013-DFR-004 | Related-rumor authoring | todo | P015 Gate B; Story 005 | The v2 signal carries a bounded `signal/related-to` list, set only by an explicit author action. Each relation binds a public record/id and a closed target kind (`whisper-signal` or `whisper-correlation-notice`). A notice-only reader targets the notice, never a hidden signal id. A related draft inherits `topic/class` and `signal/similarity-key`, so its context digest matches. The relation adds no weight beyond one source, and derivation rules prevent counting a rumor's own derived records. |
 | P013-DFR-005 | Decide the wire conjunction rule | todo | P013-DFR-001; P078-011–012 | A fixture-corpus comparison of OR-only and pre-composed conjunction terms reports local match recall and precision, bytes per epoch and an estimated anonymity-set size per query. The decision is recorded in this section; OR-only remains the default until then. |
 | P013-DFR-006 | Association-room handoff with work sharing | todo | P070; S018; P036-007 | After opt-in, the Room handoff offers pasted text, a linked message thread and external links. Sharing a Memarium attachment requires explicit per-share declassification and shows the Room audience; external links carry an outside-guarantees warning. Joining a room shares nothing automatically. |
+
+### Participant access tracker — 2026-11-06
+
+These proposed tasks implement the domain prerequisites of
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper).
+P013 owns intake custody and the reviewed candidate, P015/S026 own the actor's
+retained cryptographic operations, and P026 owns viewer projection. The contract
+handoff precedes both runtime paths. P098 remains the downstream UI integration;
+no owner task requires its completion. P013-DFR-003 consumes the resulting local
+references for My rumors, rather than introducing another authorship store.
+The receiver boundary and external-handoff vectors below use owner-admitted
+fixtures; they do not wait for a Web/Harvester adapter. P078-018 owns the actual
+producer/receiver integration. P013-PA-002 includes authorized draft summary and
+result readback before certification or publication becomes available.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P013-PA-001 | Freeze participant intake and candidate handoff | todo | P024-009; P036-012 | Freeze participant ownership, producer/view bindings and retention/custody across raw input, drafts, candidate revisions, local SQLite and Memarium synchronization. Define legacy exclusion/migration, bounded list/detail/mutation API and exact candidate/provenance/audience/review-digest handoff to P015. Actor comes from admitted context; IDs are not grants. Freeze schema/route/registry mappings and negative fixtures. Public browse does not create an intake, issue a nym or unlock a key. Include bounded participant activity/status and recoverable-draft references with owner revision, retention, permitted continuation and unknown-result semantics; these are domain read projections, not a UI history store. Include external reviewed-producer handoff: exact source/representation and review digests, classification, finite custody/expiry, intended participant owner and producer/receiver contract versions. Accept only owner-admitted references; a finding, draft intent or source receipt transfers no signing/publication authority. Freeze separate draft/review/sign/submission/disclosure outcomes and authoritative lost-response lookup; incompatible versions or expired custody refuse without refetch or effect replay. | P013-PA-002; P015-009; P098-010c |
+| P013-PA-002 | Isolate participant intake and retained stages | todo | P013-PA-001; P024-010; P036-014; P080-049 | Implement participant-bound intake, read/edit guards and stage synchronization/cleanup under module and participant authority. Prove O/P/Q isolation in both SQLite and Memarium, explicit legacy attribution, restart/replay, retention and unavailable-owner refusal. Raw/draft stages stay inside the admitted private redaction boundary and outside generic memory discovery. Use candidate fixtures; this task does not require certification/signing or completed UI. Add an explicit nullable participant-owner column to intake SQLite: existing NULL rows remain legacy/operator-only and are never attributed from current login. Participant paths require a non-NULL owner. Partition operation/idempotency keys and stage cleanup by owner; review migration and rollback without exposing one participant through another namespace. Deliver the bounded activity/status/resume projection from the same owner store, with independent continuation and expired-draft behavior. Intake retention remains required here; splitting producer bindings from explorer reads does not defer cleanup. Revalidate producer/receiver subject, source and custody bindings before accepting an external draft; scope its operation key and result lookup to the participant. Preserve exact prior outcomes on lost replies and keep source/owner outages separate from draft absence. | P013-PA-003; P098-006; P098-014 |
+| P013-PA-003 | Compose participant browse and contribution | todo | P013-PA-002; P015-010; P026-015 | Integrate admitted rumor browsing and private intake through exact v2 review/certification/sign/publication/result readback. Preserve separate effects, source/trace versions and consent; never fall back to the local-primary author or operator viewer. Prove a real owner/module workflow with O/P/Q, changed review, locked key, lost response, cross-participant operation refs and withheld curation fields. Retain local authored-result references for DFR-003. Feed relevant exposure evidence into P013-AE-001/P026-008; broader matrices remain open. Whisper owns contribution orchestration and its authorized result projection; consume P015 cryptographic results without duplicating them. Keep signed, submitted, transport-acknowledged and disclosed states distinct, including uncertainty. | P013-DFR-003; P098-006; P098-014 |
 
 ## Author Disclosure Conditions {#author-disclosure-conditions}
 
@@ -1721,3 +1743,20 @@ author-class reception, mixed authorship holds, clock/load/fault, all-producer
 window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
 statuses and production adoption are unchanged.
 Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+
+### PEX-001 scoped carrier qualification, 2026-11-07
+
+The admitted single-relay S010 profile passed independently from case semantics:
+real WSS/AD/INAC fixtures cover both directions, missing relay, policy withdrawal
+on retry, expiry, wrong role/recipient, restart and lost response. Ordinary native
+source/authority/audience actors prove actual domain receipt and exact saved
+ciphertext replay. Legacy protected signal/trace refusal regressions also passed.
+Only AD retries; no direct/onion downgrade exists. The loopback-only exception is
+explicit and is not physical-host or global-observer evidence. Destination scans
+cover source-route canaries; the relay legitimately knows its neighboring source.
+Bounded raw/JSON/base64/SQLite scans do not inspect encrypted or forensic media.
+See `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified` and `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` for source pins and limits.
+P015-011 tracks the pre-existing authoring replay retention gap; Memarium remains
+the accepted sole-custody design for protected records, not a claim that this gap
+has been erased by the PEX transport gate.

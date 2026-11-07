@@ -1,0 +1,12 @@
+{
+  "schema": "whisper-case-status-request.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "case/authority": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+  "request/id": "e3a10907-eded-4e13-9dbe-1e08ce226456",
+  "issued/at": "2026-11-05T00:00:00.000000000Z",
+  "not-after": "2026-11-05T00:01:00.000000000Z",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "reader": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+  "response/key-digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "unexpected": true
+}

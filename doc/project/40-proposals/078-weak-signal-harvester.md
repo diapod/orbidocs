@@ -1042,3 +1042,19 @@ author-class reception, mixed authorship holds, clock/load/fault, all-producer
 window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
 statuses and production adoption are unchanged.
 Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+### Participant reviewed-producer handoff tracker — 2026-11-06
+
+P078 owns review of an admitted finding; P013 owns the receiving private draft
+and contribution. A participant view is not authorized by the existing operator
+review route. This optional producer path cannot delay ordinary Whisper inputs
+or read-only Web observation. Original-backed promotion retains P078-015's finite
+custody gate; failed/expired handoffs do not refetch, copy private raw content to
+UI storage or silently select the operator as draft owner. P078-017 freezes the
+finding/receiver boundary without depending on P084's observation UI projection;
+P078-018 checks the exact producer/custody/receiver versions during integration.
+
+| ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P078-017 | todo | P024-009; P013-PA-001; accepted finding and original-custody schemas | Freeze participant-owned finding review and receiver-bound draft handoff: exact finding/source/snapshot/review identity, classification, original/representation custody horizons, explicit draft intent and intended participant owner. Pin producer/receiver versions, idempotency/result lookup and typed changed-review/expired-custody refusal. A reference or accepted finding confers no fetch, signing or publication authority. | P078-018; optional P098-027 |
+| P078-018 | todo | P078-017; P024-010; P013-PA-002; P078-015 | Deliver independent-participant review and exact finite-original-backed draft handoff through existing stores/APIs. Prove P/Q ownership, bounded review/results, changed revision, missing/expired original, lost reply and restart; preserve the receiver's exact draft/result and authorized summary/readback without automatic reacquisition or publication. Draft creation/readback is complete without later Whisper signing or publication support. Keep operator review evidence separate. | P098-027 |

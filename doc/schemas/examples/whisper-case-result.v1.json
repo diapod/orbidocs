@@ -1,0 +1,13 @@
+{
+  "schema": "whisper-case-result.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "case/authority": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+  "request/id": "e3a10907-eded-4e13-9dbe-1e08ce226456",
+  "request/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "evaluated/at": "2026-11-05T00:00:00.000000000Z",
+  "outcome": {
+    "state": "refused",
+    "reason": "stale-predecessor",
+    "retry": "evidence-change"
+  }
+}

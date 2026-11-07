@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-succession-presentation:v1",
+  "title": "whisper-case-succession-presentation.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile",
+    "case/anchor",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-succession-presentation.v1"
+    },
+    "profile": {
+      "enum": [
+        "carried",
+        "referenced"
+      ]
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "evidence": {
+      "type": "array",
+      "maxItems": 17,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "digest"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "anchor-record",
+              "anchor-manifest",
+              "anchor-receipt",
+              "anchor-certificate",
+              "profile",
+              "anchor-status",
+              "anchor-closure",
+              "successor-certificate",
+              "successor-acceptance-status",
+              "successor-current-status",
+              "succession",
+              "registration",
+              "registration-acceptance",
+              "succession-acceptance",
+              "case-status"
+            ]
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+            "maxLength": 50
+          },
+          "bytes": {
+            "type": "string",
+            "maxLength": 699051,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        }
+      }
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 4194304,
+  "x-dia-decoded-maximum-bytes": 2805760,
+  "x-dia-role-limits": {
+    "anchor-record": {
+      "count": 1,
+      "bytes": 65536
+    },
+    "anchor-manifest": {
+      "count": 1,
+      "bytes": 32768
+    },
+    "anchor-receipt": {
+      "count": 1,
+      "bytes": 4096
+    },
+    "anchor-certificate": {
+      "count": 1,
+      "bytes": 16384
+    },
+    "profile": {
+      "count": 1,
+      "bytes": 16384
+    },
+    "anchor-status": {
+      "count": 3,
+      "bytes": 524288
+    },
+    "anchor-closure": {
+      "count": 2,
+      "bytes": 4096
+    },
+    "successor-certificate": {
+      "count": 1,
+      "bytes": 16384
+    },
+    "successor-acceptance-status": {
+      "count": 1,
+      "bytes": 524288
+    },
+    "successor-current-status": {
+      "count": 1,
+      "bytes": 524288
+    },
+    "succession": {
+      "count": 1,
+      "bytes": 8192
+    },
+    "registration": {
+      "count": 1,
+      "bytes": 4096
+    },
+    "registration-acceptance": {
+      "count": 1,
+      "bytes": 4096
+    },
+    "succession-acceptance": {
+      "count": 1,
+      "bytes": 4096
+    },
+    "case-status": {
+      "count": 1,
+      "bytes": 4096
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "profile": {
+            "const": "carried"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "items": {
+              "required": [
+                "bytes"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

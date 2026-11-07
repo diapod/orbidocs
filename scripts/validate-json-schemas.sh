@@ -29,6 +29,20 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *artifact-delivery-relay-header.v1.json) echo "$SCHEMAS_DIR/artifact-delivery-relay-header.v1.schema.json" ;;
+    *whisper-case-continuation-decision.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-continuation-decision.local.v1.schema.json" ;;
+    *whisper-case-reception.v1.json) echo "$SCHEMAS_DIR/whisper-case-reception.v1.schema.json" ;;
+    *whisper-case-result.v1.json) echo "$SCHEMAS_DIR/whisper-case-result.v1.schema.json" ;;
+    *whisper-case-status-request.v1.json) echo "$SCHEMAS_DIR/whisper-case-status-request.v1.schema.json" ;;
+    *whisper-case-workflow-request.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-workflow-request.local.v1.schema.json" ;;
+    *whisper-case-workflow-result.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-workflow-result.local.v1.schema.json" ;;
+    *whisper-case-command.v1.json) echo "$SCHEMAS_DIR/whisper-case-command.v1.schema.json" ;;
+    *whisper-case-registration.v1.json) echo "$SCHEMAS_DIR/whisper-case-registration.v1.schema.json" ;;
+    *whisper-case-closure.v1.json) echo "$SCHEMAS_DIR/whisper-case-closure.v1.schema.json" ;;
+    *whisper-case-acceptance.v1.json) echo "$SCHEMAS_DIR/whisper-case-acceptance.v1.schema.json" ;;
+    *whisper-case-status.v1.json) echo "$SCHEMAS_DIR/whisper-case-status.v1.schema.json" ;;
+    *whisper-case-succession-presentation.v1.json) echo "$SCHEMAS_DIR/whisper-case-succession-presentation.v1.schema.json" ;;
+    *whisper-private-exchange-header.v2.json) echo "$SCHEMAS_DIR/whisper-private-exchange-header.v2.schema.json" ;;
     *.whisper-signal.v2.json) echo "$SCHEMAS_DIR/whisper-signal.v2.schema.json" ;;
     *.nym-source-status-acquire.local.v1.json) echo "$SCHEMAS_DIR/nym-source-status-acquire.local.v1.schema.json" ;;
     *.nym-source-status-result.local.v1.json) echo "$SCHEMAS_DIR/nym-source-status-result.local.v1.schema.json" ;;

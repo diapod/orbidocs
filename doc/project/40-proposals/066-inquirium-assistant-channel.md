@@ -1823,6 +1823,22 @@ host-owned paths perform effects.
 | P066-DFR-003 | Propose personal-record capture as an inert control proposal. | todo | After P036-004 and P036-007; the host writes only after acceptance, the clamp warning is shown, and replayed turns do not write twice. |
 | P066-DFR-004 | Propose rumor drafting into the Story 005 flow. | todo | After P013-DFR-004; a relation is prefilled only from a confirmed link; the channel publishes nothing and redaction review stays mandatory. |
 
+## Participant channel access tracker — 2026-11-06
+
+[P098](098-alpha-ui.md#9-integration-boundaries-and-delivery-scope) needs an
+independently admitted participant to ask a question and return to the retained
+conversation. The existing Node UI adapter derives its participant from
+`local_participant()` and uses a default assistant session reference; those
+selectors alone do not establish independent P/Q admission. Reuse the Assistant's
+host-authenticated principal/session and advise-only contracts. Assistant remains
+a channel, not a Messaging peer. These tasks require neither the dormant-fact
+capture extensions nor Agent effects. Consumer links are not prerequisites.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P066-PA-001 | Freeze independent participant conversation access | todo | P024-009 | Freeze principal-bound conversation creation, turn/replay, bounded transcript/status/activity reads and return references using the existing Assistant contract. Define session-reference namespaces, current grant/context checks, retention and expiry; a default session string or supplied participant field is not authority. Preserve advise-only/local-only baseline, explicit additional-context grants and owner-selected admitted runtime/provider limits. No implicit Agent spawn, file read or remote disclosure. Record exact host/schema mappings and applicable runtime profile. | P066-PA-002; P098-015 |
+| P066-PA-002 | Deliver participant conversation and return | todo | P066-PA-001; P024-010 | Implement admitted participant adapters and owner projections; prove real O/P/Q isolation for creation, turns, transcript/status, continuation, restart, key/session invalidation and replay after lost replies. Supply bounded conversation/activity references and owner-reported resumability with expiry/unknown states. Exercise one supported admitted local inquiry runtime with its qualification limits pinned; synthetic transcripts alone do not complete this gate. Missing model/provider yields an honest unavailable result, never implicit installation or provider substitution. Preserve existing operator and advise-only behavior; no P098 UI prerequisite. | P098-014; P098-015 |
+
 ## Implementation Tracking
 
 Status values:

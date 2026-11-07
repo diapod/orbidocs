@@ -1,0 +1,8 @@
+{
+  "schema": "whisper-case-workflow-request.local.v1",
+  "command": {
+    "operation": "read",
+    "operation/id": "a487d5e3-26c6-42b8-99bd-e7e9ecc667cb"
+  },
+  "source/peer": "synthetic-forbidden-route-canary"
+}

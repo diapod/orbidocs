@@ -150,3 +150,30 @@ that anonymity is implemented. All entries are `todo`.
 ## Notes
 
 Anon may be attached as a separate process or service. Callers should depend on the declared outbound privacy capability, not on the module name itself.
+
+## First bounded realization
+
+The [case-authority contract](../../40-proposals/013-whisper-social-signal-exchange/case-authority.md)
+adopts a single-relay profile behind AD selection. Origin, relay and destination
+have separate hop authority; the destination sees the relay, not origin metadata.
+Required privacy has no downgrade. Three local loopback processes qualify this
+profile separately from the domain verifier. This contract is not implementation
+or evidence of onion, collusion-resistant or globally anonymous delivery.
+
+
+The AD single-relay foundation now distinguishes explicit one-way custody from
+request/response. Audience presentations carry no return capability; omitted
+mode preserves legacy scoped responses. Mode and exact circuit policy remain
+bound across restart/retry and retain finite custody horizons. A separate
+three-loopback-process WSS/AD/INAC fixture observes one-way receipt, exact source
+replay and no return output with raw privacy scans. Domain ports remain fixtures:
+this does not close S010 or PEX retained qualification, implement onion routing,
+or establish resistance to relay/destination collusion or physical independence.
+
+
+### Ordered-case runtime qualification, 2026-11-07
+
+The narrow S010 single-relay profile is qualified with PEX-001 for real loopback WSS/AD/INAC and ordinary source/authority/audience actors. Missing relay and withdrawn retry policy hard-fail. This is no onion, collusion, physical-host or global-observer guarantee; S010 parent scope remains open.
+See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.
+
+The boundary review confirms one sticky admitted relay per destination, an operator-only privacy profile projection and no downgrade. It fixes an idle WSS service-budget defect but leaves PEX-002 concurrent-observer liveness open. See `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`.

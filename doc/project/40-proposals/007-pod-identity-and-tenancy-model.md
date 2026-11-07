@@ -370,6 +370,22 @@ Resolved 2026-07-04:
    `pod-user-id`, without host history. This preserves useful continuity while
    avoiding routine migration or hosting disclosure.
 
+## Multiple local participants: prerequisite tracker — 2026-11-06
+
+[P098](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+needs real local participants distinct from the operator, before its P/Q access
+evidence is possible. The [console identity memo](../20-memos/console-participant-identity-create-and-import.md)
+explicitly limits MVP to one participant and defers Scenario C. A Participant
+caller type alone does not implement that extension. The following bounded local
+workstream belongs here under identity/tenancy; it does not require full hosted-pod
+portability, introduce a new human identity class, or redefine the one-participant
+MVP retrospectively. P034's node/operator consent remains separate.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P007-LP-001 | Freeze multiple-local-participant ownership and activation | todo | Existing root/participant identity and S026 custody contracts | Define explicit create/import, local activation/deactivation and operator-role selection; uniqueness must no longer imply operator status. Bind each participant to their credential/session enrollment, Vault/key domains, nym and recovery roles, recipient identity and owner references. Freeze legacy sole-participant attribution, migration/rollback, quotas and deletion/retention without silently changing operator consent. Local activation is neither network `participant-bind.v1` nor a grant. Enumerate operator-selection call sites and assign explicit adapters/owners; this contract does not wait for P024's new verifier or P098. Freeze a versioned local-operator-role lookup and migration signal for the restricted local-primary adapter. Before the explicit-role model is activated, the legacy sole-participant rule is confined to the declared legacy model. After activation, only an explicit role binding identifies O; missing/corrupt role state never falls back to cardinality. Additional participants do not revoke O's role or existing allowed participant operations. | P007-LP-002; P024-009; P060-038 P095-013 |
+| P007-LP-002 | Deliver independently owned local identities and custody | todo | P007-LP-001 | Implement supported provisioning/import and explicit activation of O, P and Q, with separate credentials, Vaults, keys, leases/cache namespaces, nyms, recovery state and recipient ownership. Replace implicit first/sole-participant selection in shared identity/key/recovery paths with owner-explicit selection; domain route/action adapters remain P060/P057/P015 work. Qualify restart, lock/unlock, switching, revocation, restore and cross-participant refusal using actual owner-created identities, not manually inserted fixture IDs. Keep operator management on its existing admitted path; no new unguarded participant endpoint is needed to test the foundation. Preserve explicit operator lookup across adding P/Q, restart and rollback; existing operator adapters consume that lookup even while independent participant domain adapters remain unavailable. Qualify role-port continuity with owner fixtures, without making the P098 screens a prerequisite. Revoking/changing the role invalidates affected context; restore must not silently re-enable legacy cardinality inference. | P024-010; P060-039; P057-020; P098 independent-participant profile |
+
 ## Next Actions
 
 1. Keep `014` and `requirements-006` centered on the one-operator-per-node MVP while

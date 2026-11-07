@@ -1,7 +1,7 @@
 {:component/id :orbiplex/anon
  :component/title "Orbiplex Anon"
  :component/type :node-attached-module
- :component/status :planned
+ :component/status :partial
 
  :summary
  "Node-attached outbound privacy component for relay indirection, derived
@@ -20,7 +20,7 @@
     "Realize allowed profiles such as `relayed` and `onion-relayed`"
     "Refuse silent downgrade when the caller marked privacy posture as `hard-fail`"
     "Expose a clear success, degrade, or reject result back to Node egress"]
-   :status :todo}
+   :status :partial}
 
   {:cap/id :derived-nym-and-hop-policy-enforcement
    :title "Derived Nym and Hop Policy Enforcement"
@@ -59,4 +59,5 @@
 
  :notes
  ["Callers should depend on declared outbound privacy capability rather than the module name."
-  "Anon is reusable beyond Whisper traffic."]}
+  "Anon is reusable beyond Whisper traffic."
+  "PEX-001 qualifies only the bounded single-relay loopback AD profile; onion and general profile realization remain open. See node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md."]}

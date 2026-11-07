@@ -873,6 +873,24 @@ All rows are post-MVP `todo`.
 | P036-007 | Freeze the personal record contract | todo | P036-004; `memarium-blob.v1` | `memarium-personal-record.v1` with attachments, digests, the three content forms and size bounds. Capture validates before the write. A Story 014 record fixture passes, and diagnostics carry no path or content. |
 | P036-008 | Record fact–rumor link decisions | todo | P036-007 | `memarium-fact-rumor-link.v1`; decisions are idempotent and both projections show them. Pair and context suppression is proven over two epochs, and decisions expire with the record. |
 
+### Participant memory view tracker — 2026-11-06
+
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+requires owner-selected participant views, not broad Personal-space grants.
+The tasks below own the data/API work; P098 owns its UI integration. P036-012
+defines selection and provenance independently of the profile that authorizes
+it in P024-011. This ordering avoids a profile/view-definition dependency cycle.
+The existing P036-004–008 retention/record work remains required where consumed;
+these rows neither replace it nor change its status. P036-014 supplies the producer
+binding seam before the read-view runtime in P036-013. Private Whisper intake
+consumes that seam and its own custody contract; it need not wait for the explorer.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P036-012 | Freeze participant resource bindings and read views | todo | P024-009 | Freeze canonical binding/view/read API contracts over existing entry/fact references: trusted producer/domain owner, participant or explicit shared collection, stable view reference/revision and append-only correction/revocation. Define legacy attribution, owner-journal/private-intake exclusions, current classification/retention predicate, bounded materialization, links/counts and continuation invalidation. New membership must obey the pinned selection rule; widening/reassignment needs fresh admission. Personal-record content forms remain P036-007's contract. Membership assertions and withdrawals are append-only facts with producer, recorded time and referenced binding; absent binding excludes a record. No legacy attribution is required to start. Continuation uses an opaque/authenticated participant/view-revision/filter-digest token with a stable `(recorded_at, record_ref)` keyset position, bounded validity and typed refresh; record references include the kind where needed for uniqueness. Freeze insertion/high-water and tie semantics without claiming snapshot isolation from an offset. | P024-011; P036-013; P013-PA-001; P098-010b; P036-014; P024-013 |
+| P036-013 | Deliver participant memory views at the owner boundary | todo | P036-012; P036-014; P024-013; P036-004; P036-005; P036-006; P036-007 | Consume owner binding facts and provisioned view grants; implement filtered list/detail/attachment/count reads and bounded content/continuation through Memarium host/runtime/sidecar. Intersect current membership, classification, quarantine, forget and retention before selection or metadata disclosure. Prove P/Q isolation, explicit legacy migration/exclusion, policy changes between pages, no resurrection after rebuild and no raw/unscoped fallback. Generic entry/fact reads may be an earlier partial output; completion includes personal records and retention. A participant/view/time sidecar index accelerates selection; the host remains the decision boundary and checks current policy. Rebuild replays binding/withdrawal facts and cannot create membership. | P047-001; P098-009 |
+| P036-014 | Deliver trusted producer bindings and withdrawals | todo | P036-012; P024-010 | Implement the host-owned append-only binding/withdrawal seam independently of participant explorer reads. Authenticate the producer and admitted participant under existing owner write authority, validate record/collection scope and replay idempotency, preserve provenance, and refuse cross-owner attachment or legacy inference. Rebuild derives membership only from accepted facts; writes cannot grant reads. Qualify P/Q and a private-intake producer with owner fixtures, including withdrawal and restart. Domain owners retain their own custody/retention duties. No dependency on the read-view grant, personal-record explorer or P098. | P013-PA-002; P024-013; P036-013 |
+
 ## Next Actions
 
 1. Keep deployment telemetry on read-sidecar p95 and per-space row counts;

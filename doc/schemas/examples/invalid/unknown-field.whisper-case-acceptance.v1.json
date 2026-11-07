@@ -1,0 +1,19 @@
+{
+  "schema": "whisper-case-acceptance.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "case/authority": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "case/previous": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "operation": "register",
+  "accepted/at": "2026-11-04T12:00:00Z",
+  "inputs/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "head": {
+    "case/revision": 0,
+    "event/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "state": "active",
+    "current-succession": null
+  },
+  "anchor/basis": "none-observed-fresh",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "unexpected": true
+}

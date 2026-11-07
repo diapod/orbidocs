@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-status:v1",
+  "title": "whisper-case-status.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "case/authority",
+    "issued/at",
+    "valid/until",
+    "head",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-status.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "case/authority": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case/revision",
+        "event/digest",
+        "state",
+        "current-succession"
+      ],
+      "properties": {
+        "case/revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "event/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "maxLength": 50
+        },
+        "state": {
+          "enum": [
+            "active",
+            "closed",
+            "conflicted"
+          ]
+        },
+        "current-succession": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "event/digest",
+            "successor/nym"
+          ],
+          "properties": {
+            "event/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "maxLength": 50
+            },
+            "successor/nym": {
+              "type": "string",
+              "pattern": "^(node|nym|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "maxLength": 128
+            }
+          }
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "maxLength": 86
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 4096
+}

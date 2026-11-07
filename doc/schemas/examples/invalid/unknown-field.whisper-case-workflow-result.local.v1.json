@@ -1,0 +1,6 @@
+{
+  "schema": "whisper-case-workflow-result.local.v1",
+  "reason": "owner-dependency-unavailable",
+  "retry": "dependency-recovery",
+  "source/peer": "synthetic-forbidden-route-canary"
+}

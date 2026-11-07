@@ -602,3 +602,127 @@ gates on clean Node `57c40263` / Orbidocs `ce27aa02`: 278 and 376 scoped Rust te
 two cold OS-denied consumers for custody, and equivalent extracted qualification.
 See `node:docs/audits/ACCEPTANCE-SUCCESSION-CUSTODY-REVIEW-2026-11-02.md`.
 This does not qualify the deferred successor caller or accepted/current case history.
+
+
+### Adopted source workflow boundary (2026-11-05)
+
+The daemon's explicit finite source role now leases the existing S026 operational
+root per call for separately scoped encrypted case-workflow metadata and short
+requester keys. Its host-owned operator API enforces session, active operator,
+Schema Gate and current disclosure/private-route checks; AD remains the sole
+transport retry owner. It accepts already signed native controls and persists
+exact prepared packets and signature-checked results. Component tests use actual
+Vault/P035/P037 with full/detached anchors and explicit authority/relay-ingress
+fixtures. Complete case-key/successor signing composition, private source audience
+delivery and independent cold/transport gates remain pending. This does
+not add a recovery slot for case continuity keys or widen S026 hard-MVP closure.
+
+The explicit native case recipient now supports a protected owned-nym audience.
+Its configuration locates an existing custody profile/operation/principal, while
+the current active local Vault independently proves key possession. The narrow
+port opens only bounded PEX presentations, with framing before Vault access,
+current key checks around AEAD/parsing and owned-clock checks after I/O. It reuses
+the existing persisted key-use watermark and Ed25519-to-X25519 mechanism, without
+exporting keys, accepting arbitrary DH requests or adding recovery slots. Read
+possession does not require a current publication certificate and does not grant
+case permission. Actual Vault and native recipient-owner component probes retain
+explicit synthetic-certificate/delivered-frame limits; source audience workflows,
+host signing composition and cold/transport qualification remain separate.
+
+
+The source workflow's one-way audience owner now keeps exact prepared PEX packets
+and encrypted accepted/status proof holds in that same finite Store, without
+requester keys or return grants. It binds a verified exact presentation and reader
+policy before sealing, and requires a current finite material-disclosure lease
+before preparation/handoff. Receipt of transport custody remains historical data,
+not recipient success or case permission. Full/detached, carried/referenced and
+node/nym component composition uses the actual recipient decision; native
+audience API and the real material-owner egress lease are now adopted as described
+below, while independent transport/cold gates remain pending. This adds no Vault recovery slot or hard-MVP claim.
+
+
+The native source's optional audience declaration binds independent trust and an
+explicit node/nym end recipient to a one-way relay circuit. A transport-node
+identity never stands in for a nym audience key. Finite canonical targets and
+unique recipient/family choices are configuration prerequisites, not source API,
+disclosure or current-case authority. The S026 workflow and Memarium disclosure
+owner retain their separate decisions. The native operator API now adopts the
+one-way source owner through audience-begin/prepare/handoff/read and the current
+real Memarium disclosure lease. Exact nested presentation bytes and reader policy
+freeze before sealing; saved replay avoids new resolution or resealing. Live
+classification withdrawal and original material horizons can refuse new handoff
+without hiding historical local custody facts. Actual native component coverage
+uses Vault/Memarium/P035/P037/AD enqueue and a durable receiver, with explicit
+authority/relay-ingress and receiver-key fixtures. Full host signing, native
+private transport and OS-isolated acceptance remain open. This changes no
+recovery policy, hard-MVP scope or tracker closure.
+
+
+The native source operator API now adopts S026's existing owned-nym status-read
+port. A closed custody selector locates an existing profile, certification and
+principal; no secret or request clock crosses the route. The workflow freezes
+its unsigned intent and reader/audience hint before the Vault-owned signature.
+The authority still proves membership independently. Exact committed replay needs
+no new nym key lease; this is separate from publication eligibility. Actual Vault
+mint, native signing and AD enqueue have component coverage with synthetic
+council discovery. Private status-response transport and registration/successor
+signing composition remain separate unfinished LLR gates.
+
+
+The explicit source role may now also adopt a separately configured recipient.
+Requester responses stay with the source workflow; audience presentations go to
+CaseKnowledge under independent trust, key possession and effect checks. The
+existing S026 nym lease is installed in both adapters without exporting a key or
+combining their stores. Owned-node and owned-nym recipients are explicit choices;
+configuration is not proof of possession. Combined route/classification/custody
+limits remain bounded. Actual dual-store startup and protected nym receipt through
+the paired sink have component coverage, with explicit authority/ingress fixtures.
+Native private transport, full signing composition and cold gates remain open;
+S026 recovery and hard-MVP claims are unchanged.
+
+
+### Existing-nym use lifecycle (2026-11-06)
+
+Using an already owned nym is distinct from progressing its finite certificate
+issuance workflow. Audience possession/opening, successor PoP, status-read proofs
+and ordinary authoring must retain an observed-time floor without spending an
+issuance checkpoint for every use. The protected host shares the custody-fence
+clock law, preserves the legacy time floor and checks the actual active key and
+current participant selection. The separate public fence is not another secret
+store, an issuance fact, or current permission. Losing an established fence
+refuses use rather than resetting time; whole-provider restoration remains beyond
+the local rollback guarantee.
+
+The same-S026 audience path now has a whole native operator component vector for
+full/detached and carried/referenced presentation, real owned mint/recovery,
+Memarium capture and local begin/prepare/handoff. Its one durable reception
+survives restart without an extra AD delivery. Initial P035/authority/certificate
+material is explicitly fixture-based. Independent ordinary-process cold/private
+qualification, external end acknowledgement and the remaining LLR gates stay
+open; no task or hard-MVP status changes here.
+
+
+Native source workflow withdrawal now leaves its previously adopted physical
+SQLite owner in the host's bounded retention catalog. The same mechanism serves
+authority and receiver stores, using original exact holds/horizons and external
+fences without a Vault key, signer, transport or a second domain fold. Unknown
+history remains protected; optional locator failure does not turn into fresh
+state or block unrelated recovery. Physical empty retirement keeps the outside
+clock/revision fence. See `node:whisper-case-service/README.md` for implementation
+bounds and reachability limits. This is retention component progress, not an
+independent private-delivery/cold qualification or a hard-MVP status change.
+
+
+### Ordered-case runtime qualification, 2026-11-07
+
+The actual S026 source workflow now qualifies B/C owned-nym signing and local-coheld reception through the same verifier as external relayed PEX. Local delivery requires current same-participant key possession; another local participant refuses without fallback. Independent key-use time fencing does not consume issuance revisions. Scoped source/audience retention includes inactive-owner maintenance. P015-011 separately tracks the pre-existing recoverably sealed authoring replay journal; this gate claims no global source-payload erasure.
+See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.
+
+The subsequent review in
+`node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md` qualified the operator's continuity-key closure through S026, private PEX and the
+same durable authority. Closure does not require the current successor's signature
+or predecessor CAS; exact saved requests replay without another signature. It
+preserves the historical successor while preventing further case continuation.
+Closing the case before erasing its local key is the recommended order: local
+key erasure cannot disable a copied key. Remaining ADC controls belong to
+P013-LLR-011, and observer-load qualification remains P013-PEX-002.
