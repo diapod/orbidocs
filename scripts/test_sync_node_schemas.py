@@ -60,7 +60,7 @@ class ResolveNodeRootTests(unittest.TestCase):
     def test_ordered_case_and_pex_examples_have_real_validator_dispatch(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
-        for stem in ('whisper-case-command.v1', 'artifact-delivery-relay-header.v1', 'whisper-case-registration.v1', 'whisper-case-acceptance.v1', 'whisper-case-status.v1', 'whisper-case-succession-presentation.v1', 'whisper-private-exchange-header.v1'):
+        for stem in ('whisper-case-command.v1', 'artifact-delivery-relay-header.v1', 'whisper-case-registration.v1', 'whisper-case-acceptance.v1', 'whisper-case-status.v1', 'whisper-case-succession-presentation.v1', 'whisper-private-exchange-header.v2'):
             for prefix in ("", "unknown-field."):
                 example = prefix + stem + ".json"
                 completed = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n',str(script),"--syntax-only",example],text=True,capture_output=True,check=False)
@@ -84,7 +84,7 @@ class ResolveNodeRootTests(unittest.TestCase):
             "whisper-case-acceptance.v1.schema.json",
             "whisper-case-status.v1.schema.json",
             "whisper-case-succession-presentation.v1.schema.json",
-            "whisper-private-exchange-header.v1.schema.json",
+            "whisper-private-exchange-header.v2.schema.json",
             "whisper-signal-draft.local.v1.schema.json",
             "nym-authorship-preview.local.v1.schema.json",
             "nym-authorship-sign.local.v1.schema.json",

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:whisper-private-exchange-header:v2",
   "title": "whisper-private-exchange-header.v2",
-  "description": "Authenticated binary PEX header for explicit confirmed audience delivery and its private domain receipt. A scoped random response key is not a source-node route; legacy one-way v1 is unchanged.",
+  "description": "Authenticated binary PEX header shared by every enabled family. Response-key location is family-defined, never inferred from a peer or an optional field.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -23,6 +23,13 @@
     "family": {
       "type": "string",
       "enum": [
+        "case-registration",
+        "case-request",
+        "case-result",
+        "case-status-request",
+        "case-status-response",
+        "case-presentation-carried",
+        "case-presentation-referenced",
         "case-presentation-carried-confirmed",
         "case-presentation-referenced-confirmed",
         "case-reception"

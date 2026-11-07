@@ -627,6 +627,49 @@
               }
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "continuity/key-digest",
+            "closure/reason"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-closure"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "continuity/key-digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "maxLength": 50
+            },
+            "closure/reason": {
+              "enum": [
+                "author-ended",
+                "key-compromise-suspected"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "routes"
+            }
+          }
         }
       ]
     }

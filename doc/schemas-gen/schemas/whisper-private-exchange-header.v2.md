@@ -2,14 +2,14 @@
 
 Source schema: [`doc/schemas/whisper-private-exchange-header.v2.schema.json`](../../schemas/whisper-private-exchange-header.v2.schema.json)
 
-Authenticated binary PEX header for explicit confirmed audience delivery and its private domain receipt. A scoped random response key is not a source-node route; legacy one-way v1 is unchanged.
+Authenticated binary PEX header shared by every enabled family. Response-key location is family-defined, never inferred from a peer or an optional field.
 
 ## Fields
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `whisper-private-exchange-header.v2` |  |
-| [`family`](#field-family) | `yes` | enum: `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception` |  |
+| [`family`](#field-family) | `yes` | enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception` |  |
 | [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
 | [`recipient/key-digest`](#field-recipient-key-digest) | `yes` | string |  |
 | [`sender/ephemeral-key`](#field-sender-ephemeral-key) | `yes` | string |  |
@@ -60,7 +60,7 @@ Then:
 ## `family`
 
 - Required: `yes`
-- Shape: enum: `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`
+- Shape: enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`
 
 <a id="field-exchange-handle"></a>
 ## `exchange/handle`

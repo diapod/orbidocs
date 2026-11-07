@@ -516,9 +516,9 @@ constructor. This does not close any tracker or qualify the full work budget.
 The source-adoption convergence review shared the actual zero-queue executor and
 closed delivered-frame preflight across authority/source adapters. Stores, trust,
 root leases and domain admission remain with their distinct owners. Both consumers
-are recorded in the Node re-use index. PEX sealing extraction remains deferred
-until a second real ADC-005 adapter exists; this source installation is another
-consumer of the existing case adapter, not that second semantic family.
+are recorded in the Node re-use index. The prepared-output persistence law remains a candidate for extraction when a real
+ADC-005 adapter exists. Cryptographic sealing already has two consumers (P015 and
+PEX); their separate byte contracts and shared primitives are assessed below.
 
 The one-way AD regression covers memory/SQLite/reopen, response-reservation
 absence, mode changes at retry and finite expiry. The shared three-process
@@ -580,8 +580,8 @@ explicit delivered-frame fixture. Full source audience/control composition,
 private transport, cold isolation and retained A–F remain open. This checkpoint
 closes no tracker and does not broaden hard-MVP or P015-005 claims.
 
-The re-use review retained separate domain owners and deferred sealing extraction
-until the already declared second real ADC-005 adapter.
+The re-use review retained separate domain owners. The ADC-005 checkpoint concerns
+prepared-output transaction mechanics, not the already shared crypto primitives.
 
 Memarium is the sole protected-record store. S026 workflow owns exact prepared
 requests; LLR-008 owns exact accepted results and sealed replies; CaseKnowledge owns
@@ -973,3 +973,60 @@ P015-009 source-journal retention dependency remain open. No earlier capsule cha
 The runtime source pins are Node `a23af72f14205efcbf6cb0598b3ff20535bc3084` and
 Orbidocs `81a651666067c859e7635bfcb1f1f44b29753d4f`; later closeout documentation
 and diagnostic-reader commits do not rewrite those measured sources.
+
+
+### Author closure and review corrections (2026-11-07)
+
+Author closure is a terminal continuity-key operation, independent of the current
+successor and its certificate. `whisper-case-closure.v1` carries the anchor,
+request UUID, bounded request interval and the closed reason set `author-ended` /
+`key-compromise-suspected`. No predecessor CAS or successor signature applies.
+The authority retains the last succession in its closed head. A copied continuity
+key can stop the case, but cannot undo a closure. Erasing a local key is not closing
+the case: close first, then erase, because other copies may still exist.
+
+The authority reserves terminal storage at registration. Closure bypasses ordinary
+command/rate budgets; terminal status still fits after closure. Failed signing or
+reply preparation cannot consume the reserve: this command keeps its unsigned
+candidate only in the sole writer's memory until the final transaction. Ordinary
+commands keep their durable unsigned preparation. Nothing signed, including its
+sealed reply, is exposed before commit. An uncertain commit invokes the same store
+fencing and reconciliation as other commands. A fresh retry before any commit may
+use a new decision-time sample; after commit exact replay never signs again.
+
+The source operator uses `begin` with family `case-request`, `prepare-closure`,
+then `handoff`. The source's separately configured workflow admission and AD
+capacity remain dependencies; the authority's terminal reserve is not an unlimited
+source/transport reservation. Closure prepares no anchor evidence and does not
+require positive `continue-case` knowledge or a Memarium disclosure grant. Actual
+S026 key possession, original anchor/horizon, current operator and privacy policy
+remain mandatory. A terminal observation takes precedence over an incomplete
+positive presentation, including after restart.
+
+All active PEX families now use the authenticated v2 header. The former v1 active
+schema was removed under the pre-release migration rule; frozen source manifests
+and retained capsules still bind their original bytes. The response-key location
+is explicit family data (body, authenticated header, or absent); it is not a second
+framing protocol. No P015 exchange codec or limit changed.
+
+P015 `seal_exchange` and PEX sealing both reuse the crypto crate's X25519,
+HKDF-SHA256 and XChaCha20-Poly1305 operations. Their domain-separated KDF info,
+AAD/header and framing remain separate: P015's frozen bounded JSON/base64 envelope
+cannot be widened into PEX's binary frame and family budgets. Sharing those byte
+contracts would change protocol semantics, so no generic envelope abstraction is
+introduced. The distinct ADC-005 follow-up is transaction-borrowing prepared-output
+persistence when its second real domain adapter exists.
+
+Only `single-relay-hard-fail` is enabled. Source adoption requires one admitted
+relay per destination; changing it requires explicit operator adoption. The
+operator-only workflow `routes` projection reports each destination, relay and
+privacy profile. The relay learns both neighbors, timing and sizes; collusion with
+the destination can link the author's node to the authority. Destination route
+privacy is not anonymity against that relay or a global observer. No direct or
+onion fallback occurs. P013-PEX-002 separately tracks the unexplained 40 ms polling
+liveness failure; passing at 200 ms is not its root-cause diagnosis.
+
+P013-LLR-011 retains the still-disabled durable ADC control requirements in the
+same owner. P015-005 now explicitly depends on P015-009. Historical qualification
+remains attached to its original enabled scope; the review's closure/native-header
+changes require a new clean-source run before claiming expanded qualification.

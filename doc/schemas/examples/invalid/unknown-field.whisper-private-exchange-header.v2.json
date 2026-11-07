@@ -1,5 +1,5 @@
 {
-  "schema": "whisper-private-exchange-header.v1",
+  "schema": "whisper-private-exchange-header.v2",
   "family": "case-presentation-referenced",
   "exchange/handle": "exchange:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "recipient/key-digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
