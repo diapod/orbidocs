@@ -162,8 +162,10 @@ reputation, additional threshold contribution or human-identity proof.
 
 ### Initial wire boundary
 
-The canonical schemas are whisper-pex-key-offer.v1, whisper-pex-sealed.v1 and
-whisper-case-authority-policy.v1. Their examples are shape fixtures, not valid
+The canonical additions are whisper-pex-key-offer.v1 and
+whisper-case-authority-policy.v1. PEX reuses the existing authenticated binary
+whisper-private-exchange-header.v2. The unused JSON whisper-pex-sealed.v1 draft
+was superseded before any runtime consumer; its original Git bytes remain historical. Their examples are shape fixtures, not valid
 cryptographic exchange or usable recipient keys. Runtime verifies canonical
 base64url, key digest, X25519 non-low-order keys, independent admission, signature,
 exact offer/envelope binding and time. Key offers live at most 900 seconds.
@@ -176,7 +178,7 @@ reply delivery requires its own admitted recipient offer. PEX family names are
 closed. Runtime must reject role/family mismatch, same-key unsafe constructions
 and use outside the named exchange. No body or private case correlation is an
 outer field. Ciphertext string validation does not establish the 65536-byte
-complete serialized-envelope limit; runtime checks the complete bytes before
+complete framed-artifact limit; runtime checks the complete bytes before
 AD handover and before accepting/decrypting.
 
 The authority policy binds a federation and exact source profile, not one private

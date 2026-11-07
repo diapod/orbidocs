@@ -21,7 +21,7 @@ class ResolveNodeRootTests(unittest.TestCase):
     def test_private_case_contracts_have_mirrors_and_explicit_dispatch(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
-        for name in ("whisper-pex-key-offer.v1", "whisper-pex-sealed.v1",
+        for name in ("whisper-pex-key-offer.v1",
                      "whisper-case-authority-policy.v1"):
             self.assertIn(name + ".schema.json", SYNC.SCHEMA_WHITELIST)
             self.assertIn("shape." + name + ".json", SYNC.EXAMPLE_WHITELIST)
