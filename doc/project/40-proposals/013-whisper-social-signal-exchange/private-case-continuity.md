@@ -322,5 +322,16 @@ source eligibility or certificate issuance. The closed operator operation
 command-offer operation remains distinct. Both direct consumers share bounded
 AD/INAC framing controls. Their authority/offer maintenance runs through S020;
 disabled offer owners use the existing bounded retention catalog. Native seam
-conformance is not the real two-node Gate A; direct source/reply and both runtime
-gates remain open.
+conformance is not the real two-node Gate A. Native direct source/response adapters
+are installed; authority inbox processing and both runtime gates remain open.
+
+### Original pending-command lease
+
+The domain inbox preserves the exact authenticated PEX ceiling as part of its
+immutable input binding, independently of the signed offer and inner control.
+Its effective deadline is their minimum. Retry or restart cannot extend that
+ceiling, and a shorter replacement is also changed input. Later owner processing
+and response preparation inherit the original ceiling; delivery custody is not
+permission to create another exchange lease. Missing historical lease material
+refuses rather than being reconstructed from a longer date. This contract is not
+an additional runtime-qualification claim.
