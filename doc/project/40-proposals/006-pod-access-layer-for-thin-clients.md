@@ -154,6 +154,12 @@ publishing require explicit live confirmation from that device. The device does 
 hold the full hosted-user identity or recovery material; those remain under pod-host
 policy and export/recovery controls.
 
+[P099: Companion App and Device Bridge](099-companion-app-and-device-bridge.md) applies
+these thin-client boundaries to a proposed read-only HealthKit edge paired with
+the user's own Node. It does not require hosted pod tenancy. Local OS permission,
+export consent and Node admission remain distinct; future mobile functions reuse
+pairing/delivery without inheriting health-data access.
+
 ### 4. Identity and tenancy model
 
 At minimum, a `pod`-hosted user needs:

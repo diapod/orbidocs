@@ -29,6 +29,12 @@ The distinction is between improving the reference implementation and building
 independent software that interoperates with it. It is not a distinction between
 commercial and noncommercial users, nor between large and small crates.
 
+[P099: Companion App and Device Bridge](099-companion-app-and-device-bridge.md) records
+MIT/Apache upstream reuse candidates for a HealthKit edge. P099-001 qualifies the
+selected source/dependency closure; P099-007 separately gates the complete app's
+license and Apple distribution. Neither the upstream grants nor this reference
+create a permissive exception for project-owned product code.
+
 No package becomes Apache-licensed merely by appearing in the candidate list.
 Every extraction needs a closed dependency and bundled-asset inventory, rights
 review, explicit approval, and a separately reviewed licensing change.
