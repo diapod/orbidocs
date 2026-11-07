@@ -529,7 +529,7 @@ A key's ability to sign is not permission to publish another kind.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-005 | Issue and verify explicit notice and manifest scopes | todo | P015-001 | Freeze and version a closed contextual profile with authorized **tuples** of `(record/kind, schema, topic, disclosure/scope)`, never independent lists granting their Cartesian product. Issuance requests, issuer policy, certificates and receiving verifiers preserve the same tuple. A separate domain-bound auxiliary use permits `whisper-embargo-manifest.v1`, checked against its declared publication context, key and validity at admission; it grants no Agora publication by itself. Reuse P015/P081 signature and scope verifiers. Negative fixtures substitute kind/schema/topic/scope, present a manifest signature as publication, and use an ordinary signal-only certificate for notice or manifest. Positive fixtures admit an explicitly scoped notice and manifest while keeping the predecessor narrow profile unchanged. ADC consumes this grant; this task does not depend on ADC runtime. Use one typed tuple matcher across request, issuer and receiver, with separate auxiliary-use admission; preserve the old profile's golden/refusal vectors. |
+| P015-005 | Issue and verify explicit notice and manifest scopes | todo | P015-001; P015-011 | Freeze and version a closed contextual profile with authorized **tuples** of `(record/kind, schema, topic, disclosure/scope)`, never independent lists granting their Cartesian product. Issuance requests, issuer policy, certificates and receiving verifiers preserve the same tuple. A separate domain-bound auxiliary use permits `whisper-embargo-manifest.v1`, checked against its declared publication context, key and validity at admission; it grants no Agora publication by itself. Reuse P015/P081 signature and scope verifiers. Negative fixtures substitute kind/schema/topic/scope, present a manifest signature as publication, and use an ordinary signal-only certificate for notice or manifest. Positive fixtures admit an explicitly scoped notice and manifest while keeping the predecessor narrow profile unchanged. ADC consumes this grant; this task does not depend on ADC runtime. Use one typed tuple matcher across request, issuer and receiver, with separate auxiliary-use admission; preserve the old profile's golden/refusal vectors. |
 
 P015-005's gate also freezes bounded certificate/profile evidence for the notice
 and manifest uses under the [P032 contract](032-key-delegation-passports.md#shared-verification-operations).
@@ -807,6 +807,20 @@ Resolved 2026-07-04:
    granted. Absence of the field means no leniency period.
 3. Messaging, contact, and Corpus application families should inherit the same
    nym-certificate embedding pattern where artifacts are nym-authored.
+
+### Participant applicant and authorship tracker — 2026-11-06
+
+The operator-qualified Gates A/B and P015-001–003/006 remain their recorded evidence.
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+requires a separate participant caller path. P015 and S026 own actor selection,
+Vault custody and retained cryptographic operations; P013 owns intake and the
+reviewed candidate. P013-PA-001 supplies that input contract before P015-009 freezes
+its consumption. P013 runtime then consumes P015-010, never the other way round.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P015-009 | Freeze participant certification and authorship operations | todo | P024-009; P013-PA-001; P015-001 | Freeze verified actor/context selection, participant-specific Vault/key/certificate custody, operation/idempotency/readback namespaces and exact candidate-to-v2-review binding. Preserve current status, first-emission, audience/consent and recovery rules; candidate/context changes invalidate review. Record canonical operation/schema/registry mappings and the independent operator adapter. No arbitrary client clock/certificate, raw signer or local-primary substitution. | P015-010; P098-010c |
+| P015-010 | Deliver participant-bound applicant and authorship paths | todo | P015-009; P024-010; P015-002; P015-003; P015-006; P013-LLR-006 | Implement actor-bound certification, Vault/review/signing, retained cryptographic result and authorized operation readback. Preserve the existing authorized publication handoff; P013-PA-003 owns integrated contribution orchestration/result projection, not a second cryptographic operation store. Participant methods take verifier-created `AdmittedParticipant`; implicit operator selection is confined to the explicit operator adapter. Prove O/P/Q separation, locked/wrong key, stale status, changed review, cross-participant operation/certificate references and lost-reply recovery without repeating effects. Preserve independent certification/signing/transport/disclosure states and operator regressions. Use typed candidate fixtures; do not depend on P013's integrated intake/UI runtime. ADC/LLR succession stays under its own gates. | P013-PA-003; P098-006 |
 
 ## Next Actions
 
@@ -1136,7 +1150,15 @@ The two signatures are unpadded base64url strings in the closed object roles
 `predecessor` and `successor`. Both cover `orbiplex.nym-succession.v2`, NUL, then
 JCS with only `signatures` removed. Audience is absent for public line scope;
 case audience has 1..16 canonical principals, bytewise sorted and unique, and
-includes the committed case authority. Signed input is never silently sorted.
+includes the committed case authority. An audience principal may be a `nym:did:key`
+reader: this proves possession for audience reads, not status-authority or issuer
+admission. Authority and issuer kind checks remain separate and exclude nym.
+Signed input is never silently sorted.
+The pre-release schema expansion explicitly admits nym audience members, matching
+registration and status-read contracts. Earlier validators may reject that new
+form; historical schema pins and signed artifacts are not rewritten. The maximum
+canonical size is unchanged because nym principals are shorter than the existing
+longest allowed kind.
 Succession IDs are canonical random UUIDv4. Canonical UTC, byte/depth limits and
 closed field combinations precede signature work. The schema-derived canonical
 upper bound is 2026 bytes, under the independent 8192-byte ingress ceiling.
@@ -1223,3 +1245,31 @@ archive SHA-256 `3e53184bda3608b00c90aa9d81770ae113925563528c625a0fc4c8b6bb0a4c8
 inputs, times, limitations and the preserved unqualified first pure attempt.
 The original capsules are unchanged; current authority, LLR-007–010, P015-005,
 transport and release readiness are not implied.
+
+
+## Protected authoring prepared-output retention follow-up, 2026-11-07
+
+The S026 certified-authoring operation journal predates the ordered-case workflow.
+`node:daemon/src/identity_host/nym_authorship.rs` seals the frozen preview and signed
+output under the recoverable operational Vault key, with no finite exchange expiry.
+Its completion marker intentionally supports exact readback after case-key erasure.
+This is an implementation gap against the accepted sole-custody/finite-retention
+design, not a new normative store or a cryptographic-erasure guarantee.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-011 | Bound protected authoring prepared-output retention | todo | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
+
+The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.
+No new retention implementation or retroactive cleanup is authorized by this note.
+
+### Tracker identity reconciliation (2026-11-07)
+
+Integration exposed two independently allocated `P015-009` identifiers. The
+participant-certification contract keeps `P015-009`; participant delivery keeps
+`P015-010`. Protected authoring prepared-output retention is now `P015-011`, and
+P015-005 depends on that retention gate. This is an identifier correction, not a
+change to either completion gate or production readiness. Historical case-continuity
+audits and capsules that name P015-009 for authoring-journal retention retain their
+exact bytes; that historical use resolves to P015-011. References from participant
+UI and P013-PA-001 continue to mean the distinct P015-009 contract.

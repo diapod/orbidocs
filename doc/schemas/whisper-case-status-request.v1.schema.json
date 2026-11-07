@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-status-request:v1",
+  "title": "whisper-case-status-request.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "case/authority",
+    "request/id",
+    "issued/at",
+    "not-after",
+    "signature",
+    "reader",
+    "response/key-digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-status-request.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "case/authority": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "request/id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "maxLength": 86
+    },
+    "reader": {
+      "type": "string",
+      "pattern": "^(node|nym|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "response/key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 716
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-reception:v1",
+  "title": "whisper-case-reception.v1",
+  "description": "Recipient-signed exact-byte domain reception. Neither transport custody nor a grant of continue-case permission; no owner scope or source node is disclosed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "request/family",
+    "exchange/handle",
+    "recipient",
+    "presentation/digest",
+    "response/key-digest",
+    "received/at",
+    "handoff/not-after",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-reception.v1"
+    },
+    "request/family": {
+      "type": "string",
+      "enum": [
+        "case-presentation-carried-confirmed",
+        "case-presentation-referenced-confirmed"
+      ]
+    },
+    "exchange/handle": {
+      "type": "string",
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "maxLength": 52
+    },
+    "recipient": {
+      "type": "string",
+      "pattern": "^(node|nym):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "presentation/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "response/key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "received/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "handoff/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "maxLength": 86
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 663
+}

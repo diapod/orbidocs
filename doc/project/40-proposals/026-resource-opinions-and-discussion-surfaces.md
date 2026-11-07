@@ -1430,6 +1430,21 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-012c | Extend dependent Agent context and recipients | in-progress | 012b; S028; P036; P073; P066 | [Staged accepted design](026-assessment-dependent-context.md): owned streams precede unit retention/dispatch, provenance, continuation and same-viewer operator delivery. Stage 01 is done for the frozen local storage/cutover profile. Stages 02/03 are done for the [qualified local joint profile](026-assessment-dependent-context.md#p026-012c-0203-review-qualification-2026-11-01): whole-owner retention, durable S029, capsules/checkpoints and S020, with six ordinary cases and separate explicit-time component evidence after the R-01–R-17 review. Context provenance and later stages remain open. Memory/forks are separately qualified; implementation evidence is not implied by acceptance of the plan. |
 | P026-013 | Future resource perspectives client | deferred | P026-001–003; viewer admission/exposure for the selected surface; P013-AE-003 for rumor integration | Freeze the [profile](#resource-perspectives-client), including any missing role/action relation contract; reuse subject indexes, resource/opinion/comment relations and viewer-safe APIs. Offline fixtures and scoped browser evidence preserve person/role/action boundaries, competing perspectives, corrections, lineage and explicit incompleteness without a universal verdict or withheld-data leaks. No new MVP/alpha prerequisite. |
 
+### Participant viewer tracker — 2026-11-06
+
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+needs the actual participant's projection, not the operator/module viewer from
+P026-012a. These tasks reuse the accepted local contracts of P026-005 and the
+P026-006 owner. They deliver a named participant slice of P026-007/008, without
+waiting for sealed rounds or implying completion of the wider consumer matrix.
+Their evidence feeds those broader tasks; that reporting relationship is not a
+reverse dependency on P026-007/008 completion or on P098.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P026-014 | Freeze the participant viewer and continuation contract | todo | P024-009 | Bind the admitted participant to viewer, audience, owner projection and bounded continuation. Preserve admit/expose separation, own/protective lanes, embargo/private-correlation and absence of peer-derived counts/order/cursors/ETags while withheld. Freeze canonical read/continuation and refusal shapes, exact route/registry mapping and no raw fallback; no new round contract. Viewer binding alone records no encounter or publication; preserve owner-defined encounter transitions. | P026-015; P098-010c |
+| P026-015 | Deliver participant-safe Agora read projections | todo | P026-014; P024-010; P026-006 | Implement bounded participant list/detail/continuation and assessment projections. Prove P/Q viewer isolation, context/policy change between pages, unavailable exposure, hidden-data perturbations across order/count/links and operator-viewer regressions. Retain owner/API evidence independently of P098 rendering. The real Whisper consumer and curation/attention integration are exercised by P013-PA-003 and P098; feed their results into P013-AE-001/P026-008 without making this owner task wait for those consumers. | P013-PA-003; P098-006 |
+
 ## Open Questions
 
 No unresolved questions remain for the original opinion slice. The decisions

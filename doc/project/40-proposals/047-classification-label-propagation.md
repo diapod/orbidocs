@@ -636,6 +636,18 @@ without breaking existing senders.
   with an explicit "where labels live" section covering read / write / index
   / cache / observe paths (see §Implementation Sketch step 8).
 
+## Participant read-surface tracker — 2026-11-06
+
+[P098's participant memory views](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+consume the existing classification law. P036-012 owns the view contract and
+P036-013 its implementation; this task qualifies the new read surface under P047,
+without creating another classification engine or changing declassification rights.
+P098 is a downstream consumer, not a prerequisite.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P047-001 | Qualify participant-view disclosure policy | todo | P036-013 | Exercise list/detail/count/snippet/attachment/linked-target paths with distinct participants and current quarantine, classification, retention and revocation. Prove the same predicate before pagination/order and after sidecar rebuild; a context-free read cannot consume a surface-bound exception. A read profile grants no Sealer/declassification authority; unavailable policy/materialization fails closed. Retain host-level evidence separately from browser/native privacy evidence. | P098-009 |
+
 ## Future Work
 
 - Per-field classification (v2).

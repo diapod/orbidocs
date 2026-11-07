@@ -40,6 +40,12 @@ the solution layer focused on ownership and architecture while preserving a
 single operational source for developers changing concrete templates, handlers,
 and CSS/JS helpers.
 
+Proposed participant experience:
+[P098: Alpha UI](../../40-proposals/098-alpha-ui.md) defines a default home,
+visual baseline, direct and guided interactions, participant entry-point catalog
+and operator-configurable composition. It builds on existing owners and does not
+change implementation or acceptance status in this solution.
+
 Related bounded implementation checkpoint (2026-10-18):
 [P095: Node UI Interaction Layer](../../40-proposals/095-node-ui-interaction-layer.md)
 provides shared panel, focus and bounded return mechanics for the first

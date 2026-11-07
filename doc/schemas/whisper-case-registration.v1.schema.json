@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-registration:v1",
+  "title": "whisper-case-registration.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "case/authority",
+    "case/not-after",
+    "authorization/public-key",
+    "request/id",
+    "issued/at",
+    "not-after",
+    "audience",
+    "inputs/digest",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-registration.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "case/authority": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "case/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "authorization/public-key": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "request/id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "audience": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(node|nym|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+        "maxLength": 128
+      }
+    },
+    "inputs/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50,
+      "description": "Immutable anchor identity from exact signed P035 receipt/author bindings; excludes evaluator trust, provenance and later completeness observations. The authority retains its local evaluation digest separately."
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "maxLength": 86
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 4096
+}

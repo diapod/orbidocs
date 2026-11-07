@@ -1056,6 +1056,20 @@ never gain local-control authority through string equality.
 | --- | --- | --- | --- |
 | P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | done (local synchronous C/H) | The complete synchronous admission/cancellation contract is measured: 16 supervised daemon-process cases and six controller-owner cases passed on 2026-10-28. They cover guided/unguided continuation, independent effect admission, page/read/byte/absolute-time limits, replay, concurrent requests, provider loss/ambiguity, P090 refusal, durable grant withdrawal/restart, suspend/resume epochs, and held real host results after authority loss. Foreign/duplicate delivery is inert at the admission unit; an impossible synchronous mismatch stops the action. Physical preemption, independent asynchronous delivery and automatic effect dispatch are separate extensions. Concrete-model qualification remains under P064/P072. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
+## Participant delegation tracker — 2026-11-06
+
+[P098](098-alpha-ui.md#9-integration-boundaries-and-delivery-scope) may expose one
+bounded delegated task through the existing Agent lifecycle. Agent/host owns its
+controller, grants, budget, effects and retained status. UI supplies an explicit
+request and renders permitted transitions; Assistant advice does not authorize
+spawn. These tasks reuse the implemented lifecycle and controller profiles rather
+than adding a universal task engine or changing Inquirium's responsibilities.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P073-PA-001 | Freeze participant delegation and status access | todo | P024-009 | Freeze admitted participant submission and lifecycle/status/activity projections for one named existing bounded controller profile. Bind task/controller identity, subject, budget, review/effect grants and result custody; distinguish requester authority from the Agent's own identity. Specify allowed suspend/resume/stop operations, retention, bounded continuation and unknown/terminal outcomes. Select and name the existing host grant/budget admission ports; login or an Assistant suggestion cannot grant spawn/effects. No raw owner journal disclosure. | P073-PA-002; P098-015 |
+| P073-PA-002 | Deliver one participant-delegated task profile | todo | P073-PA-001; P024-010 | Deliver the frozen host admission path, lifecycle controls and bounded owner activity/status/result references. Qualify actual O/P/Q submission, budget refusal, duplicate/lost-reply recovery, restart, authority withdrawal and permitted stop/resume against the named existing controller profile. Prove one real bounded task reaches an owner-evidenced outcome; fixture-only controls do not complete this gate. Remote execution, new effect families and broader model qualification remain with their existing owners. No finished Assistant or P098 surface is required. | P098-014; P098-015 |
+
 ## Implementation Tracker
 
 Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.

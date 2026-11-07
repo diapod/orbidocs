@@ -1408,6 +1408,19 @@ even when one fixture package supplies the same report bytes to both tests.
 | P080-047 | Drain canceled host-call results without accumulating timeout markers | done | Rust and Python real-server regressions each cover 2048 timeout/cancel/completion sequences in one epoch; bounded actual workers survive reconnect accounting. Clean Node `7299287b` / Orbidocs `3856af63` hour02 qualifies 3600.004100625 seconds, 12 expiry/explicit-renewal cycles, 24 deliveries and 68 runtime cases; actual post-cleanup exit 0. Measured process/session/root continuity and drained canceled/late totals A 4/4, B 7/7 are verified offline before/after retention. First default-key-lease attempt remains refused. [Scoped evidence](https://github.com/diapod/node/tree/master/docs/evidence/limited-messaging/2026-10-24-renewal-soak); no model/VM, replacement full candidate or release claim. |
 | P080-046 | Admit isolated environments with a confirmed `environment.destroy` disposer | done | 2026-09-27, for `P094-018`: `middleware-component-contract.v1` admits `isolated-environment` with `environment.destroy` as an additive amendment of its closed enums and pairing; `middleware-runtime` validates the pair and refuses a mismatched operation, kind, or non-host-local scope. The completion contract (durable intent, idempotent confirmation, restart completion) is recorded above and implemented by Sensorium Virt. |
 
+### Participant context carriage tracker — 2026-11-06
+
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+needs an admitted participant path beside the existing operator bridge. P080-011's
+`done` status covers its operator scope only. P024 owns identity/authority semantics;
+P080 carries the verified context while retaining module identity and execution
+limits. The following tasks do not depend on P098 or on a completed domain UI.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P080-048 | Freeze participant context carriage | todo | P024-009; P080-003; P080-045 | Freeze versioned module HTTP/host-call carrier fields or opaque references for the admitted context, bound to receiver, operation and channel/instance generation. Record exact host-route/schema/registry mappings under P072 and compatibility/refusal rules. A module cannot select a participant or upgrade scope to operator; context carriage does not grant host calls. Existing V2 representation negotiation is preserved. Pin non-reuse of the complete channel/instance admission identity across restart, re-admission and restore. Counter storage is an implementation choice; a reset counter alone is insufficient. Coordinate host-issued incarnation/generation values with entry bindings; producer witnesses carry that exact binding. | P080-049; P098-010a |
+| P080-049 | Carry and enforce participant context across modules | todo | P080-048; P024-010; P080-011 | Implement bridge/client/host propagation and real supervised-module acceptance for P/Q, forged source, wrong receiver, context substitution, disconnect/restart/late reply and revoked session. Module host calls require both admitted participant authority and module execution permission. No transparent replay, operator fallback or context reuse across generations; existing operator bridge regressions pass. Use admitted-context fixtures without requiring P095 session UI. Qualify restart/restore/reinstall with stale context and witnesses: no old complete identity may become current again. Fail closed on missing/corrupt/exhausted generation state or use a newly admitted, never-reused incarnation; do not silently reset an identity in place. | P013-PA-002; P098-006 |
+
 ## Next Actions
 
 | ID | Work item | Status | Completion gate |
