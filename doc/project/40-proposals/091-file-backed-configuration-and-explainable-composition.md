@@ -3412,3 +3412,17 @@ operator tracker. Those code/model checks do not establish measured browser or
 WebView acceptance. The joint fresh-image campaign, actual interaction review,
 final convergence review and evidence closeout remain stage 6. F12, whole P091
 and release qualification remain open; no integration or publication is implied.
+
+
+Stage 6 preflight checkpoint (2026-11-07): the actual mixed-credential HTTP
+matrix found that an unknown module token could fall back to valid operator
+credentials. Node now applies the existing protected-settings module refusal
+before parsing; unrelated generic capability dispatch remains unchanged.
+Reviewed owner/UI/Desktop and strict Clippy regressions pass. The shared serial
+client campaign and its retained-report qualifier bind exact sources, images,
+runtime and completed observations. The initial development campaign stopped at
+an identified obsolete browser-control assumption in the Inquirium harness;
+Node preserves that failed candidate and its correction separately. This is a
+preflight checkpoint only: final joint browser/actual WebView qualification,
+retained evidence, final convergence and cleanup remain open. P091-014, F12,
+broader platform and release statuses are not promoted.
