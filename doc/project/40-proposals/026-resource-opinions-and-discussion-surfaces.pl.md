@@ -235,7 +235,7 @@ oba pola `see-also` ograniczają id do 512 znaków, podczas gdy `resource-ref.v1
 dopuszcza 2048. Most NIE MOŻE obcinać identyfikatora, by zmieścić go w limicie.
 
 Opinia oceniająca pogłoskę nadal odwołuje się do rekordu pogłoski zgodnie
-z [P013](013-whisper-social-signal-exchange.md), zamiast zastępować ten przedmiot
+z [P013](013-whisper-social-signal-exchange.pl.md), zamiast zastępować ten przedmiot
 osobą lub zasobem w niej wspomnianym. `opinion/subject-kind` pozostaje wskazówką
 wyboru overlayu, nie zamiennikiem referencji w kopercie.
 
@@ -527,7 +527,7 @@ granicę widza. Każdy cache jest ograniczony i podlega kontraktom retencji/dos
 właściciela. Same publiczne identyfikatory nie upoważniają ani do prywatnego
 wiązania, ani do szerszego ujawnienia.
 
-[P013](013-whisper-social-signal-exchange.md#resource-perspectives-client)
+[P013](013-whisper-social-signal-exchange.pl.md#resource-perspectives-client)
 odpowiada za powiązanie specyficzne dla pogłosek. Użyć istniejących ścieżek
 pobierania, publikacji i odpowiedzi; profil nie wprowadza crawlera, protokołu
 agregacji całej sieci, uprawnienia do publikacji ani mechanizmu reputacji lub
@@ -556,7 +556,7 @@ o dowiedzeniu psychologicznej niezależności jednostki. Ta sekcja jest
 właścicielem wspólnego kontraktu;
 [S008](../60-solutions/008-agora/008-agora.md#planned-assessment-exposure-and-round-projections)
 odpowiada za granice usługi Agory.
-[P013](013-whisper-social-signal-exchange.md#assessment-exposure-profile)
+[P013](013-whisper-social-signal-exchange.pl.md#assessment-exposure-profile)
 wiąże opinie o pogłoskach,
 [P051](051-swarm-membership-and-reputation-bootstrap.md#11-first-review-must-be-anti-collusive-and-temporarily-blind)
 wiąże oceny paneli, a [P069](069-corpus.md#shared-sealed-round-binding)
