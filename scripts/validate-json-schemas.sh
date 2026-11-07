@@ -29,6 +29,57 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    # Explicit versioned P084 fixture families; legacy aliases remain below.
+    *.artifact-custody-configuration.local.v1.json) echo "$SCHEMAS_DIR/artifact-custody-configuration.local.v1.schema.json" ;;
+    *.artifact-custody-policy.v1.json) echo "$SCHEMAS_DIR/artifact-custody-policy.v1.schema.json" ;;
+    *.artifact-delivery-extend-result.v1.json) echo "$SCHEMAS_DIR/artifact-delivery-extend-result.v1.schema.json" ;;
+    *.artifact-delivery-retain-request.v2.json) echo "$SCHEMAS_DIR/artifact-delivery-retain-request.v2.schema.json" ;;
+    *.artifact-delivery-retain-result.v2.json) echo "$SCHEMAS_DIR/artifact-delivery-retain-result.v2.schema.json" ;;
+    *.bounded-http-fetch-capture-read-request.v1.json) echo "$SCHEMAS_DIR/bounded-http-fetch-capture-read-request.v1.schema.json" ;;
+    *.bounded-http-fetch-capture-read-result.v1.json) echo "$SCHEMAS_DIR/bounded-http-fetch-capture-read-result.v1.schema.json" ;;
+    *.bounded-http-fetch-request.v2.json) echo "$SCHEMAS_DIR/bounded-http-fetch-request.v2.schema.json" ;;
+    *.bounded-http-fetch-result.v2.json) echo "$SCHEMAS_DIR/bounded-http-fetch-result.v2.schema.json" ;;
+    *.nym-authorship-preview.local.v2.json) echo "$SCHEMAS_DIR/nym-authorship-preview.local.v2.schema.json" ;;
+    *.nym-authorship-readback-response.local.v1.json) echo "$SCHEMAS_DIR/nym-authorship-readback-response.local.v1.schema.json" ;;
+    *.nym-authorship-readback.local.v2.json) echo "$SCHEMAS_DIR/nym-authorship-readback.local.v2.schema.json" ;;
+    *.nym-authorship-readback.local.v3.json) echo "$SCHEMAS_DIR/nym-authorship-readback.local.v3.schema.json" ;;
+    *.nym-authorship-sign.local.v2.json) echo "$SCHEMAS_DIR/nym-authorship-sign.local.v2.schema.json" ;;
+    *.nym-exchange-sealed.v2.json) echo "$SCHEMAS_DIR/nym-exchange-sealed.v2.schema.json" ;;
+    *.nym-issuance-decision-sealed.v2.json) echo "$SCHEMAS_DIR/nym-issuance-decision-sealed.v2.schema.json" ;;
+    *.nym-issuance-decision.v2.json) echo "$SCHEMAS_DIR/nym-issuance-decision.v2.schema.json" ;;
+    *.nym-issuance-delivery-response.local.v1.json) echo "$SCHEMAS_DIR/nym-issuance-delivery-response.local.v1.schema.json" ;;
+    *.nym-issuance-delivery.local.v2.json) echo "$SCHEMAS_DIR/nym-issuance-delivery.local.v2.schema.json" ;;
+    *.nym-issuance-readback-response.local.v1.json) echo "$SCHEMAS_DIR/nym-issuance-readback-response.local.v1.schema.json" ;;
+    *.nym-issuance-readback.local.v2.json) echo "$SCHEMAS_DIR/nym-issuance-readback.local.v2.schema.json" ;;
+    *.nym-issuance-reply-offer-request.local.v1.json) echo "$SCHEMAS_DIR/nym-issuance-reply-offer-request.local.v1.schema.json" ;;
+    *.nym-issuance-reply-offer.local.v2.json) echo "$SCHEMAS_DIR/nym-issuance-reply-offer.local.v2.schema.json" ;;
+    *.nym-issuance-request-sealed.v2.json) echo "$SCHEMAS_DIR/nym-issuance-request-sealed.v2.schema.json" ;;
+    *.nym-issuance-request.v2.json) echo "$SCHEMAS_DIR/nym-issuance-request.v2.schema.json" ;;
+    *.nym-issuer-consent-request.local.v1.json) echo "$SCHEMAS_DIR/nym-issuer-consent-request.local.v1.schema.json" ;;
+    *.nym-issuer-consent.local.v2.json) echo "$SCHEMAS_DIR/nym-issuer-consent.local.v2.schema.json" ;;
+    *.nym-source-status-acquire-request.local.v1.json) echo "$SCHEMAS_DIR/nym-source-status-acquire-request.local.v1.schema.json" ;;
+    *.nym-source-status-acquire.local.v2.json) echo "$SCHEMAS_DIR/nym-source-status-acquire.local.v2.schema.json" ;;
+    *.public-gossip-promotion.local.v2.json) echo "$SCHEMAS_DIR/public-gossip-promotion.local.v2.schema.json" ;;
+    *.public-gossip.v2.json) echo "$SCHEMAS_DIR/public-gossip.v2.schema.json" ;;
+    *.sensorium-web-document-snapshot.v2.json) echo "$SCHEMAS_DIR/sensorium-web-document-snapshot.v2.schema.json" ;;
+    *.sensorium-web-durable-source.v2.json) echo "$SCHEMAS_DIR/sensorium-web-durable-source.v2.schema.json" ;;
+    *.sensorium-web-latest-response.v1.json) echo "$SCHEMAS_DIR/sensorium-web-latest-response.v1.schema.json" ;;
+    *.sensorium-web-latest-state.v2.json) echo "$SCHEMAS_DIR/sensorium-web-latest-state.v2.schema.json" ;;
+    *.weak-signal-custody-extend.local.v1.json) echo "$SCHEMAS_DIR/weak-signal-custody-extend.local.v1.schema.json" ;;
+    *.weak-signal-original-read.local.v1.json) echo "$SCHEMAS_DIR/weak-signal-original-read.local.v1.schema.json" ;;
+    *.weak-signal-original-result.local.v1.json) echo "$SCHEMAS_DIR/weak-signal-original-result.local.v1.schema.json" ;;
+    *.weak-signal-review-request.local.v1.json) echo "$SCHEMAS_DIR/weak-signal-review-request.local.v1.schema.json" ;;
+    *.weak-signal-review-result.local.v1.json) echo "$SCHEMAS_DIR/weak-signal-review-result.local.v1.schema.json" ;;
+    *.weak-signal-review.v1.json) echo "$SCHEMAS_DIR/weak-signal-review.v1.schema.json" ;;
+    *.weak-signal-whisper-draft.local.v2.json) echo "$SCHEMAS_DIR/weak-signal-whisper-draft.local.v2.schema.json" ;;
+    *.whisper-origin-lineage.v1.json) echo "$SCHEMAS_DIR/whisper-origin-lineage.v1.schema.json" ;;
+    *.whisper-origin.v1.json) echo "$SCHEMAS_DIR/whisper-origin.v1.schema.json" ;;
+    *.whisper-reviewed-publication-check.local.v1.json) echo "$SCHEMAS_DIR/whisper-reviewed-publication-check.local.v1.schema.json" ;;
+    *.whisper-reviewed-publication-result.local.v1.json) echo "$SCHEMAS_DIR/whisper-reviewed-publication-result.local.v1.schema.json" ;;
+    *.whisper-signal-draft.local.v2.json) echo "$SCHEMAS_DIR/whisper-signal-draft.local.v2.schema.json" ;;
+    *.whisper-signal.v3.json) echo "$SCHEMAS_DIR/whisper-signal.v3.schema.json" ;;
+    *.whisper-source-certificate.v3.json) echo "$SCHEMAS_DIR/whisper-source-certificate.v3.schema.json" ;;
+    *.whisper-source-profile.v3.json) echo "$SCHEMAS_DIR/whisper-source-profile.v3.schema.json" ;;
     *artifact-delivery-relay-header.v1.json) echo "$SCHEMAS_DIR/artifact-delivery-relay-header.v1.schema.json" ;;
     *whisper-case-continuation-decision.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-continuation-decision.local.v1.schema.json" ;;
     *whisper-case-reception.v1.json) echo "$SCHEMAS_DIR/whisper-case-reception.v1.schema.json" ;;

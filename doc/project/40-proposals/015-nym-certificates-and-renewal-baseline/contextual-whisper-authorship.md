@@ -2404,3 +2404,21 @@ author-class reception, mixed authorship holds, clock/load/fault, all-producer
 window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
 statuses and production adoption are unchanged.
 Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+
+### Manual v2 authoring under exact-use profiles (2026-11-07)
+
+Manual signal-v2 authoring retains preview/sign/readback v1 commands. Historical
+certificate-v1 replies retain `nym-authorship-readback.local.v1` byte semantics.
+An exact-use source profile (v2 or transitional v3) returns the new closed
+`nym-authorship-readback.local.v3`: its document remains signal v2, while its
+certificate is exactly certificate v2 or v3. The three manual routes declare
+`nym-authorship-readback-response.local.v1`, a named union of the historical and
+new reply contracts. Historical contracts are not widened or relabelled.
+
+The review-selected signal-v3 path keeps local readback v2 and its mandatory
+review binding. Manual v2 cannot supply an origin-v3 draft through this adapter.
+Profile/certificate use, current status and the half-open publication window
+remain owner admission conditions; recognizing the reply is not permission.
+This repair follows an actual fixture response-contract refusal after a
+successful reviewed-v3 publication. It is not all-producer end-window qualification.

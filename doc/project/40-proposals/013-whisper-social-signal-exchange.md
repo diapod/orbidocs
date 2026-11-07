@@ -1760,3 +1760,13 @@ See `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`
 P015-011 tracks the pre-existing authoring replay retention gap; Memarium remains
 the accepted sole-custody design for protected records, not a claim that this gap
 has been erased by the PEX transport gate.
+
+
+### Manual v2 response compatibility in the transitional profile (2026-11-07)
+
+Manual signal-v2 commands under exact-use profiles use separate local readback
+v3 and a named response union; historical v1 and reviewed signal-v3 readback v2
+retain their contracts. This repairs an observed host response-gate refusal
+without changing signed signal bytes or end-window admission. The owning
+contract is [P015's manual reply decision](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#manual-v2-authoring-under-exact-use-profiles-2026-11-07).
+Component checks do not close P013-WEB-001/002 or qualify all-producer cutoff.

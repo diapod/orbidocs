@@ -261,5 +261,22 @@ class ResolveNodeRootTests(unittest.TestCase):
                 SYNC.resolve_node_root(str(contracts))
 
 
+class ManualReadbackMirrorTests(unittest.TestCase):
+    def test_exact_use_manual_reply_and_named_adapter_have_explicit_mirrors(self):
+        names = ("nym-authorship-readback.local.v3", "nym-authorship-readback-response.local.v1")
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary)
+            for name in names:
+                filename = name + ".schema.json"
+                self.assertIn(filename, SYNC.SCHEMA_WHITELIST)
+                SYNC.copy_files((filename,), SYNC.SCHEMAS_DIR, target)
+                self.assertEqual((target / filename).read_bytes(), (SYNC.SCHEMAS_DIR / filename).read_bytes())
+                result = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n', str(script), "--syntax-only", "fixture." + name + ".json"], capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / filename))
+
+
 if __name__ == "__main__":
     unittest.main()
