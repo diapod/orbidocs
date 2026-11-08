@@ -355,3 +355,17 @@ under the same exchange. A separate owner fact records durable AD custody; AD
 alone subsequently forwards or retries the original ciphertext. Current gates,
 exact target and absolute original deadline still apply. Component evidence does
 not replace either runtime gate.
+
+
+### Scoped direct-consumer evidence, 2026-11-08
+
+The [Node observation](../../../../../node/docs/audits/WHISPER-DIRECT-CONSUMERS-2026-11-08.md)
+records actual two-endpoint AD/INAC command/result and protected-signal custody,
+transport-only pending inbox before optional S020 processing, host offer refusals,
+terminal AD completion independent of domain acceptance, restart and exact replay.
+Its certificate/media/topology boundaries and original refused observer runs
+remain explicit. These are implementation observations, not complete Gate A.
+The required lost-reply/ACK controls, full access-class privacy coverage and
+independent two-store qualification remain open. Ordinary-v1 positive SQLite and
+Synapse Gate B, independent horizons and ordinary UI/succession are still required;
+no tracker is promoted from these scoped observations.
