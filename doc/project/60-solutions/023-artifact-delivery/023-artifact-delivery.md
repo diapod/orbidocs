@@ -1860,17 +1860,21 @@ receivers continue to refuse any ref/href or streamed transfer at the offer/push
 boundary. Offer acceptance is not custody or domain admission.
 
 The actual INAC bridge preserves detailed/minimal read variants and emits reduced
-metadata without private domain references or acceptor diagnostics. The trusted
-session still supplies the authenticated peer; the bridge label grants no identity
-or domain permission. This is component conformance with supplied session fixtures,
-not two-node authenticated runtime qualification. The native case authority now
-has a separately adopted named-peer/expiry direct receiver and operator-only
-protected offer preparation, sharing its existing zero-capacity executor and
-exact owner-pending inbox. It does not invent a relay header or dispatch a native
-case decision. Native Memarium protected-signal custody is now composed through an independently
-adopted recipient and the same bounded executor. Actual two-node direct Gate A
-and its complete current-admission/privacy proof remain open. S023-001 stays
-partial and S023-002 scheduled purge is separate.
+AD metadata without private domain references or acceptor diagnostics. The trusted
+session supplies the authenticated peer; the bridge label grants no identity or
+domain permission. The separately adopted native case inbox and Memarium
+protected-signal custodian now pass the actual two-endpoint direct Gate A, with
+independent source-pinned qualification, eight offer and three AD refusals,
+ACK/body-return fault controls, exact restart/replay and selected logical/SSE
+privacy checks. Loose, extracted and fresh both-store outcomes agree. See
+`node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+
+The reduced-field law belongs to AD. Authorized receiver-local INAC transport
+rows may retain authenticated peer identity, opaque handle, ciphertext digest
+and times; this is not a claim to erase session metadata or provide transport
+anonymity. Constructor-created empty cache directories do not contain payload or
+index entries. S023-001 is done for this bounded inline/direct profile; S023-002
+scheduled/physical purge and ordinary-v1 case-continuity Gate B remain separate.
 
 
 Responsibilities:
@@ -1890,7 +1894,7 @@ traces, and only the scheduled purge does.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| S023-001 | Define the minimal-trace route profile | partial | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no peer-cache or object-store writes occur; ledger rows carry only the reduced fields; schema-gated fixtures cover refusal paths. |
+| S023-001 | Define the minimal-trace route profile | done | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no payload/index entries are written to peer cache or object store; AD ledger rows carry only the reduced fields; actual two-endpoint Gate A, refusal/restart and equivalent retained qualification are recorded above. |
 | S023-002 | Scheduled purge of minimal-trace rows | todo | S023-001; S020 | An S020 job purges delivery and admission rows after the retry horizon using indexed cleanup that spares active work; restart is idempotent; status shows the last purge; a disk scan after purge finds no request payload in AD stores. |
 
 Status:

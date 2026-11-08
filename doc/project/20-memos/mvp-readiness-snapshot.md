@@ -22,14 +22,13 @@ percentages below do not measure the subsequent changes.
   the contextual continuation remains outside hard MVP. Optional stay-ready,
   LLR/ADC, Anon and global/release readiness are separate. The
   [private-case execution profile](../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
-  still requires Gates A/B. Scoped actual two-endpoint AD/INAC observations now
-  cover pending command custody before S020 processing, protected Memarium signal
-  custody/readback, offer refusals, discarded-real-ACK idempotent retry and
-  restart/replay. Selected stopped trace/notification and twelve live SSE scans
-  include exact ciphertext canaries and supplement component conformance; they do
-  not complete the full private-exchange qualification or
-  ordinary-v1 SQLite/Synapse continuity. The execution profile links the owning
-  Node audit and its original refusal/remaining-work boundaries.
+  now has independently qualified direct Gate A: actual two-endpoint AD/INAC,
+  both native consumers, bounded minimal traces, fault controls and identical
+  loose/extracted/fresh-both-store outcomes. Evidence:
+  `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+  Ordinary-v1 SQLite/Synapse Gate B remains open. Synthetic-v2 case credentials
+  and fixture-signed private v1 signals do not replace ordinary host/Vault
+  authorship; S023-002 purge and global readiness remain separate.
 - The primary integration passed the repeated software gates documented in
   `node:docs/audits/WHISPER-INTEGRATION-2026-11-04.md`. This does not renew runtime
   acceptance or imply release approval. P035-001–003 remain mandatory unfinished

@@ -2,7 +2,7 @@
 
 Decision date: 2026-11-06. Status: accepted execution contract; implementation
 and runtime qualification pending. Owners: P013-PEX-001, P013-LLR-001/008/007
-and the S023-001 route profile. No completion claim follows from this decision.
+and the S023-001 route profile. The decision alone is not runtime evidence.
 
 ## Executive Summary
 
@@ -385,3 +385,28 @@ AD domain reply before source commit. Independent full direct Gate A
 loose/archive/two-store qualification remains open. Ordinary-v1 positive SQLite and
 Synapse Gate B, independent horizons and ordinary UI/succession are still required;
 no tracker is promoted from these scoped observations.
+
+
+## Independent direct Gate A qualification — 2026-11-08
+
+The bounded direct profile is now qualified independently: actual two-endpoint
+AD/INAC, production P037 offers, protected Memarium custody and exact pending
+case inbox before separately adopted S020 processing. Eight actual offer refusals,
+three native AD refusals, real ACK-return loss, client HTTP-body-return loss,
+exact retry/restart and complete selected logical/SSE access classes are checked.
+Ten actual-data semantic mutations refuse. Loose, extracted and fresh primary and
+secondary qualification outcomes are identical; the complete set is 131,533 B
+with XZ128MiB. Evidence and original refusals:
+`node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+
+This completes this profile's PEX/S023-001 Gate A, not ordinary-v1 Gate B.
+Synthetic-v2 case credentials and fixture-signed private v1 signals remain explicit.
+Minimal AD outcomes contain no private domain link or payload; authorized local
+INAC decisions retain authenticated peer identity, opaque transport handle,
+ciphertext digest and times. Empty constructor directories are not cache payload
+entries. No transport anonymity, physical purge, universal-encoding privacy,
+new media topology or release readiness is established.
+
+The earlier dated checkpoints above preserve their observation-only status.
+Ordinary-v1 issuance/host/Vault opening, independent horizons, positive portable
+Matrix receipt and SQLite/Synapse continuity remain required before full closure.
