@@ -2103,3 +2103,16 @@ All 566 regressions and six focused normal/optimized controls pass; native
 qualification of this orchestration change is still open. The independent
 runtime789 seven-of-131 subset is not transferred to a new source. Exact scope:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-READINESS-20261108.md`.
+
+
+### Paused qualification checkpoint (2026-11-08)
+
+R39 independently verifies 9/131 (122 missing) on retained runtime056 and
+capture8b07, identically with ordinary/optimized readers. Exact A2 renew,
+same-source and independent A/B reception, ordinary UI/receipts, all-producer
+window refusals and historical C read pass. The complete post-certificate-expiry
+proof correctly refuses: outer S020 success contains no-work and the retained
+evaluation is stale. Unchanged public records do not establish that subclaim.
+Work is paused at the owner's request; no new window or production adoption.
+The original runtime and reader results remain unchanged. Resume basis:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
