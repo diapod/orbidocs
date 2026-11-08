@@ -1899,7 +1899,8 @@ traces, and only the scheduled purge does.
 
 Status:
 
-- `future`
+- `partial` — the bounded route/admission profile is qualified; S023-002
+  scheduled purge remains future work.
 
 ## Out of Scope
 
