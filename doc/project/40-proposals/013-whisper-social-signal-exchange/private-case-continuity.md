@@ -410,3 +410,19 @@ new media topology or release readiness is established.
 The earlier dated checkpoints above preserve their observation-only status.
 Ordinary-v1 issuance/host/Vault opening, independent horizons, positive portable
 Matrix receipt and SQLite/Synapse continuity remain required before full closure.
+
+
+## Open ordinary-v1 admission-policy clarification — 2026-11-08
+
+Implementation review found a contract gap, not an absent store getter. The
+ordinary P015 decision-v1 path issues WhisperV1 under
+`signed-admitted-relay-receipt-v1`; the existing portable P035 producer/evaluator
+requires `witnessed-admission-receipt-v1` and v2 witness-window fields. Lifecycle
+support for v2 does not authorize its production issuance. Synthetic v2 or
+relabeling the v1 profile cannot satisfy the required ordinary-v1 Gate B.
+
+An explicit, independently admitted versioned admission policy over real v1
+credentials is proposed; the owner decision remains pending. Existing signed
+profiles, receipt meanings and historical evidence are unchanged. Matrix time-only
+observations remain insufficient. Source/receipt composition and positive
+SQLite/Synapse continuity are still required after that clarification.
