@@ -377,7 +377,11 @@ qualification. A separate native readback oracle now verifies the captured
 registration control and authority signatures against separately supplied
 controller trust, including exact request/input bindings and explicit mutation
 refusals. It proves neither anchor admission nor the complete runtime build chain.
-Further domain-response fault qualification and independent
-loose/archive/two-store qualification remain open. Ordinary-v1 positive SQLite and
+A fresh native run also discarded the first successful HTTP result body at the
+controller boundary, then recovered the exact result through normal readback
+and restart. Complete bounded logical AD/INAC views are prepared for the capsule;
+no owner images or keys are included. This is not wire loss or proof of a lost
+AD domain reply before source commit. Independent full direct Gate A
+loose/archive/two-store qualification remains open. Ordinary-v1 positive SQLite and
 Synapse Gate B, independent horizons and ordinary UI/succession are still required;
 no tracker is promoted from these scoped observations.
