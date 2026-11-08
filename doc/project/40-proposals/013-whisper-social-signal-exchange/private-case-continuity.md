@@ -506,3 +506,21 @@ closure remain separate operations. This is exposed through the existing
 operator-session route and protected Whisper UI, using POST/CSRF and P095's
 private template catalogue. No module capability or new access route follows.
 Component owner/schema/UI tests do not qualify ordinary-v1 Gate B.
+
+
+### Explicit creation UI and authoritative review
+
+The protected Whisper form selects `signal` or `new-case` explicitly. Only the
+preview request can carry the existing creation intent (authority, requested
+absolute horizon and exact signed policy material); neither sign nor readback
+re-submits changed creation fields. The host's independent P091 admission and
+provider rules remain mandatory. An ordinary preview cannot silently introduce
+`case/*`, and a requested case response must preserve its authority and may only
+shorten its horizon.
+
+The review projects commitment, authority and absolute deadline from the actual
+retained document, separately from editable request inputs. A lock keeps the
+same operation and document; stale CAS refuses before replacing the projection.
+The view calls it an exposed preparation or signed anchor candidate, not an open
+case. Component UI/request-binding tests do not establish actual custody,
+portable admission or ordinary-v1 SQLite/Synapse Gate B.
