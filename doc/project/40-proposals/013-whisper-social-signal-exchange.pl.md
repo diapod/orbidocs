@@ -1527,3 +1527,15 @@ Przypięcia źródeł i ograniczenia podano w `node:docs/evidence/portable-adm
 P015-011 śledzi istniejącą wcześniej lukę retencji replayu autorstwa; Memarium
 pozostaje przyjętym projektem wyłącznej pieczy nad chronionymi rekordami, a nie
 twierdzeniem, że bramka transportu PEX usunęła tę lukę.
+
+
+### Bezpośrednia bramka wymiany PEX-001 — 2026-11-08
+
+Dodatkowy [profil ciągłości sprawy](013-whisper-social-signal-exchange/private-case-continuity.md)
+przeszedł niezależną bramkę A: rzeczywiste dwa endpointy AD/INAC, oferty P037,
+chroniona piecza Memarium, skrzynka żądań i osobno dopuszczone przetwarzanie S020,
+odmowy, utrata ACK/odpowiedzi, restart oraz ograniczone kontrole prywatności.
+Kwalifikacja luźna, po ekstrakcji i świeżym odczycie z obu magazynów jest identyczna.
+Dowód: `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+PEX-001 jest ukończone dla tego zakresu. Zwykła ścieżka v1 SQLite/Synapse bramki B,
+S023-002 i PEX-002 pozostają otwarte; wcześniejsze dowody zachowują swój zakres.

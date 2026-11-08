@@ -437,14 +437,18 @@ The design and tracker live in
 
 The [private-case execution profile](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
 separates private exchange Gate A from ordinary-v1 SQLite/Synapse continuity Gate B.
-Native offer preparation, direct pending-command custody and protected-signal
-custody in the existing Memarium Personal journal are component scope, not proof
-of either gate. An optional native P037/Memarium custodian now supplies separate
-finite peer/record-custody adoption; exact-author storage permission grants no
-council, source-counting or case authority. S020 owns authority/offer maintenance.
-Actual two-node direct carriage and ordinary-v1 SQLite/Synapse Gate B remain open. Memarium remains the protected-record owner; the case
-service owns ordered decisions, and AD owns transport retry. Current implementation
-and remaining composition are indexed in `node:docs/integration/whisper-private-case-continuity.md`.
+The bounded actual two-endpoint direct Gate A is now independently qualified:
+production P037 offers, Memarium protected-signal custody, exact pending case
+inbox before separately adopted S020 processing, refusal/fault/restart controls
+and selected access-class privacy. Loose, extracted and fresh both-store results
+agree. Evidence: `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+Ordinary-v1 SQLite/Synapse Gate B remains open. Synthetic-v2 case credentials and
+fixture-signed private v1 signals do not qualify ordinary host/Vault authorship.
+Memarium remains the protected-record owner; the case service owns ordered
+results, and AD owns transport retry. Minimal AD traces exclude payload/domain
+links; authorized receiver-local INAC transport metadata remains visible.
+S023-002 scheduled/physical purge is separate. Current remaining composition is
+indexed in `node:docs/integration/whisper-private-case-continuity.md`.
 
 The portable receipt format and authenticated admission claim are owned by
 [P035-019](../../40-proposals/035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
