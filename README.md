@@ -137,6 +137,25 @@ make check-json-syntax
 make validate-schemas
 ```
 
+### Node schema mirrors
+
+With a sibling Node checkout, compare every declared mirror without changing files:
+
+```sh
+make check-schema-mirrors
+# Or select another checkout:
+make check-schema-mirrors NODE_SRC=../another-node
+```
+
+The check reuses the synchronizer's whitelists and filename mappings, including
+middleware, Schema Gate, shared schemas, examples, golden vectors and the media
+registry. It compares exact bytes; unrelated destination files are outside its
+scope. Exit 0 means all declared mirrors match; exit 1 reports `missing`,
+`different` or unreadable files; exit 2 means an invalid Node root or CLI usage.
+It does not fetch Node or repair drift. After reviewing discrepancies, use
+`make sync-schemas` (with the same `NODE_SRC`) to copy canonical files, then check
+again. `make check-sync-schema-targets` runs the synchronizer's isolated tests.
+
 ### Capability registry consistency
 
 With the canonical Node repository checked out alongside Orbidocs:

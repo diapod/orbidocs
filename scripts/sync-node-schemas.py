@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import shutil
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 
 
@@ -2239,35 +2240,84 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
 )
 
 
+def file_pairs(
+    files: tuple[str, ...],
+    source_dir: Path,
+    target_dir: Path,
+    target_names: dict[str, str] | None = None,
+) -> Iterator[tuple[Path, Path]]:
+    """Yield the declared mapping, including Node-specific filenames."""
+    for name in files:
+        yield source_dir / name, target_dir / (target_names or {}).get(name, name)
+
+
+def copy_pairs(pairs: Iterable[tuple[Path, Path]]) -> None:
+    for source, target in pairs:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+
+
 def copy_files(
     files: tuple[str, ...],
     source_dir: Path,
     target_dir: Path,
     target_names: dict[str, str] | None = None,
 ) -> None:
-    target_dir.mkdir(parents=True, exist_ok=True)
-    for name in files:
-        source = source_dir / name
-        target = target_dir / (target_names or {}).get(name, name)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
+    copy_pairs(file_pairs(files, source_dir, target_dir, target_names))
 
 
-def copy_shared_schemas(schema_target: Path) -> None:
-    shared_source = SCHEMAS_DIR / "_shared"
-    if not shared_source.exists():
-        return
-    shared_target = schema_target / "_shared"
-    shared_target.mkdir(parents=True, exist_ok=True)
-    for source in shared_source.rglob("*.json"):
-        relative = source.relative_to(shared_source)
-        target = shared_target / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
+def mirror_pairs(node_root: Path) -> Iterator[tuple[Path, Path]]:
+    """One source of destinations for both synchronization and read-only checks."""
+    contracts = node_root / "protocol" / "contracts"
+    for files, source, target, names in (
+        (SCHEMA_WHITELIST, SCHEMAS_DIR, contracts / "schemas", NODE_SCHEMA_FILENAMES),
+        (SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR,
+         node_root / "schema-gate/contracts/schemas/agora", None),
+        (MIDDLEWARE_SCHEMA_WHITELIST, SCHEMAS_DIR, node_root / "middleware/schemas", None),
+        (EXAMPLE_WHITELIST, EXAMPLES_DIR, contracts / "examples", None),
+        (INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, contracts / "examples/invalid", None),
+        (SEMANTIC_INVALID_EXAMPLE_WHITELIST, SEMANTIC_INVALID_EXAMPLES_DIR,
+         contracts / "examples/semantic-invalid", None),
+        (GOLDEN_WHITELIST, GOLDEN_DIR, contracts / "golden", None),
+    ):
+        yield from file_pairs(files, source, target, names)
+    shared = SCHEMAS_DIR / "_shared"
+    for source in sorted(shared.rglob("*.json")):
+        yield source, contracts / "schemas/_shared" / source.relative_to(shared)
+    yield (SCHEMAS_DIR / "registries/vendor-media-types.v1.json",
+           contracts / "vendor-media-types.v1.json")
+
+
+def check_mirrors(pairs: Iterable[tuple[Path, Path]], node_root: Path) -> int:
+    """Compare exact bytes without repairing files or creating directories."""
+    failures = 0
+    checked = 0
+    for source, target in pairs:
+        checked += 1
+        reason = None
+        try:
+            expected = source.read_bytes()
+        except OSError:
+            reason = "unreadable-source"
+        else:
+            try:
+                actual = target.read_bytes()
+            except FileNotFoundError:
+                reason = "missing"
+            except OSError:
+                reason = "unreadable-target"
+            else:
+                if actual != expected:
+                    reason = "different"
+        if reason:
+            failures += 1
+            print(f"{reason}: {target.relative_to(node_root).as_posix()}")
+    print(f"Schema mirrors: {checked} checked, {failures} failed.")
+    return int(failures != 0)
 
 
 def resolve_node_root(node_src: str) -> Path:
-    """Resolve and validate the Node workspace root before writing contracts."""
+    """Resolve and validate the Node workspace root before checking or copying."""
     node_root = (ROOT / node_src).resolve()
     if node_root.parts[-2:] == ("protocol", "contracts"):
         raise ValueError(
@@ -2290,37 +2340,18 @@ def main() -> int:
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--node-src", default="../node")
+    parser.add_argument("--check", action="store_true",
+                        help="compare declared mirrors without writing files")
     args = parser.parse_args()
 
     try:
         node_root = resolve_node_root(args.node_src)
     except ValueError as error:
         parser.error(str(error))
-    contracts_root = node_root / "protocol" / "contracts"
-    schema_target = contracts_root / "schemas"
-    example_target = contracts_root / "examples"
-    invalid_target = example_target / "invalid"
-    semantic_invalid_target = example_target / "semantic-invalid"
-    golden_target = contracts_root / "golden"
-    schema_gate_agora_target = node_root / "schema-gate" / "contracts" / "schemas" / "agora"
-    middleware_schema_target = node_root / "middleware" / "schemas"
-
-    copy_files(SCHEMA_WHITELIST, SCHEMAS_DIR, schema_target, NODE_SCHEMA_FILENAMES)
-    copy_shared_schemas(schema_target)
-    copy_files(SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR, schema_gate_agora_target)
-    copy_files(MIDDLEWARE_SCHEMA_WHITELIST, SCHEMAS_DIR, middleware_schema_target)
-    copy_files(EXAMPLE_WHITELIST, EXAMPLES_DIR, example_target)
-    copy_files(INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, invalid_target)
-    copy_files(
-        SEMANTIC_INVALID_EXAMPLE_WHITELIST,
-        SEMANTIC_INVALID_EXAMPLES_DIR,
-        semantic_invalid_target,
-    )
-    copy_files(GOLDEN_WHITELIST, GOLDEN_DIR, golden_target)
-    shutil.copy2(
-        SCHEMAS_DIR / "registries" / "vendor-media-types.v1.json",
-        contracts_root / "vendor-media-types.v1.json",
-    )
+    pairs = mirror_pairs(node_root)
+    if args.check:
+        return check_mirrors(pairs, node_root)
+    copy_pairs(pairs)
 
     return 0
 

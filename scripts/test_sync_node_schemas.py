@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import importlib.util
+import contextlib
+import io
+import shutil
 import tempfile
 import subprocess
 import sys
@@ -363,6 +366,110 @@ class ResolveNodeRootTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ValueError, "not its protocol/contracts directory"):
                 SYNC.resolve_node_root(str(contracts))
+
+
+class MirrorCheckTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name) / "node checkout"
+        for relative in SYNC.NODE_WORKSPACE_SENTINELS:
+            sentinel = self.root / relative
+            sentinel.parent.mkdir(parents=True, exist_ok=True)
+            sentinel.touch()
+
+    def run_cli(self, *arguments: str) -> subprocess.CompletedProcess:
+        return subprocess.run(
+            [sys.executable, str(SCRIPT), "--node-src", str(self.root), *arguments],
+            text=True, capture_output=True, check=False,
+        )
+
+    def populate(self) -> None:
+        result = self.run_cli()
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def snapshot(self) -> dict:
+        # ctime also catches an identical overwrite followed by copy2 restoring
+        # the source mtime. atime is excluded: ordinary reads may change it.
+        return {
+            str(p.relative_to(self.root)): (
+                p.stat().st_mode, p.stat().st_mtime_ns, p.stat().st_ctime_ns,
+                p.read_bytes() if p.is_file() else None,
+            ) for p in [self.root, *self.root.rglob("*")]
+        }
+
+    def test_copied_mirrors_pass_check_without_writes(self) -> None:
+        self.populate()
+        (self.root / "protocol/contracts/unrelated.json").write_text("local extension")
+        before = self.snapshot()
+        result = self.run_cli("--check")
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        count = len(list(SYNC.mirror_pairs(self.root)))
+        self.assertIn(f"{count} checked, 0 failed", result.stdout)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_missing_middleware_and_directory_fail_without_repair(self) -> None:
+        self.populate()
+        missing = self.root / "middleware/schemas/whisper-case-continuation-decision.local.v1.schema.json"
+        missing.unlink()
+        shutil.rmtree(self.root / "protocol/contracts/golden")
+        before = self.snapshot()
+        result = self.run_cli("--check")
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn(f"missing: {missing.relative_to(self.root).as_posix()}", result.stdout)
+        self.assertIn("missing: protocol/contracts/golden/", result.stdout)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_different_bytes_are_detected_for_every_destination_group(self) -> None:
+        self.populate()
+        # Cover ordinary, renamed, shared, middleware, Schema Gate and each
+        # fixture group; valid JSON with different whitespace still differs.
+        targets = [
+            self.root / "protocol/contracts/schemas" / SYNC.NODE_SCHEMA_FILENAMES.get(
+                SYNC.SCHEMA_WHITELIST[0], SYNC.SCHEMA_WHITELIST[0]),
+            self.root / "protocol/contracts/schemas/sensorium-os-error-codes.v1.json",
+            self.root / "middleware/schemas" / SYNC.MIDDLEWARE_SCHEMA_WHITELIST[0],
+            self.root / "schema-gate/contracts/schemas/agora" / SYNC.SCHEMA_GATE_AGORA_SCHEMA_WHITELIST[0],
+            self.root / "protocol/contracts/examples" / SYNC.EXAMPLE_WHITELIST[0],
+            self.root / "protocol/contracts/examples/invalid" / SYNC.INVALID_EXAMPLE_WHITELIST[0],
+            self.root / "protocol/contracts/examples/semantic-invalid" / SYNC.SEMANTIC_INVALID_EXAMPLE_WHITELIST[0],
+            self.root / "protocol/contracts/golden" / SYNC.GOLDEN_WHITELIST[0],
+            self.root / "protocol/contracts/vendor-media-types.v1.json",
+            next((self.root / "protocol/contracts/schemas/_shared").rglob("*.json")),
+        ]
+        for target in targets:
+            target.write_bytes(target.read_bytes() + b" ")
+        before = self.snapshot()
+        result = self.run_cli("--check")
+        self.assertEqual(result.returncode, 1, result.stderr)
+        for target in targets:
+            self.assertIn(f"different: {target.relative_to(self.root).as_posix()}", result.stdout)
+        self.assertEqual(result.stdout.count("different:"), len(targets))
+        self.assertEqual(self.snapshot(), before)
+
+    def test_unreadable_source_or_target_is_not_a_success(self) -> None:
+        source = Path(self.temporary.name) / "source.json"
+        source.write_text("{}")
+        directory = self.root / "a-directory.json"
+        directory.mkdir()
+        pairs = [(source.with_name("absent.json"), self.root / "target.json"),
+                 (source, directory)]
+        before = self.snapshot()
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(SYNC.check_mirrors(pairs, self.root), 1)
+        self.assertIn("unreadable-source: target.json", output.getvalue())
+        self.assertIn("unreadable-target: a-directory.json", output.getvalue())
+        self.assertEqual(self.snapshot(), before)
+
+    def test_check_rejects_invalid_root_without_creating_it(self) -> None:
+        absent = Path(self.temporary.name) / "absent"
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--check", "--node-src", str(absent)],
+            text=True, capture_output=True, check=False,
+        )
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("does not name a Node workspace root", result.stderr)
+        self.assertFalse(absent.exists())
 
 
 if __name__ == "__main__":
