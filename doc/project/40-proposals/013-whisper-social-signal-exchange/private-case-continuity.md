@@ -426,3 +426,22 @@ credentials is proposed; the owner decision remains pending. Existing signed
 profiles, receipt meanings and historical evidence are unchanged. Matrix time-only
 observations remain insufficient. Source/receipt composition and positive
 SQLite/Synapse continuity are still required after that clarification.
+
+## Signed-policy and quota component foundation
+
+The case owner now prepares `whisper-case-authority-policy.v1` through its
+existing protected P037 control and fenced Store. It freezes the adopted owner
+configuration and exact source profile under a canonical random operation ID;
+restart and response-loss retry keep the original bytes and issue time. Readback
+cannot resume an unsigned signature operation. Current profile withdrawal,
+changed input, final-commit refusal and expired leases remain refusals. This
+library composition does not install the independent P091 authority setting or
+a host publication route.
+
+The owner reuses its complete retained accepted-result chain for 64/case and
+four/rolling-24h succession accounting, without a second counter or schema
+migration. Component tests exercise fifth refusal after restart, unchanged replay
+and emergency closure; pure conformance exercises 64/65 and the exact rolling-day
+edge. Full long-lived owner and ordinary-v1 SQLite/Synapse Gate B remain open.
+See `node:whisper-case-service/README.md` for the owner contract and convergence
+boundaries. This does not broaden the source-pinned direct Gate A result.
