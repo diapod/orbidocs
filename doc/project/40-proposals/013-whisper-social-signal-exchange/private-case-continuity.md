@@ -471,3 +471,20 @@ finite deadline. Readback cannot resume signing. The result distinguishes
 admits only these local operator uses; no generic middleware or public fetch
 alias follows. Recipient adoption remains a separate P091 decision. Native
 signer/store/reopen conformance does not renew Gate A or close ordinary-v1 B.
+
+
+### P036 preflight and actual custody
+
+The local P036 owner can expose finite policy horizons and a change witness from
+its existing provider, at the original reviewed creation observation. The host
+requires current enabled policy and independently admitted issuer/profile before
+owner access, then resolves the complete policy again. Provider loss, source
+failure, changed values, clock regression or expired horizons refuse. This is a
+nonserializable local composition port, not a new public receipt or capability.
+
+Such preflight is neither a capacity reservation nor proof of captured material.
+A positive actual anchor and its retained record/proof guarantees remain mandatory
+before opening; a later policy, origin or holder cannot extend original custody.
+Its component/reopen tests do not complete LLR-001 or ordinary-v1 Gate B, and the
+old issuer-retention coupling cannot be removed using this preflight alone. See
+`node:memarium-runtime/README.md#prospective-case-custody-preflight`.
