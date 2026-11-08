@@ -9,7 +9,7 @@ Authenticated binary PEX header shared by every enabled family. Response-key loc
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `whisper-private-exchange-header.v2` |  |
-| [`family`](#field-family) | `yes` | enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception` |  |
+| [`family`](#field-family) | `yes` | enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`, `protected-signal` |  |
 | [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
 | [`recipient/key-digest`](#field-recipient-key-digest) | `yes` | string |  |
 | [`sender/ephemeral-key`](#field-sender-ephemeral-key) | `yes` | string |  |
@@ -48,6 +48,32 @@ Then:
 }
 ```
 
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "family": {
+      "const": "protected-signal"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "plaintext/size": {
+      "maximum": 49152
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -60,7 +86,7 @@ Then:
 ## `family`
 
 - Required: `yes`
-- Shape: enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`
+- Shape: enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`, `protected-signal`
 
 <a id="field-exchange-handle"></a>
 ## `exchange/handle`

@@ -49,11 +49,19 @@
           "type": "string",
           "format": "date-time",
           "maxLength": 30
+        },
+        "authority/policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 5462,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Exact canonical signed whisper-case-authority-policy.v1 bytes as unpadded base64url; material alone grants no P091 admission."
         }
       },
       "required": [
         "status-authority",
-        "not-after"
+        "not-after",
+        "authority/policy"
       ]
     }
   },

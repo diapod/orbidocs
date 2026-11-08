@@ -670,6 +670,177 @@
               "const": "routes"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "sender",
+            "exchange/handle",
+            "reply/public-key",
+            "request/not-after"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-recipient-offer"
+            },
+            "sender": {
+              "type": "string",
+              "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "maxLength": 180
+            },
+            "exchange/handle": {
+              "type": "string",
+              "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+              "maxLength": 52
+            },
+            "reply/public-key": {
+              "type": "array",
+              "minItems": 32,
+              "maxItems": 32,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            },
+            "request/not-after": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "sender",
+            "exchange/handle",
+            "reply/public-key",
+            "request/not-after"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-protected-signal-offer"
+            },
+            "sender": {
+              "type": "string",
+              "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "maxLength": 180
+            },
+            "exchange/handle": {
+              "type": "string",
+              "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+              "maxLength": 52
+            },
+            "reply/public-key": {
+              "type": "array",
+              "minItems": 32,
+              "maxItems": 32,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            },
+            "request/not-after": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "offer/bytes"
+          ],
+          "properties": {
+            "operation": {
+              "const": "bind-recipient-offer"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "offer/bytes": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5464,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "profile",
+            "expires/at"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-authority-policy"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "profile": {
+              "oneOf": [
+                {
+                  "$ref": "whisper-source-profile.v1.schema.json"
+                },
+                {
+                  "$ref": "whisper-source-profile.v2.schema.json"
+                }
+              ]
+            },
+            "expires/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "profile"
+          ],
+          "properties": {
+            "operation": {
+              "const": "read-authority-policy"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "profile": {
+              "oneOf": [
+                {
+                  "$ref": "whisper-source-profile.v1.schema.json"
+                },
+                {
+                  "$ref": "whisper-source-profile.v2.schema.json"
+                }
+              ]
+            }
+          }
         }
       ]
     }

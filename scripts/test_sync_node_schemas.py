@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import importlib.util
+import contextlib
+import io
+import shutil
 import tempfile
 import subprocess
 import sys
@@ -18,6 +21,110 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_case_preparation_contracts_and_fixtures_are_mirrored(self) -> None:
+        schemas = tuple("nym-case-key-" + name + ".local.v1.schema.json"
+                        for name in ("operation", "state", "provider"))
+        fixtures = (
+            ("list-exposed.nym-case-key-operation.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("abandon.nym-case-key-operation.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("exposed.nym-case-key-state.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("mixed-abandon.nym-case-key-operation.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+        )
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax', 1)
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory)
+            for name in schemas:
+                self.assertIn(name, SYNC.SCHEMA_WHITELIST)
+            SYNC.copy_files(schemas, SYNC.SCHEMAS_DIR, target)
+            for name, source, whitelist in fixtures:
+                self.assertIn(name, whitelist)
+                SYNC.copy_files((name,), source, target)
+                self.assertEqual((target / name).read_bytes(), (source / name).read_bytes())
+                result = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n', str(script), "--syntax-only", str(source / name)], text=True, capture_output=True, check=False)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn("nym-case-key-", result.stdout)
+
+    def test_case_policy_adoption_and_review_fixtures_are_mirrored_and_dispatched(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        fixtures = (
+            ("shape.whisper-case-authorities.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("case.nym-authorship-preview.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("duplicate-pins.whisper-case-authorities.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+            ("missing-authority-policy.nym-authorship-preview.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory)
+            for name, source, whitelist in fixtures:
+                with self.subTest(name=name):
+                    self.assertIn(name, whitelist)
+                    SYNC.copy_files((name,), source, destination)
+                    self.assertEqual((destination / name).read_bytes(), (source / name).read_bytes())
+                    result = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n', str(script), "--syntax-only", str(source / name)], text=True, capture_output=True, check=False)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    suffix = name.split(".", 1)[1].removesuffix(".json")
+                    self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / (suffix + ".schema.json")))
+
+    def test_recipient_offer_workflow_fixtures_are_copied_and_dispatched(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        fixtures = (
+            ("prepare-authority-policy.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("read-authority-policy.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("authority-policy-pending.whisper-case-workflow-result.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("authority-policy.whisper-case-workflow-result.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("read-with-deadline.whisper-case-workflow-request.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+            ("policy-without-profile.whisper-case-workflow-request.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+            ("prepare-recipient-offer.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("prepare-protected-signal-offer.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("recipient-offer.whisper-case-workflow-result.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("short-reply.whisper-case-workflow-request.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory)
+            for name, source, whitelist in fixtures:
+                with self.subTest(name=name):
+                    self.assertIn(name, whitelist)
+                    SYNC.copy_files((name,), source, destination)
+                    self.assertEqual((destination / name).read_bytes(), (source / name).read_bytes())
+                    result = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n', str(script), "--syntax-only", str(source / name)], text=True, capture_output=True, check=False)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    suffix = name.split(".", 1)[1].removesuffix(".json")
+                    self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / (suffix + ".schema.json")))
+
+    def test_minimal_ad_status_fixtures_have_mirrors_and_validator_dispatch(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        for name, folder, whitelist in (
+            ("minimal.artifact-delivery-status.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("payload-minimal.artifact-delivery-status.json", SYNC.INVALID_EXAMPLES_DIR,
+             SYNC.INVALID_EXAMPLE_WHITELIST),
+        ):
+            self.assertIn(name, whitelist)
+            result = subprocess.run(
+                ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+                 str(script), "--syntax-only", str(folder / name)],
+                text=True, capture_output=True, check=False)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / "artifact-delivery-status.v1.schema.json"))
+
+    def test_private_case_contracts_have_mirrors_and_explicit_dispatch(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        for name in ("whisper-pex-key-offer.v1",
+                     "whisper-case-authority-policy.v1"):
+            self.assertIn(name + ".schema.json", SYNC.SCHEMA_WHITELIST)
+            self.assertIn("shape." + name + ".json", SYNC.EXAMPLE_WHITELIST)
+            for filename in ("shape." + name + ".json", "refusal." + name + ".json"):
+                with self.subTest(filename=filename):
+                    result = subprocess.run(
+                        ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+                         str(script), "--syntax-only", str(SYNC.EXAMPLES_DIR / filename)],
+                        text=True, capture_output=True, check=False)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / (name + ".schema.json")))
+
     def test_new_local_nym_examples_have_explicit_validator_dispatch(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         # Invoke the actual shell dispatcher without the full corpus driver.
@@ -276,6 +383,110 @@ class ManualReadbackMirrorTests(unittest.TestCase):
                 result = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n', str(script), "--syntax-only", "fixture." + name + ".json"], capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / filename))
+
+
+class MirrorCheckTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name) / "node checkout"
+        for relative in SYNC.NODE_WORKSPACE_SENTINELS:
+            sentinel = self.root / relative
+            sentinel.parent.mkdir(parents=True, exist_ok=True)
+            sentinel.touch()
+
+    def run_cli(self, *arguments: str) -> subprocess.CompletedProcess:
+        return subprocess.run(
+            [sys.executable, str(SCRIPT), "--node-src", str(self.root), *arguments],
+            text=True, capture_output=True, check=False,
+        )
+
+    def populate(self) -> None:
+        result = self.run_cli()
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def snapshot(self) -> dict:
+        # ctime also catches an identical overwrite followed by copy2 restoring
+        # the source mtime. atime is excluded: ordinary reads may change it.
+        return {
+            str(p.relative_to(self.root)): (
+                p.stat().st_mode, p.stat().st_mtime_ns, p.stat().st_ctime_ns,
+                p.read_bytes() if p.is_file() else None,
+            ) for p in [self.root, *self.root.rglob("*")]
+        }
+
+    def test_copied_mirrors_pass_check_without_writes(self) -> None:
+        self.populate()
+        (self.root / "protocol/contracts/unrelated.json").write_text("local extension")
+        before = self.snapshot()
+        result = self.run_cli("--check")
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        count = len(list(SYNC.mirror_pairs(self.root)))
+        self.assertIn(f"{count} checked, 0 failed", result.stdout)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_missing_middleware_and_directory_fail_without_repair(self) -> None:
+        self.populate()
+        missing = self.root / "middleware/schemas/whisper-case-continuation-decision.local.v1.schema.json"
+        missing.unlink()
+        shutil.rmtree(self.root / "protocol/contracts/golden")
+        before = self.snapshot()
+        result = self.run_cli("--check")
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn(f"missing: {missing.relative_to(self.root).as_posix()}", result.stdout)
+        self.assertIn("missing: protocol/contracts/golden/", result.stdout)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_different_bytes_are_detected_for_every_destination_group(self) -> None:
+        self.populate()
+        # Cover ordinary, renamed, shared, middleware, Schema Gate and each
+        # fixture group; valid JSON with different whitespace still differs.
+        targets = [
+            self.root / "protocol/contracts/schemas" / SYNC.NODE_SCHEMA_FILENAMES.get(
+                SYNC.SCHEMA_WHITELIST[0], SYNC.SCHEMA_WHITELIST[0]),
+            self.root / "protocol/contracts/schemas/sensorium-os-error-codes.v1.json",
+            self.root / "middleware/schemas" / SYNC.MIDDLEWARE_SCHEMA_WHITELIST[0],
+            self.root / "schema-gate/contracts/schemas/agora" / SYNC.SCHEMA_GATE_AGORA_SCHEMA_WHITELIST[0],
+            self.root / "protocol/contracts/examples" / SYNC.EXAMPLE_WHITELIST[0],
+            self.root / "protocol/contracts/examples/invalid" / SYNC.INVALID_EXAMPLE_WHITELIST[0],
+            self.root / "protocol/contracts/examples/semantic-invalid" / SYNC.SEMANTIC_INVALID_EXAMPLE_WHITELIST[0],
+            self.root / "protocol/contracts/golden" / SYNC.GOLDEN_WHITELIST[0],
+            self.root / "protocol/contracts/vendor-media-types.v1.json",
+            next((self.root / "protocol/contracts/schemas/_shared").rglob("*.json")),
+        ]
+        for target in targets:
+            target.write_bytes(target.read_bytes() + b" ")
+        before = self.snapshot()
+        result = self.run_cli("--check")
+        self.assertEqual(result.returncode, 1, result.stderr)
+        for target in targets:
+            self.assertIn(f"different: {target.relative_to(self.root).as_posix()}", result.stdout)
+        self.assertEqual(result.stdout.count("different:"), len(targets))
+        self.assertEqual(self.snapshot(), before)
+
+    def test_unreadable_source_or_target_is_not_a_success(self) -> None:
+        source = Path(self.temporary.name) / "source.json"
+        source.write_text("{}")
+        directory = self.root / "a-directory.json"
+        directory.mkdir()
+        pairs = [(source.with_name("absent.json"), self.root / "target.json"),
+                 (source, directory)]
+        before = self.snapshot()
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(SYNC.check_mirrors(pairs, self.root), 1)
+        self.assertIn("unreadable-source: target.json", output.getvalue())
+        self.assertIn("unreadable-target: a-directory.json", output.getvalue())
+        self.assertEqual(self.snapshot(), before)
+
+    def test_check_rejects_invalid_root_without_creating_it(self) -> None:
+        absent = Path(self.temporary.name) / "absent"
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--check", "--node-src", str(absent)],
+            text=True, capture_output=True, check=False,
+        )
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("does not name a Node workspace root", result.stderr)
+        self.assertFalse(absent.exists())
 
 
 if __name__ == "__main__":

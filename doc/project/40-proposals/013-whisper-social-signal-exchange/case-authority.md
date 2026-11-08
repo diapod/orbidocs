@@ -320,6 +320,62 @@ Cleanup cannot restore the right to choose another response. Header framing esta
 AD policy by itself. Authenticated host installation and retained qualification
 remain separate from this source component composition.
 
+#### Direct-profile custody before owner processing
+
+For the separately adopted direct/minimal-trace execution profile, transport
+custody and native acceptance remain distinct. The existing authority owner may
+reserve exact command bytes with a private `transport-accepted-owner-unprocessed`
+receipt before dispatching a native operation. The receipt is a frozen custody
+snapshot, not proof of an active case. It does not escape through AD's reduced
+transport status or authorize a signed response.
+
+Current authenticated sender/recipient-role and key-lease admission precedes any
+saved-result lookup and remains held across custody. Recipient, sender and exchange
+bind one exact offer and command; changing the native request id inside that
+exchange refuses. These transport keys do not reserve native case ids against
+other peers before native authentication. Exact bytes and the receipt share the
+existing domain store/fence commit; no parallel inbox database, transport retry
+worker or PEX record store is created. Pending requests use ordinary bounded
+capacity, leaving terminal reserves intact. Their deadline cannot exceed the
+native command or offered exchange deadline; duplicate reads never extend it.
+
+The same owner also freezes exact unsigned recipient offers before protected
+signing, and exact signed bytes before disclosure. Recipient/sender/exchange bind
+the complete input, including the reply key and original absolute request ceiling.
+Retry after signer recovery, restart or a lost response never picks another issue
+time, recipient key or longer lease. Current local admission is mandatory before
+readback and effects. An unavailable signer leaves the original unsigned
+preparation; a failed signed commit withholds output. A previously committed offer
+replays without signing again, without granting native case rights. New offer
+requests fit the authority's adopted request TTL (at most 900 seconds); the offer
+and retained slot share the original absolute request deadline. The original
+request therefore remains expired after pruning. This bounded idempotency horizon
+does not promise perpetual exchange-id retention: a new host operation requires a
+fresh explicit exchange handle.
+
+The reference P037 port fixes the internal caller, node-self key and
+`whisper.exchange-key.offer.v1` policy tag through a closed selector of the existing
+internal node-control operation. Both domain and raw prefix refuse generic
+signing, including another otherwise authorized domain. External callers cannot
+invoke this internal operation; the native case-control type still refuses a
+recipient offer. Signatures retain the existing
+`orbiplex.whisper-pex-key-offer.v1` prefix/JCS preimage. A wrapping configuration
+refuses; it does not try another framing. The direct opener uses the same protected
+agreement provider as the independently scoped relay path. No generic signing
+operation, new listener or private-key export is introduced.
+
+The reference native authority now installs this component seam through a
+separately adopted, expiring named-peer direct profile and an operator-only offer
+preparer. The existing AD runtime's independently registered minimal receiver
+shares the authority's zero-capacity executor and store with its relayed role;
+there is no synthetic relay header or fallback from a denied relay. Peer-scoped
+receive reads only committed original offers and cannot mint or sign one. Its
+reduced transport result still means pending custody, not native acceptance.
+Native component tests supply bridge identity and structural command signatures;
+actual two-node direct AD/INAC, Memarium protected-signal custody and the new
+Gate A remain unqualified. Historical
+single-relay and synthetic-v2 case results retain their original scope.
+
 #### Source workflow and requester-key lifetime
 
 The S026 workflow commits an exchange-scoped random requester key and independent

@@ -963,3 +963,23 @@ component checks with 70 controls per mode/location. The capability catalog is
 unchanged: this composes existing owner ports and scheduling, and adds no generic
 grant-bearing operation. Historical evidence, unknown coverage, models and release
 scope remain separate.
+
+## Whisper private-case owner maintenance
+
+Optional native case-authority and protected-signal custodian adoptions register
+separate `component-local` jobs: `whisper-case-authority.maintenance` owned by
+`whisper-case-authority`, and `whisper-protected-signal.maintenance` owned by
+`whisper-protected-signal`. The daemon launch gate requires that exact pair and a
+Running host; module channels and unrelated owners cannot invoke either action.
+No job is installed by the default disabled role.
+
+Both use a ten-second cadence, a five-second cooperative launch budget,
+SkipMissed and SkipIfRunning. Authority negative-knowledge reconciliation and
+expiry stay in the case owner; public offer-control expiry stays in its separate
+fenced owner. S020 receives counts and coarse failures, never private payloads.
+The shared direct receive executor performs no maintenance for these owners.
+Disabled owner cleanup remains the existing bounded retention operation, without
+signing authority or fresh owner initialization. Scheduler acceptance does not
+prove peer delivery, case opening, physical erasure or complete private-exchange
+Gate A/B. See `node:daemon/docs/RELAY-DELIVERY.md` and the
+[private-case execution profile](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md).

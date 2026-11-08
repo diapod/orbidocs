@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-authorities.local:v1",
+  "title": "whisper-case-authorities.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md"
+  ],
+  "description": "Value of the independently operator-adopted P091 /whisper/case-authorities setting. Empty denies all. Signed policy material is supplied separately and never grants admission.",
+  "type": "array",
+  "maxItems": 64,
+  "uniqueItems": true,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "authority/id",
+      "policy/digest"
+    ],
+    "properties": {
+      "authority/id": {
+        "type": "string",
+        "maxLength": 180,
+        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "policy/digest": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50,
+        "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      }
+    }
+  }
+}

@@ -185,7 +185,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **254** host-local / **286** total; **51** owner groups.
+Entries: **261** host-local / **293** total; **54** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -395,6 +395,25 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 |---|---|---|---|---|---|---|
 | <code>sensorium.virt.host</code> | <code>host/sensorium.virt.host</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
+### <code>daemon Whisper PEX recipient hosts</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.pex.offer.prepare</code> | <code>host/whisper.pex.offer.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper PEX source host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.pex.offer.bind</code> | <code>host/whisper.pex.offer.bind</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper case authority host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.case.policy.prepare</code> | <code>host/whisper.case.policy.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>whisper.case.policy.read</code> | <code>host/whisper.case.policy.read</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
 ### <code>daemon bounded HTTP capture host</code>
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
@@ -443,6 +462,9 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
+| <code>identity.nym.authorship.preview</code> | <code>host/identity.nym.authorship.preview</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.readback</code> | <code>host/identity.nym.authorship.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.sign</code> | <code>host/identity.nym.authorship.sign</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.approve</code> | <code>host/identity.nym.renewal.approve</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.readback</code> | <code>host/identity.nym.renewal.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.revoke</code> | <code>host/identity.nym.renewal.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |

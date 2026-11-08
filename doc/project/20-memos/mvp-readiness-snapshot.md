@@ -2,7 +2,7 @@
 
 Snapshot date: 2026-09-05.
 
-## Current-status reconciliation — 2026-11-04
+## Current-status reconciliation — 2026-11-07
 
 This page preserves dated snapshots, not a second current implementation tracker.
 For current Node readiness use `node:docs/MVP.md`, the structured
@@ -20,7 +20,15 @@ percentages below do not measure the subsequent changes.
   qualification. P015-005/007/008 remain open; these results do not close all P015.
 - [Whisper](../60-solutions/011-whisper/011-whisper.md#certified-contextual-authorship):
   the contextual continuation remains outside hard MVP. Optional stay-ready,
-  LLR/ADC, Anon and global/release readiness are separate.
+  LLR/ADC, Anon and global/release readiness are separate. The
+  [private-case execution profile](../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
+  now has independently qualified direct Gate A: actual two-endpoint AD/INAC,
+  both native consumers, bounded minimal traces, fault controls and identical
+  loose/extracted/fresh-both-store outcomes. Evidence:
+  `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+  Ordinary-v1 SQLite/Synapse Gate B remains open. Synthetic-v2 case credentials
+  and fixture-signed private v1 signals do not replace ordinary host/Vault
+  authorship; S023-002 purge and global readiness remain separate.
 - The primary integration passed the repeated software gates documented in
   `node:docs/audits/WHISPER-INTEGRATION-2026-11-04.md`. This does not renew runtime
   acceptance or imply release approval. P035-001–003 remain mandatory unfinished

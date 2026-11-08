@@ -719,6 +719,12 @@ to a resource-centred view. This can support rumor's social function as distribu
 revisable memory without turning rumor aggregation into a verdict about a person.
 P013-AE-003 is deferred and does not block the current alpha or web-retention slice.
 
+[P026's civic-memory example and timeline requirements](026-resource-opinions-and-discussion-surfaces.md#resource-perspectives-client)
+connect this memory to accountability across changes of office or institution.
+Rumors and opinions retain their distinct status alongside responses, corrections
+and repair; Whisper supplies records to that shared projection, not a separate
+chronology or an automatic verdict about whom to trust.
+
 Reuse public gossip's envelope `record/about` and `gossip/see-also`, resource
 opinions targeting the rumor and existing Agora reply/revision paths. Preserve
 the distinction between a rumor about an action in a role, an opinion about that
@@ -1198,6 +1204,18 @@ success never means case acceptance, source admission or consent to disclose.
 | P013-PEX-001 | Recipient-bound private Whisper exchange | done | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
 | P013-PEX-002 | AD liveness under concurrent status observation | todo | P013-PEX-001 | Reproduce the preserved detached timeout with a 40 ms observer cadence and 15 ms active wait, beside the qualified 200 ms cadence. Instrument queue admission, each AD/INAC hop, custody/retry and domain reception using bounded phase/timing labels without principals or case ids. Separate CPU scheduling, owner-lock wait and SQLite/WAL hypotheses; report measured evidence rather than selecting a cause from timing alone. Declare a finite end-to-end liveness budget under concurrent reads, verify timeout/cancellation and retain refused runs. The closure review also reproduced a result deadline at 200 ms polling after a durable revision-3 closure: idle WSS reads retained the connection timeout and delayed outgoing work. The corrected worker read budget and focused regression do not alone establish the cause of the earlier 40 ms refusal or close this load gate. This follow-up does not silently widen the existing local transport qualification. |
 
+The earlier retained single-relay/case-presentation qualification remains valid
+within its recorded scope. The additional
+[private-case execution profile](013-whisper-social-signal-exchange/private-case-continuity.md)
+now has independently qualified actual two-endpoint direct/minimal-trace Gate A,
+including Memarium protected-signal custody, pending/S020 request processing,
+fault/refusal/restart and bounded privacy controls. Loose, extracted and fresh
+both-store outcomes agree. Evidence:
+`node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+This closes PEX-001's complete bounded exchange gate; it does not replace
+ordinary-v1 SQLite/Synapse continuity Gate B, S023-002 purge or PEX-002's load gate.
+Historical credential/backend/privacy claims remain unchanged.
+
 ## Contextual participant-source authorship (2026-10-25)
 
 The accepted [P015 contextual profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md)
@@ -1524,6 +1542,9 @@ now live in a sidecar. The domain, decisions and task ids are unchanged.
 [Continue to the complete section](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking).
 
 ## Long-Lived Rumors and Historical Authorship {#long-lived-rumors-and-historical-authorship}
+
+Accepted execution contract: [private case continuity](013-whisper-social-signal-exchange/private-case-continuity.md).
+PEX and LLR-001/008/007 remain unqualified until their separate A/B gates pass.
 
 Proposed post-MVP continuation; no runtime claim. The
 [owning design and tracker](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)

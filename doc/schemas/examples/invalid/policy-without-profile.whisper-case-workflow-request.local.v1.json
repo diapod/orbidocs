@@ -1,0 +1,8 @@
+{
+  "schema": "whisper-case-workflow-request.local.v1",
+  "command": {
+    "operation": "prepare-authority-policy",
+    "operation/id": "20b9cadc-2b14-4c3b-9fde-7fccb4487174",
+    "expires/at": "2026-11-08T12:00:00Z"
+  }
+}

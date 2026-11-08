@@ -12,10 +12,11 @@ Source schema: [`doc/schemas/nym-case-key-operation.local.v1.schema.json`](../..
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
-| [`operation`](#field-operation) | `yes` | enum: `read`, `erase`, `recovery-consent`, `provider-inspect`, `provider-replace` |  |
+| [`operation`](#field-operation) | `yes` | enum: `read`, `erase`, `recovery-consent`, `provider-inspect`, `provider-replace`, `list-exposed`, `abandon` |  |
 | [`continuity/key-digest`](#field-continuity-key-digest) | `no` | string |  |
 | [`enabled`](#field-enabled) | `no` | boolean |  |
 | [`expected/provider`](#field-expected-provider) | `no` | string |  |
+| [`page/after`](#field-page-after) | `no` | string |  |
 
 ## Conditional Rules
 
@@ -30,7 +31,8 @@ When:
       "enum": [
         "read",
         "erase",
-        "recovery-consent"
+        "recovery-consent",
+        "abandon"
       ]
     }
   }
@@ -100,13 +102,27 @@ Then:
 }
 ```
 
+### Rule 4
+
+When:
+
+```json
+{
+  "properties": {
+    "operation": {
+      "const": "list-exposed"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-operation"></a>
 ## `operation`
 
 - Required: `yes`
-- Shape: enum: `read`, `erase`, `recovery-consent`, `provider-inspect`, `provider-replace`
+- Shape: enum: `read`, `erase`, `recovery-consent`, `provider-inspect`, `provider-replace`, `list-exposed`, `abandon`
 
 <a id="field-continuity-key-digest"></a>
 ## `continuity/key-digest`
@@ -122,6 +138,12 @@ Then:
 
 <a id="field-expected-provider"></a>
 ## `expected/provider`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-page-after"></a>
+## `page/after`
 
 - Required: `no`
 - Shape: string

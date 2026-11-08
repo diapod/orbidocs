@@ -435,6 +435,21 @@ Responsibilities:
 The design and tracker live in
 [P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 
+The [private-case execution profile](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
+separates private exchange Gate A from ordinary-v1 SQLite/Synapse continuity Gate B.
+The bounded actual two-endpoint direct Gate A is now independently qualified:
+production P037 offers, Memarium protected-signal custody, exact pending case
+inbox before separately adopted S020 processing, refusal/fault/restart controls
+and selected access-class privacy. Loose, extracted and fresh both-store results
+agree. Evidence: `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+Ordinary-v1 SQLite/Synapse Gate B remains open. Synthetic-v2 case credentials and
+fixture-signed private v1 signals do not qualify ordinary host/Vault authorship.
+Memarium remains the protected-record owner; the case service owns ordered
+results, and AD owns transport retry. Minimal AD traces exclude payload/domain
+links; authorized receiver-local INAC transport metadata remains visible.
+S023-002 scheduled/physical purge is separate. Current remaining composition is
+indexed in `node:docs/integration/whisper-private-case-continuity.md`.
+
 The portable receipt format and authenticated admission claim are owned by
 [P035-019](../../40-proposals/035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
 not by a second Whisper receipt implementation. The unchanged aggregate-only

@@ -15,6 +15,9 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `artifact-delivery-status.v1` |  |
+| [`trace/profile`](#field-trace-profile) | `no` | const: `minimal-trace-v1` |  |
+| [`artifact/schema`](#field-artifact-schema) | `no` | string |  |
+| [`observed-at`](#field-observed-at) | `no` | string |  |
 | [`delivery/id`](#field-delivery-id) | `yes` | string |  |
 | [`submitted-at`](#field-submitted-at) | `no` | string |  |
 | [`status`](#field-status) | `yes` | enum: `accepted`, `running`, `succeeded`, `partial`, `failed-retryable`, `failed-permanent`, `expired` |  |
@@ -24,6 +27,52 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 | [`diagnostic`](#field-diagnostic) | `no` | object \| null |  |
 | [`expires-at`](#field-expires-at) | `no` | string \| null |  |
 | [`retry/history`](#field-retry-history) | `no` | array |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "required": [
+    "trace/profile"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "schema",
+    "trace/profile",
+    "delivery/id",
+    "artifact/schema",
+    "status",
+    "submitted-at",
+    "observed-at",
+    "expires-at",
+    "failure/class"
+  ],
+  "propertyNames": {
+    "enum": [
+      "schema",
+      "trace/profile",
+      "delivery/id",
+      "artifact/schema",
+      "status",
+      "submitted-at",
+      "observed-at",
+      "expires-at",
+      "failure/class"
+    ]
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -31,6 +80,24 @@ Operator/host status payload for a single Artifact Delivery run. This is not an 
 
 - Required: `yes`
 - Shape: const: `artifact-delivery-status.v1`
+
+<a id="field-trace-profile"></a>
+## `trace/profile`
+
+- Required: `no`
+- Shape: const: `minimal-trace-v1`
+
+<a id="field-artifact-schema"></a>
+## `artifact/schema`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-observed-at"></a>
+## `observed-at`
+
+- Required: `no`
+- Shape: string
 
 <a id="field-delivery-id"></a>
 ## `delivery/id`

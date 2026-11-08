@@ -1790,6 +1790,93 @@ erase any of them. Some consumers, first the Whisper cover requests of
 need a declared profile that minimizes these traces. The profile is a route
 property chosen by the domain owner, not a per-call flag.
 
+The private-case execution profile declares local `trace/profile`:
+`minimal-trace-v1`; omission or explicit `standard` retains ordinary behavior.
+Explicit null and unknown profile values refuse. The configured profile is carried
+through expanded, resolved and dispatch plans and bound to plan identity; it is
+not an envelope field. Standard serialization omits it, preserving ordinary plan
+preimages. This configuration contract is validated by the local configuration
+owner, not accepted as a sender's claim about receiver retention.
+
+Its first bounded shape is one explicit Node target over `inac-direct`, one stage,
+all-target success, no fallback/discovery and one inline complete sealed artifact
+of at most 64 KiB. Content size and encoded length are bounded before base64
+decoding, followed by exact content/digest validation. Receiver policy must be
+independently locally admitted. Active encrypted retry material remains owned by
+AD until decision; reduced terminal metadata must preserve exact idempotency
+without exposing private domain correlation. S023-002 scheduled purge is not
+implied by reduction.
+
+Implementation checkpoint (2026-11-07): the outbound owner binds the exact
+input under a component-scoped opaque transport handle before I/O. Active work
+retains input, plan and the causal receipt chain needed by the existing retry
+worker, without domain/provider diagnostics. The original classification is used
+for current outbound authorization; a changed route/target or withdrawn allow
+refuses. Terminal outcome and opaque idempotency hashes commit atomically with
+removal of input, full plan and receipts. Missing bound state never permits a
+replacement ciphertext. Multi-query SQLite reads keep one WAL snapshot across
+concurrent compaction. An expired pending delivery can compact after its route
+or outbound allow is withdrawn, without a transport effect. This is logical
+compaction, not physical SQLite/WAL purge.
+
+The typed readback distinguishes ordinary detailed state from minimal metadata,
+including active list/recovery results. Minimal operator status uses the existing
+`artifact-delivery-status.v1` discriminator with `trace/profile: minimal-trace-v1`;
+that profile is closed to delivery id, artifact schema, outcome/failure class and
+times. Its observation time is sampled for active readback and frozen in a terminal
+result. It cannot export plans, payloads, peer lists, diagnostics or domain ids.
+Schema/content-type input labels are limited to 128 UTF-8 bytes; exact input and
+active record JSON each to 1 MiB; terminal outcome JSON to 2 KiB. Ordinary profile
+bytes and prepared Messaging semantics remain unchanged. The initial complete
+sealed-artifact ceiling remains 64 KiB.
+
+The independently installed receive profile now reserves body-free identity/input/
+result hashes in the same AD owner's migration v8. Exact schema/content type and
+bridge policy are local, not sender assertions. A minimal schema excludes standard
+and wildcard registrations; malformed MIME cannot choose detailed retention. The
+same preflight/acceptor pipeline handles only bounded inline buffers. References,
+streams and pointer wrappers targeting the family refuse before resolver/cache
+custody or HTTP fetch. Final duplicates return the frozen transport outcome;
+interrupted/retryable attempts require the domain acceptor's exact durable
+reconciliation. Existing detailed bridge/peer/schema history without provable
+transport binding refuses adoption rather than inventing missing identity.
+
+A protocol owner may install a bounded refusal-only minimal-schema guard for
+recognized private families, independently of an active recipient. The guard
+never authorizes delivery or payload access. Missing current receive adoption
+refuses before either detailed/minimal admission persistence or indirect material
+resolution, including new opaque identities after restart/role withdrawal.
+Ordinary acceptor registration cannot downgrade a guarded schema. AD owns this
+mechanical boundary; the host supplies schema membership and independently admits
+the exact minimal receiver/source. No Whisper family knowledge is built into AD.
+
+Direct INAC negotiation uses a metadata-only `offer` before its inline `push`.
+AD passes its frozen local trace profile to the adapter; no schema inference or
+peer assertion selects it. A minimal offer never manufactures an `artifact/ref`
+from a content digest. Its push preserves the original canonical opaque transport
+handle, without prefixing it with delivery/stage identifiers. Standard offer and
+push wire behavior, AD input/plan identity and author bytes remain unchanged. Minimal
+receivers continue to refuse any ref/href or streamed transfer at the offer/push
+boundary. Offer acceptance is not custody or domain admission.
+
+The actual INAC bridge preserves detailed/minimal read variants and emits reduced
+AD metadata without private domain references or acceptor diagnostics. The trusted
+session supplies the authenticated peer; the bridge label grants no identity or
+domain permission. The separately adopted native case inbox and Memarium
+protected-signal custodian now pass the actual two-endpoint direct Gate A, with
+independent source-pinned qualification, eight offer and three AD refusals,
+ACK/body-return fault controls, exact restart/replay and selected logical/SSE
+privacy checks. Loose, extracted and fresh both-store outcomes agree. See
+`node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+
+The reduced-field law belongs to AD. Authorized receiver-local INAC transport
+rows may retain authenticated peer identity, opaque handle, ciphertext digest
+and times; this is not a claim to erase session metadata or provide transport
+anonymity. Constructor-created empty cache directories do not contain payload or
+index entries. S023-001 is done for this bounded inline/direct profile; S023-002
+scheduled/physical purge and ordinary-v1 case-continuity Gate B remain separate.
+
+
 Responsibilities:
 
 - accept only inline payloads within a small bound, with no object-store
@@ -1807,12 +1894,13 @@ traces, and only the scheduled purge does.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| S023-001 | Define the minimal-trace route profile | todo | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no peer-cache or object-store writes occur; ledger rows carry only the reduced fields; schema-gated fixtures cover refusal paths. |
+| S023-001 | Define the minimal-trace route profile | done | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no payload/index entries are written to peer cache or object store; AD ledger rows carry only the reduced fields; actual two-endpoint Gate A, refusal/restart and equivalent retained qualification are recorded above. |
 | S023-002 | Scheduled purge of minimal-trace rows | todo | S023-001; S020 | An S020 job purges delivery and admission rows after the retry horizon using indexed cleanup that spares active work; restart is idempotent; status shows the last purge; a disk scan after purge finds no request payload in AD stores. |
 
 Status:
 
-- `future`
+- `partial` — the bounded route/admission profile is qualified; S023-002
+  scheduled purge remains future work.
 
 ## Out of Scope
 

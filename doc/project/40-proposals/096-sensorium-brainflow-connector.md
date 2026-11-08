@@ -1112,6 +1112,10 @@ rules. Stopping recording finalizes or marks a partial artifact; revocation
 prevents further writes/disclosure according to its scope. Deleting local
 state does not undo an already admitted remote delivery. iCloud/phone gateways
 are future transport adapters; they do not alter this authorization model.
+[P099: Companion App and Device Bridge](099-companion-app-and-device-bridge.md) now owns
+the proposed read-only HealthKit synchronization slice. It reuses Sensorium
+boundaries, not BrainFlow device drivers; delayed health-record synchronization
+does not qualify live EEG acquisition or authorize publication.
 
 ### 10. Operator and user surfaces
 

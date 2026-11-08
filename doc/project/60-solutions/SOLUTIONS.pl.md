@@ -12,6 +12,10 @@ Role związane z Node mogą pojawiać się tu później jako osobne komponenty, 
 
 ## Bieżące komponenty rozwiązania
 
+- [Orbiplex Whisper](011-whisper/011-whisper.pl.md) – wymiana słabych sygnałów
+  społecznych z jawnymi granicami prywatności, przygotowanie pogłosek do publikacji
+  i koordynacja progów oraz dobrowolnych zrzeszeń.
+
 {{ list_matching_pages("*.md", page=page, exclude="SOLUTIONS*.md", summaries=true) }}
 
 ## Widoki generowane

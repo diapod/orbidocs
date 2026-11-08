@@ -1,0 +1,14 @@
+{
+  "schema": "nym-case-key-state.local.v1",
+  "view": "exposed-preparations",
+  "revision": 1,
+  "page/after": null,
+  "next/after": null,
+  "preparations": [
+    {
+      "operation/id": "review-one",
+      "continuity/key-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "case/not-after": "2026-11-08T12:00:00Z"
+    }
+  ]
+}
