@@ -25,8 +25,9 @@ percentages below do not measure the subsequent changes.
   still requires Gates A/B. Scoped actual two-endpoint AD/INAC observations now
   cover pending command custody before S020 processing, protected Memarium signal
   custody/readback, offer refusals, discarded-real-ACK idempotent retry and
-  restart/replay. Selected stopped trace/notification scans supplement component
-  conformance; they do not complete the full private-exchange qualification or
+  restart/replay. Selected stopped trace/notification and twelve live SSE scans
+  include exact ciphertext canaries and supplement component conformance; they do
+  not complete the full private-exchange qualification or
   ordinary-v1 SQLite/Synapse continuity. The execution profile links the owning
   Node audit and its original refusal/remaining-work boundaries.
 - The primary integration passed the repeated software gates documented in

@@ -368,8 +368,12 @@ A subsequent clean-source, explicitly fault-injected run discarded one actual
 peer admission ACK; the existing AD retry returned the identical saved admission,
 with exact custody bytes after reopen. The stopped observer also checks selected
 AD/INAC, network/log and notification surfaces plus default cache/store contents.
-These are scoped canary observations, not complete privacy qualification. Further
-lost-domain-response controls, live SSE coverage and independent two-store
-qualification remain open. Ordinary-v1 positive SQLite and
+A later clean run also captured all twelve role/phase-bound live SSE streams and
+checked exact command/reply/protected ciphertext canaries. Logical AD payload
+retention is distinguished from physical SQLite pages; S023-002 is not claimed.
+The original stale-terminal-snapshot refusal remains separate from the corrected
+fresh run. These are scoped canary observations, not complete privacy
+qualification. Further domain-response fault qualification and independent
+loose/archive/two-store qualification remain open. Ordinary-v1 positive SQLite and
 Synapse Gate B, independent horizons and ordinary UI/succession are still required;
 no tracker is promoted from these scoped observations.
