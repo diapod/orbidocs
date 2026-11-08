@@ -470,9 +470,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nym-bootstrap-authority-request.local.v1.schema.json`](schemas-gen/schemas/nym-bootstrap-authority-request.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-bootstrap-authority-result.local.v1.schema.json`](schemas-gen/schemas/nym-bootstrap-authority-result.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-bootstrap-recipient.v1.schema.json`](schemas-gen/schemas/nym-bootstrap-recipient.v1.md) | `10` | `0` | `yes` | `yes` | `0` | `0` |
-| [`nym-case-key-operation.local.v1.schema.json`](schemas-gen/schemas/nym-case-key-operation.local.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
+| [`nym-case-key-operation.local.v1.schema.json`](schemas-gen/schemas/nym-case-key-operation.local.v1.md) | `5` | `0` | `yes` | `yes` | `2` | `1` |
 | [`nym-case-key-provider.local.v1.schema.json`](schemas-gen/schemas/nym-case-key-provider.local.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
-| [`nym-case-key-state.local.v1.schema.json`](schemas-gen/schemas/nym-case-key-state.local.v1.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
+| [`nym-case-key-state.local.v1.schema.json`](schemas-gen/schemas/nym-case-key-state.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
 | [`nym-case-recovery-result.local.v1.schema.json`](schemas-gen/schemas/nym-case-recovery-result.local.v1.md) | `5` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-certificate.v1.schema.json`](schemas-gen/schemas/nym-certificate.v1.md) | `10` | `8` | `yes` | `yes` | `2` | `1` |
 | [`nym-epoch-closure.v1.schema.json`](schemas-gen/schemas/nym-epoch-closure.v1.md) | `12` | `0` | `yes` | `yes` | `0` | `0` |
@@ -1958,5 +1958,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `869`
 - Generated schema docs: `870`
-- Positive examples: `803`
-- Negative examples: `795`
+- Positive examples: `806`
+- Negative examples: `796`

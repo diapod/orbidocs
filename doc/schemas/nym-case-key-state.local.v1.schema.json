@@ -54,6 +54,73 @@
     },
     {
       "$ref": "nym-case-key-provider.local.v1.schema.json"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "nym-case-key-state.local.v1"
+        },
+        "view": {
+          "const": "exposed-preparations"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "page/after": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "next/after": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "preparations": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "operation/id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "continuity/key-digest": {
+                "type": "string",
+                "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+              },
+              "case/not-after": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "operation/id",
+              "continuity/key-digest",
+              "case/not-after"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schema",
+        "view",
+        "revision",
+        "page/after",
+        "next/after",
+        "preparations"
+      ]
     }
   ]
 }

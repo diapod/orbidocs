@@ -46,6 +46,8 @@ schema_for_file() {
     *whisper-pex-key-offer.v1.json) echo "$SCHEMAS_DIR/whisper-pex-key-offer.v1.schema.json" ;;
     *whisper-case-authority-policy.v1.json) echo "$SCHEMAS_DIR/whisper-case-authority-policy.v1.schema.json" ;;
     *.whisper-case-authorities.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-authorities.local.v1.schema.json" ;;
+    *.nym-case-key-operation.local.v1.json) echo "$SCHEMAS_DIR/nym-case-key-operation.local.v1.schema.json" ;;
+    *.nym-case-key-state.local.v1.json) echo "$SCHEMAS_DIR/nym-case-key-state.local.v1.schema.json" ;;
     *.nym-authorship-preview.local.v1.json) echo "$SCHEMAS_DIR/nym-authorship-preview.local.v1.schema.json" ;;
     *.whisper-signal.v2.json) echo "$SCHEMAS_DIR/whisper-signal.v2.schema.json" ;;
     *.nym-source-status-acquire.local.v1.json) echo "$SCHEMAS_DIR/nym-source-status-acquire.local.v1.schema.json" ;;

@@ -16,7 +16,9 @@
         "erase",
         "recovery-consent",
         "provider-inspect",
-        "provider-replace"
+        "provider-replace",
+        "list-exposed",
+        "abandon"
       ]
     },
     "continuity/key-digest": {
@@ -27,6 +29,10 @@
       "type": "boolean"
     },
     "expected/provider": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "page/after": {
       "type": "string",
       "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
     }
@@ -42,7 +48,8 @@
             "enum": [
               "read",
               "erase",
-              "recovery-consent"
+              "recovery-consent",
+              "abandon"
             ]
           }
         }
@@ -103,6 +110,22 @@
         "not": {
           "required": [
             "expected/provider"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "list-exposed"
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "page/after"
           ]
         }
       }

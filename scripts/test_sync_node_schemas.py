@@ -18,6 +18,30 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_case_preparation_contracts_and_fixtures_are_mirrored(self) -> None:
+        schemas = tuple("nym-case-key-" + name + ".local.v1.schema.json"
+                        for name in ("operation", "state", "provider"))
+        fixtures = (
+            ("list-exposed.nym-case-key-operation.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("abandon.nym-case-key-operation.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("exposed.nym-case-key-state.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("mixed-abandon.nym-case-key-operation.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+        )
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax', 1)
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory)
+            for name in schemas:
+                self.assertIn(name, SYNC.SCHEMA_WHITELIST)
+            SYNC.copy_files(schemas, SYNC.SCHEMAS_DIR, target)
+            for name, source, whitelist in fixtures:
+                self.assertIn(name, whitelist)
+                SYNC.copy_files((name,), source, target)
+                self.assertEqual((target / name).read_bytes(), (source / name).read_bytes())
+                result = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n', str(script), "--syntax-only", str(source / name)], text=True, capture_output=True, check=False)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn("nym-case-key-", result.stdout)
+
     def test_case_policy_adoption_and_review_fixtures_are_mirrored_and_dispatched(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)

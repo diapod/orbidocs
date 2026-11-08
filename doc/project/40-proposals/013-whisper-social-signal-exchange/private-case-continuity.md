@@ -488,3 +488,21 @@ before opening; a later policy, origin or holder cannot extend original custody.
 Its component/reopen tests do not complete LLR-001 or ordinary-v1 Gate B, and the
 old issuer-retention coupling cannot be removed using this preflight alone. See
 `node:memarium-runtime/README.md#prospective-case-custody-preflight`.
+
+
+### Exposed preparation operator projection
+
+The ordinary operator `case-key` command lists current exposed, unbound
+preparations in digest order, at most 64 per page. The cursor is exclusive and
+live, not a snapshot; lifecycle changes require a fresh scan. The response carries
+only the operation reference, commitment digest and original horizon, together
+with owner revision and continuation. It does not verify secret availability.
+
+Explicit `abandon` checks the absence of an author binding inside the same S026
+owner that commits erase intent and completion. A stale inventory selection must
+refuse after bind. Existing unbound erase intent/completion remains idempotent
+through restart; there is no implicit replacement key. Bound-key erasure and case
+closure remain separate operations. This is exposed through the existing
+operator-session route and protected Whisper UI, using POST/CSRF and P095's
+private template catalogue. No module capability or new access route follows.
+Component owner/schema/UI tests do not qualify ordinary-v1 Gate B.

@@ -125,6 +125,9 @@ SCHEMA_WHITELIST = (
     "nym-issuance-decision.v1.schema.json",
     "nym-source-status.v1.schema.json",
     "nym-exchange-sealed.v1.schema.json",
+    "nym-case-key-operation.local.v1.schema.json",
+    "nym-case-key-state.local.v1.schema.json",
+    "nym-case-key-provider.local.v1.schema.json",
 
     "agent.supplied-input-manifest.v3.schema.json",
     "agent.outcome.v4.schema.json",
@@ -795,6 +798,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "exposed.nym-case-key-state.local.v1.json",
+    "abandon.nym-case-key-operation.local.v1.json",
+    "list-exposed.nym-case-key-operation.local.v1.json",
     "whisper-case-continuation-decision.local.v1.json",
     "artifact-delivery-relay-header.v1.json",
     "whisper-case-status-request.v1.json",
@@ -1464,6 +1470,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "mixed-abandon.nym-case-key-operation.local.v1.json",
     "payload-minimal.artifact-delivery-status.json",
     "unknown-field.whisper-case-continuation-decision.local.v1.json",
     "unknown-field.artifact-delivery-relay-header.v1.json",
