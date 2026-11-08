@@ -364,7 +364,12 @@ transport-only pending inbox before optional S020 processing, host offer refusal
 terminal AD completion independent of domain acceptance, restart and exact replay.
 Its certificate/media/topology boundaries and original refused observer runs
 remain explicit. These are implementation observations, not complete Gate A.
-The required lost-reply/ACK controls, full access-class privacy coverage and
-independent two-store qualification remain open. Ordinary-v1 positive SQLite and
+A subsequent clean-source, explicitly fault-injected run discarded one actual
+peer admission ACK; the existing AD retry returned the identical saved admission,
+with exact custody bytes after reopen. The stopped observer also checks selected
+AD/INAC, network/log and notification surfaces plus default cache/store contents.
+These are scoped canary observations, not complete privacy qualification. Further
+lost-domain-response controls, live SSE coverage and independent two-store
+qualification remain open. Ordinary-v1 positive SQLite and
 Synapse Gate B, independent horizons and ordinary UI/succession are still required;
 no tracker is promoted from these scoped observations.

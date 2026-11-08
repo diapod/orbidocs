@@ -24,7 +24,8 @@ percentages below do not measure the subsequent changes.
   [private-case execution profile](../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
   still requires Gates A/B. Scoped actual two-endpoint AD/INAC observations now
   cover pending command custody before S020 processing, protected Memarium signal
-  custody/readback, offer refusals and restart/replay. They supplement component
+  custody/readback, offer refusals, discarded-real-ACK idempotent retry and
+  restart/replay. Selected stopped trace/notification scans supplement component
   conformance; they do not complete the full private-exchange qualification or
   ordinary-v1 SQLite/Synapse continuity. The execution profile links the owning
   Node audit and its original refusal/remaining-work boundaries.
