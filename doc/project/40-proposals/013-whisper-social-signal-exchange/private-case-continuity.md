@@ -356,7 +356,6 @@ alone subsequently forwards or retries the original ciphertext. Current gates,
 exact target and absolute original deadline still apply. Component evidence does
 not replace either runtime gate.
 
-
 ### Scoped direct-consumer evidence, 2026-11-08
 
 The [Node observation](../../../../../node/docs/audits/WHISPER-DIRECT-CONSUMERS-2026-11-08.md)
