@@ -460,3 +460,14 @@ that same frozen document; a bad later source cannot reuse cached authority.
 Original preview time fixes the authority ceiling. Retained document/result
 readback does not grant another signature. This boundary does not yet supply
 the three independent custody guarantees or close ordinary-v1 Gate B.
+
+
+The producer is available to an independently adopted native case authority's
+local operator through `prepare-authority-policy` and `read-authority-policy` on
+the existing identity workflow route. Requests select an exact owner-adopted
+source profile and canonical random operation ID; only preparation specifies a
+finite deadline. Readback cannot resume signing. The result distinguishes
+`not-published` from committed exact `policy/bytes` and `policy/digest`. P072
+admits only these local operator uses; no generic middleware or public fetch
+alias follows. Recipient adoption remains a separate P091 decision. Native
+signer/store/reopen conformance does not renew Gate A or close ordinary-v1 B.

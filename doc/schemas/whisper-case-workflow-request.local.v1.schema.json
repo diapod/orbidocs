@@ -777,6 +777,70 @@
               "pattern": "^[A-Za-z0-9_-]+$"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "profile",
+            "expires/at"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-authority-policy"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "profile": {
+              "oneOf": [
+                {
+                  "$ref": "whisper-source-profile.v1.schema.json"
+                },
+                {
+                  "$ref": "whisper-source-profile.v2.schema.json"
+                }
+              ]
+            },
+            "expires/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "profile"
+          ],
+          "properties": {
+            "operation": {
+              "const": "read-authority-policy"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "profile": {
+              "oneOf": [
+                {
+                  "$ref": "whisper-source-profile.v1.schema.json"
+                },
+                {
+                  "$ref": "whisper-source-profile.v2.schema.json"
+                }
+              ]
+            }
+          }
         }
       ]
     }

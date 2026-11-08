@@ -43,6 +43,12 @@ class ResolveNodeRootTests(unittest.TestCase):
         script = SCRIPT.with_name("validate-json-schemas.sh")
         setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
         fixtures = (
+            ("prepare-authority-policy.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("read-authority-policy.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("authority-policy-pending.whisper-case-workflow-result.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("authority-policy.whisper-case-workflow-result.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("read-with-deadline.whisper-case-workflow-request.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+            ("policy-without-profile.whisper-case-workflow-request.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
             ("prepare-recipient-offer.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
             ("prepare-protected-signal-offer.whisper-case-workflow-request.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
             ("recipient-offer.whisper-case-workflow-result.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),

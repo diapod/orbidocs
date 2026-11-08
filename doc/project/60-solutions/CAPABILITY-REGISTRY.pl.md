@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **252** host-local / **284** ogółem; grupy właścicieli: **46**.
+Wpisy: **254** host-local / **286** ogółem; grupy właścicieli: **47**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -357,6 +357,13 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>whisper.pex.offer.bind</code> | <code>host/whisper.pex.offer.bind</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper case authority host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>whisper.case.policy.prepare</code> | <code>host/whisper.case.policy.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>whisper.case.policy.read</code> | <code>host/whisper.case.policy.read</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>daemon bounded HTTP fetch host</code>
 

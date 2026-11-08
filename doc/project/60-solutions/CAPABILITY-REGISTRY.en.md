@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **252** host-local / **284** total; **46** owner groups.
+Entries: **254** host-local / **286** total; **47** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -355,6 +355,13 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>whisper.pex.offer.bind</code> | <code>host/whisper.pex.offer.bind</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper case authority host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.case.policy.prepare</code> | <code>host/whisper.case.policy.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>whisper.case.policy.read</code> | <code>host/whisper.case.policy.read</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>daemon bounded HTTP fetch host</code>
 

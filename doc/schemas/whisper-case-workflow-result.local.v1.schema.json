@@ -556,6 +556,63 @@
           "$ref": "whisper-pex-key-offer.v1.schema.json"
         }
       }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "publication/state",
+        "policy/digest",
+        "policy/bytes"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "publication/state": {
+          "const": "published"
+        },
+        "policy/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "maxLength": 50
+        },
+        "policy/bytes": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "maxLength": 5462,
+          "minLength": 1
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "publication/state"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "publication/state": {
+          "const": "not-published"
+        }
+      }
     }
   ]
 }
