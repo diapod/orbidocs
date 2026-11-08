@@ -18,6 +18,27 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_case_policy_adoption_and_review_fixtures_are_mirrored_and_dispatched(self) -> None:
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        fixtures = (
+            ("shape.whisper-case-authorities.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("case.nym-authorship-preview.local.v1.json", SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+            ("duplicate-pins.whisper-case-authorities.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+            ("missing-authority-policy.nym-authorship-preview.local.v1.json", SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory)
+            for name, source, whitelist in fixtures:
+                with self.subTest(name=name):
+                    self.assertIn(name, whitelist)
+                    SYNC.copy_files((name,), source, destination)
+                    self.assertEqual((destination / name).read_bytes(), (source / name).read_bytes())
+                    result = subprocess.run(["sh", "-c", setup + '\nschema_for_file "$2"\n', str(script), "--syntax-only", str(source / name)], text=True, capture_output=True, check=False)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    suffix = name.split(".", 1)[1].removesuffix(".json")
+                    self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / (suffix + ".schema.json")))
+
     def test_recipient_offer_workflow_fixtures_are_copied_and_dispatched(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)

@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **249** host-local / **281** total; **46** owner groups.
+Entries: **252** host-local / **284** total; **46** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -398,6 +398,9 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
+| <code>identity.nym.authorship.preview</code> | <code>host/identity.nym.authorship.preview</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.readback</code> | <code>host/identity.nym.authorship.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.sign</code> | <code>host/identity.nym.authorship.sign</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.approve</code> | <code>host/identity.nym.renewal.approve</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.readback</code> | <code>host/identity.nym.renewal.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.revoke</code> | <code>host/identity.nym.renewal.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |

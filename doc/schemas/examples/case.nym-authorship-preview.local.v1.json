@@ -1,0 +1,27 @@
+{
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "operation/id": "case-open-example",
+  "certification/id": "certification-example",
+  "content": {
+    "schema": "whisper-signal.v2",
+    "signal/polarity": "problem",
+    "epistemic/class": "rumor",
+    "signal/text": "Synthetic case without embargo.",
+    "topic/class": "topic",
+    "context/facets": [
+      "synthetic"
+    ],
+    "confidence": 0.5,
+    "disclosure/scope": "federation-scoped",
+    "signal/grade": "low",
+    "routing/profile": "direct",
+    "routing/failure-mode": "soft-fail",
+    "forwarding/max-hops": 0,
+    "signal/similarity-key": "alpha"
+  },
+  "case": {
+    "status-authority": "node:did:key:z6MkhQLVRJmSctZWXSwm9KPq8wBPmfZykiY7uhD1fqSiw1Tv",
+    "not-after": "2026-11-08T12:00:00Z",
+    "authority/policy": "eyJhdXRob3JpdHkvaWQiOiJub2RlOmRpZDprZXk6ejZNa2hRTFZSSm1TY3RaV1hTd205S1BxOHdCUG1mWnlraVk3dWhEMWZxU2l3MVR2IiwiY2FzZS9tYXgtYWN0aXZlIjo2NCwiY2FzZS9tYXgtaGlzdG9yeS1ldmVudHMiOjI1NiwiY2FzZS9tYXgtbGlmZXRpbWUtc2Vjb25kcyI6ODY0MDAsImNhc2UvbWF4LXN1Y2Nlc3Npb25zIjo2NCwiY2FzZS9tYXgtc3VjY2Vzc2lvbnMtcGVyLWRheSI6NCwiY2FzZS9zdGF0dXMtZnJlc2huZXNzLXNlY29uZHMiOjMwMCwiZXhwaXJlcy9hdCI6IjIwMjYtMTEtMDdUMTI6MDA6MDBaIiwiZmVkZXJhdGlvbi9pZCI6ImZpeHR1cmUtZmVkZXJhdGlvbiIsImlzc3VlZC9hdCI6IjIwMjYtMTEtMDZUMTI6MDA6MDBaIiwib3BlcmF0aW9ucyI6WyJvcGVuIiwic3VjY2Vzc2lvbiIsImNsb3N1cmUiXSwicHJvZmlsZS9kaWdlc3QiOiJzaGEyNTY6QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQSIsInNjaGVtYSI6IndoaXNwZXItY2FzZS1hdXRob3JpdHktcG9saWN5LnYxIiwic2lnbmF0dXJlIjp7ImFsZyI6ImVkMjU1MTkiLCJ2YWx1ZSI6IkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBIn19"
+  }
+}

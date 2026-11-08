@@ -445,3 +445,18 @@ and emergency closure; pure conformance exercises 64/65 and the exact rolling-da
 edge. Full long-lived owner and ordinary-v1 SQLite/Synapse Gate B remain open.
 See `node:whisper-case-service/README.md` for the owner contract and convergence
 boundaries. This does not broaden the source-pinned direct Gate A result.
+
+## Local policy adoption boundary
+
+The P091 `/whisper/case-authorities` value is the closed local
+`whisper-case-authorities.local.v1` list of exact `{authority/id, policy/digest}`
+pairs, with an empty deny-all default and at most 64 entries. Policy bytes are
+separate input material: new-case preview carries the canonical signed policy as
+unpadded base64url in `case.authority/policy`. Supplied bytes cannot establish
+local trust or change the selected certificate profile/federation.
+
+Host preparation and first signing reacquire current P091 sources and verify
+that same frozen document; a bad later source cannot reuse cached authority.
+Original preview time fixes the authority ceiling. Retained document/result
+readback does not grant another signature. This boundary does not yet supply
+the three independent custody guarantees or close ordinary-v1 Gate B.

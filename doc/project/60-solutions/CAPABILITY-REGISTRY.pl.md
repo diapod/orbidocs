@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **249** host-local / **281** ogółem; grupy właścicieli: **46**.
+Wpisy: **252** host-local / **284** ogółem; grupy właścicieli: **46**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -400,6 +400,9 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
+| <code>identity.nym.authorship.preview</code> | <code>host/identity.nym.authorship.preview</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.readback</code> | <code>host/identity.nym.authorship.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.sign</code> | <code>host/identity.nym.authorship.sign</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.approve</code> | <code>host/identity.nym.renewal.approve</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.readback</code> | <code>host/identity.nym.renewal.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.nym.renewal.revoke</code> | <code>host/identity.nym.renewal.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
