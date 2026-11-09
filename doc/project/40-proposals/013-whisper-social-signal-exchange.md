@@ -286,6 +286,13 @@ Readers do not fetch source material to render it. Raw originals, exact URLs,
 local finding ids, private artifact refs, body digests and collection timing do
 not accompany the label automatically; each needs independent disclosure review.
 
+[P100: Text Origin Labels](100-text-origin-labels-and-propagation.md) proposes
+a host-tracked label that can serve as a consistency check for
+`model-assisted`: text whose label names a model must not be published without
+that declaration. The label does not replace the verified inference lineage
+that `model-assisted` already requires, and signed signals keep carrying only
+this summary.
+
 Before committing publication, revalidate the finite custody claim through its
 owner and bind that result to the exact prepared publication. Expired/missing
 material refuses new promotion under this profile. If a committed publication

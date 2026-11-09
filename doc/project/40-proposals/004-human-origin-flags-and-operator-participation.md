@@ -72,6 +72,12 @@ The baseline model is:
 4. Direct human live participation MUST be explicitly flagged in room-visible semantics, even when the operator remains pseudonymous.
 5. Transcript segments, summaries, archival bundles, and training corpora MUST preserve or derive these distinctions rather than flattening them away.
 
+[P100: Text Origin Labels](100-text-origin-labels-and-propagation.md) proposes
+a set-valued successor to the `origin/class` vocabulary, so that labels can
+travel beyond answer rooms and separate model output from software text.
+Participation modes, room policy and the visibility rules in this proposal are
+unchanged. Until P100 is accepted, the three values above remain the contract.
+
 ## Proposed Model
 
 ### 1. Participation modes
