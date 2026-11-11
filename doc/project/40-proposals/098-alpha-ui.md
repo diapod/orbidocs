@@ -293,37 +293,47 @@ satisfy P098. Initial values below are proposed defaults to validate:
 
 | Element | Alpha default |
 |---|---|
-| Typography | Local system sans-serif; body `1rem` with `1.5` line height; sentence-case labels; page heading around `2rem`. Honor user font settings. |
-| Geometry | Centered home up to `64rem`; guided content up to `42rem`; `1–2rem` page padding; spacing steps `0.5`, `1`, `1.5`, `2rem`; restrained `0.75rem` card corners. |
+| Typography | Bundled IBM Plex Sans for body text, Inter Tight for headings and IBM Plex Mono for code and identifiers, served from the UI's own origin with local system stacks as fallback. Body `1rem` with `1.6` line height; sentence-case labels, with short uppercase eyebrows for panel titles and status tokens; page heading around `2rem`. Sizes stay relative, preserving user text scaling and zoom. |
+| Geometry | Centered home up to `64rem`; guided content up to `42rem`; `1–2rem` page padding; spacing steps `0.5`, `1`, `1.5`, `2rem`; square card and window corners. |
 | Layout | Two home columns where content fits, one on narrow screens; row-major visual and keyboard order; no horizontal carousel or forced viewport-height canvas. |
-| Color | Neutral surfaces and text with one restrained accent. Separate semantic success, warning and error tokens; text and icons convey state alongside color. |
+| Windows | Flat white panels with `1px` lines. Modal windows add a soft shadow over a dark blurred backdrop and enter with movement only, so a window stays visible when no animation frame runs. |
+| Color | Neutral gray page, white surfaces and slate text with one blue accent. Separate semantic success, warning and error tokens; text and icons convey state alongside color. |
 | Themes | Bundled light and dark palettes. The operator's `system` default follows the client OS preference; a fixed operator preset applies only within its admitted scope. A durable participant override needs its own admitted P091 address/precedence; until supported, any local override is session-only. |
 | Actions | Main controls at least `44 × 44` CSS pixels; one visually primary continuation or final action in guided steps, a consistent Back control and a secondary exit/pause action. |
 | Motion | Minimal transition feedback, no autoplay or decorative motion; honor reduced-motion preferences. |
 | Feedback | Distinct loading, empty, unavailable, refused, failed and uncertain-result presentations. Keep useful prior context while a refresh is pending. |
 
-The initial palette uses soft green neutrals and a restrained green accent:
+The initial palette pairs a neutral light gray page with white surfaces, slate text and
+a single blue accent:
 
 | Token | Light | Dark |
 |---|---|---|
-| Page background | `#f8faf9` | `#161c1a` |
-| Card surface | `#ffffff` | `#202925` |
-| Card boundary | `#7a8d85` | `#6b7f76` |
-| Main text | `#20352e` | `#edf3ef` |
-| Secondary text | `#52665e` | `#b1c1b8` |
-| Primary action / text on it | `#285b43` / `#ffffff` | `#b6dec6` / `#153221` |
+| Page background | `#eeeeec` | `#17191e` |
+| Card surface | `#ffffff` | `#21252d` |
+| Card boundary | `#7a8393` | `#808a9b` |
+| Main text | `#283041` | `#e9ecf3` |
+| Secondary text | `#4b5466` | `#b3bbc9` |
+| Primary action / text on it | `#2664ec` / `#ffffff` | `#9dbafa` / `#0f1f45` |
 
 These are the versioned preset's defaults. Operators may override the bounded theme
-parameters in §5; arbitrary CSS is deferred. Controls also need tested boundary, focus
-and semantic-state tokens; the palette alone is not a complete accessibility result.
-Reserve success labels/icons for real outcomes so that the green accent does not make an
-ordinary choice look like a completed operation. Calculated from these sRGB values,
-card/page contrast is only 1.048:1 light and 1.157:1 dark. The proposed opaque boundary
-has contrast 3.352:1 against the light page and 3.514:1 against its card; dark values
-are 4.051:1 and 3.503:1 respectively. Use the boundary wherever identifying the
-interactive card requires it. Verify the actual rendered border, focus/hover/disabled
-states and forced colors; arithmetic on preset values is not a browser/native
-accessibility qualification.
+parameters in §5; arbitrary CSS is deferred. The current Node UI stylesheet implements
+only the light column; the dark column is a proposed target. Controls also need tested
+boundary, focus and semantic-state tokens; the palette alone is not a complete
+accessibility result. Reserve success colors and labels/icons for real outcomes; the
+blue accent marks ordinary actions and must not suggest a completed operation.
+Calculated from these sRGB values, card/page contrast is only 1.162:1 light and 1.145:1
+dark. The proposed opaque boundary has contrast 3.289:1 against the light page and
+3.821:1 against its card; dark values are 5.046:1 and 4.408:1 respectively. Use the
+boundary wherever identifying the interactive card requires it. Decorative dividers may
+use the lighter `#c3c9d4`, which does not qualify as a required boundary. Verify the
+actual rendered border, focus/hover/disabled states and forced colors; arithmetic on
+preset values is not a browser/native accessibility qualification.
+
+The light preset also uses heading ink `#040b1b` and accent text `#1743ae`, because
+`#2664ec` reaches only 4.391:1 as text on the page. These are not operator keys;
+P098-002b pins them with the preset's derivation. The bundled font files, their SIL OFL
+1.1 licenses and their provenance are recorded in
+[P001](001-licensing-proposal.md#bundled-third-party-fonts).
 
 The two-column home becomes a single readable column rather than shrinking targets.
 Guided steps use the same frame and button positions. Ordinary browsing retains
@@ -805,11 +815,11 @@ recovery/unlock shells or introduce durable participant preferences.
 | `preset` | Admitted preset ID; initially `alpha` | Selects a complete, versioned base theme. |
 | `color_scheme` | `system`, `light`, `dark` | `system`; selects between two already validated palettes without a new configuration activation. |
 | `tokens.palette.{light,dark}.<key>` | Only `page_background`, `card_surface`, `card_boundary`, `text`, `text_secondary`, `accent`, `on_accent`; opaque `#RRGGBB` strings, normalized to lower case | Defaults from the §2 table; each palette/key can be overridden independently. No alpha, functions, variables or URLs. |
-| `tokens.typography.font_family` | `system-sans` or `system-serif` | `system-sans`; host-owned local font stacks, preserving semantic code/monospace styling. No font paths, downloads or free-form CSS families. |
+| `tokens.typography.font_family` | `bundled-sans`, `system-sans` or `system-serif` | `bundled-sans`, the §2 faces served by the host; the `system-*` values select host-owned local font stacks. All preserve semantic code/monospace styling. No font paths, downloads or free-form CSS families. |
 | `tokens.typography.body_scale` | Finite JSON number from `1.0` through `1.5` | `1.0`, relative to the user's base `1rem`; preserves browser text scaling and zoom. |
-| `tokens.typography.line_height` | Finite JSON number from `1.5` through `2.0` | `1.5`, unitless body line height. |
+| `tokens.typography.line_height` | Finite JSON number from `1.5` through `2.0` | `1.6`, unitless body line height. |
 | `tokens.spacing.density` | `compact`, `comfortable`, `relaxed` | `comfortable`; respective factors `0.875`, `1.0`, `1.25` for host-defined gaps/nonessential padding. Target size and focus clearance never shrink below the baseline. |
-| `tokens.shape.card_radius_rem` | Finite JSON number from `0` through `1.5` | `0.75`; card corners only, with reflow and focus geometry preserved. |
+| `tokens.shape.card_radius_rem` | Finite JSON number from `0` through `1.5` | `0`; card corners only, with reflow and focus geometry preserved. |
 
 These are data values, not CSS declarations. Reject unknown keys, `null`, unsupported
 units/enums, non-finite/out-of-range numbers and arbitrary custom-property names. The
@@ -1529,9 +1539,9 @@ future repository tooling.
 
 ## Change History
 
-The initial amendments below are dated **2026-11-06**. The final row records the
-**2026-11-07** review. Current contracts and the delivery tracker supersede earlier
-wording; the history records design evolution, not additional completion gates.
+The initial amendments below are dated **2026-11-06**; later rows carry their own
+dates. Current contracts and the delivery tracker supersede earlier wording; the history
+records design evolution, not additional completion gates.
 
 | Amendment | Preserved decision / correction |
 |---|---|
@@ -1545,6 +1555,7 @@ wording; the history records design evolution, not additional completion gates.
 | Delivery review | Preserve operator-role continuity; supply local-primary people entries; split 005a/005b; retire lane-only 019–021; name transient Resume state; pin theme derivation and audit scopes; move the canonical tracker to its subdocument. |
 | Integration-seam foundation | Split 002a/002b and P095-013a/013b; reuse P091 consumption, preserve owner outcomes/identity axes and add conformance cases. Name Responsibility, P082, Web, reviewed handoff and BrainFlow owner tasks and optional 024–028 profiles without blocking baseline delivery. |
 | Foundation scope review — 2026-11-07 | Limit 002a to supplied values, two examples and one type-boundary consumer; join P091/P095 contracts at 002b. Separate Alpha route migration from remaining legacy routes, parallelize source-specific freezes and end Web handoff at draft/readback before optional onward contribution. Preserve all runtime, custody and real-device gates. |
+| Visual baseline — 2026-11-11 | Align §2 and §5 defaults with the restyled Node UI: neutral gray page, blue accent, square corners, `1.6` line height, bundled OFL fonts and a `bundled-sans` family value. Recompute contrast; the dark palette remains a proposed target. |
 
 No amendment establishes runtime completion. Active implementation tasks remain
 `todo`; deferred extensions and historical evidence retain their stated scope.
