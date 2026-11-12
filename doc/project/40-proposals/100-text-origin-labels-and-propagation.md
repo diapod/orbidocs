@@ -6,16 +6,20 @@ Based on:
 
 - [Vision](../../normative/20-vision/en/VISION.en.md), "Culture as a Low-Pass
   Filter" (synthetic content displacing human content)
-- [P004: Human-Origin Flags](004-human-origin-flags-and-operator-participation.md)
+- [P004: Human-Origin
+  Flags](004-human-origin-flags-and-operator-participation.md)
   and `doc/project/50-requirements/requirements-005-transcript-segments.md`
   (today's `origin_class` vocabulary)
-- [P047: Classification Label Propagation](047-classification-label-propagation.md)
+- [P047: Classification Label
+  Propagation](047-classification-label-propagation.md)
   (label as data, join, edge-first staging, deferred `Tainted<T>`)
-- [P090: Inference Execution Provenance](090-inference-execution-provenance-and-non-local-disclosure.md)
+- [P090: Inference Execution
+  Provenance](090-inference-execution-provenance-and-non-local-disclosure.md)
   (a separate axis that must compose with origin)
 - [P013: Whisper](013-whisper-social-signal-exchange.md)
   (declared material origin and the "AI-assisted" label)
-- [P064: Inquirium Implementation Recommendations](064-inquirium-implementation-recommendations.md)
+- [P064: Inquirium Implementation
+  Recommendations](064-inquirium-implementation-recommendations.md)
   (observation transport and prompt-injection boundaries)
 
 ## Executive Summary
@@ -173,14 +177,70 @@ looks clean. This proposal therefore fixes the meaning of absence:
   evidence, with no recorded processing;
 - a name outside the closed vocabulary is refused by the schema on local
   carriers;
-- peer and signed ingress is the one declared extension point: there such a
-  name is replaced by `unknown`, never dropped;
+- carriers explicitly selecting the `ingress` profile in section 8 permit
+  bounded unrecognized names in any facet; interpretation is facet-specific;
 - `unknown` never projects to `human`, `software` or a legacy value that names
   an author (section 12);
 - a consumer treats `unknown` as the worst case for its own decision.
 
 This matches P013, where legacy records render origin as unknown, and P047,
 where unlabeled ingress receives the highest restriction.
+
+After a peer carrier passes its explicitly selected `ingress` schema and its
+owner's applicable authentication checks, interpretation follows these rules:
+
+| Facet | Unrecognized token |
+| --- | --- |
+| `origin/classes`, `origin/influence` | In the local interpretation, replace the token with `unknown`, keep all recognized names, then sort and deduplicate. Do not infer a missing producer from a processing token |
+| `origin/evidence` | Ignore the incoming evidence claim whether recognized or not; the host stamps `peer-attested`. A bounded unknown evidence token does not invalidate interpretation. Outside the unchanged original carrier, it appears only in bounded diagnostics, never as interpreted evidence |
+| `origin/processing` | Return the typed interpretation result `unsupported-processing-token`. The processing vocabulary has no `unknown` token; do not drop the operation or substitute an empty processing list |
+
+The resulting producer interpretation still has to satisfy the laws in section
+1.
+For example, mapping an unrecognized producer to `unknown` does not satisfy
+`human-edited`'s requirement for `human`. Such a label has a typed validity
+refusal; interpretation must not invent the missing name.
+
+An unsupported or invalid label is not a valid `TextOrigin` or a successful
+empty-processing result. Consumers that require an interpreted label must not
+automatically approve the operation from it. They expose the interpretation
+failure and use their existing refusal or review path. This does not bypass
+any existing publication or authority requirement.
+
+Interpretation never rewrites signed arrays or reserializes a signed record as
+its replacement. The original bytes remain the input to the carrier owner's
+signature, schema and admission checks. Interpreting an unfamiliar label grants
+no permission to admit a record rejected by those checks. A local interpretation
+or diagnostic is a separate read model, not a repaired signed fact.
+
+Required boundary vectors cover each facet, mixed recognized/unrecognized
+processing tokens, preservation of recognized producer names, the cross-facet
+validity refusal above, and unchanged signed bytes. Local closed-schema refusal
+remains unchanged; a valid signature does not make an unsupported label known.
+A strictly versioned signed carrier that rejects the token at Schema Gate never
+enters this interpretation path. Being received from a peer does not select the
+`ingress` profile. Module ingress retains section 5's `module-declared`
+stamping.
+
+Unknown processing remains a safe refusal to interpret in mixed-version
+federations. The host provenance-ingress adapter owns the local diagnostic
+store under S028; the pure codec returns diagnostics but performs no I/O.
+The store is operator-only and uses a rolling seven-day retention window.
+Reads and writes prune expired entries; restart does not restart retention.
+
+A diagnostic key binds the admitted peer, carrier/schema version, receiver's
+vocabulary version and sender's declared vocabulary version or `not-declared`.
+Keep at most 256 keys and eight token samples per key, with one bounded overflow
+aggregate for excess keys and counts. Samples retain the ingress token bound of
+32 ASCII characters; counters saturate rather than creating more records.
+The overflow aggregate follows the same seven-day retention. Samples expire
+according to capture time, even if the same key receives later observations.
+
+Peer-chosen samples are escaped at display and never exported, published,
+sent to models or copied into notification payloads. Counts identify mismatch
+for operator action without guessing an undeclared sender version. Repeated
+failures update these counters rather than creating a review request each time.
+The store grants no authority to relax interpretation or publication checks.
 
 ### 4. Labels grow; only an act replaces them
 
@@ -261,7 +321,8 @@ inference lineage.
 ### 7. Granularity: segments, not characters
 
 Union over a whole prompt quickly produces a label that names everything. Labels
-therefore attach to segments that already exist: `InquiryContent`, prompt layers,
+therefore attach to segments that already exist: `InquiryContent`, prompt
+layers,
 `GenerateOutput` and transcript segments. Flattening segments into one string
 joins their labels, so flattening should happen as late as possible. The
 assembly trace keeps per-segment labels without content.
@@ -286,14 +347,64 @@ A label is a group of sibling fields beside the text, never a wrapped string:
 
 - Arrays are sorted and unique, and hold at most 16 names.
 - `origin/classes`, `origin/influence` and `origin/evidence` appear together.
-  `origin/processing` is omitted when empty. A partial label is invalid.
-- Producer and evidence names are closed enums in a versioned `text-origin.v1`
-  sub-schema, which `$ref`s the `origin/processing` definition in
-  `whisper-origin.v2` (P100-010).
+  Local writers omit `origin/processing` when empty; ingress may also carry
+  an empty processing array. A partial label is invalid.
+- `text-origin.v1` defines two explicit sub-schema profiles, `local` and
+  `ingress`. The containing carrier selects one by `$ref`; a payload cannot
+  select or override its profile. No schema failure triggers a profile fallback.
+- `local` uses closed producer/evidence enums and references the processing
+  definition in `whisper-origin.v2` (P100-010). It governs host authorship and
+  local carriers.
+- `ingress` bounds every token in all four facets to 1–32 ASCII characters,
+  matching `^[a-z][a-z0-9-]{0,31}$` over the entire token, with an explicit
+  length bound. Implementations match the entire token, for example with
+  `re.fullmatch` in Python; trailing newlines are refused by the shared vectors.
+  Every array has at most 16 tokens, is unique and sorted in ASCII byte order;
+  the three required facets are
+  nonempty. Processing may be omitted or empty. It permits unfamiliar names,
+  not malformed structure or unbounded input. Schema acceptance precedes the
+  separate semantic interpretation in section 3.
+- The profiles share known spellings and interpreted validity laws. An ingress
+  wire value is not deserialized directly into the closed `Processing` enum
+  or treated as a validated `TextOrigin`.
 - Labels on signed records are covered by the signature as canonical arrays.
 - Numeric bit values never appear on the wire, in facts or in signatures. A
   rebuildable projection (S028) may store them only if positions are
   append-only.
+
+The initial carrier disposition is:
+
+| Carrier / boundary | Planned disposition |
+| --- | --- |
+| Local `InquiryContent`, prompt layers, normalized `GenerateOutput`, Whisper drafts and Python module output | `local` in their P100 carrier revisions; adapters cannot supply trusted labels |
+| Proposed `response-envelope.v2` | One wire schema referencing `ingress`; P100-001 owns the schema and vectors. Host-authored output uses the typed emitter plus the local label check at `Boundary::Egress` |
+| Proposed `transcript-segment.v2` authored by the local transcript owner | `local`; interpretation of peer source envelopes happens before transcript construction |
+| Existing `response-envelope.v1` and `transcript-segment.v1` | Existing schemas and legacy projection only; no new ingress profile inferred |
+| Peer import of `transcript-bundle.v1` | Strict import through its existing `transcript-segment.v1` reference; no ingress fallback |
+| Proposed bundle version carrying `transcript-segment.v2` | P100-001 freezes its version and strict local-profile segment reference; peer import deterministically refuses vocabulary mismatch |
+| `whisper-signal.v3` and its `whisper-origin.v1` dependency | Existing strict schemas; unknown processing is rejected before interpretation |
+| Future signed records with a full text-origin label | No implicit adoption; a new carrier version must explicitly choose its profile |
+
+P100-001 owns the new carrier schemas and their positive/refusal vectors,
+including `response-envelope.v2`, `transcript-segment.v2` and the corresponding
+bundle revision. It freezes the exhaustive carrier/version/profile inventory
+with each owner. Schema Gate vectors establish that a bounded unfamiliar token
+can reach interpretation through the peer envelope, while strict transcript
+imports and existing signed carriers refuse mismatches. Expected interpretation
+outcomes are vector data here; interpreter execution belongs to P100-002/003.
+P100-005 implements carriers and projections against those frozen schemas.
+
+There is exactly one wire schema for `response-envelope.v2`, referencing
+`ingress`. Its host emitter accepts only validated `TextOrigin` values and
+checks the label against `local` using the existing Schema Gate
+`Boundary::Egress`, in addition to validating the full wire envelope. This is a
+boundary check of the label, not a second envelope schema. Peer receipt uses
+`Boundary::Ingress`, then the separate interpreter. Both checks keep the same
+wire bytes; no profile is selected from untrusted payload data.
+
+Until those new versions exist, this is a proposed contract, not runtime
+compatibility. Signatures bind the original carrier, including unfamiliar but
+schema-valid tokens; interpretation never changes those bytes.
 
 ### 9. Rust representation
 
@@ -321,12 +432,43 @@ pub struct AttributedText {
 }
 ```
 
+Peer wire input has a separate structural type in `text-origin-core`:
+
+```rust
+/// Private, bounded token vectors; structural validity only.
+pub struct IngressOriginLabel {
+    classes: Vec<IngressToken>,
+    influence: Vec<IngressToken>,
+    processing: Vec<IngressToken>,
+    evidence: Vec<IngressToken>,
+}
+
+pub struct OriginInterpretation {
+    pub result: Result<TextOrigin, OriginRefusal>,
+    pub diagnostics: Vec<OriginDiagnostic>,
+}
+
+pub fn interpret(label: &IngressOriginLabel) -> OriginInterpretation;
+```
+
+`IngressToken` and the label have checked constructors/deserialization enforcing
+section 8 before unbounded allocation. They validate structure, token limits,
+ASCII ordering and uniqueness without requiring names to be known. The result
+is never implicitly convertible into `TextOrigin`. `interpret` is pure and
+specifically implements the peer-label rules in section 3; module and host
+stamping remain distinct boundaries. It neither authenticates a peer nor admits
+a carrier. Diagnostics are bounded by the input (at most 64 token entries);
+the host attaches authenticated peer/version context and applies the store's
+stricter sample/retention limits. No raw input is emitted as a valid label after
+an interpretation refusal.
+
 The bitset is chosen for its algebra rather than for memory: union is a single
 OR, and the laws are trivial to property-test. Each facet has room for 16 tokens
 and at most seven are in use. A `TextOrigin` is eight bytes, so `AttributedText`
 is 32 bytes on 64-bit targets against 24 for `String`.
 
-Carriers hold an optional `TextOrigin` beside their text (section 8).
+Local and interpreted carriers hold an optional `TextOrigin` beside their text.
+Peer wire carriers hold `IngressOriginLabel` until interpretation (section 8).
 `AttributedText` is introduced only on composition paths where an audit shows
 that sibling fields lose labels (P100-008).
 
@@ -348,6 +490,12 @@ It obeys the same join laws as `classification::Join`, and the leaf crate
 `text-origin-core` does not depend on that crate.
 
 ### 10. Python representation
+
+Python exposes corresponding `IngressOriginLabel`, `OriginInterpretation`
+and `interpret` contracts with the same structural checks, typed refusal codes
+and bounded diagnostics. They use the shared vectors, including full-token
+matching. The helper does not silently construct a trusted `LabeledStr` from
+raw ingress tokens or from a failed interpretation.
 
 The host delivers labels as JSON fields. A middleware helper,
 `middleware-modules/lib/text_origin.py`, wraps the text in a `LabeledStr`
@@ -372,10 +520,87 @@ Propagation in Python therefore cannot be guaranteed, so loss must be safe:
 | Consumer | Rule |
 | --- | --- |
 | Whisper publication (P013) | Text whose `origin/classes` contains `model` must not be published without `model-assisted`. The label does not replace the verified inference lineage that `model-assisted` already requires. Text containing `unknown` cannot pass this check automatically and needs publication review. Drafts carry no label today, so this consumer includes that plumbing |
-| Corpus (`training/eligibility`, `contains-human-origin`) | Text containing `model` or `unknown` must not be promoted as human-origin material. Promotion also requires `origin/evidence` to be exactly `{host-observed}`, unless the corpus owner's policy accepts another basis |
+| Corpus | Keep the presence of human-origin material, promotion as human-origin material and training eligibility separate. Apply the criteria below; no origin label grants consent or training approval |
 | Node UI | Shows the label as a badge; `unknown` is displayed as unknown, never hidden |
 | Inquirium traces | Record per-segment labels and influence, without content |
 | Future discussion artifacts (P026) | Reuse the label instead of a local flag |
+
+#### Corpus presence, promotion and training
+
+`contains-human-origin` describes the presence of human-originated source
+material, not its eligibility. A recognized `human` contribution with an
+evidence
+basis accepted by the Corpus owner remains present in mixed material such as
+`{human, model}`. A refusal to promote that mixture must not erase the human
+contribution or bypass the consent rules that protect it. Lack of knowledge does
+not establish `false`; when the source does not support a boolean assertion,
+omit the optional field and preserve uncertainty in the label and provenance.
+Use the same evidence-acceptance policy as promotion, defaulting to exactly
+`{host-observed}`. For a valid, supported label with accepted evidence, set
+`true` when `human` is present. Set `false` only when none of `human`, `unknown`
+or `external` is present. Otherwise omit the field. Invalid/unsupported labels
+or unaccepted evidence also yield omission, not `false`; thus a peer's claimed
+`human` with `peer-attested` is omitted by default.
+
+Automatic human-origin promotion requires all of:
+
+1. A valid, supported label with `human` in `origin/classes`.
+2. Neither `model` nor `unknown` in `origin/classes`.
+3. No `external` contribution with unestablished authorship. Mixed
+   `{human, external}` material requires explicit Corpus review rather than
+   automatic promotion; review does not remove names from the label.
+4. `origin/evidence` exactly `{host-observed}`, unless the Corpus owner's
+   explicit policy accepts another basis. The original evidence basis remains
+   visible; accepting it does not promote it to `host-observed`.
+
+For `{human, software}`, composition facts mean the retained per-segment
+labels in section 7's host assembly trace, bound to the exact candidate text.
+No new peer assertion or separate composition artifact is introduced. Automatic
+promotion requires all ordinary origin/evidence conditions and a complete trace:
+no contributing segment is purely `{software}`, and every segment containing
+`software` also contains `human` and records `software-edited`.
+
+These conditions apply to retained source segments before concatenation. A
+segment that has already flattened an unknown composition cannot establish them;
+its source segments must still be available in the assembly trace, otherwise
+review is required. This prevents a template and an edited human sentence from
+being flattened into a single apparently eligible `{human, software}` segment.
+An aggregate label alone requires review. A segment-level decision covers only
+the selected eligible segments, not an aggregate containing an excluded
+template.
+No ratio of human to software words is inferred.
+
+These are origin conditions only. `training/eligibility` remains a separate
+curation decision (`blocked`, `needs-review` or `approved`) governed by consent,
+the training profile and P004. Passing the origin conditions never sets it to
+`approved`. The label still records observed entry or declared provenance, not
+proof of human composition.
+
+Required consumer vectors, with an otherwise accepted evidence basis:
+
+| `origin/classes` | `contains-human-origin` | Automatic human-origin promotion |
+| --- | --- | --- |
+| `{human}` | `true` | Origin conditions met; independent consent and curation still apply |
+| `{human, software}` | `true` | Only with the composition/segment evidence above; otherwise review |
+| `{software}` | `false` | Refused: no `human` contribution |
+| `{model}` | `false` | Refused: model contribution |
+| `{external}` | Omitted | Refused: no established `human` contribution |
+| `{human, model}` | `true` | Refused; the accepted human contribution remains recorded |
+| `{human, unknown}` | `true` | Refused; uncertainty remains visible |
+| `{human, external}` | `true` | Requires explicit Corpus review |
+| `{unknown}` | Omitted | Refused; absence of knowledge does not establish `false` |
+
+The suite also covers default refusal of `peer-attested` and `module-declared`
+for promotion, an explicit policy accepting another evidence basis without
+rewriting it, default omission of presence for `{human}` with `peer-attested`,
+and consent refusal after all origin conditions pass. Composition vectors
+include
+human text edited by software, human text concatenated with a software template,
+and that same concatenation also carrying `software-edited`: the token must not
+bypass aggregate review. Invalid/unsupported labels never produce a presence
+assertion or automatic promotion.
+
+#### Publication projection
 
 A publication is a broader projection than a segment. Any segment with `model`
 in `origin/classes` makes the publication declare `model-assisted`, even when
@@ -528,6 +753,12 @@ passing as clean text.
 | Failure | Mitigation |
 | --- | --- |
 | A label is dropped in an interior path | Absence reads as `unknown`, which is the worst case |
+| Unbounded tokens enter through the open ingress profile | Enforce the ASCII token pattern, 32-character limit, 16 tokens per facet and structural rules before interpretation; test exact bounds and one beyond |
+| Mixed-version peers repeatedly send unsupported processing | Bounded per-peer/version diagnostics expose incompatibility without relaxing refusal or flooding review |
+| An unfamiliar processing token is silently erased | Return `unsupported-processing-token`; no valid empty-processing fallback and no automatic approval |
+| Ingress normalization changes a signed fact | Interpret separately from original signed bytes; the carrier owner retains signature, schema and admission authority |
+| Non-human material meets only the negative Corpus checks | Require positive `human` membership as well as the exclusion and evidence conditions |
+| Mixed material loses its human contribution when promotion is refused | Keep `contains-human-origin` separate from promotion and training eligibility; preserve consent requirements and uncertainty |
 | Python operations lose the label | Egress labels plain `str` as `{unknown}` |
 | `human` is claimed for pasted model text | `human` is defined as surface entry, and labels are documented as non-proof |
 | A peer or module claims `human` falsely | The host writes the evidence itself, and human-origin promotion refuses `peer-attested` and `module-declared` by default |
@@ -612,6 +843,14 @@ known consumers.
    to be frozen with P100-004.
 3. When should `origin/classes` enter signed records such as a future Whisper
    signal? *Recommended default:* after the local consumers have shown value.
+   This does not defer the explicitly planned peer `response-envelope.v2`
+   ingress profile in section 8; existing signed Whisper schemas remain strict.
+4. Should an extensible peer carrier explicitly declare its `whisper-origin`
+   vocabulary version? Freeze any such field with the carrier owner, including
+   binding it to the signed carrier where applicable. Unsupported declared
+   versions should produce a deterministic version/schema refusal rather than
+   repeated content review. Until that contract exists, diagnostics use the
+   known carrier version and `not-declared`, without guessing compatibility.
 
 Resolved 2026-11-09:
 
@@ -667,7 +906,7 @@ policy, and `relative-path-core`, which owns one law with golden vectors.
 | Concept | Source of truth | Action |
 | --- | --- | --- |
 | Who produced the words | `origin/classes` in `text-origin.v1` | New. `provenance/origin-classes` becomes its derived projection on response envelopes |
-| How the text was processed | `origin/processing` in `whisper-origin`; `whisper-core::Processing` | Reuse at segment level. Move the Rust enum to `text-origin-core` and re-export it from `whisper-core`. The new sub-schema `$ref`s the contract definition, as `whisper-signal.v3` does. `human-edited` and `software-edited` need a new contract version (see below) |
+| How the text was processed | `origin/processing` in `whisper-origin`; `whisper-core::Processing` | Reuse at segment level. Move the Rust enum to `text-origin-core` and re-export it from `whisper-core`. The `local` sub-schema `$ref`s the contract definition; the bounded `ingress` profile uses those known spellings during interpretation. `human-edited` and `software-edited` need a new contract version (see below) |
 | How well a label is established | `evidence-basis` in `inference-provenance-common.v1` | Reuse `peer-attested`, `derived` and `unknown`. P090's host tokens describe egress and its `adapter-declared` describes execution reports, so origin adds `host-observed` and `module-declared` |
 | What source the material came from | `origin/source-kinds` in P013 | Keep at publication level and bridge it (table below) |
 
@@ -770,7 +1009,10 @@ contract.
 
 - Define `human-edited` and `software-edited` in `whisper-origin.v2`, with
   `maxItems` 7, and update P013 in both languages.
-- `text-origin.v1` references v2. Existing schemas stay on v1 until their own
+- The `local` profile of `text-origin.v1` references v2; `ingress` permits
+  bounded wire tokens and interprets supported processing against that
+  vocabulary.
+  Existing schemas stay on v1 until their own
   next version, and projecting to v1 withholds both values, which
   `ProjectionLaw` allows.
 - Record a disposition for each dependent: `whisper-signal.v3`,
@@ -830,12 +1072,12 @@ requires the row's evidence and reconciliation with its implementation owner.
 
 | ID | Task / owner | Depends on | Status | Completion gate |
 | --- | --- | --- | --- | --- |
-| P100-001 | Freeze vocabulary, laws and wire form / Orbidocs + Node | P100-010 | todo | `text-origin.v1` passes Schema Gate; `origin/processing` is a `$ref` to `whisper-origin.v2`; vectors and negative fixtures cover join laws, `model-assisted` without `model`, `human-edited` without `human`, `software-edited` without `software`, empty required sets, partial labels and names outside the closed vocabulary |
-| P100-002 | `text-origin-core` / Node | P100-001 | todo | Property tests prove the join laws; `Processing` moves out of `whisper-core` and gains `human-edited` and `software-edited`, while `whisper-signal.v3` still refuses both; bit positions stay out of facts and signatures; the crate declares `Apache-2.0` and the grant is recorded in the source-header manifest |
-| P100-003 | `LabeledStr` and the egress rule / middleware | P100-001 | todo | Shared vectors pass in Python; tests pin the operations that lose a label and the `{unknown}` result at egress |
+| P100-001 | Freeze vocabulary, laws and wire form / Orbidocs + Node | P100-010 | todo | `text-origin.v1` freezes local/ingress profiles and the exhaustive carrier/version/profile inventory; the local processing facet references `whisper-origin.v2`; P100-001 owns response-envelope.v2, transcript-segment.v2 and its bundle schema revision and all schema vectors; peer envelope vectors traverse Schema Gate with expected interpretation outcomes recorded as data, strict signed carriers refuse unknown tokens, and ingress bound/fallback tests (including trailing whitespace/newlines) pass; vectors and negative fixtures cover join laws, `model-assisted` without `model`, `human-edited` without `human`, `software-edited` without `software`, empty required sets, partial labels and names outside the closed vocabulary; section 3 vectors distinguish each facet, mixed known/unknown processing, cross-facet validity refusals and unchanged signed bytes |
+| P100-002 | `text-origin-core` / Node | P100-001 | todo | Property tests prove the join laws; bounded IngressOriginLabel and the pure interpret API execute the frozen vectors; ingress interpretation preserves known producer names, stamps peer evidence regardless of incoming token knowledge and returns typed unsupported/invalid results without an empty-processing fallback; bounded result diagnostics pass; `Processing` moves out of `whisper-core` and gains `human-edited` and `software-edited`, while `whisper-signal.v3` still refuses both; bit positions stay out of facts and signatures; the crate declares `Apache-2.0` and the grant is recorded in the source-header manifest |
+| P100-003 | `LabeledStr`, ingress interpretation and the egress rule / middleware | P100-001 | todo | Python IngressOriginLabel and interpret execute the same frozen vectors and refusal codes as Rust; tests pin the operations that lose a label and the `{unknown}` result at egress |
 | P100-004 | Segment fields and inference stamping / Inquirium | P100-001, P100-002 | todo | Output labels follow section 6, including `Summarize`/`Transform`; labels leave `instruction/hash` unchanged; tests prove that labels do not reach the adapter body and that adapter-supplied labels are ignored; every other inference path has a recorded disposition; traces hold no content |
-| P100-005 | Legacy projections / Room and middleware owners | P100-001, P100-002 | todo | Both migration tables hold; new transcript and envelope versions require `origin/classes`; the legacy value is omitted where section 12 says so; `provenance/origin-classes` parses through the shared vocabulary |
-| P100-006 | First consumers / Whisper, Corpus, Node UI | P100-004 | todo | Whisper drafts carry labels; the Whisper check refuses text labeled `model` without `model-assisted` and sends `unknown` to review; Corpus refuses human-origin promotion for `model`, `unknown` and, by default, evidence other than `host-observed`; UI shows `unknown` |
+| P100-005 | Carrier implementation and legacy projections / Room and middleware owners | P100-001, P100-002 | todo | Implement the envelope, segment and bundle schemas frozen by P100-001; one envelope wire schema passes both boundary paths with the local label check at Egress; strict peer bundle import refuses mismatch; host-store checks cover seven-day expiry across restart, 256 keys plus overflow, eight samples per key and escaped operator-only display; both migration tables hold; new transcript and envelope versions require `origin/classes`; the legacy value is omitted where section 12 says so; `provenance/origin-classes` parses through the shared vocabulary |
+| P100-006 | First consumers / Whisper, Corpus, Node UI | P100-004 | todo | Whisper drafts carry labels; the Whisper check refuses text labeled `model` without `model-assisted` and sends `unknown` to review; all section 11 Corpus vectors pass, including positive `human` membership, mixed external review, explicit true/false/omitted presence with the shared evidence policy, default evidence refusal, software-edit/concatenation/segment distinctions including a pre-flattened segment with missing ancestry, preservation of human contributions in mixtures and independent consent refusal; unsupported/invalid labels never authorize automatic approval; UI shows `unknown` |
 | P100-007 | Observe-only gate on the four surfaces / Inquirium and surface owners | P100-004 | todo | All four surfaces evaluate the versioned rule table and write audit-only records without content; effects proceed unchanged, including when evaluation fails; thresholds are recorded before collection; the four measures in section 14 are reported per surface |
 | P100-008 | Audit composition paths for `AttributedText` / Node | P100-004 | todo | A recorded finding per composition site; the type is added only where the audit shows label loss; where it exists, no implicit conversion to `str` exists and `Debug` never prints text |
 | P100-009 | Enable enforcement per surface / surface owners and P064 owners | P100-007 | todo | A recorded decision per surface against its threshold; path coverage is proven; threat cases are replayed; `ask` uses a P066 consent bound to the effect digest; a failed evaluation fails closed |
