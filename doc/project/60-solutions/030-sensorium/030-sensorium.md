@@ -1211,3 +1211,20 @@ evaluation is stale. Unchanged public records do not establish that subclaim.
 Work is paused at the owner's request; no new window or production adoption.
 The original runtime and reader results remain unchanged. Resume basis:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+
+### Fresh expiry checkpoint (2026-11-12)
+
+R47 on runtime/capture Node `aa580ab20` and Orbidocs `c4ef2611` independently
+verifies **10/131**, with 121 unverified rows and identical
+ordinary/optimized campaign results, in the aligned fixture window
+2026-11-12 16:40–16:50 UTC.
+Exact A2 renew uses fresh predecessor status through S020. Independent receiver
+C verifies one-source A/A2, two-source A/B and a fresh persisted evaluation after
+certificate expiry plus adopted skew; D supplies source-owner status. End-window
+refusals and historical read pass. S020 success or `no-work` alone is insufficient.
+
+Historical refusals remain unchanged. Full Gates A/B, the milestone and production
+adoption remain open; counts from different source campaigns are not added.
+Measured scope, review corrections, original bindings and retention limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-AND-EXPIRY-20261112.md`.
