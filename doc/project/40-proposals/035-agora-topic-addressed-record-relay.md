@@ -2948,9 +2948,9 @@ an honest-clock guarantee or room-auth-chain verification.
 
 The current runtime's Client-Server observation policy is local, as documented
 by P015; it does not already implement this portable path. The planned explicit
-federation-format receive/retention path must supply the actual PDU. Move the
-existing room-v10 verifier from the native qualification binary into the owning
-shared library; runtime and LLR-002 reuse that implementation and its tests.
+federation-format receive/retention path must supply the actual PDU. The
+room-v10 verifier belongs to the pure `agora-matrix::pdu` boundary; runtime and
+LLR-002 reuse its cryptographic checks rather than implementing another verifier.
 The old example path is now a historical locator, not the implementation owner.
 Missing/invalid full PDU never falls back to the local timestamp policy.
 
@@ -2972,6 +2972,20 @@ key-material digest. Native receipts have no additional source fields. Missing
 required source fields, cross-branch fields and policy/source mismatch refuse.
 The signature domain is `orbiplex.agora-admission-receipt.v2`; neither version's
 signature can verify under the other version's domain.
+
+For the selected federation-format Client-Server receive profile, validate the
+outer `event_id` against the derived reference hash before removing that sole
+Client-Server decoration. Preserve every other field, including all `unsigned`
+observation metadata. The receipt binds this exact canonical observed PDU, not a
+reconstructed server database row. Do not strip `unsigned` to meet a size limit.
+A stock storage export may have different unsigned metadata; retain both in
+acceptance and bind them through event ID, content hash and server signatures,
+without claiming byte identity or server authentication of unsigned fields.
+The complete observed and exported PDUs have separately measured byte sizes.
+The initial verifier profile bounds each full PDU to 64 KiB, the exact server
+key-material input to 16 KiB and strict JSON depth to 128. These parsing limits
+do not confer server/key adoption; the exact independent admission and its
+validity interval remain mandatory.
 
 Full PDU verification precedes the Matrix observation commit. A legacy retained
 Client-Server-only observation cannot retroactively become a verified-at-observation
