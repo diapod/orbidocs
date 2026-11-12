@@ -144,6 +144,11 @@ publish effect adapter
   -> return a metadata-only evidence-classified receipt
 ```
 
+Invoke receipts carry `payload/digest` as `sha256:` plus canonical unpadded
+base64url encoding of exactly 32 bytes. The schema and pure core reject malformed
+encodings, including nonzero unused trailing bits; representation validity alone
+is not payload verification or evidence of an effect.
+
 Observation authority never implies actuation authority. A collaboration carrier,
 Room membership, or control lease cannot replace the exact active interface grant.
 Ordinary Corpus deliberation requires neither plane. An admitted Sensorium Interface

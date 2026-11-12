@@ -18,7 +18,7 @@
     "lease/epoch": { "type": "integer", "minimum": 1 },
     "method/name": { "type": "string", "pattern": "^[a-z][a-z0-9.-]{0,127}$" },
     "input/schema-ref": { "$ref": "#/$defs/ref" },
-    "payload/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 },
+    "payload/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$", "minLength": 50, "maxLength": 50, "description": "SHA-256 encoded as canonical unpadded base64url: exactly 32 decoded bytes, with zero unused trailing bits, prefixed by sha256:." },
     "accepted/sequence": { "type": "integer", "minimum": 1 },
     "outcome": { "enum": ["applied", "refused", "failed", "unknown"] },
     "evidence/class": { "enum": ["host-admission", "provider-ack", "operation-status", "state-readback", "none"] },

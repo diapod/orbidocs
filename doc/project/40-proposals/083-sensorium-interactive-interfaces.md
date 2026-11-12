@@ -459,6 +459,12 @@ admission checks source generation, lease, and epoch before idempotency replay, 
 an old-epoch request cannot obtain a stale receipt instead of
 `interface/control-stale`.
 
+A receipt's `payload/digest` is `sha256:` followed by canonical unpadded
+base64url encoding of exactly 32 bytes (43 encoded characters, with zero unused
+trailing bits). Both the schema and the typed boundary validator reject other
+lengths, alphabets, padding and noncanonical aliases. Syntax validation alone
+does not prove correspondence to the payload or successful execution.
+
 The final receipt outcomes are:
 
 - `applied`: the provider confirms the effect;
