@@ -2905,6 +2905,72 @@ The v1 producer signs only a strict live `accepted` result. Historical
 re-admission is outside this profile. `accepted-historical` with a source-proof
 digest is reserved, unsupported and rejected by the closed v1 contract.
 
+### Witness source adapters for ordinary case anchors (2026-11-12)
+
+Accepted design, pending implementation and independent qualification. P035 owns
+this evidence bridge; LLR-002 and LLR-008 consume it. It neither changes a source
+profile nor upgrades a certificate. P015-005 remains independent.
+
+One witness family composes source-specific evidence through explicit adapters:
+
+- `witnessed-admission-receipt-v1`: the existing native v2 SQLite contract;
+- `v1-relay-receipt-witness-v1`: a full-record bridge for ordinary v1 SQLite;
+- `matrix-homeserver-observation-v1`: a full-record Matrix observation witness.
+
+Each adapter has a distinct exact policy digest, independently admitted by the
+verifier through P091, and a separate explicit witness-use grant. Neither source
+profile admission nor a generic CaseAnchor grant implies either new grant. The
+policy digest binds the named adapter, source profile, receipt kind, key window,
+commit budget and source-specific parameters. V1 has no witness-window fields:
+read them from the independently admitted policy, never from defaults or a guessed
+v2 profile. Unknown policy, absent material or missing grant refuses without
+trying another adapter. Keep existing v2 policy hashes and historical bytes.
+
+The SQLite bridge requires the original valid phase-1
+`agora-publication-receipt.local.v1`. It binds that receipt's exact digest and
+copies its accepted time, without a new time observation. Mismatched time or
+missing receipt refuses. Only actual SQLite full-record admission is supported;
+Matrix and detached material cannot take this route. Certificate-v1 case fields
+in a signed signal remain valid input. The bridge does not authorize v2 issuance.
+
+The Matrix adapter preserves trust in the independently admitted homeserver's
+clock, but requires stronger material for its portable claim: a full federation
+PDU, exact author bytes, event, room, sender, homeserver and contemporaneous server
+key/admission material. The receipt binds the PDU and homeserver-admission digests.
+A Client-Server timestamp without that material refuses. `accepted/at` is the PDU
+publication time; `committed/at` is the durable observation/admission time. Late
+observation after certificate expiry remains possible before epoch end when the
+certificate was valid at publication with the existing five-second tolerance.
+Witness-key validity and the local prepare-to-commit budget do not limit network
+age or reinterpret accepted time. Freeze their separate clocks in the adapter
+laws before enabling production. A receipt adds auditability and portability, not
+an honest-clock guarantee or room-auth-chain verification.
+
+The current runtime's Client-Server observation policy is local, as documented
+by P015; it does not already implement this portable path. The planned explicit
+federation-format receive/retention path must supply the actual PDU. Move the
+existing room-v10 verifier from the native qualification binary into the owning
+shared library; runtime and LLR-002 reuse that implementation and its tests.
+The old example path is now a historical locator, not the implementation owner.
+Missing/invalid full PDU never falls back to the local timestamp policy.
+
+Receipt/source wire changes and conditional requirements must be frozen with
+schema mirrors and refusal vectors before implementing either producer. The
+current closed v1 receipt has no source-receipt digest field; merely retaining
+an unbound attachment cannot satisfy the bridge claim. Historical signed receipts
+remain immutable. Detached-manifest requires P015-005 and stays outside both
+bridges. Stop new bridge production separately from verification: retain the
+required policies, keys and proof at least through the latest case horizon of
+all anchors produced under it. Ending issuance does not end proof availability.
+
+Both adapters need positive actual LLR-002 registration and cross-policy refusal
+vectors. Include absent/unadmitted policy, absent witness use, wrong source digest,
+wrong accepted time, missing material and unsupported detached input. Matrix also
+covers wrong event/room, unadmitted or out-of-window server, certificate valid only
+at observation, and missing raw PDU. These are new gates; P035-019's historical
+completed scope is unchanged. The ordinary-v1 Gate B still requires both SQLite
+and Synapse positives and cannot close on either adapter alone.
+
 ### Detached Embargo Manifest Binding
 
 Consumer profile (frozen 2026-10-29), qualified by P035-019 independently of
@@ -3154,6 +3220,8 @@ LLR-003, ADC runtime, P041 historical ingest and release readiness stay separate
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P035-019 | Portable admission receipts | done | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The independent phase-1 SQLite clock receipt remains `agora-publication-receipt.local.v1`; this portable admission contract binds additional v2 evidence and never silently reinterprets the v1 time policy. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019a | Ordinary-v1 SQLite receipt witness bridge | todo | P035-019; P091; P013-LLR-002 | Freeze the separately admitted `v1-relay-receipt-witness-v1` policy and source-binding wire contract; reuse native witness preparation/commit/signing. Exact original local receipt digest/time and independent witness-use grant are mandatory. Real v1 full-record registration passes; wrong-policy, wrong time, missing source/grant, Matrix and detached inputs refuse. Verification material outlives production through every affected case horizon. |
+| P035-019b | Matrix full-PDU observation witness | todo | P035-019; P091; P013-LLR-002 | Freeze `matrix-homeserver-observation-v1`, separate publication/observation/key clocks and explicit source bindings. Move the current native room-v10 verifier to a shared owner, retain federation-format events and bind server admission/key material. Actual ordinary-v1 Synapse admission, portable LLR-002 verification and case registration pass; wrong digest/event/room/server/time/grant/certificate and timestamp-only material refuse without fallback. Exact bytes, full PDUs, restart/replay and independent Node/homeserver gates remain mandatory. |
 
 ## Follow-Up
 

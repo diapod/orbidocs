@@ -812,3 +812,17 @@ hold a copy. Close the case before erasing the local key.
 Closure is independent of ADC. LLR-011 owns the remaining durable ADC control
 operations. The previous retained capsule qualifies only its recorded scope;
 the clean-source review at Node `a002a1d2d` / Orbidocs `a9dbed36` qualified actual author closure, both race orders, replay, exhausted ordinary capacity, wrong-key refusal and recipient restart with older still-fresh Active material. Its 1031 scoped tests, native full/detached runs, cold consumers and two fresh local-store qualifications are recorded in `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`. The review catalogue is `node:docs/evidence/portable-admission/2026-11-07-case-continuity-review-qualified`, bundle `e4614aa9faa3282e7fa70a180ddd1cf5a8353b616c5877f6c660f43ca2e1d2a8`. The idle WSS read-budget regression is fixed; PEX-002 retains the separate concurrent-observer liveness gate.
+
+
+### Verification lifecycle of ordinary-v1 anchors (2026-11-12)
+
+[P035-019a/019b](../035-agora-topic-addressed-record-relay.md#witness-source-adapters-for-ordinary-case-anchors-2026-11-12)
+own the separately adopted SQLite-v1 and Matrix observation witness bridges.
+These do not modify a source profile or turn the local phase-1 receipt into a
+portable proof by relabeling. LLR-002 and case registration require the exact
+policy, source evidence and independently granted witness use. Unknown or missing
+material remains unresolved. Ending new bridge issuance does not end historical
+verification: keep its policy, verification keys and source evidence through the
+latest affected `case/not-after`, under their explicit custody owners. The
+four-period audit must account for this dependency separately from certificate
+expiry, issuer identifying-data retirement and current consent.

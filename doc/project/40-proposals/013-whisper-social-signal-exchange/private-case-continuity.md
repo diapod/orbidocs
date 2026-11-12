@@ -524,3 +524,41 @@ same operation and document; stale CAS refuses before replacing the projection.
 The view calls it an exposed preparation or signed anchor candidate, not an open
 case. Component UI/request-binding tests do not establish actual custody,
 portable admission or ordinary-v1 SQLite/Synapse Gate B.
+
+
+### Opening custody commitment and portable bridges (2026-11-12)
+
+The missing guarantee before key exposure is a P036 owner obligation, not another
+policy preflight. Reserve a bounded entry in the same exclusive provider/journal
+and capacity as actual material. Freeze original operation identity, provider,
+policy and finite payload/proof deadlines before S026 exposes a key. Unknown or
+failed reservation refuses. Retry cannot extend an origin, change the promise or
+silently adopt a replacement provider. This promises managed retention/capacity;
+it is neither proof of capture nor physical disk preallocation or immunity to
+provider loss and explicit erasure.
+
+Persist exact signed bytes before binding both S026 and the reservation; return
+new publication material only after both bindings complete. Interrupted bindings
+resume that exact result without new keys or signatures. Successful actual
+portable capture atomically consumes the reservation into the retained entry,
+keeping the original deadlines. A changed capture policy cannot renew or silently
+shorten an existing promise. Full-record capture reads the case ceiling from the
+already verified signed body; only detached receipt profiles repeat case fields.
+A reservation, policy or signed body alone cannot open the case: the actual
+retained record/proof and positive historical anchor verifier remain mandatory.
+
+Preview expiry never abandons an exposed key. Explicit unbound abandonment
+retires the key before releasing its reservation. Bound reservations expire at
+the original case ceiling or are consumed by actual capture. Maintenance rotates
+through bounded reservation batches in the same owner; it creates no new queue.
+Combined material/reservation capacity remains bounded. Exhaustion must still
+permit abandonment and expiry cleanup. Source loss, clock/fencing failure and
+unresolved commit outcome refuse before a new exposure.
+
+The portable bridges are owned by
+[P035-019a/019b](../035-agora-topic-addressed-record-relay.md#witness-source-adapters-for-ordinary-case-anchors-2026-11-12).
+They keep the existing source-profile and certificate digests, require separate
+exact policy/use admission and never select a fallback. The SQLite v1 bridge
+uses the original local receipt; it does not produce Matrix anchors. Synapse
+requires the separately adopted full-PDU observation witness. P015-005 is not
+substituted for either bridge, and current ordinary-v1 Gate B remains open.
