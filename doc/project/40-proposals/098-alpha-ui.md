@@ -848,11 +848,13 @@ resetting them.
 Validate the complete resulting theme in **both** palettes, even under a fixed color
 scheme. As Alpha design gates, require at least 4.5:1 for main/secondary text against
 supported page/card backgrounds and action text against its fill, and 3:1 for required
-component boundaries/focus against adjacent surfaces. Include host-derived
-hover/pressed/semantic-state colors in those checks; this is contrast against adjacent
+component boundaries/focus against adjacent surfaces. Include host-derived heading ink,
+link/accent text and hover/pressed/semantic-state colors in those checks; this is contrast against adjacent
 backgrounds/text, not a requirement that hover differ from the normal fill by 3:1.
 Freeze the deterministic derivation functions, constants, color space and rounding
-together with the versioned preset artifact. Diagnostics name each failing derived pair
+together with the versioned preset artifact. Derived text colors must be checked
+against the resolved backgrounds, including sparse overrides; the light preset's
+constants are not valid defaults for every palette. Diagnostics name each failing pair
 and the editable input tokens that produced it; never ask the operator to set an
 unsupported derived token. Invalid pairs or geometry produce bounded field/pair
 diagnostics, not silent color adjustment or clamping. Numeric checks do not replace
