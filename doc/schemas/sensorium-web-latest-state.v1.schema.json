@@ -4,7 +4,7 @@
   "title": "Sensorium Web Latest State v1",
   "$defs": {
     "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
-    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" }
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\u0000\\u0009-\\u000D\\u0020\\u00A0\\u1680\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000\\uFEFF]+$" }
   },
   "type": "object",
   "additionalProperties": false,
