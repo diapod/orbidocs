@@ -849,8 +849,8 @@ Validate the complete resulting theme in **both** palettes, even under a fixed c
 scheme. As Alpha design gates, require at least 4.5:1 for main/secondary text against
 supported page/card backgrounds and action text against its fill, and 3:1 for required
 component boundaries/focus against adjacent surfaces. Include host-derived heading ink,
-link/accent text and hover/pressed/semantic-state colors in those checks; this is contrast against adjacent
-backgrounds/text, not a requirement that hover differ from the normal fill by 3:1.
+link/accent text and hover/pressed/semantic-state colors in those checks; this is
+contrast against adjacent backgrounds/text, not a requirement that hover differ from the normal fill by 3:1.
 Freeze the deterministic derivation functions, constants, color space and rounding
 together with the versioned preset artifact. Derived text colors must be checked
 against the resolved backgrounds, including sparse overrides; the light preset's
