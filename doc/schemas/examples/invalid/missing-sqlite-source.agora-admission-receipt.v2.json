@@ -1,0 +1,37 @@
+{
+  "schema": "agora-admission-receipt.v2",
+  "receipt/source": "sqlite-local-receipt-bridge",
+  "receipt/profile": "full-record",
+  "record/id": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "author/bytes-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "certificate/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "issuer/id": "council:did:key:z1111111111111111111111111111111111111111111",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "policy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "status/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "status/revision": 1,
+  "witness/node-id": "node:did:key:z1111111111111111111111111111111111111111111",
+  "accepted/at": "2026-11-12T12:00:00Z",
+  "committed/at": "2026-11-12T12:00:00Z",
+  "outcome": "accepted",
+  "witness/delegation-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "witness/delegation": {
+    "schema": "witness-key-delegation.v1",
+    "witness/node-id": "node:did:key:z1111111111111111111111111111111111111111111",
+    "witness/role": "admission-receipt",
+    "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "witness/key": "did:key:z1111111111111111111111111111111111111111111",
+    "valid/from": "2026-11-12T12:00:00Z",
+    "valid/until": "2026-11-12T12:01:00Z",
+    "delegation/sequence": 1,
+    "delegation/previous": null,
+    "signature": {
+      "alg": "ed25519",
+      "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

@@ -125,6 +125,24 @@ class ResolveNodeRootTests(unittest.TestCase):
                     self.assertEqual(result.returncode, 0, result.stderr)
                     self.assertEqual(result.stdout.strip(), str(SYNC.SCHEMAS_DIR / (name + ".schema.json")))
 
+    def test_source_bound_receipts_are_mirrored_and_dispatched_by_version(self) -> None:
+        self.assertIn("agora-admission-receipt.v2.schema.json", SYNC.SCHEMA_WHITELIST)
+        script = SCRIPT.with_name("validate-json-schemas.sh")
+        setup, _ = script.read_text().split('\necho "Checking JSON syntax..."', 1)
+        for directory, names in ((SYNC.EXAMPLES_DIR, SYNC.EXAMPLE_WHITELIST),
+                                 (SYNC.INVALID_EXAMPLES_DIR, SYNC.INVALID_EXAMPLE_WHITELIST)):
+            for example in sorted(directory.glob("*.agora-admission-receipt.v*.json")):
+                with self.subTest(example=example.name):
+                    self.assertIn(example.name, names)
+                    version = "v1" if example.name.endswith(".v1.json") else "v2"
+                    completed = subprocess.run(
+                        ["sh", "-c", setup + '\nschema_for_file "$2"\n',
+                         str(script), "--syntax-only", str(example)],
+                        text=True, capture_output=True, check=False)
+                    self.assertEqual(completed.returncode, 0, completed.stderr)
+                    self.assertEqual(completed.stdout.strip(), str(
+                        SYNC.SCHEMAS_DIR / f"agora-admission-receipt.{version}.schema.json"))
+
     def test_new_local_nym_examples_have_explicit_validator_dispatch(self) -> None:
         script = SCRIPT.with_name("validate-json-schemas.sh")
         # Invoke the actual shell dispatcher without the full corpus driver.

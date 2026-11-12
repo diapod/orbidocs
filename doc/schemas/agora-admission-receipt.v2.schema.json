@@ -1,0 +1,508 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-admission-receipt:v2",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "title": "agora-admission-receipt.v2",
+  "description": "Source-bound witness claim. Source/policy agreement, exact time and referenced material require semantic verification; schema validation grants no admission.",
+  "$defs": {
+    "common": {
+      "type": "object",
+      "required": [
+        "schema",
+        "receipt/profile",
+        "author/bytes-digest",
+        "certificate/digest",
+        "issuer/id",
+        "profile/digest",
+        "policy/digest",
+        "status/digest",
+        "status/revision",
+        "witness/node-id",
+        "accepted/at",
+        "committed/at",
+        "outcome",
+        "witness/delegation-digest",
+        "witness/delegation",
+        "signature",
+        "receipt/source"
+      ],
+      "properties": {
+        "schema": {
+          "const": "agora-admission-receipt.v2"
+        },
+        "receipt/profile": {
+          "enum": [
+            "full-record",
+            "detached-manifest"
+          ]
+        },
+        "author/bytes-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "certificate/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "issuer/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "profile/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "policy/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "status/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "status/revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "witness/node-id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "maxLength": 180
+        },
+        "accepted/at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "committed/at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "outcome": {
+          "const": "accepted"
+        },
+        "witness/delegation-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "witness/delegation": {
+          "$ref": "witness-key-delegation.v1.schema.json"
+        },
+        "signature": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "alg",
+            "value"
+          ],
+          "properties": {
+            "alg": {
+              "const": "ed25519"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{86}$"
+            }
+          }
+        },
+        "receipt/source": {
+          "enum": [
+            "witnessed-admission",
+            "sqlite-local-receipt-bridge",
+            "matrix-homeserver-observation"
+          ]
+        }
+      }
+    },
+    "source-fields": {
+      "type": "object",
+      "properties": {
+        "record/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "manifest/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "case/continuity-key-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "case/status-authority": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180,
+          "pattern": "^(node|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "case/not-after": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "source/receipt-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "matrix/pdu-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "matrix/homeserver-admission-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "matrix/key-material-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "matrix/event-id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^[^\\u0000-\\u0020\\u007f]+$"
+        },
+        "matrix/room-id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^[^\\u0000-\\u0020\\u007f]+$"
+        },
+        "matrix/homeserver": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^[^\\u0000-\\u0020\\u007f]+$"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "title": "Native full-record admission",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "additionalProperties": false,
+      "required": [
+        "receipt/source",
+        "record/id"
+      ],
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/common/properties/schema"
+        },
+        "receipt/profile": {
+          "const": "full-record"
+        },
+        "author/bytes-digest": {
+          "$ref": "#/$defs/common/properties/author~1bytes-digest"
+        },
+        "certificate/digest": {
+          "$ref": "#/$defs/common/properties/certificate~1digest"
+        },
+        "issuer/id": {
+          "$ref": "#/$defs/common/properties/issuer~1id"
+        },
+        "profile/digest": {
+          "$ref": "#/$defs/common/properties/profile~1digest"
+        },
+        "policy/digest": {
+          "$ref": "#/$defs/common/properties/policy~1digest"
+        },
+        "status/digest": {
+          "$ref": "#/$defs/common/properties/status~1digest"
+        },
+        "status/revision": {
+          "$ref": "#/$defs/common/properties/status~1revision"
+        },
+        "witness/node-id": {
+          "$ref": "#/$defs/common/properties/witness~1node-id"
+        },
+        "accepted/at": {
+          "$ref": "#/$defs/common/properties/accepted~1at"
+        },
+        "committed/at": {
+          "$ref": "#/$defs/common/properties/committed~1at"
+        },
+        "outcome": {
+          "$ref": "#/$defs/common/properties/outcome"
+        },
+        "witness/delegation-digest": {
+          "$ref": "#/$defs/common/properties/witness~1delegation-digest"
+        },
+        "witness/delegation": {
+          "$ref": "#/$defs/common/properties/witness~1delegation"
+        },
+        "signature": {
+          "$ref": "#/$defs/common/properties/signature"
+        },
+        "receipt/source": {
+          "const": "witnessed-admission"
+        },
+        "record/id": {
+          "$ref": "#/$defs/source-fields/properties/record~1id"
+        }
+      }
+    },
+    {
+      "title": "Native detached admission",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "additionalProperties": false,
+      "required": [
+        "receipt/source",
+        "manifest/digest",
+        "case/continuity-key-digest",
+        "case/status-authority",
+        "case/not-after"
+      ],
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/common/properties/schema"
+        },
+        "receipt/profile": {
+          "const": "detached-manifest"
+        },
+        "author/bytes-digest": {
+          "$ref": "#/$defs/common/properties/author~1bytes-digest"
+        },
+        "certificate/digest": {
+          "$ref": "#/$defs/common/properties/certificate~1digest"
+        },
+        "issuer/id": {
+          "$ref": "#/$defs/common/properties/issuer~1id"
+        },
+        "profile/digest": {
+          "$ref": "#/$defs/common/properties/profile~1digest"
+        },
+        "policy/digest": {
+          "$ref": "#/$defs/common/properties/policy~1digest"
+        },
+        "status/digest": {
+          "$ref": "#/$defs/common/properties/status~1digest"
+        },
+        "status/revision": {
+          "$ref": "#/$defs/common/properties/status~1revision"
+        },
+        "witness/node-id": {
+          "$ref": "#/$defs/common/properties/witness~1node-id"
+        },
+        "accepted/at": {
+          "$ref": "#/$defs/common/properties/accepted~1at"
+        },
+        "committed/at": {
+          "$ref": "#/$defs/common/properties/committed~1at"
+        },
+        "outcome": {
+          "$ref": "#/$defs/common/properties/outcome"
+        },
+        "witness/delegation-digest": {
+          "$ref": "#/$defs/common/properties/witness~1delegation-digest"
+        },
+        "witness/delegation": {
+          "$ref": "#/$defs/common/properties/witness~1delegation"
+        },
+        "signature": {
+          "$ref": "#/$defs/common/properties/signature"
+        },
+        "receipt/source": {
+          "const": "witnessed-admission"
+        },
+        "manifest/digest": {
+          "$ref": "#/$defs/source-fields/properties/manifest~1digest"
+        },
+        "case/continuity-key-digest": {
+          "$ref": "#/$defs/source-fields/properties/case~1continuity-key-digest"
+        },
+        "case/status-authority": {
+          "$ref": "#/$defs/source-fields/properties/case~1status-authority"
+        },
+        "case/not-after": {
+          "$ref": "#/$defs/source-fields/properties/case~1not-after"
+        }
+      }
+    },
+    {
+      "title": "Ordinary-v1 SQLite local receipt bridge",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "additionalProperties": false,
+      "required": [
+        "receipt/source",
+        "record/id",
+        "source/receipt-digest"
+      ],
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/common/properties/schema"
+        },
+        "receipt/profile": {
+          "const": "full-record"
+        },
+        "author/bytes-digest": {
+          "$ref": "#/$defs/common/properties/author~1bytes-digest"
+        },
+        "certificate/digest": {
+          "$ref": "#/$defs/common/properties/certificate~1digest"
+        },
+        "issuer/id": {
+          "$ref": "#/$defs/common/properties/issuer~1id"
+        },
+        "profile/digest": {
+          "$ref": "#/$defs/common/properties/profile~1digest"
+        },
+        "policy/digest": {
+          "$ref": "#/$defs/common/properties/policy~1digest"
+        },
+        "status/digest": {
+          "$ref": "#/$defs/common/properties/status~1digest"
+        },
+        "status/revision": {
+          "$ref": "#/$defs/common/properties/status~1revision"
+        },
+        "witness/node-id": {
+          "$ref": "#/$defs/common/properties/witness~1node-id"
+        },
+        "accepted/at": {
+          "$ref": "#/$defs/common/properties/accepted~1at"
+        },
+        "committed/at": {
+          "$ref": "#/$defs/common/properties/committed~1at"
+        },
+        "outcome": {
+          "$ref": "#/$defs/common/properties/outcome"
+        },
+        "witness/delegation-digest": {
+          "$ref": "#/$defs/common/properties/witness~1delegation-digest"
+        },
+        "witness/delegation": {
+          "$ref": "#/$defs/common/properties/witness~1delegation"
+        },
+        "signature": {
+          "$ref": "#/$defs/common/properties/signature"
+        },
+        "receipt/source": {
+          "const": "sqlite-local-receipt-bridge"
+        },
+        "record/id": {
+          "$ref": "#/$defs/source-fields/properties/record~1id"
+        },
+        "source/receipt-digest": {
+          "$ref": "#/$defs/source-fields/properties/source~1receipt-digest"
+        }
+      }
+    },
+    {
+      "title": "Verified federation-PDU observation bridge",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "additionalProperties": false,
+      "required": [
+        "receipt/source",
+        "record/id",
+        "matrix/pdu-digest",
+        "matrix/event-id",
+        "matrix/room-id",
+        "matrix/homeserver",
+        "matrix/homeserver-admission-digest",
+        "matrix/key-material-digest"
+      ],
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/common/properties/schema"
+        },
+        "receipt/profile": {
+          "const": "full-record"
+        },
+        "author/bytes-digest": {
+          "$ref": "#/$defs/common/properties/author~1bytes-digest"
+        },
+        "certificate/digest": {
+          "$ref": "#/$defs/common/properties/certificate~1digest"
+        },
+        "issuer/id": {
+          "$ref": "#/$defs/common/properties/issuer~1id"
+        },
+        "profile/digest": {
+          "$ref": "#/$defs/common/properties/profile~1digest"
+        },
+        "policy/digest": {
+          "$ref": "#/$defs/common/properties/policy~1digest"
+        },
+        "status/digest": {
+          "$ref": "#/$defs/common/properties/status~1digest"
+        },
+        "status/revision": {
+          "$ref": "#/$defs/common/properties/status~1revision"
+        },
+        "witness/node-id": {
+          "$ref": "#/$defs/common/properties/witness~1node-id"
+        },
+        "accepted/at": {
+          "$ref": "#/$defs/common/properties/accepted~1at"
+        },
+        "committed/at": {
+          "$ref": "#/$defs/common/properties/committed~1at"
+        },
+        "outcome": {
+          "$ref": "#/$defs/common/properties/outcome"
+        },
+        "witness/delegation-digest": {
+          "$ref": "#/$defs/common/properties/witness~1delegation-digest"
+        },
+        "witness/delegation": {
+          "$ref": "#/$defs/common/properties/witness~1delegation"
+        },
+        "signature": {
+          "$ref": "#/$defs/common/properties/signature"
+        },
+        "receipt/source": {
+          "const": "matrix-homeserver-observation"
+        },
+        "record/id": {
+          "$ref": "#/$defs/source-fields/properties/record~1id"
+        },
+        "matrix/pdu-digest": {
+          "$ref": "#/$defs/source-fields/properties/matrix~1pdu-digest"
+        },
+        "matrix/event-id": {
+          "$ref": "#/$defs/source-fields/properties/matrix~1event-id"
+        },
+        "matrix/room-id": {
+          "$ref": "#/$defs/source-fields/properties/matrix~1room-id"
+        },
+        "matrix/homeserver": {
+          "$ref": "#/$defs/source-fields/properties/matrix~1homeserver"
+        },
+        "matrix/homeserver-admission-digest": {
+          "$ref": "#/$defs/source-fields/properties/matrix~1homeserver-admission-digest"
+        },
+        "matrix/key-material-digest": {
+          "$ref": "#/$defs/source-fields/properties/matrix~1key-material-digest"
+        }
+      }
+    }
+  ]
+}

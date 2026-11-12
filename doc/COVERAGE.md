@@ -82,7 +82,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`agora-admission-material.v2.schema.json`](schemas-gen/schemas/agora-admission-material.v2.md) | `8` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-readback.v1.schema.json`](schemas-gen/schemas/agora-admission-readback.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-readback.v2.schema.json`](schemas-gen/schemas/agora-admission-readback.v2.md) | `8` | `0` | `no` | `yes` | `0` | `0` |
-| [`agora-admission-receipt.v1.schema.json`](schemas-gen/schemas/agora-admission-receipt.v1.md) | `21` | `0` | `no` | `yes` | `0` | `0` |
+| [`agora-admission-receipt.v1.schema.json`](schemas-gen/schemas/agora-admission-receipt.v1.md) | `21` | `0` | `no` | `yes` | `0` | `1` |
+| [`agora-admission-receipt.v2.schema.json`](schemas-gen/schemas/agora-admission-receipt.v2.md) | `0` | `0` | `no` | `yes` | `4` | `7` |
 | [`agora-admission-request.v1.schema.json`](schemas-gen/schemas/agora-admission-request.v1.md) | `5` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-write-result.local.v1.schema.json`](schemas-gen/schemas/agora-admission-write-result.local.v1.md) | `6` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-authority-policy.v1.schema.json`](schemas-gen/schemas/agora-authority-policy.v1.md) | `11` | `4` | `yes` | `yes` | `1` | `1` |
@@ -1007,6 +1008,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`agora-admission-readback.v1.schema.json`](schemas-gen/schemas/agora-admission-readback.v1.md) |  |  |
 | [`agora-admission-readback.v2.schema.json`](schemas-gen/schemas/agora-admission-readback.v2.md) |  |  |
 | [`agora-admission-receipt.v1.schema.json`](schemas-gen/schemas/agora-admission-receipt.v1.md) |  |  |
+| [`agora-admission-receipt.v2.schema.json`](schemas-gen/schemas/agora-admission-receipt.v2.md) |  |  |
 | [`agora-admission-request.v1.schema.json`](schemas-gen/schemas/agora-admission-request.v1.md) |  |  |
 | [`agora-admission-write-result.local.v1.schema.json`](schemas-gen/schemas/agora-admission-write-result.local.v1.md) |  |  |
 | [`agora-authority-policy.v1.schema.json`](schemas-gen/schemas/agora-authority-policy.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-008-org-subject-rollout.md`](project/50-requirements/requirements-008-org-subject-rollout.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
@@ -2056,7 +2058,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
-- Canonical schemas: `919`
-- Generated schema docs: `920`
-- Positive examples: `816`
-- Negative examples: `796`
+- Canonical schemas: `920`
+- Generated schema docs: `921`
+- Positive examples: `820`
+- Negative examples: `804`

@@ -29,6 +29,8 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.agora-admission-receipt.v1.json) echo "$SCHEMAS_DIR/agora-admission-receipt.v1.schema.json" ;;
+    *.agora-admission-receipt.v2.json) echo "$SCHEMAS_DIR/agora-admission-receipt.v2.schema.json" ;;
     # Explicit versioned P084 fixture families; legacy aliases remain below.
     *.artifact-custody-configuration.local.v1.json) echo "$SCHEMAS_DIR/artifact-custody-configuration.local.v1.schema.json" ;;
     *.artifact-custody-policy.v1.json) echo "$SCHEMAS_DIR/artifact-custody-policy.v1.schema.json" ;;

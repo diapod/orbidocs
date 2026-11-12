@@ -2954,7 +2954,8 @@ shared library; runtime and LLR-002 reuse that implementation and its tests.
 The old example path is now a historical locator, not the implementation owner.
 Missing/invalid full PDU never falls back to the local timestamp policy.
 
-The new wire contract is **`agora-admission-receipt.v2`**. The frozen v1 schema,
+The new wire contract is
+[agora-admission-receipt.v2](../../schemas/agora-admission-receipt.v2.schema.json). The frozen v1 schema,
 signature domain, historical bytes and evidence pins remain unchanged. V1 is
 read-only historical `witnessed-admission`; version dispatch is explicit and
 unknown schema versions refuse as unsupported. One typed decoder and source enum
@@ -2976,6 +2977,13 @@ Full PDU verification precedes the Matrix observation commit. A legacy retained
 Client-Server-only observation cannot retroactively become a verified-at-observation
 PDU fact. Retain the original local admission/material and explicitly distinguish
 any later evidence work; never manufacture a historical verification time.
+
+The v2 canonical schema freezes four closed branches: native full and detached,
+SQLite bridge full, and Matrix observation full. It keeps the 4096-byte canonical
+receipt ceiling, including the embedded delegation; source proof buffers travel
+as separately bounded evidence, not hidden fields in the receipt. Structural
+fixtures do not attest valid signatures or admitted policies. Source/digest and
+time correspondence remain semantic-verifier obligations.
 
 Freeze schema mirrors and refusal vectors before enabling producers.
 Detached-manifest requires P015-005 and stays outside both bridges. Stop new

@@ -158,6 +158,7 @@ SCHEMA_WHITELIST = (
     "agora-admission-material.v1.schema.json",
     "agora-admission-readback.v1.schema.json",
     "agora-admission-receipt.v1.schema.json",
+    "agora-admission-receipt.v2.schema.json",
     "agora-admission-request.v1.schema.json",
     "agora-admission-write-result.local.v1.schema.json",
     "whisper-embargo-manifest.v1.schema.json",
@@ -850,6 +851,10 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "matrix-observation.agora-admission-receipt.v2.json",
+    "native-detached.agora-admission-receipt.v2.json",
+    "native-full.agora-admission-receipt.v2.json",
+    "sqlite-bridge.agora-admission-receipt.v2.json",
     "exposed.nym-case-key-state.local.v1.json",
     "abandon.nym-case-key-operation.local.v1.json",
     "list-exposed.nym-case-key-operation.local.v1.json",
@@ -1522,6 +1527,14 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "control-in-event.agora-admission-receipt.v2.json",
+    "cross-source-field.agora-admission-receipt.v2.json",
+    "detached-bridge.agora-admission-receipt.v2.json",
+    "missing-matrix-key.agora-admission-receipt.v2.json",
+    "missing-source.agora-admission-receipt.v2.json",
+    "missing-sqlite-source.agora-admission-receipt.v2.json",
+    "source-fields-in-v1.agora-admission-receipt.v1.json",
+    "unknown-source.agora-admission-receipt.v2.json",
     "mixed-abandon.nym-case-key-operation.local.v1.json",
     "payload-minimal.artifact-delivery-status.json",
     "unknown-field.whisper-case-continuation-decision.local.v1.json",
