@@ -795,7 +795,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-interface-control-status.v1.schema.json`](schemas-gen/schemas/sensorium-interface-control-status.v1.md) | `12` | `0` | `no` | `yes` | `0` | `0` |
 | [`sensorium-interface-descriptor.v1.schema.json`](schemas-gen/schemas/sensorium-interface-descriptor.v1.md) | `19` | `18` | `no` | `yes` | `1` | `1` |
 | [`sensorium-interface-frame.v1.schema.json`](schemas-gen/schemas/sensorium-interface-frame.v1.md) | `12` | `12` | `no` | `yes` | `1` | `1` |
-| [`sensorium-interface-invoke-receipt.v1.schema.json`](schemas-gen/schemas/sensorium-interface-invoke-receipt.v1.md) | `22` | `0` | `no` | `yes` | `0` | `0` |
+| [`sensorium-interface-invoke-receipt.v1.schema.json`](schemas-gen/schemas/sensorium-interface-invoke-receipt.v1.md) | `22` | `1` | `no` | `yes` | `0` | `0` |
 | [`sensorium-interface-invoke-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-invoke-request.v1.md) | `19` | `0` | `no` | `yes` | `0` | `0` |
 | [`sensorium-interface-led-set.v1.schema.json`](schemas-gen/schemas/sensorium-interface-led-set.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
 | [`sensorium-interface-read-request.v1.schema.json`](schemas-gen/schemas/sensorium-interface-read-request.v1.md) | `9` | `9` | `no` | `yes` | `1` | `1` |

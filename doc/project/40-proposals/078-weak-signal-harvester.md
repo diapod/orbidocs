@@ -1106,3 +1106,7 @@ evaluation is stale. Unchanged public records do not establish that subclaim.
 Work is paused at the owner's request; no new window or production adoption.
 The original runtime and reader results remain unchanged. Resume basis:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+### Fresh expiry checkpoint (2026-11-12)
+
+The [P084 checkpoint](084-sensorium-web-observation-connector.md#fresh-expiry-checkpoint-2026-11-12) records the exact R47 source/window, independent expiry result and remaining qualification scope.

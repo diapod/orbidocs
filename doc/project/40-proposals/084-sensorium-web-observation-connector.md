@@ -2116,3 +2116,40 @@ evaluation is stale. Unchanged public records do not establish that subclaim.
 Work is paused at the owner's request; no new window or production adoption.
 The original runtime and reader results remain unchanged. Resume basis:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+### Fresh expiry checkpoint (2026-11-12)
+
+R47 on runtime/capture Node `aa580ab20` and Orbidocs `c4ef2611` independently
+verifies **10/131**, with 121 unverified rows and identical
+ordinary/optimized campaign results, in the aligned fixture window
+2026-11-12 16:40–16:50 UTC.
+Exact A2 renew uses fresh predecessor status through S020. Independent receiver
+C verifies one-source A/A2, two-source A/B and a fresh persisted evaluation after
+certificate expiry plus adopted skew; D supplies source-owner status. End-window
+refusals and historical read pass. S020 success or `no-work` alone is insufficient.
+
+Historical refusals remain unchanged. Full Gates A/B, the milestone and production
+adoption remain open; counts from different source campaigns are not added.
+Measured scope, review corrections, original bindings and retention limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-AND-EXPIRY-20261112.md`.
+
+### Implementation convergence review (2026-11-12)
+
+Earlier F-01–F-03/F-05/Q-01 dispositions and exact implementation commits are
+recorded in the Node review linked below. The F-04/F-06–F-10 review preserves source/interface/custody authority while
+sharing compatible mechanics. Its component regressions do not requalify R47 or
+advance runtime requirement counts. Current scope and intentional separations:
+`node:docs/audits/SENSORIUM-REUSE-EXTRACTIONS-2026-11-12.md`.
+
+Deferred F-11: consolidate the Sensorium acceptance runners, custody harness and
+byte/hash helpers together with a fresh campaign and its new exact tool pins.
+Include explicit `CARGO_INCREMENTAL=0` in every Cargo runner. Preserve historical
+inputs, qualifiers and reports; no mechanical refactor transfers their qualification.
+A generic deferred-worker shell also remains deferred until a third actual consumer.
+
+The U-01–U-13 follow-up corrects deferred chronological cursors, truthful VMM
+quarantine accounting, explicit latest-state reference whitespace and shared
+Python test coverage. It records the legacy byte-versus-scalar DTO restriction as
+implementation debt, without narrowing source wire schemas or renewing campaign
+pins. Source review and remaining human index review:
+`node:docs/audits/SENSORIUM-REUSE-REVIEW-U01-U13-2026-11-12.md`.

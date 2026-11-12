@@ -144,6 +144,11 @@ publish effect adapter
   -> return a metadata-only evidence-classified receipt
 ```
 
+Invoke receipts carry `payload/digest` as `sha256:` plus canonical unpadded
+base64url encoding of exactly 32 bytes. The schema and pure core reject malformed
+encodings, including nonzero unused trailing bits; representation validity alone
+is not payload verification or evidence of an effect.
+
 Observation authority never implies actuation authority. A collaboration carrier,
 Room membership, or control lease cannot replace the exact active interface grant.
 Ordinary Corpus deliberation requires neither plane. An admitted Sensorium Interface
@@ -1875,3 +1880,17 @@ evaluation is stale. Unchanged public records do not establish that subclaim.
 Work is paused at the owner's request; no new window or production adoption.
 The original runtime and reader results remain unchanged. Resume basis:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+### Fresh expiry checkpoint (2026-11-12)
+
+The [P084 checkpoint](../../40-proposals/084-sensorium-web-observation-connector.md#fresh-expiry-checkpoint-2026-11-12) records the exact R47 source/window, independent expiry result and remaining qualification scope.
+
+### Implementation convergence review (2026-11-12)
+
+Node's F-04/F-06–F-10 maintenance shares compatible module-channel, refresh-profile,
+deferred-recovery, configuration/JSON, time/random and reference mechanics. Domain
+admission, source ownership and interface authorization remain with their existing
+owners. F-11 acceptance-tool consolidation awaits a fresh digest-pinned campaign.
+See `node:docs/audits/SENSORIUM-REUSE-EXTRACTIONS-2026-11-12.md` for constraints and
+regression scope. This adds no runtime campaign credit and does not close P084,
+P078, P013-WEB, full Gates A/B or production adoption.
