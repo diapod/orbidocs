@@ -278,6 +278,12 @@ entire codebase:
 Introducing `Tainted<T>` across the entire Rust codebase before egress guards
 are in place would slow iteration without adding enforcement. Edge-first.
 
+[P100: Text Origin Labels](100-text-origin-labels-and-propagation.md) applies
+the same pattern to a different axis: who produced a text. Its text type shares
+the deliberate absence of an implicit exit, and its union obeys the same join
+laws, but origin is not a classification tier and has no declassification. It
+does not change this lattice or the staging above.
+
 ### 4. Declassification as a Narrow, Passport-Gated Host Capability
 
 A new host capability is introduced. **The grant is narrow by construction**:

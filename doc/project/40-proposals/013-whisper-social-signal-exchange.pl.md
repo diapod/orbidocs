@@ -287,6 +287,13 @@ wyświetlić. Surowe oryginały, dokładne URL-e, lokalne identyfikatory ustale�
 prywatne referencje artefaktów, digesty ciał i czas zbierania nie towarzyszą
 etykiecie automatycznie; każdy element wymaga niezależnego przeglądu ujawnienia.
 
+[P100: Text Origin Labels](100-text-origin-labels-and-propagation.md) proponuje
+etykietę śledzoną przez hosta, która może służyć jako kontrola spójności dla
+`model-assisted`: tekstu, którego etykieta wskazuje model, nie wolno
+opublikować bez tej deklaracji. Etykieta nie zastępuje zweryfikowanej linii
+inferencji, której `model-assisted` już wymaga, a podpisane sygnały nadal niosą
+wyłącznie to podsumowanie.
+
 Przed commitem publikacji ponownie zweryfikuj ograniczoną czasowo deklarację
 pieczy u jej właściciela i powiąż wynik z konkretną przygotowaną publikacją.
 Wygasły/brakujący materiał oznacza odmowę nowej promocji w tym profilu. Jeśli

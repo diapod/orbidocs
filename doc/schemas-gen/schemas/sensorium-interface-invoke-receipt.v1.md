@@ -18,7 +18,7 @@ Source schema: [`doc/schemas/sensorium-interface-invoke-receipt.v1.schema.json`]
 | [`lease/epoch`](#field-lease-epoch) | `no` | integer |  |
 | [`method/name`](#field-method-name) | `yes` | string |  |
 | [`input/schema-ref`](#field-input-schema-ref) | `yes` | ref: `#/$defs/ref` |  |
-| [`payload/digest`](#field-payload-digest) | `yes` | string |  |
+| [`payload/digest`](#field-payload-digest) | `yes` | string | SHA-256 encoded as canonical unpadded base64url: exactly 32 decoded bytes, with zero unused trailing bits, prefixed by sha256:. |
 | [`accepted/sequence`](#field-accepted-sequence) | `no` | integer |  |
 | [`outcome`](#field-outcome) | `yes` | enum: `applied`, `refused`, `failed`, `unknown` |  |
 | [`evidence/class`](#field-evidence-class) | `yes` | enum: `host-admission`, `provider-ack`, `operation-status`, `state-readback`, `none` |  |
@@ -248,6 +248,8 @@ Then:
 
 - Required: `yes`
 - Shape: string
+
+SHA-256 encoded as canonical unpadded base64url: exactly 32 decoded bytes, with zero unused trailing bits, prefixed by sha256:.
 
 <a id="field-accepted-sequence"></a>
 ## `accepted/sequence`

@@ -824,6 +824,10 @@ the classification lattice and make local execution appear to declassify data.
 Rejected. A contribution may be model-generated both locally and remotely.
 Origin class and execution provenance must compose.
 
+[P100: Text Origin Labels](100-text-origin-labels-and-propagation.md) proposes
+the origin label that this provenance composes with. Neither replaces the
+other.
+
 ### Keep the fact only in local traces
 
 Rejected. Local traces support audit but do not give higher-level consumers a
