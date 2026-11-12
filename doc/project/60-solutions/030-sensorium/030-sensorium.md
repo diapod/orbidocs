@@ -1228,3 +1228,13 @@ Historical refusals remain unchanged. Full Gates A/B, the milestone and producti
 adoption remain open; counts from different source campaigns are not added.
 Measured scope, review corrections, original bindings and retention limits:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-AND-EXPIRY-20261112.md`.
+
+### Implementation convergence review (2026-11-12)
+
+Node's F-04/F-06–F-10 maintenance shares compatible module-channel, refresh-profile,
+deferred-recovery, configuration/JSON, time/random and reference mechanics. Domain
+admission, source ownership and interface authorization remain with their existing
+owners. F-11 acceptance-tool consolidation awaits a fresh digest-pinned campaign.
+See `node:docs/audits/SENSORIUM-REUSE-EXTRACTIONS-2026-11-12.md` for constraints and
+regression scope. This adds no runtime campaign credit and does not close P084,
+P078, P013-WEB, full Gates A/B or production adoption.

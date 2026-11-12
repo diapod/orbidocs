@@ -2133,3 +2133,16 @@ Historical refusals remain unchanged. Full Gates A/B, the milestone and producti
 adoption remain open; counts from different source campaigns are not added.
 Measured scope, review corrections, original bindings and retention limits:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-AND-EXPIRY-20261112.md`.
+
+### Implementation convergence maintenance (2026-11-12)
+
+The F-04/F-06–F-10 review preserves source/interface/custody authority while
+sharing compatible mechanics. Its component regressions do not requalify R47 or
+advance runtime requirement counts. Current scope and intentional separations:
+`node:docs/audits/SENSORIUM-REUSE-EXTRACTIONS-2026-11-12.md`.
+
+Deferred F-11: consolidate the Sensorium acceptance runners, custody harness and
+byte/hash helpers together with a fresh campaign and its new exact tool pins.
+Include explicit `CARGO_INCREMENTAL=0` in every Cargo runner. Preserve historical
+inputs, qualifiers and reports; no mechanical refactor transfers their qualification.
+A generic deferred-worker shell also remains deferred until a third actual consumer.
