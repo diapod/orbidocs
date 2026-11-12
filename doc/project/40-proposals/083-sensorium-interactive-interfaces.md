@@ -463,7 +463,12 @@ A receipt's `payload/digest` is `sha256:` followed by canonical unpadded
 base64url encoding of exactly 32 bytes (43 encoded characters, with zero unused
 trailing bits). Both the schema and the typed boundary validator reject other
 lengths, alphabets, padding and noncanonical aliases. Syntax validation alone
-does not prove correspondence to the payload or successful execution.
+does not prove correspondence to the payload or successful execution. The V1
+constraint correction preserves receipts emitted by Node, whose producer already
+uses canonical base64url. Noncanonical receipts accepted by older permissive
+validators (including hex) now fail validation; no silent conversion is defined.
+Node persists receipts in SQLite and deserializes them for idempotent replay;
+replay deserialization alone is not fresh schema validation.
 
 The final receipt outcomes are:
 
