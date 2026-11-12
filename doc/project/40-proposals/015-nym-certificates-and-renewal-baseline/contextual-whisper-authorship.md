@@ -1,6 +1,7 @@
 # Contextual Whisper authorship
 
-Status: accepted design; implementation and both runtime gates remain pending.
+Status: accepted phase-1 design; bounded Gate A/B qualified 2026-11-04.
+Historical checkpoints below keep their original results; broader scopes remain separate.
 Date: 2026-10-25.
 Based on: [P015](../015-nym-certificates-and-renewal-baseline.md),
 [P013](../013-whisper-social-signal-exchange.md), P081-021, S017 and S023.
@@ -17,10 +18,32 @@ Gate B qualifies real host/Vault authorship and contextual thresholds on SQLite
 and unmodified Synapse. Neither gate proves unique humans, an honest council,
 anonymous transport, federation, or complete Whisper readiness.
 
+## Measured closeout (2026-11-04)
+
+P015-001--003 and both bounded runtime gates are qualified: A30/30, B31/31,
+plus six separate C conformance obligations. Clean qualifier `edd7b895d` rechecks
+6,877 original source files and 5,351 observations. Loose, archive-extracted and
+fresh primary/secondary results are identical. The operator-only retained set
+has 6,369,295 B at XZ128MiB; compact path-free Git controls stay below64KiB.
+[Full result, source genealogy, receipts and exclusions](https://github.com/diapod/node/blob/master/docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md).
+
+This is a reviewed composition of exact original runtime/capture/verifier sources,
+not a new single-binary recapture. Council policy, AD admission, host consent,
+trusted publication time and eligibility remain distinct decisions. Real SQLite
+and pinned unmodified Synapse qualify ordinary confidence0.5 host/Vault/UI,
+source counts, status/expiry/reset, restart/replay, privacy and required full PDUs.
+Matrix runtime uses `authenticated-admitted-homeserver-v1`; full-PDU verification
+is acceptance evidence, not a portable runtime time proof. The owner-selected
+image-backup fixture opt-in does not extend controlled-copy erasure to retained
+keystore/image backups. Optional stay-ready runtime, P015-004/005, P081's other
+consumers, Anon, federation, full Whisper/global Agora and release readiness are
+excluded. No large evidence withdrawal was performed. Unknown hold/dependency/
+minimum-retention coverage remains protected. Historical refusals are unchanged.
+
 ## Context and problem
 
-The existing certificate verifier and historical acceptance nym signer do not
-provide an ordinary participant's issuance, signing and renewal path. Transport
+Before this slice, the certificate verifier and historical acceptance nym signer
+did not provide an ordinary participant's issuance, signing and renewal path. Transport
 admission, certification policy, permission to sign and eligibility to count are
 four different decisions. The optional issuer service owns policy and decisions;
 the host owns private nym keys; AD owns delivery of already encrypted bytes.
@@ -83,6 +106,22 @@ This does not let a detached signature stand in for the full envelope signature.
 P015-005 owns positive and cross-kind/cross-scope refusal fixtures; ADC-001/007
 own application use. None of this expands the existing narrow signal-only
 profile or qualifies Gate B.
+
+### Unpublished Matrix preparation
+
+Ordinary v2 publication first checks current contextual authorship/status and
+freezes an exact transport intent. `202 publication-requested` and a later
+forwarding ACK are not admitted domain records. The intent creates no source,
+publication-time fact or receiving nonce. Authenticated reception independently
+supplies the admitted homeserver observation and commits admission. Status and
+retry remain available by their topic-authorized links before the record exists.
+
+A first intent must be prepared before its signed proof deadline. Retry preserves
+the original bytes and transaction identity; it never extends validity or promises
+that a late event will pass admission. Historical readback needs no new status
+lease. Frozen intent/carrier/mode/transaction conflicts refuse. Explicit legacy
+v1 has no contextual publisher fallback. This owner composition is software
+implementation, not completed ordinary UI, Synapse or Gate B qualification.
 
 ### Publication time and status freshness
 
@@ -200,6 +239,15 @@ revocable and permits at most seven renewals. The scheduler chooses and persists
 a random time in 75–95 percent of the current validity interval. It does nothing
 when the next certificate cannot extend validity within the epoch. Unlock and
 current recovery-bundle requirements remain in force; there is no autoexport.
+The host reserves a bounded renewal-operation slot and persists its exact time
+and operation id before effects. Re-reading that plan does not redraw time or
+spend another slot; uncertain/aborted effects do not silently refund allowance.
+Revocation fences future effects while retaining an already reserved operation
+for factual decision reconciliation. Late completion cannot revive consent or
+count across an epoch boundary. A replacement consent needs a separate explicit
+approval; the host enforces one active consent per participant/context/epoch.
+All updates retain source authority and CAS.
+
 Operation IDs make nym preparation and preview idempotent. A 423 retains the
 exact document; an expired preview requires a new explicit preview.
 
@@ -253,6 +301,26 @@ retiring key cap is separately 4096; capacity refusal precedes minting or issuan
 The provider pins its instance and encrypted volume. Missing mount is a typed
 refusal, never directory creation on an underlying unencrypted filesystem.
 Keys are not derivable from a retained master, epoch seed or mnemonic.
+
+The local encrypted-image custody default requires backup exclusions. The owner
+subsequently permits an explicit acceptance-fixture adoption
+`custody.image_backup_policy = "allow-encrypted-image-backups"`. An encrypted
+sparseimage/sparsebundle on unexcluded backing storage may then pass preflight,
+including when macOS automatically reports its mounted contents excluded. Preserve
+both actual OS values; for this test backup exposure follows the backing image,
+not the automatic mount flag. This choice does not change OS exclusions and does
+not silently replace an earlier refusal with success. Production profiles retain
+the strict default; null/unknown local policy refuses before custody effects.
+
+A backup of the image is a copy of the keystore and lies outside crypto-erasure
+assurance, alongside copied keydirs or whole-host images. It can preserve keys
+removed from the active store. The explicit fixture adoption does not broaden
+that assurance or change source identity, signatures, retention deadlines,
+encryption, host FileVault, mount/instance binding, or missing-mount refusal.
+This local media choice is not a new public source-identity parameter: the signed
+profile already excludes copies of the keystore/image from its erasure guarantee.
+A new observed positive preflight under the named policy is required separately
+from the preserved strict negative case.
 
 `source/ref` is HMAC-SHA256 under an independent binding key over a framed
 participant/context/epoch tuple. Normal renewal keeps that key; reset creates a
@@ -511,11 +579,11 @@ availability and metadata-concentration limitation of Phase 1.
 
 ## Open questions
 
-No policy question blocks the accepted profile. Runtime adapter support, maximum
-key population, issue latency and evidence size remain measured implementation
-gates, not assumptions of completion.
+No policy question blocks the accepted profile. The bounded adapter, capacity,
+lifecycle and evidence-size gates have measured scope in the closeout above;
+new workloads/profiles still require their own measurements.
 
-## Next actions and acceptance
+## Acceptance contract
 
 1. Freeze schema/DTO parity, negative fixtures and shared JCS golden vectors.
 2. Qualify Gate A: issue, lazy renew, reject, private reset, readback, duplicates,
@@ -579,6 +647,20 @@ INAC offer key (including the ciphertext digest) remains the consent reference.
 The four families are `nym-key-request-sealed.v1`, `nym-key-offer-sealed.v1`,
 `nym-issuance-request-sealed.v1` and `nym-issuance-decision-sealed.v1`.
 
+The P084 origin-v3 exchange requires a separate, explicit
+`nym-bootstrap-consent-v2` singleton template (accepted extension, 2026-11-06).
+Its four families are the same key request/offer v1 plus
+`nym-issuance-request-sealed.v2` and `nym-issuance-decision-sealed.v2`.
+Both templates retain the same beneficiary equality, host caller, exact peer,
+phase-qualified artifact/digest consent, single use and 900-second parent-bound
+TTL. Neither template admits the other's request/decision version. The original
+template keeps its four-family meaning; an existing signed grant does not gain
+v2 authority. The host selects a revision explicitly from its adopted exchange,
+and a root must separately approve that template. Nym grants of either revision
+cannot mix with Messaging templates or make Messaging readiness ready. Transport
+delegation is independent of council certification, profile admission and the
+publication window. Runtime qualification of this extension remains open.
+
 An active parent delegation is not local consent. A/B's host must bind incoming
 replies to a durable, approved local exchange intent, expected D peer, phase and
 digest. D's host uses its separately installed issuer-receive policy to approve
@@ -630,6 +712,15 @@ cooperative work-slot budget and a reserved in-flight slot. Unsupported capacity
 refuses before key-provider initialization. No new lease follows from a queue,
 a retry or a budget overrun. These execution limits are not protocol namespace
 limits; larger capacity needs separate throughput qualification.
+
+A public lease refresh must not require re-encrypting an unchanged private
+participant map or allocating new identifying-custody keys. It retains its own
+recoverable publication/readback boundary and the last private-effects fence.
+Reset eligibility drains the latest signed collection lease even if the private
+map's cached lease predates that refresh. Key retirement, source rollback
+protection and exact prepared decision replay remain unchanged. Local readers
+must explicitly distinguish checkpoint semantics; no old reader may silently
+use the cached private timestamp as the latest public lease.
 
 The current-status consumer may checkpoint a verified cumulative signed head
 and its exact high-water cursor, then atomically remove superseded cache facts
@@ -710,7 +801,7 @@ belongs to `P013-ADC-004`.
 [P013 long-lived rumors](../013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)
 keep certificates short. The SQLite admission receipt used above as
 publication-time evidence becomes an instance of the portable
-[`agora-admission-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
+[`agora-publication-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
 so other nodes can verify later that a record was admitted while its nym proof
 was valid. That historical validity grants no current authority and does not
 extend this profile's epoch or counting rules.
@@ -725,6 +816,1285 @@ signal and delivered privately to a named audience
 ([P013-LLR-007](../013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)).
 The predecessor nym key is not kept for that purpose.
 
+
+## Resumed qualification and refresh scheduling (2026-10-28)
+
+The resumed Node `b7f184be` diagnostic observed an issued certificate through
+ordinary private AD and a protected host signature with confidence 0.5. Its
+renewal expired after repeated `nym-issuer-status-maintenance-due` decisions;
+the original refusal is retained and does not qualify Gate A or Gate B.
+
+The implementation separates two local execution deadlines. Early status refresh
+is scheduled at 10% of the emission freshness age. Issuance backpressure reserves
+one provider work slot before the earlier of actual emission freshness and signed
+status expiry. A successful provider call may outlast the early scheduling age;
+that alone must not eliminate every issuance window. A failed refresh's backoff
+cannot extend the admission boundary. These scheduling rules neither alter the
+profile digest and validity limits nor turn a stale status into emission authority.
+Full certification lifecycle and contextual relay/aggregate qualification remain
+required before closing the two gates.
+
+
+The subsequent clean `4777ccd5` private repeat reached renewal's full-request
+invitation but retained consent-busy refusal. Prepared ciphertext/readback lookup
+now uses the existing immutable output/provider/expiry checks without taking the
+runtime mutation fence. Channel-gated concurrency conformance and all 123 issuer
+cases pass. Neither this owner repair nor either private probe qualifies the
+complete lifecycle or contextual relay/aggregate runtime.
+
+
+The clean `bd825b2e` cycle completed ordinary issue and renewal, with a new nym,
+the same source and exact signed readback. Reset retained expiry after repeated
+AD retry collisions with maintenance. A bounded, transient ingress hint now
+allows a turn between work slots while preserving hard freshness backpressure,
+ordinary maintenance attempts and the original signed request deadline. The hint
+is neither an admission fact nor a new transport queue. Conformance passes 126
+issuer and seven issuer-host cases; actual complete lifecycle and Gate B remain
+unqualified.
+
+
+### Shared consumer boundary (2026-10-29)
+
+Node's `whisper-core` now owns a pure, revision-bound source-contribution
+evaluator for coordination and later disclosure consumers. It counts distinct
+admitted sources in one complete exact epoch inventory, retains all eligible
+records, filters revocations before representative choice and commits the private
+evidence basis. It does not create admission facts, nonce reservations, authority,
+consent or a first-emission latch. Incomplete inventory and stale status remain
+unavailable. The historical node-counting M4 qualification is unchanged.
+
+Seventy-five component conformance cases and strict all-target Clippy pass.
+Private `a77105e2` diagnostics observed ordinary AD issue, renewal and reset;
+a separate lazy renewal after reset activation preserved exact certificate and
+signed-record readbacks across A/D restart. An original pre-reset ciphertext
+probe returned `key-destroyed` after pre-existing provider destruction. Those
+observations and the retained original harness refusals are not complete Gate A/B
+qualification. Both gates remain pending in the tracker and Node ledger.
+
+
+### Authenticated scope refresh during issuance (2026-10-29)
+
+The issuer's local scheduler must distinguish an anonymous reservation from a
+full authenticated request that will publish a fresh status for its own exact
+scope. That full decision can perform its own refresh under the same mutation
+fence and mandatory publication/readback. Waiting first for a separate refresh
+of that same scope can otherwise consume every retry until a valid request
+expires. Other due contexts retain their reservation; an anonymous request
+cannot choose or infer the excluded scope.
+
+The `fb133aa9` diagnostic's immutable AD attempt history records six such
+maintenance-due results followed by original expiry. The repair changes no
+profile identity, signed deadline, reset activation drain, status lease or
+independent council policy. An end-of-epoch renewal that cannot extend validity
+still receives a signed refusal. This is an owner execution correction, with
+both full runtime gates still pending after it.
+
+
+### Local atomic-admission foundation (2026-10-29)
+
+The Node SQLite owner now composes pending contextual verification with its
+existing relay ingest. The exact author buffer, signed relay-clock receipt,
+nonce/record reservation, admission facts and selected cumulative status
+checkpoint commit together. Signature verification precedes SQL; checkpoint CAS,
+collection freshness and epoch closure are checked at commit. Repeated delivery
+of the completed command preserves its original facts, and a generic historical
+record cannot acquire a retroactive admission/time claim.
+
+This storage mechanism implements the earlier atomicity decision; it does not
+create issuer trust, authorize publication, replace backend clock policy or emit
+an aggregate. Contextual HTTP/Matrix wiring, the host/UI flow, current source
+projection and first-emission CAS remain implementation/qualification obligations.
+No tracker gate is closed by signed-fixture SQLite tests.
+
+A clean `d7595742` private repeat completed ordinary AD issue, lazy renewal,
+private reset, refusal before activation, protected signing after activation and
+exact certificate/request/document readback after A/D restart. This is a diagnostic
+lifecycle, not the complete Gate A qualifier. The old-ciphertext probe also remains
+a limited refusal check: routine snapshot replacement can retire its key, so that
+probe alone does not establish reset-caused erasure. Gate A and Gate B remain
+pending, with original failed attempts preserved and no readiness promotion.
+
+A successful local contextual mutation now retains a nanosecond clock high-water
+checkpoint alongside its status/admission transaction. Reopening cannot accept a
+cryptographically valid decision earlier than this owner already observed.
+Missing clock state beside contextual history is an explicit refusal, not a new
+initialization. Readback and exact completed-command retry keep original facts.
+This local restart fence does not claim protection against restoring an entire
+older database. The clean Node `c09fa017` / Orbidocs `8e12cae7` full software gate
+passed 9,097 tests with zero failures and 127 explicit ignores; that baseline
+precedes the separately tested clock correction and does not qualify A or B.
+
+
+### Source/checkpoint composition and actual private diagnostics (2026-10-29)
+
+The SQLite owner now accepts the same opaque contextual preparation beside a
+Matrix source decision. Exact author bytes, independently admitted clock source,
+event binding and first local receipt are checked before the transaction; nonce,
+status CAS, admission, source, retained time and account/job progress commit
+together. Multiple carriers preserve one first locally admitted fact. An existing
+rejected event cannot be upgraded or leave an orphan reservation. The pure Matrix
+codec/client and wire carrier remain independent of this optional owner policy.
+Signed fixture tests cover source/checkpoint and history-job rollback, restart,
+status races, duplicate observations and clock/source substitution. They do not
+qualify Synapse or the contextual service/UI/projection path.
+
+The `d7595742` runtime also observed ordinary issue53/renewal54/reset55 and a
+separate signed council refusal over still-admitted AD transport. A sequential
+provider probe verified the same live binding MAC before reset and
+`key-destroyed` after the actual reset and retirement buffer; no key or private map
+was exported. Its initial concurrent-provider startup refusal remains preserved.
+A/D restart preserved the exact certificate, request reference, preview and signed
+record without a new signing/issuance command. These remain scoped private
+diagnostics pending complete independent case qualification and retention.
+No A/B gate, aggregate, disclosure or global readiness status is promoted.
+
+
+The later probe review removes automatic recovery-bundle downloads. A missing
+current recovery bundle stops the canonical runner after stable preparation;
+the operator completes protected recovery/export separately, outside retained
+evidence/cache, before resuming the same operation/deadline. Older diagnostic
+runs that downloaded/discarded the response do not establish recoverable custody.
+The public v2 signal boundary now reuses the existing nym/proof/kind and public
+disclosure/routing checks; direct routing cannot silently pass as unknown v2
+content. This preserves the adopted carrier policy without qualifying contextual
+counting, UI, aggregate emission or either full runtime gate.
+
+
+The later receiver composition carries the same opaque contextual preparation
+through decoding to the existing source/checkpoint transaction. A deferred event
+preserves its original local receipt while admission evaluates the new status
+and epoch clock. Exact signed fixtures cover reopen, event-token substitution
+and rollback. Service policy wiring, UI and actual SQLite/Synapse qualification
+remain separate pending Gate B obligations; this port does not change the
+adopted publication-time authority or promote either gate.
+
+
+### Host-owned source-status acquisition
+
+`identity.nym.source-status.acquire` accepts the closed
+`nym-source-status-acquire.local.v1`: an already adopted profile digest, a
+council-signed contextual certificate and explicit `collection` or
+`first-emission` purpose. The certificate determines context/epoch. The caller
+cannot supply a clock, endpoint, issuer adoption, private minimum revision or
+signing authority. Invalid certificates and unknown profiles acquire no watch.
+
+The optional host cache registers that verified live scope idempotently for its
+existing bounded S020 refresh job. The request performs no network fetch or Vault
+operation. `nym-source-status-result.local.v1` distinguishes an available signed
+snapshot from pending/unavailable or stale refresh. Available means status bytes
+for that purpose, not certificate eligibility, record admission or permission to
+emit. In particular, a revoked certificate can obtain the signed status that
+proves its revocation. Callers recheck signatures, scope and time at use.
+
+The authenticated current-operator route and explicitly adopted authenticated
+receiver module bindings use the same owner. The receiver role is an exact local
+operator selection, independent of package names and signing domains. Node's
+startup `identity.nym_status_consumer_modules` policy defaults to the existing
+`agora-service` binding; an explicit list replaces it, including an empty disabled
+selection. It admits at most 16 distinct canonical module IDs. Null, duplicate,
+malformed and reserved local-control selectors refuse; matching never normalizes
+or expands aliases. Selection creates neither a credential nor an instance.
+Independent receivers additionally present their current signed launch and exact
+live channel identity. A registry entry or another module credential grants no
+access. Acquisition does not require a certificate to be
+unexpired now: the receiving owner separately verifies its trusted publication
+time. Ended epochs do not gain a new watch or lease. Existing cumulative status
+high-water marks and retirement remain authoritative. Missing refresh or storage
+is deferred unavailability, never permission to fall back to the old P081 nonce
+cache or to author-provided status/time. Implementation and qualification remain
+separate from this contract.
+
+The reference receiving service adopts profiles independently of the host cache.
+Its Matrix observation is bound to the authenticated client/account and configured
+clock authority. V2 admission has no fallback to the legacy current-certificate
+nonce cache. A distinct transport carrier of an already locally admitted record
+preserves its first admission and nonce decision; new carrier bytes/provenance
+remain separate. This historical read path cannot create missing domain facts or
+renew their time/status. Missing original record/author material is corruption,
+not a new admission opportunity. Software composition does not qualify Gate B.
+
+
+### Ordinary SQLite publisher composition (2026-10-29)
+
+The reference local publisher independently adopts a relay clock and a named
+protected host proxy. That adoption does not grant the module a signing domain,
+unlock a key or derive trust from a certificate. Existing publisher ACL, content,
+disclosure, namespace and size checks remain in front of contextual admission.
+The host signs only the receipt's exact author-buffer-bound preimage outside SQL.
+
+A newly prepared local receipt is not yet publication. Its record, exact author
+bytes, admission facts, nonce and receipt must commit together within the adopted
+profile's clock-skew window, checked after acquiring the writer. A separately
+durable receipt received late has a different path and preserves its original
+publication time. Neither path substitutes authored time or creates a missing
+historical fact. Exact completed-command readback uses the first receipt and
+repairs its derived index, without a new status acquisition or signature; a valid
+alternate JSON spelling remains an alternate buffer. Concurrent identical calls
+cannot replace the winning receipt with their later private preparations.
+
+This service composition does not emit the contextual threshold. UI, Matrix
+publisher composition, current-source projection and full Gates A/B remain open.
+The actual clean candidate19 diagnostic issued and renewed through ordinary AD
+and protected host authorship. Its reset attempt retained an invitation-observation
+refusal, and an earlier recovery download exceeded the observation tool's bound.
+Encrypted authority recovery is retained separately from evidence; no old request
+deadline, formal acceptance claim or global readiness status is changed.
+
+
+### Selected ordinary SQLite observations (2026-10-29)
+
+Node's reviewed `2084117d` owner candidate, with the separately pinned ordinary
+`6efe21bd` Agora service, completed independent A/B certification through private
+AD, host/Vault signatures at confidence 0.5 and two C SQLite HTTP 201 publications
+under one exact profile/context/epoch. C restart/readback preserved the original
+author buffers, signed clock receipts and admission facts after certificate expiry.
+Receipt signatures and both retained host documents passed separate checks.
+
+A recoverable prepared-status startup refusal was reproduced and repaired without
+publishing at open or treating a private candidate as available status. A missing
+B fixture transport/allowlist retained its real refusal before explicit narrow
+preparation; no transport grant was treated as AD or council authority.
+
+These selected observations do not close P015-001–003 or Gate B. Complete private
+lifecycle/failure qualification, certification UI, live contextual counting and
+first-emission orchestration, actual Synapse/PDU, replay and both-store retention
+remain required. See Node's
+[resumption review](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md)
+for source-specific outcomes and preserved refusals. Historical node-counting M4,
+global Agora and release readiness retain their prior scope.
+
+
+### Complete local inventory component (2026-10-29)
+
+The optional Node SQLite source owner now reads a complete adopted
+profile/context/epoch in bounded pages. Its private cursor and completion seal
+remain tied to the exact open owner. Per-scope source transaction revisions fence
+concurrent admission, status and retained dependency changes; another scope does
+not invalidate the read. A missing signed checkpoint is unknown, not zero, and
+a missing empty-scope head cannot reset its retained rollback history. Initial
+control installation is atomic and later missing controls refuse.
+
+These are component completeness/concurrency facts. The seal does not grant
+admission, first-emission freshness or publication authority. The aggregate owner
+still must compose current source evaluation and revalidate the pin inside its
+actual durable mutation, with its clock and status policy. Component tests do
+not close Gate A/B, P015-001–003 or historical M4. See the Node source-owner README
+and resumption review for the bounded software scope.
+
+
+### Source-owned first-emission draft component (2026-10-29)
+
+The optional Node source owner now composes the complete local inventory with
+the shared contextual-source evaluator. Typed retained facts are read after
+verifying their byte/hash/record binding; arbitrary decoded facts do not acquire
+live admission rights. The private preparation cannot accept a caller count or
+substitute a different profile/context/epoch basis.
+
+The first mutation repeats source/status CAS in the source transaction, samples
+its clock and requires first-emission freshness. It freezes the selected signer
+and both exact v2 drafts once. The proposal binds the threshold content address
+before signing. Subsequent revocation changes the current count without
+replacing the historical pair, and the frozen basis retains its signed status.
+Partial control loss refuses rather than silently rearming first emission.
+
+This is a bounded component implementation, not actual emission or Gate A/B
+qualification. Host signing/publication scheduling, certification UI, complete
+private failure coverage, Synapse/PDU, replay and both-store retention remain
+required. Historical M4 and global readiness retain their existing scope.
+
+
+The Node owner also retains the first verified host-signed buffers before
+publication I/O and acknowledges only an actual durable local relay record.
+Threshold submission precedes proposal submission. Local acknowledgement is not
+Matrix forwarding or remote admission. Indexed selection is a bounded scheduling
+hint, not an eligibility/completeness proof; cooperative interruption creates no
+new emission fact. Unreleased local installation changes refuse unknown or old
+developer controls rather than silently rearming a latch. These component laws
+do not qualify the service scheduler, certification UI or either runtime gate.
+
+
+The opt-in Node service composition now consumes the existing S020 module-job
+contract. Explicit local adoption selects one profile, authority, output topic
+and host key reference; incoming source fields cannot grant that authority.
+The job shares the collection/first-emission status verifier and the source
+owner's transaction fence, then uses ordinary protected host signing. Retained
+signed buffers precede local submission; Matrix forwarding remains the existing
+journal worker's responsibility. The module starts no private scheduler and
+installs no default job. Component conformance does not establish actual
+certification UI, source-result annotation or SQLite/Synapse qualification.
+
+
+### Current source annotation contract (2026-10-30)
+
+`whisper-contextual-source-view.local.v1` separates the current source count from
+its last complete evaluation and the immutable first-emission references.
+`eligible` and `below-threshold` require an unchanged complete source/status
+revision and the emission freshness lease. Otherwise the current count is null
+with `freshness-unknown`; the last evaluation remains explicitly historical.
+At epoch closure the current count is zero and the state is `epoch-ended`.
+A sampled clock earlier than the owner's committed high-water cannot produce
+a fresh annotation. Reads neither advance that fence nor extend a status lease. A newer signed status or
+source change invalidates the previous current count until reevaluation.
+
+The read model is rebuildable. Deleting it must not erase or recreate the
+source-owned first-emission latch. A collection-only update may persist an
+annotation without authorizing a new pair. Its display is separate from the
+signed proposal and cannot rewrite the historical claim or trigger publication.
+A record-bound read retains that record's existing topic ACL and independently
+adopted local projection authority; imported claims cannot borrow a local basis.
+
+
+Node now implements this read model over a rebuildable cache in the complete
+source owner's transaction. The record-bound API and UI preserve the topic ACL
+and exact frozen local claim binding. Refreshing a frozen pair does not frame or
+publish another pair. Component conformance covers revocation/restoration,
+freshness, corruption, rollback against the committed fence and cache rebuild.
+This does not close the complete certification UI, durable result-change audit,
+actual Gate A/B campaigns or retained proof obligations.
+
+### Explicit local certification controls (2026-10-30)
+
+The protected Node UI now projects the existing operator-local applicant API.
+Each POST selects one explicit transition: prepare issue/renew/private reset,
+prepare a key request, submit one prepared encrypted artifact through AD, inspect
+its delivery, bind an exact reply offer, accept its exact INAC notification, or
+read the retained result. No transition is inferred from delivery success or the
+latest notification. Authority adoption remains an independent host decision.
+
+Preparation keeps its operation identity and protected nym through a lost
+response. A form-only JCS digest confirms the exact prepared intent. Changed
+scope, operation or predecessor fields refuse before another owner transition;
+readback does not confirm edited fields. This digest is not issuance authority.
+A changed intent requires a new operation. The separate recovery guard
+still applies; these controls never export recovery, approve a peer implicitly,
+replace a reviewed authorship document or retry a mutation on transport failure.
+A 401 may refresh local authentication only because it precedes owner dispatch.
+The returned operation, profile, issuer and reply bindings must match the command.
+
+The two mounted aliases share the authenticated operator proof, P095 private-view
+catalogue, CSRF protection, private/no-store responses and passphrase omission.
+Delivery, council decision, certificate validity/activation, status freshness and
+relay admission stay distinct in UI and API. Component checks do not qualify the
+actual private exchange, browser flow, SQLite/Synapse path or either Gate A/B.
+The source-result audit and all retained runtime obligations remain open.
+
+
+### Stable local basis identity and measured positive prefixes (2026-10-30)
+
+The pure source evaluator distinguishes eligible-membership identity from
+revision/time-bound evaluation evidence. The local membership preimage binds the
+exact profile, context, epoch and sorted eligible source/record/certificate /
+original-admission-proof tuples. Refreshing evaluation time or an otherwise
+unchanged signed status does not create a membership change. A changed eligible
+record or proof does, even when the distinct-source count is unchanged. The
+existing evidence commitment and public signed contracts retain their preimages.
+
+A subsequent source-owned result-change journal must preserve the first complete
+evaluation and actual membership changes under the same source/status commit CAS.
+It must retain the evaluated evidence and original status, remain separate from
+the rebuildable latest-view cache, and never rearm first emission. Its installation
+boundary cannot claim to reconstruct unrecorded earlier evaluations. The pure
+identity primitive does not itself implement that journal.
+
+The private Node continuation has now observed ordinary A/B AD certification,
+protected host signing and a SQLite first pair after certificate expiry/restart.
+A separate canonical Synapse case observed two admitted sources, one first pair,
+exact author bytes through independent sync/durable source/full PDU, four native
+signatures and an actual C restart. Its maximum selected full PDU was 9,245 B.
+These positive prefixes do not close P015-003 or Gates A/B: full lifecycle,
+erasure/refusal, the complete browser/refusal matrix, replay, complete privacy and
+both-store retention qualification remain open. The Node ledger and resumption review own
+source-specific observations. Historical transport qualifications remain unchanged.
+
+
+### Source-owned result history component (2026-10-30)
+
+Node now persists the initial complete evaluation and eligible-membership changes
+in the source owner's transaction. It keeps the evaluated source/status revision,
+original signed status, times and evidence commitments separate from the latest
+cache and immutable first pair. Time/status refresh without membership change is
+not another result change. Read-derived unknown freshness or epoch closure does
+not fabricate a complete evaluation fact. Historical reads do not evaluate the
+history against today's clock or grant admission/emission authority.
+
+The local journal uses bounded exact-scope/authority keyset pages and commit order,
+without implying chronological Matrix order. Current installation version 3 and
+its separate journal marker refuse partial loss; an intact v2 upgrade preserves
+the first pair and explicitly declares unknown prior evaluation coverage. Old
+writers must be stopped before upgrade, and an old v2 opener refuses v3. Cache
+rebuild never resets audit or emission ownership. Local integrity checks are not
+portable attestation or whole-database rollback protection.
+
+This is reviewed component implementation. The earlier private SQLite/Synapse
+positive prefixes predate the journal. Actual journal/replay qualification and
+full Gates A/B remain open; no historical transport or global readiness status
+changes follow from this component step.
+
+### Cold-start lock classification review (2026-10-30)
+
+A later private signed-instance cold-copy startup preserved eight accepted records
+and two immutable first pairs while installing the source result journal with
+`prior-coverage-unknown`. This is an upgrade diagnostic, not fresh membership-change
+or replay qualification. The original source database and instance remain intact.
+
+Actual ordinary private AD issuance and the protected authorship UI reached
+certificate readback and a retained preview. After restart, signing without an
+unlock secret exposed a generic503 caused by loss of the typed protected-Vault
+lock condition. The root owner now preserves the existing `KeyLocked` class for
+P015423 handling. Missing status, invalid credentials and corruption remain
+separate failures; unlock cannot extend certificate or preview validity. Component
+tests and this correction do not close the pending fresh UI/runtime verification
+or Gates A/B.
+
+### Ordinary UI smoke and fixture-signer retirement (2026-10-30)
+
+After the typed-lock correction, an actual private AD/UI probe completed issue,
+certificate readback, retained review, daemon restart,423, explicit unlock and
+host signing of the same document with `confidence=0.5`, followed by Matrix202
+publication intent. Daemon842ef007 and separately pinned317a87a0 UI/service were
+recorded independently. This is a positive narrow path, not receipt, erasure,
+complete lifecycle/replay or both-store qualification.
+
+The environment-selected deterministic nym signer is removed from current intake
+runtime after that smoke. The current legacy Story-005 renderer no longer installs
+its seed/source variables; v1 primary-participant host signing cannot stand in for
+the new contextual source profile. Frozen historical tools and evidence retain
+their exact bytes. Final Gate B still requires a clean candidate without that
+side path and the complete qualification/retention matrix.
+
+
+### Historical source inspection and delayed collection (2026-10-30)
+
+The verification-only native adapter reuses ordinary source/admission, receipt,
+status and aggregation owners at recorded times. It checks complete selected-scope
+inventory and rederives both first-emission drafts from their original basis.
+It creates no clock, nonce, source, signer or renewed admission authority.
+
+A focused real AD/host signal published through the Matrix Client-Server API
+before both certificate and one-shot proof expiry is admitted by C 8.9 seconds
+after certificate expiry, within its original epoch. Independent read-only
+`/sync`, exact author bytes and the complete signed PDU bind that observation.
+Full PDU verification remains acceptance-only under the adopted
+`authenticated-admitted-homeserver-v1` runtime policy. This focused case does not
+qualify Node's publication path, a new scheduled aggregate lifecycle, homeserver
+size enforcement or federation. The original observer failures and the valid
+refusal of a different document published after its proof expiry remain distinct.
+
+P015-001–003 and Gates A/B stay partial: the complete shared profile qualifier,
+remaining runtime/uniqueness/privacy matrix and qualified two-store retention are
+still outstanding. See the Node resumption review for exact source pins and
+measured scope. No historical M4 or global readiness claim is promoted.
+
+
+### Independently inspected ordinary UI paths (2026-11-02)
+
+The subsequent Node continuation independently inspects ordinary private AD and
+protected host UI authoring on both SQLite and Matrix. The corrected Matrix
+receiver starts without a live subscriber; actual restart and carrier replay
+preserve original admission, author bytes and first-emission facts. Exact author
+bytes also match an independent read-only sync observer and full stock Synapse
+PDU. These are narrow measured cases, not a renewal of all historical transport
+claims. The complete software gate passes on Node `925f68a2` / Orbidocs `e767bf32`
+with 9,259 passes, zero failures and 127 existing ignores. Subsequent fixture
+context/expiry refusals remain refused; no signed deadline is extended.
+
+P015-001–003 and both complete A/B gates remain partial. The outstanding
+authority/status/reset/erasure-crash/privacy matrix, final backend campaign and
+identical loose/extracted/fresh two-store qualification still govern closure.
+Node's current ledger and dated resumption audit own detailed source/capture
+pins and individual results. Development retention, original protected evidence
+and global Agora/Whisper/release scope remain unchanged.
+
+
+### Qualification checkpoint (2026-11-02)
+
+The corrected runtime independently verifies ordinary AD issue, lazy renewal
+after actual certificate expiry, and private reset on the same protected path.
+Fresh signed statuses and the certificate confirm reset activation after the
+latest pre-reset collection lease plus the unchanged skew. A concrete old
+ciphertext sample from a pre-reset application DB receives `KeyDestroyed` without
+copying the keystore. This does not cover the full crash/WAL/export matrix.
+An original private controller bookkeeping refusal remains preserved; independent
+reinspection repeats no issuance/reset command. The clean Node software gate
+passes 9,264/0/127 on `7a75376f` / docs `70b0c2a4`. Neither software checks nor
+these selected runtime predicates close Gate A/B. The then-pending duplicate/
+lost-reply predicate is advanced by the following checkpoint; authority, status,
+erasure/privacy and final backend/retention obligations remain pending.
+The Node audit and implementation ledger carry the precise source/proof scope.
+
+
+### Controlled private response recovery (2026-11-02)
+
+Clean capture `e100b94d` with frozen runtime `bde3272f` completes a real
+80.94-second four-process-birth A/D case. The same full request is submitted
+twice; an original private response attempt fails while A is stopped. D then
+stops and both owners restart. The prepared ciphertext, delivery plan and
+expiry, nym, request deadline and owner decision remain exact, and the original
+consented AD response reaches A. Explicit protected recovery and cleanup pass.
+
+A fresh read-only predicate independently verifies issue, reference readback,
+duplicate-request/reply and lost-response/restart subsets against original
+observations, ready bootstrap capabilities and the native certificate verifier.
+The default predicate refuses the unchanged `fault-injected-runtime` class.
+This is controlled offline delivery failure within original AD expiry, not a
+claim of spontaneous ACK loss or late retransport. The capture now separately
+waits for issuer admission and initial AD submission, using only readbacks
+within the original request window. Original prefix refusals remain intact.
+
+The harness has 137 strict conformance passes and a green light gate. Full
+software checks retain their separately pinned earlier revisions. P015-001–003
+and both full runtime gates remain `partial`: the remaining authority/status/
+erasure/privacy matrix, final SQLite/Synapse campaign and equivalent fresh
+qualification from both retained locations still govern closure. The Node
+resumption audit and implementation ledger own detailed source/proof bindings.
+
+
+### Encrypted-provider process interruption subset (2026-11-02)
+
+Node `7da785e9` / docs `206f0acc` now has four controlled native process cuts
+and independent read-only predicates for those exact crash obligations. Each
+cut uses a fresh provider on the adopted encrypted fixture. Startup after the
+durable fence must leave the destroyed receipt and no key entry before a
+recovering key API runs; before the fence, explicit replay remains necessary.
+Original ciphertext and operation recreation then refuse with `KeyDestroyed`.
+The earlier open-plus-state observation is preserved and refuses this stronger
+predicate. These are process interruptions, not power-loss qualification.
+
+139 provider and 149 harness conformance cases plus scoped strict Clippy/light
+checks pass. The Node resumption audit owns report/binary bindings. Remaining
+authority/status/old-database/privacy matrices, final SQLite/Synapse Gate B and
+fresh equivalent two-store retention keep P015-001–003 and aggregate A/B partial.
+
+
+### Fresh software prerequisite and proof inventory (2026-11-02)
+
+Clean Node `16675e10` / docs `5d668ed6` passes the full nonincremental software
+gate: 9,267 passed, zero failed, 128 explicit ignores, strict workspace/all-target
+Clippy and final paths. The pair remains clean and unchanged throughout.
+A fresh independent composition verifies 14/66 obligations, using 13 native
+inspections plus the four-cut predicate over exact original inputs.52 still
+remain open; the old six-obligation inventory keeps its historical scope.
+
+These are software prerequisites and verified subsets, not complete Gate A/B or
+final both-store qualification. Subsequent history-count proofs must independently
+derive later bases; stale-database restoration must be tested within the live
+epoch so expiry cannot supply a false explanation. The Node ledger and resumption
+audit carry exact source/log/remaining-matrix bindings. P015-001–003 stay partial.
+
+
+### Independent complete-inventory inspection review (2026-11-02)
+
+The Node acceptance verifier now has an explicit complete local inventory-cut
+mode, separate from the historical timestamp-selected adapter. It rederives the
+last recorded count, membership and evidence commitment with the ordinary owner
+evaluator and original signed status/time. Earlier transitions require their
+own snapshots. First drafts are verified only when that complete inventory also
+matches their original evidence commitment and stricter emission freshness;
+a later reset cut instead reports that an earlier cut is required.
+
+Original SQLite/Matrix/uniqueness snapshots and a repaired-hash count mutation
+exercise this distinction. These are conformance checks, not a renewed backend
+runtime campaign.151 harness/102 package cases and scoped Clippy pass. A separate
+real same-live-epoch old-DB restore refuses `issuer-state-rollback`, with original
+DB/provider/config preserved and current readback restored. The readback occurs
+outside the certificate window and does not prove renewed signing usability.
+The Node audit records exact identities and the preserved unsuccessful observer.
+
+P015-001–003 and Gates A/B remain partial: the independently verified inventory
+is still14/66, with final authority/status/erasure/privacy/backend and equivalent
+both-store qualification required. No production wire/profile/admission semantic
+changes or readiness promotion follow from this inspector review.
+
+
+A subsequent actual same-epoch control on frozen application `bde3272f` and clean
+capture `0c435ea0` / docs `e5def2aa` completes ordinary issue/reset, native refusal
+of the stopped old DB, exact config restoration, ordinary renewal and host
+signing confidence0.5. Fresh read-only inspection performs six native checks of
+original AD, certificates and the exact review/signature. It verifies usability
+of the current new source after refusal, beyond the earlier late readback.
+The Node audit records original identities. The formal composite old-DB predicate,
+remaining matrices and final both-store A/B qualification still govern closure;
+the independently composed inventory remains14/66 and P015 stays partial.
+
+
+The subsequent profile-owned composite reader binds that original stopped
+snapshot and distinct native refusal to the ordinary AD issue/reset/renewal
+predicates and exact restored host review. It can establish only the controlled
+`A/old-database-restore` obligation, with fault-injected origin. A clean-source
+reinspection must produce its proof; stored success flags and archived procedures
+are not authority. Remaining gate and final retention requirements are unchanged.
+
+Fresh clean Node `c0b8e690` / Orbidocs `806b86b9` composition makes19 native
+checks over1725 original artifacts and verifies15/66 obligations, including only
+the newly added controlled old-database restore.51 remain missing.161 strict
+Python cases and light/documentation gates pass; full A/B and both-store
+qualification remain open. The Node audit binds the original result digest.
+
+
+Stay-ready implementation checkpoint: Node now has pure consent/planning values
+with bounded slots, immutable CAS transitions, fixed operation/time, exact
+representable75–95% bounds and preserved source activation across renewal.
+The next Node component checkpoint adds a separately sealed host consent source
+and protected approval/readback/CAS-revocation API. It derives the scope from
+an accepted owned certification; duplicate approval cannot replace revocation
+or replenish an allowance. P072 registers three literal operator-only host
+routes, without generic dispatch or passport authority. Their readback explicitly
+reports execution as not enabled. The subsequent source checkpoint stores the
+exact reserved operation, deadline and certificate and uses separate local
+high-water marks to refuse rollback of SQLite/WAL. It can complete only the
+original authenticated one-step SQL successor, without resealing or repeating
+a command. This guarantee assumes preserved current authority anchors; an old
+whole-host snapshot cannot substitute for them. The effect-fenced S020 consumer,
+explicit replacement, operator UI and real unlock/recovery continuation remain
+required before renewal-consent conformance can be granted. A/B remains
+15/66; these component changes add no runtime acceptance.
+
+
+### Narrow runtime and predicate review — 2026-11-03
+
+The corrected issuer dispatch, current receiver admission/native pins and
+fresh-process readiness are exercised by ordinary SQLite and Matrix UI cases.
+They preserve the reviewed document through restart/423/unlock and publish
+confidence 0.5 with host-held nyms. Independent native checks cover the signed
+SQLite receipt, the original two-source Matrix first basis after certificate
+expiry, and five complete Node-created v10 PDUs (maximum 9,285 B). A separate
+read-only `/sync` client observes exact author buffers. Runtime still trusts the
+explicitly adopted authenticated homeserver clock; full PDU verification remains
+an acceptance operation. This does not renew transport-wide or federation claims.
+
+The emitting C/D operator continuation is distinct from the earlier UI starts.
+Read-only composition must bind its independently adopted capture driver,
+actual processes, exact successful S020 receipt, subsequent public records and
+original complete native source cut. Missing or substituted lineage refuses;
+it is not inferred from a later SQLite snapshot or serialized success flags.
+The first software attempt's temporary-path/ancestry refusals remain recorded;
+its assertions and shared-volume permissions are preserved for a corrected run.
+
+P015-001–003 and both whole gates remain `partial`. The prior 15/66 composition
+retains its original scope; later narrow observations and new component
+predicates require their own clean composition. Remaining authority/status/
+erasure/privacy/backend/replay matrices and equivalent two-store retention are
+still required. See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md`.
+
+
+The acceptance-only Matrix composition additionally requires an independently
+adopted standalone read-only client, its original process and ordered `/sync`
+observations, exact source author buffers and complete PDU/export rows for the
+same explicitly selected complete source cut. Retained aggregate author buffers
+are facts separate from their typed signatures; absent buffers remain absent.
+Fresh native hash/signature/size verification does not change the runtime clock
+policy or establish room authorization/federation. Representative subsets cannot
+stand in for full campaign coverage. Both whole gates and retained qualification
+remain partial until the remaining obligations are composed.
+
+
+A projector continuation may use the explicit acceptance protocol
+`bounded-launches.v2`: 1–16 ordinary S020 operator launches, each bound to its
+own original HTTP payload and indexed typed receipt, followed by the final
+public read. The original single-launch format keeps its exact one-step rule.
+This accommodates bounded projector work phases without changing launch
+permissions, treating a busy 409 as success, or inferring missing execution
+facts from the source snapshot. A controlled fixture explicitly disables its
+projector's periodic dispatch in configuration before publication, then uses
+authorized `run-once`. Process-local pause is not claimed to survive scheduler
+registration on restart. The fixture restores periodicity by explicit adoption
+afterwards. Both whole authorship gates remain partial.
+
+
+The controlled SQLite pair at clean Node `591ecf06` / Orbidocs `cd17826c`
+now produces one original threshold/proposal pair after both accepted signal
+certificates expire beyond skew. Six separately receipted ordinary S020 steps
+complete bounded projector phases; fresh native inspection verifies the complete
+first basis and both original signed receipts. Explicit fixture periodicity is
+restored afterwards. This is a narrow backend result, not complete Gate B or a
+change to the last combined15/66 coverage inventory. The separately pinned
+Node `0c2e4894` / Orbidocs `2ddb7ef0` full software gate passes9,313/0/128 with
+strict Clippy and paths; software prerequisites do not establish either runtime
+gate. Qualification review adds pre-read logical-path refusals. Full A/B and
+final both-store qualification remain partial; the Node resumption audit owns
+the exact observations and failure scope.
+
+
+A fresh clean Node `f9ec2370` read-only composition now verifies22/66 obligations
+through49 native inspections of original inputs. The22 include narrow SQLite and
+Matrix first-pair/expiry, SQLite signed receipts and the independent observer/full
+PDU cut;44 remain. This is an explicitly heterogeneous prefix inventory, not a
+final single-candidate A/B campaign or both-store qualification. Subsequent
+ordinary A/A2 UI and a separately receipted sole-source control complete with
+restored fixture periodicity; their uniqueness predicate is still pending.
+An acceptance-only registration adapter separately adopts the fixture participant
+root and reuses existing nym-bootstrap grant verification. It neither enrolls a
+council nor grants current transport/revocation authority. Both whole gates and
+optional stay-ready execution retain their partial scope.
+
+
+The next clean Node `2928253c` composition verifies 24/66 obligations through
+59 native inspections, including ordinary A/A2 renewal on distinct nodes with
+one rooted participant and one evaluated source. Forty-two obligations remain;
+these are original heterogeneous runtime prefixes, not final A/B qualification.
+A later SQLite cohort observes the reset lifecycle 2/1/2 with an unchanged first
+pair. Its independent three-cut predicate additionally verifies the persisted
+current read model; membership history cannot substitute for status-only cache
+refresh. Clean-source verification and the Matrix counterpart remain pending.
+This verification-only tooling does not change the adopted homeserver clock,
+certificate policy, admission, signing, renewal authority or global readiness.
+
+
+Clean Node `3eef910b` subsequently verifies the original SQLite reset lifecycle:
+complete before/revoked/replacement cuts, ordinary AD reset, signed old-source
+revocation, replacement after the activation drain, unchanged first pair and
+exact public current annotations. The full fresh prefix composition advances to
+28/66 through71 native inspections;38 obligations remain. The current annotation
+is independently checked through its owner and complete recorded basis, without
+requiring status-only refresh to be a membership-history event. This scope does
+not include the Matrix counterpart, final replay/privacy matrix, stay-ready
+execution or loose/extracted/fresh-two-store equivalence. Whole A/B remain open.
+
+
+Clean Node `9918b048` advances the fresh heterogeneous prefix inventory to 33/66
+through 95 native inspections. The original Matrix A/A2 same-participant renewal
+remains one source; the later A/A2/B reset has complete 2/1/2 cuts, signed
+revocation, drained replacement, unchanged first pair and exact current annotations.
+A later clean `4bf8df5a` separate read-only whoami/sync observer and seven native
+inspections verify all six original lifecycle PDU, stored export rows and author
+buffers (maximum canonical PDU 9,305 bytes). Runtime still uses the explicitly
+adopted authenticated-homeserver observation, without a runtime PDU-verifier claim.
+Thirty-three obligations, full A/B and final two-store qualification remain open.
+The new read-only media-control predicates do not close those gates by themselves.
+
+
+The original strict media control/refusals at clean Node `91c43334` advance the
+heterogeneous prefix composition to35/66 (102 native inspections). The owner's
+subsequent local fixture image-backup adoption above requires a new positive
+preflight; the inventory now has67 obligations. The original refusal and its
+scope remain unchanged, without promoting it to the newly requested success.
+Full A/B, effect-fenced optional renewal and final retained-store equivalence
+remain open. The Node audit records exact process, tool and runtime provenance.
+
+
+The owner-approved positive image-backup case is now observed at clean Node
+`37be7d02` / Orbidocs `16b1d962`: backing/mounted OS exclusions remain false/true,
+the explicitly named effective-view rule derives false, and the read-only native
+preflight attests under `allow-encrypted-image-backups`. The strict case still
+refuses. No provider/key is created in the empty image. Fresh composition600
+verifies36/67, including that new requirement, through102 native inspections;
+31 remain. Copies of image/keystore stay outside erasure assurances. This is
+heterogeneous prefix verification; final A/B and both-store qualification remain
+open. The later exact bb060dd8/92d0fe7b full software repeat passes9315/0/128;
+it does not promote that original prefix to a complete runtime gate.
+
+
+### Explicit conformance composition — 2026-11-03
+
+Clean Node `c6f57910` / Orbidocs `92d0fe7b` freshly composes42/67 obligations:
+the prior36 runtime/native prefixes plus six separately classified component
+conformance predicates. Exact named assertions, complete per-suite counters,
+original source/process receipts and48 independently adopted schema byte pairs
+are required. The schema-sync script's unit tests alone do not prove mirror
+synchronization. The component tests keep their original `91c43334` / `4b50ef48`
+source identity, distinct from the newer predicate and runtime prefixes.
+
+The whole profile remains partial:13 A and12 backend B obligations, optional
+stay-ready effects and final single-candidate/retained-store qualification remain.
+Conformance neither creates runtime HTTP observations nor closes either gate.
+The Node resumption audit and ledger own the exact command, review and result
+provenance. No source-profile parameters, authority or historical evidence change.
+
+The later clean Node `b212be6a` prefix composition613 verifies43/67 through103
+native calls. `A/post-ack-erasure` now binds the exact complete original explicit
+SQL key/ciphertext inventory, signed closing status, owner-local ACK deadline and
+metadata observed before recovering provider open. The current v2 snapshot is
+not substituted for a compacted historical v1 context. This does not claim
+physical-block erasure, backup-keystore destruction or whole-AD/Vault privacy.
+Twelve A and12 backend B obligations remain; optional stay-ready execution, final
+single-candidate A/B and loose/extracted/fresh two-store qualification remain open.
+
+
+## Independently verified source replay checkpoint (2026-11-03)
+
+Clean Node `b7b2cf49` composition627 freshly verifies **45/67** obligations through
+111 native inspections. Actual Matrix619 and SQLite622 restart after loss of only
+the derived contextual cache and perform real owner replay. Original source,
+admission, nonce, receipt, first-emission and history tables remain unchanged.
+A separate ended-epoch/no-cache verifier checks the actual current readback; it
+neither weakens fresh-view assertions nor supplies fresh active-epoch evidence.
+Original fresh-only refusal624 remains preserved.
+
+Twelve A authority/status/privacy and five B cases per backend remain. Runtime,
+capture and verifier pins differ explicitly. The heterogeneous prefix inventory
+does not close final single-candidate A/B or loose/extracted/fresh two-store
+qualification. P015-001–003 and complete contextual authorship remain partial.
+See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-backend-replay-qualification-2026-11-03`.
+
+
+The subsequent original631 controlled AD receiver cases observe rejection of
+four encrypted invalid private requests, with no prepared decision or new target
+context. Clean Node `e75dd92a` independently reinspects their valid baselines,
+council offers and isolated faults in633. The temporary local source adapter is
+explicit fault injection and is restored after D stops; it proves no INAC/network
+authority. An expired anonymous first leg remains a separate narrower witness.
+Process/input/effect qualification and recomposition are still required, so
+coverage remains45/67 and both complete gates remain partial.
+
+
+## Independently qualified private receiver refusal checkpoint (2026-11-03)
+
+Clean Node `f270f62a` composition636 freshly verifies **49/67** obligations through
+115 native inspections. Four original631 full-request refusals now have complete
+process, exact input, AD receipt, offer/outbox/recipient and no-effect predicates.
+No decision is prepared and no new issuer context appears. The temporary local
+fault adapter is restored after D stops; this does not prove INAC authority.
+The expired anonymous first leg remains separate from full-request expiry.
+
+Eight A and five B cases per backend remain. Capture, runtime, fixture client,
+native verifier and profile revisions are independently pinned. Final
+single-candidate A/B, privacy and retained two-store equivalence remain open;
+P015-001–003 and complete contextual authorship stay partial. Review:
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-private-ad-refusal-qualification-2026-11-03`.
+
+
+### Independent original full private-request expiry checkpoint (2026-11-03)
+
+Clean Node `8d590a16` independently qualifies original638: a full, unchanged
+private request and signed council key offer were valid when frozen; after the
+original 30-second deadline, actual D runtime `103c8fae` permanently rejected
+that exact sealed buffer with `expires/at: expired`. No decision or new target
+context was created. Owned cleanup and temporary local adapter restoration
+completed. Capture, client and native verifier are pinned to clean `153932f9`;
+this controlled local AD refusal is distinct from INAC transport authority and
+from the earlier narrower expired anonymous first leg.
+
+Fresh composition641 covers **50/67** obligations through 116 native calls.
+Seven A authority/status/privacy obligations and five B obligations per backend
+remain open. The remaining B scope is late first receipt, collection/emission
+freshness, public privacy, retired acceptance environment and UI refusals.
+273 Python profile tests, 24 native inspector tests, five negative-client tests
+and strict all-target Clippy for both affected crates pass without incremental
+compilation. Scoped headers and the light gate pass; a broader header migration
+audit separately refuses an existing unrelated Sensorium inventory mismatch,
+which this work leaves untouched. Final single-candidate A/B and fresh two-store
+retention remain unqualified. P015-001–003, full Whisper and global readiness
+retain their partial/bounded scopes; historical runtime evidence is unchanged.
+
+Status-owner checkpoint (2026-11-03): original648 observed actual host S020
+progression from signed revision4 to5, refused refresh of an older still-valid
+status, and the retained higher HWM after A restart. Frozen native42 from clean
+Node `a2ae9913` freshly verifies original signatures/time/cursor in inspection650.
+The complete process/proxy/HTTP/source-image predicate is still pending; this
+adds no qualified coverage yet (**50/67** remains). The final forward read was
+cache-only and does not prove a completed healing fetch. Original647's ordinary
+AD certificate and separate protected fixture recovery steps prepare these cases;
+its ended fixture epoch is historical input, not new authoring authority. All
+owned actors and the proxy stopped, and A's adoption was restored. P015 remains
+partial; final A/B and retained two-store qualification remain open.
+
+
+### Independently qualified status-HWM checkpoint (2026-11-03)
+
+Complete qualification653 at clean Node `bc480a7a` binds original648's actual
+A/D processes, S020 proxy response bytes, scoped HTTP reads and immutable source
+images. It verifies signed revision4→5 progression, refusal of older still-valid
+bytes and the higher retained HWM/API after A restart. Native42 independently
+checks original signature/time/cursor semantics. Original652's discriminator
+refusal is preserved; the correction requires canonical integer `schema/v = 1`.
+The final cached forward read remains distinct from a completed healing fetch.
+
+Fresh composition654 covers **52/67** obligations in 118 native calls. Five A
+cases and five B cases per backend remain open, along with final single-candidate
+A/B and fresh retention from both adopted stores. Tests: 282 Python profile and
+25 native inspector cases, affected all-target Clippy, scoped headers and light
+gate pass without incremental compilation. No full historical runtime cohort
+is renewed. P015-001–003, full Whisper and global readiness retain partial/bounded
+scope. Owned A/D and proxy stopped and original A adoption was restored.
+
+
+### Independently qualified private-minimum checkpoint (2026-11-03)
+
+At clean Node `9e2c4dcb`, independent665 verifies original664: ordinary renew
+retains public floor1 while the local private minimum13 refuses still-valid
+signed status12. Actual preview returns the typed status-revision-unavailable
+503 and readback has no authoring result. After actual status15 arrives, the same
+certificate signs the reviewed confidence0.5 document through the ordinary host;
+readback preserves the exact signed record. Four native checks verify certificate,
+both statuses and reviewed record. Exact source/process/HTTP/proxy pins, original
+time windows and cleanup/restoration bind the controlled runtime. No private
+decision plaintext is reconstructed. Earlier producer failures remain unchanged.
+
+Fresh composition666 covers **53/67** obligations in 122 native calls. Four A
+cases remain: wrong exchange digest, revoked bootstrap authority, status
+equivocation and private AD/tombstone privacy. Five B cases per backend, final
+single-candidate A/B and fresh retention from both adopted stores remain open.
+All 297 Python profile tests and scoped headers/light gate pass. Runtime source
+`103c8fae` is unchanged; no full historical runtime or software gate is renewed.
+P015-001–003, full Whisper and global readiness retain partial/bounded scope.
+Owned A/D and proxy stopped; original A adoption restored. No merge/push.
+
+
+### Independently qualified withdrawn-bootstrap checkpoint (2026-11-03)
+
+Clean Node `b8dbfd76` inspection673 independently verifies original669: exact
+valid INAC offer, signed active-to-revoked bootstrap authority, unlocked but
+blocked issuer, actual403 before and after owned restart and absent issuer
+reply/applicant certificate. Two native owner calls preserve the independently
+adopted root and original times. The reason-only HTTP projection is retained
+exactly and bound to separate captured coarse owner results; it is not expanded
+into a claim of raw HTTP preservation. Original668 and672 coordinator failures
+retain their original outcomes. Withdrawal is permanent, without reimport or
+automatic authority replacement.
+
+Fresh composition674 covers **54/67** obligations in 124 native calls over
+8,446 logical reads/322,724,216 bytes; result SHA-256 is
+`0319cbfc5bc6d6796bc6540516f3440425ee778d3054ca6fd202367c456c10b7`.
+Three A cases remain (wrong exchange digest, status equivocation and private
+AD/tombstone privacy), plus five B cases per backend, final single-candidate
+qualification and fresh two-store retention. All310 Python profile tests pass;
+the28 native and affected strict Clippy/paths evidence retains its stated source.
+Native43 uses clean `85b8c9e3`, without incremental; runtime `103c8fae` is unchanged.
+This does not renew the complete software/transport qualification or close
+P015-001–003, either full gate, Whisper or release readiness. No merge/push.
+
+
+### Independently qualified status-equivocation checkpoint (2026-11-03)
+
+Clean Node `d14a3c89` inspection682 binds original681 actual host S020, exact
+proxy response bodies, owner/control/process identities and four immutable
+source images. Two correctly signed statuses have the same revision4 and
+different canonical digests. The owner refuses the conflict before and after
+A restart, preserving the original status, durable cursor and actual API view.
+Three fresh native calls verify the certificate and both original-time conflict
+transitions. Fixture-only operator signing and proxy adoption are restored;
+no council key is exported. Native44 uses clean `107b436b`, separately from
+runtime `103c8fae` and the later inspection source.
+
+Fresh composition683 covers **55/67** obligations in127 native calls over
+8,502 logical reads/323,488,096 bytes, with result SHA-256
+`bde6f2270965e6f786f96e7e8524fc17b9ec1994d50b296a17f4d156ad06d181`.
+The324 profile Python and29 native example tests, affected strict Clippy/paths,
+scoped headers and light gate pass. At that checkpoint, two A cases remained
+(wrong exchange digest and private AD/tombstone privacy), five B cases per backend, final single-candidate
+qualification and fresh two-store retention. P015-001–003 and both full gates
+retain their partial scope; no new full transport, software or release claim.
+
+Original680 completes ordinary protected AD issue with two explicit recovery
+exports. Original679 expiry and684 missing-decision outcomes remain failures.
+For684, the correlated receiver row says `expires/at: expired`, while its AD
+admission timestamp is5.274067 seconds before the original deadline. Exact
+subsequent owner verification time is unknown. The earlier diagnostic's
+arrival-after-expiry assumption is explicitly refused; the corrected source
+snapshot/row correlation is retained separately. This does not qualify a
+wrong-digest refusal or justify extending the signed deadline. Owned actors
+are stopped, protected originals retained, and no merge/push occurs.
+
+
+### 2026-11-03 private reply-binding implementation checkpoint
+
+The earlier implementation checkpoint retained55/67 independently verified obligations.
+Controlled original694 now observes an otherwise valid council-signed coarse reply
+with a wrong private request digest being rejected by the actual applicant INAC
+acceptor. Decision and certificate remain absent after the owned applicant restart.
+Its independent profile closure was pending at that checkpoint; the later
+qualified checkpoint below resolves this one obligation, not either full gate.
+The current producer repair uses canonical Community ciphertext classification
+for both exchange senders. Earlier runtime source pins and failed attempts remain
+historical. See the Node resumption audit for exact source, control and verification
+boundaries; an acceptance-only signed-pair inspection is not runtime admission.
+
+
+### Independently qualified private-decision binding (2026-11-03)
+
+Clean Node039b46ec inspection697 now qualifies `A/wrong-exchange-digest` from
+original694. The profile binds actual owned A/D processes, authenticated controlled
+AD submission, the exact INAC offer/notification/consent and sealed reply, the
+stored typed applicant refusal, and unchanged absent decision/certificate after
+restart. Later read-only source snapshots696 verify the exact original A/D
+admissions without pretending to have been captured at the original admission
+time. Native45 (cleanbe2781d6) freshly checks both council signatures, the anonymous
+proof at original time and exact sealed public-recipient binding. It never
+reconstructs the private request, decrypts, signs or creates admission.
+
+Fresh composition698 verifies **56/67** obligations through128 native calls over
+8,635 logical reads/344,823,251 bytes; result SHA-256
+`16a18e3144219707ee004bfa0368e7c9599c520f072a012f4537a2da9e33e2a8`.
+The339 profile conformance tests include corrupt/missing sources, rebound causes,
+foreign owners, nonunique source identities and incomplete INAC/restart witnesses.
+One A privacy obligation, five B obligations per backend, final current-candidate
+qualification and identical fresh retained-store qualification remain.
+P015-001--003 and both full gates stay partial; global Agora, full Whisper and
+release readiness are unchanged. Earlier failed attempts and prefix-only claims
+remain historical. No merge or push occurs.
+
+
+### Independently audited private storage (2026-11-04)
+
+Clean Node73dc0288 composition703 now verifies **57/67** obligations, covering
+all30 A predicates, through128 fresh native calls and9,204 logical reads/
+393,710,364 bytes. Result SHA-256:
+`07263819db8740ecae49811dda153aaf18a63a7781daa24d60cda8578cece107`.
+A profile-owned bounded audit checks561 later AD/INAC/issuer source entries and
+composes the original ordinary issue/reset/renew and post-ACK-erasure predicates.
+These later source cuts do not become admission-time observations.
+
+Private INAC authorization passports may name their beneficiary and authorization/
+delegation subjects at four exact fields. That permission is confined to private
+transport metadata; it does not admit a participant-to-nym mapping, a private
+request/decision nonce, successor linkage or primary identity in public artifacts.
+The audit checks closed aggregate retention receipts and encrypted exchange
+buffers; it does not claim whole-Vault privacy or completeness of historical
+logs. No erasure guarantee for physical blocks or copied keystores is added.
+
+351 profile tests and scoped source/light checks pass. The five B predicates per
+backend, final clean current-candidate cohort and identical loose/extracted/
+two-store qualification remain pending. All full gates and P015-001--003 remain
+partial; neither global Agora nor release readiness is promoted. Existing
+failed attempts and source-specific software results retain their exact scope.
+See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#private-adinac-storage-privacy-closure-2026-11-04`.
+
+The final source-boundary review rejects hidden/generated columns and user tables
+resembling SQLite internals; fresh703 repeats the full57-predicate closure under
+that guard. The earlier702 source-bound result remains historical and unchanged.
+
+
+### Actual late first SQLite reception (2026-11-04)
+
+Clean Node61b27ba8 composition719 verifies **58/67** obligations (A30/30,
+B22/31 and six conformance),132 fresh native calls and9,359 logical reads/
+398,848,754 bytes. Result SHA-256:
+`d37a49f5ef00b0a160c708dcdd40caf4efb73ae3a19d36ef1483d1add0ac9ae4`.
+The separately qualified ordinary UI715 publication and later receiving716 bind
+the same exact author bytes and signed SQLite receipt. Publication is within
+certificate validity; actual first reception is after expiry plus5s and before
+epoch end. The receiving process uses existing SDK owner ports with SystemClock;
+it is not an HTTP import, another signer or an invented historical clock.
+Later consistent snapshots and original process observations are independently
+checked; close/reopen does not replace the separate restart/replay predicate.
+
+361 profile tests and scoped source/light checks pass. The original decoder,
+missing-command and expired-delivery refusals retain their original outcomes.
+Nine B predicates remain: Matrix late receipt and collection/emission freshness,
+public privacy, retired acceptance environment and UI refusals on each backend.
+The final current-candidate cohort and identical loose/extracted/fresh two-store
+qualification are still required. Optional stay-ready effects remain not-enabled;
+P015-001--003 and both full gates remain partial. No full software, transport,
+global Whisper or release qualification is renewed. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#actual-late-first-sqlite-reception-2026-11-04`.
+
+
+### Actual late Matrix reception (2026-11-04)
+
+Clean Nodebf607f06 composition727 freshly verifies **59/67** obligations
+(A30/30, B23/31 and six conformance),137 native calls and9,710 logical reads/
+412,471,376 bytes. Result SHA-256:
+`f75c33d9ce748abecae8c40458a897dd2ca1871db2c363ad2a1050399473dc15`.
+Ordinary AD/protected host721 and confidence0.5 publication reach actual Synapse;
+controlled503 sync/history refusal delays first C reception until after real
+certificate expiry plus5s, before epoch end. Separate read-only observer723 and
+complete9,317B room-v10 PDU724 bind exact author bytes, authenticated publication
+time and original source/nonce to independently verified hashes/signature/size.
+The controlled fault is not a homeserver failure; this is host/API authoring,
+not another UI case. PDU verification is acceptance-only and adds no runtime
+PDU verifier, portable time or federation guarantee.
+
+All372 profile conformance tests and scoped source/light checks pass. Eight B
+predicates remain: collection/emission freshness, public privacy, retired
+acceptance environment and UI refusals on each backend. Final current-candidate
+qualification and identical loose/extracted/fresh two-store retention remain
+pending. Optional stay-ready effects remain not-enabled. Neither full gate,
+P015-001--003, full Whisper/global Agora nor release readiness is promoted.
+Original refusals and earlier source/software scopes stay unchanged. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#actual-late-matrix-reception-2026-11-04`.
+
+
+### Original SQLite collection/emission freshness (2026-11-04)
+
+Clean Node51bf99a7c composition786 freshly verifies **60/67** obligations
+(A30/30, B24/31 and six C conformance),146 native calls and10,661 logical
+reads/455,448,168B. Result SHA-256:
+`11e641a0e860753e7c1fa3f7b7066e39e8649dcf9e88d68dd3745bab62fa59c7`.
+Candidate41 at d0af38a2f completes actual AD certification780A/782B with explicit
+fixture recovery exports. Genuine signed issuer status9 permits collection but
+returns `status-stale` for first emission. B then uses ordinary protected host
+preview/sign/readback; SQLite201 admits the second source, with no first emission.
+After controlled delivery releases genuine fresh status14, one signed
+threshold/proposal pair appears. Independent785 rechecks original certification,
+review, status and all three complete cuts in nine native calls.
+
+The result journal tracks changed bases, not every refreshed status. The frozen
+first threshold supplies the verified first status/time binding; the latest
+changed current basis may still contain the older collection-only status. Shared
+profile-owned host helpers preserve the already qualified late Matrix predicate.
+All388 profile tests and the light/scoped source gates pass. Seven B requirements
+remain: Matrix freshness, public privacy, retired acceptance environment and UI
+refusals on both backends. Final current-candidate/full-software and identical
+loose/extracted/fresh two-store qualification remain pending. Optional stay-ready
+remains not-enabled. Both full gates, P015-001--003, full Whisper/global Agora and
+release readiness retain their partial scope. No runtime PDU verifier, portable
+Matrix time proof or federation qualification is added; historical evidence and
+refusals remain unchanged. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independently-composed-sqlite-freshness-2026-11-04`.
+
+
+### Independently composed both-backend freshness (2026-11-04)
+
+Clean Nodee09459884 composition808 freshly verifies **61/67** obligations
+(A30/30, B25/31 and six C conformance),163 native calls and11,576 logical
+reads/498,753,839B. Result SHA-256:
+`fd6f4066022bec13ad5255da8ed1a3eec8a48b2ecca7babdf24fa06f2994b268`.
+Actual SQLite783 and Matrix802 distinguish collection from first-emission
+freshness. Candidate/service42 at01378f863 completes ordinary AD799A/801B and
+protected late host signing. Matrix202 reaches actual sync admission; signed
+status8 permits two sources without first emission. After release, actual
+delivery of signed11 precedes the single frozen threshold/proposal pair.
+Separate read-only sync803 and a consistent PostgreSQL export804 bind all four
+room-v10 PDUs (9,271/9,271/2,442/2,187B), original stored rows, exact author bytes
+and unchanged independently adopted server keys. Native807 rechecks everything
+in15 fresh calls.
+
+Original793 remains a failed HTTP429 capture. Original805 retains its predicate
+refusal: first-available10 and first-used11 legitimately differ. Review replaces
+that false equality with monotonicity plus native verification of the actual
+status response delivered before freeze, including its exact freshness window.
+No lease, timer, admission or assertion limit is increased. All390 profile tests
+and scoped/light gates pass. Six B requirements remain: public privacy, retired
+acceptance environment and UI refusals on both backends. Final current-candidate
+cohort, full final software and identical loose/extracted/fresh two-store retention
+remain required. Optional stay-ready is not-enabled. Both full gates and
+P015-001--003 remain partial. The phase-1 authenticated-homeserver clock and
+acceptance-only PDU checks add no runtime PDU verifier, portable time or federation
+claim; global Agora/Whisper/release scope is unchanged. See
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independently-composed-both-backend-freshness-2026-11-04`.
+
+
+### Original UI refusal witnesses — 2026-11-04
+
+Clean `6e5b2f134` captures812/813 observe the actual no-JS UI on the ordinary
+protected A owner and C with SQLite and Matrix respectively. Each records
+403 CSRF, 400 unreviewed publication, 409 retained-preview conflict and 409
+new preview with a historical certificate/ended epoch. The final refusal has
+an original typed `nym-status-epoch-retired` owner diagnostic; this is not an
+isolated certificate-expiry measurement. The original signed result remains
+identical. A positive health request proves the relay monitor is active; the
+closed UI lifetime contains no publication request. Consistent before/after
+SQLite backups independently show unchanged authoring rows, relay records
+and publication requests. Credentials and complete form bodies stay private.
+
+Independent814 initially omitted the four original unlock occurrences from its
+manifest and refused. Independent815 reached the original backup but exposed
+a reader bug: SQLite `deserialize()` cannot read a WAL-mode backup without
+its WAL. Both refusals and original images remain unchanged. `ad57184df`
+uses an immutable read-only temporary file without rewriting the original
+WAL header; a real WAL backup regression passes. Independent816 now freshly
+verifies both original UI cases, including ordinary AD certification and
+native review/signature checks. This changes the verifier, not runtime results.
+
+Complete fresh composition817 verifies **63/67** (A30/30, B27/31 and six C
+conformance),167 native calls and12,763 logical reads/568,813,335 bytes.
+Its result SHA-256 is `41b9a6703caaac371842b07ac1eecaea787147ac0f1e32b237ddd2dee7cb5adc`. The 401 profile tests,
+scoped headers and diff checks pass; the preceding new predicate also passed
+the light workspace gate. Four B predicates remain: public privacy and retired
+acceptance environment inertness on each backend. Full current-cohort/software
+and identical loose/extracted/fresh qualification from both stores remain open.
+Optional stay-ready is not enabled or runtime-qualified. No final A/B/global,
+archive publication, merge, push or protected-material cleanup claim is made.
+
+
+### Explicit retired-environment runtime and full software gate — 2026-11-04
+
+The `3ff8ed68b` capturer supplies the four fixed retired Whisper selectors to
+the actual ordinary applicant child after stripping ambient legacy variables.
+Original AD820/SQLite821 and AD840/Matrix841 use the protected Vault, ordinary
+private certification, confidence0.5 and genuine backend admission. Independent
+829 verifies SQLite; independent847 verifies unchanged Matrix840/841,
+read-only843 and complete PDU844 in five fresh native calls. The full PDU is
+9,311 bytes and preserves the exact author buffer. This tests the contextual
+owner under explicit selectors; it does not claim to execute a removed legacy
+intake signer. The separate historical-intake checks remain conformance.
+
+The original824/AD822 refusal remains: the first key request received
+`nym-issuer-status-maintenance-due`. The later834/AD832 source first received
+`nym-issuer-context-capacity-exceeded`, then expired. The fixture permits only
+one active context. Normal S020 closed the previous context at07:02:10,
+after that request's expiry. New842 checks the already closed source state
+before minting its new request; the read-only fixture check is advisory, and
+ordinary admission still owns the decision. No context capacity, profile, retry
+or request deadline was increased. AD840 completed in79.12s. The Matrix841 stage (owner startup, status,
+publication and reception) took11.85s. These are observations from this run,
+not latency bounds.
+
+Original845 independently refused because its predicate compared the signed
+author value to the locally stamped source record. `43cc273d9` reuses the existing
+conversion removing exactly the three unsigned relay facts; other differences
+still refuse. A real-shape Matrix regression and408 profile tests pass. Native
+input/output bindings are now included in both new proof families. No original
+runtime, author buffer, PDU or failed qualification was rewritten.
+
+Full workspace gate818 passed on exact clean `3ff8ed68b`: Clippy/all targets,
+9,319 passed, zero failed,128 explicitly ignored, formatting, ledger/retention
+and path checks. Cargo was nonincremental. The later qualifier-only change has
+408 profile tests and a passing light gate; Rust/Cargo inputs were unchanged.
+Fresh composition848 verifies **65/67** (A30/30, B29/31 and six C conformance),
+175 native calls and13,902 logical reads/627,498,895 bytes. Its result SHA-256
+is `5c0e24dbfd13ae8b59d12a3ae43b2c6d01ffdc76e4d7352e7841ad070c7d71df`. These repeated logical reads are not archive size.
+
+The two remaining B predicates concern public privacy on SQLite and Matrix.
+Final scope reconciliation and identical loose/extracted/fresh qualification in
+both stores remain mandatory. Optional stay-ready is not enabled or qualified.
+No full A/B, global Agora/Whisper, release, archive-publication, merge or push
+claim follows from this checkpoint.
+
+### Original public-surface privacy composition — 2026-11-04
+
+Clean Node `035dd627c` freshly composes **67/67** obligations (A30/30,
+B31/31, six conformance), using179 native calls and13,979 logical reads.
+Original ordinary AD856 renewal and SQLite857 controls are completed by the
+read-only UI861 continuation. New ordinary AD862/Matrix863 has six nonempty
+API/UI/detail/topic/SSE controls, independent read-only sync865 and complete
+PDU866 (9,281 canonical bytes), original stored row and exact author bytes.
+Full PDU verification remains acceptance-only under the adopted phase-1 clock.
+
+The predicate independently binds original owner processes, closure, record
+controls and backend admission. Actual fixture participant, primary public-key
+and source-node canaries cover semantic JSON/HTML/URI/SSE and decoded v2 author
+buffers. Protected canaries use only byte length and digest, with bounded work;
+no secret value, Vault key or recovery bundle enters these controls. A fresh
+verified reset predicate owns the positive historical old-nym witness; current
+record/detail/SSE/author/PDU observations cannot link it. Private AD authority
+metadata and operator notification reads retain their separate access classes.
+An empty notification list does not invent a public Whisper notification emitter.
+
+Original readiness, clock-unlock503, CSRF-capture, expired-preflight and witness
+adoption refusals remain intact. A later read-only continuation does not turn a
+failed capture into success. Review corrected typed refusal preservation,
+secret-window limits, process/clock substitution and missing UI-pin refusal;
+427 profile tests pass. No Rust/Cargo input changed after the already-passed
+full gate818 on clean `3ff8ed68b` (9,319/0/128 ignored, nonincremental).
+Fresh873 result SHA-256:
+`4b2f1906c602d49d7ed28bf0a91fad316e83a7ddf455400104bb1a4ed5afcb4b`.
+
+The complete proof inventory is still **not final A/B qualification**. Original
+scope/current-cohort reconciliation, exact public retention dependencies and
+identical loose/extracted/fresh qualification from both stores within the
+unchanged budgets remain required. Optional stay-ready is not enabled or
+runtime-qualified. P015-001--003, full Whisper/global Agora and release retain
+their partial scopes. No archive publication, merge or push occurred. See the
+[Node running audit](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md).
+
+### Campaign custody and cleanup owner decisions — 2026-11-04
+
+For `P015-003` only, necessary isolated fixture-owner database images and private
+capture dependencies may use an audited **operator-only** profile in the adopted
+private primary/replica stores. Git retains path-free metadata. Keystores, keys,
+passwords, live credentials and recovery bundles remain excluded; byte limits do
+not change. This resolves the public/private custody choice, without approving
+unaudited contents or completing the remaining qualification.
+
+The owner permits removal of unused producer-owned artifacts after actual
+ownership, active-use and dependency checks. Required A/B inputs, user data, keys,
+parallel work and worktrees remain protected. After A/B adjudication, a reviewed
+withdrawal of large evidence may retain only revisions, scope, original results,
+conclusions and an exact deletion inventory. Affected availability and loss of
+requalification must be explicit. The permission cannot promote an unfinished
+gate. Node's [bounded cleanup review](https://github.com/diapod/node/blob/master/docs/audits/WHISPER-OWNED-CACHE-CLEANUP-2026-11-04.md)
+records removal of inactive Cargo cache only; campaign evidence remains intact.
 ### Witnessed SQLite admission profile (2026-10-29)
 
 The new `whisper-source-profile.v2` selects
@@ -742,3 +2112,404 @@ runtime cannot carry the extended certificate and explicitly returns
 required before operators can obtain these grants through that runtime.
 Synthetic signed fixtures qualify the P035 producer and historical consumer,
 without claiming notice issuance or the complete P015-005 gate.
+
+## Transitional material-origin profile v3 (2026-11-05)
+
+The new closed source profile v3 independently admits exact uses of signal v2
+and v3. Certificate v3 retains the existing NymCertificate v1 signature framing;
+its `scope/content-schemas` is exactly `[whisper-signal.v2, whisper-signal.v3]`.
+Recognizing a new schema does not authorize it under an older profile. Exact
+profile and certificate use tuples remain mandatory. A new issuance exchange v2
+binds the new profile; historical exchange v1 and signed artifacts keep their
+original preimages and meaning.
+
+`publication/window-start` and `publication/window-end` delimit one half-open
+epoch: start equals epoch/anchor plus an integral multiple of epoch/seconds,
+end equals start plus epoch/seconds. Production remains limited to seven days.
+Certificate and document validity cannot cross end. At end, new issuance,
+preview, sign and first publication refuse for every producer using this
+profile, including v2 producers. Clock skew never extends the window. Original
+event-time verification and committed historical reads remain available.
+
+A production adoption is a separate owner decision, outside the Sensorium
+milestone. It requires named receivers with confirmed profile/certificate
+support and explicit acceptance of cutting off the others, including their v2
+reception. Other producers must migrate within the single window or the owner
+must accept the resulting publication outage. A new digest changes context and
+source/ref; renewal, thresholds and room proposals do not automatically bridge
+profiles. Existing rooms retain their own lifecycle. Case succession currently
+refuses a profile transition. Another window therefore needs a separate
+continuity assessment, not automatic rollover.
+
+Signal v3 carries all four `whisper-origin.v1` fields at its root. Receivers admit
+all current author classes with the complete origin vocabulary; restrictions on
+Harvester production (derived-local only) do not restrict recipient law. The
+summary is independent of source counting and never asserts independent
+corroboration. This contract checkpoint is not runtime Gate A/B qualification.
+
+### Issuance v2 integration checkpoint
+
+The anonymous key-request/key-offer bootstrap remains v1 and binds the exact
+adopted profile digest. Full participant requests and council decisions use
+separate v2 plaintext and sealed families under profile v3. Request v2 fixes the
+v2/v3 content vocabulary; it does not grant those uses. Profile and certificate
+exact-use admission still decides authority. Participant, nym and bootstrap
+proofs and council decisions have distinct v2 signing domains. Certificate
+signing retains the NymCertificate v1 framing.
+
+Current carrier adapters accept the closed six-phase envelope vocabulary and
+check the exact selected phase; original v1 contracts are unchanged. The AD
+prepared-phase owner keeps ciphertext, input identity and readback together.
+Retained reply lookup creates no new signature or validity after window end.
+Profile v2 retains historical parsing and its separate status lifecycle; new
+issuance for it remains refused. This integration is not fresh Gate A/B evidence
+or production adoption.
+
+Local readback/delivery and applicant/issuer offer inputs have new closed v2
+shapes. Current routes bind named version unions, including offline OpenAPI
+closure, instead of widening any historical v1 contract. Actor, phase, profile
+and existing key-recovery admission remain separate owner checks.
+
+
+### Protected common-review and current-status continuation (2026-11-05)
+
+The separate authoring preview/sign/readback v2 contracts select an exact current
+Harvester review. The host supplies approved text, topic, polarity, derived-local
+authorship and origin. Caller publication parameters cannot replace them. Sign
+rechecks review and custody after key unlock; first publication independently
+checks the retained candidate and existing AD holds. Historical signed readback
+does not authorize a new publication or renew an expired profile window.
+
+Source-status request v2 accepts certificate v3 under the unchanged status-result
+contract. Current routes use the named exact v1/v2 request union; the original
+certificate-v1 request is unchanged. Actual profile/issuer, clock and signed status
+admission remain mandatory. This removes a closed-request mismatch rather than
+using schema recognition as authority. Fresh A/B for this continuation is open;
+the phase-1 result keeps its original source, profile and scope.
+
+### Bootstrap-v2 implementation and issuer checkpoint (2026-11-06)
+
+The accepted separate template is implemented in pure capability law, mirrored
+schemas, local request/consent owners, offline root ceremony and independent
+native grant/revocation inspection. An absent local revision selector preserves
+v1; explicit v2 selects the new singleton before delegate creation. Both live
+consent owners derive the selector from the adopted full exchange. Current
+component selection requires 74 named assertions and 96 mirrored schema pairs.
+
+An ordinary encrypted-owner attempt reached D with the full v2 request but
+refused at local consent. Source analysis identifies the old v1-only parent as
+the incompatible authority; original generic refusal bytes remain unchanged.
+The correction does not reinterpret that parent or reuse the expired case. Fresh
+ordinary issuance and two-backend Gate A/B remain open, with no production
+adoption. Exact prerequisite/refusal scope is recorded in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ISSUER-AUTHORITY-20261106.md`.
+
+### First ordinary v3 certificate checkpoint (2026-11-06)
+
+A fresh ordinary encrypted-owner fixture has issued a v3 certificate over all
+four exact TLS/AD phases using separately signed bootstrap-v2 authority.
+Independent native inspection verifies `A/issue` and `A/reference-readback`.
+Together with fresh same-source R/C/W7/native inputs, the campaign is now
+20/131 verified with 111 missing; ordinary/optimized results agree. Original
+reports/refusals remain preserved, with process inventory added only in a
+separately bound derived view. No Whisper was signed or published.
+
+A separate 128 MiB capacity observation stopped after 2479 retains with an
+untyped host cause; a complete DB/WAL copy passes integrity checks. It grants
+no load/recovery credit. Full signed SQLite/Synapse, all-producer window-end,
+recipient/privacy and remaining load/fault qualification remains open. Existing
+P084/P078 and dependent owner trackers stay in progress. This does not adopt
+production or renew historical evidence. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-ISSUANCE-20261106.md`.
+
+
+### First reviewed Matrix publication and status-cache withdrawal (2026-11-06)
+
+The source-bound Sensorium fixture independently verifies A's private AD
+certificate, reviewed protected v3 UI signing and Matrix HTTP 202/public readback.
+Its separately pinned campaign reaches 21/131, with 110 missing and identical
+ordinary/optimized results. B fails startup before export: status-cache compaction
+requires a formerly adopted profile absent from current configuration. C is
+reaped; no common-receiver, threshold, complete-PDU or full A/B credit follows.
+The earlier SQLite 22/131 retains its separate source and result.
+
+The owner correction validates retained canonical bytes, digest and source links
+before withholding unadopted status. It preserves facts and existing budgets,
+refuses current use without adoption and restores signature/cursor verification
+only on exact readoption. Other adopted profiles can operate and missing
+projections can rebuild; corruption remains a refusal. Component regressions
+pass and the next v3 conformance selection requires both withdrawal/corruption
+assertions. Fresh current-source native/runtime and Matrix qualification remain
+open; no historical gate or production adoption is renewed. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-MATRIX-PUBLICATION-20261106.md`
+and `node:daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md`.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+The source-bound fixture now verifies two ordinary AD certifications and reviewed
+v3 publications, an independent C/D first pair, persisted post-expiry evaluation
+and exact full-PDU delivery through a separate read-only client. The owner cache
+withdrawal repair has live positive B startup and both named conformance controls.
+A historical C read after the window closes is retained separately; it does not
+qualify all-producer refusal or old-node v2 cutoff. Full Gate A/B remains open.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.
+
+### Later 2026-11-07 fixture replica/window checkpoint
+
+The source-bound campaign now verifies **29/131**, with **102 missing**, identically
+in ordinary and optimized readers. Exact-predecessor A2 renewal on a distinct
+registered node of A's participant retains one source and no first emission at
+independent C. A newly started C reads the same signed records after the single
+aligned window ends. Runtime `985964ee83` / `2b5ea4fd`, capture `845bf6f7` /
+`ca9b73c9` and window reader `fb4301fb` remain separate pins. Earlier source-bound
+reports and the original four-PDU scope remain unchanged.
+
+This adds two replica/source-count and two window/history obligations. It does
+not qualify certificate-at-boundary, all-producer end refusal, old-node v2 cutoff,
+complete public/P082 direct-peer/Room/gossip privacy or full Gate A/B. Production
+is not adopted. The remaining fixture matrix and existing parent trackers stay
+open; another profile digest does not automatically preserve source continuity.
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-REPLICA-WINDOW-20261107.md`.
+
+### Later 2026-11-07 SQLite/late-receipt checkpoint
+
+The SQLite/late-receipt fixture checkpoint verifies **32/131**, with **99 missing**,
+identically in ordinary and optimized readers. One reviewed Harvester v3 owner
+completed protected UI preview/sign across restart, SQLite publication (201) and
+a signed receipt. A new SDK receiving store first admitted the exact original
+author bytes/receipt after certificate expiry plus skew, using the real clock,
+and retained its facts across close/reopen. This is not an HTTP import, common
+SQLite threshold/room proof, second publication or full Gate A/B.
+
+Runtime `985964ee83` / `2b5ea4fd`, capture `fe7c595e` / `65a4b8a3`, receiver
+build `2995a9f7` and final reader `ba4a235b` stay separate. All previous29
+original predicates reverify. The earlier wrong-backend runtime refusal,
+unattempted late SDK, incomplete reader and empty-stderr campaign refusal remain
+preserved; corrections use new cases or read-only views, without retrying an
+uncertain publication. Backend readiness now precedes certification. The bounded
+thirteen-root retention review leaves all217 exact-copy candidates blocked;
+no retirement action or production adoption occurred. Parent trackers and the
+remaining99 obligations stay open, including all-producer end refusal, boundary/
+old-node-v2 cutoff and full P082/gossip privacy.
+
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-LATE-RECEIPT-20261107.md`.
+
+### Native owner-policy checkpoint (2026-11-07)
+
+The native policy checkpoint verifies **37/131**, with **94 missing**,
+identically in ordinary and optimized readers, exit 2. All previous32 original
+predicates reverify. Five native AD/P091 obligations add inactive/complete
+adoption, editorial versus normative factory identity, separate ceiling refusal
+and unchanged old claim terms. Eleven actual system-clock stages include restored
+controls and owner reopen; three coherently rehashed scratch substitutions each
+refuse and restore the original positive.
+
+Native build `190552c41`, capture `a8933630` and final reader `714e0bc10` remain
+separate from existing runtime `985964ee83` / normative `2b5ea4fd`. Original
+rehearsals, cold-WAL collector refusal and hold-field reader refusal remain
+preserved; the successful runtime was not repeated for reader correction.
+Full gates and production adoption remain open, and parent statuses are unchanged.
+
+These policy rows add no issuance, key/media or certificate-window qualification.
+Finite fixture authority remains separate from standing operator consent.
+Policy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-POLICY-20261107.md`.
+
+### Native claim and transfer checkpoint (2026-11-07)
+
+The native claim checkpoint verifies **41/131**, with **90 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous37 original
+predicates reverify. Four native AD obligations add same-key parameter conflict,
+overlapping concurrent retain and lost-response reopen/retry, atomic transfer/
+claim/first-result commit, and explicit live extension with real expiry controls.
+Four coherently rehashed scratch substitutions each refuse with a restored
+original positive. The native build/capture `069e95bbd` and corrected reader
+`b7d0d6fc8` stay separate from unchanged runtime `985964ee83` / normative
+`2b5ea4fd`; the original reader expiry-model refusal remains preserved.
+
+No issuance, signing or media authority is exercised. Standing consent does
+not extend finite fixture grants.
+Full gates and production adoption remain open; parent statuses are unchanged.
+Claim checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-CLAIMS-20261107.md`.
+
+### Native legacy checkpoint (2026-11-07)
+
+The native legacy checkpoint verified **43/131**, with **88 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous41
+predicates reverify. Two native AD rows add digest collision/monotonic interest
+through ordinary release, actual expiry/sweep and unadopted reopen, plus explicit
+native operator-method release with a withdrawn admission witness. Same-object,
+managed-only GC and healthy controls establish the causes; four rehashed scratch
+substitutions each refuse and restore the original. Native build/capture/reader
+`6fcf49a3d` / `35c23a9c` remains separate from runtime `985964ee83` / normative
+`2b5ea4fd`. Both pre-effect preparation refusals remain preserved.
+
+No issuance/signing/media authority is exercised or renewed; finite grants
+remain separate from standing operator consent.
+Full gates and production remain open; parent statuses are unchanged.
+Legacy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-LEGACY-20261107.md`.
+
+### Original bytes and explicit revalidation checkpoint (2026-11-07)
+
+At this original-byte checkpoint the campaign verified **48/131**, with **83 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous 43
+cases reverify. Five composed predicates cover exact original transfer/inline
+representation custody, actual gzip and typed ISO-8859-2 refusal without handoff,
+original-preserved extractor omissions, acquisition horizons and three explicit 304
+through delayed review, restart and replay. Two owners are reaped; no unsolicited
+fetch or renewed claim occurs. Six coherently rehashed controls per mode each
+refuse then restore original positives. 73 Python tests per mode pass.
+
+Capture `dade45982` and corrected reader `945a2bf9c` / Orbidocs `e37021ad` remain
+separate from the pinned runtime `985964ee83` / normative `2b5ea4fd`. The original
+capture runs once; three reader precondition refusals remain preserved. No
+production Rust, schema or capability contract changed. Ten-root catalog/dry-run
+review records 158 selected files/6264441 bytes, seven exact duplicate-output
+candidates 1767461 bytes and zero eligible. Active 48 evidence/authority remains
+protected; no retained deletion/move/retirement authorization/execution occurred.
+
+No issuer key/grant/recovery operation was needed. Certificate boundary, protected custody holds and all-producer window end remain open.
+Full gates and production remain open; parent statuses are unchanged.
+Original-byte checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGINAL-BYTES-20261107.md`.
+
+### Finding origin and adopted monitoring checkpoint (2026-11-07)
+
+The original-input campaign verifies **51/131**, with **80 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous 48 cases
+reverify. Three new rows cover all nine canonical finding-class mappings,
+non-web Sensorium/mixed material, and collection bound to an adopted configuration
+after its real 60-second interval. Thirteen immutable reviews replay across an
+actual owner restart, with two web snapshots and four exact custody refs.
+Scalar metadata cannot create web, monitoring or model lineage. These synthetic
+operator-inline finding classes imply no mail/filesystem/device acquisition or
+signed author-class reception. Scheduler is disabled; due execution is explicit.
+
+Collector/reader `bfb0d90b0` / Orbidocs `f2abbe21` remain separate from runtime
+`985964ee83` / normative `2b5ea4fd`. Six coherently rehashed controls per mode
+refuse, each followed by a restored-original positive; 82 Python tests per mode
+pass. The original capture is unchanged and runs once. Six-root catalog/dry-run
+review records 138 selected files/4863454 bytes, three duplicate-output candidates
+1294585 bytes and zero eligible. Active qualification and authority dependencies
+remain protected; no retained deletion/move/retirement authorization/execution.
+These numbers are run observations, not contract thresholds.
+
+Full processing/inference provenance, signed v2 absence versus v3 unknown,
+author-class reception, mixed authorship holds, clock/load/fault, all-producer
+window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
+statuses and production adoption are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+
+### Manual v2 authoring under exact-use profiles (2026-11-07)
+
+Manual signal-v2 authoring retains preview/sign/readback v1 commands. Historical
+certificate-v1 replies retain `nym-authorship-readback.local.v1` byte semantics.
+An exact-use source profile (v2 or transitional v3) returns the new closed
+`nym-authorship-readback.local.v3`: its document remains signal v2, while its
+certificate is exactly certificate v2 or v3. The three manual routes declare
+`nym-authorship-readback-response.local.v1`, a named union of the historical and
+new reply contracts. Historical contracts are not widened or relabelled.
+
+The review-selected signal-v3 path keeps local readback v2 and its mandatory
+review binding. Manual v2 cannot supply an origin-v3 draft through this adapter.
+Profile/certificate use, current status and the half-open publication window
+remain owner admission conditions; recognizing the reply is not permission.
+This repair follows an actual fixture response-contract refusal after a
+successful reviewed-v3 publication. It is not all-producer end-window qualification.
+
+
+### Exact SQLite renew and bounded window review (2026-11-07)
+
+Independent ordinary/optimized readers on runtime `653eac2b` / Orbidocs
+`be10c3bc` verify A2 exact-predecessor renew, the completed A/A2 C/D same-source
+group and 21 actual post-window refusals across A/A2/B and v2/v3, with native
+signed inputs, positive controls and historical readback. The prepare descriptor
+remains valid beyond window end. The later A/B S020 launch refusal and a fresh A
+status-refresh owner failure remain unresolved; the original parent campaigns
+stay refused. Closed host diagnostics preserve safe causes without new retries
+or authority. No complete A/B post-certificate-expiry claim or full current-source
+campaign credit follows. Historical 51/131 belongs to its original runtime;
+parent trackers and production adoption remain open. Scoped implementation review:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-WINDOW-20261107.md`.
+
+### Post-issue S020 fixture checkpoint (2026-11-07)
+
+An ordinary private-AD issue followed by four actual S020 freshness cycles passes
+independent ordinary/optimized signature and exact-launch readers on runtime
+`aa36c538` / capture `d028ac8b` / Orbidocs `79240ab8`. This diagnostic adds no
+registered rows. A separate runtime `653eac2b` aggregate re-executes 6/131, with
+125 missing; it must not be added to the historical 51/131 on another runtime.
+The original shutdown/wait refusals remain preserved. Complete A/B independent
+C/D post-certificate-expiry continuation, full Gate A/B and production adoption
+remain open. Details and retention limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-S020-CHECKPOINT-20261107.md`.
+
+
+### Ordinary renewal/window continuation (2026-11-07)
+
+Node runtime/capture `b8c45e5dd` with Orbidocs `8588f942` independently verifies
+A issue, exact predecessor-bound A2 renew and both reviewed-v3 SQLite publications
+(201). Fourteen separate A/A2 v2/v3 end-window refusals and four signed unpublished
+controls pass native inspection; protected historical reads remain available.
+The whole R35 campaign stays refused: B's final request records twelve
+`nym-issuer-busy` refusals then expiry, and a separate C/D attempt stops at C's
+`nym-status-refresh-unavailable` after a successful issuer launch. No complete
+receiver/expiry contribution, full Gate A/B or production claim follows.
+Follow-up bounded phase/timing diagnostics and source-readiness waiting preserve
+policy and wire errors;
+they have no fresh runtime qualification. Exact sources, retained failures and
+retention limits: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.
+
+
+### Receiver and closed-window checkpoint (2026-11-07)
+
+Node runtime/capture `78911310` and Orbidocs `7a3a3b4f` independently re-execute
+7/131 requirements (124 missing), identically with ordinary and optimized readers.
+A issue, exact predecessor-bound A2 renew and B issue each publish reviewed v3
+through the ordinary SQLite UI. C verifies one source across A/A2; actual A/B
+reception produces a threshold and Room proposal after correcting the fixture's
+effective exact consumer list. Operator status access is a separate authority
+boundary from a supervised module's live channel.
+
+The original R37 parent refuses during post-certificate-expiry S020 polling:
+the selected D job is interrupted after 17231 ms against 9999 ms; its refresh
+takes 14313 ms. This is not complete contribution-after-expiry qualification.
+Separate 21 all-producer v2/v3 end-window refusals and a before-end-adopted,
+after-end four-record C read pass native ordinary/optimized inspection. No failed
+parent is relabelled, no historical runtime counts are added, and full Gates A/B
+and production adoption remain open. A follow-up removes duplicate constructor
+recovery in the existing single slot, preserving profile, capacity and media
+guards; its native qualification remains open. Exact identities and limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RECEPTION-WINDOW-20261107.md`.
+
+
+### Exact-renew readiness checkpoint (2026-11-08)
+
+The runtime056 R38 parent remains refused: A publishes reviewed v3, while A2's
+exact renew records busy admission followed by original-request expiry. No
+complete C/D or post-certificate-expiry contribution follows. A Python fixture
+prerequisite now binds A's actual predecessor and observes fresh S020 status
+before preparing A2, without changing a prepared deadline or any owner lease.
+All 566 regressions and six focused normal/optimized controls pass; native
+qualification of this orchestration change is still open. The independent
+runtime789 seven-of-131 subset is not transferred to a new source. Exact scope:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-READINESS-20261108.md`.
+
+
+### Paused qualification checkpoint (2026-11-08)
+
+R39 independently verifies 9/131 (122 missing) on retained runtime056 and
+capture8b07, identically with ordinary/optimized readers. Exact A2 renew,
+same-source and independent A/B reception, ordinary UI/receipts, all-producer
+window refusals and historical C read pass. The complete post-certificate-expiry
+proof correctly refuses: outer S020 success contains no-work and the retained
+evaluation is stale. Unchanged public records do not establish that subclaim.
+Work is paused at the owner's request; no new window or production adoption.
+The original runtime and reader results remain unchanged. Resume basis:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.

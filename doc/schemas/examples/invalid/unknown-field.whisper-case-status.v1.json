@@ -1,0 +1,15 @@
+{
+  "schema": "whisper-case-status.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "case/authority": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+  "issued/at": "2026-11-04T12:00:00Z",
+  "valid/until": "2026-11-04T12:00:00Z",
+  "head": {
+    "case/revision": 0,
+    "event/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "state": "active",
+    "current-succession": null
+  },
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "unexpected": true
+}

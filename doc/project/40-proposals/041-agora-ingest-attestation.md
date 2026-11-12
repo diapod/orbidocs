@@ -672,7 +672,7 @@ archival or redelivery topics:
 
 - the envelope stays byte-identical and its signature verifies;
 - an accompanying
-  [`agora-admission-receipt.v1`](035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27)
+  [`agora-publication-receipt.v1`](035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27)
   from a time authority that this gate accepts shows that the nym proof was
   valid at admission;
 - the certificate was not revoked with an effective time before that

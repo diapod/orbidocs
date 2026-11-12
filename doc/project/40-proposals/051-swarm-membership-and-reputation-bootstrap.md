@@ -2084,3 +2084,25 @@ retirement of v1/shadow/migration paths, live authority wiring, archival/restore
 and V5 readiness remain open. Broader P051/P018 tracker statuses, contract maturity,
 hard-MVP and release readiness do not advance. Historical reports retain their
 original bytes, sources and scopes.
+
+### Participant UI integration tracker — 2026-11-06
+
+The existing participant UI and local-accountability evidence remain scoped.
+Source inspection finds Node UI's case views using ParticipantSession while the
+daemon participant-context/signing bridge still selects operator_caller_binding.
+This is not evidence for an arbitrary independent participant. P024 owns trusted
+actor admission; Responsibility owns exact signed commands, protected rights,
+case procedure, restriction effects and receipt interpretation. P098's `cases`
+category is navigation, never the Responsibility case schema.
+
+Existing protected inspection/appeal paths must survive P095 route migration.
+Hiding a category or restricting unrelated operations cannot itself revoke those
+rights; authority and actual temporary domain failures remain owner decisions.
+An approved correction, pending outbox, uncertain application and confirmed
+retraction remain distinct. These tasks neither wait for nor qualify V4/V5,
+new panel merits or all systemic-repair work.
+
+| ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P051-019 | todo | P024-009; P051-002; P051-005; accepted P018 protected-operation contract | Freeze independent-participant case list/detail/protected-action/result projections and signing adapter inputs. Pin policy/case/decision/effect revisions, current actor scope, protected-operation classification, bounded continuation, disclosure and authoritative receipt/readback semantics. Preserve owner-local outcome classes and typed desynchronization/unknown/refusal; no generic blocked-participant switch. Fixtures include a restricted subject retaining admitted procedural access, a pending correction and stale case/actor references. Multiple admitted policies need explicit selection or a bounded complete owner projection; never silently pick the first policy. | P051-020; optional P098-024 |
+| P051-020 | todo | P051-019; P024-010; P051-005 | Replace operator-derived participant context/signing for the independent path with verifier-admitted actor input; retain an explicit legacy/local-primary adapter. Deliver bounded own-case/action/readback/activity projections over existing service facts, S039 notices and signed-command authority. Qualify P/Q isolation, protected access, policy/revision change, lost reply, desynchronization and receipt-confirmed correction. No new sanction engine, UI signature authority or automatic retry of coercive effects. | P098-024 |

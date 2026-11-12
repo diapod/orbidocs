@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "urn:orbiplex:schema:nym-source-status-acquire.local:v1",
+  "title": "nym-source-status-acquire.local.v1",
+  "description": "Bounded acquisition of an independently adopted contextual status. Registers only the scope of a verified council certificate for S020 refresh; no caller time, endpoint, trust adoption, key or issuance authority.",
+  "required": [
+    "profile/digest",
+    "certificate",
+    "purpose"
+  ],
+  "properties": {
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "certificate": {
+      "$ref": "whisper-source-certificate.v1.schema.json"
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "collection",
+        "first-emission"
+      ]
+    }
+  }
+}

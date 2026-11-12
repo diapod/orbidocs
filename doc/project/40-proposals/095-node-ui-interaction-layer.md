@@ -746,6 +746,63 @@ whole P095/platform/release status remains unchanged.
   native integration, and which command/window/frame permissions are required?
   P095-008 must resolve actual IPC authority separately from that flag.
 
+### Participant session adapter tracker — 2026-11-06
+
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+requires the UI service to convey its verified participant session without lending
+operator authority. P024-009 owns the shared contract and P024-010 its host verifier;
+P095 owns this producer and presentation lifecycle. Its new restricted adapter
+can be qualified independently of local-primary/legacy route migration; consumer
+routes still require their own migration and runtime evidence. The existing
+private-view and confinement rules still apply. P098 and domain UI completion are consumers, not
+prerequisites of this adapter.
+
+| ID | Status | Depends on | Task and completion gate |
+|---|---|---|---|
+| P095-012 | todo | P024-010; P095-013a; P095-014 | Produce the P024-009 admitted context from the verified session through the authenticated UI/host port; preserve participant/operator separation in the daemon client. Bind pending work to identity/session generation and invalidate on logout, expiry, switch or revocation. Prove O/P/Q, forged body/header IDs, bare control credentials and delayed results in browser and supported native transport using a bounded host fixture. No UI-stored domain grants or generic browser signer. Supplies P098-004b/005b/006/009/012/014/015 and P013-DFR-003; those consumers do not gate this task. |
+
+### Separate daemon clients and the initial local-primary profile
+
+P098's first home slice admits the session subject matching an explicit local
+operator-role binding, even when other participants exist. The sole-participant
+rule is a versioned legacy compatibility branch only before that role model is
+activated; it is never a fallback for missing role data. This does not establish
+independent-participant access. The client API
+separation below can precede P024-010/P095-012; the later participant-context
+adapter must use the same restricted participant-facing interface.
+
+| ID | Status | Depends on | Task and completion gate |
+|---|---|---|---|
+| P095-013 | todo | P095-013a; P095-013b; P095-013c | Complete the separate client/state foundation, Alpha route migration and remaining legacy participant-route migration. 013a alone supplies no host authority; 013b qualifies only its explicit Alpha route set. Keep P095-012 independent-participant evidence separate; close this aggregate only when every existing route disposition is resolved by 013b/013c. |
+
+P095-013 has three independently reviewable subgates. New code uses the restricted
+boundary immediately; existing routes migrate through an explicit inventory rather
+than an unreviewed alias of the old client. Public render/configuration values may
+be shared; middleware extensions, closures and constructors must not carry operator
+authority into participant state. State separation does not itself authenticate a
+participant or grant a domain operation.
+
+| ID | Status | Depends on | Task and completion gate |
+|---|---|---|---|
+| P095-013a | todo | accepted Node UI guard contracts | Establish separate ParticipantState/OperatorState and narrow ParticipantDaemonClient/OperatorDaemonClient ports at a minimal existing module or library test seam. Compile one Router for each state before composing services; participant FromRef, captures, extensions and public constructors expose no privileged transport escape hatch. Include positive compilation controls and forbidden-extraction tests; confirm compiler tests are discovered. No full router migration, live host calls, production AdmittedParticipant construction or general library/framework extraction is required. This type boundary consumes accepted guard semantics; full surface conformance P095-014 joins live routes later. |
+| P095-013b | todo | P095-013a; P095-014; P007-LP-001; existing Node UI operator/participant guards | Implement the restricted role-aware local-primary adapter and migrate the explicitly enumerated Alpha route set: /app, its private fragments and contact/chat/P097, attention/history and protected local Responsibility destinations, including their readback/actions. No bound handler, middleware, extension or captured state may access the old privileged client. Match session subject to explicit operator role; sole-participant inference is confined to the declared pre-migration model, never missing/corrupt role data. Adding P/Q preserves O; unsupported actors receive typed refusal. Pin route/extractor/transport coverage, preserve existing protected access, and qualify revocation and browser/native regressions. Inventory remaining legacy routes for 013c; they are outside this completion claim. Any new Alpha-bound destination must first satisfy this boundary. Independent actor admission remains P095-012 and the domain owners. |
+| P095-013c | todo | P095-013a; P095-014; P007-LP-001; existing Node UI operator/participant guards | Share the route partition with 013b and migrate the remaining legacy participant routes and their guards/extractors to the restricted state/client boundary, preserving supported behavior and protected access. Until migrated, keep them outside Alpha composition with their existing explicit guards; no broad operator transport may become reachable from an Alpha handler. Record exact route dispositions and regressions. Disabling a supported route merely to close this task is not completion. This can proceed alongside 013b, retains the whole-application separation obligation and does not block delivery of the qualified Alpha route set or the independent session adapter. |
+
+### Alpha surface conformance and advanced styling tracker — 2026-11-06
+
+Existing P095-007/008/010/011 rows retain their partial statuses. Their accepted
+contracts apply to Alpha, but neither an unspecified "applicable output" nor
+old operator-route evidence qualifies a new participant surface. P095-014 freezes
+an independently reviewable conformance profile; P098 owns exercising it on its
+new routes. P095-015 is a later styling admission decision, outside Alpha V1.
+Neither task depends on P098 completion. P091 still owns declaration composition,
+provenance and activation; these rows do not define another configuration system.
+
+| ID | Status | Depends on | Task and completion gate |
+|---|---|---|---|
+| P095-014 | todo | Accepted P095 private-view, fragment, representation and lifecycle contracts | Freeze a versioned Alpha surface conformance profile with exact route/representation classes, owner DTO boundaries and case IDs for public initial shells, private fragments, context/cache/history fences, passive modules, no-JS and browser/native transport. Identify reused accepted outputs and their evidence limits without closing unrelated partial rows. Include public versus operator/participant-private configuration metadata and CSP-compatible host theme delivery. Map each case to its existing mechanism and owner evidence; any missing shared mechanism requires a named P095 runtime prerequisite before consumer closure, not an Alpha-specific replacement. A profile freeze is a contract output; new-route runtime evidence belongs to its consumer. Name cross-owner conformance laws for typed outcome/readback, owner-bounded activity, private availability and authority/source/session invalidation without merging their state machines. Bind route cases for Responsibility protected access and optional P082 Web/BrainFlow observation; unsupported profiles refuse. Shell or fragment lifecycle never implicitly starts acquisition, repeats an effect or grants module execution. |
+| P095-015 | deferred | P095-014; existing P095 surface-admission contracts | Freeze the admission/isolation profile for a future operator CSS package and synthetic preview: resource/network bounds, privileged-control protection, private-view lifecycle, browser/native behavior, failure refusal and unthemed recovery. Decide the actual permitted style surface; namespaces, signatures and CSS layers alone are not confinement. Record a refusal if no proposed profile preserves these boundaries. P098-013 may implement only an admitted profile; this task supplies no V1 CSS permission. |
+
 ## Next Actions
 
 Land P095-007 first: it removes an existing history exposure and does not depend

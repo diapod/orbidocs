@@ -1,0 +1,9 @@
+{
+  "schema": "whisper-case-closure.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "request/id": "9a0da901-d3e3-40d9-92b0-a10ad189802a",
+  "closure/reason": "author-ended",
+  "issued-at": "2026-11-07T10:00:00Z",
+  "not-after": "2026-11-07T10:01:00Z",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

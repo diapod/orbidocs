@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-custody-configuration.local:v1",
+  "title": "artifact-custody-configuration.local.v1",
+  "description": "Resolved P091 custody setting. Factory values are host-owned; source admission forbids operator replacement. Adoption and host ceilings are complete declarations.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "factory",
+    "host-ceilings",
+    "adoption"
+  ],
+  "properties": {
+    "factory": {
+      "$ref": "artifact-custody-policy.v1.schema.json#/properties/limits",
+      "readOnly": true
+    },
+    "host-ceilings": {
+      "$ref": "artifact-custody-policy.v1.schema.json#/properties/limits"
+    },
+    "adoption": {
+      "$ref": "artifact-custody-policy.v1.schema.json"
+    }
+  }
+}

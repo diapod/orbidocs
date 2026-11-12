@@ -1,0 +1,43 @@
+{
+  "schema": "artifact-delivery-retain-request.v2",
+  "schema/v": 2,
+  "owner/component-id": "middleware.sensorium-web",
+  "purpose": "web-original",
+  "snapshot/ref": "sensorium-web-snapshot:fixture",
+  "artifact": {
+    "digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+    "size/bytes": 13,
+    "source": {
+      "kind": "host-transfer",
+      "binding": "transfer:fixture"
+    }
+  },
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Public",
+    "effective_tier": "Public",
+    "provenance": {
+      "kind": "local-space",
+      "space": "Public"
+    },
+    "bound_subjects": {
+      "public_projection": {
+        "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "count": 0
+      }
+    },
+    "declassify_trail": []
+  },
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:web-retain-fixture",
+    "correlation/id": "correlation:web-retain-fixture",
+    "operation/id": "operation:web-retain-fixture",
+    "causation/refs": [
+      "sensorium-web-refresh:fixture"
+    ],
+    "origin/actor-ref": "module:sensorium-web",
+    "created/at": "2026-08-26T10:00:00Z"
+  }
+}

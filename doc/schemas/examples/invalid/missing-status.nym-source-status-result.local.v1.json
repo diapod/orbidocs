@@ -1,0 +1,9 @@
+{
+  "schema": "nym-source-status-result.local.v1",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "context/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "epoch": 2912,
+  "purpose": "collection",
+  "state": "available",
+  "reason": "status-unavailable"
+}

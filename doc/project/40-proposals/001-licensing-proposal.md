@@ -17,7 +17,7 @@ recipient history.
 
 2026-02-22
 
-Revised: 2026-10-20; 2026-10-25 (name/logo boundary)
+Revised: 2026-10-20; 2026-10-25 (name/logo boundary); 2026-11-10 (bundled fonts)
 
 ## Executive Summary
 
@@ -28,6 +28,12 @@ under `CC-BY-4.0` and preserve the licenses of third-party artifacts.
 The distinction is between improving the reference implementation and building
 independent software that interoperates with it. It is not a distinction between
 commercial and noncommercial users, nor between large and small crates.
+
+[P099: Companion App and Device Bridge](099-companion-app-and-device-bridge.md) records
+MIT/Apache upstream reuse candidates for a HealthKit edge. P099-001 qualifies the
+selected source/dependency closure; P099-007 separately gates the complete app's
+license and Apple distribution. Neither the upstream grants nor this reference
+create a permissive exception for project-owned product code.
 
 No package becomes Apache-licensed merely by appearing in the candidate list.
 Every extraction needs a closed dependency and bundled-asset inventory, rights
@@ -111,6 +117,24 @@ modules must not introduce `GPL-2.0-only`; third-party compatibility is reviewed
 per combination. MPL, LGPL, custom linking exceptions and dual licensing are not
 additional defaults: any such exception requires a separate compatibility and
 rights decision.
+
+### Bundled third-party fonts
+
+Node UI bundles the fonts below. They are third-party assets, so the project
+font default above does not apply to them. This record names their terms; exact
+files, hashes and release archives stay in
+`node:node-ui/static/fonts/PROVENANCE.md`.
+
+| Font | Upstream package | License | Copyright holder | Reserved Font Name | Bundled faces |
+|---|---|---|---|---|---|
+| IBM Plex Sans | `@ibm/plex-sans@1.1.0` | `OFL-1.1` | IBM Corp. (2017) | `Plex` | Regular, Italic, Medium, Bold |
+| IBM Plex Mono | `@ibm/plex-mono@2.5.0` | `OFL-1.1` | IBM Corp. (2017) | `Plex` | Regular, Medium |
+| Inter Tight | `@fontsource-variable/inter-tight@5.3.0` | `OFL-1.1` | The Inter Project Authors (2022) | None | Variable; Latin and Latin Extended |
+
+`OFL-1.1` permits bundling with AGPL software when each copy carries the
+copyright notice and the license, and the fonts stay under `OFL-1.1`. The license
+texts sit beside the fonts. A modified IBM Plex file must not use the name
+"Plex". This record does not complete P001-002 or P001-006.
 
 ### What reciprocity does and does not mean
 

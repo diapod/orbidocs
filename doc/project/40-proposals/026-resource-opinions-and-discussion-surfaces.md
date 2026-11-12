@@ -442,6 +442,115 @@ Those are placeholders only. This proposal freezes only the layering rule:
 3. richer discussion media may attach later without replacing the opinion
    artifact.
 
+#### Future Resource Perspectives Client {#resource-perspectives-client}
+
+Future design profile, 2026-11-04; P026-013 is deferred and adds no prerequisite
+to current MVP/alpha work. A client may compose accessible accounts, rumors,
+opinions, comments, replies and corrections around a resource: a place, company,
+public person in a particular role, or a specific action. Its purpose is shared
+social orientation and revisable memory, not a universal reputation score.
+
+**One reference, many perspectives.** Reuse envelope `record/about` with
+`ResourceRef`, the subject index, `gossip/see-also`, opinion relations and existing
+comment/reply threads. References are not all equivalent: `record/about` names
+subjects, `see-also` supplies related context, and a curation opinion targets the
+rumor record rather than the person it mentions. A loose link establishes neither
+support nor contradiction. New typed relations, if needed, require an explicit
+domain contract; do not infer their meaning from co-occurrence in an array.
+
+**Separate person, role and action.** Preserve the referenced person, the role
+and institution relevant to the account, and the particular action/event with
+its time and context as distinct meanings. Role occupancy is a contextual claim,
+not an intrinsic property of a person or a grant of authority. For example,
+an account about a physician's handling of one appointment can name a
+`pl-nil-pwz` resource, the professional role and the event; it does not become a
+judgment of the whole person, all their roles or all appointments. A company or
+place mentioned in the same account is not automatically another accused party.
+Reuse existing identifiers and domain contracts where adequate; missing role or
+event identity stays explicit rather than inventing an equivalence. Freeze any
+required role/action relation shape in P026-013 before implementation. No new
+namespace, public-person registry or person-resolution service is adopted here.
+
+The read model preserves attribution, original epistemic class, available source
+lineage, event time versus publication time, disagreements and revision history.
+Separate what a source asserts, what a model infers, and what a reviewer accepts;
+optional analysis follows [P078](078-weak-signal-harvester.md#inquirium-epistemic-analysis).
+Replies and corrections remain discoverable alongside the assertions they address.
+Scores retain their named domain and scale; no combined person-level verdict is
+derived from rumor counts, popularity or a mean across unrelated criteria.
+Copied reports do not become independent corroboration, and uncertain aliases
+or cross-namespace matches remain proposed links rather than silent identity merges.
+
+**Civic memory across changes of role.** This profile gives a concrete use to
+[Core Values: Accountability Without Dissolving into Procedure](../../normative/30-core-values/en/CORE-VALUES.en.md#accountability-without-dissolving-into-procedure):
+retained accounts and opinions can help a participant decide whom to trust, in
+which role and for which responsibility. A change of office or institution need
+not sever the accessible history of that person's actions. Responsibility does
+not transfer automatically to a successor or everyone in the institution.
+
+For example, before entrusting a local councillor with another term, a participant
+may review an earlier commitment, the councillor's subsequent vote, residents'
+accounts and opinions about its effects, the councillor's response and later
+corrective action. Preserve reliable conduct and fulfilled commitments alongside
+criticism. A rumor remains a rumor, an opinion remains an attributed assessment,
+and a document supports only what its content establishes. Their placement on
+one timeline neither establishes causation nor turns the account into a fact.
+
+**Timeline requirements.** Reuse Agora records, revisions, subject indexes and
+viewer-safe reads; the timeline is a projection, not another authoritative store.
+
+1. Distinguish event time or interval, publication time and correction/revision
+   time. Keep unknown, approximate and disputed dates explicit; a late publication
+   must not move the underlying event into the present. Declare the ordering basis
+   and a stable tie-breaker without suggesting a causal order among simultaneous
+   or uncertain events.
+2. Bind each action to its claimed actor, role and institution at that time, with
+   sources for the binding and any known role interval. A later title change must
+   not relabel earlier actions; a new officeholder does not inherit the predecessor's
+   assessments. Uncertain identity or role matches remain unresolved links.
+3. Link replies, disputes, corrections and repair to the assertions or actions
+   they address. Keep the distinction between what was asserted then and what was
+   corrected later visible, within retention and access policy; do not silently
+   overwrite the earlier account or keep resurfacing a superseded accusation alone.
+4. Preserve each item's epistemic class, attribution and source lineage. Reprints
+   do not add independent support. Assessments stay attached to their particular
+   action, role and criterion; there is no automatic person-level trust score.
+5. State the selected time window, query scope and known coverage limits. Missing
+   or unavailable periods do not establish inactivity or a clean record. Apply
+   the existing admission/exposure policy to timeline entries, ordering, summaries
+   and notices; gap indicators must not reveal protected records. This profile
+   creates no indefinite-retention obligation.
+
+**Scope and implementation boundaries.** This is a viewer-bound projection over
+available records, not "all knowledge in the network". State query scope, freshness
+and known incompleteness without revealing withheld records. No results means no
+accessible results within that scope, not absence of events or a clean record.
+Reuse Agora read APIs and projections through host admission followed by the
+[assessment exposure policy](#6-assessment-exposure-and-sealed-rounds); do not
+assemble a client-side index from raw records to bypass withholding. Search,
+ordering, counts, summaries and notifications preserve the same viewer boundary.
+Any caching is bounded and subject to the owning retention/access contracts.
+Public identifiers alone authorize neither private linkage nor broader disclosure.
+
+[P013](013-whisper-social-signal-exchange.md#resource-perspectives-client)
+owns the rumor-specific binding. Reuse existing retrieval, publication and reply
+paths; this profile introduces no crawler, network-wide aggregation protocol,
+publication permission or reputation/enforcement mechanism. Its benefit is
+contextual social memory; its risks include selection bias, stale context and
+reputational amplification, mitigated by explicit scope, preserved disagreement,
+correction links and host-enforced exposure rather than a single client verdict.
+
+Before closing P026-013, retain offline projection fixtures for one person in two
+roles, two people with similar names, a role change, a time-bounded action, conflicting
+accounts, reprints, a reply/correction and partial/unavailable history. Include
+the councillor example with late publication, an unknown event date, an office
+successor, a fulfilled commitment and repair; verify event/publication/revision
+ordering and that a correction remains linked to the earlier account. Prove that
+role/action assessments do not spread to the whole person, unknown namespaces
+remain usable, references preserve their meaning, and withheld data does not leak
+through summaries, counts or ordering. Qualify browser presentation separately;
+neither fixture nor UI success proves network completeness or social effectiveness.
+
 ### 6. Assessment Exposure and Sealed Rounds
 
 **Design decision, 2026-10-23.** Reduce social anchoring without confusing
@@ -1190,7 +1299,7 @@ showing source diagnostics. This does not implement P17 related-link navigation.
 
 ### Acceptance Boundary
 
-Publication transport is a separate planned continuation owned by
+Publication transport is a separate required Node hard-MVP integration owned by
 [P035-001–003](035-agora-topic-addressed-record-relay.md#delivery-integration-tracker):
 compose/opinion/comment producers sign through the existing host and hand exact
 records to AD's Agora adapter. Preserve `record/about`, open resource namespaces,
@@ -1198,7 +1307,9 @@ topic authority and record ids; expose queued versus relay-accepted publication.
 Do not introduce an opinion-specific sender or retry queue. P026-001–003 remain
 independently closable on the existing publication path; after migration, rerun
 their consumer assertions through AD rather than claiming old evidence proves
-the new path.
+the new path. The operator promoted P035-001–003 on 2026-11-04: all three must
+close before hard MVP or `alpha-node` can be ready. Historical P026 completion
+does not satisfy that separate integration gate.
 
 Use synthetic fixtures for `pl-nil-pwz` and an unregistered namespace, two kinds
 sharing an identical id, an id with leading zeroes, and an id containing colons
@@ -1282,8 +1393,8 @@ community's judgments.
 ## Implementation Tracker
 
 This tracker covers the consumer continuation, not a retrospective inventory of
-the already implemented substrate. Statuses are `todo`, `partial`, `done` and
-`blocked`; `done` requires the stated gate and linked Node evidence.
+the already implemented substrate. Statuses are `todo`, `in-progress`, `partial`,
+`done`, `blocked` and `deferred`; `done` requires the stated gate and linked Node evidence.
 
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
@@ -1360,6 +1471,22 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-012a | Provision an operator's assessment viewer over ChannelJson | done | P066; identity host; P080 | Bounded checkpoint 2026-10-25: run 06 at clean Node e726624c / Orbidocs 2e73ed3a qualifies eight ordinary-daemon/application/browser cases with no acceptance feature, actual SDK calls, P066 consumption, privacy, budget and lifecycle. Separate component proofs cover captured queued origin, clocks, persistence and concurrency. Current normal/-O/extracted qualification and 59 negative controls per location agree. Critical review run 01 at Node 9b2e3b47 / Orbidocs 298671c5 additionally qualifies lifecycle/source repairs with eight runtime cases, 16 owner/nine pin tests and 67 controls normally/-O/extracted. See the checkpoints and frozen contract; no product module, positive P073 consumer or release claim. |
 | P026-012b | Bind a closed P073 consumer to production viewer authority | done | 012a; P073; P066 | Bounded 2026-10-25 checkpoint: [closed consumer](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25), nine ordinary cases at Node ea9138ba / Orbidocs 6097c43b; separate component faults and 77 normal/-O loose/extracted controls. Fresh host context, exact holder, independent consent and RAM-only result. No model/product-module/012c/release claim. |
 | P026-012c | Extend dependent Agent context and recipients | in-progress | 012b; S028; P036; P073; P066 | [Staged accepted design](026-assessment-dependent-context.md): owned streams precede unit retention/dispatch, provenance, continuation and same-viewer operator delivery. Stage 01 is done for the frozen local storage/cutover profile. Stages 02/03 are done for the [qualified local joint profile](026-assessment-dependent-context.md#p026-012c-0203-review-qualification-2026-11-01): whole-owner retention, durable S029, capsules/checkpoints and S020, with six ordinary cases and separate explicit-time component evidence after the R-01–R-17 review. Context provenance and later stages remain open. Memory/forks are separately qualified; implementation evidence is not implied by acceptance of the plan. |
+| P026-013 | Future resource perspectives client | deferred | P026-001–003; viewer admission/exposure for the selected surface; P013-AE-003 for rumor integration | Freeze the [profile](#resource-perspectives-client), including any missing role/action relation contract; reuse subject indexes, resource/opinion/comment relations and viewer-safe APIs. Offline fixtures and scoped browser evidence preserve person/role/action boundaries, competing perspectives, event/publication/revision chronology, role succession, corrections and repair, lineage and explicit incompleteness without a universal verdict or withheld-data leaks. No new MVP/alpha prerequisite. |
+
+### Participant viewer tracker — 2026-11-06
+
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+needs the actual participant's projection, not the operator/module viewer from
+P026-012a. These tasks reuse the accepted local contracts of P026-005 and the
+P026-006 owner. They deliver a named participant slice of P026-007/008, without
+waiting for sealed rounds or implying completion of the wider consumer matrix.
+Their evidence feeds those broader tasks; that reporting relationship is not a
+reverse dependency on P026-007/008 completion or on P098.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P026-014 | Freeze the participant viewer and continuation contract | todo | P024-009 | Bind the admitted participant to viewer, audience, owner projection and bounded continuation. Preserve admit/expose separation, own/protective lanes, embargo/private-correlation and absence of peer-derived counts/order/cursors/ETags while withheld. Freeze canonical read/continuation and refusal shapes, exact route/registry mapping and no raw fallback; no new round contract. Viewer binding alone records no encounter or publication; preserve owner-defined encounter transitions. | P026-015; P098-010c |
+| P026-015 | Deliver participant-safe Agora read projections | todo | P026-014; P024-010; P026-006 | Implement bounded participant list/detail/continuation and assessment projections. Prove P/Q viewer isolation, context/policy change between pages, unavailable exposure, hidden-data perturbations across order/count/links and operator-viewer regressions. Retain owner/API evidence independently of P098 rendering. The real Whisper consumer and curation/attention integration are exercised by P013-PA-003 and P098; feed their results into P013-AE-001/P026-008 without making this owner task wait for those consumers. | P013-PA-003; P098-006 |
 
 ## Open Questions
 

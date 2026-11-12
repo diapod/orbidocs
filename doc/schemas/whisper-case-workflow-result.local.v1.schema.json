@@ -1,0 +1,618 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-workflow-result.local:v1",
+  "title": "whisper-case-workflow-result.local.v1",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "phase",
+        "exchange/handle",
+        "reply/public-key"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "phase": {
+          "enum": [
+            "preparing",
+            "prepared",
+            "transport-custody",
+            "result-received"
+          ]
+        },
+        "exchange/handle": {
+          "type": "string",
+          "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+          "maxLength": 52
+        },
+        "reply/public-key": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "maxLength": 43,
+          "minLength": 43
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "phase",
+        "delivery/id"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "phase": {
+          "const": "transport-custody"
+        },
+        "delivery/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "result"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "result": {
+          "oneOf": [
+            {
+              "$ref": "whisper-case-result.v1.schema.json"
+            },
+            {
+              "$ref": "whisper-case-status.v1.schema.json"
+            }
+          ]
+        },
+        "request/material": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "control",
+            "evidence"
+          ],
+          "properties": {
+            "control": {
+              "oneOf": [
+                {
+                  "$ref": "whisper-case-registration.v1.schema.json"
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "nym-succession.v2.schema.json"
+                    },
+                    {
+                      "properties": {
+                        "succession/scope": {
+                          "const": "case"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$ref": "whisper-case-closure.v1.schema.json"
+                }
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "role",
+                  "digest",
+                  "bytes"
+                ],
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "profile",
+                      "successor-certificate",
+                      "successor-acceptance-status"
+                    ]
+                  },
+                  "digest": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                  },
+                  "bytes": {
+                    "type": "string",
+                    "maxLength": 699052,
+                    "pattern": "^[A-Za-z0-9_-]+$"
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "role": {
+                          "enum": [
+                            "profile",
+                            "successor-certificate"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "bytes": {
+                          "maxLength": 21848
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "control": {
+                    "properties": {
+                      "schema": {
+                        "enum": [
+                          "whisper-case-registration.v1",
+                          "whisper-case-closure.v1"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence": {
+                    "maxItems": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "evidence": {
+                    "minItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "profile"
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "successor-certificate"
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "successor-acceptance-status"
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "reason",
+        "retry"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "reason": {
+          "enum": [
+            "access-denied",
+            "request-id-conflict",
+            "operation-budget-exhausted",
+            "status-budget-exhausted",
+            "structure",
+            "limit",
+            "binding",
+            "signature",
+            "authority-unavailable",
+            "authority-kind-not-enabled",
+            "stale-predecessor",
+            "stale-status",
+            "not-yet-valid",
+            "terminal",
+            "conflicted",
+            "unresolved",
+            "signing-policy-refused",
+            "operation-not-enabled",
+            "dependency-unavailable",
+            "anchor-revoked-before-admission",
+            "anchor-unproven",
+            "owner-busy",
+            "owner-material-limit",
+            "owner-integrity-unavailable",
+            "owner-dependency-unavailable",
+            "owner-expired",
+            "owner-binding",
+            "owner-schema-unsupported",
+            "cross-owner-local-delivery-not-supported"
+          ]
+        },
+        "retry": {
+          "enum": [
+            "never",
+            "evidence-change",
+            "policy-change",
+            "dependency-recovery",
+            "at-deadline"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "workflow/kind",
+        "operation/id",
+        "phase",
+        "exchange/handle",
+        "handoff/not-after",
+        "evidence/bound"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "workflow/kind": {
+          "const": "audience"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "phase": {
+          "enum": [
+            "preparing",
+            "prepared",
+            "transport-custody",
+            "delivered-local",
+            "delivered-ad"
+          ]
+        },
+        "exchange/handle": {
+          "type": "string",
+          "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+          "maxLength": 52
+        },
+        "handoff/not-after": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "evidence/bound": {
+          "type": "boolean"
+        },
+        "delivery/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "preparing"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "delivery/id"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "delivery/id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "phase": {
+                "enum": [
+                  "transport-custody",
+                  "delivered-ad"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "delivered-local"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence/bound": {
+                "const": true
+              }
+            },
+            "not": {
+              "required": [
+                "delivery/id"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "delivered-ad"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence/bound": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "anchor/observation"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "anchor/observation": {
+          "enum": [
+            "unchanged",
+            "refuted"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "routes"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "routes": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "route/id",
+                  "destination",
+                  "relay",
+                  "privacy/profile"
+                ],
+                "properties": {
+                  "route/id": {
+                    "type": "string",
+                    "maxLength": 43
+                  },
+                  "destination": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "relay": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "privacy/profile": {
+                    "const": "single-relay-hard-fail"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "route/id",
+                  "destination",
+                  "privacy/profile"
+                ],
+                "properties": {
+                  "route/id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "destination": {
+                    "type": "string",
+                    "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+                    "maxLength": 180
+                  },
+                  "privacy/profile": {
+                    "const": "direct-minimal-trace"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "recipient/offer"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "recipient/offer": {
+          "$ref": "whisper-pex-key-offer.v1.schema.json"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "publication/state",
+        "policy/digest",
+        "policy/bytes"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "publication/state": {
+          "const": "published"
+        },
+        "policy/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "maxLength": 50
+        },
+        "policy/bytes": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "maxLength": 5462,
+          "minLength": 1
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "publication/state"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "publication/state": {
+          "const": "not-published"
+        }
+      }
+    }
+  ]
+}

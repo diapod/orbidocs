@@ -172,6 +172,15 @@ def load_machine_registry(path: Path = MACHINE_REGISTRY) -> dict[str, dict[str, 
             )
         else:
             by_wire[wire_name] = capability_id
+        channel_binding = entry.get("caller/channel-binding")
+        if channel_binding is not None and channel_binding not in {"bound-module-or-live-session", "live-session", "host-configured-live-session"}:
+            errors.append(f"{prefix}: unsupported caller/channel-binding")
+        if channel_binding is not None and isinstance(flags, dict) and (
+            not flags.get("dispatchable") or not flags.get("host-route")
+            or flags.get("advertisable") or flags.get("passport/eligible")
+            or flags.get("federated-discovery")
+        ):
+            errors.append(f"{prefix}: live channel binding requires local host dispatch")
         if status not in KNOWN_STATUS:
             errors.append(f"{prefix}: invalid status {status!r}")
         if not isinstance(flags, dict) or set(flags) != FLAG_KEYS:

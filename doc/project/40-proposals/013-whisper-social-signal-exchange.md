@@ -247,6 +247,69 @@ When Whisper uses the nym path, the backing `participant-id` should remain on th
 local or issuing side of the boundary rather than being disclosed in the
 wire-level `whisper-signal` artifact itself.
 
+### 2.1. Web-derived origin through publication {#web-origin-publication}
+
+Adopted design extension, 2026-11-04; P013-WEB-001/002 are `in-progress`, not a claim
+about current wire formats or prior M4 acceptance. Whisper consumes
+[P078 reviewed drafts](078-weak-signal-harvester.md#web-source-retention-and-origin)
+backed by [P084 original custody](084-sensorium-web-observation-connector.md#web-original-custody).
+At publication admission, this profile requires a current owner-confirmed
+original-custody check and the exact reviewed origin summary. Publication must
+not silently drop provenance or replace a web-derived origin with `direct-user`.
+The review identity binds the approved content, origin summary and custody
+claim; changing any of them requires a new review, not an implicit retry.
+
+P013 owns the shared, bounded origin summary for local drafts, signed Whisper
+signals and `public-gossip` publication. Its proposed axes are:
+
+| Proposed field | Semantics / initial vocabulary |
+|---|---|
+| `origin/source-kinds` | Nonempty bounded set: `web`, `personal-report`, `document`, `mail`, `sensorium`, `unknown`; mixtures remain explicit |
+| `origin/collection-method` | `manual-selection`, `configured-monitoring`, `media-monitoring`, `mixed`, `unknown`; web alone does not imply monitoring or journalistic media |
+| `origin/processing` | Bounded set of material transformations: `extracted`, `summarized`, `grouped`, `model-assisted`, `redacted`; empty means no declared transformation, not proof of an untouched source |
+
+These names/vocabularies are recommendations for P013-WEB-001's schema freeze.
+Reuse one closed origin-summary sub-contract and pure validator/projector in the
+actual publication families, rather than copying fields or encoding semantics
+in free-form `gossip/tags`. Existing `source/class` and `gossip/source-kind`
+remain their own authorship/source-posture axes; contextual `source/ref` remains
+P015's participant-source identity, not a URL, body digest or article id.
+`epistemic/class`, confidence and authority are unchanged by an origin label.
+
+The summary is covered by the ordinary publication signature; it records an
+authenticated publisher assertion, not independently proven web provenance.
+Public views render a stable label such as "Web source" or "Media monitoring",
+with "AI-assisted" separately when declared. Legacy records render origin as
+unknown, never personal testimony by default. Promotion to `public-gossip`
+preserves the reviewed summary through the same publisher/Schema Gate path.
+Readers do not fetch source material to render it. Raw originals, exact URLs,
+local finding ids, private artifact refs, body digests and collection timing do
+not accompany the label automatically; each needs independent disclosure review.
+
+[P100: Text Origin Labels](100-text-origin-labels-and-propagation.md) proposes
+a host-tracked label that can serve as a consistency check for
+`model-assisted`: text whose label names a model must not be published without
+that declaration. The label does not replace the verified inference lineage
+that `model-assisted` already requires, and signed signals keep carrying only
+this summary.
+
+Before committing publication, revalidate the finite custody claim through its
+owner and bind that result to the exact prepared publication. Expired/missing
+material refuses new promotion under this profile. If a committed publication
+is later delivered or replayed after expiry, do not rewrite its signed bytes or
+pretend continued source availability; current availability belongs to a separate
+authorized view. Retention expiry does not retract a public record or grant
+indefinite custody. A stronger minimum publication-retention horizon, if wanted,
+must be an explicit admitted policy, not inferred from rumor lifetime.
+
+Collection is not corroboration: copies or summaries of one article do not
+become independent reports because different nodes republish them. Reuse local
+Harvester lineage/dedup and existing correlation policies; do not publish private
+hashes for global dedup or conflate content lineage with P015 distinct-participant
+counting. This extension makes origin visible; it does not solve syndicated-copy
+or Sybil independence. Urgent protection retains its existing path and authority,
+without silently waiving the origin claim's meaning.
+
 ### 3. Bounded anti-Sybil controls in v1
 
 The v1 baseline should use simpler controls instead of semantic dedup:
@@ -654,6 +717,45 @@ Suppression is a local propagation decision; the verifiable envelope
 and its curation verdicts coexist in Memarium as separate facts on
 the same timeline.
 
+### Rumors in a Future Resource Perspectives Client {#resource-perspectives-client}
+
+Future design profile, 2026-11-04; the client contract belongs to
+[P026](026-resource-opinions-and-discussion-surfaces.md#resource-perspectives-client).
+Whisper contributes accessible accounts and their curation, replies and corrections
+to a resource-centred view. This can support rumor's social function as distributed,
+revisable memory without turning rumor aggregation into a verdict about a person.
+P013-AE-003 is deferred and does not block the current alpha or web-retention slice.
+
+[P026's civic-memory example and timeline requirements](026-resource-opinions-and-discussion-surfaces.md#resource-perspectives-client)
+connect this memory to accountability across changes of office or institution.
+Rumors and opinions retain their distinct status alongside responses, corrections
+and repair; Whisper supplies records to that shared projection, not a separate
+chronology or an automatic verdict about whom to trust.
+
+Reuse public gossip's envelope `record/about` and `gossip/see-also`, resource
+opinions targeting the rumor and existing Agora reply/revision paths. Preserve
+the distinction between a rumor about an action in a role, an opinion about that
+rumor's credibility, and an opinion about the underlying resource. None transfers
+automatically into a judgment of the person, another role, reputation or sanctions.
+Related-resource links alone imply neither accusation nor corroboration.
+
+This public-gossip binding does not extend the closed `whisper-signal.v2` body
+or generalize the planned `signal/related-to` contract. Access to a protected
+signal authorizes neither a public resource association nor disclosure of its
+existence through an index, count or link. Reuse existing disclosure/publication
+gates and viewer-bound exposure; private correlations require their own admitted
+read scope, with no public fallback. Urgent protection retains its existing path.
+
+Keep conflicting accounts, responses, corrections, temporal context and available
+origin/lineage visible within that scope; unknown provenance stays unknown.
+Threshold satisfaction, a signature or many copies do not establish truth or
+independent corroboration. The client reports bounded coverage, not a complete
+network consensus. P013-AE-003 qualifies this binding with offline admitted-record
+fixtures covering a contested action, a reply/correction, reprints, an unavailable
+reference and withheld/protected material. Assert no person-level verdict,
+implicit publication or private-reference leak; the joint client UI evidence
+belongs to P026-013, avoiding a second renderer or acceptance harness.
+
 ## M4 Acceptance Scenario
 
 Agora M4 uses Story-005 as the first full public/federated Whisper smoke:
@@ -859,6 +961,47 @@ association-room lifecycle policy as post-MVP questions.
 |---|---|---|---|---|
 | P013-AE-001 | Bind rumor curation to the common local gate | partial | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. The 2026-10-24 P026 local checkpoint proves withholding and later rendering of rumor extension fields through the shared view. Standalone overlay admission and the complete real Whisper curation/Agent/attention/propagation matrix remain outside that qualification; existing M4 evidence is unchanged. Review run 01 requalifies bounded rumor fields through the common view; complete Whisper workflow scope remains unchanged. |
 | P013-AE-002 | Optional sealed rumor-assessment profile | todo | P026-010/011 | Select an admitted round/opener policy and reuse the four Agora kinds; test missing reveal, duplicates, partial history and independent propagation. This is separate from local-gate completion and not an alpha dependency. |
+| P013-AE-003 | Bind rumors to the future resource perspectives client | deferred | Existing public-gossip/reference and curation contracts; P013-AE-001 for the selected viewer surface | Implement the [rumor binding](#resource-perspectives-client) against P026's client contract; preserve rumor/curation/resource and person/role/action distinctions, replies, revisions, origin and uncertainty. Reuse admission/exposure and existing read APIs; offline fixtures prove no protected-reference leakage, implicit disclosure, duplicate corroboration or person-level verdict. Supplies P026-013 without depending on its UI completion; no new alpha dependency. |
+
+### Shared material-origin law (2026-11-05)
+
+`whisper-origin.v1` is the closed, minimized summary carried by the new reviewed
+publication profile. It contains `origin/source-kinds` (web, personal-report,
+document, mail, sensorium, unknown), `origin/collection-method` (manual-selection,
+configured-monitoring, media-monitoring, mixed, unknown), `origin/processing`
+(extracted, summarized, grouped, model-assisted, redacted), and `origin/coverage`
+(complete or partial). Coverage describes the reviewed material inventory, not
+external truth, corroboration, or completeness of the world. Exact private basis
+references stay in the review; the public summary contains no URL, raw digest,
+private claim identifier or custody deadline.
+
+Every finding source class has an explicit mapping: document/note/filesystem-text/
+markdown to document; mail/mbox/maildir to mail; sensorium to sensorium; manual to
+unknown. A verified P084 snapshot overrides its technical carrier with web.
+Unknown new classes refuse until mapped. Explicit selection, admitted monitoring
+runs and purpose facts ground collection method; receipts of actual material
+steps ground processing. Missing grounds remain unknown/empty. A URL alone does
+not establish monitoring and a declared author class does not establish origin.
+
+All six current author classes accept all six source kinds at receivers. Author
+class describes authorship/preparation posture; producer restrictions remain a
+separate admission rule. Summary projection preserves the entire declared value:
+it neither drops provenance nor replaces uncertainty. Historical v2 absence stays
+distinct from explicit v3 unknown. Source counting still uses distinct source/ref,
+never this label. These pure laws and parity checks are implemented; reviewed v3
+publication and composed runtime qualification remain in progress.
+
+## Web Origin Publication Tracker
+
+P084 owns original custody and its offline gate; P078 owns review/draft handoff;
+P013 owns the public origin contract and publication preservation. Existing
+completed baselines remain scoped to their historical evidence.
+
+| ID | Task | Status | Dependencies | Acceptance gate |
+|---|---|---|---|---|
+| P013-WEB-001 | Freeze shared origin summary and publication/custody boundary | in-progress | Existing P013 publication, P078 finding/review and P084 snapshot contracts | Freeze bounded shared vocabularies, versioning/migration for closed schemas, unchanged P015 source identity, local/private versus publishable fields and exact signature/review bindings. Cover unknown, mixed and media-monitoring cases; no automatic credibility weight, public raw digest or claim that a signature proves origin. Canonical schemas, Node mirrors and consumers change only in implementation. |
+| P013-WEB-002 | Preserve reviewed origin through signed publication and reader views | in-progress | P013-WEB-001; P078-015/016; P084-015 | Reuse prepared publication, Schema Gate, signer, existing Agora/INAC carriers and UI projections. Offline owner-path acceptance proves draft-to-signal-to-public-gossip preservation, refusal on origin mutation or expired/missing custody before admission, unknown legacy rendering, committed replay after expiry without rewrite, no raw/URL/digest leaks and no implicit fetch. Copy/summary cases gain no independent-corroboration assertion; urgent protection remains operational. Update owning solutions, Node ledger and retained acceptance scope at closeout. |
+| P013-WEB-003 | Migrate remaining Whisper producers to explicit origin v3 | todo | Owner: Whisper producer maintainers; follow-up “Migracja pozostałych producentów Whisper do jawnego origin v3” | Cover each remaining producer, operator UI and qualification. Revisit before production adoption: migration must fit one aligned window or the owner must accept publication downtime; record confirmed recipient support and accepted cutoff of all remaining nodes, including their new v2 traffic. A further profile/window requires a separate continuity decision. This task does not narrow complete v3 receiver support. |
 
 ## Next Actions
 
@@ -886,12 +1029,13 @@ association-room lifecycle policy as post-MVP questions.
    `ai.orbiplex.whispers/<topic-class>` as the conventional
    public/federated topic-key prefix, and reserve `private/<name>`
    for direct-only INAC artefacts outside Agora.
-9. Under [P013-PEX-001](#private-exchange-tracker), define the direct
-   node-to-node exchange contract as a thin binding
-   over the same `agora-record.v1` envelope, consuming the outbound
-   privacy capability for transport and the attestation gate for
-   peer admission, with Memarium as the sole persistent store on both
-   ends.
+9. Under [P013-PEX-001](#private-exchange-tracker), use existing AD/INAC
+   with declared outbound privacy and recipient/role admission. Memarium is the
+   sole persistent store for protected Whisper records on both ends. Typed case
+   exchanges persist in their domain owners (LLR-008 authority and S026 workflow),
+   retaining exact prepared bytes with the decision. PEX owns no durable store;
+   AD owns transport custody and retry. See the
+   [ordered case contract](013-whisper-social-signal-exchange/case-authority.md).
 10. Wire operator-mediated rumor curation
     (§Operator-mediated rumor curation) into the Node UI whisper
     inbox: per-rumor actions for `rumor/credibility` (1..5),
@@ -1064,7 +1208,20 @@ success never means case acceptance, source admission or consent to disclose.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-PEX-001 | Recipient-bound private Whisper exchange | todo | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+| P013-PEX-001 | Recipient-bound private Whisper exchange | done | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
+| P013-PEX-002 | AD liveness under concurrent status observation | todo | P013-PEX-001 | Reproduce the preserved detached timeout with a 40 ms observer cadence and 15 ms active wait, beside the qualified 200 ms cadence. Instrument queue admission, each AD/INAC hop, custody/retry and domain reception using bounded phase/timing labels without principals or case ids. Separate CPU scheduling, owner-lock wait and SQLite/WAL hypotheses; report measured evidence rather than selecting a cause from timing alone. Declare a finite end-to-end liveness budget under concurrent reads, verify timeout/cancellation and retain refused runs. The closure review also reproduced a result deadline at 200 ms polling after a durable revision-3 closure: idle WSS reads retained the connection timeout and delayed outgoing work. The corrected worker read budget and focused regression do not alone establish the cause of the earlier 40 ms refusal or close this load gate. This follow-up does not silently widen the existing local transport qualification. |
+
+The earlier retained single-relay/case-presentation qualification remains valid
+within its recorded scope. The additional
+[private-case execution profile](013-whisper-social-signal-exchange/private-case-continuity.md)
+now has independently qualified actual two-endpoint direct/minimal-trace Gate A,
+including Memarium protected-signal custody, pending/S020 request processing,
+fault/refusal/restart and bounded privacy controls. Loose, extracted and fresh
+both-store outcomes agree. Evidence:
+`node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+This closes PEX-001's complete bounded exchange gate; it does not replace
+ordinary-v1 SQLite/Synapse continuity Gate B, S023-002 purge or PEX-002's load gate.
+Historical credential/backend/privacy claims remain unchanged.
 
 ## Contextual participant-source authorship (2026-10-25)
 
@@ -1072,8 +1229,13 @@ The accepted [P015 contextual profile](015-nym-certificates-and-renewal-baseline
 introduces v2 signals and aggregate threshold/proposal artifacts. It counts
 council-admitted participant sources within one rumor context and epoch, with
 no fallback to a source node, author string or record/about. This is a new
-qualification; historical node-counting M4 results remain unchanged. Runtime
-Gate A (certification) and Gate B (ordinary host authoring) remain pending.
+qualification; historical node-counting M4 results remain unchanged. On
+2026-11-04 the bounded phase-1 Gate A (certification) and Gate B (ordinary host
+and UI authorship on SQLite/admitted Synapse) pass A30/30, B31/31 and six separate
+C conformance obligations, with identical loose/extracted/fresh two-store reads.
+The source-specific composition and operator-only custody are recorded in
+`node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
+Optional stay-ready, LLR/ADC, Anon, full Whisper and release readiness are separate.
 
 ## Dormant-Fact Resonance (2026-10-27)
 
@@ -1293,19 +1455,46 @@ run.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
+| P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#acceptance-contract) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
 | P013-DFR-001 | Freeze the decorrelation vocabulary | todo | P091; P046 | `whisper-decorrelation-vocabulary.v1` JSON Schema and a factory JSON shipped with the Node distribution. A P091 descriptor provides keyed composition, explicit retirement, an empty-base replacement and immutable id-to-topic-key bindings; local ids are namespaced. Typed diagnostics follow factory upgrades, resolutions apply at epoch boundaries, and no vocabulary version or digest appears on the wire. Authoring and pulling validate against the same resolution; golden fixtures cover each rule. |
 | P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `whisper-pull-plan.local.v1` per epoch, one entry abstraction whose local `origin` is `need`, `decoy` or `cover` ([P013-CIM-001](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)): a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. Compile coalesced jobs once per epoch; keep local causes outside the executor, persist sampled offsets and cover mixed-origin/restart/incomplete-slice fixtures from the shared implementation recommendations. |
-| P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P095 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. |
+| P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P013-PA-003; P095-012 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. Bind list/detail/link decisions to the verified participant; no inferred authorship, cross-nym reverse index or cross-participant references. Reuse P095 guarded-view contracts. Supplies P098-006; that consumer is not a prerequisite. Project optional room/ADC/LLR states only from their owners; distinguish not-applicable, not-yet-available and unknown. This view does not create those workflows or qualify their operational controls; selected profiles requiring them retain their separate prerequisites. |
 | P013-DFR-004 | Related-rumor authoring | todo | P015 Gate B; Story 005 | The v2 signal carries a bounded `signal/related-to` list, set only by an explicit author action. Each relation binds a public record/id and a closed target kind (`whisper-signal` or `whisper-correlation-notice`). A notice-only reader targets the notice, never a hidden signal id. A related draft inherits `topic/class` and `signal/similarity-key`, so its context digest matches. The relation adds no weight beyond one source, and derivation rules prevent counting a rumor's own derived records. |
 | P013-DFR-005 | Decide the wire conjunction rule | todo | P013-DFR-001; P078-011–012 | A fixture-corpus comparison of OR-only and pre-composed conjunction terms reports local match recall and precision, bytes per epoch and an estimated anonymity-set size per query. The decision is recorded in this section; OR-only remains the default until then. |
 | P013-DFR-006 | Association-room handoff with work sharing | todo | P070; S018; P036-007 | After opt-in, the Room handoff offers pasted text, a linked message thread and external links. Sharing a Memarium attachment requires explicit per-share declassification and shows the Room audience; external links carry an outside-guarantees warning. Joining a room shares nothing automatically. |
+
+### Participant access tracker — 2026-11-06
+
+These proposed tasks implement the domain prerequisites of
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper).
+P013 owns intake custody and the reviewed candidate, P015/S026 own the actor's
+retained cryptographic operations, and P026 owns viewer projection. The contract
+handoff precedes both runtime paths. P098 remains the downstream UI integration;
+no owner task requires its completion. P013-DFR-003 consumes the resulting local
+references for My rumors, rather than introducing another authorship store.
+The receiver boundary and external-handoff vectors below use owner-admitted
+fixtures; they do not wait for a Web/Harvester adapter. P078-018 owns the actual
+producer/receiver integration. P013-PA-002 includes authorized draft summary and
+result readback before certification or publication becomes available.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P013-PA-001 | Freeze participant intake and candidate handoff | todo | P024-009; P036-012 | Freeze participant ownership, producer/view bindings and retention/custody across raw input, drafts, candidate revisions, local SQLite and Memarium synchronization. Define legacy exclusion/migration, bounded list/detail/mutation API and exact candidate/provenance/audience/review-digest handoff to P015. Actor comes from admitted context; IDs are not grants. Freeze schema/route/registry mappings and negative fixtures. Public browse does not create an intake, issue a nym or unlock a key. Include bounded participant activity/status and recoverable-draft references with owner revision, retention, permitted continuation and unknown-result semantics; these are domain read projections, not a UI history store. Include external reviewed-producer handoff: exact source/representation and review digests, classification, finite custody/expiry, intended participant owner and producer/receiver contract versions. Accept only owner-admitted references; a finding, draft intent or source receipt transfers no signing/publication authority. Freeze separate draft/review/sign/submission/disclosure outcomes and authoritative lost-response lookup; incompatible versions or expired custody refuse without refetch or effect replay. | P013-PA-002; P015-009; P098-010c |
+| P013-PA-002 | Isolate participant intake and retained stages | todo | P013-PA-001; P024-010; P036-014; P080-049 | Implement participant-bound intake, read/edit guards and stage synchronization/cleanup under module and participant authority. Prove O/P/Q isolation in both SQLite and Memarium, explicit legacy attribution, restart/replay, retention and unavailable-owner refusal. Raw/draft stages stay inside the admitted private redaction boundary and outside generic memory discovery. Use candidate fixtures; this task does not require certification/signing or completed UI. Add an explicit nullable participant-owner column to intake SQLite: existing NULL rows remain legacy/operator-only and are never attributed from current login. Participant paths require a non-NULL owner. Partition operation/idempotency keys and stage cleanup by owner; review migration and rollback without exposing one participant through another namespace. Deliver the bounded activity/status/resume projection from the same owner store, with independent continuation and expired-draft behavior. Intake retention remains required here; splitting producer bindings from explorer reads does not defer cleanup. Revalidate producer/receiver subject, source and custody bindings before accepting an external draft; scope its operation key and result lookup to the participant. Preserve exact prior outcomes on lost replies and keep source/owner outages separate from draft absence. | P013-PA-003; P098-006; P098-014 |
+| P013-PA-003 | Compose participant browse and contribution | todo | P013-PA-002; P015-010; P026-015 | Integrate admitted rumor browsing and private intake through exact v2 review/certification/sign/publication/result readback. Preserve separate effects, source/trace versions and consent; never fall back to the local-primary author or operator viewer. Prove a real owner/module workflow with O/P/Q, changed review, locked key, lost response, cross-participant operation refs and withheld curation fields. Retain local authored-result references for DFR-003. Feed relevant exposure evidence into P013-AE-001/P026-008; broader matrices remain open. Whisper owns contribution orchestration and its authorized result projection; consume P015 cryptographic results without duplicating them. Keep signed, submitted, transport-acknowledged and disclosed states distinct, including uncertainty. | P013-DFR-003; P098-006; P098-014 |
 
 ## Author Disclosure Conditions {#author-disclosure-conditions}
 
 Proposed post-MVP continuation; no runtime claim. The
 [owning design and tracker](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
 now live in a sidecar. The domain, decisions and task ids are unchanged.
+
+An optional [confidential affiliation review](013-whisper-social-signal-exchange/author-disclosure-conditions.md#confidential-affiliation-review)
+may inform the author's disclosure decision. P015 owns consent, identity binding
+and the bounded attestation; P013-ADC-010 owns its private presentation. A
+relationship is neither proof of a trap nor grounds for discrediting a
+whistleblower. This post-MVP profile does not change source counting or block
+the existing disclosure path.
 
 <!-- Compatibility anchors for the former inline section and its subheadings. -->
 <a id="author-disclosure-conditions-2026-10-27"></a>
@@ -1361,6 +1550,9 @@ now live in a sidecar. The domain, decisions and task ids are unchanged.
 
 ## Long-Lived Rumors and Historical Authorship {#long-lived-rumors-and-historical-authorship}
 
+Accepted execution contract: [private case continuity](013-whisper-social-signal-exchange/private-case-continuity.md).
+PEX and LLR-001/008/007 remain unqualified until their separate A/B gates pass.
+
 Proposed post-MVP continuation; no runtime claim. The
 [owning design and tracker](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)
 now live in a sidecar. The domain, decisions and task ids are unchanged.
@@ -1398,3 +1590,263 @@ control proof), and replaced active nym-succession.v1 with v2. Before first rele
 widening requires an explicit note and vectors; narrowing additionally requires
 that no admitted artifact/evidence uses the removed form. After release, use a new
 version or explicit profile, never an in-place semantic change.
+
+### Public gossip origin lineage for the reviewed v3 milestone (2026-11-05)
+
+The accepted preservation law uses a bounded `whisper-origin-lineage.v1` value
+when projecting contextual signals into `public-gossip.v2`. Each selected public
+Agora record reference keeps its exact origin declaration. A v2 signal has
+`state = absent`; a v3 signal has `state = declared` and its complete minimized
+origin value. Declared unknown is never substituted for absent legacy metadata.
+The selected set and its explicit complete/partial coverage survive projection
+without dropping a member, uncertainty, kind or processing step. Canonical
+ordering does not add a source. No private snapshot, raw body digest, URL, claim,
+retention horizon or prepared token belongs to this public value.
+
+The projector is pure law owned by Whisper core. Agora resolves immutable
+lineage from its already admitted record and author-byte history; a caller cannot
+provide replacement origin. Versioned promotion drafts retain this value in the
+existing promotion owner transaction. Historical drafts and `public-gossip.v1`
+retain their original bytes and semantics. A draft is not a publication or a
+verification of its source assertions. Actual public publication still requires
+its explicit redaction/approval and existing signer/relay admission. Runtime
+qualification of this continuation remains open under P013-WEB-002.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+Two ordinary reviewed producers published v3 from the same 507-byte synthetic
+article. Independent C admitted two participant sources and published one threshold
+and one proposal; this is collection without a corroboration or unique-human claim.
+Original first-basis/current-view checks also verify unchanged contribution after
+certificate expiry, an independent read-only client and all four complete PDUs.
+P013-WEB-001/002 remain in progress: gossip/origin, remaining producers and window
+controls still need their own qualification.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.
+
+### Later 2026-11-07 fixture replica/window checkpoint
+
+The source-bound campaign now verifies **29/131**, with **102 missing**, identically
+in ordinary and optimized readers. Exact-predecessor A2 renewal on a distinct
+registered node of A's participant retains one source and no first emission at
+independent C. A newly started C reads the same signed records after the single
+aligned window ends. Runtime `985964ee83` / `2b5ea4fd`, capture `845bf6f7` /
+`ca9b73c9` and window reader `fb4301fb` remain separate pins. Earlier source-bound
+reports and the original four-PDU scope remain unchanged.
+
+This adds two replica/source-count and two window/history obligations. It does
+not qualify certificate-at-boundary, all-producer end refusal, old-node v2 cutoff,
+complete public/P082 direct-peer/Room/gossip privacy or full Gate A/B. Production
+is not adopted. The remaining fixture matrix and existing parent trackers stay
+open; another profile digest does not automatically preserve source continuity.
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-REPLICA-WINDOW-20261107.md`.
+
+### Later 2026-11-07 SQLite/late-receipt checkpoint
+
+The SQLite/late-receipt fixture checkpoint verifies **32/131**, with **99 missing**,
+identically in ordinary and optimized readers. One reviewed Harvester v3 owner
+completed protected UI preview/sign across restart, SQLite publication (201) and
+a signed receipt. A new SDK receiving store first admitted the exact original
+author bytes/receipt after certificate expiry plus skew, using the real clock,
+and retained its facts across close/reopen. This is not an HTTP import, common
+SQLite threshold/room proof, second publication or full Gate A/B.
+
+Runtime `985964ee83` / `2b5ea4fd`, capture `fe7c595e` / `65a4b8a3`, receiver
+build `2995a9f7` and final reader `ba4a235b` stay separate. All previous29
+original predicates reverify. The earlier wrong-backend runtime refusal,
+unattempted late SDK, incomplete reader and empty-stderr campaign refusal remain
+preserved; corrections use new cases or read-only views, without retrying an
+uncertain publication. Backend readiness now precedes certification. The bounded
+thirteen-root retention review leaves all217 exact-copy candidates blocked;
+no retirement action or production adoption occurred. Parent trackers and the
+remaining99 obligations stay open, including all-producer end refusal, boundary/
+old-node-v2 cutoff and full P082/gossip privacy.
+
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-LATE-RECEIPT-20261107.md`.
+
+### Native owner-policy checkpoint (2026-11-07)
+
+The native policy checkpoint verifies **37/131**, with **94 missing**,
+identically in ordinary and optimized readers, exit 2. All previous32 original
+predicates reverify. Five native AD/P091 obligations add inactive/complete
+adoption, editorial versus normative factory identity, separate ceiling refusal
+and unchanged old claim terms. Eleven actual system-clock stages include restored
+controls and owner reopen; three coherently rehashed scratch substitutions each
+refuse and restore the original positive.
+
+Native build `190552c41`, capture `a8933630` and final reader `714e0bc10` remain
+separate from existing runtime `985964ee83` / normative `2b5ea4fd`. Original
+rehearsals, cold-WAL collector refusal and hold-field reader refusal remain
+preserved; the successful runtime was not repeated for reader correction.
+Full gates and production adoption remain open, and parent statuses are unchanged.
+
+This adds no window-end/certificate-boundary, legacy-recipient cutoff or new
+Whisper publication proof; those mandatory rows remain open.
+Policy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-POLICY-20261107.md`.
+
+### Native claim and transfer checkpoint (2026-11-07)
+
+The native claim checkpoint verifies **41/131**, with **90 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous37 original
+predicates reverify. Four native AD obligations add same-key parameter conflict,
+overlapping concurrent retain and lost-response reopen/retry, atomic transfer/
+claim/first-result commit, and explicit live extension with real expiry controls.
+Four coherently rehashed scratch substitutions each refuse with a restored
+original positive. The native build/capture `069e95bbd` and corrected reader
+`b7d0d6fc8` stay separate from unchanged runtime `985964ee83` / normative
+`2b5ea4fd`; the original reader expiry-model refusal remains preserved.
+
+No new publication, window-end or legacy-recipient cutoff proof is added.
+Full gates and production adoption remain open; parent statuses are unchanged.
+Claim checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-CLAIMS-20261107.md`.
+
+### Native legacy checkpoint (2026-11-07)
+
+The native legacy checkpoint verified **43/131**, with **88 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous41
+predicates reverify. Two native AD rows add digest collision/monotonic interest
+through ordinary release, actual expiry/sweep and unadopted reopen, plus explicit
+native operator-method release with a withdrawn admission witness. Same-object,
+managed-only GC and healthy controls establish the causes; four rehashed scratch
+substitutions each refuse and restore the original. Native build/capture/reader
+`6fcf49a3d` / `35c23a9c` remains separate from runtime `985964ee83` / normative
+`2b5ea4fd`. Both pre-effect preparation refusals remain preserved.
+
+No window-end, receiver-cutoff or new publication proof is added.
+Full gates and production remain open; parent statuses are unchanged.
+Legacy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-LEGACY-20261107.md`.
+
+### Original bytes and explicit revalidation checkpoint (2026-11-07)
+
+At this original-byte checkpoint the campaign verified **48/131**, with **83 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous 43
+cases reverify. Five composed predicates cover exact original transfer/inline
+representation custody, actual gzip and typed ISO-8859-2 refusal without handoff,
+original-preserved extractor omissions, acquisition horizons and three explicit 304
+through delayed review, restart and replay. Two owners are reaped; no unsolicited
+fetch or renewed claim occurs. Six coherently rehashed controls per mode each
+refuse then restore original positives. 73 Python tests per mode pass.
+
+Capture `dade45982` and corrected reader `945a2bf9c` / Orbidocs `e37021ad` remain
+separate from the pinned runtime `985964ee83` / normative `2b5ea4fd`. The original
+capture runs once; three reader precondition refusals remain preserved. No
+production Rust, schema or capability contract changed. Ten-root catalog/dry-run
+review records 158 selected files/6264441 bytes, seven exact duplicate-output
+candidates 1767461 bytes and zero eligible. Active 48 evidence/authority remains
+protected; no retained deletion/move/retirement authorization/execution occurred.
+
+Protected authorship, all-producer window end and old-node cutoff remain separate; this fetch/review case signs or publishes nothing.
+Full gates and production remain open; parent statuses are unchanged.
+Original-byte checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGINAL-BYTES-20261107.md`.
+
+### Finding origin and adopted monitoring checkpoint (2026-11-07)
+
+The original-input campaign verifies **51/131**, with **80 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous 48 cases
+reverify. Three new rows cover all nine canonical finding-class mappings,
+non-web Sensorium/mixed material, and collection bound to an adopted configuration
+after its real 60-second interval. Thirteen immutable reviews replay across an
+actual owner restart, with two web snapshots and four exact custody refs.
+Scalar metadata cannot create web, monitoring or model lineage. These synthetic
+operator-inline finding classes imply no mail/filesystem/device acquisition or
+signed author-class reception. Scheduler is disabled; due execution is explicit.
+
+Collector/reader `bfb0d90b0` / Orbidocs `f2abbe21` remain separate from runtime
+`985964ee83` / normative `2b5ea4fd`. Six coherently rehashed controls per mode
+refuse, each followed by a restored-original positive; 82 Python tests per mode
+pass. The original capture is unchanged and runs once. Six-root catalog/dry-run
+review records 138 selected files/4863454 bytes, three duplicate-output candidates
+1294585 bytes and zero eligible. Active qualification and authority dependencies
+remain protected; no retained deletion/move/retirement authorization/execution.
+These numbers are run observations, not contract thresholds.
+
+Full processing/inference provenance, signed v2 absence versus v3 unknown,
+author-class reception, mixed authorship holds, clock/load/fault, all-producer
+window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
+statuses and production adoption are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+
+### PEX-001 scoped carrier qualification, 2026-11-07
+
+The admitted single-relay S010 profile passed independently from case semantics:
+real WSS/AD/INAC fixtures cover both directions, missing relay, policy withdrawal
+on retry, expiry, wrong role/recipient, restart and lost response. Ordinary native
+source/authority/audience actors prove actual domain receipt and exact saved
+ciphertext replay. Legacy protected signal/trace refusal regressions also passed.
+Only AD retries; no direct/onion downgrade exists. The loopback-only exception is
+explicit and is not physical-host or global-observer evidence. Destination scans
+cover source-route canaries; the relay legitimately knows its neighboring source.
+Bounded raw/JSON/base64/SQLite scans do not inspect encrypted or forensic media.
+See `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified` and `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` for source pins and limits.
+P015-011 tracks the pre-existing authoring replay retention gap; Memarium remains
+the accepted sole-custody design for protected records, not a claim that this gap
+has been erased by the PEX transport gate.
+
+
+### Manual v2 response compatibility in the transitional profile (2026-11-07)
+
+Manual signal-v2 commands under exact-use profiles use separate local readback
+v3 and a named response union; historical v1 and reviewed signal-v3 readback v2
+retain their contracts. This repairs an observed host response-gate refusal
+without changing signed signal bytes or end-window admission. The owning
+contract is [P015's manual reply decision](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#manual-v2-authoring-under-exact-use-profiles-2026-11-07).
+Component checks do not close P013-WEB-001/002 or qualify all-producer cutoff.
+
+
+### Receiver and closed-window checkpoint (2026-11-07)
+
+Node runtime/capture `78911310` and Orbidocs `7a3a3b4f` independently re-execute
+7/131 requirements (124 missing), identically with ordinary and optimized readers.
+A issue, exact predecessor-bound A2 renew and B issue each publish reviewed v3
+through the ordinary SQLite UI. C verifies one source across A/A2; actual A/B
+reception produces a threshold and Room proposal after correcting the fixture's
+effective exact consumer list. Operator status access is a separate authority
+boundary from a supervised module's live channel.
+
+The original R37 parent refuses during post-certificate-expiry S020 polling:
+the selected D job is interrupted after 17231 ms against 9999 ms; its refresh
+takes 14313 ms. This is not complete contribution-after-expiry qualification.
+Separate 21 all-producer v2/v3 end-window refusals and a before-end-adopted,
+after-end four-record C read pass native ordinary/optimized inspection. No failed
+parent is relabelled, no historical runtime counts are added, and full Gates A/B
+and production adoption remain open. A follow-up removes duplicate constructor
+recovery in the existing single slot, preserving profile, capacity and media
+guards; its native qualification remains open. Exact identities and limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RECEPTION-WINDOW-20261107.md`.
+
+
+### Exact-renew readiness checkpoint (2026-11-08)
+
+The runtime056 R38 parent remains refused: A publishes reviewed v3, while A2's
+exact renew records busy admission followed by original-request expiry. No
+complete C/D or post-certificate-expiry contribution follows. A Python fixture
+prerequisite now binds A's actual predecessor and observes fresh S020 status
+before preparing A2, without changing a prepared deadline or any owner lease.
+All 566 regressions and six focused normal/optimized controls pass; native
+qualification of this orchestration change is still open. The independent
+runtime789 seven-of-131 subset is not transferred to a new source. Exact scope:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-READINESS-20261108.md`.
+
+
+### Paused qualification checkpoint (2026-11-08)
+
+R39 independently verifies 9/131 (122 missing) on retained runtime056 and
+capture8b07, identically with ordinary/optimized readers. Exact A2 renew,
+same-source and independent A/B reception, ordinary UI/receipts, all-producer
+window refusals and historical C read pass. The complete post-certificate-expiry
+proof correctly refuses: outer S020 success contains no-work and the retained
+evaluation is stale. Unchanged public records do not establish that subclaim.
+Work is paused at the owner's request; no new window or production adoption.
+The original runtime and reader results remain unchanged. Resume basis:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+### Fresh expiry checkpoint (2026-11-12)
+
+The [P084 checkpoint](084-sensorium-web-observation-connector.md#fresh-expiry-checkpoint-2026-11-12) records the exact R47 source/window, independent expiry result and remaining qualification scope.

@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:bounded-http-fetch-result:v2",
+  "title": "bounded-http-fetch-result.v2",
+  "$defs": {
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "request/id",
+    "outcome",
+    "requested-url/digest",
+    "redirects/followed"
+  ],
+  "properties": {
+    "schema": {
+      "const": "bounded-http-fetch-result.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "outcome": {
+      "enum": [
+        "completed",
+        "refused",
+        "failed",
+        "unknown"
+      ]
+    },
+    "requested-url/digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "final-url/digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "response/status": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599
+    },
+    "media/type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "declared/charset": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "response/etag": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]+$"
+    },
+    "response/last-modified": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]+$"
+    },
+    "content/encoding": {
+      "enum": [
+        "identity",
+        "gzip"
+      ]
+    },
+    "compressed-bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 16777216
+    },
+    "decompressed-bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "body/digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "read/binding",
+        "retain/binding",
+        "body/digest",
+        "body/size-bytes",
+        "captured/at",
+        "owner/component-id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "host-transfer"
+        },
+        "read/binding": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^[^\\s\\u0000]+$"
+        },
+        "retain/binding": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^[^\\s\\u0000]+$"
+        },
+        "body/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "body/size-bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "captured/at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner/component-id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "redirects/followed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "retry/class",
+        "phase"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "bounded-http-fetch-error-codes.v1.schema.json#/$defs/code"
+        },
+        "retry/class": {
+          "enum": [
+            "terminal",
+            "retryable",
+            "policy-dependent"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "admission",
+            "dns",
+            "connect",
+            "tls",
+            "redirect",
+            "headers",
+            "body",
+            "artifact"
+          ]
+        },
+        "hop/index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "destination/class": {
+          "enum": [
+            "public",
+            "loopback",
+            "private",
+            "link-local",
+            "multicast",
+            "documentation",
+            "reserved",
+            "carrier-grade-nat",
+            "deployment-internal"
+          ]
+        },
+        "limit/name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "limit/value": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "final-url/digest",
+          "response/status",
+          "compressed-bytes",
+          "decompressed-bytes"
+        ],
+        "not": {
+          "required": [
+            "failure"
+          ]
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "response/status": {
+                  "const": 304
+                }
+              },
+              "required": [
+                "response/status"
+              ]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "body"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "body/digest"
+                    ]
+                  }
+                ]
+              }
+            },
+            "else": {
+              "required": [
+                "body/digest",
+                "body"
+              ]
+            }
+          }
+        ]
+      },
+      "else": {
+        "required": [
+          "failure"
+        ],
+        "not": {
+          "required": [
+            "body"
+          ]
+        }
+      }
+    }
+  ]
+}

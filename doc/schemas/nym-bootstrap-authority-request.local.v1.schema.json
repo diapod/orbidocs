@@ -20,6 +20,14 @@
       "minLength": 1,
       "maxLength": 4096,
       "writeOnly": true
+    },
+    "exchange/revision": {
+      "type": "string",
+      "enum": [
+        "v1",
+        "v2"
+      ],
+      "description": "Explicit transport revision. Absence retains the original v1 singleton request."
     }
   },
   "required": [

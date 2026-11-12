@@ -53,9 +53,10 @@ Key decisions:
    bytes under a domain tag; high-tier endpoints are per-artifact convenience
    handlers that live in artifact crates (not in the signer), each a thin
    adapter over the low tier.
-3. **Single engine, two callers**: in-process Rust callers use the trait;
-   external modules use HTTP. Both share the same unlock cache, policy, and
-   audit stream.
+3. **Single engine, explicit caller adapters**: in-process Rust callers use
+   the trait; external modules use authenticated HTTP or a separately admitted
+   live channel. All share the same unlock cache, domain policy and audit stream,
+   retaining distinct caller sources and authority.
 4. **Domain separation is mandatory**: every signature is produced over a
    domain-tagged payload, so a signature valid in one artifact family cannot
    accidentally be valid in another.
@@ -393,7 +394,8 @@ pub struct DeriveSharedSecretResponse {
 
 /// Identifies who is asking the engine to sign.
 /// Populated from host-capability authtok on HTTP, or from in-process
-/// construction context for internal callers.
+/// construction context for internal callers. A channel caller requires current
+/// signed launch admission and its exact authenticated session.
 #[derive(Clone, Debug)]
 pub struct CallerIdentity {
     pub source: CallerSource,
@@ -404,8 +406,22 @@ pub struct CallerIdentity {
 pub enum CallerSource {
     Internal,                 // in-process Rust caller
     HttpModule { authtok_id: String },
+    ChannelModule { session_ref: String },
 }
 ```
+
+The channel source is an external module, never an internal operator or an HTTP
+credential alias. Its non-bearer reference binds executor, module, component,
+launch, session and session epoch; a session counter alone is insufficient across
+host restarts. Exact-source caller bindings and audit digests keep those classes
+separate. The initial independent-channel adapter is closed to signing and key
+status; it opens no unlock, lock, shared-secret, sealer or recovery-export route.
+The host rechecks the current signed instance and original session before owner
+admission, while the ordinary signer retains all domain and key checks. An
+accepted operation can finish after a disconnect; losing a response does not
+undo its effect or grant permission to repeat it. Node's code-coupled boundary is
+`node:daemon/docs/MIDDLEWARE-INSTANCES.md`. This extension does not change any
+artifact signature framing or independently qualify its consumers.
 
 ### `signer-service` crate
 
@@ -1121,3 +1137,13 @@ every CaseKeyUse and renewal control prefix, with both wrapping policies. The
 successor's protected port samples the host-owned clock and persists the common
 custody-fence observed-time floor before output. This does not connect its deferred
 P015-005/LLR-007 caller or grant authority from a pure succession result.
+
+
+### Ordered-case restricted operations, 2026-11-07
+
+Dedicated node authority acceptance/status and protected node/nym reception signing
+now participate in LLR-008/LLR-007's qualified path. S026 signs only its currently
+owned key and prepared domain intent under the owner clock; the node operation fixes
+its own key and internal caller. Generic signing, alternate domains and wrapped
+preimages remain refused by the shared reserved-use registry. Cached durable replay
+requires neither signer nor re-sealing. See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md`. P015-005 and ADC stay separate.

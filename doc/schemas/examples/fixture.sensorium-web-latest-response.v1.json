@@ -1,0 +1,165 @@
+{
+  "schema": "sensorium-web-latest-state.v2",
+  "schema/v": 2,
+  "source/ref": "sensorium-web-source:fixture",
+  "source/generation-ref": "source-generation:web-fixture-v1",
+  "snapshot": {
+    "schema": "sensorium-web-document-snapshot.v2",
+    "schema/v": 2,
+    "snapshot/id": "sensorium-web-snapshot:fixture-001",
+    "source/ref": "sensorium-web-source:fixture",
+    "source/generation-ref": "source-generation:web-fixture-v1",
+    "requested-url/display": "https://example.org/document",
+    "requested-url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "final-url/display": "https://example.org/document",
+    "final-url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "fetched/at": "2026-08-01T10:00:00Z",
+    "response/status": 200,
+    "media/type": "text/html",
+    "selected/charset": "utf-8",
+    "body/bytes": 13,
+    "body/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+    "fetch/result-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+    "extraction/profile-ref": "sensorium-web-extraction:static-stdlib-main-v1",
+    "extraction/profile-digest": "sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk",
+    "representation/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+    "title": "Fixture document",
+    "operational/context": {
+      "schema": "sensorium-operational-context.v1",
+      "schema/v": 1,
+      "impact/class": "production",
+      "context/summary": "Public web observation"
+    },
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Public",
+      "effective_tier": "Public",
+      "provenance": {
+        "kind": "local-space",
+        "space": "Public"
+      },
+      "bound_subjects": {
+        "public_projection": {
+          "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "count": 0
+        }
+      },
+      "declassify_trail": []
+    },
+    "causal/context": {
+      "schema": "causal-context.v1",
+      "schema/v": 1,
+      "context/id": "causal-context:web-fixture-001",
+      "correlation/id": "correlation:web-fixture-001",
+      "operation/id": "operation:web-fixture-001",
+      "causation/refs": [
+        "fetch-request:fixture-001"
+      ],
+      "origin/actor-ref": "module:sensorium-web",
+      "created/at": "2026-08-01T10:00:01Z"
+    },
+    "custody/owner": "middleware.sensorium-web",
+    "custody/claims": {
+      "original": {
+        "schema": "artifact-delivery-retain-result.v2",
+        "schema/v": 2,
+        "outcome": "completed",
+        "claim": {
+          "id": "claim:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "generation": 1,
+          "body-digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+        },
+        "retained/at": "2026-08-26T10:00:00Z",
+        "effective/until": "2026-08-27T10:00:00Z",
+        "policy/ref": "sha256:PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+        "artifact/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+        "artifact/size-bytes": 13,
+        "execution/receipt": {
+          "schema": "execution-receipt.v1",
+          "schema/v": 1,
+          "receipt/id": "execution-receipt:webretainfixture",
+          "causal/context": {
+            "schema": "causal-context.v1",
+            "schema/v": 1,
+            "context/id": "causal-context:web-retain-fixture",
+            "correlation/id": "correlation:web-retain-fixture",
+            "operation/id": "operation:web-retain-fixture",
+            "causation/refs": [
+              "sensorium-web-refresh:fixture"
+            ],
+            "origin/actor-ref": "module:sensorium-web",
+            "created/at": "2026-08-26T10:00:00Z"
+          },
+          "operation/id": "operation:web-retain-fixture",
+          "capability/id": "artifact.delivery.retain.v2",
+          "transition/from": "running",
+          "transition/to": "completed",
+          "attempt/no": 1,
+          "recorded/by": "component:artifact-delivery",
+          "recorded/at": "2026-08-26T10:00:01Z",
+          "effect/refs": [
+            "claim:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "outcome/refs": [
+            "claim:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "diagnostics": {
+            "retention": "content-addressed"
+          }
+        }
+      },
+      "representation": {
+        "schema": "artifact-delivery-retain-result.v2",
+        "schema/v": 2,
+        "outcome": "completed",
+        "claim": {
+          "id": "claim:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "generation": 1,
+          "body-digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+        },
+        "retained/at": "2026-08-26T10:00:00Z",
+        "effective/until": "2026-08-27T10:00:00Z",
+        "policy/ref": "sha256:PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+        "artifact/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+        "artifact/size-bytes": 13,
+        "execution/receipt": {
+          "schema": "execution-receipt.v1",
+          "schema/v": 1,
+          "receipt/id": "execution-receipt:webretainfixture",
+          "causal/context": {
+            "schema": "causal-context.v1",
+            "schema/v": 1,
+            "context/id": "causal-context:web-retain-fixture",
+            "correlation/id": "correlation:web-retain-fixture",
+            "operation/id": "operation:web-retain-fixture",
+            "causation/refs": [
+              "sensorium-web-refresh:fixture"
+            ],
+            "origin/actor-ref": "module:sensorium-web",
+            "created/at": "2026-08-26T10:00:00Z"
+          },
+          "operation/id": "operation:web-retain-fixture",
+          "capability/id": "artifact.delivery.retain.v2",
+          "transition/from": "running",
+          "transition/to": "completed",
+          "attempt/no": 1,
+          "recorded/by": "component:artifact-delivery",
+          "recorded/at": "2026-08-26T10:00:01Z",
+          "effect/refs": [
+            "claim:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ],
+          "outcome/refs": [
+            "claim:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ],
+          "diagnostics": {
+            "retention": "content-addressed"
+          }
+        }
+      }
+    },
+    "representation/artifact-ref": "custody:claim:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "snapshot/digest": "sha256:-J4KiKsXJ3En0fLRDuElOw5QrSLD4BD2_hrs_tVhICk",
+  "representation": null,
+  "observation/id": "sensorium-observation:web-fixture-001"
+}

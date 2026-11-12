@@ -24,6 +24,26 @@ requalifies identically. Evidence:
 This does not qualify all Whisper/issuance flows, elevate signal epistemic status,
 prove homeserver federation or imply independent backups/production readiness.
 
+## Certified contextual authorship
+
+The accepted P015 phase-1 profile has a separately qualified 2026-11-04 path:
+local Vault nym, recipient-encrypted AD/INAC certification, protected host review/
+signing, no-JS UI and contextual signals/thresholds on SQLite and admitted
+Synapse. It counts council-admitted participant sources, not nyms or source
+nodes. Ordinary confidence0.5 publication, status/expiry/reset, trusted late time,
+privacy, restart/replay and full-PDU acceptance are covered by A30/B31 plus six
+separate conformance obligations. Exact loose/extracted and fresh primary/
+secondary qualification results match. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
+
+This is a bounded source-specific composition with operator-only payload; it does
+not renew the historical node-counting M4 scope. Host/Vault owns keys and signing,
+the optional issuer owns policy, AD owns ciphertext delivery, Agora owns immutable
+admission facts, and the contextual evaluator owns current eligibility and the
+first-emission latch. Matrix time trusts the authenticated admitted homeserver;
+PDU signatures/hashes/size are checked in acceptance. Optional stay-ready runtime,
+other P015/P081 consumers, rooms/opt-in, Anon, LLR/ADC, federation and global/release
+readiness remain outside this qualification. Component status remains partial.
+
 Threshold and association artifacts are public meta-signals, not public gossip.
 `whisper-threshold-reached.v1` states that an issuer or projection observed a
 policy-defined correlation. `association-room-proposal.v1` states that there is a
@@ -415,6 +435,21 @@ Responsibilities:
 The design and tracker live in
 [P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 
+The [private-case execution profile](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md)
+separates private exchange Gate A from ordinary-v1 SQLite/Synapse continuity Gate B.
+The bounded actual two-endpoint direct Gate A is now independently qualified:
+production P037 offers, Memarium protected-signal custody, exact pending case
+inbox before separately adopted S020 processing, refusal/fault/restart controls
+and selected access-class privacy. Loose, extracted and fresh both-store results
+agree. Evidence: `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
+Ordinary-v1 SQLite/Synapse Gate B remains open. Synthetic-v2 case credentials and
+fixture-signed private v1 signals do not qualify ordinary host/Vault authorship.
+Memarium remains the protected-record owner; the case service owns ordered
+results, and AD owns transport retry. Minimal AD traces exclude payload/domain
+links; authorized receiver-local INAC transport metadata remains visible.
+S023-002 scheduled/physical purge is separate. Current remaining composition is
+indexed in `node:docs/integration/whisper-private-case-continuity.md`.
+
 The portable receipt format and authenticated admission claim are owned by
 [P035-019](../../40-proposals/035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
 not by a second Whisper receipt implementation. The unchanged aggregate-only
@@ -532,3 +567,127 @@ decisions, correlation policy explanations, association-room proposal lifecycle,
 and public-gossip promotion. These are data contracts and pure decision helpers;
 concrete UI affordances and real relay execution belong in later runtime/product
 layers that consume the same data rather than changing Whisper's core semantics.
+
+### Reviewed Harvester v3 continuation (2026-11-05)
+
+P013-WEB and P078 common review own the approved minimized origin and exact
+material inventory. Protected preview/sign v2 resolve an immutable current
+review; callers cannot replace text, topic, polarity, origin or custody. AD owns
+the finite claims and atomic preview-bound holds. First local publication checks
+current review, bytes, generations and holds independently of signature creation.
+
+The v3 receiver law covers every existing author class. New reviewed Harvester
+production is derived-local; other producers remain v2 pending the named origin
+migration follow-up. The epoch-aligned transitional profile stops new operations
+for every producer at its end. Fixture qualification may close this milestone
+without production adoption; named recipient support, accepted old-node cutoff
+and feasible migration or accepted publication downtime remain rollout conditions.
+Public gossip preserves exact per-record origin declarations and lineage coverage
+under P013's versioned projector. This continuation is implemented in stages and
+not yet qualified as a composed runtime milestone.
+
+
+The separate composed-review qualification ends before protected authoring:
+one local draft and exact restart/replay are verified, while fresh signed Gate
+A/B and the full v3 window remain open. The independent P084 campaign gate keeps
+those obligations missing. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
+
+### Custody prerequisite checkpoint (2026-11-06)
+
+The current Sensorium campaign explicitly composes native AD prerequisites and
+actual expiry-before-review/new-observation checks: 18/131 requirements verified,
+113 missing. The new expiry path ends at a local reviewed draft; it performs no
+key unlock, authoring sign or Whisper publication. Full signed Gate A/B, the
+fixture-window end and recipient cutoff remain open. Production adoption and
+global Whisper readiness are unchanged. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.
+
+### Issuer authority prerequisite checkpoint (2026-11-06)
+
+The fresh ordinary encrypted-owner attempt reached full issuance request v2 but
+refused before a terminal certificate. Separate bootstrap-v2 root authority now
+preserves the original v1 signed scope. AD transport admission, local consent,
+council certification and P082 recipient authorization remain independent; the
+correction grants no publication or raw-original read. Component regressions
+pass, while the new ordinary exchange and full signed two-backend qualification
+remain open. The historical 18/131 campaign result is not relabelled for changed
+runtime/schema bytes. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ISSUER-AUTHORITY-20261106.md`.
+
+### First ordinary v3 certificate checkpoint (2026-11-06)
+
+A fresh ordinary encrypted-owner fixture has issued a v3 certificate over all
+four exact TLS/AD phases using separately signed bootstrap-v2 authority.
+Independent native inspection verifies `A/issue` and `A/reference-readback`.
+Together with fresh same-source R/C/W7/native inputs, the campaign is now
+20/131 verified with 111 missing; ordinary/optimized results agree. Original
+reports/refusals remain preserved, with process inventory added only in a
+separately bound derived view. No Whisper was signed or published.
+
+A separate 128 MiB capacity observation stopped after 2479 retains with an
+untyped host cause; a complete DB/WAL copy passes integrity checks. It grants
+no load/recovery credit. Full signed SQLite/Synapse, all-producer window-end,
+recipient/privacy and remaining load/fault qualification remains open. Existing
+P084/P078 and dependent owner trackers stay in progress. This does not adopt
+production or renew historical evidence. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-ISSUANCE-20261106.md`.
+
+
+### Ordinary cohort scope (2026-11-07)
+
+Exact A2 renewal and separate two-producer v2/v3 end-window controls pass. B and complete independent C/D remain open; successful producer prefixes preserve their refused parent status.
+The parent campaign, full Gates A/B and production adoption stay open.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.
+
+
+### Receiver and closed-window checkpoint (2026-11-07)
+
+Node runtime/capture `78911310` and Orbidocs `7a3a3b4f` independently re-execute
+7/131 requirements (124 missing), identically with ordinary and optimized readers.
+A issue, exact predecessor-bound A2 renew and B issue each publish reviewed v3
+through the ordinary SQLite UI. C verifies one source across A/A2; actual A/B
+reception produces a threshold and Room proposal after correcting the fixture's
+effective exact consumer list. Operator status access is a separate authority
+boundary from a supervised module's live channel.
+
+The original R37 parent refuses during post-certificate-expiry S020 polling:
+the selected D job is interrupted after 17231 ms against 9999 ms; its refresh
+takes 14313 ms. This is not complete contribution-after-expiry qualification.
+Separate 21 all-producer v2/v3 end-window refusals and a before-end-adopted,
+after-end four-record C read pass native ordinary/optimized inspection. No failed
+parent is relabelled, no historical runtime counts are added, and full Gates A/B
+and production adoption remain open. A follow-up removes duplicate constructor
+recovery in the existing single slot, preserving profile, capacity and media
+guards; its native qualification remains open. Exact identities and limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RECEPTION-WINDOW-20261107.md`.
+
+
+### Exact-renew readiness checkpoint (2026-11-08)
+
+The runtime056 R38 parent remains refused: A publishes reviewed v3, while A2's
+exact renew records busy admission followed by original-request expiry. No
+complete C/D or post-certificate-expiry contribution follows. A Python fixture
+prerequisite now binds A's actual predecessor and observes fresh S020 status
+before preparing A2, without changing a prepared deadline or any owner lease.
+All 566 regressions and six focused normal/optimized controls pass; native
+qualification of this orchestration change is still open. The independent
+runtime789 seven-of-131 subset is not transferred to a new source. Exact scope:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-READINESS-20261108.md`.
+
+
+### Paused qualification checkpoint (2026-11-08)
+
+R39 independently verifies 9/131 (122 missing) on retained runtime056 and
+capture8b07, identically with ordinary/optimized readers. Exact A2 renew,
+same-source and independent A/B reception, ordinary UI/receipts, all-producer
+window refusals and historical C read pass. The complete post-certificate-expiry
+proof correctly refuses: outer S020 success contains no-work and the retained
+evaluation is stale. Unchanged public records do not establish that subclaim.
+Work is paused at the owner's request; no new window or production adoption.
+The original runtime and reader results remain unchanged. Resume basis:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+### Fresh expiry checkpoint (2026-11-12)
+
+The [P084 checkpoint](../../40-proposals/084-sensorium-web-observation-connector.md#fresh-expiry-checkpoint-2026-11-12) records the exact R47 source/window, independent expiry result and remaining qualification scope.

@@ -14,6 +14,7 @@ Source schema: [`doc/schemas/nym-bootstrap-authority-request.local.v1.schema.jso
 |---|---|---|---|
 | [`idempotency_key`](#field-idempotency-key) | `yes` | string |  |
 | [`passphrase`](#field-passphrase) | `no` | string |  |
+| [`exchange/revision`](#field-exchange-revision) | `no` | enum: `v1`, `v2` | Explicit transport revision. Absence retains the original v1 singleton request. |
 ## Field Semantics
 
 <a id="field-idempotency-key"></a>
@@ -27,3 +28,11 @@ Source schema: [`doc/schemas/nym-bootstrap-authority-request.local.v1.schema.jso
 
 - Required: `no`
 - Shape: string
+
+<a id="field-exchange-revision"></a>
+## `exchange/revision`
+
+- Required: `no`
+- Shape: enum: `v1`, `v2`
+
+Explicit transport revision. Absence retains the original v1 singleton request.

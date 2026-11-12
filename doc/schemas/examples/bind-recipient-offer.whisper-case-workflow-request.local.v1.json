@@ -1,0 +1,8 @@
+{
+  "schema": "whisper-case-workflow-request.local.v1",
+  "command": {
+    "operation": "bind-recipient-offer",
+    "operation/id": "a487d5e3-26c6-42b8-99bd-e7e9ecc667cb",
+    "offer/bytes": "e30"
+  }
+}

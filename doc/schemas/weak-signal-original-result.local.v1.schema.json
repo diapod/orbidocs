@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:weak-signal-original-result.local:v1",
+  "title": "weak-signal-original-result.local.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "classification",
+    "body/digest",
+    "total/bytes",
+    "offset/bytes",
+    "bytes/base64"
+  ],
+  "properties": {
+    "schema": {
+      "const": "weak-signal-original-result.local.v1"
+    },
+    "classification": {
+      "$ref": "classification.v1.schema.json"
+    },
+    "body/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "total/bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "offset/bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "bytes/base64": {
+      "type": "string",
+      "maxLength": 699052,
+      "contentEncoding": "base64"
+    }
+  }
+}

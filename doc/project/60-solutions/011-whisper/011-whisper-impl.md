@@ -840,3 +840,186 @@ Each step should leave the tree in a compiling state.
 - **Attestation-gate tests** (shared with proposal 041): reject
   `private-correlation` on a public-deployment relay; accept on a
   closed-federation relay.
+
+
+### First reviewed Matrix publication and status-cache withdrawal (2026-11-06)
+
+The source-bound Sensorium fixture independently verifies A's private AD
+certificate, reviewed protected v3 UI signing and Matrix HTTP 202/public readback.
+Its separately pinned campaign reaches 21/131, with 110 missing and identical
+ordinary/optimized results. B fails startup before export: status-cache compaction
+requires a formerly adopted profile absent from current configuration. C is
+reaped; no common-receiver, threshold, complete-PDU or full A/B credit follows.
+The earlier SQLite 22/131 retains its separate source and result.
+
+The owner correction validates retained canonical bytes, digest and source links
+before withholding unadopted status. It preserves facts and existing budgets,
+refuses current use without adoption and restores signature/cursor verification
+only on exact readoption. Other adopted profiles can operate and missing
+projections can rebuild; corruption remains a refusal. Component regressions
+pass and the next v3 conformance selection requires both withdrawal/corruption
+assertions. Fresh current-source native/runtime and Matrix qualification remain
+open; no historical gate or production adoption is renewed. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-MATRIX-PUBLICATION-20261106.md`
+and `node:daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md`.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+Two ordinary reviewed producers and an independent C/D projection form one
+verified first pair on Synapse. A separate client and native reader bind every
+complete PDU to the original author buffer. The expiry proof reuses persisted
+current-view verification because status-only evaluation does not rewrite
+membership-change history. Existing phase-1 acceptance retains its original scope;
+this scoped v3 checkpoint does not close full A/B or production readiness.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.
+
+### Later 2026-11-07 fixture replica/window checkpoint
+
+The source-bound campaign now verifies **29/131**, with **102 missing**, identically
+in ordinary and optimized readers. Exact-predecessor A2 renewal on a distinct
+registered node of A's participant retains one source and no first emission at
+independent C. A newly started C reads the same signed records after the single
+aligned window ends. Runtime `985964ee83` / `2b5ea4fd`, capture `845bf6f7` /
+`ca9b73c9` and window reader `fb4301fb` remain separate pins. Earlier source-bound
+reports and the original four-PDU scope remain unchanged.
+
+This adds two replica/source-count and two window/history obligations. It does
+not qualify certificate-at-boundary, all-producer end refusal, old-node v2 cutoff,
+complete public/P082 direct-peer/Room/gossip privacy or full Gate A/B. Production
+is not adopted. The remaining fixture matrix and existing parent trackers stay
+open; another profile digest does not automatically preserve source continuity.
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-REPLICA-WINDOW-20261107.md`.
+
+### Later 2026-11-07 SQLite/late-receipt checkpoint
+
+The SQLite/late-receipt fixture checkpoint verifies **32/131**, with **99 missing**,
+identically in ordinary and optimized readers. One reviewed Harvester v3 owner
+completed protected UI preview/sign across restart, SQLite publication (201) and
+a signed receipt. A new SDK receiving store first admitted the exact original
+author bytes/receipt after certificate expiry plus skew, using the real clock,
+and retained its facts across close/reopen. This is not an HTTP import, common
+SQLite threshold/room proof, second publication or full Gate A/B.
+
+Runtime `985964ee83` / `2b5ea4fd`, capture `fe7c595e` / `65a4b8a3`, receiver
+build `2995a9f7` and final reader `ba4a235b` stay separate. All previous29
+original predicates reverify. The earlier wrong-backend runtime refusal,
+unattempted late SDK, incomplete reader and empty-stderr campaign refusal remain
+preserved; corrections use new cases or read-only views, without retrying an
+uncertain publication. Backend readiness now precedes certification. The bounded
+thirteen-root retention review leaves all217 exact-copy candidates blocked;
+no retirement action or production adoption occurred. Parent trackers and the
+remaining99 obligations stay open, including all-producer end refusal, boundary/
+old-node-v2 cutoff and full P082/gossip privacy.
+
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-LATE-RECEIPT-20261107.md`.
+
+### Native owner-policy checkpoint (2026-11-07)
+
+The native policy checkpoint verifies **37/131**, with **94 missing**,
+identically in ordinary and optimized readers, exit 2. All previous32 original
+predicates reverify. Five native AD/P091 obligations add inactive/complete
+adoption, editorial versus normative factory identity, separate ceiling refusal
+and unchanged old claim terms. Eleven actual system-clock stages include restored
+controls and owner reopen; three coherently rehashed scratch substitutions each
+refuse and restore the original positive.
+
+Native build `190552c41`, capture `a8933630` and final reader `714e0bc10` remain
+separate from existing runtime `985964ee83` / normative `2b5ea4fd`. Original
+rehearsals, cold-WAL collector refusal and hold-field reader refusal remain
+preserved; the successful runtime was not repeated for reader correction.
+Full gates and production adoption remain open, and parent statuses are unchanged.
+
+Complete v3 reception/mixed classes, all-producer end refusal and both complete
+Gate A/B campaigns remain separate mandatory qualifications.
+Policy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-POLICY-20261107.md`.
+
+### Native claim and transfer checkpoint (2026-11-07)
+
+The native claim checkpoint verifies **41/131**, with **90 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous37 original
+predicates reverify. Four native AD obligations add same-key parameter conflict,
+overlapping concurrent retain and lost-response reopen/retry, atomic transfer/
+claim/first-result commit, and explicit live extension with real expiry controls.
+Four coherently rehashed scratch substitutions each refuse with a restored
+original positive. The native build/capture `069e95bbd` and corrected reader
+`b7d0d6fc8` stay separate from unchanged runtime `985964ee83` / normative
+`2b5ea4fd`; the original reader expiry-model refusal remains preserved.
+
+No signing, first-publication or receiver qualification is inferred from
+these native owner effects.
+Full gates and production adoption remain open; parent statuses are unchanged.
+Claim checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-CLAIMS-20261107.md`.
+
+### Native legacy checkpoint (2026-11-07)
+
+The native legacy checkpoint verified **43/131**, with **88 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous41
+predicates reverify. Two native AD rows add digest collision/monotonic interest
+through ordinary release, actual expiry/sweep and unadopted reopen, plus explicit
+native operator-method release with a withdrawn admission witness. Same-object,
+managed-only GC and healthy controls establish the causes; four rehashed scratch
+substitutions each refuse and restore the original. Native build/capture/reader
+`6fcf49a3d` / `35c23a9c` remains separate from runtime `985964ee83` / normative
+`2b5ea4fd`. Both pre-effect preparation refusals remain preserved.
+
+Native owner cleanup does not qualify authoring, first publication or
+complete receiver behavior.
+Full gates and production remain open; parent statuses are unchanged.
+Legacy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-LEGACY-20261107.md`.
+
+### Original bytes and explicit revalidation checkpoint (2026-11-07)
+
+At this original-byte checkpoint the campaign verified **48/131**, with **83 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous 43
+cases reverify. Five composed predicates cover exact original transfer/inline
+representation custody, actual gzip and typed ISO-8859-2 refusal without handoff,
+original-preserved extractor omissions, acquisition horizons and three explicit 304
+through delayed review, restart and replay. Two owners are reaped; no unsolicited
+fetch or renewed claim occurs. Six coherently rehashed controls per mode each
+refuse then restore original positives. 73 Python tests per mode pass.
+
+Capture `dade45982` and corrected reader `945a2bf9c` / Orbidocs `e37021ad` remain
+separate from the pinned runtime `985964ee83` / normative `2b5ea4fd`. The original
+capture runs once; three reader precondition refusals remain preserved. No
+production Rust, schema or capability contract changed. Ten-root catalog/dry-run
+review records 158 selected files/6264441 bytes, seven exact duplicate-output
+candidates 1767461 bytes and zero eligible. Active 48 evidence/authority remains
+protected; no retained deletion/move/retirement authorization/execution occurred.
+
+This checkpoint stops at a reviewed local draft; signing, publication, full receiver/privacy and window/cutoff requirements remain separate.
+Full gates and production remain open; parent statuses are unchanged.
+Original-byte checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGINAL-BYTES-20261107.md`.
+
+### Finding origin and adopted monitoring checkpoint (2026-11-07)
+
+The original-input campaign verifies **51/131**, with **80 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous 48 cases
+reverify. Three new rows cover all nine canonical finding-class mappings,
+non-web Sensorium/mixed material, and collection bound to an adopted configuration
+after its real 60-second interval. Thirteen immutable reviews replay across an
+actual owner restart, with two web snapshots and four exact custody refs.
+Scalar metadata cannot create web, monitoring or model lineage. These synthetic
+operator-inline finding classes imply no mail/filesystem/device acquisition or
+signed author-class reception. Scheduler is disabled; due execution is explicit.
+
+Collector/reader `bfb0d90b0` / Orbidocs `f2abbe21` remain separate from runtime
+`985964ee83` / normative `2b5ea4fd`. Six coherently rehashed controls per mode
+refuse, each followed by a restored-original positive; 82 Python tests per mode
+pass. The original capture is unchanged and runs once. Six-root catalog/dry-run
+review records 138 selected files/4863454 bytes, three duplicate-output candidates
+1294585 bytes and zero eligible. Active qualification and authority dependencies
+remain protected; no retained deletion/move/retirement authorization/execution.
+These numbers are run observations, not contract thresholds.
+
+Full processing/inference provenance, signed v2 absence versus v3 unknown,
+author-class reception, mixed authorship holds, clock/load/fault, all-producer
+window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
+statuses and production adoption are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.

@@ -1,0 +1,34 @@
+{
+  "schema": "bounded-http-fetch-request.v2",
+  "schema/v": 2,
+  "request/id": "fetch-request:fixture-001",
+  "consumer/action": "web.document.fetch",
+  "method": "GET",
+  "url": "https://example.org/document",
+  "budgets": {
+    "redirects/max": 3,
+    "compressed-bytes/max": 1048576,
+    "decompressed-bytes/max": 4194304,
+    "header-bytes/max": 16384,
+    "total-timeout/ms": 10000,
+    "connect-timeout/ms": 3000,
+    "hop-timeout/ms": 3000,
+    "inline-bytes/max": 65536
+  },
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Public",
+    "effective_tier": "Public",
+    "provenance": {
+      "kind": "local-space",
+      "space": "Public"
+    },
+    "bound_subjects": {
+      "public_projection": {
+        "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "count": 0
+      }
+    },
+    "declassify_trail": []
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-delivery-response.local:v1",
+  "title": "nym-issuance-delivery-response.local.v1",
+  "description": "Explicit version union for the current local adapter; both historical closed contracts remain unchanged.",
+  "anyOf": [
+    {
+      "$ref": "nym-issuance-delivery.local.v1.schema.json"
+    },
+    {
+      "$ref": "nym-issuance-delivery.local.v2.schema.json"
+    }
+  ]
+}

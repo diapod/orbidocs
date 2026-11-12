@@ -6,7 +6,7 @@
  :summary
  "Node-attached social-signal exchange with implemented Agora M4 intake,
  redaction, thresholding, opt-in association bootstrap and artifact traces;
- partial local assessment exposure and planned privacy/authorship continuations."
+ qualified phase-1 contextual authorship, partial local assessment exposure and planned privacy continuations."
 
  :must-implement
  [{:cap/id :rumor-intake-and-publication
@@ -67,7 +67,23 @@
    :status :partial}]
 
  :may-implement
- [{:cap/id :artifact-trace-statements
+ [{:cap/id :contextual-participant-source-authorship
+   :title "Certified Contextual Participant-Source Authorship"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+              "doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
+   :schemas ["whisper-source-profile.v1" "whisper-source-certificate.v1"
+             "nym-issuance-request.v1" "nym-issuance-decision.v1" "nym-source-status.v1"
+             "whisper-signal.v2" "whisper-threshold-reached.v2" "association-room-proposal.v2"]
+   :responsibilities
+   ["Certify a context-bound host-owned nym through recipient-encrypted private AD without granting council authority from delivery"
+    "Sign reviewed contextual signals through the host/Vault and count admitted participant sources rather than nyms or nodes"
+    "Keep immutable admission separate from current status eligibility and one first-emission latch"
+    "Preserve the accepted receipt/admitted-homeserver time policy, restart/replay and controlled-copy erasure boundaries"
+    "Retain qualified source-specific A/B composition in operator-only two-store custody with public path-free controls"]
+   :status :done}
+
+  {:cap/id :artifact-trace-statements
    :title "Artifact Trace Statements"
    :kind :protocol
    :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange.md"]
@@ -168,7 +184,7 @@
   "association-room-proposal.v1"]
 
  :notes
- ["Component status includes the partial local assessment continuation; the existing Agora M4 and artifact-trace capabilities remain done, and the four optional continuations remain future."
+ ["Component status includes the partial local assessment continuation; the existing Agora M4, artifact-trace and bounded phase-1 contextual-authorship capabilities are done; the four optional privacy continuations remain future."
   "P013-AE-001 qualifies only the bounded common local view on a generic open resource reference; P013-AE-002 and the full Whisper curation, propagation and attention workflow remain planned."
   "Whisper intake/redaction is a supervised channel_json middleware service with a separately owned intake/trace/operator HTTP surface; shared transport-independent semantics belong in `whisper-core`."
   "Post-M4 productization adds a host-owned provider-policy shape for Inquirium/model-runtime redaction providers and a secretless simulator acceptance bridge without making adapters publication authorities."

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:bounded-http-fetch-capture-read-request:v1",
+  "title": "bounded-http-fetch-capture-read-request.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "consumer/action",
+    "read/binding",
+    "body/digest",
+    "body/size-bytes",
+    "offset",
+    "bytes/max"
+  ],
+  "properties": {
+    "schema": {
+      "const": "bounded-http-fetch-capture-read-request.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "consumer/action": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "read/binding": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "body/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "body/size-bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "offset": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "bytes/max": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 524288
+    }
+  }
+}

@@ -604,6 +604,137 @@ or content-mismatched read is refused as `artifact-binding-mismatch`. Tombstone
 expiry intentionally collapses back to `artifact-binding-mismatch`, so the
 diagnostic does not become an unbounded history or an artifact-discovery oracle.
 
+### 8.1. Original web content for reviewed rumors {#web-original-custody}
+
+Adopted design extension, 2026-11-04; implementation is P084-014/015 (`in-progress`).
+The metadata-first default above remains valid for ordinary web observation.
+A source explicitly selected for the original-backed Harvester publication
+profile must retain its original response body as well as its extracted
+representation before it can produce a publication-ready draft. Enabling this
+profile requires explicit source/retention admission; selecting an existing
+snapshot must not silently enable retention, refetch it, or widen acquisition.
+[P078](078-weak-signal-harvester.md#web-source-retention-and-origin) owns review
+and [P013](013-whisper-social-signal-exchange.md#web-origin-publication) owns
+publication. Existing 012a/b/c evidence does not qualify this extension.
+
+**Byte boundary.** The original is the exact bounded response body after HTTP
+content decoding/decompression and before charset decoding, HTML parsing,
+normalization or redaction, bound to the existing `body/digest`. It is not a
+packet capture, rendered browser state or complete website archive. Preserve the
+existing digest law; do not relabel parsed text or recompressed bytes as the
+original. Bind the byte count, media type, charset/encoding metadata, fetched
+instant, source generation, extraction profile and representation digest through
+the existing snapshot. Private URL identity stays restricted; display URLs
+remain redacted. Cookies and request credentials are not part of the archive.
+
+**Custody and retention.** Reuse `artifact.delivery.retain`, its digest/size
+checks, authenticated owner, content-addressed storage and P081 receipt chain.
+Both inline and artifact-transfer responses must reach the same durable custody
+boundary. A transient fetch binding or `body/artifact-ref` alone is not a
+retention receipt. No second Harvester blob store or independent cleanup worker
+is introduced. Before accepting this extension, freeze an owner-bound retention
+claim using the existing artifact lifecycle and S028 facts, with at least:
+
+| Proposed claim field | Meaning |
+|---|---|
+| `owner/ref`, `purpose/ref`, `snapshot/digest` | Owning source/workflow, concrete review/publication purpose and exact captured snapshot |
+| `body/ref`, `body/digest`, `body/bytes`, `retention/receipt-ref` | Durable original and verified custody receipt |
+| `retention/requested-until`, `retention/effective-until`, `retention/policy-ref` | Requested and admitted finite horizon, separately from metadata/cache TTL |
+| `retention/state` | Closed lifecycle: `retained`, `expired`, `released`, `missing` or `corrupt`; a timestamp alone does not prove availability |
+
+These are proposed contract fields, not currently implemented schemas. P091
+composes defaults and operator ceilings; the source/workflow owner admits them.
+A shortened horizon is shown before approval and cannot be silently accepted as
+the requested duration. No indefinite retention or lifetime-of-rumor promise is
+implied. An explicit extension needs current authority and capacity. S020 may
+schedule expiry through the existing owner; reads and admission check expiry
+independently of scheduler execution. Metadata and original/representation
+retention have separate finite policies.
+
+A refresh never overwrites previously claimed bytes. Shared content is reclaimed
+only after all applicable owner claims permit it; releasing one finding cannot
+remove another consumer's retained original. Early deletion, expiry, corruption
+or loss must become an explicit availability fact. Original and representation
+claims are acquired idempotently before a publication-ready handoff; a crash
+between them leaves an incomplete state, never a false complete receipt. Recovery
+reuses exact pinned inputs and the existing owner journals. Missing originals
+block this profile's promotion; an authorized later fetch creates a new capture
+and cannot repair the identity of an older one. A `304` records a new validation
+time against the same retained capture; it neither creates new original bytes
+nor silently renews their retention horizon. Do not claim the representation
+was originally fetched at the later validation time.
+
+**Limits and acceptance.** Preservation supports checking what the collector
+received; it does not prove that the remote publisher authored the claim or that
+it is true. Classification and read admission apply to original bytes separately
+from redacted summaries. Storage cost and shorter approved retention are explicit
+trade-offs. Offline fixtures must cover small inline and large artifact bodies,
+compressed/non-UTF-8 HTML, exact digest equality, extraction that omits content,
+retention refusal/quota/ceiling, `304` without horizon renewal, shared-reference
+release, expiry with Scheduler
+stopped, lost replies/restart between custody steps and unavailable originals.
+No live website, crawler, model or new transport is needed for that gate.
+
+### 8.2. Custody and origin implementation contract (2026-11-04)
+
+Status: accepted implementation contract; P084-014/015 are in progress, not
+qualified. P013-WEB-001/002 and P078-015/016 share this milestone. Production
+adoption is explicitly outside its acceptance gate.
+
+- The owner is Artifact Delivery: pure transitions in `artifact-delivery-core`,
+  durable claim/transfer/hold facts in its existing ledger and S028 journal;
+  the daemon authenticates and wires ports. No Harvester blob store is added.
+- A durable reservation (claim key, digest, size) precedes staging. File and
+  parent-directory synchronization precede claim commit and its receipt.
+  Recovery completes or releases an interrupted reservation; its files never
+  become `legacy-unclaimed`. Legacy interest is monotonic until explicit
+  operator release. GC considers only managed history and all active interests.
+- Retain v2 consumes either bounded inline bytes or an exact, single-use host
+  transfer binding. The AD transaction consumes that binding with the claim.
+  A transfer is a byte source, not custody evidence. Extraction reads are separate.
+- Claim idempotency binds owner, purpose, snapshot and body digest; changed
+  normative parameters refuse as `idempotency-conflict`. A replay never renews
+  the original horizon. Default 24-hour custody starts at acquisition retain.
+  Exact results remain available through the finite claim tombstone. Afterwards
+  `idempotency-result-expired` refuses that consumed key. Its minimal hashed
+  use fact remains in the existing AD journal; full private claim metadata is
+  omitted from current projections after its horizon. This is not a new retain.
+- P091 admits a complete, digest-pinned inactive factory policy without field
+  inheritance. Only normative factory fields enter its digest. Factory drift
+  and a policy above current host ceilings are distinct refusals. Claims retain
+  their original terms and `resolution/id` policy reference.
+- The owner persists its time high-water mark before deadline decisions. A
+  regressed clock cannot revive claims; new timed effects refuse. Expiry is
+  enforced without Scheduler. Extending a claim requires explicit pre-expiry
+  admission; an expired web input requires a new observation and review.
+- Preview refuses when any required claim ends before document validity. It
+  never shortens public validity to a private custody deadline. Sign atomically
+  holds all required claims until preview expiry (at most 900 seconds), keyed
+  by preview digest and claim id. A retry reuses those holds. The prepared
+  check token stays within the daemon process and cannot be deserialized.
+- P084's existing source journal and BDO own the two-custody handoff. Neither
+  `304`, restart nor review performs an implicit fetch or retention renewal.
+
+| Effect | Recovery class | Commit / recovery boundary |
+|---|---|---|
+| Claim reservation/retain | transactional-withheld | Durable reservation; synchronized payload before claim receipt; reconcile exact intent |
+| Release/expiry | compensatable metadata; irreversible payload erasure | Durable deletion intent and tombstone, then idempotent owner cleanup |
+| Publication | irreversible-external | First admitted publication within document validity; signature alone is an artifact |
+
+The reviewed Harvester path produces v3 for web, mixed and non-web findings.
+The receiver law supports every existing source class. The bounded dual-v2/v3
+profile spans exactly one epoch aligned to its anchor (at most seven days in
+production). End-of-window refusal applies to every producer. Fixture acceptance
+covers the whole window. Production adoption separately requires ready receiver
+inventory and accepted exclusion of other receivers, plus a feasible remaining
+producer migration or explicit publication-outage acceptance. A profile change
+changes context/source identity; cross-profile case succession is unsupported.
+
+Evidence uses this milestone's operator-only development profile. Keep private
+originals/canaries out of Git, record path-free inventory and actual results,
+and review retention by concrete technical purpose, without a fixed minimum.
+Historical P084 and P015 qualifications remain pinned and unchanged.
+
 ### 9. Sensorium Interface projection
 
 The connector-specific source-provider adapter registers through P082's open,
@@ -1357,6 +1488,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P084-012b | Explicit web finding redaction to optional local Whisper draft | done | Immutable digest-bound operator decision, explicit draft intent, atomic fact/projection persistence; deterministic daemon HTTP/restart, refusal and canary acceptance recorded in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`. Broader integration remains partial. |
 | P084-012c | Operator UI over admitted web finding review | done | Bounded operator queue, explicit redaction/draft forms, auth/CSRF, safe failures, real UI/daemon replay/restart, zero extra acquisition/delivery and no escaped canaries; evidence in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`. |
 | P084-013 | Define and implement the separate credential-bound authenticated-source profile | deferred | Starts only after static public-web acceptance; host-owned secret use is fail-closed and no credential, cookie, authenticated handle, or secret-bearing diagnostic reaches consumer-visible or durable evidence. |
+| P084-014 | Retain exact original web bodies under an explicit finite custody contract | in-progress | Freeze and implement [original custody](#web-original-custody) using existing fetch bytes, AD retain/owner lifecycle, P081 receipts, S028 facts and P091 policy. Cover inline and artifact paths, source-generation binding, original/representation claim ordering, finite horizons and shared-reference-safe release. No new blob store; no promotion from a transient transfer ref. |
+| P084-015 | Qualify original custody and Harvester handoff offline | in-progress | Depends on P084-014 and P078-015. Run the byte, quota, expiry, sharing, lost-reply/restart and missing-original cases in the existing Sensorium Web/Harvester harness; prove zero implicit refetch and zero raw-body/secret leakage to drafts or public views. Record separate current evidence and update owning Solutions/Node ledger at implementation closeout; historical 012a/b/c qualifications remain unchanged. |
 
 ### Single-URL operator acceptance (2026-09-08)
 
@@ -1433,6 +1566,90 @@ canonical identities: operators inspect and reissue authority where needed,
 without assuming all deployed state was empty. P068 separately tracks transitive
 OpenAPI schema bundling; top-level URN resolution alone does not close that debt.
 
+### Finite capture integration checkpoint (2026-11-04)
+
+The new opt-in source contract is `sensorium-web-durable-source.v2`, selecting
+`finite-originals.v1` with both original and representation retention. The host
+separately resolves the complete P091 adoption. Fetch v2 always keeps decompressed,
+pre-decoding originals in AD, even below the former inline threshold. An exact
+owner/session/action/content binding admits repeatable bounded extraction pages;
+a different single-use binding supplies explicit retain v2. Neither binding is a
+receipt or publication grant.
+
+Retain v2 commits the claim, transfer consumption, original owner-observed
+execution receipt and idempotency result together. The source's existing refresh
+journal records each committed owner result before exposing
+`sensorium-web-document-snapshot.v2`. Its stable snapshot id precedes receipts;
+the final snapshot digest covers both claim bindings and the receipt chain.
+Partial custody never creates a ready handoff. A bound 304 reuses the original
+snapshot and horizons without payload read or retain; a new explicit 200
+observation creates a new snapshot even if bytes repeat. Restart does not fetch.
+
+The common current-owner/session resolver is retained. Bundled Sensorium obtains
+a distribution-owned pin of its exact launch declaration and bounded first-party
+sources, with current eligibility checks; it does not impersonate an independent
+signed package. HTTP credentials cannot manufacture this admission. The new registry mode `host-configured-live-session` selects a separate current
+caller proof for the three custody ports. The old signed-package target remains
+unchanged; the new proof cannot authorize launch, scheduling or signing, and a
+failed package guard has no configuration fallback. The latest
+API has an explicit offline-bundled version union, and P082 descriptors select the
+exact snapshot contract. This checkpoint is integration in progress, not shared
+Harvester review, v3 publication, A/B qualification or production adoption.
+
+
+### Common review and protected publication checkpoint (2026-11-05)
+
+Current implementation resolves snapshot v2 into the common Harvester review,
+with immutable material digests, explicit revision CAS and a local draft v2.
+The queue exposes current claim generations and nearest custody deadlines. An
+explicit extension commits the full claim set and receipt together; changed
+terms require another review. A separate classified read admits original bytes
+as inert bounded file pages, never rendered source HTML. No action implicitly
+fetches or renews custody.
+
+Protected preview/sign v2 resolve the approved draft at the host. Preview refuses
+insufficient custody instead of disclosing its deadline through document expiry.
+Sign rechecks after key unlock and atomically obtains the mixed-material holds.
+First publication checks existing exact review/holds through a current live
+channel; no AD prepared token crosses a module boundary. Public-gossip v2
+preserves minimized admitted origin lineage, including legacy absence, through
+the existing promotion projection. It remains an explicit unpublished candidate.
+
+Component and process regression results remain distinct from the freshly pinned
+full fixture qualification, which is still open on SQLite and unmodified Synapse.
+This checkpoint does not renew the historical 012a/b/c reports or close P084.
+
+A later scoped component preflight on 2026-11-05 verified all 64 selected named Rust
+assertions and 96 mirrored contract pairs: 333 Rust tests and eleven named
+schema-sync tests passed; two unselected manual fixtures were not executed.
+Ordinary local preparation also verified five distinct nodes/four protected
+participants and restart/unlock controls. Actual local fetch, independently
+authorized mixed review/replay and a supplementary ordinary-network randomseed
+capture remain bounded observations, with their earlier harness/availability
+refusals preserved. The Node record is
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPONENT-PREFLIGHT-20261105.md`.
+Neither component conformance nor fixture preparation supplies fresh complete
+A/B, native APFS/ENOSPC, window-end publication or rollout qualification.
+P084-014/015 remain in progress. At that checkpoint the complete new campaign
+matrix/qualifier was still open. These measured results do not change the
+accepted contract or the production-adoption conditions.
+
+
+### Composed review and independent campaign inventory (2026-11-05)
+
+A separate APFS-image-independent continuation now qualifies one deterministic
+fetch, two finite claims, independent read grant/revocation/regrant, mixed
+web/document review and actual restart with exact replay and no refetch. This
+ends at an unpublished local draft. The separately adopted P084 v3 campaign
+reader freezes 131 mandatory obligations, freshly verifies seven composed and
+six component obligations, and explicitly leaves 118 missing. Ordinary and
+optimized inspection agree. Missing signed/native/carrier cases still block the
+full milestone; additional runtime predicates remain owned work rather than
+claims inferred from component tests. No production adoption or historical
+qualification is renewed. P084-014/015 remain in progress. Source pins, original
+refusals, retention review and measured limits live in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-COMPOSED-REVIEW-20261105.md`.
+
 ## Next Actions
 
 1. Reproduce the static acceptance gates when changing the profile, host boundary,
@@ -1451,3 +1668,488 @@ OpenAPI schema bundling; top-level URN resolution alone does not close that debt
 - [Playwright supported languages](https://playwright.dev/docs/languages)
 - [Trafilatura documentation](https://trafilatura.readthedocs.io/en/stable/index.html)
 - [Reqwest `ClientBuilder`](https://docs.rs/reqwest/latest/reqwest/struct.ClientBuilder.html)
+
+### Inactive owner restart guard (2026-11-05)
+
+Turning off adoption stops new retain, extension and holds. It does not detach
+previously recorded custody, remove managed read fences, alter granted terms,
+clear legacy interests or suspend expiry enforcement. AD selects reattachment
+from durable owner history independently of the current opt-in flag. A fresh
+inactive store creates no owner. An owner identity marker without source history
+is an explicit corruption/reconciliation refusal, never a reason to classify
+its payload as legacy. This guard changes no historical evidence or production
+adoption; composed original/review/publication qualification remains open.
+
+### Native AD I/O prerequisite (2026-11-06)
+
+A fresh independently qualified APFS run now covers actual owner payload ENOSPC
+(errno 28), a killed process after payload publication but before claim commit,
+and a distinct controlled SQLite commit abort (1811). Recovery preserves the
+original intent, terms and payload, including lost-response replay. Original and
+exact durable-copy reads agree in ordinary and optimized processes. Earlier
+location/pressure refusals and rehearsal remain unqualified and unchanged.
+
+This is the focused AD prerequisite, not the full P084 campaign. At that
+standalone checkpoint its native-case adapter and fresh composition were still
+required; the then-current complete-matrix result was 13/131 verified with 118
+missing at its recorded revision.
+P084-014/015 and the signed, remaining native, remote privacy and two-backend
+qualification remain in progress. No production adoption follows. Exact pins,
+private retention review and measured limits are in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-NATIVE-CUSTODY-20261106.md`.
+
+### Native composition and expiry-before-review checkpoint (2026-11-06)
+
+A fresh independently qualified campaign now credits 18/131 mandatory
+requirements and leaves 113 missing, with identical ordinary/optimized incomplete
+results. The original three native AD cases are explicitly adopted across a
+reviewed tooling/documentation-only source bridge; their original revisions and
+scope remain visible. Fresh same-source review/component captures are joined by
+actual-clock expiry before review and explicit new observation/review acceptance.
+
+The expired pending finding has no decision/draft and remains unpublishable
+across restart without another fetch. Only a new source generation, explicit P082
+source-slot supersession, fresh grant/claims and new review permit continuation.
+This uses a five-second fixture policy without changing factory 24-hour identity
+or terms. P084-014/015 remain in progress; signed Gate A/B, remaining fault/load
+and new-profile carrier privacy cases are still missing. No production adoption
+or historical evidence renewal follows. Exact source/reader pins, paired controls
+and scoped retention review are in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-EXPIRY-CAMPAIGN-20261106.md`.
+
+### Issuer authority continuation (2026-11-06)
+
+Strict encrypted-media and native provider checks are prerequisites, not Gate
+A/B. Three separately approved one-shot attempts respectively missed the fixed
+start cutoff, refused an unadmitted AD outbound scope, and reached full request
+v2 before D refused consent. No terminal certificate, decision export or signed
+Whisper was observed. The corrected shared path requires a separately
+root-approved `nym-bootstrap-consent-v2`; original signed v1 grants retain their
+four-family scope. Component/schema tests cover the separation, while a new
+ordinary exchange and the signed two-backend campaign remain open.
+
+The earlier 18/131 result retains its historical source pins. New runtime/schema
+bytes require fresh native/source campaign admission, not an implicit bridge or
+repin. Existing P084-014/015 and P078-015/016 status stays in progress; no
+production adoption follows. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ISSUER-AUTHORITY-20261106.md`.
+
+### First ordinary v3 certificate checkpoint (2026-11-06)
+
+A fresh ordinary encrypted-owner fixture has issued a v3 certificate over all
+four exact TLS/AD phases using separately signed bootstrap-v2 authority.
+Independent native inspection verifies `A/issue` and `A/reference-readback`.
+Together with fresh same-source R/C/W7/native inputs, the campaign is now
+20/131 verified with 111 missing; ordinary/optimized results agree. Original
+reports/refusals remain preserved, with process inventory added only in a
+separately bound derived view. No Whisper was signed or published.
+
+A separate 128 MiB capacity observation stopped after 2479 retains with an
+untyped host cause; a complete DB/WAL copy passes integrity checks. It grants
+no load/recovery credit. Full signed SQLite/Synapse, all-producer window-end,
+recipient/privacy and remaining load/fault qualification remains open. Existing
+P084/P078 and dependent owner trackers stay in progress. This does not adopt
+production or renew historical evidence. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-ISSUANCE-20261106.md`.
+
+### Local reviewed-v3 producer preparation (2026-11-06)
+
+The current UI fixture selects the applicant's local review/custody owner for
+first v3 publication; receiving C remains a separate carrier/admission claim.
+The inspector rejects a remote-owner process topology. Inline v2 keeps its
+historical topology. Three actual applicants retain mixed reviews after exactly
+three explicit controlled fetches and paused schedules. A separate 4096-claim
+saturation/reopen observation is not campaign load qualification. None of this
+adds to the source-bound 20/131 checkpoint or completes signed Gate A/B. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-LOCAL-PRODUCER-PREPARATION-20261106.md`.
+
+### Ordinary UI continuation refusal (2026-11-06)
+
+A later approved SQLite series issued A's v3 certificate and retained its two
+exact recovery exports, then stopped on a capture-tool `UnboundLocalError` after
+the first UI form. B/A2 did not start and no Whisper was signed or published.
+Node corrected the local name shadowing and added complete doubled v2/v3 UI
+orchestration regressions on both backends; 516 Python and 21 optimized UI tests
+pass. The original runtime refusal remains preserved and adds no campaign credit.
+Fresh corrected-source UI, common receiver and full A/B qualification remain open.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-UI-REFUSAL-20261106.md`.
+
+
+### Scoped ordinary SQLite publication and stopped series (2026-11-06)
+
+The next clean-source fixture completed A through AD certification, reviewed UI,
+restart/locked-sign refusal, protected v3 signing and a signed SQLite publication
+receipt/public readback. Independent inspection credits four exact requirements.
+The source-bound aggregate is 16/131 with 115 missing; its fresh C domain command
+failed and earns no six-row credit. B arrived before request expiry but was
+refused during later owner validation; A2 did not start. The once-selected series
+stopped without retry or deadline extension. Historical 18/131 and 20/131 reports
+retain their distinct source bindings. Full A/B, shared receiver, Matrix, remote
+privacy and remaining window/load/fault qualification stay open.
+
+A deterministic provider-lock regression separately demonstrates an incidental
+descriptor prolonging a dropped owner. Explicit RAII unlock preserves replacement
+exclusion; fresh clean-source qualification is required after this Rust change.
+This does not establish the unique cause of the original parallel C failure.
+See `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-PUBLICATION-20261106.md`
+for exact inputs, original refusals, canary scope and retained-evidence boundaries.
+
+
+### Two verified local publishers; replica recipe correction (2026-11-06)
+
+The next source-bound fixture independently verifies A and B through actual
+reviewed v3 signing, local SQLite publication and signed receipts. Fresh component,
+review, expiry and native AD inputs plus four distinct runtime predicates yield
+22/131 verified, 109 missing. Both publishers satisfy the same four predicates;
+credit is not doubled. A2's second `issue` for participant A receives typed
+`policy-denied` and stops the series before decision export. A positive replica
+must use `renew` bound to A's verified predecessor in the same profile/context.
+An ended profile window cannot be extended or replaced while retaining context.
+
+A separately versioned one-based epoch selector corrects the read adapter from
+pinned profile/window law. The original refusal and all runtime bytes remain
+unchanged; same-certificate negative/positive isolation confirms the selector.
+No threshold, common receiver, replica-renewal, Matrix, full A/B or production
+claim follows. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-TWO-PUBLISHERS-20261106.md`.
+
+
+### Independent reviewed-v3 Matrix receiver preparation (2026-11-06)
+
+Owned Synapse preparation observes healthy admitted A/B producer instances and a
+separate C receiver, with existing local instances and signer defaults preserved.
+It performs no certification, recovery export or Whisper publication. The shared
+first-pair reader now binds each reviewed-v3 producer's custody/publication
+process independently of the original C/D projection continuation. Both producers
+must use the same issuer D; C must differ from each producer and from D. Inline
+v2 bindings and all native complete-basis, first-pair, public-readback and expiry
+requirements remain unchanged. Mixed-version and substitution tests do not award
+runtime credit. Matrix, common-receiver/threshold and full A/B qualification stay
+open; the preceding source-bound two-publisher report is unchanged.
+
+
+### First reviewed Matrix publication and status-cache withdrawal (2026-11-06)
+
+The source-bound Sensorium fixture independently verifies A's private AD
+certificate, reviewed protected v3 UI signing and Matrix HTTP 202/public readback.
+Its separately pinned campaign reaches 21/131, with 110 missing and identical
+ordinary/optimized results. B fails startup before export: status-cache compaction
+requires a formerly adopted profile absent from current configuration. C is
+reaped; no common-receiver, threshold, complete-PDU or full A/B credit follows.
+The earlier SQLite 22/131 retains its separate source and result.
+
+The owner correction validates retained canonical bytes, digest and source links
+before withholding unadopted status. It preserves facts and existing budgets,
+refuses current use without adoption and restores signature/cursor verification
+only on exact readoption. Other adopted profiles can operate and missing
+projections can rebuild; corruption remains a refusal. Component regressions
+pass and the next v3 conformance selection requires both withdrawal/corruption
+assertions. Fresh current-source native/runtime and Matrix qualification remain
+open; no historical gate or production adoption is renewed. See
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-FIRST-MATRIX-PUBLICATION-20261106.md`
+and `node:daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md`.
+
+
+### Scoped reviewed-v3 Matrix first pair (2026-11-07)
+
+A/B ordinary reviewed v3 publication, independent C/D S020 first pair and
+post-expiry evaluation now have original-source qualification, including separate
+read-only `/sync` and all four complete room-v10 PDUs. Two copies of one 507-byte
+fixture article count two participant sources without a corroboration assertion.
+Five canaries are absent from the selected public/native corpus; complete gossip
+and P082 direct-peer/Room privacy are not inferred. P084-014/015 remain in progress.
+
+The independently composed campaign verifies **25/131**, with **106 missing**,
+and identical ordinary/optimized incomplete results. Runtime/capture Node
+`985964ee83` / Orbidocs `2b5ea4fd` and corrected reader Node `d83a9a0f` remain
+separately pinned. Both original reader refusals and every source observation are
+preserved; no certification/publication retry, production adoption or historical
+gate renewal follows. Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-MATRIX-FIRST-PAIR-20261107.md`.
+
+### Later 2026-11-07 fixture replica/window checkpoint
+
+The source-bound campaign now verifies **29/131**, with **102 missing**, identically
+in ordinary and optimized readers. Exact-predecessor A2 renewal on a distinct
+registered node of A's participant retains one source and no first emission at
+independent C. A newly started C reads the same signed records after the single
+aligned window ends. Runtime `985964ee83` / `2b5ea4fd`, capture `845bf6f7` /
+`ca9b73c9` and window reader `fb4301fb` remain separate pins. Earlier source-bound
+reports and the original four-PDU scope remain unchanged.
+
+This adds two replica/source-count and two window/history obligations. It does
+not qualify certificate-at-boundary, all-producer end refusal, old-node v2 cutoff,
+complete public/P082 direct-peer/Room/gossip privacy or full Gate A/B. Production
+is not adopted. The remaining fixture matrix and existing parent trackers stay
+open; another profile digest does not automatically preserve source continuity.
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-REPLICA-WINDOW-20261107.md`.
+
+### Later 2026-11-07 SQLite/late-receipt checkpoint
+
+The SQLite/late-receipt fixture checkpoint verifies **32/131**, with **99 missing**,
+identically in ordinary and optimized readers. One reviewed Harvester v3 owner
+completed protected UI preview/sign across restart, SQLite publication (201) and
+a signed receipt. A new SDK receiving store first admitted the exact original
+author bytes/receipt after certificate expiry plus skew, using the real clock,
+and retained its facts across close/reopen. This is not an HTTP import, common
+SQLite threshold/room proof, second publication or full Gate A/B.
+
+Runtime `985964ee83` / `2b5ea4fd`, capture `fe7c595e` / `65a4b8a3`, receiver
+build `2995a9f7` and final reader `ba4a235b` stay separate. All previous29
+original predicates reverify. The earlier wrong-backend runtime refusal,
+unattempted late SDK, incomplete reader and empty-stderr campaign refusal remain
+preserved; corrections use new cases or read-only views, without retrying an
+uncertain publication. Backend readiness now precedes certification. The bounded
+thirteen-root retention review leaves all217 exact-copy candidates blocked;
+no retirement action or production adoption occurred. Parent trackers and the
+remaining99 obligations stay open, including all-producer end refusal, boundary/
+old-node-v2 cutoff and full P082/gossip privacy.
+
+Current implementation evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-SQLITE-LATE-RECEIPT-20261107.md`.
+
+### Native owner-policy checkpoint (2026-11-07)
+
+The native policy checkpoint verifies **37/131**, with **94 missing**,
+identically in ordinary and optimized readers, exit 2. All previous32 original
+predicates reverify. Five native AD/P091 obligations add inactive/complete
+adoption, editorial versus normative factory identity, separate ceiling refusal
+and unchanged old claim terms. Eleven actual system-clock stages include restored
+controls and owner reopen; three coherently rehashed scratch substitutions each
+refuse and restore the original positive.
+
+Native build `190552c41`, capture `a8933630` and final reader `714e0bc10` remain
+separate from existing runtime `985964ee83` / normative `2b5ea4fd`. Original
+rehearsals, cold-WAL collector refusal and hold-field reader refusal remain
+preserved; the successful runtime was not repeated for reader correction.
+Full gates and production adoption remain open, and parent statuses are unchanged.
+
+The 24-hour default is exercised on a synthetic native retain; this does not
+close the separately required fetch-to-retain horizon or P082 privacy rows.
+Policy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-POLICY-20261107.md`.
+
+### Native claim and transfer checkpoint (2026-11-07)
+
+The native claim checkpoint verifies **41/131**, with **90 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous37 original
+predicates reverify. Four native AD obligations add same-key parameter conflict,
+overlapping concurrent retain and lost-response reopen/retry, atomic transfer/
+claim/first-result commit, and explicit live extension with real expiry controls.
+Four coherently rehashed scratch substitutions each refuse with a restored
+original positive. The native build/capture `069e95bbd` and corrected reader
+`b7d0d6fc8` stay separate from unchanged runtime `985964ee83` / normative
+`2b5ea4fd`; the original reader expiry-model refusal remains preserved.
+
+The transfer is owned and committed by AD. This does not close HTTP
+fetch-to-retain, source scheduling or the 24-hour fetch horizon.
+Full gates and production adoption remain open; parent statuses are unchanged.
+Claim checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-CLAIMS-20261107.md`.
+
+### Native legacy checkpoint (2026-11-07)
+
+The native legacy checkpoint verified **43/131**, with **88 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous41
+predicates reverify. Two native AD rows add digest collision/monotonic interest
+through ordinary release, actual expiry/sweep and unadopted reopen, plus explicit
+native operator-method release with a withdrawn admission witness. Same-object,
+managed-only GC and healthy controls establish the causes; four rehashed scratch
+substitutions each refuse and restore the original. Native build/capture/reader
+`6fcf49a3d` / `35c23a9c` remains separate from runtime `985964ee83` / normative
+`2b5ea4fd`. Both pre-effect preparation refusals remain preserved.
+
+No HTTP observation, fetch horizon or source-journal/304 qualification is
+inferred from the synthetic legacy object.
+Full gates and production remain open; parent statuses are unchanged.
+Legacy checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-NATIVE-LEGACY-20261107.md`.
+
+### Original bytes and explicit revalidation checkpoint (2026-11-07)
+
+At this original-byte checkpoint the campaign verified **48/131**, with **83 missing**,
+identically in ordinary and optimized readers (incomplete, exit 2). All previous 43
+cases reverify. Five composed predicates cover exact original transfer/inline
+representation custody, actual gzip and typed ISO-8859-2 refusal without handoff,
+original-preserved extractor omissions, acquisition horizons and three explicit 304
+through delayed review, restart and replay. Two owners are reaped; no unsolicited
+fetch or renewed claim occurs. Six coherently rehashed controls per mode each
+refuse then restore original positives. 73 Python tests per mode pass.
+
+Capture `dade45982` and corrected reader `945a2bf9c` / Orbidocs `e37021ad` remain
+separate from the pinned runtime `985964ee83` / normative `2b5ea4fd`. The original
+capture runs once; three reader precondition refusals remain preserved. No
+production Rust, schema or capability contract changed. Ten-root catalog/dry-run
+review records 158 selected files/6264441 bytes, seven exact duplicate-output
+candidates 1767461 bytes and zero eligible. Active 48 evidence/authority remains
+protected; no retained deletion/move/retirement authorization/execution occurred.
+
+The current 512 KiB static cap is unchanged; a 384 KiB omission payload cannot satisfy the separate >2 MiB original obligation. Raw charset refusal is not an admitted handoff.
+Full gates and production remain open; parent statuses are unchanged.
+Original-byte checkpoint evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGINAL-BYTES-20261107.md`.
+
+### Finding origin and adopted monitoring checkpoint (2026-11-07)
+
+The original-input campaign verifies **51/131**, with **80 missing**, identically
+in ordinary and optimized readers (incomplete, exit 2). All previous 48 cases
+reverify. Three new rows cover all nine canonical finding-class mappings,
+non-web Sensorium/mixed material, and collection bound to an adopted configuration
+after its real 60-second interval. Thirteen immutable reviews replay across an
+actual owner restart, with two web snapshots and four exact custody refs.
+Scalar metadata cannot create web, monitoring or model lineage. These synthetic
+operator-inline finding classes imply no mail/filesystem/device acquisition or
+signed author-class reception. Scheduler is disabled; due execution is explicit.
+
+Collector/reader `bfb0d90b0` / Orbidocs `f2abbe21` remain separate from runtime
+`985964ee83` / normative `2b5ea4fd`. Six coherently rehashed controls per mode
+refuse, each followed by a restored-original positive; 82 Python tests per mode
+pass. The original capture is unchanged and runs once. Six-root catalog/dry-run
+review records 138 selected files/4863454 bytes, three duplicate-output candidates
+1294585 bytes and zero eligible. Active qualification and authority dependencies
+remain protected; no retained deletion/move/retirement authorization/execution.
+These numbers are run observations, not contract thresholds.
+
+Full processing/inference provenance, signed v2 absence versus v3 unknown,
+author-class reception, mixed authorship holds, clock/load/fault, all-producer
+window/cutoff, P082/gossip privacy and full two-backend gates remain open. Parent
+statuses and production adoption are unchanged.
+Current measured evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORIGIN-MONITORING-20261107.md`.
+
+### Participant observation integration tracker — 2026-11-06
+
+These tasks expose existing admitted representations through P082; they do not
+convert operator source management or the operator P084-012c review route into a
+participant surface. Refresh/fetch, observation, finite custody, reviewed draft
+handoff and publication remain separate decisions. The participant reviewed
+handoff belongs to P078-017/018 and P013-PA-001/002; original custody remains
+P084-014. A supported snapshot version must be selected explicitly on both sides.
+P084-016 may freeze against accepted P082 delivery semantics in parallel with
+P082-023; P084-017 checks the actual source/carrier contract pair at runtime.
+
+| ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P084-016 | todo | P024-009; P084-006; P084-008; accepted P082 delivery and original-custody contracts | Freeze participant-safe Web source/snapshot/status DTOs: exact schema/profile, source generation, snapshot/representation identity, classification, retained availability/deadline and typed supersession/refusal. Separate not-started admission refusal from an existing terminal operation and HTTP transport status. No signed URL/query credential or host-private source metadata enters the UI contract. Pin current legacy and planned finite-original version mappings with unsupported-version refusal; a planned mapping grants no runtime support. | P084-017; optional P098-025 |
+| P084-017 | todo | P084-016; P082-024; P084-008 | Deliver participant-authorized read-only snapshot/status mapping for explicitly supported existing representation profiles. Recheck exact source generation before cache/availability fallback; no GET, lease reconnect or expired material causes fetch/retain/publication. Prove current source/profile/custody refusals, no acquisition counters changed and private-source canaries absent. Finite-original-backed promotion additionally needs P084-014 and P078-018; ordinary admitted observation does not wait for those paths. | P098-025 |
+
+
+### Exact SQLite renew and bounded window review (2026-11-07)
+
+Independent ordinary/optimized readers on runtime `653eac2b` / Orbidocs
+`be10c3bc` verify A2 exact-predecessor renew, the completed A/A2 C/D same-source
+group and 21 actual post-window refusals across A/A2/B and v2/v3, with native
+signed inputs, positive controls and historical readback. The prepare descriptor
+remains valid beyond window end. The later A/B S020 launch refusal and a fresh A
+status-refresh owner failure remain unresolved; the original parent campaigns
+stay refused. Closed host diagnostics preserve safe causes without new retries
+or authority. No complete A/B post-certificate-expiry claim or full current-source
+campaign credit follows. Historical 51/131 belongs to its original runtime;
+parent trackers and production adoption remain open. Scoped implementation review:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-WINDOW-20261107.md`.
+
+### Post-issue S020 fixture checkpoint (2026-11-07)
+
+An ordinary private-AD issue followed by four actual S020 freshness cycles passes
+independent ordinary/optimized signature and exact-launch readers on runtime
+`aa36c538` / capture `d028ac8b` / Orbidocs `79240ab8`. This diagnostic adds no
+registered rows. A separate runtime `653eac2b` aggregate re-executes 6/131, with
+125 missing; it must not be added to the historical 51/131 on another runtime.
+The original shutdown/wait refusals remain preserved. Complete A/B independent
+C/D post-certificate-expiry continuation, full Gate A/B and production adoption
+remain open. Details and retention limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-S020-CHECKPOINT-20261107.md`.
+
+
+### Ordinary renewal/window continuation (2026-11-07)
+
+Node runtime/capture `b8c45e5dd` with Orbidocs `8588f942` independently verifies
+A issue, exact predecessor-bound A2 renew and both reviewed-v3 SQLite publications
+(201). Fourteen separate A/A2 v2/v3 end-window refusals and four signed unpublished
+controls pass native inspection; protected historical reads remain available.
+The whole R35 campaign stays refused: B's final request records twelve
+`nym-issuer-busy` refusals then expiry, and a separate C/D attempt stops at C's
+`nym-status-refresh-unavailable` after a successful issuer launch. No complete
+receiver/expiry contribution, full Gate A/B or production claim follows.
+Follow-up bounded phase/timing diagnostics and source-readiness waiting preserve
+policy and wire errors;
+they have no fresh runtime qualification. Exact sources, retained failures and
+retention limits: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-ORDINARY-COHORT-20261107.md`.
+
+
+### Receiver and closed-window checkpoint (2026-11-07)
+
+Node runtime/capture `78911310` and Orbidocs `7a3a3b4f` independently re-execute
+7/131 requirements (124 missing), identically with ordinary and optimized readers.
+A issue, exact predecessor-bound A2 renew and B issue each publish reviewed v3
+through the ordinary SQLite UI. C verifies one source across A/A2; actual A/B
+reception produces a threshold and Room proposal after correcting the fixture's
+effective exact consumer list. Operator status access is a separate authority
+boundary from a supervised module's live channel.
+
+The original R37 parent refuses during post-certificate-expiry S020 polling:
+the selected D job is interrupted after 17231 ms against 9999 ms; its refresh
+takes 14313 ms. This is not complete contribution-after-expiry qualification.
+Separate 21 all-producer v2/v3 end-window refusals and a before-end-adopted,
+after-end four-record C read pass native ordinary/optimized inspection. No failed
+parent is relabelled, no historical runtime counts are added, and full Gates A/B
+and production adoption remain open. A follow-up removes duplicate constructor
+recovery in the existing single slot, preserving profile, capacity and media
+guards; its native qualification remains open. Exact identities and limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RECEPTION-WINDOW-20261107.md`.
+
+
+### Exact-renew readiness checkpoint (2026-11-08)
+
+The runtime056 R38 parent remains refused: A publishes reviewed v3, while A2's
+exact renew records busy admission followed by original-request expiry. No
+complete C/D or post-certificate-expiry contribution follows. A Python fixture
+prerequisite now binds A's actual predecessor and observes fresh S020 status
+before preparing A2, without changing a prepared deadline or any owner lease.
+All 566 regressions and six focused normal/optimized controls pass; native
+qualification of this orchestration change is still open. The independent
+runtime789 seven-of-131 subset is not transferred to a new source. Exact scope:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-READINESS-20261108.md`.
+
+
+### Paused qualification checkpoint (2026-11-08)
+
+R39 independently verifies 9/131 (122 missing) on retained runtime056 and
+capture8b07, identically with ordinary/optimized readers. Exact A2 renew,
+same-source and independent A/B reception, ordinary UI/receipts, all-producer
+window refusals and historical C read pass. The complete post-certificate-expiry
+proof correctly refuses: outer S020 success contains no-work and the retained
+evaluation is stale. Unchanged public records do not establish that subclaim.
+Work is paused at the owner's request; no new window or production adoption.
+The original runtime and reader results remain unchanged. Resume basis:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+### Fresh expiry checkpoint (2026-11-12)
+
+R47 on runtime/capture Node `aa580ab20` and Orbidocs `c4ef2611` independently
+verifies **10/131**, with 121 unverified rows and identical
+ordinary/optimized campaign results, in the aligned fixture window
+2026-11-12 16:40–16:50 UTC.
+Exact A2 renew uses fresh predecessor status through S020. Independent receiver
+C verifies one-source A/A2, two-source A/B and a fresh persisted evaluation after
+certificate expiry plus adopted skew; D supplies source-owner status. End-window
+refusals and historical read pass. S020 success or `no-work` alone is insufficient.
+
+Historical refusals remain unchanged. Full Gates A/B, the milestone and production
+adoption remain open; counts from different source campaigns are not added.
+Measured scope, review corrections, original bindings and retention limits:
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-AND-EXPIRY-20261112.md`.
+
+### Implementation convergence review (2026-11-12)
+
+Earlier F-01–F-03/F-05/Q-01 dispositions and exact implementation commits are
+recorded in the Node review linked below. The F-04/F-06–F-10 review preserves source/interface/custody authority while
+sharing compatible mechanics. Its component regressions do not requalify R47 or
+advance runtime requirement counts. Current scope and intentional separations:
+`node:docs/audits/SENSORIUM-REUSE-EXTRACTIONS-2026-11-12.md`.
+
+Deferred F-11: consolidate the Sensorium acceptance runners, custody harness and
+byte/hash helpers together with a fresh campaign and its new exact tool pins.
+Include explicit `CARGO_INCREMENTAL=0` in every Cargo runner. Preserve historical
+inputs, qualifiers and reports; no mechanical refactor transfers their qualification.
+A generic deferred-worker shell also remains deferred until a third actual consumer.
+
+The U-01–U-13 follow-up corrects deferred chronological cursors, truthful VMM
+quarantine accounting, explicit latest-state reference whitespace and shared
+Python test coverage. It records the legacy byte-versus-scalar DTO restriction as
+implementation debt, without narrowing source wire schemas or renewing campaign
+pins. Source review and remaining human index review:
+`node:docs/audits/SENSORIUM-REUSE-REVIEW-U01-U13-2026-11-12.md`.

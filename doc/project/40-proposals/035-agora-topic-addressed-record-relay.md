@@ -2768,7 +2768,10 @@ alone does not mark P035-007 or P035-010 done.
 
 ## Producer Delivery Through Artifact Delivery
 
-Planned continuation (2026-10-11), not a reopening of the completed relay MVP.
+Originally planned as a post-MVP continuation on 2026-10-11. On 2026-11-04 the
+operator promoted **P035-001, P035-002 and P035-003** to mandatory Node hard-MVP
+completion conditions and therefore blockers for `alpha-node`. This promotion
+does not reopen the completed relay baseline or include other P035 continuations.
 Node-owned producers should submit already signed `agora-record.v1` artifacts
 through [S023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
 and its existing `agora-default` adapter. This includes P026 authoring, P067
@@ -2805,9 +2808,13 @@ require INAC, and private artifacts must never acquire a public fallback.
 
 ### Delivery Integration Tracker
 
-All rows are post-MVP `todo`; `done` requires retained Node runtime evidence and
-reconciliation of its implementation ledger and any affected MVP scope. S008
-links here rather than maintaining duplicate task status.
+All three rows remain `todo` and are mandatory hard-MVP and `alpha-node` blockers.
+Hard MVP cannot be complete until all three are `done`, including the local and
+remote runtime acceptance in P035-003. Completion requires retained Node runtime
+evidence and reconciliation of `docs/MVP.md`, the
+`agora-producer-delivery-integration` ledger row and the release profile. Existing
+S023 adapter or relay baseline completion does not satisfy this gate. S008 links
+here rather than maintaining duplicate task status.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
@@ -2862,11 +2869,19 @@ Planned continuation for
 [P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 `relay/received-at` is relay metadata outside the author's signature, so it
 cannot by itself show when a record was admitted, or that its nym proof was
-valid then. P015's earlier SQLite time-policy draft had no runtime producer.
-The unreleased `agora-publication-receipt.local.v1` is retired; its time-only
-claim cannot satisfy historical admission. The new immutable profile explicitly
-selects `witnessed-admission-receipt-v1`. The old SQLite policy returns
-`unsupported-time-policy`, without reinterpreting its signed meaning.
+valid then. The phase-1 `agora-publication-receipt.local.v1` records an
+admitted relay's signed clock fact over exact author bytes. It remains the input
+of the independently qualified signal-only v1 profile; it cannot satisfy
+portable historical admission. The v2 profile explicitly selects
+`witnessed-admission-receipt-v1` and its consumer rejects the old time policy
+rather than reinterpreting its signed meaning.
+
+Integration reconciliation (2026-11-04): the parallel P035-019 implementation
+has already qualified `agora-admission-receipt.v1`. Preserve that canonical name,
+its exact schemas and historical evidence. The earlier suggested rename to
+`agora-publication-receipt.v1` is superseded by this integration decision.
+These are distinct time-only and admission assertions, not two aliases for
+one fact. The local receipt is not exported as a portable admission proof.
 
 `agora-admission-receipt.v1`, signed by the admitting relay, binds:
 
@@ -3138,7 +3153,7 @@ LLR-003, ADC runtime, P041 historical ingest and release readiness stay separate
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | done | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The unreleased local SQLite receipt is retired in favor of this contract; its old profile policy is not silently reinterpreted. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
+| P035-019 | Portable admission receipts | done | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The independent phase-1 SQLite clock receipt remains `agora-publication-receipt.local.v1`; this portable admission contract binds additional v2 evidence and never silently reinterprets the v1 time policy. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 
@@ -3228,3 +3243,20 @@ network plus adapter counters are required, with the actual mechanism and its
 negative probe recorded (including deprecated sandbox-exec when used). V2
 certificate generation remains synthetic pending P015-005, even when status and
 closure producers are real. Preserve independent source pins and gate outcomes.
+
+### Reviewed Harvester v3 publication continuation (2026-11-05)
+
+The Sensorium Web milestone adds protected host preview/sign v2 and fresh
+producer custody checks immediately before first local v3 publication. SQLite
+rechecks its document deadline inside the owner transaction; Matrix checks the
+exact retained review and holds before staging and again before sending, then
+rechecks the original deadline. Existing retry, unknown outcome and historical
+read rules remain effective. No prepared custody token crosses the channel.
+
+Receivers implement all current author classes for v3 independently of the
+milestone producer restriction to derived-local. The public-gossip projection
+uses the P013 `whisper-origin-lineage.v1` preservation law and versioned v2
+content, retaining legacy absence separately from declared unknown. This adds no
+origin input to source thresholds. Full fixture A/B on SQLite and the unmodified
+pinned Synapse profile, including the aligned window end, remains a separate
+qualification gate. Production adoption and federation readiness are not implied.

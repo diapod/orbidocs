@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-relay-header:v1",
+  "title": "artifact-delivery-relay-header.v1",
+  "description": "JCS header of a binary bounded single-relay transport packet. Only forward names a configured circuit. Delivered carries no origin/route identity. Ciphertext is opaque and no sender domain authority is implied.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "direction",
+    "return/handle",
+    "family",
+    "issued/at",
+    "expires/at",
+    "payload/size"
+  ],
+  "properties": {
+    "schema": {
+      "const": "artifact-delivery-relay-header.v1"
+    },
+    "direction": {
+      "enum": [
+        "forward",
+        "return",
+        "delivered"
+      ]
+    },
+    "circuit/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "maxLength": 43
+    },
+    "return/handle": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "maxLength": 43
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z0-9.-]+$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time",
+      "minLength": 30,
+      "maxLength": 30
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time",
+      "minLength": 30,
+      "maxLength": 30
+    },
+    "payload/size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5241831
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "direction": {
+            "const": "forward"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "circuit/id"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "circuit/id"
+          ]
+        }
+      }
+    }
+  ],
+  "x-dia-maximum-canonical-bytes": 443
+}

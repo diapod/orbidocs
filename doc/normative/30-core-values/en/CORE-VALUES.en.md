@@ -1120,6 +1120,16 @@ The goal is not to intimidate participants, but to maintain a living contact bet
 action and consequence. That contact naturally vanishes in complex systems when the
 architecture permits it.
 
+Distributed social memory helps preserve the connection between actions, people
+acting in particular roles and the consequences of their decisions, including after a
+change of position or institution. Bringing together accounts, opinions, sources,
+responses and corrections can help participants make informed decisions about
+whom to trust and in what scope. This memory encompasses both harms and unfulfilled
+commitments, as well as responsible conduct, repair and the rebuilding of trust.
+
+**Remembering actions sustains accountability; the decision to trust remains with
+the person.**
+
 ## Epistemics and Collective Intelligence
 
 ### Grounding in Reality

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import shutil
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 
 
@@ -13,6 +14,8 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
+    "whisper-case-continuation-decision.local.v1.schema.json",
+    "whisper-pex-key-offer.v1.schema.json",
     "nym-exchange-key-request.v1.schema.json",
     "nym-bootstrap-recipient.v1.schema.json",
     "nym-key-request-sealed.v1.schema.json",
@@ -53,6 +56,75 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    # Explicit P084 custody/origin-v3 canonical mirrors.
+    "artifact-custody-configuration.local.v1.schema.json",
+    "artifact-custody-policy.v1.schema.json",
+    "artifact-delivery-extend-result.v1.schema.json",
+    "artifact-delivery-retain-request.v2.schema.json",
+    "artifact-delivery-retain-result.v2.schema.json",
+    "bounded-http-fetch-capture-read-request.v1.schema.json",
+    "bounded-http-fetch-capture-read-result.v1.schema.json",
+    "bounded-http-fetch-request.v2.schema.json",
+    "bounded-http-fetch-result.v2.schema.json",
+    "nym-authorship-preview.local.v2.schema.json",
+    "nym-authorship-readback-response.local.v1.schema.json",
+    "nym-authorship-readback.local.v2.schema.json",
+    "nym-authorship-readback.local.v3.schema.json",
+    "nym-authorship-sign.local.v2.schema.json",
+    "nym-exchange-sealed.v2.schema.json",
+    "nym-issuance-decision-sealed.v2.schema.json",
+    "nym-issuance-decision.v2.schema.json",
+    "nym-issuance-delivery-response.local.v1.schema.json",
+    "nym-issuance-delivery.local.v2.schema.json",
+    "nym-issuance-readback-response.local.v1.schema.json",
+    "nym-issuance-readback.local.v2.schema.json",
+    "nym-issuance-reply-offer-request.local.v1.schema.json",
+    "nym-issuance-reply-offer.local.v2.schema.json",
+    "nym-issuance-request-sealed.v2.schema.json",
+    "nym-issuance-request.v2.schema.json",
+    "nym-issuer-consent-request.local.v1.schema.json",
+    "nym-issuer-consent.local.v2.schema.json",
+    "nym-source-status-acquire-request.local.v1.schema.json",
+    "nym-source-status-acquire.local.v2.schema.json",
+    "public-gossip-promotion.local.v2.schema.json",
+    "public-gossip.v2.schema.json",
+    "sensorium-web-document-snapshot.v2.schema.json",
+    "sensorium-web-durable-source.v2.schema.json",
+    "sensorium-web-latest-response.v1.schema.json",
+    "sensorium-web-latest-state.v2.schema.json",
+    "weak-signal-custody-extend.local.v1.schema.json",
+    "weak-signal-original-read.local.v1.schema.json",
+    "weak-signal-original-result.local.v1.schema.json",
+    "weak-signal-review-request.local.v1.schema.json",
+    "weak-signal-review-result.local.v1.schema.json",
+    "weak-signal-review.v1.schema.json",
+    "weak-signal-whisper-draft.local.v2.schema.json",
+    "whisper-origin-lineage.v1.schema.json",
+    "whisper-origin.v1.schema.json",
+    "whisper-reviewed-publication-check.local.v1.schema.json",
+    "whisper-reviewed-publication-result.local.v1.schema.json",
+    "whisper-signal-draft.local.v2.schema.json",
+    "whisper-signal.v3.schema.json",
+    "whisper-source-certificate.v3.schema.json",
+    "whisper-source-profile.v3.schema.json",
+    "artifact-delivery-relay-header.v1.schema.json",
+    "whisper-case-status-request.v1.schema.json",
+    "whisper-case-result.v1.schema.json",
+    "whisper-case-command.v1.schema.json",
+    "whisper-case-workflow-request.local.v1.schema.json",
+    "whisper-case-workflow-result.local.v1.schema.json",
+    "whisper-case-registration.v1.schema.json",
+    "whisper-case-closure.v1.schema.json",
+    "whisper-case-acceptance.v1.schema.json",
+    "whisper-case-status.v1.schema.json",
+    "whisper-case-succession-presentation.v1.schema.json",
+    "whisper-private-exchange-header.v2.schema.json",
+    "whisper-pex-key-offer.v1.schema.json",
+    "whisper-case-authority-policy.v1.schema.json",
+    "whisper-case-authorities.local.v1.schema.json",
+    "nym-source-status-acquire.local.v1.schema.json",
+    "nym-source-status-result.local.v1.schema.json",
+    "whisper-contextual-source-view.local.v1.schema.json",
     "whisper-signal-draft.local.v1.schema.json",
     "nym-authorship-preview.local.v1.schema.json",
     "nym-authorship-sign.local.v1.schema.json",
@@ -71,6 +143,10 @@ SCHEMA_WHITELIST = (
     "association-room-proposal.v2.schema.json",
     "nym-issuance-prepare.local.v1.schema.json",
     "nym-issuance-operation.local.v1.schema.json",
+    "nym-renewal-approval.local.v1.schema.json",
+    "nym-renewal-operation.local.v1.schema.json",
+    "nym-renewal-revoke.local.v1.schema.json",
+    "nym-renewal-readback.local.v1.schema.json",
     "nym-issuance-send.local.v1.schema.json",
     "nym-issuance-reply-offer.local.v1.schema.json",
     "nym-issuance-consent.local.v1.schema.json",
@@ -101,6 +177,9 @@ SCHEMA_WHITELIST = (
     "nym-issuance-decision.v1.schema.json",
     "nym-source-status.v1.schema.json",
     "nym-exchange-sealed.v1.schema.json",
+    "nym-case-key-operation.local.v1.schema.json",
+    "nym-case-key-state.local.v1.schema.json",
+    "nym-case-key-provider.local.v1.schema.json",
 
     "agent.supplied-input-manifest.v3.schema.json",
     "agent.outcome.v4.schema.json",
@@ -771,12 +850,52 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "exposed.nym-case-key-state.local.v1.json",
+    "abandon.nym-case-key-operation.local.v1.json",
+    "list-exposed.nym-case-key-operation.local.v1.json",
+    "whisper-case-continuation-decision.local.v1.json",
+    "artifact-delivery-relay-header.v1.json",
+    "whisper-case-status-request.v1.json",
+    "whisper-case-result.v1.json",
+    "whisper-case-command.v1.json",
+    "whisper-case-workflow-request.local.v1.json",
+    "prepare-authority-policy.whisper-case-workflow-request.local.v1.json",
+    "read-authority-policy.whisper-case-workflow-request.local.v1.json",
+    "authority-policy-pending.whisper-case-workflow-result.local.v1.json",
+    "authority-policy.whisper-case-workflow-result.local.v1.json",
+    "prepare-recipient-offer.whisper-case-workflow-request.local.v1.json",
+    "bind-recipient-offer.whisper-case-workflow-request.local.v1.json",
+    "prepare-protected-signal-offer.whisper-case-workflow-request.local.v1.json",
+    "recipient-offer.whisper-case-workflow-result.local.v1.json",
+    "whisper-case-workflow-result.local.v1.json",
+    "whisper-case-registration.v1.json",
+    "whisper-case-closure.v1.json",
+    "whisper-case-acceptance.v1.json",
+    "whisper-case-status.v1.json",
+    "whisper-case-succession-presentation.v1.json",
+    "whisper-private-exchange-header.v2.json",
+    "protected-signal.whisper-private-exchange-header.v2.json",
+    "shape.whisper-pex-key-offer.v1.json",
+    "shape.whisper-case-authority-policy.v1.json",
+    "shape.whisper-case-authorities.local.v1.json",
+    "case.nym-authorship-preview.local.v1.json",
+    "collect.nym-source-status-acquire.local.v1.json",
+    "pending.nym-source-status-result.local.v1.json",
+    "unknown.whisper-contextual-source-view.local.v1.json",
     "prepare.nym-issuance-prepare.local.v1.json",
     "pending.nym-issuance-readback.local.v1.json",
+    "operator.nym-renewal-approval.local.v1.json",
+    "operator.nym-renewal-operation.local.v1.json",
+    "operator.nym-renewal-revoke.local.v1.json",
+    "approved.nym-renewal-readback.local.v1.json",
+    "invalid/caller-actor.nym-renewal-approval.local.v1.json",
+    "invalid/zero-allowance.nym-renewal-approval.local.v1.json",
+    "invalid/missing-cas.nym-renewal-revoke.local.v1.json",
     "locked.nym-issuance-error.local.v1.json",
     "basic.inac-admission-status.query.json",
     "unknown.inac-admission-status.result.json",
     "production.whisper-source-profile.json",
+    "fixture.whisper-source-profile.json",
     "contextual.whisper-source-descriptor.json",
     "contextual.whisper-source-certificate.json",
     "initial.nym-issuance-request.json",
@@ -1161,6 +1280,7 @@ EXAMPLE_WHITELIST = (
     "extraction.artifact-acquisition-record.json",
     "staged.artifact-acquisition-record.json",
     "running.artifact-delivery-status.json",
+    "minimal.artifact-delivery-status.json",
     "basic.interaction-broker-watch.json",
     "file-exists.interaction-broker-wait.request.json",
     "satisfied.interaction-broker-wait.outcome.json",
@@ -1402,6 +1522,33 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "mixed-abandon.nym-case-key-operation.local.v1.json",
+    "payload-minimal.artifact-delivery-status.json",
+    "unknown-field.whisper-case-continuation-decision.local.v1.json",
+    "unknown-field.artifact-delivery-relay-header.v1.json",
+    "unknown-field.whisper-case-status-request.v1.json",
+    "unknown-field.whisper-case-result.v1.json",
+    "unknown-field.whisper-case-command.v1.json",
+    "unknown-field.whisper-case-workflow-request.local.v1.json",
+    "short-reply.whisper-case-workflow-request.local.v1.json",
+    "read-with-deadline.whisper-case-workflow-request.local.v1.json",
+    "policy-without-profile.whisper-case-workflow-request.local.v1.json",
+    "unknown-field.whisper-case-workflow-result.local.v1.json",
+    "unknown-field.whisper-case-registration.v1.json",
+    "unknown-field.whisper-case-closure.v1.json",
+    "unknown-field.whisper-case-acceptance.v1.json",
+    "unknown-field.whisper-case-status.v1.json",
+    "unknown-field.whisper-case-succession-presentation.v1.json",
+    "unknown-field.whisper-private-exchange-header.v2.json",
+    "protected-signal-with-reply.whisper-private-exchange-header.v2.json",
+    "pex-offer-wrong-purpose.whisper-pex-key-offer.v1.json",
+    "case-policy-extended-freshness.whisper-case-authority-policy.v1.json",
+    "missing-authority-policy.nym-authorship-preview.local.v1.json",
+    "duplicate-pins.whisper-case-authorities.local.v1.json",
+    "endpoint.nym-source-status-acquire.local.v1.json",
+    "null-purpose.nym-source-status-acquire.local.v1.json",
+    "missing-certificate.nym-source-status-acquire.local.v1.json",
+    "missing-status.nym-source-status-result.local.v1.json",
     "missing-refusal.inac-admission-status.result.json",
     "missing-admission-id.inac-admission-status.result.json",
     "wrong-label.agent-outcome.v4.json",
@@ -2144,35 +2291,84 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
 )
 
 
+def file_pairs(
+    files: tuple[str, ...],
+    source_dir: Path,
+    target_dir: Path,
+    target_names: dict[str, str] | None = None,
+) -> Iterator[tuple[Path, Path]]:
+    """Yield the declared mapping, including Node-specific filenames."""
+    for name in files:
+        yield source_dir / name, target_dir / (target_names or {}).get(name, name)
+
+
+def copy_pairs(pairs: Iterable[tuple[Path, Path]]) -> None:
+    for source, target in pairs:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+
+
 def copy_files(
     files: tuple[str, ...],
     source_dir: Path,
     target_dir: Path,
     target_names: dict[str, str] | None = None,
 ) -> None:
-    target_dir.mkdir(parents=True, exist_ok=True)
-    for name in files:
-        source = source_dir / name
-        target = target_dir / (target_names or {}).get(name, name)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
+    copy_pairs(file_pairs(files, source_dir, target_dir, target_names))
 
 
-def copy_shared_schemas(schema_target: Path) -> None:
-    shared_source = SCHEMAS_DIR / "_shared"
-    if not shared_source.exists():
-        return
-    shared_target = schema_target / "_shared"
-    shared_target.mkdir(parents=True, exist_ok=True)
-    for source in shared_source.rglob("*.json"):
-        relative = source.relative_to(shared_source)
-        target = shared_target / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
+def mirror_pairs(node_root: Path) -> Iterator[tuple[Path, Path]]:
+    """One source of destinations for both synchronization and read-only checks."""
+    contracts = node_root / "protocol" / "contracts"
+    for files, source, target, names in (
+        (SCHEMA_WHITELIST, SCHEMAS_DIR, contracts / "schemas", NODE_SCHEMA_FILENAMES),
+        (SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR,
+         node_root / "schema-gate/contracts/schemas/agora", None),
+        (MIDDLEWARE_SCHEMA_WHITELIST, SCHEMAS_DIR, node_root / "middleware/schemas", None),
+        (EXAMPLE_WHITELIST, EXAMPLES_DIR, contracts / "examples", None),
+        (INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, contracts / "examples/invalid", None),
+        (SEMANTIC_INVALID_EXAMPLE_WHITELIST, SEMANTIC_INVALID_EXAMPLES_DIR,
+         contracts / "examples/semantic-invalid", None),
+        (GOLDEN_WHITELIST, GOLDEN_DIR, contracts / "golden", None),
+    ):
+        yield from file_pairs(files, source, target, names)
+    shared = SCHEMAS_DIR / "_shared"
+    for source in sorted(shared.rglob("*.json")):
+        yield source, contracts / "schemas/_shared" / source.relative_to(shared)
+    yield (SCHEMAS_DIR / "registries/vendor-media-types.v1.json",
+           contracts / "vendor-media-types.v1.json")
+
+
+def check_mirrors(pairs: Iterable[tuple[Path, Path]], node_root: Path) -> int:
+    """Compare exact bytes without repairing files or creating directories."""
+    failures = 0
+    checked = 0
+    for source, target in pairs:
+        checked += 1
+        reason = None
+        try:
+            expected = source.read_bytes()
+        except OSError:
+            reason = "unreadable-source"
+        else:
+            try:
+                actual = target.read_bytes()
+            except FileNotFoundError:
+                reason = "missing"
+            except OSError:
+                reason = "unreadable-target"
+            else:
+                if actual != expected:
+                    reason = "different"
+        if reason:
+            failures += 1
+            print(f"{reason}: {target.relative_to(node_root).as_posix()}")
+    print(f"Schema mirrors: {checked} checked, {failures} failed.")
+    return int(failures != 0)
 
 
 def resolve_node_root(node_src: str) -> Path:
-    """Resolve and validate the Node workspace root before writing contracts."""
+    """Resolve and validate the Node workspace root before checking or copying."""
     node_root = (ROOT / node_src).resolve()
     if node_root.parts[-2:] == ("protocol", "contracts"):
         raise ValueError(
@@ -2195,37 +2391,18 @@ def main() -> int:
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--node-src", default="../node")
+    parser.add_argument("--check", action="store_true",
+                        help="compare declared mirrors without writing files")
     args = parser.parse_args()
 
     try:
         node_root = resolve_node_root(args.node_src)
     except ValueError as error:
         parser.error(str(error))
-    contracts_root = node_root / "protocol" / "contracts"
-    schema_target = contracts_root / "schemas"
-    example_target = contracts_root / "examples"
-    invalid_target = example_target / "invalid"
-    semantic_invalid_target = example_target / "semantic-invalid"
-    golden_target = contracts_root / "golden"
-    schema_gate_agora_target = node_root / "schema-gate" / "contracts" / "schemas" / "agora"
-    middleware_schema_target = node_root / "middleware" / "schemas"
-
-    copy_files(SCHEMA_WHITELIST, SCHEMAS_DIR, schema_target, NODE_SCHEMA_FILENAMES)
-    copy_shared_schemas(schema_target)
-    copy_files(SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR, schema_gate_agora_target)
-    copy_files(MIDDLEWARE_SCHEMA_WHITELIST, SCHEMAS_DIR, middleware_schema_target)
-    copy_files(EXAMPLE_WHITELIST, EXAMPLES_DIR, example_target)
-    copy_files(INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, invalid_target)
-    copy_files(
-        SEMANTIC_INVALID_EXAMPLE_WHITELIST,
-        SEMANTIC_INVALID_EXAMPLES_DIR,
-        semantic_invalid_target,
-    )
-    copy_files(GOLDEN_WHITELIST, GOLDEN_DIR, golden_target)
-    shutil.copy2(
-        SCHEMAS_DIR / "registries" / "vendor-media-types.v1.json",
-        contracts_root / "vendor-media-types.v1.json",
-    )
+    pairs = mirror_pairs(node_root)
+    if args.check:
+        return check_mirrors(pairs, node_root)
+    copy_pairs(pairs)
 
     return 0
 

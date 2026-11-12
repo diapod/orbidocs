@@ -1,0 +1,10 @@
+{
+  "schema": "bounded-http-fetch-capture-read-request.v1",
+  "schema/v": 1,
+  "consumer/action": "web.document.fetch",
+  "read/binding": "read-binding:fixture",
+  "body/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "body/size-bytes": 13,
+  "offset": 0,
+  "bytes/max": 512
+}

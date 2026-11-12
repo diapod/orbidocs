@@ -34,6 +34,14 @@ physiological measurement with sensitive-personal data. "Invasive" in the
 connector policy taxonomy refers to privacy/access, not an implanted EEG device;
 this proposal does not promote that connector class's implementation status.
 
+[Proposal 099: Companion App and Device Bridge](099-companion-app-and-device-bridge.md)
+proposes read-only HealthKit synchronization from an explicitly paired phone.
+The phone owns OS read/export choices; a Node ingress adapter commits batches to
+a host-owned inbox, keeps sample history with deletions outside the observation
+store (section 11) and admits only latest-state summaries into Sensorium. Pairing
+is not publication consent. P099-001–006 and P099-008 own the new contracts and
+acceptance; this does not reopen the hard-MVP baseline.
+
 ## Status
 
 Accepted / hard-MVP implemented.
@@ -1660,6 +1668,48 @@ contracts in the narrow local path:
   `artifact/id` and `role`, not embedded by default.
 - Delegation: if a directive carries `issuer_delegation`, validation follows
   proposal 032 with `max_chain_depth: 0`.
+
+## Observation Admission Continuation
+
+Checked on `2026-11-07` against Node `bde21987`. The hard-MVP admission path
+takes `connector/id`, `connector/kind` and the sensitivity class from the
+candidate, and a supplied `observation/id` replaces any stored observation with
+that id. Expiry has no per-class ceiling. Overflow of the shared
+`max_observations` cap removes the smallest ids and records no gap. The existing
+MVP claim is scoped evidence, not qualification of these boundaries.
+[P099](099-companion-app-and-device-bridge.md) makes closing these gaps an
+explicit prerequisite for its sensitive summaries. The row below hardens the
+generic boundary and adds no
+source-specific branch to `sensorium-core`; P099-008 qualifies its consumer binding.
+
+Implementation rules for this continuation:
+
+- Resolve the authenticated caller to a registered producer/connector binding and
+  its permitted participant scope. A service may host several connectors: caller
+  identity is not itself a connector id. Candidate fields cannot choose the binding
+  or weaken its classification; reads enforce the same participant boundary.
+- Scope observation identity by producer and participant. Same-content replay
+  preserves expiry; replacement requires an expected predecessor and increasing
+  source revision, with indexes updated consistently. Reject conflicting or
+  out-of-order replacement. Reuse existing caller context and revision primitives.
+- Derive ingestion time and effective expiry at the host. Apply a finite
+  per-class TTL ceiling; default to a typed refusal above it. Supplied measurement
+  time is provenance, not authority to extend expiry. Do not trust a supplied
+  `expires_at` in place of this calculation.
+- Apply per-producer budgets within the shared cap. Default to backpressure before
+  mutation when capacity is exhausted, never cross-producer eviction. Planned
+  retention/removal records a bounded gap/status event and uses host age, not
+  ordering of caller-supplied ids.
+- For replaceable summaries, bind an owner-provided source revision and current-read
+  fence. Every current get/query path must withhold obsolete values when the owner
+  has accepted a newer revision or freshness cannot be checked. TTL alone cannot
+  invalidate a summary after source deletion. The host composes this generic
+  check with Sensorium reads; the pure core gains no HealthKit or database I/O.
+  P099 initially fences the whole participant/type stream, avoiding a dependency graph.
+
+| ID | Work item | Depends on | Status | Completion gate and retained evidence |
+| --- | --- | --- | --- | --- |
+| `P045-OBS-001` | Bind admitted observations and reads to their authenticated producer and scope | — | `todo` | Implement the continuation rules above using existing caller/admission/storage seams. Retain negative fixtures for forged bindings, cross-connector and cross-participant collisions/reads, classification downgrade, TTL/expiry injection, replay renewing TTL, reversed replacement order, index drift, quota overflow, stale source revisions and unavailable freshness checks. Direct get/query must not bypass the fence. No HealthKit branch; existing consumers explicitly qualify their bindings rather than silently inheriting completion. |
 
 ## Local Device Discovery Continuation
 

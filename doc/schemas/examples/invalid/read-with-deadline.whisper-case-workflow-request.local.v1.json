@@ -1,0 +1,32 @@
+{
+  "schema": "whisper-case-workflow-request.local.v1",
+  "command": {
+    "operation": "read-authority-policy",
+    "operation/id": "20b9cadc-2b14-4c3b-9fde-7fccb4487174",
+    "profile": {
+      "schema": "whisper-source-profile.v1",
+      "profile/kind": "acceptance-fixture",
+      "federation/id": "federation:example",
+      "issuer/id": "council:did:key:z6MkwJFpvJVFe15ygGgYLTYuiPwfhkkDRkMG4eKQFT8g65yE",
+      "epoch/anchor": "1970-01-05T00:00:00Z",
+      "source/derivation": "issuer-derived-v1",
+      "renewal/default": "on-demand",
+      "key/active-limit": 4096,
+      "renewal/consent-limit": 7,
+      "clock/skew-seconds": 5,
+      "epoch/seconds": 600,
+      "certificate/ttl-seconds": 120,
+      "request/ttl-seconds": 60,
+      "status/collection-max-age-seconds": 60,
+      "status/emission-max-age-seconds": 30,
+      "retention/identifying-seconds": 60,
+      "retention/reset-buffer-seconds": 10,
+      "retention/tombstone-seconds": 600,
+      "epoch/certificate-limit": 2048,
+      "publication/matrix-time-policy": "authenticated-admitted-homeserver-v1",
+      "publication/sqlite-time-policy": "signed-admitted-relay-receipt-v1",
+      "source/activation-policy": "post-reset-collection-drain-v1"
+    },
+    "expires/at": "2026-11-08T12:00:00Z"
+  }
+}

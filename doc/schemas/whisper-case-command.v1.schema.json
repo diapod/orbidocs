@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-command:v1",
+  "title": "whisper-case-command.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "family",
+    "case/anchor",
+    "exchange",
+    "response/public-key",
+    "control",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-command.v1"
+    },
+    "family": {
+      "enum": [
+        "case-registration",
+        "case-request",
+        "case-status-request"
+      ]
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "exchange": {
+      "type": "string",
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "maxLength": 52
+    },
+    "response/public-key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "maxLength": 43
+    },
+    "control": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "maxLength": 10923
+    },
+    "evidence": {
+      "type": "array",
+      "maxItems": 13,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "digest",
+          "bytes"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "anchor-record",
+              "anchor-manifest",
+              "anchor-receipt",
+              "anchor-certificate",
+              "profile",
+              "anchor-status",
+              "anchor-closure",
+              "successor-certificate",
+              "successor-acceptance-status"
+            ]
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+            "maxLength": 50
+          },
+          "bytes": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "maxLength": 699051
+          }
+        }
+      }
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 4194304,
+  "x-dia-decoded-maximum-bytes": 1724416,
+  "x-dia-role-limits": {
+    "anchor-record": {
+      "count": 1,
+      "bytes": 65536
+    },
+    "anchor-manifest": {
+      "count": 1,
+      "bytes": 32768
+    },
+    "anchor-receipt": {
+      "count": 1,
+      "bytes": 4096
+    },
+    "anchor-certificate": {
+      "count": 1,
+      "bytes": 16384
+    },
+    "profile": {
+      "count": 1,
+      "bytes": 16384
+    },
+    "anchor-status": {
+      "count": 3,
+      "bytes": 524288
+    },
+    "anchor-closure": {
+      "count": 2,
+      "bytes": 4096
+    },
+    "successor-certificate": {
+      "count": 1,
+      "bytes": 16384
+    },
+    "successor-acceptance-status": {
+      "count": 1,
+      "bytes": 524288
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "case-status-request"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "case-registration"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "items": {
+              "properties": {
+                "role": {
+                  "enum": [
+                    "anchor-record",
+                    "anchor-manifest",
+                    "anchor-receipt",
+                    "anchor-certificate",
+                    "profile",
+                    "anchor-status",
+                    "anchor-closure"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "case-request"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "items": {
+              "properties": {
+                "role": {
+                  "enum": [
+                    "profile",
+                    "successor-certificate",
+                    "successor-acceptance-status"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

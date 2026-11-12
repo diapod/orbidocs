@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "urn:orbiplex:schema:nym-source-status-result.local:v1",
+  "title": "nym-source-status-result.local.v1",
+  "description": "A current verified snapshot for the selected purpose or explicit pending refresh. Availability is not certificate eligibility, admission or emission authority.",
+  "required": [
+    "schema",
+    "profile/digest",
+    "context/digest",
+    "epoch",
+    "purpose",
+    "state"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nym-source-status-result.local.v1"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "context/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "collection",
+        "first-emission"
+      ]
+    },
+    "state": {
+      "enum": [
+        "available",
+        "pending"
+      ]
+    },
+    "status": {
+      "$ref": "nym-source-status.v1.schema.json"
+    },
+    "status/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "minLength": 50,
+      "maxLength": 50
+    },
+    "reason": {
+      "enum": [
+        "status-unavailable",
+        "status-stale"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "state": {
+          "const": "available"
+        }
+      },
+      "required": [
+        "status",
+        "status/digest"
+      ],
+      "not": {
+        "required": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "state": {
+          "const": "pending"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "status"
+            ]
+          },
+          {
+            "required": [
+              "status/digest"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

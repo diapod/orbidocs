@@ -1078,6 +1078,15 @@ Cílem není účastníky zastrašovat, ale udržet živý kontakt mezi jednán�
 důsledkem. Kontakt, který v komplexních systémech přirozeně mizí, pokud to
 architektura dovolí.
 
+Distribuovaná společenská paměť umožňuje zachovávat souvislost mezi jednáním,
+lidmi v konkrétních rolích a následky jejich rozhodnutí, a to i po změně funkce
+nebo instituce. Propojení sdělení, názorů, zdrojů, odpovědí a oprav může
+účastníkům pomáhat informovaně rozhodovat, komu a v jakém rozsahu důvěřovat.
+Tato paměť zahrnuje jak újmy a nesplněné závazky, tak poctivé jednání,
+nápravu a obnovování důvěry.
+
+**Paměť jednání udržuje odpovědnost; rozhodnutí o důvěře zůstává na člověku.**
+
 ## Epistemika a kolektivní inteligence
 
 ### Ukotvení v realitě

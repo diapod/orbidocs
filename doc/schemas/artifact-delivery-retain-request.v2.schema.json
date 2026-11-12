@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-retain-request:v2",
+  "title": "artifact-delivery-retain-request.v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "owner/component-id",
+    "purpose",
+    "snapshot/ref",
+    "artifact",
+    "classification",
+    "causal/context"
+  ],
+  "properties": {
+    "schema": {
+      "const": "artifact-delivery-retain-request.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "owner/component-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "snapshot/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s\\u0000]+$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "size/bytes",
+        "source"
+      ],
+      "properties": {
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "size/bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "bytes/base64"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "inline"
+                },
+                "bytes/base64": {
+                  "type": "string",
+                  "maxLength": 2796204,
+                  "pattern": "^[A-Za-z0-9+/]*={0,2}$"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "binding"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "host-transfer"
+                },
+                "binding": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512,
+                  "pattern": "^[^\\s\\u0000]+$"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "source"
+            ],
+            "properties": {
+              "source": {
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "inline"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "size/bytes": {
+                "maximum": 2097152
+              }
+            }
+          }
+        }
+      ]
+    },
+    "classification": {
+      "$ref": "classification.v1.schema.json"
+    },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json"
+    },
+    "requested-retention/seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2592000
+    }
+  }
+}

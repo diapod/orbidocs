@@ -529,7 +529,7 @@ A key's ability to sign is not permission to publish another kind.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-005 | Issue and verify explicit notice and manifest scopes | todo | P015-001 | Freeze and version a closed contextual profile with authorized **tuples** of `(record/kind, schema, topic, disclosure/scope)`, never independent lists granting their Cartesian product. Issuance requests, issuer policy, certificates and receiving verifiers preserve the same tuple. A separate domain-bound auxiliary use permits `whisper-embargo-manifest.v1`, checked against its declared publication context, key and validity at admission; it grants no Agora publication by itself. Reuse P015/P081 signature and scope verifiers. Negative fixtures substitute kind/schema/topic/scope, present a manifest signature as publication, and use an ordinary signal-only certificate for notice or manifest. Positive fixtures admit an explicitly scoped notice and manifest while keeping the predecessor narrow profile unchanged. ADC consumes this grant; this task does not depend on ADC runtime. Use one typed tuple matcher across request, issuer and receiver, with separate auxiliary-use admission; preserve the old profile's golden/refusal vectors. |
+| P015-005 | Issue and verify explicit notice and manifest scopes | todo | P015-001; P015-011 | Freeze and version a closed contextual profile with authorized **tuples** of `(record/kind, schema, topic, disclosure/scope)`, never independent lists granting their Cartesian product. Issuance requests, issuer policy, certificates and receiving verifiers preserve the same tuple. A separate domain-bound auxiliary use permits `whisper-embargo-manifest.v1`, checked against its declared publication context, key and validity at admission; it grants no Agora publication by itself. Reuse P015/P081 signature and scope verifiers. Negative fixtures substitute kind/schema/topic/scope, present a manifest signature as publication, and use an ordinary signal-only certificate for notice or manifest. Positive fixtures admit an explicitly scoped notice and manifest while keeping the predecessor narrow profile unchanged. ADC consumes this grant; this task does not depend on ADC runtime. Use one typed tuple matcher across request, issuer and receiver, with separate auxiliary-use admission; preserve the old profile's golden/refusal vectors. |
 
 P015-005's gate also freezes bounded certificate/profile evidence for the notice
 and manifest uses under the [P032 contract](032-key-delegation-passports.md#shared-verification-operations).
@@ -558,6 +558,144 @@ presentation to request digest, audience, context, expiry, and linkability. The 
 suite rejects nullifiers because this certificate profile cannot prove their domain
 separation. Stronger unlinkable suites and richer verifier-local non-revocation remain
 post-MVP work under P081 rather than hidden extensions of this certificate baseline.
+
+## Optional Confidential Affiliation Attestation {#confidential-affiliation-attestation}
+
+Proposed post-MVP direction (2026-11-04); no runtime or new credential-suite
+claim. P015 owns the identity binding, consent and attestation profile;
+[P013-ADC-010](013-whisper-social-signal-exchange/author-disclosure-conditions.md#confidential-affiliation-review)
+owns its optional use during a human disclosure decision. Neither task changes
+contextual source eligibility, source counts or existing alpha/MVP completion gates.
+
+### Decision and invariants
+
+A consenting author may ask a locally admitted assessor to check a specified
+relationship to a resource and issue a minimal signed result to explicitly
+authorized recipients. The assessor may be the nym issuer, but issuance authority
+does not automatically grant affiliation-assessment authority. An assessor related
+to the resource must disclose that limitation to the consenting author; the
+author may choose another admitted assessor or leave the check unperformed.
+
+Keep three proofs separate: control of a participant/nym binding; evidence of a
+specified affiliation; and any later interpretation of interests or intent.
+A root `participant-id` is not proof of civil identity, employment, ownership or
+representation. Such claims need separately admitted evidence with explicit
+provenance, coverage and effective time. A model suggestion is not that evidence.
+No attestation claims deception, absence of conflicts, truth of the rumor or
+psychological independence.
+
+Consent must precede identity/evidence acquisition and bind the exact assessment
+scope: signal binding, resource (reuse P026 `resource-ref.v1`), relationship rule,
+assessor, evidence sources, purpose, validity and retention limits. Consent to
+perform the check and consent to disclose its result are distinct authorities;
+both must be explicit before their respective effects. Recipients and result
+granularity are fixed by the latter. No consent, refusal to consent and an
+unavailable assessment confer neither suspicion nor an independence badge.
+Publication, ordinary participation and protected access must remain available
+on the existing rules without this optional check.
+
+The closed semantic outcomes proposed for contract freeze are:
+
+| Outcome | Exact claim |
+|---|---|
+| `relationship-confirmed` | Admitted evidence establishes the specified relationship under the pinned rule and time scope. |
+| `not-found-in-scope` | No matching relationship was found in the named, bounded evidence scope; this is not a universal absence claim. |
+| `indeterminate` | Evidence, identity binding, coverage or freshness is insufficient or contradictory. |
+
+`not-assessed` is a consumer state, not a signed negative finding. A private
+workflow may distinguish withdrawal, unavailability and refusal internally, but
+must not expose the author's reason for not proceeding. Missing material never
+becomes `not-found-in-scope`. The latter requires completion of the declared
+bounded check; even then the coverage limits remain attached to the result.
+
+The assessor learns the authorized linkage in this first profile; encryption in
+transit does not hide it from that assessor. Reuse contextual P015 mapping erasure
+and S026 custody boundaries, without extending issuer retention or reconstructing
+erased maps. A later check needs newly volunteered binding evidence when the
+original is gone. Assessment inputs, mappings, backups and private diagnostics
+have an explicit bounded lifecycle; portable results must not embed them.
+Withdrawal stops new acquisition and disclosure once accepted by the responsible
+owner, but cannot make an already authorized recipient forget a received result.
+
+### Implementation recommendations
+
+Use a thin affiliation profile over existing operations, not a second identity
+registry, generic deanonymization endpoint or new transport. Consult
+`node:docs/development/reuse-index.v1.json` and confirm candidate contracts in
+code before adding helpers:
+
+- Reuse P015 contextual possession/binding verification and the
+  [P081/S043 scoped-claim adapter](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md).
+  Freeze an explicit, domain-separated auxiliary use; current nym publication
+  permission and the adapter's existing predicates do not authorize it. Preserve
+  independently admitted assessor trust, request/audience binding, nonce/replay
+  checks and the distinction between historical signature validity and current use.
+- Compose a pure evaluator over supplied evidence and explicit time, then a
+  hosted service for consent, evidence acquisition and issuance. A pending check
+  gets no output authority. Reuse existing signer/key providers and Schema Gate
+  boundaries; do not introduce a second crypto implementation or algorithm selector.
+- Reuse P015 private exchange and S023 AD/S017 INAC for exact recipients,
+  idempotent requests and bounded recovery. Delivery admission is not consent to
+  assess or disclose. Recheck live authority before acquisition and result handoff;
+  timeouts and restart never turn a pending result into a successful finding.
+- Apply [P032's bounded verification contract](032-key-delegation-passports.md#shared-verification-operations)
+  to a private result package: carry the required assessor verification material
+  within fixed byte/item/work limits, admit trust locally, and refuse missing or
+  stale evidence without fetching identity data. Reuse P076's carrier lessons,
+  not Messaging grant semantics. New zero-knowledge or anonymous credential suites
+  remain separate P081 work, not a prerequisite or a claimed property here.
+
+Candidate internal shapes, not new schemas created by this amendment:
+
+```text
+AssessmentScope = (request_id, protected_signal_binding, resource_ref,
+                   relationship_rule_digest, evidence_scope, assessor,
+                   effective_at, assessment_consent_ref)
+DisclosureScope = (recipients, allowed_result_fields, not_after,
+                   disclosure_consent_ref)
+AffiliationResult = (assessment_binding, outcome, coverage,
+                     evaluated_at, not_after, assessor, policy_digest)
+```
+
+Contract freeze must specify authenticated, purpose-scoped signal binding and
+exact nym possession checks so a result cannot be substituted between authors,
+signals, resources or recipients. A private `record/id`, root identity, reusable
+cross-context handle or predictable identity digest must not escape in the result.
+If an authorized recipient cannot already see the signal, use a scoped opaque
+binding with authenticated resolution only inside that recipient's authorized
+view; an opaque string alone is not a proof. The assessor need not receive rumor
+text when the bounded check can operate without it. Reuse the existing consent
+and classification owners; assessment authority must never double as permission
+to retrieve other authors' protected rumors.
+
+### Trade-offs, failures and open questions
+
+Minimal signed results reduce disclosure to recipients, but concentrate knowledge
+and trust at the assessor. Even a correct relationship flag may identify a lone
+employee or expose a whistleblower. Default result access is private and narrow;
+no public badge, raw proof bundle, log, notification preview or stable identity
+hash may bypass the disclosure scope. Policy must refuse or reduce output when
+the approved audience/granularity still creates unacceptable identification risk.
+
+Stale, incomplete or conflicting affiliation data can mislead; bounded coverage,
+expiry, explicit uncertainty and an author-visible correction/reassessment path
+are required. Compromised assessors and colluding recipients remain residual
+risks. An employment link may explain first-hand knowledge rather than discredit
+it. Repeated resource probes could reconstruct a person's affiliations: purpose
+binding, request budgets and no bulk lookup surface are required.
+
+Before implementation, settle the first relationship vocabulary and admissible
+evidence sources, assessor admission/recusal policy, numerical freshness and
+retention limits, and the concrete anti-substitution binding. No universal civil
+identity or affiliation database is assumed. These decisions belong to P015-007;
+they do not justify retaining existing contextual mappings longer.
+
+### Confidential affiliation tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-007 | Freeze optional confidential affiliation profile | todo | P015 contextual authorship; P081/S043; P032 | Pin separate assessment/disclosure consent, explicit auxiliary scope, assessor admission, evidence coverage, closed outcomes, signal/nym/resource/recipient binding and numerical privacy/replay/retention budgets. Pure fixtures cover swapped bindings, self-supplied authority, possession mistaken for affiliation, incomplete scope, stale/conflicting evidence and consent refusal without adverse inference. Review the single-employee whistleblower and malicious-assessor cases. No new schema or runtime claim until this gate closes. |
+| P015-008 | Compose private assessment and bounded verification | todo | P015-007; P015-002 | Reuse hosted service, scoped verifier, signer, consent/classification, erasable custody and AD/INAC. Prove refusal before acquisition without consent, separate result-disclosure authority, withdrawal/expiry races, restart/idempotency and correction/reassessment. Offline fixtures verify a carried result with network access denied and locally admitted trust; missing evidence fails explicitly. Canary scans cover root identity, affiliations, private signal ids, logs, backups and unintended recipients. Two-node synthetic acceptance separately qualifies private delivery; offline proof alone does not. No public badge or silent retention extension. |
 
 ## Private Issuance Delivery: Implementation Recommendations
 
@@ -591,23 +729,69 @@ bound applicant-to-nym mappings in logs, ledgers, status and retained artifacts.
 ### Delivery Integration Tracker
 
 These rows track the contextual continuation separately from the existing P081
-verification adapter. The 2026-10-25 schema, pure-verifier and erasable custody
-foundation does not qualify issuer/applicant runtime or either acceptance gate.
-The optional Node issuer foundation now includes ciphertext-only phase preparation,
-metadata-only offer bootstrap, key custody, encrypted-image preflight and the
-context-scoped decision/status lifecycle. Its ordinary applicant and issuer host
-adapters and closed local API contracts are being integrated on the authorship
-branch. Software conformance does not qualify the two-daemon AD/INAC path: actual
-issue/renew/reject/reset, host signing, cleanup, restart and replay still require
-Gate A/B runtime evidence. The new public v2 content contracts do not renew the
-historical node-counting M4 qualification. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
-implementation evidence exists.
+verification adapter. **Closed 2026-11-04 for the bounded phase-1 profile**:
+ordinary complete qualification covers A30/30, B31/31 and six separate C
+conformance obligations, with exact loose/extracted and fresh two-store results.
+The private AD/INAC lifecycle, protected host/Vault/UI, SQLite and admitted
+Synapse paths are a reviewed composition of original source-specific captures;
+no all-new single-binary recapture is claimed. The audited payload remains
+operator-only and Git contains path-free controls. Evidence and precise limits:
+`node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
+Optional stay-ready runtime, P015-004/005, other P081 consumers, global Whisper/
+Agora and release readiness remain separate. The dated checkpoints below retain
+their original partial/refused results; they are historical, not current status.
+
+The 2026-11-04 primary integration and repeated software gates are recorded in
+`node:docs/audits/WHISPER-INTEGRATION-2026-11-04.md`. They preserve this bounded
+qualification and the separately qualified P015-004/006 scopes. They are not a
+new AD/SQLite/Synapse recapture or completion of P015-005/007/008.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-001 | Freeze private issuance/renewal exchange binding | partial | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
-| P015-002 | Wire issuer and applicant acceptors | partial | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
-| P015-003 | Prove two-node issue/renew/reject recovery | todo | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
+| P015-001 | Freeze private issuance/renewal exchange binding | done | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
+| P015-002 | Wire issuer and applicant acceptors | done | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
+| P015-003 | Prove two-node issue/renew/reject recovery | done | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
+
+
+Checkpoint 2026-11-02: ordinary protected AD issue, real-expiry lazy renewal and
+private reset now have fresh independent predicates on the corrected runtime,
+including latest-lease drain and one concrete post-ACK ciphertext refusal.
+A subsequent controlled private-response failure/restart case on frozen runtime
+`bde3272f` and clean capture `e100b94d` has fresh independent predicates for
+issue, reference readback, duplicate submission and recovery of the same reply
+across A/D restart. Its original fault-injected class, deadlines and owner state
+are preserved; this is not spontaneous ACK loss or retransport after AD expiry.
+The clean full software gate passes 9,264/0/127. P015-001–003 remain `partial`:
+these subsets do not replace the complete authority/recovery/privacy matrices,
+SQLite/Synapse Gate B or qualified both-store retention. See
+[the contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#qualification-checkpoint-2026-11-02)
+and the Node implementation ledger.
+
+The later native-provider subset on `7da785e9` independently verifies four
+process-interruption cuts with metadata-only startup inspection before recovering
+key methods. The earlier weaker shape refuses that predicate. This leaves the
+remaining old-database, authority/status/privacy, backend and both-store gates
+open; no tracker row advances to `done`. See the
+[encrypted-provider checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#encrypted-provider-process-interruption-subset-2026-11-02).
+
+### Historical qualification boundary — 2026-11-03
+
+Clean Node `c6f57910` / Orbidocs `92d0fe7b` independently verifies42/67 required
+prefix obligations. Six newly composed C-class requirements bind the original
+component-test receipts, concrete nonignored assertions and48 exact canonical/Node
+schema byte pairs. They establish conformance, without granting runtime HTTP or
+scheduled-renewal execution. The original UI/AD, source-uniqueness, both backend
+reset/current-result cuts, complete selected Matrix PDU and explicit fixture
+image-backup preflight keep their original heterogeneous source/tool identities.
+
+The clean `bb060dd8` / `92d0fe7b` full software gate passes9315/0/128 with
+incremental disabled, strict workspace Clippy and final paths. This does not close
+A/B. Thirteen A and twelve backend B obligations remain, as do final single-candidate
+qualification, optional scheduled continuation and qualified two-store retention.
+Post-ACK diagnostics still require adequate owner/process composition; a recovering
+key API's `KeyDestroyed` result alone proves no earlier maintenance execution.
+P015-001–003 stay `partial`. See the contextual profile and Node ledger/audit for
+exact source and proof scope.
 
 ## Open Questions
 
@@ -624,6 +808,20 @@ Resolved 2026-07-04:
 3. Messaging, contact, and Corpus application families should inherit the same
    nym-certificate embedding pattern where artifacts are nym-authored.
 
+### Participant applicant and authorship tracker — 2026-11-06
+
+The operator-qualified Gates A/B and P015-001–003/006 remain their recorded evidence.
+[P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
+requires a separate participant caller path. P015 and S026 own actor selection,
+Vault custody and retained cryptographic operations; P013 owns intake and the
+reviewed candidate. P013-PA-001 supplies that input contract before P015-009 freezes
+its consumption. P013 runtime then consumes P015-010, never the other way round.
+
+| ID | Item | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
+|---|---|---|---|---|---|
+| P015-009 | Freeze participant certification and authorship operations | todo | P024-009; P013-PA-001; P015-001 | Freeze verified actor/context selection, participant-specific Vault/key/certificate custody, operation/idempotency/readback namespaces and exact candidate-to-v2-review binding. Preserve current status, first-emission, audience/consent and recovery rules; candidate/context changes invalidate review. Record canonical operation/schema/registry mappings and the independent operator adapter. No arbitrary client clock/certificate, raw signer or local-primary substitution. | P015-010; P098-010c |
+| P015-010 | Deliver participant-bound applicant and authorship paths | todo | P015-009; P024-010; P015-002; P015-003; P015-006; P013-LLR-006 | Implement actor-bound certification, Vault/review/signing, retained cryptographic result and authorized operation readback. Preserve the existing authorized publication handoff; P013-PA-003 owns integrated contribution orchestration/result projection, not a second cryptographic operation store. Participant methods take verifier-created `AdmittedParticipant`; implicit operator selection is confined to the explicit operator adapter. Prove O/P/Q separation, locked/wrong key, stale status, changed review, cross-participant operation/certificate references and lost-reply recovery without repeating effects. Preserve independent certification/signing/transport/disclosure states and operator regressions. Use typed candidate fixtures; do not depend on P013's integrated intake/UI runtime. ADC/LLR succession stays under its own gates. | P013-PA-003; P098-006 |
+
 ## Next Actions
 
 1. Document `public-continuation` as the default renewal mode in `nym-certificate.v1`
@@ -633,6 +831,233 @@ Resolved 2026-07-04:
 3. Apply the artifact-local embedding pattern to messaging, contact, and Corpus
    nym-authored artifact families as separate schema-gate tasks.
 
+The clean Node `b212be6a` continuation freshly verifies43/67 obligations in
+composition613 (103 native calls). Its new original post-ACK predicate derives all
+73 explicit retained key references and19 old ciphertext buffers, verifies the
+signed closing status and local ACK deadline, and checks native key-file absence
+before recovering provider open. Capture and later qualifier have distinct source
+pins. Twelve A and12 backend B obligations, final single-candidate execution,
+privacy and retained-store equivalence remain open; P015-001–003 remain partial.
+Implementation review:
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#complete-original-retirement-inventory-review-2026-11-03`.
+
+
+## Independently verified source replay checkpoint (2026-11-03)
+
+Clean Node `b7b2cf49` composition627 freshly verifies **45/67** obligations through
+111 native inspections. Actual Matrix619 and SQLite622 restart after loss of only
+the derived contextual cache and perform real owner replay. Original source,
+admission, nonce, receipt, first-emission and history tables remain unchanged.
+A separate ended-epoch/no-cache verifier checks the actual current readback; it
+neither weakens fresh-view assertions nor supplies fresh active-epoch evidence.
+Original fresh-only refusal624 remains preserved.
+
+Twelve A authority/status/privacy and five B cases per backend remain. Runtime,
+capture and verifier pins differ explicitly. The heterogeneous prefix inventory
+does not close final single-candidate A/B or loose/extracted/fresh two-store
+qualification. P015-001–003 and complete contextual authorship remain partial.
+See `node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-backend-replay-qualification-2026-11-03`.
+
+
+The subsequent original631 controlled AD receiver cases observe rejection of
+four encrypted invalid private requests, with no prepared decision or new target
+context. Clean Node `e75dd92a` independently reinspects their valid baselines,
+council offers and isolated faults in633. The temporary local source adapter is
+explicit fault injection and is restored after D stops; it proves no INAC/network
+authority. An expired anonymous first leg remains a separate narrower witness.
+Process/input/effect qualification and recomposition are still required, so
+coverage remains45/67 and both complete gates remain partial.
+
+
+## Independently qualified private receiver refusal checkpoint (2026-11-03)
+
+Clean Node `f270f62a` composition636 freshly verifies **49/67** obligations through
+115 native inspections. Four original631 full-request refusals now have complete
+process, exact input, AD receipt, offer/outbox/recipient and no-effect predicates.
+No decision is prepared and no new issuer context appears. The temporary local
+fault adapter is restored after D stops; this does not prove INAC authority.
+The expired anonymous first leg remains separate from full-request expiry.
+
+Eight A and five B cases per backend remain. Capture, runtime, fixture client,
+native verifier and profile revisions are independently pinned. Final
+single-candidate A/B, privacy and retained two-store equivalence remain open;
+P015-001–003 and complete contextual authorship stay partial. Review:
+`node:docs/audits/WHISPER-AUTHORSHIP-RESUMPTION-2026-10-29.md#independent-original-private-ad-refusal-qualification-2026-11-03`.
+
+
+### Independent original full private-request expiry checkpoint (2026-11-03)
+
+Clean Node `8d590a16` independently qualifies original638: a full, unchanged
+private request and signed council key offer were valid when frozen; after the
+original 30-second deadline, actual D runtime `103c8fae` permanently rejected
+that exact sealed buffer with `expires/at: expired`. No decision or new target
+context was created. Owned cleanup and temporary local adapter restoration
+completed. Capture, client and native verifier are pinned to clean `153932f9`;
+this controlled local AD refusal is distinct from INAC transport authority and
+from the earlier narrower expired anonymous first leg.
+
+Fresh composition641 covers **50/67** obligations through 116 native calls.
+Seven A authority/status/privacy obligations and five B obligations per backend
+remain open. The remaining B scope is late first receipt, collection/emission
+freshness, public privacy, retired acceptance environment and UI refusals.
+273 Python profile tests, 24 native inspector tests, five negative-client tests
+and strict all-target Clippy for both affected crates pass without incremental
+compilation. Scoped headers and the light gate pass; a broader header migration
+audit separately refuses an existing unrelated Sensorium inventory mismatch,
+which this work leaves untouched. Final single-candidate A/B and fresh two-store
+retention remain unqualified. P015-001–003, full Whisper and global readiness
+retain their partial/bounded scopes; historical runtime evidence is unchanged.
+
+
+### Independently qualified status-HWM checkpoint (2026-11-03)
+
+Complete qualification653 at clean Node `bc480a7a` binds original648's actual
+A/D processes, S020 proxy response bytes, scoped HTTP reads and immutable source
+images. It verifies signed revision4→5 progression, refusal of older still-valid
+bytes and the higher retained HWM/API after A restart. Native42 independently
+checks original signature/time/cursor semantics. Original652's discriminator
+refusal is preserved; the correction requires canonical integer `schema/v = 1`.
+The final cached forward read remains distinct from a completed healing fetch.
+
+Fresh composition654 covers **52/67** obligations in 118 native calls. Five A
+cases and five B cases per backend remain open, along with final single-candidate
+A/B and fresh retention from both adopted stores. Tests: 282 Python profile and
+25 native inspector cases, affected all-target Clippy, scoped headers and light
+gate pass without incremental compilation. No full historical runtime cohort
+is renewed. P015-001–003, full Whisper and global readiness retain partial/bounded
+scope. Owned A/D and proxy stopped and original A adoption was restored.
+
+
+### Independently qualified private-minimum checkpoint (2026-11-03)
+
+At clean Node `9e2c4dcb`, independent665 verifies original664: ordinary renew
+retains public floor1 while the local private minimum13 refuses still-valid
+signed status12. Actual preview returns the typed status-revision-unavailable
+503 and readback has no authoring result. After actual status15 arrives, the same
+certificate signs the reviewed confidence0.5 document through the ordinary host;
+readback preserves the exact signed record. Four native checks verify certificate,
+both statuses and reviewed record. Exact source/process/HTTP/proxy pins, original
+time windows and cleanup/restoration bind the controlled runtime. No private
+decision plaintext is reconstructed. Earlier producer failures remain unchanged.
+
+Fresh composition666 covers **53/67** obligations in 122 native calls. Four A
+cases remain: wrong exchange digest, revoked bootstrap authority, status
+equivocation and private AD/tombstone privacy. Five B cases per backend, final
+single-candidate A/B and fresh retention from both adopted stores remain open.
+All 297 Python profile tests and scoped headers/light gate pass. Runtime source
+`103c8fae` is unchanged; no full historical runtime or software gate is renewed.
+P015-001–003, full Whisper and global readiness retain partial/bounded scope.
+Owned A/D and proxy stopped; original A adoption restored. No merge/push.
+
+
+### Independently qualified withdrawn-bootstrap checkpoint (2026-11-03)
+
+Clean Node `b8dbfd76` inspection673 independently verifies original669: exact
+valid INAC offer, signed active-to-revoked bootstrap authority, unlocked but
+blocked issuer, actual403 before and after owned restart and absent issuer
+reply/applicant certificate. Two native owner calls preserve the independently
+adopted root and original times. The reason-only HTTP projection is retained
+exactly and bound to separate captured coarse owner results; it is not expanded
+into a claim of raw HTTP preservation. Original668 and672 coordinator failures
+retain their original outcomes. Withdrawal is permanent, without reimport or
+automatic authority replacement.
+
+Fresh composition674 covers **54/67** obligations in 124 native calls over
+8,446 logical reads/322,724,216 bytes; result SHA-256 is
+`0319cbfc5bc6d6796bc6540516f3440425ee778d3054ca6fd202367c456c10b7`.
+Three A cases remain (wrong exchange digest, status equivocation and private
+AD/tombstone privacy), plus five B cases per backend, final single-candidate
+qualification and fresh two-store retention. All310 Python profile tests pass;
+the28 native and affected strict Clippy/paths evidence retains its stated source.
+Native43 uses clean `85b8c9e3`, without incremental; runtime `103c8fae` is unchanged.
+This does not renew the complete software/transport qualification or close
+P015-001–003, either full gate, Whisper or release readiness. No merge/push.
+
+
+### Independently qualified status-equivocation checkpoint (2026-11-03)
+
+Clean Node `d14a3c89` inspection682 binds original681 actual host S020, exact
+proxy response bodies, owner/control/process identities and four immutable
+source images. Two correctly signed statuses have the same revision4 and
+different canonical digests. The owner refuses the conflict before and after
+A restart, preserving the original status, durable cursor and actual API view.
+Three fresh native calls verify the certificate and both original-time conflict
+transitions. Fixture-only operator signing and proxy adoption are restored;
+no council key is exported. Native44 uses clean `107b436b`, separately from
+runtime `103c8fae` and the later inspection source.
+
+Fresh composition683 covers **55/67** obligations in127 native calls over
+8,502 logical reads/323,488,096 bytes, with result SHA-256
+`bde6f2270965e6f786f96e7e8524fc17b9ec1994d50b296a17f4d156ad06d181`.
+The324 profile Python and29 native example tests, affected strict Clippy/paths,
+scoped headers and light gate pass. At that checkpoint, two A cases remained
+(wrong exchange digest and private AD/tombstone privacy), five B cases per backend, final single-candidate
+qualification and fresh two-store retention. P015-001–003 and both full gates
+retain their partial scope; no new full transport, software or release claim.
+
+Original680 completes ordinary protected AD issue with two explicit recovery
+exports. Original679 expiry and684 missing-decision outcomes remain failures.
+For684, the correlated receiver row says `expires/at: expired`, while its AD
+admission timestamp is5.274067 seconds before the original deadline. Exact
+subsequent owner verification time is unknown. The earlier diagnostic's
+arrival-after-expiry assumption is explicitly refused; the corrected source
+snapshot/row correlation is retained separately. This does not qualify a
+wrong-digest refusal or justify extending the signed deadline. Owned actors
+are stopped, protected originals retained, and no merge/push occurs.
+
+
+### Independently qualified private-decision binding (2026-11-03)
+
+Clean Node039b46ec inspection697 now qualifies `A/wrong-exchange-digest` from
+original694. The profile binds actual owned A/D processes, authenticated controlled
+AD submission, the exact INAC offer/notification/consent and sealed reply, the
+stored typed applicant refusal, and unchanged absent decision/certificate after
+restart. Later read-only source snapshots696 verify the exact original A/D
+admissions without pretending to have been captured at the original admission
+time. Native45 (cleanbe2781d6) freshly checks both council signatures, the anonymous
+proof at original time and exact sealed public-recipient binding. It never
+reconstructs the private request, decrypts, signs or creates admission.
+
+Fresh composition698 verifies **56/67** obligations through128 native calls over
+8,635 logical reads/344,823,251 bytes; result SHA-256
+`16a18e3144219707ee004bfa0368e7c9599c520f072a012f4537a2da9e33e2a8`.
+The339 profile conformance tests include corrupt/missing sources, rebound causes,
+foreign owners, nonunique source identities and incomplete INAC/restart witnesses.
+One A privacy obligation, five B obligations per backend, final current-candidate
+qualification and identical fresh retained-store qualification remain.
+P015-001--003 and both full gates stay partial; global Agora, full Whisper and
+release readiness are unchanged. Earlier failed attempts and prefix-only claims
+remain historical. No merge or push occurs.
+
+
+### Independently audited private storage (2026-11-04)
+
+Clean Node73dc0288 composition703 verifies **57/67** obligations, including all30
+A predicates, through128 fresh native calls. This remains an original-prefix
+composition; the final current-candidate cohort and qualified retained retrieval
+are not inferred. Five B obligations per backend remain. P015-001--003 and both
+full gates stay partial. See the [profile closeout](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#independently-audited-private-storage-2026-11-04)
+for private INAC authorization disclosure, source boundaries and exact results.
+
+The final source-boundary review rejects hidden/generated columns and user tables
+resembling SQLite internals; fresh703 repeats the full57-predicate closure under
+that guard. The earlier702 source-bound result remains historical and unchanged.
+
+
+2026-11-04 later SQLite receipt checkpoint: clean Node61b27ba8 composition719
+verifies58/67 obligations, now including real first receipt after certificate
+expiry plus skew with the original signed publication time. Nine B predicates,
+final current-candidate cohort and two-store retained qualification remain open.
+P015-001--003 and both complete gates stay partial. See the
+[contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#actual-late-first-sqlite-reception-2026-11-04).
+
+
+2026-11-04 later Matrix receipt checkpoint: clean Nodebf607f06 composition727
+verifies59/67 obligations. Actual late first reception is now covered on SQLite
+and Matrix, with exact original bytes and full Matrix PDU acceptance. Eight B
+predicates, final current-candidate cohort and two-store qualification remain open;
+P015-001--003 and both complete gates stay partial. See the
+[contextual checkpoint](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#actual-late-matrix-reception-2026-11-04).
 ## V2 status lifecycle and portable epoch closure (2026-10-30)
 
 The bounded runtime acceptance below passed. P015-006 is independent of
@@ -725,7 +1150,15 @@ The two signatures are unpadded base64url strings in the closed object roles
 `predecessor` and `successor`. Both cover `orbiplex.nym-succession.v2`, NUL, then
 JCS with only `signatures` removed. Audience is absent for public line scope;
 case audience has 1..16 canonical principals, bytewise sorted and unique, and
-includes the committed case authority. Signed input is never silently sorted.
+includes the committed case authority. An audience principal may be a `nym:did:key`
+reader: this proves possession for audience reads, not status-authority or issuer
+admission. Authority and issuer kind checks remain separate and exclude nym.
+Signed input is never silently sorted.
+The pre-release schema expansion explicitly admits nym audience members, matching
+registration and status-read contracts. Earlier validators may reject that new
+form; historical schema pins and signed artifacts are not rewritten. The maximum
+canonical size is unchanged because nym principals are shorter than the existing
+longest allowed kind.
 Succession IDs are canonical random UUIDv4. Canonical UTC, byte/depth limits and
 closed field combinations precede signature work. The schema-derived canonical
 upper bound is 2026 bytes, under the independent 8192-byte ingress ceiling.
@@ -812,3 +1245,31 @@ archive SHA-256 `3e53184bda3608b00c90aa9d81770ae113925563528c625a0fc4c8b6bb0a4c8
 inputs, times, limitations and the preserved unqualified first pure attempt.
 The original capsules are unchanged; current authority, LLR-007–010, P015-005,
 transport and release readiness are not implied.
+
+
+## Protected authoring prepared-output retention follow-up, 2026-11-07
+
+The S026 certified-authoring operation journal predates the ordered-case workflow.
+`node:daemon/src/identity_host/nym_authorship.rs` seals the frozen preview and signed
+output under the recoverable operational Vault key, with no finite exchange expiry.
+Its completion marker intentionally supports exact readback after case-key erasure.
+This is an implementation gap against the accepted sole-custody/finite-retention
+design, not a new normative store or a cryptographic-erasure guarantee.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-011 | Bound protected authoring prepared-output retention | todo | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
+
+The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.
+No new retention implementation or retroactive cleanup is authorized by this note.
+
+### Tracker identity reconciliation (2026-11-07)
+
+Integration exposed two independently allocated `P015-009` identifiers. The
+participant-certification contract keeps `P015-009`; participant delivery keeps
+`P015-010`. Protected authoring prepared-output retention is now `P015-011`, and
+P015-005 depends on that retention gate. This is an identifier correction, not a
+change to either completion gate or production readiness. Historical case-continuity
+audits and capsules that name P015-009 for authoring-journal retention retain their
+exact bytes; that historical use resolves to P015-011. References from participant
+UI and P013-PA-001 continue to mean the distinct P015-009 contract.

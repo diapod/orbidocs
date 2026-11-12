@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-authorship-readback-response.local:v1",
+  "title": "nym-authorship-readback-response.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "oneOf": [
+    {
+      "$ref": "nym-authorship-readback.local.v1.schema.json"
+    },
+    {
+      "$ref": "nym-authorship-readback.local.v3.schema.json"
+    }
+  ]
+}

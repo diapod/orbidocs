@@ -153,7 +153,9 @@ When:
                     "nym-key-request-sealed.v1",
                     "nym-key-offer-sealed.v1",
                     "nym-issuance-request-sealed.v1",
-                    "nym-issuance-decision-sealed.v1"
+                    "nym-issuance-decision-sealed.v1",
+                    "nym-issuance-request-sealed.v2",
+                    "nym-issuance-decision-sealed.v2"
                   ]
                 }
               }
@@ -202,7 +204,10 @@ Then:
                   "items": {
                     "properties": {
                       "template": {
-                        "const": "nym-bootstrap-consent"
+                        "enum": [
+                          "nym-bootstrap-consent",
+                          "nym-bootstrap-consent-v2"
+                        ]
                       }
                     }
                   }
@@ -262,12 +267,113 @@ Then:
                   "items": {
                     "properties": {
                       "template": {
-                        "const": "nym-bootstrap-consent"
+                        "enum": [
+                          "nym-bootstrap-consent",
+                          "nym-bootstrap-consent-v2"
+                        ]
                       }
                     }
                   }
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
+### Rule 4
+
+When:
+
+```json
+{
+  "properties": {
+    "issuance_authority": {
+      "properties": {
+        "delegation": {
+          "properties": {
+            "templates": {
+              "contains": {
+                "properties": {
+                  "template": {
+                    "const": "nym-bootstrap-consent-v2"
+                  }
+                },
+                "required": [
+                  "template"
+                ]
+              }
+            }
+          },
+          "required": [
+            "templates"
+          ]
+        }
+      },
+      "required": [
+        "delegation"
+      ]
+    }
+  },
+  "required": [
+    "issuance_authority"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "allOf": [
+    {
+      "properties": {
+        "capability_id": {
+          "const": "inac.invitation"
+        }
+      }
+    },
+    {
+      "properties": {
+        "scope": {
+          "properties": {
+            "profiles": {
+              "items": {
+                "properties": {
+                  "profile": {
+                    "const": "inac-invitation@v1"
+                  },
+                  "artifact_schemas": {
+                    "items": {
+                      "enum": [
+                        "nym-key-request-sealed.v1",
+                        "nym-key-offer-sealed.v1",
+                        "nym-issuance-request-sealed.v2",
+                        "nym-issuance-decision-sealed.v2"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "profile",
+                  "artifact_schemas"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "issuance_authority": {
+          "properties": {
+            "issuance_caller": {
+              "const": "host:nym-bootstrap.accept"
             }
           }
         }

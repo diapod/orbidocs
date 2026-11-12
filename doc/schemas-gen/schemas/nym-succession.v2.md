@@ -17,7 +17,7 @@ Source schema: [`doc/schemas/nym-succession.v2.schema.json`](../../schemas/nym-s
 | [`successor/nym`](#field-successor-nym) | `yes` | string |  |
 | [`successor/certificate`](#field-successor-certificate) | `yes` | string |  |
 | [`case/anchor`](#field-case-anchor) | `no` | string |  |
-| [`audience`](#field-audience) | `no` | array |  |
+| [`audience`](#field-audience) | `no` | array | Named Ed25519 principals, including a private nym reader; this audience grant does not enable the nym kind as a case authority. |
 | [`issued-at`](#field-issued-at) | `yes` | string |  |
 | [`not-after`](#field-not-after) | `yes` | string |  |
 | [`signatures`](#field-signatures) | `yes` | object |  |
@@ -181,6 +181,8 @@ Then:
 
 - Required: `no`
 - Shape: array
+
+Named Ed25519 principals, including a private nym reader; this audience grant does not enable the nym kind as a case authority.
 
 <a id="field-issued-at"></a>
 ## `issued-at`

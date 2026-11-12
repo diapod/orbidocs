@@ -26,6 +26,17 @@ zrozumiałej dla człowieka. Ręczna tabela semantyczna obejmuje wpisy wybrane p
 `docs.human-registry`; generowany [pełny katalog host-local](#host-local-capabilities)
 obejmuje wszystkie host capabilities.
 
+## Tożsamość kanału hosta
+
+Wpis host-local jawnie wybiera wiązanie wywołującego. Trzy istniejące porty
+`signer.sign`, `signer.status` i `identity.nym.source-status.acquire` zachowują
+jawne hostowe wiązanie modułu przez `bound-module-or-live-session`; w pozostałych
+przypadkach wymagają dokładnej bieżącej sesji dopuszczonej niezależnej instancji.
+Nadal obowiązuje polityka capability i domeny. Ten wybór nie tworzy wiązania
+modułu. Inne porty live-session, w tym custody i kontrola recenzowanej publikacji,
+zawsze wymagają zadeklarowanego dowodu właściciela. Nieznany lub nieaktualny
+autorytet oznacza odmowę.
+
 ## Warstwy deklarowania capability
 
 Capability advertisement i capability passport są powiązane, ale nie są
@@ -138,6 +149,10 @@ odrzucane na admission gate.
 | `sensorium.interface.invoke` | `sensorium/interface.invoke` | aktuacja | wywołanie dokładnej metody jednego jawnie grantowanego interfejsu aktuacji oraz koordynacja jego ograniczonego współdzielonego lub wyłącznego sterowania | Sensorium Interfaces runtime | tak, `sensorium-interface-actuation@v1` | Zaimplementowana podstawa P083 wiąże każdy efekt z uwierzytelnionym callerem, dokładnym interfejsem, metodą, klasyfikacją, nieprzezroczystą generacją źródła, grantem i limitami; efekt wyłączny wymaga dodatkowo bieżącej dzierżawy, epoki i sekwencji callera. Obserwacja, członkostwo w Room ani dołączenie nośnika nie dają uprawnienia invoke. |
 | `sensorium.interface.manage` | `sensorium/interface.manage` | sterowanie hosta | lokalne dla źródła publikowanie obserwacji i aktuacji, lifecycle, granty, revocation, inspekcja, metryki i preempcja wynikająca z polityki | Sensorium Interfaces runtime | nie; tylko host-local | Zaimplementowana capability nie jest reklamowana i nie kwalifikuje się do Passportu. Jej polityka autoryzacji wylicza zamknięty zbiór akcji, w tym `control.preempt`; wymagane pozostają uwierzytelnione związanie callera, aktywny dokładny grant invoke dla dzierżawy operatora, niezmienne fakty zarządcze i rekonstrukcja po restarcie. |
 | `http.fetch.bounded` | `host/http.fetch.bounded` | efekt sieciowy hosta | jedno ograniczone pobranie HTTP(S) dopuszczone dla dokładnego konsumenta middleware, akcji, polityki originu i klasy celu | daemon bounded HTTP fetch host | nie; tylko host-local | Zaimplementowany reużywalny prymityw należący do daemona, którego pierwszym konsumentem jest P084. Rozwiązuje i klasyfikuje każdy adres, pinuje wybrane połączenie, ponownie waliduje redirecty w tym samym originie, egzekwuje przecięte limity bajtów, czasu i współbieżności oraz zwraca wyłącznie ograniczone bajty albo wskaźnik Artifact Delivery. Nie jest publicznym proxy i nie nadaje władzy obserwacji ani publikacji Sensorium. |
+| `http.fetch.bounded.v2` | `host/http.fetch.bounded.v2` | host-local custody | Ograniczone pobranie z trwałym transferem oryginału hosta; bez oryginału inline w connectorze. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
+| `http.fetch.bounded.capture.read` | `host/http.fetch.bounded.capture.read` | host-local custody | Powtarzalne, ograniczone strony dla ekstrakcji z niezależnym dokładnym wiązaniem wywołującego, sesji, akcji i treści. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
+| `artifact.delivery.retain.v2` | `host/artifact.delivery.retain.v2` | host-local custody | Jawna skończona retencja osobnego roszczenia z reprezentacji inline lub jednorazowego transferu hosta. | Artifact Delivery and authenticated channel owner | no; host-local only | Wymaga bieżącego właściciela i sesji oraz przyjętej polityki skończonej custody. Nie daje prawa publikacji, dostarczenia zewnętrznego ani swobodnego odczytu obiektu. |
+| `whisper.reviewed-publication.check` | `host/whisper.reviewed-publication.check` | bieżące dopuszczenie lokalne | Sprawdza dokładny zachowany kandydat publikacji Harvestera v3 względem bieżącej recenzji, wymaganych bajtów i istniejących holdów. | Właściciele recenzji Harvestera i Artifact Delivery | nie; tylko host-local | Wymaga żywego dopuszczonego kanału ze skonfigurowanego inwentarza odbiorców. Nie tworzy holdu, retencji, podpisu ani grantu publikacji; nie zwraca prywatnych referencji roszczeń ani terminów. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | ocena danych | ograniczona ocena jawnej polityki odbiorcy względem deklaracji lub dowodu wykonania | inference provenance core przez daemon | nie; tylko host-local | Zwraca admit, warn lub deny dla dokładnych podmiotów. Nie uwierzytelnia źródeł, nie instaluje polityki, nie uruchamia inferencji i nie nadaje uprawnień do efektów. |
 | `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | admisja hosta | zatwierdza dokładny draft oferty task-pack względem bieżących bindingów i polityki należących do hosta | operator task-pack host approval and current admission | nie; tylko host-local | Uwierzytelniona zgoda lokalnego operatora jest odrębna od podpisania przez Dator i publikacji w Agorze. Nie nadaje uprawnień federacyjnego discovery ani Passportu. |
 | `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | admisja hosta | dopuszcza niezmienne zakończenie task-pack z zatrzymanej zweryfikowanej receptury i podpisanego wyniku Corpus | operator task-pack host immutable publication and completion admission | nie; tylko host-local | Ponownie sprawdza bieżące uprawnienie publikacji; replay używa zatrzymanych bajtów, nie powtarza inferencji ani publikacji i nie autoryzuje rozliczenia kupującego. |
@@ -172,7 +187,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **243** host-local / **275** ogółem; grupy właścicieli: **42**.
+Wpisy: **261** host-local / **293** ogółem; grupy właścicieli: **54**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -182,6 +197,30 @@ Wpis może mieć również powierzchnię `federated`, pokazaną jawnie w tabeli.
 Ani obecność wpisu, ani status `active` nie gwarantują zainstalowanego handlera,
 działającego endpointu lub uprawnienia wywołującego. Dostępność runtime, granty,
 zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są URL-ami endpointów.
+
+### <code>Artifact Delivery bounded extraction reader</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>http.fetch.bounded.capture.read</code> | <code>host/http.fetch.bounded.capture.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>Artifact Delivery custody owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>artifact.delivery.retain.v2</code> | <code>host/artifact.delivery.retain.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>Artifact Delivery finite custody extension owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>artifact.delivery.extend</code> | <code>host/artifact.delivery.extend</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>Harvester reviewed publication and AD custody owners</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>whisper.reviewed-publication.check</code> | <code>host/whisper.reviewed-publication.check</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>Responsibility host / local operator maintenance</code>
 
@@ -204,6 +243,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>sensorium.interface.remote-feed</code> | <code>sensorium/interface.remote-feed</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>sensorium.interface.subscribe</code> | <code>sensorium/interface.subscribe</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 
+### <code>Sensorium Web local deterministic extraction step</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>sensorium.web.extract</code> | <code>host/sensorium.web.extract</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
 ### <code>Sensorium Workbench connector</code>
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
@@ -212,6 +257,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>sensorium.workbench.file</code> | <code>sensorium/workbench.file</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 | <code>sensorium.workbench.patch</code> | <code>sensorium/workbench.patch</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
 | <code>sensorium.workbench.terminal</code> | <code>sensorium/workbench.terminal</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>Weak Signal Harvester local review owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>weak-signal.review</code> | <code>host/weak-signal.review</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>Whisper Intake trace authoring provider</code>
 
@@ -346,6 +397,31 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 |---|---|---|---|---|---|---|
 | <code>sensorium.virt.host</code> | <code>host/sensorium.virt.host</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
+### <code>daemon Whisper PEX recipient hosts</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>whisper.pex.offer.prepare</code> | <code>host/whisper.pex.offer.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper PEX source host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>whisper.pex.offer.bind</code> | <code>host/whisper.pex.offer.bind</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper case authority host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>whisper.case.policy.prepare</code> | <code>host/whisper.case.policy.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>whisper.case.policy.read</code> | <code>host/whisper.case.policy.read</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon bounded HTTP capture host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>http.fetch.bounded.v2</code> | <code>host/http.fetch.bounded.v2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
 ### <code>daemon bounded HTTP fetch host</code>
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
@@ -383,6 +459,17 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>config.change.plan</code> | <code>host/config.change.plan</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>config.setting.describe</code> | <code>host/config.setting.describe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>config.value.explain</code> | <code>host/config.value.explain</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon contextual nym applicant host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>identity.nym.authorship.preview</code> | <code>host/identity.nym.authorship.preview</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.readback</code> | <code>host/identity.nym.authorship.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.authorship.sign</code> | <code>host/identity.nym.authorship.sign</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.renewal.approve</code> | <code>host/identity.nym.renewal.approve</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.renewal.readback</code> | <code>host/identity.nym.renewal.readback</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.nym.renewal.revoke</code> | <code>host/identity.nym.renewal.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>daemon gateway control</code>
 
@@ -449,6 +536,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>operator.extension.inspect</code> | <code>host/operator.extension.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>operator.extension.lifecycle</code> | <code>host/operator.extension.lifecycle</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>operator.extension.safe-mode</code> | <code>host/operator.extension.safe-mode</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon optional nym status host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>identity.nym.source-status.acquire</code> | <code>host/identity.nym.source-status.acquire</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon or supervised middleware host capability</code>
 

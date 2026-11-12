@@ -153,9 +153,13 @@ Direct issuance remains a useful alternative if that complexity is unnecessary.
 Multiple delegation levels and hosted multi-participant Nodes remain outside this decision.
 Non-Messaging grants remain outside this original decision and its qualification.
 The later [P015 contextual bootstrap profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#narrow-bootstrap-delegation-and-local-consent)
-adopts one separate singleton nym-only template. It preserves beneficiary equality
-and existing root/status verification, requires independent host-owned local
-consent and confers no Messaging readiness, send/receive or sovereignty.
+adopts separate singleton nym-only templates: the original four-family v1
+transport grant and the explicitly root-approved bootstrap-v2 grant for key
+request/offer v1 plus full request/decision v2. Existing signed grants do not gain
+authority. Both preserve beneficiary equality and existing root/status verification,
+require independent host-owned local consent and confer no Messaging readiness,
+send/receive or sovereignty. P015 owns this extension and its qualification;
+P076's historical evidence is unchanged.
 
 ## Failure Modes and Mitigations
 

@@ -1,0 +1,16 @@
+{
+  "schema": "artifact-delivery-status.v1",
+  "trace/profile": "minimal-trace-v1",
+  "delivery/id": "delivery:fixture_minimal",
+  "artifact/schema": "vendor.sealed.v1",
+  "status": "succeeded",
+  "submitted-at": "2026-11-07T12:00:00Z",
+  "observed-at": "2026-11-07T12:00:01Z",
+  "expires-at": "2026-11-07T12:15:00Z",
+  "failure/class": null,
+  "dispatch/plan": {
+    "artifact": {
+      "bytes/base64": "not-permitted"
+    }
+  }
+}

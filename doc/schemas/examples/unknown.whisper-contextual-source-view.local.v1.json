@@ -1,0 +1,12 @@
+{
+  "schema": "whisper-contextual-source-view.local.v1",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "context/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "epoch": 1,
+  "authority": "participant:did:key:z123",
+  "state": "freshness-unknown",
+  "freshness": "unknown",
+  "current/sources": null,
+  "last-evaluation": null,
+  "first-emission": null
+}

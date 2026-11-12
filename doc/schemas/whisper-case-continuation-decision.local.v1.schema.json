@@ -1,0 +1,315 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-continuation-decision:local:v1",
+  "title": "whisper-case-continuation-decision.local.v1",
+  "description": "Recipient-owned point-in-time decision for continue-case only. History/authenticity are independently verified inputs; case and source currency remain separate. The effect owner rechecks time and fencing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "successor",
+    "reader",
+    "succession/digest",
+    "acceptance/digest",
+    "inputs/digest",
+    "evaluated/at",
+    "case/usable-until",
+    "case/currency",
+    "source/currency",
+    "result",
+    "signature/work",
+    "case/authority",
+    "anchor/witness",
+    "registration/basis"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-continuation-decision.local.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "successor": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "reader": {
+      "type": "string",
+      "pattern": "^(node|nym|participant|org|council):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "succession/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "acceptance/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "inputs/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50
+    },
+    "evaluated/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "case/usable-until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "case/currency": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "outcome"
+          ],
+          "properties": {
+            "outcome": {
+              "const": "current"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "outcome",
+            "reason"
+          ],
+          "properties": {
+            "outcome": {
+              "const": "refused"
+            },
+            "reason": {
+              "enum": [
+                "structure",
+                "limit",
+                "binding",
+                "signature",
+                "authority-unavailable",
+                "authority-kind-not-enabled",
+                "stale-predecessor",
+                "stale-status",
+                "not-yet-valid",
+                "terminal",
+                "conflicted",
+                "unresolved",
+                "signing-policy-refused",
+                "operation-not-enabled",
+                "dependency-unavailable",
+                "anchor-revoked-before-admission",
+                "anchor-unproven",
+                "access-denied",
+                "request-id-conflict",
+                "status-budget-exhausted",
+                "operation-budget-exhausted"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "source/currency": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "const": "usable"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "reason"
+          ],
+          "properties": {
+            "state": {
+              "const": "refused"
+            },
+            "reason": {
+              "enum": [
+                "invalid-structure",
+                "non-canonical",
+                "non-nfc",
+                "scope-mismatch",
+                "invalid-time",
+                "signature-invalid",
+                "expired",
+                "not-yet-valid",
+                "epoch-ended",
+                "source-activation-pending",
+                "status-stale",
+                "status-rollback",
+                "status-equivocation",
+                "status-revision-unavailable",
+                "source-revoked",
+                "certificate-revoked",
+                "crypto-unavailable",
+                "ciphertext-invalid",
+                "invalid-publication-evidence",
+                "publication-readback-mismatch",
+                "required-revocation-missing"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "result": {
+      "enum": [
+        "allowed",
+        "refused"
+      ]
+    },
+    "signature/work": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32
+    },
+    "case/authority": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 128
+    },
+    "anchor/witness": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+          "maxLength": 128
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "registration/basis": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "mode": {
+              "const": "authority-attested"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "inputs/digest"
+          ],
+          "properties": {
+            "mode": {
+              "const": "independently-verified"
+            },
+            "inputs/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "maxLength": 50
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "inputs/digest"
+          ],
+          "properties": {
+            "mode": {
+              "const": "independently-refuted"
+            },
+            "inputs/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "maxLength": 50
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "allowed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "case/currency": {
+            "properties": {
+              "outcome": {
+                "const": "current"
+              }
+            }
+          },
+          "source/currency": {
+            "properties": {
+              "state": {
+                "const": "usable"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "case/currency": {
+            "properties": {
+              "outcome": {
+                "const": "current"
+              }
+            }
+          },
+          "source/currency": {
+            "properties": {
+              "state": {
+                "const": "usable"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "const": "allowed"
+          }
+        }
+      }
+    }
+  ]
+}
