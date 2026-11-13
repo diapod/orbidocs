@@ -29,6 +29,8 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.whisper-case-command.v2.json) echo "$SCHEMAS_DIR/whisper-case-command.v2.schema.json" ;;
+    *.whisper-case-succession-presentation.v2.json) echo "$SCHEMAS_DIR/whisper-case-succession-presentation.v2.schema.json" ;;
     *.agora-source-attestation-request.local.v1.json) echo "$SCHEMAS_DIR/agora-source-attestation-request.local.v1.schema.json" ;;
     *.agora-admission-write-result.local.v2.json) echo "$SCHEMAS_DIR/agora-admission-write-result.local.v2.schema.json" ;;
     *.agora-admission-readback.v3.json) echo "$SCHEMAS_DIR/agora-admission-readback.v3.schema.json" ;;

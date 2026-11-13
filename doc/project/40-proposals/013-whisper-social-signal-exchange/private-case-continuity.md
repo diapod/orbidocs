@@ -562,3 +562,27 @@ exact policy/use admission and never select a fallback. The SQLite v1 bridge
 uses the original local receipt; it does not produce Matrix anchors. Synapse
 requires the separately adopted full-PDU observation witness. P015-005 is not
 substituted for either bridge, and current ordinary-v1 Gate B remains open.
+
+Source-bound case evidence has explicit `whisper-case-command.v2` and
+`whisper-case-succession-presentation.v2` carriers. They add the opaque
+`anchor-source` role: at most eight exact buffers, 64 KiB each and 256 KiB in
+total, charged inside the existing command/presentation decoded budgets. The
+wire limit remains 4 MiB; the referenced profile remains 64 KiB. Each occurrence
+counts in v2's byte budget, including a buffer reused under another role.
+Registration and presentations require the source role. V1 schemas, signatures,
+pins and unique-buffer accounting remain unchanged and refuse that role.
+
+The explicit carrier version selects admission material v3. One shared structural
+projection feeds both registration and recipient verification; P035 still owns
+source verification and independent policy/use adoption. A bad carried buffer
+cannot fall back to a good local copy. References resolve only through the
+explicit local exact-byte port, with no acquisition operation.
+
+The relay route's `record/id` is distinct from the case anchor's exact signed
+author-byte digest. They are not interchangeable even though both use SHA-256.
+Verification dependencies retain only the required, checked metadata objects.
+A full Matrix PDU remains payload; its digest is a separate dependency reference,
+not a non-payload hold or custody promise. Unused carried objects do not become
+verification metadata. Source payload custody and ordinary host/private transport
+composition retain their own Gate B obligations; declaring these carriers does
+not qualify that runtime.

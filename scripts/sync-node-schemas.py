@@ -56,6 +56,9 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "whisper-case-command.v2.schema.json",
+    "whisper-case-succession-presentation.v2.schema.json",
+
     # Explicit P084 custody/origin-v3 canonical mirrors.
     "artifact-custody-configuration.local.v1.schema.json",
     "artifact-custody-policy.v1.schema.json",
@@ -858,6 +861,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "source.whisper-case-command.v2.json",
+    "source.whisper-case-succession-presentation.v2.json",
+
     "sqlite.agora-source-attestation-request.local.v1.json",
     "source-pending.agora-admission-write-result.local.v2.json",
     "source-pending.agora-admission-readback.v3.json",
@@ -1543,6 +1549,11 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "source-role.whisper-case-command.v1.json",
+    "source-role.whisper-case-succession-presentation.v1.json",
+    "unknown-source.whisper-case-command.v2.json",
+    "unknown-source.whisper-case-succession-presentation.v2.json",
+
     "missing-policy.agora-source-attestation-request.local.v1.json",
     "caller-clock.agora-source-attestation-request.local.v1.json",
     "padded-policy.agora-source-attestation-request.local.v1.json",

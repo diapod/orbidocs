@@ -1,0 +1,40 @@
+{
+  "schema": "whisper-case-command.v1",
+  "family": "case-registration",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "exchange": "exchange:DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw",
+  "response/public-key": "CwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCws",
+  "control": "eyJhdWRpZW5jZSI6WyJub2RlOmRpZDprZXk6ejZNa2hxNEc1Uk44ZjNuNnFHbnBSclZqWjVETEJXTVJHUWVoTkNwNzZzQ3puSmhrIl0sImF1dGhvcml6YXRpb24vcHVibGljLWtleSI6Ino2TWtocTRHNVJOOGYzbjZxR25wUnJWalo1RExCV01SR1FlaE5DcDc2c0N6bkpoayIsImNhc2UvYW5jaG9yIjoic2hhMjU2OkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEiLCJjYXNlL2F1dGhvcml0eSI6Im5vZGU6ZGlkOmtleTp6Nk1raHE0RzVSTjhmM242cUducFJyVmpaNURMQldNUkdRZWhOQ3A3NnNDem5KaGsiLCJjYXNlL25vdC1hZnRlciI6IjIwMjYtMTEtMDRUMTI6MDA6MDBaIiwiaW5wdXRzL2RpZ2VzdCI6InNoYTI1NjpBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBIiwiaXNzdWVkL2F0IjoiMjAyNi0xMS0wNFQxMjowMDowMFoiLCJub3QtYWZ0ZXIiOiIyMDI2LTExLTA0VDEyOjAwOjAwWiIsInJlcXVlc3QvaWQiOiJjMDEwYmIwOC01NGRkLTRkZGItODg4OC0wMDM0NTEyMjc2MzEiLCJzY2hlbWEiOiJ3aGlzcGVyLWNhc2UtcmVnaXN0cmF0aW9uLnYxIiwic2lnbmF0dXJlIjoiQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEifQ",
+  "evidence": [
+    {
+      "role": "anchor-record",
+      "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+      "bytes": "e30"
+    },
+    {
+      "role": "anchor-receipt",
+      "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+      "bytes": "e30"
+    },
+    {
+      "role": "anchor-certificate",
+      "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+      "bytes": "e30"
+    },
+    {
+      "role": "profile",
+      "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+      "bytes": "e30"
+    },
+    {
+      "role": "anchor-status",
+      "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+      "bytes": "e30"
+    },
+    {
+      "role": "anchor-source",
+      "digest": "sha256:4DJDpmULnAdOvtjoQtw8MC27EJg7VJLpgKbqyUfi-ew",
+      "bytes": "eyJmaXh0dXJlIjoic3RydWN0dXJlLW9ubHkifQ"
+    }
+  ]
+}

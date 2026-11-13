@@ -1,0 +1,12 @@
+{
+  "schema": "whisper-case-succession-presentation.v2",
+  "profile": "referenced",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "evidence": [
+    {
+      "role": "anchor-source",
+      "digest": "sha256:4DJDpmULnAdOvtjoQtw8MC27EJg7VJLpgKbqyUfi-ew",
+      "bytes": "eyJmaXh0dXJlIjoic3RydWN0dXJlLW9ubHkifQ"
+    }
+  ]
+}
