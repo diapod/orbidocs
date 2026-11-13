@@ -3284,6 +3284,12 @@ Logical evidence withdrawal still requires distinct owner/reviewer identities
 and distinct admitted keys. An explicitly appointed AI reviewer must be labelled
 as such; its signature is not independent human review. Actor labels alone confer
 no authority and an operator must adopt the concrete key binding.
+A delegated AI actor may be restricted to only the reviewer role, the exact
+retirement profile and a bounded set of artifact identifiers. Its assertion and
+every new plan must preserve those restrictions; delegation adds no owner or
+executor privilege. Historical known-profile records preserve their exact prior
+implementation binding; current admission still requires the current qualified
+binding. Reading a prior fact never renews its signature or admission.
 
 The P094 owner accepts loss of the exact old cache only after this qualification
 and separate final authorization. Preserve its original reports, receipts and
@@ -3292,7 +3298,7 @@ qualifications, change generic retirement budgets or assert an independent backu
 
 | Follow-up | Status | Boundary |
 |---|---|---|
-| `evidence-linked-cache-retirement` | partial | Node implements/fixture-qualifies explicit v2 records, contained graphs, exact signed effects, crash residual reconciliation and profile/artifact-restricted reviewer keys. Current authority/key adoption, complete actual P094 review and exact effect decisions remain open. |
+| `evidence-linked-cache-retirement` | partial | Node implements/fixture-qualifies explicit v2 records, contained graphs, exact signed effects, crash residual reconciliation and profile/artifact-restricted reviewer keys. One explicitly approved local authority/key adoption is verified with the existing namespace preserved. Actual whole-window P094 model maintenance/quiescence and exact effect decisions remain open. |
 
 Node execution plan: `node:docs/development/P094-MODEL-RETIREMENT-PLAN.md`.
 
