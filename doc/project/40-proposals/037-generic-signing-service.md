@@ -1101,6 +1101,21 @@ Only the host-private node-key adapter can sign a delegation. Generic `sign`
 rejects both the witness domain and the delegation prefix, including a prefix
 wrapped in an alternate domain. Public fences survive restart; secrets do not.
 
+The versioned local request `witness-signing-request.local.v2` adds an explicit
+source-preparation operation for P035 witness adapters. It binds the exact source
+kind and policy digest to the one-use ticket. A native ticket cannot sign a source
+attestation, and a source ticket cannot change its kind, policy or full-record
+scope. Unversioned v1 requests remain native-only; an invalid or unknown v2 never
+falls back to v1. The protected signer checks the operation's own preparation-to-
+signature budget independently of the older publication and admission clocks.
+If the statement claims contemporary evidence, the actual signature must also
+finish within the policy budget after its original admission commit. Earlier
+payload times cannot hide a late signature. Source fact verification and source-use
+adoption remain with Agora; a signing ticket grants neither admission nor trust.
+
+The source-preparation port has component conformance coverage. It does not renew
+the historical P035-019 gate or qualify ordinary-v1 source production or Gate B.
+
 The capability registry identifies this operation as `host/signer.witness`, an
 active host-local route and dispatch capability. It is not advertisable, passport
 eligible, federated discovery or a generic signing domain. Registry admission

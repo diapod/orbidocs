@@ -1,0 +1,16 @@
+{
+  "schema": "witness-signing-request.local.v2",
+  "operation": "prepare-source",
+  "policy": {
+    "profile/digest": "sha256:ExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExM",
+    "epoch/anchor": "2026-11-13T00:00:00.000000000Z",
+    "epoch/seconds": 600,
+    "receipt/key-window-seconds": 60,
+    "receipt/commit-budget-seconds": 5,
+    "clock/skew-seconds": 5
+  },
+  "source": {
+    "receipt/source": "sqlite-local-receipt-bridge",
+    "policy/digest": "sha256:FxcXFxcXFxcXFxcXFxcXFxcXFxcXFxcXFxcXFxcXFxc"
+  }
+}

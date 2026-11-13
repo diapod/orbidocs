@@ -169,6 +169,7 @@ SCHEMA_WHITELIST = (
     "whisper-source-profile.v2.schema.json",
     "witness-key-delegation.v1.schema.json",
     "witness-signing-request.local.v1.schema.json",
+    "witness-signing-request.local.v2.schema.json",
     "witness-signing-result.local.v1.schema.json",
     "messaging-admission-identity.v1.schema.json",
     "inac-admission-status.query.v1.schema.json",
@@ -854,6 +855,7 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "example.witness-signing-request.local.v2.json",
     "sqlite.agora-admission-source-policy.v1.json",
     "matrix.agora-admission-source-policy.v1.json",
     "example.agora-matrix-homeserver-admission.v1.json",
@@ -1535,6 +1537,9 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "native-purpose.witness-signing-request.local.v2.json",
+    "missing-policy.witness-signing-request.local.v2.json",
+    "source-operation.witness-signing-request.local.v1.json",
     "missing-window.agora-admission-source-policy.v1.json",
     "wrong-source.agora-admission-source-policy.v1.json",
     "cross-branch.agora-admission-source-policy.v1.json",

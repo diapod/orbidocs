@@ -29,6 +29,8 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.witness-signing-request.local.v2.json) echo "$SCHEMAS_DIR/witness-signing-request.local.v2.schema.json" ;;
+    *.witness-signing-request.local.v1.json) echo "$SCHEMAS_DIR/witness-signing-request.local.v1.schema.json" ;;
     *.agora-admission-material.v3.json) echo "$SCHEMAS_DIR/agora-admission-material.v3.schema.json" ;;
     *.agora-admission-source-policy.v1.json) echo "$SCHEMAS_DIR/agora-admission-source-policy.v1.schema.json" ;;
     *.agora-matrix-homeserver-admission.v1.json) echo "$SCHEMAS_DIR/agora-matrix-homeserver-admission.v1.schema.json" ;;
