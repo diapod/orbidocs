@@ -106,6 +106,7 @@ schema_for_file() {
     *whisper-case-status.v1.json) echo "$SCHEMAS_DIR/whisper-case-status.v1.schema.json" ;;
     *whisper-case-succession-presentation.v1.json) echo "$SCHEMAS_DIR/whisper-case-succession-presentation.v1.schema.json" ;;
     *whisper-private-exchange-header.v2.json) echo "$SCHEMAS_DIR/whisper-private-exchange-header.v2.schema.json" ;;
+    *whisper-pex-key-offer.v2.json) echo "$SCHEMAS_DIR/whisper-pex-key-offer.v2.schema.json" ;;
     *whisper-pex-key-offer.v1.json) echo "$SCHEMAS_DIR/whisper-pex-key-offer.v1.schema.json" ;;
     *whisper-case-authority-policy.v1.json) echo "$SCHEMAS_DIR/whisper-case-authority-policy.v1.schema.json" ;;
     *.whisper-case-authorities.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-authorities.local.v1.schema.json" ;;

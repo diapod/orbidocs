@@ -572,6 +572,14 @@ counts in v2's byte budget, including a buffer reused under another role.
 Registration and presentations require the source role. V1 schemas, signatures,
 pins and unique-buffer accounting remain unchanged and refuse that role.
 
+Source commands use `whisper-pex-key-offer.v2`, whose closed payload is
+`whisper-case-command.v2` and whose recipient role remains `case-authority`.
+Its protected signing domain is `whisper.exchange-key.offer.v2`, with preimage
+prefix `orbiplex.whisper-pex-key-offer.v2` followed by NUL. The v1 offer remains
+unchanged. A version-1 offer never authorizes a version-2 command. The shared
+recipient-key, interval and exact exchange laws apply without a second key
+schedule, transport queue or authority grant.
+
 The explicit carrier version selects admission material v3. One shared structural
 projection feeds both registration and recipient verification; P035 still owns
 source verification and independent policy/use adoption. A bad carried buffer
