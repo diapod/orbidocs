@@ -3303,3 +3303,43 @@ qualifications, change generic retirement budgets or assert an independent backu
 Node execution plan: `node:docs/development/P094-MODEL-RETIREMENT-PLAN.md`.
 
 Scoped Node implementation and qualification: `node:docs/audits/P094-LINKED-CACHE-RETIREMENT-2026-11-13.md`. This is not a renewal of historical transport/model qualifications or permission to delete original caches.
+
+
+## Completed retirement readback after control appends (2026-11-14)
+
+**Status:** accepted additive read-only boundary. Exact effect authorization,
+permanent consumption and historical execution-time verification stay unchanged.
+
+A later complete, signed, consumed operation may explain a new immutable control
+record absent from an earlier operation's scope listing. The reader must name a
+bounded explicit witness set in the same current adopted namespace, validate its
+original plan/catalog/source, signatures, begin and consumption bindings, and
+check the current exact record bytes and private regular-file custody. Only new
+top-level control records outside witness target scopes are eligible. An arbitrary
+listing, age, prefix or operator assertion is insufficient. Every original and
+witness snapshot still receives current post-action and replacement checks;
+unknown additions, removals, type/identity drift or changed controls refuse.
+
+A reviewed read-only reader may have its own explicit tool manifest/digest while
+retaining the producer's original authority binding and current namespace head.
+This separation does not adopt new executor tools, renew approvals, rewrite
+receipts or allow another effect. Mutation admission keeps its current tooling
+and exact authorization requirements. The scoped Node implementation does not
+broaden verification to superseded authority chains or changed policy/generator
+bytes. Aggregate read bounds and the original time limits remain enforced.
+
+The additive verification result has a new local version. If a record inclusion
+is authenticated but another scope has drifted, a structured nonzero refusal may
+report that inclusion separately; it must not label the entire verification as
+successful. Diagnostics and source-pinned regression evidence belong in Node,
+not in a second proposal campaign log.
+
+Alternatives rejected: ignoring record-scope listings, approving name prefixes,
+resetting historical snapshots or readopting executor authority merely to read a
+receipt. They either hide unknown changes or mix observation and mutation trust.
+This decision preserves accountable custody and auditability while making one
+later authenticated fact distinguishable from unexplained drift.
+
+Node procedure: `node:docs/operations/EVIDENCE-RETIREMENT-READBACK.md`.
+Scoped outcome and remaining drift: `node:docs/audits/P094-VERIFY-CONTROL-APPEND-2026-11-14.md`.
+No broader P035/P094 or release qualification follows.
