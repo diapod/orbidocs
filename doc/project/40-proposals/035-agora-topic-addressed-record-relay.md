@@ -759,7 +759,11 @@ The immutable buffer contains the signed author envelope without top-level
 carrier context; each relay records its own receipt time. Forwarding and replay
 reuse this buffer. Typed adapters freeze `JcsV1` once, matching the host
 signed-document commitment, and cannot recover discarded JSON spelling. They
-never rewrite already frozen incoming, prepared or retained buffers. Decode rejects padding, invalid alphabet/noncanonical trailing
+never rewrite already frozen incoming, prepared or retained buffers. The host UI
+also freezes this representation before HTTP publication, reuses identical bytes
+on definite authentication refresh, and binds a local receipt to their digest.
+This egress rule does not normalize received author buffers. Decode rejects
+padding, invalid alphabet/noncanonical trailing
 bits, BOM, invalid UTF-8, trailing non-whitespace data, duplicate decoded keys
 at every object level and nesting beyond 128. Verification, content schema,
 topic, delegated/nym proof, admission and Whisper disclosure gates still apply.
