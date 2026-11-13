@@ -1158,3 +1158,33 @@ physical reclamation. Startup transfers the verified owner projection once to
 Agent load; subsequent explicit recovery rechecks it. The documented shared
 recovery ceilings, whole-daemon discovery refusal and permanent Personal fence
 remain unchanged. No context authority, retention saga or memory is restored.
+
+
+### Source-bound portable admission custody (2026-11-13)
+
+P035-019a/019b produce current receipt v2 and material v3. A capture that discards
+`source/evidence` cannot establish later LLR-002 custody. The explicit
+`memarium-admission-custody-request.local.v2` and export v2 carry material v3;
+frozen v1 remains closed. Both versions use the same operator authority and
+existing P036 owner, deadlines and erasure journal. Recognizing a source grants
+neither policy adoption nor disclosure.
+
+Required source metadata remains proof material. Full Matrix PDU buffers are
+payload: they are sealed with the author under the same per-entry erasure key
+and payload deadline, and never stored in the proof directory. The private
+versioned payload container preserves exact buffers; raw historical payloads
+keep their declared encoding. Source material v3 has one receipt, so at most one
+full PDU joins the author in that container. A bounded 192 KiB private encrypted
+container covers both existing per-buffer limits and JSON/base64 overhead; wire,
+proof and evidence-retention budgets do not increase. Unreferenced source
+objects and payload-bearing enrichment refuse before persistence. Erasure, provider loss and restored retired keys
+must make both unreachable, even under a longer metadata hold. This is not a
+new public PDU digest, transport or lifetime policy.
+
+Capture verifies the complete original source proof before storage. Enrichment
+may change cumulative status/closure knowledge but cannot replace source facts,
+add payload or restore erased bytes. Explicit versioned export and local reads
+must recover the original source objects while payload remains live, and omit
+it after erasure. Missing source material refuses custody; no timestamp fallback
+or synthetic anchor may satisfy ordinary-v1 Gate B. Implementation conformance
+and actual SQLite/Synapse continuity qualification remain separate claims.

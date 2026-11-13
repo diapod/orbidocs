@@ -29,6 +29,9 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.memarium-admission-custody-request.local.v1.json) echo "$SCHEMAS_DIR/memarium-admission-custody-request.local.v1.schema.json" ;;
+    *.memarium-admission-custody-request.local.v2.json) echo "$SCHEMAS_DIR/memarium-admission-custody-request.local.v2.schema.json" ;;
+    *.memarium-admission-custody-export.v2.json) echo "$SCHEMAS_DIR/memarium-admission-custody-export.v2.schema.json" ;;
     *.whisper-case-command.v2.json) echo "$SCHEMAS_DIR/whisper-case-command.v2.schema.json" ;;
     *.whisper-case-succession-presentation.v2.json) echo "$SCHEMAS_DIR/whisper-case-succession-presentation.v2.schema.json" ;;
     *.agora-source-attestation-request.local.v1.json) echo "$SCHEMAS_DIR/agora-source-attestation-request.local.v1.schema.json" ;;

@@ -57,6 +57,9 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "memarium-admission-custody-request.local.v2.schema.json",
+    "memarium-admission-custody-export.v2.schema.json",
+
     "whisper-case-command.v2.schema.json",
     "whisper-case-succession-presentation.v2.schema.json",
 
@@ -865,6 +868,8 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "source.memarium-admission-custody-request.local.v2.json",
+
     "source.whisper-case-command.v2.json",
     "source.whisper-case-succession-presentation.v2.json",
 
@@ -1561,6 +1566,8 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "source.memarium-admission-custody-request.local.v1.json",
+
     "source-role.whisper-case-command.v1.json",
     "source-role.whisper-case-succession-presentation.v1.json",
     "unknown-source.whisper-case-command.v2.json",
