@@ -2933,6 +2933,13 @@ missing receipt refuses. Only actual SQLite full-record admission is supported;
 Matrix and detached material cannot take this route. Certificate-v1 case fields
 in a signed signal remain valid input. The bridge does not authorize v2 issuance.
 
+When the original clock is a named proxy, P037's explicit host-local
+`signer.sqlite_source_witnesses` binding delegates from that same clock key.
+Transport-key ownership does not confer clock authority. Exact caller, profile,
+policy, root pin and live session unlock are required; revocation or unlock loss
+blocks the operational key too. Agora independently admits this root's source-use
+grant. This composition does not change the retained decision or its timestamps.
+
 Source API carriage is explicit: `agora-source-attestation-request.local.v1`
 carries only immutable profile and exact policy bytes; the record is selected by
 the route. The result is `agora-admission-write-result.local.v2`, with

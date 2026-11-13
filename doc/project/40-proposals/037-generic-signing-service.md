@@ -1097,7 +1097,7 @@ P037's typed `signer.witness` operation prepares a one-use, caller-bound ticket
 with owner-sampled time. Signing accepts that exact preparation, an accepted
 receipt in its bound profile, and a commit time no later than the owner's clock.
 It consumes the ticket and checks the active key before and after signing.
-Only the host-private node-key adapter can sign a delegation. Generic `sign`
+Only host-private, explicitly bound root adapters can sign a delegation. Generic `sign`
 rejects both the witness domain and the delegation prefix, including a prefix
 wrapped in an alternate domain. Public fences survive restart; secrets do not.
 
@@ -1115,6 +1115,26 @@ adoption remain with Agora; a signing ticket grants neither admission nor trust.
 
 The source-preparation port has component conformance coverage. It does not renew
 the historical P035-019 gate or qualify ordinary-v1 source production or Gate B.
+
+The SQLite v1 bridge may delegate from its original named proxy clock instead
+of the transport node key. This is an explicit host-local composition, not an
+inference that two keys belong to one machine. `signer.sqlite_source_witnesses`
+binds an exact authenticated caller, source profile digest, source-policy digest,
+clock authority and proxy KeyRef. Only that SQLite source ticket selects it;
+native and Matrix tickets retain the node-key provider. Selection never falls
+back after a configured provider refuses. Agora still independently admits the
+exact source policy and witness-use grant.
+
+The host resolves an existing pinned proxy through the normal backend and
+session unlock cache; it does not mint or unlock a key. It checks the public pin,
+revocation and live unlock before and after delegation and operational signing.
+An expired unlock therefore blocks further receipt signing even if a volatile
+delegated key still exists. Delegation uses the existing P037 framing and fence,
+under the original clock authority's identity. It does not expose raw root signing
+or change the original publication receipt. Each root has one configured caller;
+at most 64 exact bindings share at most eight proxy-root providers. Duplicate or
+ambiguous bindings refuse configuration. A host time read observes every opened
+provider fence, without substituting client times or creating historical time.
 
 The capability registry identifies this operation as `host/signer.witness`, an
 active host-local route and dispatch capability. It is not advertisable, passport
