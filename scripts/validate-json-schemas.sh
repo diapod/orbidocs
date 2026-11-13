@@ -97,7 +97,9 @@ schema_for_file() {
     *whisper-case-reception.v1.json) echo "$SCHEMAS_DIR/whisper-case-reception.v1.schema.json" ;;
     *whisper-case-result.v1.json) echo "$SCHEMAS_DIR/whisper-case-result.v1.schema.json" ;;
     *whisper-case-status-request.v1.json) echo "$SCHEMAS_DIR/whisper-case-status-request.v1.schema.json" ;;
+    *whisper-case-workflow-request.local.v2.json) echo "$SCHEMAS_DIR/whisper-case-workflow-request.local.v2.schema.json" ;;
     *whisper-case-workflow-request.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-workflow-request.local.v1.schema.json" ;;
+    *whisper-case-workflow-result.local.v2.json) echo "$SCHEMAS_DIR/whisper-case-workflow-result.local.v2.schema.json" ;;
     *whisper-case-workflow-result.local.v1.json) echo "$SCHEMAS_DIR/whisper-case-workflow-result.local.v1.schema.json" ;;
     *whisper-case-command.v1.json) echo "$SCHEMAS_DIR/whisper-case-command.v1.schema.json" ;;
     *whisper-case-registration.v1.json) echo "$SCHEMAS_DIR/whisper-case-registration.v1.schema.json" ;;

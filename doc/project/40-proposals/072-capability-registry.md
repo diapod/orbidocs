@@ -942,3 +942,21 @@ Vault, nonce, publication or aggregate authority. No endpoint/time selectors or
 implicit network fallback are accepted. The P015
 [contextual profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#host-owned-source-status-acquisition)
 owns the certificate/freshness semantics.
+
+
+### Source-bound private case operator workflow
+
+The case workflow has explicit operator-only routes for carriage v1 and v2:
+`POST /v1/identity/whisper-case-workflow` and
+`POST /v2/identity/whisper-case-workflow`. Both require the current local operator
+session before parsing protected material. The route selects the closed request
+and result schema. It cannot change the carrier already sealed in an operation.
+
+`whisper.pex.offer.prepare` uses the corresponding case-command offer version;
+protected-signal offers remain v1-only. `whisper.pex.offer.bind` binds that exact
+offer to the persisted exchange. Policy preparation/readback keep their immutable
+signed policy format. These are the existing host-route uses, not middleware
+dispatch, a public listener operation or a generic host-capability alias.
+Recipient adoption, signing-domain grant and native domain acceptance remain
+separate authorities. See the P013
+[execution contract](013-whisper-social-signal-exchange/private-case-continuity.md#opening-custody-commitment-and-portable-bridges-2026-11-12).

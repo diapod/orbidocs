@@ -1,0 +1,43 @@
+{
+  "schema": "whisper-case-workflow-request.local.v2",
+  "command": {
+    "operation": "prepare-registration",
+    "operation/id": "a487d5e3-26c6-42b8-99bd-e7e9ecc667cb",
+    "continuity/key-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "audience": [
+      "node:did:key:z6MkhQLVRJmSctZWXSwm9KPq8wBPmfZykiY7uhD1fqSiw1Tv"
+    ],
+    "evidence": [
+      {
+        "role": "anchor-record",
+        "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+        "bytes": "e30"
+      },
+      {
+        "role": "anchor-receipt",
+        "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+        "bytes": "e30"
+      },
+      {
+        "role": "anchor-certificate",
+        "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+        "bytes": "e30"
+      },
+      {
+        "role": "profile",
+        "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+        "bytes": "e30"
+      },
+      {
+        "role": "anchor-status",
+        "digest": "sha256:RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o",
+        "bytes": "e30"
+      },
+      {
+        "role": "anchor-source",
+        "digest": "sha256:4DJDpmULnAdOvtjoQtw8MC27EJg7VJLpgKbqyUfi-ew",
+        "bytes": "eyJmaXh0dXJlIjoic3RydWN0dXJlLW9ubHkifQ"
+      }
+    ]
+  }
+}

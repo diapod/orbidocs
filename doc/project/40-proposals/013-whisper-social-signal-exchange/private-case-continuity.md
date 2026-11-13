@@ -572,6 +572,20 @@ counts in v2's byte budget, including a buffer reused under another role.
 Registration and presentations require the source role. V1 schemas, signatures,
 pins and unique-buffer accounting remain unchanged and refuse that role.
 
+Ordinary source-bound operations use the operator-only
+`POST /v2/identity/whisper-case-workflow`, with closed
+`whisper-case-workflow-request.local.v2` and result v2. The path selects the
+carrier explicitly; v1 bodies do not pass the v2 path, and v2 bodies do not pass
+the old path. Begin freezes carriage v2 in the existing sealed operation before
+requester-key exposure. Subsequent source-command mutations and readback check that saved
+version; an operation cannot switch versions under one ID. V2 command preparation uses only the
+explicit offered direct profile. Audience presentations have an independent
+explicit schema and frozen exact-byte binding under their separately adopted
+audience route; a command offer grants no audience authority. It does not enable protected-signal offers or
+add a module/public capability. The old v1 endpoint and its contracts remain
+unchanged. Business intent, certificate/profile version and original admission
+time policy are independent from this carrier choice.
+
 Source commands use `whisper-pex-key-offer.v2`, whose closed payload is
 `whisper-case-command.v2` and whose recipient role remains `case-authority`.
 Its protected signing domain is `whisper.exchange-key.offer.v2`, with preimage
