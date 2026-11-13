@@ -3260,3 +3260,40 @@ content, retaining legacy absence separately from declared unknown. This adds no
 origin input to source thresholds. Full fixture A/B on SQLite and the unmodified
 pinned Synapse profile, including the aligned window end, remains a separate
 qualification gate. Production adoption and federation readiness are not implied.
+
+
+## Opt-in linked-cache retirement profile (2026-11-13)
+
+Status: accepted profile boundary; implementation and actual execution remain
+separate gates. The existing ordinary retirement profile keeps its link refusal.
+
+A new, explicitly versioned cache-only profile may admit an exact complete graph
+of owned directories, regular files, internal hardlink groups and relative
+internal symlinks. It must prove that every hardlink name is contained, validate
+symbolic targets against the inventory graph without following filesystem links,
+and bind names, modes, owner, sizes, content hashes and topology to the exact plan.
+Unknown membership, external links, changed topology, extra/special files and
+unavailable custody refuse. A private root is the access boundary; admitting
+package descendant modes must not relax root isolation or the v1 contract.
+
+The profile must retain permanent single-use identities, exact actor signatures,
+no-follow descriptor effects, explicit expiry/authority checks and independent
+post-action verification. It cannot turn a partial result into success or replay
+a consumed plan. An interrupted isolated remainder needs fresh reconciliation.
+Logical evidence withdrawal still requires distinct owner/reviewer identities
+and distinct admitted keys. An explicitly appointed AI reviewer must be labelled
+as such; its signature is not independent human review. Actor labels alone confer
+no authority and an operator must adopt the concrete key binding.
+
+The P094 owner accepts loss of the exact old cache only after this qualification
+and separate final authorization. Preserve its original reports, receipts and
+byte/link inventories. This does not authorize model-source removal, alter earlier
+qualifications, change generic retirement budgets or assert an independent backup.
+
+| Follow-up | Status | Boundary |
+|---|---|---|
+| `evidence-linked-cache-retirement` | partial | Node implements/fixture-qualifies explicit v2 records, contained graphs, exact signed effects, crash residual reconciliation and profile/artifact-restricted reviewer keys. Current authority/key adoption, complete actual P094 review and exact effect decisions remain open. |
+
+Node execution plan: `node:docs/development/P094-MODEL-RETIREMENT-PLAN.md`.
+
+Scoped Node implementation and qualification: `node:docs/audits/P094-LINKED-CACHE-RETIREMENT-2026-11-13.md`. This is not a renewal of historical transport/model qualifications or permission to delete original caches.
