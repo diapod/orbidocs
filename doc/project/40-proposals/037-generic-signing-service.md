@@ -414,10 +414,13 @@ The channel source is an external module, never an internal operator or an HTTP
 credential alias. Its non-bearer reference binds executor, module, component,
 launch, session and session epoch; a session counter alone is insufficient across
 host restarts. Exact-source caller bindings and audit digests keep those classes
-separate. The initial independent-channel adapter is closed to signing and key
-status; it opens no unlock, lock, shared-secret, sealer or recovery-export route.
+separate. The independent-channel adapter is closed to signing, key status and
+typed witness operations; it opens no unlock, lock, shared-secret, sealer or
+recovery-export route. `signer.witness` requires a live session even for a module
+with an independent HTTP binding; that binding cannot downgrade channel identity.
 The host rechecks the current signed instance and original session before owner
-admission, while the ordinary signer retains all domain and key checks. An
+admission and before disclosing the result, while the ordinary signer retains all
+domain and key checks. An
 accepted operation can finish after a disconnect; losing a response does not
 undo its effect or grant permission to repeat it. Node's code-coupled boundary is
 `node:daemon/docs/MIDDLEWARE-INSTANCES.md`. This extension does not change any
@@ -1094,7 +1097,9 @@ scoped P035-019 A/E gates on 2026-10-29; it is not a qualified time service or
 P032 v2 migration.
 
 P037's typed `signer.witness` operation prepares a one-use, caller-bound ticket
-with owner-sampled time. Signing accepts that exact preparation, an accepted
+with owner-sampled time. The ticket binds both caller label and transport source,
+including the exact channel session. A different transport or session refuses
+without consuming the original ticket. Signing accepts that preparation, an accepted
 receipt in its bound profile, and a commit time no later than the owner's clock.
 It consumes the ticket and checks the active key before and after signing.
 Only host-private, explicitly bound root adapters can sign a delegation. Generic `sign`
