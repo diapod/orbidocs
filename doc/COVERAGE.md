@@ -395,7 +395,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`local-contact.v1.schema.json`](schemas-gen/schemas/local-contact.v1.md) | `16` | `5` | `yes` | `yes` | `1` | `0` |
 | [`local-recipient-mailbox-resolve.v1.schema.json`](schemas-gen/schemas/local-recipient-mailbox-resolve.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`memarium-admission-custody-export.v1.schema.json`](schemas-gen/schemas/memarium-admission-custody-export.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
-| [`memarium-admission-custody-request.local.v1.schema.json`](schemas-gen/schemas/memarium-admission-custody-request.local.v1.md) | `2` | `0` | `no` | `yes` | `0` | `0` |
+| [`memarium-admission-custody-export.v2.schema.json`](schemas-gen/schemas/memarium-admission-custody-export.v2.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
+| [`memarium-admission-custody-request.local.v1.schema.json`](schemas-gen/schemas/memarium-admission-custody-request.local.v1.md) | `2` | `0` | `no` | `yes` | `0` | `1` |
+| [`memarium-admission-custody-request.local.v2.schema.json`](schemas-gen/schemas/memarium-admission-custody-request.local.v2.md) | `2` | `0` | `no` | `yes` | `1` | `0` |
 | [`memarium-blob.v1.schema.json`](schemas-gen/schemas/memarium-blob.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`memarium-host-api.v1.schema.json`](schemas-gen/schemas/memarium-host-api.v1.md) | `0` | `0` | `yes` | `yes` | `3` | `0` |
 | [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `0` |
@@ -1332,7 +1334,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`local-contact.v1.schema.json`](schemas-gen/schemas/local-contact.v1.md) |  | [`story-010-message-to-a-friend.md`](project/30-stories/story-010-message-to-a-friend.md) |
 | [`local-recipient-mailbox-resolve.v1.schema.json`](schemas-gen/schemas/local-recipient-mailbox-resolve.v1.md) |  |  |
 | [`memarium-admission-custody-export.v1.schema.json`](schemas-gen/schemas/memarium-admission-custody-export.v1.md) |  |  |
+| [`memarium-admission-custody-export.v2.schema.json`](schemas-gen/schemas/memarium-admission-custody-export.v2.md) |  |  |
 | [`memarium-admission-custody-request.local.v1.schema.json`](schemas-gen/schemas/memarium-admission-custody-request.local.v1.md) |  |  |
+| [`memarium-admission-custody-request.local.v2.schema.json`](schemas-gen/schemas/memarium-admission-custody-request.local.v2.md) |  |  |
 | [`memarium-blob.v1.schema.json`](schemas-gen/schemas/memarium-blob.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
 | [`memarium-host-api.v1.schema.json`](schemas-gen/schemas/memarium-host-api.v1.md) |  |  |
 | [`membership-acceptance.v1.schema.json`](schemas-gen/schemas/membership-acceptance.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
@@ -2082,7 +2086,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
-- Canonical schemas: `932`
-- Generated schema docs: `933`
-- Positive examples: `834`
-- Negative examples: `831`
+- Canonical schemas: `934`
+- Generated schema docs: `935`
+- Positive examples: `835`
+- Negative examples: `832`
