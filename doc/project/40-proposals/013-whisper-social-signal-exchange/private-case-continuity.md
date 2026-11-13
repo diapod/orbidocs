@@ -59,6 +59,12 @@ them for admission. Preview expiry does not erase an exposed key. UI lists expos
 unbound keys and offers explicit abandonment. Repeated operation IDs cannot mint
 another key. Original signed records cannot acquire commitments retroactively.
 
+Exact author bytes may use any representation admitted by their Agora carrier.
+Custody and case verification must not require JCS on that buffer or reserialize
+it to read case fields. Strict bounded JSON, record signature/identity and receipt
+byte bindings still apply; signed metadata keeps its own canonical contract.
+Full PDU source buffers keep the independent Matrix verification rules.
+
 The case anchor is the digest of exact signed author bytes admitted with
 `agora-admission-receipt.v1`; the protected PEX signal is a separate case artifact.
 A local time-only receipt or Matrix timestamp is insufficient for LLR-002.
