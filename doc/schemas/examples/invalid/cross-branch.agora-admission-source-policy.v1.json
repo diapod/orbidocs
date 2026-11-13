@@ -1,0 +1,20 @@
+{
+  "schema": "agora-admission-source-policy.v1",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "receipt/profile": "full-record",
+  "receipt/key-window-seconds": 60,
+  "receipt/commit-budget-seconds": 5,
+  "clock/skew-seconds": 5,
+  "policy": "matrix-homeserver-observation-v1",
+  "receipt/source": "matrix-homeserver-observation",
+  "matrix/homeserver-admissions": [
+    "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  ],
+  "source/clock-authorities": [
+    {
+      "clock/authority": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGi6hqREJu3LbjyC8Dwwpv",
+      "admitted/from": "2026-11-13T00:00:00Z",
+      "admitted/until": "2026-11-14T00:00:00Z"
+    }
+  ]
+}

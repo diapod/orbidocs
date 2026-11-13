@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-admission-source-policy:v1",
+  "title": "agora-admission-source-policy.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "clock-authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clock/authority": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180,
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "admitted/from": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40,
+          "pattern": "Z$"
+        },
+        "admitted/until": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40,
+          "pattern": "Z$"
+        }
+      },
+      "required": [
+        "clock/authority",
+        "admitted/from",
+        "admitted/until"
+      ]
+    },
+    "schema": {
+      "const": "agora-admission-source-policy.v1"
+    },
+    "profile-digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "receipt-profile": {
+      "const": "full-record"
+    },
+    "receipt-key-window-seconds": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 3600
+    },
+    "receipt-commit-budget-seconds": {
+      "const": 5
+    },
+    "clock-skew-seconds": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/schema"
+        },
+        "profile/digest": {
+          "$ref": "#/$defs/profile-digest"
+        },
+        "receipt/profile": {
+          "$ref": "#/$defs/receipt-profile"
+        },
+        "receipt/key-window-seconds": {
+          "$ref": "#/$defs/receipt-key-window-seconds"
+        },
+        "receipt/commit-budget-seconds": {
+          "$ref": "#/$defs/receipt-commit-budget-seconds"
+        },
+        "clock/skew-seconds": {
+          "$ref": "#/$defs/clock-skew-seconds"
+        },
+        "policy": {
+          "const": "v1-relay-receipt-witness-v1"
+        },
+        "receipt/source": {
+          "const": "sqlite-local-receipt-bridge"
+        },
+        "source/clock-authorities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/clock-authority"
+          }
+        }
+      },
+      "required": [
+        "schema",
+        "profile/digest",
+        "receipt/profile",
+        "receipt/key-window-seconds",
+        "receipt/commit-budget-seconds",
+        "clock/skew-seconds",
+        "policy",
+        "receipt/source",
+        "source/clock-authorities"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/schema"
+        },
+        "profile/digest": {
+          "$ref": "#/$defs/profile-digest"
+        },
+        "receipt/profile": {
+          "$ref": "#/$defs/receipt-profile"
+        },
+        "receipt/key-window-seconds": {
+          "$ref": "#/$defs/receipt-key-window-seconds"
+        },
+        "receipt/commit-budget-seconds": {
+          "$ref": "#/$defs/receipt-commit-budget-seconds"
+        },
+        "clock/skew-seconds": {
+          "$ref": "#/$defs/clock-skew-seconds"
+        },
+        "policy": {
+          "const": "matrix-homeserver-observation-v1"
+        },
+        "receipt/source": {
+          "const": "matrix-homeserver-observation"
+        },
+        "matrix/homeserver-admissions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/digest"
+          }
+        }
+      },
+      "required": [
+        "schema",
+        "profile/digest",
+        "receipt/profile",
+        "receipt/key-window-seconds",
+        "receipt/commit-budget-seconds",
+        "clock/skew-seconds",
+        "policy",
+        "receipt/source",
+        "matrix/homeserver-admissions"
+      ]
+    }
+  ],
+  "x-dia-maximum-canonical-bytes": 16384
+}

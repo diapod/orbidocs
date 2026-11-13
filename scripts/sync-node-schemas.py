@@ -159,6 +159,9 @@ SCHEMA_WHITELIST = (
     "agora-admission-readback.v1.schema.json",
     "agora-admission-receipt.v1.schema.json",
     "agora-admission-receipt.v2.schema.json",
+    "agora-admission-material.v3.schema.json",
+    "agora-admission-source-policy.v1.schema.json",
+    "agora-matrix-homeserver-admission.v1.schema.json",
     "agora-admission-request.v1.schema.json",
     "agora-admission-write-result.local.v1.schema.json",
     "whisper-embargo-manifest.v1.schema.json",
@@ -851,6 +854,11 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "sqlite.agora-admission-source-policy.v1.json",
+    "matrix.agora-admission-source-policy.v1.json",
+    "example.agora-matrix-homeserver-admission.v1.json",
+    "source-policy.agora-admission-material.v3.json",
+
     "matrix-observation.agora-admission-receipt.v2.json",
     "native-detached.agora-admission-receipt.v2.json",
     "native-full.agora-admission-receipt.v2.json",
@@ -1527,6 +1535,15 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-window.agora-admission-source-policy.v1.json",
+    "wrong-source.agora-admission-source-policy.v1.json",
+    "cross-branch.agora-admission-source-policy.v1.json",
+    "native-source.agora-admission-source-policy.v1.json",
+    "wrong-room-version.agora-matrix-homeserver-admission.v1.json",
+    "missing-key.agora-matrix-homeserver-admission.v1.json",
+    "missing-source-evidence.agora-admission-material.v3.json",
+    "too-many-source-objects.agora-admission-material.v3.json",
+
     "control-in-event.agora-admission-receipt.v2.json",
     "cross-source-field.agora-admission-receipt.v2.json",
     "detached-bridge.agora-admission-receipt.v2.json",

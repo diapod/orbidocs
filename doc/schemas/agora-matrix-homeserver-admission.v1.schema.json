@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-matrix-homeserver-admission:v1",
+  "title": "agora-matrix-homeserver-admission.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "agora-matrix-homeserver-admission.v1"
+    },
+    "matrix/homeserver": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9.\\[\\]:-]+$"
+    },
+    "matrix/room-version": {
+      "const": "10"
+    },
+    "admitted/from": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40,
+      "pattern": "Z$"
+    },
+    "admitted/until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40,
+      "pattern": "Z$"
+    },
+    "server/keys": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key/id": {
+            "type": "string",
+            "minLength": 9,
+            "maxLength": 128,
+            "pattern": "^ed25519:[A-Za-z0-9_-]+$"
+          },
+          "key/public": {
+            "type": "string",
+            "minLength": 43,
+            "maxLength": 43,
+            "pattern": "^[A-Za-z0-9+/]{43}$"
+          }
+        },
+        "required": [
+          "key/id",
+          "key/public"
+        ]
+      }
+    }
+  },
+  "x-dia-maximum-canonical-bytes": 4096,
+  "required": [
+    "schema",
+    "matrix/homeserver",
+    "matrix/room-version",
+    "admitted/from",
+    "admitted/until",
+    "server/keys"
+  ]
+}

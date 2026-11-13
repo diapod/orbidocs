@@ -2999,6 +2999,42 @@ as separately bounded evidence, not hidden fields in the receipt. Structural
 fixtures do not attest valid signatures or admitted policies. Source/digest and
 time correspondence remain semantic-verifier obligations.
 
+Source-policy documents use
+[`agora-admission-source-policy.v1`](../../schemas/agora-admission-source-policy.v1.schema.json).
+Their exact digest is adopted locally, not inferred from the receipt or source
+profile. Admission windows use canonical UTC timestamps, are half-open and cannot
+repeat one clock authority or server key ID under conflicting entries. The closed bridge branches bind profile, full-record mode, witness key
+window, five-second local commit budget and skew. SQLite additionally pins clock
+authorities with half-open admission windows. Matrix pins exact
+[`agora-matrix-homeserver-admission.v1`](../../schemas/agora-matrix-homeserver-admission.v1.schema.json)
+documents: server, room v10, half-open time window and at most two exact Ed25519
+key IDs/public keys. A self-signed key response alone grants no admission. Its signing keys as well
+as the PDU signing keys must match the independently pinned key set; the server
+window must cover publication and observed admission. Policy
+and source kind must agree; native witnessed admission retains its existing
+policy-digest definition rather than borrowing a bridge document.
+
+Source proof buffers travel in
+[`agora-admission-material.v3`](../../schemas/agora-admission-material.v3.schema.json),
+not in frozen v1/v2 material or disguised as status/profile entries. V3 has one
+receipt for one identity and up to eight exact JSON source objects: at most
+64 KiB each and 256 KiB together, counting every occurrence before deduplication.
+The existing 2/4 MiB decoded/wire, 32-signature-work and 32 KiB metadata ceilings
+remain. All objects and policy dependencies must be in this set; resolution does
+not discover keys or fetch another campaign. Old material versions reject the
+new field. This carrier is proof transport, never policy adoption.
+
+The SQLite bridge checks the original phase-1 admission at the original signed
+local receipt time and binds its exact receipt bytes; later bridge issuance does
+not create another original admission or require the old certificate to remain
+valid. The Matrix adapter checks publication eligibility at the PDU time and
+collection/admission at the durable observed decision time, including the epoch
+end. Missing original admitted facts or status material leaves the anchor
+unresolved. Neither adapter substitutes today's wall clock for historical law.
+For bridges the witness key authenticates the new durable statement at
+`committed/at`, not the possibly much earlier `accepted/at`. Its protected local
+preparation-to-commit budget remains five seconds; it never bounds network age.
+
 Freeze schema mirrors and refusal vectors before enabling producers.
 Detached-manifest requires P015-005 and stays outside both bridges. Stop new
 bridge production separately from verification: retain required policies, keys

@@ -1,0 +1,13 @@
+{
+  "schema": "agora-matrix-homeserver-admission.v1",
+  "matrix/homeserver": "fixture.invalid",
+  "matrix/room-version": "11",
+  "admitted/from": "2026-11-13T00:00:00Z",
+  "admitted/until": "2026-11-14T00:00:00Z",
+  "server/keys": [
+    {
+      "key/id": "ed25519:fixture",
+      "key/public": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  ]
+}
