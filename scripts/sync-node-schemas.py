@@ -163,6 +163,9 @@ SCHEMA_WHITELIST = (
     "agora-admission-source-policy.v1.schema.json",
     "agora-matrix-homeserver-admission.v1.schema.json",
     "agora-admission-request.v1.schema.json",
+    "agora-source-attestation-request.local.v1.schema.json",
+    "agora-admission-write-result.local.v2.schema.json",
+    "agora-admission-readback.v3.schema.json",
     "agora-admission-write-result.local.v1.schema.json",
     "whisper-embargo-manifest.v1.schema.json",
     "whisper-source-certificate.v2.schema.json",
@@ -855,6 +858,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "sqlite.agora-source-attestation-request.local.v1.json",
+    "source-pending.agora-admission-write-result.local.v2.json",
+    "source-pending.agora-admission-readback.v3.json",
     "example.witness-signing-request.local.v2.json",
     "sqlite.agora-admission-source-policy.v1.json",
     "matrix.agora-admission-source-policy.v1.json",
@@ -1537,6 +1543,11 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-policy.agora-source-attestation-request.local.v1.json",
+    "caller-clock.agora-source-attestation-request.local.v1.json",
+    "padded-policy.agora-source-attestation-request.local.v1.json",
+    "bad-material.agora-admission-write-result.local.v2.json",
+    "bad-material.agora-admission-readback.v3.json",
     "native-purpose.witness-signing-request.local.v2.json",
     "missing-policy.witness-signing-request.local.v2.json",
     "source-operation.witness-signing-request.local.v1.json",

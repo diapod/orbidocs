@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-source-attestation-request.local:v1",
+  "title": "agora-source-attestation-request.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "description": "Exact immutable profile and independently adopted source-policy bytes. The record is identified only by the route; historical facts and times come exclusively from its owner.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile/bytes",
+    "policy/bytes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-source-attestation-request.local.v1"
+    },
+    "profile/bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 21846,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "policy/bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 21846,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "agora-admission-readback.v3",
+  "receipt/profile": "full-record",
+  "reference": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "issuance": {
+    "state": "pending"
+  },
+  "material": {
+    "schema": "agora-admission-material.v3",
+    "receipts": [],
+    "statuses": [],
+    "certificates": [],
+    "profiles": [],
+    "source/evidence": [
+      {
+        "digest": "sha256:onhOpdDaAr7ac13NQ4OE3XnN2HTVqRxdgRxZzwgnm08",
+        "bytes": "eyJjbG9jay9za2V3LXNlY29uZHMiOjUsInBvbGljeSI6InYxLXJlbGF5LXJlY2VpcHQtd2l0bmVzcy12MSIsInByb2ZpbGUvZGlnZXN0Ijoic2hhMjU2OkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEiLCJyZWNlaXB0L2NvbW1pdC1idWRnZXQtc2Vjb25kcyI6NSwicmVjZWlwdC9rZXktd2luZG93LXNlY29uZHMiOjYwLCJyZWNlaXB0L3Byb2ZpbGUiOiJmdWxsLXJlY29yZCIsInJlY2VpcHQvc291cmNlIjoic3FsaXRlLWxvY2FsLXJlY2VpcHQtYnJpZGdlIiwic2NoZW1hIjoiYWdvcmEtYWRtaXNzaW9uLXNvdXJjZS1wb2xpY3kudjEiLCJzb3VyY2UvY2xvY2stYXV0aG9yaXRpZXMiOlt7ImFkbWl0dGVkL2Zyb20iOiIyMDI2LTExLTEzVDAwOjAwOjAwLjAwMDAwMDAwMFoiLCJhZG1pdHRlZC91bnRpbCI6IjIwMjYtMTEtMTRUMDA6MDA6MDAuMDAwMDAwMDAwWiIsImNsb2NrL2F1dGhvcml0eSI6Im5vZGU6ZGlkOmtleTp6Nk1raGFYZ0JaRHZvdERrTDUyNTdmYWl6dGlHaTZocVJFSnUzTGJqeUM4RHd3cHYifV19"
+      }
+    ],
+    "unexpected": true
+  },
+  "links": {},
+  "local/admission": {
+    "mode": "live"
+  }
+}

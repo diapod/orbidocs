@@ -2933,6 +2933,14 @@ missing receipt refuses. Only actual SQLite full-record admission is supported;
 Matrix and detached material cannot take this route. Certificate-v1 case fields
 in a signed signal remain valid input. The bridge does not authorize v2 issuance.
 
+Source API carriage is explicit: `agora-source-attestation-request.local.v1`
+carries only immutable profile and exact policy bytes; the record is selected by
+the route. The result is `agora-admission-write-result.local.v2`, with
+`agora-admission-readback.v3` for material v3. Old schemas remain frozen and
+refuse source material. Authentication, topic ACLs and bounded admission work
+still apply; request data cannot enroll the carried policy or supply past clocks.
+These local API contracts do not prove ordinary-v1 case registration.
+
 The Matrix adapter preserves trust in the independently admitted homeserver's
 clock, but requires stronger material for its portable claim: a full federation
 PDU, exact author bytes, event, room, sender, homeserver and contemporaneous server
