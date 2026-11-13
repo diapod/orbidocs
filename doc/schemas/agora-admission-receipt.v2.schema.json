@@ -22,6 +22,7 @@
         "witness/node-id",
         "accepted/at",
         "committed/at",
+        "attested/at",
         "outcome",
         "witness/delegation-digest",
         "witness/delegation",
@@ -116,6 +117,11 @@
             "sqlite-local-receipt-bridge",
             "matrix-homeserver-observation"
           ]
+        },
+        "attested/at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
         }
       }
     },
@@ -179,6 +185,10 @@
           "minLength": 1,
           "maxLength": 255,
           "pattern": "^[^\\u0000-\\u0020\\u007f]+$"
+        },
+        "source/admission-facts-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
         }
       }
     }
@@ -251,6 +261,9 @@
         },
         "record/id": {
           "$ref": "#/$defs/source-fields/properties/record~1id"
+        },
+        "attested/at": {
+          "$ref": "#/$defs/common/properties/attested~1at"
         }
       }
     },
@@ -333,6 +346,9 @@
         },
         "case/not-after": {
           "$ref": "#/$defs/source-fields/properties/case~1not-after"
+        },
+        "attested/at": {
+          "$ref": "#/$defs/common/properties/attested~1at"
         }
       }
     },
@@ -348,7 +364,8 @@
       "required": [
         "receipt/source",
         "record/id",
-        "source/receipt-digest"
+        "source/receipt-digest",
+        "source/admission-facts-digest"
       ],
       "properties": {
         "schema": {
@@ -407,6 +424,12 @@
         },
         "source/receipt-digest": {
           "$ref": "#/$defs/source-fields/properties/source~1receipt-digest"
+        },
+        "attested/at": {
+          "$ref": "#/$defs/common/properties/attested~1at"
+        },
+        "source/admission-facts-digest": {
+          "$ref": "#/$defs/source-fields/properties/source~1admission-facts-digest"
         }
       }
     },
@@ -501,6 +524,9 @@
         },
         "matrix/key-material-digest": {
           "$ref": "#/$defs/source-fields/properties/matrix~1key-material-digest"
+        },
+        "attested/at": {
+          "$ref": "#/$defs/common/properties/attested~1at"
         }
       }
     }

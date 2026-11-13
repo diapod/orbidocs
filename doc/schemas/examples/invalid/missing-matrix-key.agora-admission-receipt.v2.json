@@ -38,5 +38,6 @@
   "matrix/event-id": "$AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "matrix/room-id": "!whisper:example.org",
   "matrix/homeserver": "example.org",
-  "matrix/homeserver-admission-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  "matrix/homeserver-admission-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "attested/at": "2026-11-12T12:00:00Z"
 }

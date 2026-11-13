@@ -2973,6 +2973,33 @@ required source fields, cross-branch fields and policy/source mismatch refuse.
 The signature domain is `orbiplex.agora-admission-receipt.v2`; neither version's
 signature can verify under the other version's domain.
 
+Every v2 branch requires `attested/at`, the witness signing observation. For a
+SQLite bridge, `accepted/at` remains the signed publication time and
+`committed/at` is the original admission-decision time. The bridge additionally
+requires `source/admission-facts-digest`, binding the exact JCS bytes returned by
+`retained_contextual_admission`, not reconstructed facts. The material contains
+both those bytes and the original local receipt. Record, author, profile,
+certificate and status bindings must agree; publication evidence names the local
+receipt. Preserve reception and admission times and the signed epoch end.
+Require publication no later than reception plus skew, reception no later than
+admission, admission before epoch end and admission no later than attestation.
+
+The witness root must be the original local clock authority; its admitted
+operational delegation may sign the receipt. Another node cannot attest those
+local facts. Produce at most one bridge for `(record, facts digest, policy
+digest)`, under a deterministic identity. Retry returns the same receipt without
+consuming a nonce, fetching a status or executing admission again.
+
+Time basis is a verifier result, not a self-declared receipt field. A v2
+attestation within the policy commit budget after `committed/at` is contemporary;
+a larger delay is retroactive. Native issuance must stay within that budget.
+For retroactive LLR-002 evaluation the admission-time bound is the interval
+`[accepted/at, attested/at]`. Revocation entering that interval leaves admission
+unresolved. Certificate validity remains a publication-time check. New Gate B
+anchors require contemporary bridge issuance; a separate backfill vector proves
+the weaker basis and its unresolved-revocation rule. Frozen v1 has no attestation
+field and keeps its historical interpretation.
+
 For the selected federation-format Client-Server receive profile, validate the
 outer `event_id` against the derived reference hash before removing that sole
 Client-Server decoration. Preserve every other field, including all `unsigned`
@@ -3002,7 +3029,8 @@ time correspondence remain semantic-verifier obligations.
 Source-policy documents use
 [`agora-admission-source-policy.v1`](../../schemas/agora-admission-source-policy.v1.schema.json).
 Their exact digest is adopted locally, not inferred from the receipt or source
-profile. Admission windows use canonical UTC timestamps, are half-open and cannot
+profile. Admission windows reuse the project time owner’s canonical UTC with
+nine nanosecond digits, are half-open and cannot
 repeat one clock authority or server key ID under conflicting entries. The closed bridge branches bind profile, full-record mode, witness key
 window, five-second local commit budget and skew. SQLite additionally pins clock
 authorities with half-open admission windows. Matrix pins exact
@@ -3024,10 +3052,16 @@ remain. All objects and policy dependencies must be in this set; resolution does
 not discover keys or fetch another campaign. Old material versions reject the
 new field. This carrier is proof transport, never policy adoption.
 
-The SQLite bridge checks the original phase-1 admission at the original signed
-local receipt time and binds its exact receipt bytes; later bridge issuance does
-not create another original admission or require the old certificate to remain
-valid. The Matrix adapter checks publication eligibility at the PDU time and
+The SQLite bridge copies the signed `accepted/at` spelling without
+reformatting and binds the exact original local receipt bytes. That publication
+clock does not replace the original reception or admission-decision clocks.
+A valid late admission can use a status issued after publication; checking that
+status at publication would incorrectly reject the recorded decision. Verify the
+bound original facts without calling the live admission path with an old clock.
+Later witness issuance neither creates another original admission nor requires
+the old certificate to remain valid.
+
+The Matrix adapter checks publication eligibility at the PDU time and
 collection/admission at the durable observed decision time, including the epoch
 end. Missing original admitted facts or status material leaves the anchor
 unresolved. Neither adapter substitutes today's wall clock for historical law.

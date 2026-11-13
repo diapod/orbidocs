@@ -70,6 +70,14 @@ is not the same as counting them as two qualified sources in one epoch.
   trust; it does not simulate historical admission by running the live certificate
   verifier with an old clock. Neither authored/at nor bare relay/received-at is
   sufficient. Current revocation and current case permission remain separate.
+  Source-bound v2 witnesses retain separate publication, original admission and
+  attestation clocks. Attestation within the admitted commit budget is
+  contemporary; later attestation is retroactive. LLR-002 treats the latter's
+  admission time as `[published/at, attested/at]`: revocation within that interval
+  yields unresolved, not proven. This is a derived verification law, never a
+  receipt-selected strength label. The SQLite adapter binds exact retained JCS
+  admission facts and the original local receipt under the original clock
+  authority. It neither reconstructs facts nor executes admission again.
 - **Admission after expiry.** A gate may enable historical admission for
   archival or redelivery topics
   ([P041-001](../041-agora-ingest-attestation.md#historical-nym-admission-2026-10-27)).

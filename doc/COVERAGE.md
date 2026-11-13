@@ -83,8 +83,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`agora-admission-material.v3.schema.json`](schemas-gen/schemas/agora-admission-material.v3.md) | `9` | `0` | `no` | `yes` | `1` | `2` |
 | [`agora-admission-readback.v1.schema.json`](schemas-gen/schemas/agora-admission-readback.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-readback.v2.schema.json`](schemas-gen/schemas/agora-admission-readback.v2.md) | `8` | `0` | `no` | `yes` | `0` | `0` |
-| [`agora-admission-receipt.v1.schema.json`](schemas-gen/schemas/agora-admission-receipt.v1.md) | `21` | `0` | `no` | `yes` | `0` | `1` |
-| [`agora-admission-receipt.v2.schema.json`](schemas-gen/schemas/agora-admission-receipt.v2.md) | `0` | `0` | `no` | `yes` | `4` | `7` |
+| [`agora-admission-receipt.v1.schema.json`](schemas-gen/schemas/agora-admission-receipt.v1.md) | `21` | `0` | `no` | `yes` | `0` | `2` |
+| [`agora-admission-receipt.v2.schema.json`](schemas-gen/schemas/agora-admission-receipt.v2.md) | `0` | `0` | `no` | `yes` | `4` | `9` |
 | [`agora-admission-request.v1.schema.json`](schemas-gen/schemas/agora-admission-request.v1.md) | `5` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-admission-source-policy.v1.schema.json`](schemas-gen/schemas/agora-admission-source-policy.v1.md) | `0` | `0` | `yes` | `yes` | `2` | `4` |
 | [`agora-admission-write-result.local.v1.schema.json`](schemas-gen/schemas/agora-admission-write-result.local.v1.md) | `6` | `0` | `no` | `yes` | `0` | `0` |
@@ -92,7 +92,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`agora-historical-ingest-request.v1.schema.json`](schemas-gen/schemas/agora-historical-ingest-request.v1.md) | `2` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-historical-ingest-result.local.v1.schema.json`](schemas-gen/schemas/agora-historical-ingest-result.local.v1.md) | `9` | `0` | `no` | `yes` | `0` | `0` |
 | [`agora-matrix-carrier.v1.schema.json`](schemas-gen/schemas/agora-matrix-carrier.v1.md) | `5` | `0` | `no` | `yes` | `0` | `0` |
-| [`agora-matrix-homeserver-admission.v1.schema.json`](schemas-gen/schemas/agora-matrix-homeserver-admission.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `2` |
+| [`agora-matrix-homeserver-admission.v1.schema.json`](schemas-gen/schemas/agora-matrix-homeserver-admission.v1.md) | `6` | `2` | `yes` | `yes` | `1` | `2` |
 | [`agora-matrix-recovery-attention-read-request.v1.schema.json`](schemas-gen/schemas/agora-matrix-recovery-attention-read-request.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
 | [`agora-matrix-recovery-attention.v1.schema.json`](schemas-gen/schemas/agora-matrix-recovery-attention.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`agora-matrix-recovery-command-request.v1.schema.json`](schemas-gen/schemas/agora-matrix-recovery-command-request.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
@@ -2067,4 +2067,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `923`
 - Generated schema docs: `924`
 - Positive examples: `824`
-- Negative examples: `812`
+- Negative examples: `815`

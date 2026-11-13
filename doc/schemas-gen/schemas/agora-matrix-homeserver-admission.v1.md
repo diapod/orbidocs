@@ -30,8 +30,8 @@ Source schema: [`doc/schemas/agora-matrix-homeserver-admission.v1.schema.json`](
 | [`schema`](#field-schema) | `yes` | const: `agora-matrix-homeserver-admission.v1` |  |
 | [`matrix/homeserver`](#field-matrix-homeserver) | `yes` | string |  |
 | [`matrix/room-version`](#field-matrix-room-version) | `yes` | const: `10` |  |
-| [`admitted/from`](#field-admitted-from) | `yes` | string |  |
-| [`admitted/until`](#field-admitted-until) | `yes` | string |  |
+| [`admitted/from`](#field-admitted-from) | `yes` | string | Project canonical UTC from time-utils, with exactly nine nanosecond digits. |
+| [`admitted/until`](#field-admitted-until) | `yes` | string | Project canonical UTC from time-utils, with exactly nine nanosecond digits. |
 | [`server/keys`](#field-server-keys) | `yes` | array |  |
 ## Field Semantics
 
@@ -59,11 +59,15 @@ Source schema: [`doc/schemas/agora-matrix-homeserver-admission.v1.schema.json`](
 - Required: `yes`
 - Shape: string
 
+Project canonical UTC from time-utils, with exactly nine nanosecond digits.
+
 <a id="field-admitted-until"></a>
 ## `admitted/until`
 
 - Required: `yes`
 - Shape: string
+
+Project canonical UTC from time-utils, with exactly nine nanosecond digits.
 
 <a id="field-server-keys"></a>
 ## `server/keys`

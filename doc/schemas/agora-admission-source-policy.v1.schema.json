@@ -27,14 +27,18 @@
         "admitted/from": {
           "type": "string",
           "format": "date-time",
-          "maxLength": 40,
-          "pattern": "Z$"
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{9}Z$",
+          "minLength": 30,
+          "description": "Project canonical UTC from time-utils, with exactly nine nanosecond digits."
         },
         "admitted/until": {
           "type": "string",
           "format": "date-time",
-          "maxLength": 40,
-          "pattern": "Z$"
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{9}Z$",
+          "minLength": 30,
+          "description": "Project canonical UTC from time-utils, with exactly nine nanosecond digits."
         }
       },
       "required": [

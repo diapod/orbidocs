@@ -33,5 +33,7 @@
   "signature": {
     "alg": "ed25519",
     "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-  }
+  },
+  "attested/at": "2026-11-12T12:00:00Z",
+  "source/admission-facts-digest": "sha256:oHYPvGNC1T1k5oxo63uvGVVgXTQYvQq1Z0CmnCrB9IM"
 }

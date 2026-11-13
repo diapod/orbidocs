@@ -10,8 +10,8 @@
   "source/clock-authorities": [
     {
       "clock/authority": "node:did:key:z6MkhaXgBZDvotDkL5257faiztiGi6hqREJu3LbjyC8Dwwpv",
-      "admitted/from": "2026-11-13T00:00:00Z",
-      "admitted/until": "2026-11-14T00:00:00Z"
+      "admitted/from": "2026-11-13T00:00:00.000000000Z",
+      "admitted/until": "2026-11-14T00:00:00.000000000Z"
     }
   ]
 }

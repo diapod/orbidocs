@@ -37,5 +37,7 @@
   "case/continuity-key-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "case/status-authority": "node:did:key:z1111111111111111111111111111111111111111111",
   "case/not-after": "2026-11-12T12:01:00Z",
-  "source/receipt-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  "source/receipt-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "attested/at": "2026-11-12T12:00:00Z",
+  "source/admission-facts-digest": "sha256:oHYPvGNC1T1k5oxo63uvGVVgXTQYvQq1Z0CmnCrB9IM"
 }
