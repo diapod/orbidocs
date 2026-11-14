@@ -1,12 +1,15 @@
 # Private Case Continuity {#private-case-continuity}
 
-Decision date: 2026-11-06. Qualified scope updated 2026-11-14: independent
-direct Gate A and ordinary-v1 full-record SQLite/Synapse Gate B are complete.
+Decision date: 2026-11-06. Scope corrected 2026-11-14 after evidence review:
+direct Gate A is qualified; Gate B has a qualified bounded subset. LLR-008
+is **partial** pending the explicitly owned B-prime supplement (LLR-012).
 Owners: P013-PEX-001, P013-LLR-001/008/007
 and the S023-001 route profile. The decision alone is not runtime evidence.
 
 Current evidence: `node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
-Loose, pooled, extracted and fresh both-store qualification agree. Historical
+Loose, pooled, extracted and fresh both-store qualification agree for the
+measured subset, not every original Gate B requirement. See the
+[scope correction](#gate-b-scope-correction-2026-11-14). Historical
 checkpoints below retain their original observation-only scope. Production v2
 issuance, detached ordinary anchors, LLR-009/010/011, S023-002 and global readiness
 remain separate.
@@ -18,8 +21,9 @@ explicitly opens a case anchored to an admitted signal, then continues that case
 under a current nym when an action requires it. Private delivery, historical
 admission, accepted case history and current authorization are independent facts.
 
-Gate A qualifies private exchange independently. Gate B qualifies opening and
-succession on both SQLite and Synapse, including restart and replay. A Synapse
+Gate A qualifies private exchange independently. The observed Gate B subset
+qualifies opening and succession on SQLite and Synapse, with restart and replay.
+The remaining acceptance obligations below keep the complete gate open. A Synapse
 anchor-unresolved refusal does not substitute for its positive path.
 
 Based on the [P013 domain map](../013-whisper-social-signal-exchange.md),
@@ -73,7 +77,8 @@ byte bindings still apply; signed metadata keeps its own canonical contract.
 Full PDU source buffers keep the independent Matrix verification rules.
 
 The case anchor is the digest of exact signed author bytes admitted with
-`agora-admission-receipt.v1`; the protected PEX signal is a separate case artifact.
+`agora-admission-receipt.v2` for current source adapters (v1 remains a historical
+reader contract); the protected PEX signal is a separate case artifact.
 A local time-only receipt or Matrix timestamp is insufficient for LLR-002.
 Opening needs a positive historical admission result and acceptance by the
 committed, independently admitted authority. Revision zero is the original anchor.
@@ -275,18 +280,41 @@ lost replies, restart/replay and non-inline/oversize refusals. Inspect DB/WAL,
 cache, object stores, logs, SSE and notifications by access class. Separate private
 domain custody from prohibited transport plaintext. No public fallback is allowed.
 
-Gate B requires ordinary certification and host signing, preview/prepare/bind,
-portable receipt and opening on SQLite and Synapse; real sync, exact bytes and full
-PDUs; missing-receipt refusal; expired original certificate and current successor;
-A-to-B-to-C; concurrent succession/closure/retry; exact lost-response readback;
-stale/missing/rollback/equivocating status; unbound keys/abandonment/erasure/recovery;
-restart and replay without sending, signing or performing commands again. Keep
-Node and homeserver gates separate. Controlled-clock tests are not long observation.
+The original Gate B contract required the full matrix below. Review found that
+its 2026-11-14 report proved a smaller subset. The following correction is adopted
+**now**, after that run; it does not claim prior approval or reclassify the frozen
+observations. LLR-001 and LLR-007 retain their bounded completed scope; the full
+case-state milestone LLR-008 remains partial until LLR-012 is qualified.
 
-Conformance includes quota boundaries, clock rollback, retention guarantees,
-pre/post-CAS crashes, unchanged-head status refresh and both ADC race orders.
-Runtime cases have their own process/HTTP observations; conformance has no invented
-HTTP success. Real v1 issuance is mandatory; synthetic v2 does not close Gate B.
+### Gate B scope correction 2026-11-14
+
+| Original obligation | Evidence class and current disposition | Reason / owner |
+| --- | --- | --- |
+| Ordinary certification, preview/prepare/bind, positive anchor, A-to-B-to-C, restart/replay | Observed runtime on SQLite and one stock Synapse homeserver | Original full-record records, exact author bytes and source-bound receipts are retained; real sync and full PDU verification remain mandatory for Matrix, with separate Node/homeserver gates. |
+| Expired predecessor | Observed runtime: SQLite B before C; Matrix A before B | These are distinct measured transitions, not both expiry positions on both backends. |
+| Competing A-to-B/A-to-C; closure versus succession/retry | Transactional-owner conformance; no live concurrency claim | Deterministic ordering/fencing tests are the reliable race witness. LLR-012 must identify both orders by named tests. |
+| Lost commit reply after later state change | LLR-012 runtime follow-up | Cached restart reads alone do not prove this scenario. |
+| Missing/stale status, older head, bad attachment, case horizon | Native historical readback for SQLite only | Controlled evaluations are not new HTTP refusals. Matrix equivalents belong to LLR-012. |
+| Status rollback, equivocation, missed closure, unchanged-head refresh | Owner/recipient conformance | Preserve exact named tests and test counts. No inferred live status coverage. |
+| Unbound exposed-key inventory and explicit abandon | LLR-012 runtime follow-up through POST/CSRF | Preparation conformance does not prove the operator flow. |
+| Key loss, erasure and recovery opt-in | Custody conformance; LLR-012 coverage audit | No physical erasure claim; missing named witnesses stay open, never inferred from an export. |
+| Missing Synapse receipt, anchor unresolved | LLR-012 runtime follow-up | A positive receipt does not prove absence refuses without timestamp fallback. |
+| Closure / sticky terminal knowledge | Observed SQLite closure plus native cold readback only | Matrix closure remains LLR-012 runtime follow-up. |
+| Live SSE privacy | Historical Gate A only | A source comparison is corroboration, not a new Gate B stream. |
+| Complete clean-source capture producer | LLR-012 provenance requirement | Product commits were clean; the private capture programs were not in those commits. |
+
+Real v1 issuance and host signing remain mandatory; synthetic v2 cannot close B.
+Restart/replay must not resend, re-sign or perform commands again. The correction
+changes evidence classes only where stated; it does not weaken domain invariants.
+Runtime cases retain their own process/HTTP observations. Conformance has no
+invented HTTP success. Quota edges, clock rollback, pre/post-CAS interruption and
+ADC race laws remain conformance; ADC production routes remain LLR-011. A
+controlled-clock evaluation is not a long-duration observation.
+
+The Node [scope review](https://github.com/diapod/node/blob/master/docs/audits/PRIVATE-CASE-GATE-B-SCOPE-2026-11-14.md)
+provides the backend matrix, recovered capture provenance and exact limits.
+Frozen reports and external references are unchanged. A qualifier's `qualified`
+result attests its predicates, never completeness of this entire contract.
 
 Retain one campaign through P035-011 with XZ dictionary 128 MiB: complete set
 16 MiB, refusal capsule 1 MiB, campaign/profile refusals 4 MiB and current aggregate
@@ -304,18 +332,19 @@ claimed scope. A failed gate preserves its real result and leaves its task open.
 
 ## Next Actions
 
-Baseline/test collection, contracts/schema mirrors/refusal fixtures, PEX/S023-001,
-Gate A, case owner/Matrix admission, ordinary UI/succession/P072, Gate B, then
-convergence and status reconciliation. After each substantial stage: review,
-repair, recheck and commit. Runtime uses clean committed revisions. Compile without
-incremental. Preserve feature worktrees; no integration or push is authorized.
+- LLR-012: qualify the B-prime supplement above from committed capture code;
+  preserve original data and results, and link the additive proof.
+- P015-005: ordinary scoped v2 issuance and detached anchors.
+- LLR-009/010/011: portable presentation qualification, context transition and
+  separately authorized durable ADC operations.
+- PEX-002 and S023-002: load/scale and trace-purge qualification.
+- Keep the completed convergence dispositions in the Node integration map;
+  review changed abstractions again before closing LLR-012.
 
-Before closure compare result stores with issuer decisions, AD idempotency and
-P091 CommitHost; folds/cursors, PEX/P015 offers and SQLite/Matrix admission.
-Every candidate is consolidated, intentionally separate or assigned a concrete
-owned follow-up. Reconcile P013/S011/S023, schemas/Schema Gate, P072 PL/EN,
-COVERAGE, Node ledger/MVP and the existing MVP readiness snapshot. Gate A can close
-PEX/S023-001 alone; the full slice requires both A and B.
+After each substantial stage: review, repair, recheck and commit. Runtime uses
+clean committed revisions. Compile without incremental. Preserve feature
+worktrees; no integration or push is authorized. Reconcile S011, Node ledger/MVP
+and readiness views; global Whisper/Agora and release readiness remain partial.
 
 ### Offer-control composition checkpoint
 

@@ -679,7 +679,7 @@ Concerns (status tracked in the Post-M4 tracker above, not here):
 - Retention policy for received whispers (receiver's own choice) —
   generic Memarium retention applies; whisper-specific defaults unset.
 
-## Layer 7 — Threshold detection and durable promotion
+## Layer 7 — Threshold detection and durable promotion {#layer-7-threshold-detection-and-durable-promotion}
 
 From proposal 013 §5: when enough whispers correlate on
 `topic/class` + `context/facets`, the signal may be promoted to
