@@ -1324,6 +1324,90 @@ slice requires it). Unknown provenance is visible and is handled by operator
 policy; it never becomes an implicit local result. Provider redaction may hide
 the provider ref but cannot hide known non-local execution.
 
+### Decision 14: Task Instructions Stay Outside Advisory Conversation {#task-context-isolation}
+
+Accepted design refinement, 2026-11-14; implementation and qualification are
+tracked by P066-TASK-001/002 below. A domain task such as Whisper redaction must
+not change the standing instruction policy of the user's advisory conversation.
+This preserves human control and the distinction between source claims, model
+interpretations and human decisions in Decision 8.
+
+Use a separate bounded Inquirium request for a single transformation. Allocate a
+separate inquiry session only when the task requires multiple turns. Neither
+choice implicitly forks the advisory transcript. The host admits an explicit,
+minimal input selection under current principal, classification, context and
+egress gates; a parent-session reference is a correlation link, not a grant.
+Task instructions belong to that invocation or task session, never to the global
+organ policy or a shared model-binding adjustment. A different `session/ref` or
+`profile/ref` alone is not proof of context isolation.
+
+**Reuse and ownership.** Reuse P063 requests, [P064 prompt assembly](064-inquirium-implementation-recommendations.md#configurable-prompt-assembly-policy),
+P066 transcript/grant/result owners and existing runtime continuation controls.
+Keep required host layers intact; do not add a parallel prompt builder, transcript
+store or inference adapter. JSON-e Flow may describe the bounded work; P073 is
+needed only for multi-step orchestration and retains its explicit escalation
+approval and same-session binding rules. A task session does not inherit an
+Agent binding from the advisory session. Whisper may reuse
+`whisper.redaction.prepare`; [P078](078-weak-signal-harvester.md#assistant-task-handoff)
+owns finding/analysis/review semantics, not a second isolation mechanism.
+
+**Explicit result return.** Bind the task to its authenticated owner, input
+revision, purpose, instruction-policy revision and intended return session.
+Return only a bounded result or authorized result reference with provenance,
+classification, epistemic caveats and typed completion/refusal status. Reuse
+existing request, result and review identities; these are logical bindings to
+freeze in P066-TASK-001, not a new wire schema declared implemented here.
+Presenting a result in the advisory UI is distinct from admitting it into a
+later model context. The latter requires an explicit user action or previously
+approved, narrowly scoped return policy, rechecked at use time. Returned content
+is task data, not a new system/developer instruction. Embedded commands must not
+be promoted through a generic context field. Neither a result nor its acceptance
+authorizes publication, persistent-memory capture or a standing policy change.
+
+For example, a user requests a rumor draft while discussing a concern. The
+redaction task receives only selected source material and redaction instructions.
+The advisory conversation can receive the resulting draft and its limitations;
+its next turn does not inherit "flatten idiolect" as a conversational instruction.
+
+**Isolation and lifecycle.** Do not automatically retrieve task transcripts,
+instructions or intermediate reasoning into advisory context, summaries or
+Memarium recall. Retain task artifacts only through existing retention/excision
+owners. Stateful providers must use a separate continuation, or a qualified
+stateless/reset path; shared prompt/KV caches must preserve the same context
+boundary. A runtime unable to establish that boundary is unavailable for this
+profile. Reusing model weights or a worker process is allowed when isolated
+request state is demonstrated. Timeout, cancellation, stale revision or expiry
+does not trigger an implicit return or retry in the advisory session.
+
+**Acceptance.** Extend existing assistant, prompt-assembly and runtime harnesses:
+
+- Capture exact outbound requests with deterministic providers: advisory turn A,
+  redaction task B, then advisory turn A again. Canary instructions and private
+  task context must occur only in B. Without an admitted return, no B content
+  enters A; with one, only the selected result projection enters as data.
+- Exercise interleaved tasks, distinct principals, restart, lost replies and
+  duplicate returns. Recheck target ownership, current grants and input/result
+  revisions; stale, cancelled or expired results cannot silently enter context.
+- Return a draft containing hostile instruction text. Verify no privileged
+  instruction insertion, global-policy mutation, automatic transcript retrieval,
+  memory write, Agent spawn or publication occurs.
+- Test a stateful provider/cache fixture and one supported runtime's actual
+  continuation behavior. Unproven reset or isolation produces a typed refusal,
+  not a claim that a new session label erased prior state.
+- Keep structural evidence separate from model behavior. A separately authorized,
+  calibrated model run checks advisory behavior after redaction, but cannot prove
+  universal semantic non-influence. The guarantee is bounded context and policy
+  separation; an explicitly returned draft may legitimately inform later advice.
+
+The trade-off is extra explicit handoff and possibly duplicated bounded context,
+in return for auditable separation of tasks. This does not require separate
+models, a new transport or a general multi-agent system.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P066-TASK-001 | Freeze bounded task/session and explicit result-return bindings. | todo | Map this decision onto existing P063/P064 requests and P066 principal/session, context-grant, transcript and result contracts. Specify input selection, instruction scope, destination, return admission, retention and stale/cancelled outcomes without parallel stores or inherited Agent authority. Independent-participant delivery also consumes P066-PA-001; it is not required for the first operator-scoped contract. |
+| P066-TASK-002 | Qualify task isolation and explicit return through existing owners. | todo | Depends on P066-TASK-001. Implement the minimal missing composition and exercise the acceptance above, including provider continuation/cache and replay. Report operator and participant scopes separately; the latter additionally requires P066-PA-002. Structural offline proof does not qualify a real model or close P078-006. |
+
 ## Contract Sketch
 
 The assistant MVP needs a generate/chat contract aligned with the already
@@ -1654,6 +1738,7 @@ Done criteria:
 | Classification stripped during context assembly | Egress policy cannot reason about data sensitivity. | `Classified<T>` context elements and fail-closed unknown labels. |
 | Non-monotonic class-keyed config | Sensitive classes receive weaker controls than public data. | Monotonicity validation or explicit operator acknowledgement. |
 | Observability feed becomes prompt context | Decision traces leak protected facts back into models. | Feed is local-only read projection and not prompt input by default. |
+| Task instructions enter advisory conversation | Redaction or analysis policy silently changes later advice. | Decision 14 requires separate task context, admitted result-only return and qualified provider-state isolation; session labels alone do not enforce it. |
 | Model advice becomes action | Accountability shifts from operator to model. | Advise-only Phase 1; later effects require capabilities and Protocol Gate. |
 | Assistant becomes the oracle | Intellect turns into "the only adviser"; operator defers their own knowing. | `epistemic.stance` advisory, plurality preserved, output is evidence not authority, non-dopamine UX. |
 | Belief instead of verification | Confident output treated as truth without check. | Bounded-claim framing + operator feedback loop (`inquiry-feedback.v1`); intelligence as corrigible prediction. |
@@ -1811,6 +1896,9 @@ Importing output is distinct from accepting its interpretation or approving effe
 8. Add richer widget rendering and, only if operator UX requires non-lazy
    timeout surfacing, a shared-scheduler sweep. Cancel/supersede and paired
    notification closure are already implemented.
+9. Freeze P066-TASK-001 and qualify P066-TASK-002 before enabling domain-task
+   returns into advisory context. Reuse existing inference and context owners;
+   keep the baseline advisor usable without the optional task profile.
 
 ## Planned Assistant Catalog Consumption
 
