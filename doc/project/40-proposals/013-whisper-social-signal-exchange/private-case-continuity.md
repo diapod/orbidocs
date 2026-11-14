@@ -421,6 +421,23 @@ scheduler. Keep author results, authority decisions and AD idempotency
 separate. Share value scanning beneath logical snapshots and raw files, not
 their completeness laws.
 
+Keep the full status observation journal separate from a bounded owner proof
+snapshot. The existing EvidenceBundle and carried-presentation limit is three
+attached statuses; the native completeness evaluator's merged limit of seven
+includes local facts and does not increase the wire limit. A new snapshot must
+retain every receipt/closure-pinned whole status and its explicitly acquired
+current status, or refuse for missing dependencies/capacity. No signed document
+is truncated and no acquisition fact is deleted to fit that snapshot.
+
+The journal preserves original current-acquisition outcomes and their order for
+one local verifier, separately from historical proof dependencies and another
+owner's observations. Qualification binds those outcomes to retained API facts
+and applies the existing nym StatusCursor laws to all supplied signed current
+claims, including unselected claims. This grants neither a fresh lease nor a
+completeness claim by itself; the qualifier must independently establish journal
+coverage. Historical embedded statuses are not new acquisitions. These are
+representation boundaries within LLR-012, not a new status or receipt policy.
+
 Each material candidate ends in implemented consolidation, documented
 intentional separation or an owned follow-up with a revisit condition. Update
 the reuse index only for inspectable existing constructs. Repeat this review at
