@@ -2772,6 +2772,23 @@ This improves post-failure reasoning. After restart, the host can distinguish
 complete artifacts from temporary leftovers, and the operator can see what is
 safe to remove.
 
+### Local Maintenance Ownership Handoff
+
+A local OS-owner maintenance adapter may transfer its exclusive model-root lease
+by same-process exec to a pinned administrative worker, after current lease and
+managed-process quiescence checks. The receiver retains the same locked open-file
+description through every protected effect and its verification. Controller death
+must not release that ownership while the worker can still act; protected effects
+must not escape into a child that outlives the lease. A completed prior inspection
+is not an ownership transfer.
+
+This mechanism does not grant cache/evidence retirement authority, renew TTLs or
+replace exact owner/reviewer decisions. Expiry, one-use journal, partial-result
+recovery and independent effect verification remain with the retirement owner.
+Unregistered processes and arbitrary hostile code of the same OS principal are
+outside this local boundary. Node owns the implementation, procedure and measured
+results; see `node/docs/operations/MODEL-MAINTENANCE.md`.
+
 ## Production Local Model Provisioning
 
 Proposal 066 Decision 8.5.1 is the policy source of truth for production local
