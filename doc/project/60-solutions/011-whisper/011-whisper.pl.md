@@ -451,6 +451,13 @@ Format przenośnego receiptu i uwierzytelnione twierdzenie o admisji należą 
 a nie do drugiej implementacji receiptów w Whisper. Niezmieniona reguła awansu
 oparta wyłącznie na agregacie znajduje się w [warstwie implementacyjnej 7](011-whisper-impl.md#layer-7-threshold-detection-and-durable-promotion).
 
+Osobna kwalifikacja z 2026-11-14 domyka bezpośrednią wymianę prywatną (bramka A)
+oraz ciągłość zwykłej sprawy v1 na SQLite i Synapse (bramka B): certyfikację AD,
+podpis host/Vault, receipt v2, A→B→C, restart i replay. Zakres i ograniczenia:
+`node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
+Nie zamyka to LLR-009/010/011, PEX-002, S023-002 ani globalnej gotowości Whispera.
+
+
 [P013-LLR-009](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification)
 planuje ograniczoną przenośną weryfikację sukcesji przez tych właścicieli P015/P035.
 Zachowuje rozdział historycznego dowodu kotwicy, autentycznej sukcesji i bieżącego

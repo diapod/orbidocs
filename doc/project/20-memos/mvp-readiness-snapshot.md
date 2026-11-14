@@ -26,12 +26,12 @@ percentages below do not measure the subsequent changes.
   both native consumers, bounded minimal traces, fault controls and identical
   loose/extracted/fresh-both-store outcomes. Evidence:
   `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
-  Ordinary-v1 SQLite/Synapse Gate B remains open. The accepted portable source
-  bridges are P035-019a/019b with a separate receipt v2; this contract decision is
-  not implementation or qualification and changes no historical receipt pins.
-  Synthetic-v2 case credentials
-  and fixture-signed private v1 signals do not replace ordinary host/Vault
-  authorship; S023-002 purge and global readiness remain separate.
+  Ordinary-v1 full-record SQLite/Synapse Gate B now also qualifies with source-bound
+  receipt v2 (P035-019a/019b), actual host/Vault opening and private succession,
+  cold recipients, restart/replay and equal fresh both-store outcomes. Evidence:
+  `node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
+  Historical Gate A credential scope and receipt v1 pins are unchanged. P015-005,
+  LLR-009/010/011, PEX-002, S023-002 and global readiness remain separate.
 - The primary integration passed the repeated software gates documented in
   `node:docs/audits/WHISPER-INTEGRATION-2026-11-04.md`. This does not renew runtime
   acceptance or imply release approval. P035-001–003 remain mandatory unfinished

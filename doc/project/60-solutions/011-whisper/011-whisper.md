@@ -442,8 +442,12 @@ production P037 offers, Memarium protected-signal custody, exact pending case
 inbox before separately adopted S020 processing, refusal/fault/restart controls
 and selected access-class privacy. Loose, extracted and fresh both-store results
 agree. Evidence: `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
-Ordinary-v1 SQLite/Synapse Gate B remains open. Synthetic-v2 case credentials and
-fixture-signed private v1 signals do not qualify ordinary host/Vault authorship.
+Ordinary-v1 full-record SQLite/Synapse Gate B is now independently qualified:
+actual AD certification/renewals, host/Vault opening, source-bound receipt v2,
+private A-B-C, cold authorization, process restart and unchanged replay. Evidence:
+`node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
+Synthetic-v2 Gate A credentials retain their separate historical scope.
+Production v2 issuance, detached ordinary anchors and LLR-009/010/011 remain separate.
 Memarium remains the protected-record owner; the case service owns ordered
 results, and AD owns transport retry. Minimal AD traces exclude payload/domain
 links; authorized receiver-local INAC transport metadata remains visible.

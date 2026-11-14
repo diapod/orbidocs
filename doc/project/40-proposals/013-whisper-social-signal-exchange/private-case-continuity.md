@@ -1,8 +1,15 @@
 # Private Case Continuity {#private-case-continuity}
 
-Decision date: 2026-11-06. Status: accepted execution contract; implementation
-and runtime qualification pending. Owners: P013-PEX-001, P013-LLR-001/008/007
+Decision date: 2026-11-06. Qualified scope updated 2026-11-14: independent
+direct Gate A and ordinary-v1 full-record SQLite/Synapse Gate B are complete.
+Owners: P013-PEX-001, P013-LLR-001/008/007
 and the S023-001 route profile. The decision alone is not runtime evidence.
+
+Current evidence: `node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
+Loose, pooled, extracted and fresh both-store qualification agree. Historical
+checkpoints below retain their original observation-only scope. Production v2
+issuance, detached ordinary anchors, LLR-009/010/011, S023-002 and global readiness
+remain separate.
 
 ## Executive Summary
 
@@ -30,9 +37,9 @@ used a disclosed synthetic v2 certificate; it does not establish real case
 succession. The ordinary v1 issuance path and P015-004's WhisperV1 verifier must
 compose in Gate B without fixture-only signing authority.
 
-The current Matrix relay has a SQLite local store but no admission-store adapter.
-The current authoring path also confuses case retention with issuer identifying
-data retention. Both gaps require implementation, not a different success claim.
+At decision time the Matrix relay had no portable admission-store adapter, and
+authoring coupled case retention to issuer identifying-data retention. The scoped
+A/B implementation below resolves these gaps without changing historical claims.
 
 ## Adopted Model
 
@@ -149,9 +156,12 @@ timing correlation remain possible. No anonymity or forensic-erasure claim follo
 Compose the existing portable admission producer and local indexing for both
 backends. Matrix admission binds exact author bytes, the actual local admission
 decision, its policy/evidence and the observed Matrix source. A receipt is not a
-wrapper around origin_server_ts. Runtime publication time retains the declared
-`authenticated-admitted-homeserver-v1` policy; full PDU verification is acceptance
-work. Missing evidence, nonfinal admission or changed bytes gives anchor-unresolved.
+wrapper around origin_server_ts. The original Matrix time policy remains
+`authenticated-admitted-homeserver-v1`; the explicitly admitted portable witness
+now verifies and retains its original full PDU/key/admission material. Acceptance
+also checks the separate server export. The witness adds portability, not an
+independent guarantee of the homeserver clock. Missing evidence, nonfinal
+admission or changed bytes gives anchor-unresolved.
 Replay preserves the original decision/material and never invents historical time.
 
 ### One case authority

@@ -156,14 +156,15 @@
               "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
               "doc/project/40-proposals/041-agora-ingest-attestation.md"
               "doc/project/40-proposals/032-key-delegation-passports.md"]
-   :schemas []
+   :schemas ["agora-admission-receipt.v2" "whisper-case-command.v2"
+             "whisper-case-succession-presentation.v2"]
    :responsibilities
    ["Separate certificate validity, retention, counting horizon and consent validity"
     "Retain portable admission receipts beside envelope bytes and verify historical authorship separately from current status"
     "Re-contact the author of an old matching rumor without counting that rumor again"
     "Use one continuity key per case, ordered case events and fresh case status for audience-bounded nym succession"
     "Reuse P015/P035 proof owners for bounded zero-fetch succession verification; separate historical anchors, authentic succession and current case authority without disclosing a private anchor to complete a package"]
-   :status :future}]
+   :status :partial}]
 
  :out-of-scope
  ["Transport-layer anonymity and relay topology"
@@ -184,7 +185,8 @@
   "association-room-proposal.v1"]
 
  :notes
- ["Component status includes the partial local assessment continuation; the existing Agora M4, artifact-trace and bounded phase-1 contextual-authorship capabilities are done; the four optional privacy continuations remain future."
+ ["Component status includes the partial local assessment continuation; the existing Agora M4, artifact-trace and bounded phase-1 contextual-authorship capabilities are done; three optional privacy continuations remain future; historical continuity is partial."
+  "Direct private-exchange Gate A and ordinary-v1 full-record SQLite/Synapse Gate B qualify private opening, succession, restart and replay; re-contact, historical ingest, LLR-009/010/011, PEX-002 and S023-002 remain separate. See node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md."
   "P013-AE-001 qualifies only the bounded common local view on a generic open resource reference; P013-AE-002 and the full Whisper curation, propagation and attention workflow remain planned."
   "Whisper intake/redaction is a supervised channel_json middleware service with a separately owned intake/trace/operator HTTP surface; shared transport-independent semantics belong in `whisper-core`."
   "Post-M4 productization adds a host-owned provider-policy shape for Inquirium/model-runtime redaction providers and a secretless simulator acceptance bridge without making adapters publication authorities."
