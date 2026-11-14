@@ -1964,7 +1964,7 @@ or required dependency was relaxed. Evidence:
 | P035-012 | Qualify a retained-evidence replica and verification procedure | done | P035-009; P035-011; operator-adopted protection profile | Qualified 2026-10-20: clean Node dc996b24 / Orbidocs 83c77609, eight exact bundles and 32517795 original file bytes per logical store, OS-enforced primary/previous-capture denial and identical fresh secondary qualifications. Operator explicitly adopted an overlapping mirror with a separate second member; no disjoint-media/host claim. Clean 70d507cb release rehearsal freshly verifies both locations, binds the exact candidate/attempt/policy/inventory and is accepted by the v2 outer gate; another attempt refuses and other release checks stay unqualified. Small custody/procedure proofs qualify equally after extraction. Auxiliary originals deduplicate without deletion or outcome changes; oversized refused input stays private. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`. Global partial scope, shared risks and existing budgets remain. |
 | P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | done | P035-010; S039; S020; P072 | Qualified 2026-10-23 at 885a78fd/b16312f6: 12 focused Synapse cases, four SQLite runtime and one conformance; real S039/API/private UI, no-JS redacted controls, original CAS/current authority, durable receipts, crash/restart/replay and dual-store retention. Full historical transport, OS notifications and global readiness are unchanged; see the focused qualification above. |
 | P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | done | P035-012; S020; S039; reviewed operator job policy | Qualified 2026-10-23 at clean Node 62bea078 / Orbidocs c43352b6: eleven real background/S020/S039/UI cases, eighteen fresh pairs, periodic topology, stale checks, failures, restart/replay and exact dual-store retained qualification. See node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md. Opt-in session-bound scope; mandatory manual release verification, private locators and accepted overlapping-mirror limits remain unchanged.  Portable identity/OS-access review adds a separately qualified three-case delta and fresh stable-media dual reads; the original eleven-case proof remains historical. |
-| P035-015 | Implement predictable public-evidence retirement | done | P035-009; P035-012; retention and claim/release owners | Qualified 2026-10-26 for the explicitly adopted local operator profile: complete reviewed fixture sources, deterministic catalogue/dry-run/exact plans, inventory-derived classification, real owner/reviewer signatures, OS-bound executor authority and a pinned append-only single-use journal. Real derivative, replica and last-copy retirement, exclusive quarantine/restore, ordinary replacement retrieval/qualification and independent post-action reads pass. Authority renewal preserves consumption and rejects superseded trust; expiry, holds, inventory/replica drift, partial unlink, destination races, deadline exhaustion and process death refuse or require reconciliation. The dated report pins exact working sources rather than claiming a clean checkout: `node:docs/evidence/evidence-retirement/README.md`. Final-delete policy time is controlled; filesystem effects, signatures and crash/restart inspection are real on the recorded macOS host. Legacy production stores still require their own complete source, trust adoption and exact signed decisions. The result grants no standing cleanup authority and does not qualify hostile root/same-uid writers, hardware power loss, unmeasured platforms, global Agora or release readiness. The pre-production review fixes false completion after a failed final replacement check and adds automatic protected producer metadata to shared archive/capsule/store helpers; see `node:docs/audits/EVIDENCE-RETIREMENT-REVIEW-2026-10-26.md`. |
+| P035-015 | Implement predictable public-evidence retirement | done | P035-009; P035-012; retention and claim/release owners | Qualified 2026-10-26 for the explicitly adopted local operator profile: complete reviewed fixture sources, deterministic catalogue/dry-run/exact plans, inventory-derived classification, real owner/reviewer signatures, OS-bound executor authority and a pinned append-only single-use journal. Real derivative, replica and last-copy retirement, exclusive quarantine/restore, ordinary replacement retrieval/qualification and independent post-action reads pass. Authority renewal preserves consumption and rejects superseded trust; expiry, holds, inventory/replica drift, partial unlink, destination races, deadline exhaustion and process death refuse or require reconciliation. The dated report pins exact working sources rather than claiming a clean checkout: `node:docs/evidence/evidence-retirement/README.md`. Final-delete policy time is controlled; filesystem effects, signatures and crash/restart inspection are real on the recorded macOS host. Legacy production stores still require their own complete source, trust adoption and exact signed decisions. The result grants no standing cleanup authority and does not qualify hostile root/same-uid writers, hardware power loss, unmeasured platforms, global Agora or release readiness. The pre-production review fixes false completion after a failed final replacement check and adds automatic protected producer metadata to shared archive/capsule/store helpers; see `node:docs/audits/EVIDENCE-RETIREMENT-REVIEW-2026-10-26.md`.  Scoped 2026-11-14 readback extension adds exact dual-signed directory appends with separate signature/result contracts; Node owns current-source regressions and measured R8/ROLE checkpoint. No new effect authority or global qualification. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
@@ -3298,7 +3298,7 @@ qualifications, change generic retirement budgets or assert an independent backu
 
 | Follow-up | Status | Boundary |
 |---|---|---|
-| `evidence-linked-cache-retirement` | partial | Node implements/fixture-qualifies explicit v2 records, contained graphs, exact signed effects, crash residual reconciliation and profile/artifact-restricted reviewer keys. One explicitly approved local authority/key adoption is verified with the existing namespace preserved. Actual whole-window P094 model maintenance/quiescence and exact effect decisions remain open. |
+| `evidence-linked-cache-retirement` | partial | Node fixture-qualifies the contained-graph profile and constrained reviewer. One adopted namespace completed exact R8/ROLE cache effects. The 2026-11-14 read-only closeout verifies those completed facts across an exact dual-signed 21-root append review; original receipts, journal and producer authority remain unchanged. Other stores/hosts and broader qualification remain separate gates. |
 
 Node execution plan: `node:docs/development/P094-MODEL-RETIREMENT-PLAN.md`.
 
@@ -3343,3 +3343,43 @@ later authenticated fact distinguishable from unexplained drift.
 Node procedure: `node:docs/operations/EVIDENCE-RETIREMENT-READBACK.md`.
 Scoped outcome and remaining drift: `node:docs/audits/P094-VERIFY-CONTROL-APPEND-2026-11-14.md`.
 No broader P035/P094 or release qualification follows.
+
+
+## Exact reviewed post-completion directory appends (2026-11-14)
+
+**Status:** accepted read-only scope-reconciliation boundary. Original effect
+admission, producer authority, namespace consumption and historical facts stay
+unchanged. This extends the completed-fact readback boundary above; it is not a
+new evidence-retirement profile or a relaxation of execution checks.
+
+A changed coordination-scope listing requires investigation. An exact bounded
+post-completion directory set may be explained only by a separate short-lived
+review signed by the original plans' same distinct owner/reviewer actors and
+adopted keys. Original role, profile and artifact restrictions still apply. The
+review binds every referenced completed plan, receipt/source/authority identity,
+namespace, full no-follow byte inventory, private root/member custody and producer
+provenance. The directories must be absent from all referenced baselines. A hash
+inventory alone or an operator's free-text assertion is not an independence proof;
+producer provenance and the bounded impact review remain accountable assertions.
+
+Scopes containing original target/unselected entries, supporting records,
+quarantine destinations or qualified replacements cannot use this extension.
+Every original post-action check remains mandatory. Unknown additions, removed or
+changed old members, substituted roots, links, special files, altered byte/custody
+inventories and unavailable controls refuse. The exact review is recomputed from
+current observations and checked through completion within its finite validity.
+General dependency/hold incompleteness of unrelated material is not cleared; no
+right to retire that material follows from a readback result.
+
+The signature domain and result contracts are separate from file-effect decisions
+and prior control-file witnesses. No readback signature or reader-tool pin may
+admit a mutation, renew an original decision or replace producer adoption. A fresh
+observation does not rewrite an old snapshot. Default strict readback remains
+available, and a future unexplained change must still refuse.
+
+Alternatives rejected: ignoring the coordination scope, deleting/moving new
+material, replacing historical catalogs, or accepting all directories by prefix.
+Node owns exact local limits, procedures and source-bound campaign evidence:
+`node:docs/operations/EVIDENCE-RETIREMENT-READBACK.md` and
+`node:docs/audits/P094-VERIFY-DIRECTORY-APPENDS-2026-11-14.md`.
+No broader P035/P094 or release qualification is asserted.
