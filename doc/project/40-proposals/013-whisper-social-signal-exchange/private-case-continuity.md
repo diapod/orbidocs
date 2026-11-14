@@ -2,7 +2,7 @@
 
 Decision date: 2026-11-06. Scope corrected 2026-11-14 after evidence review:
 direct Gate A is qualified; Gate B has a qualified bounded subset. LLR-008
-is **partial** pending the explicitly owned B-prime supplement (LLR-012).
+is **partial** pending the independent replacement Gate B campaign (LLR-012).
 Owners: P013-PEX-001, P013-LLR-001/008/007/012
 and the S023-001 route profile. The decision alone is not runtime evidence.
 
@@ -318,13 +318,194 @@ matrix, recovered capture provenance and exact limits.
 Frozen reports and external references are unchanged. A qualifier's `qualified`
 result attests its predicates, never completeness of this entire contract.
 
-Retain one campaign through P035-011 with XZ dictionary 128 MiB: complete set
-16 MiB, refusal capsule 1 MiB, campaign/profile refusals 4 MiB and current aggregate
-limits. New Git controls total at most 64 KiB. Measure headroom before runtime.
-Loose, safely extracted and freshly retrieved qualifications from both adopted
-stores must agree. Read current retention/retirement contracts before capture;
-record owner, classification, inventory, dependencies, minimum retention and
-restore/replica facts; unknown remains unknown. No keys or recovery bundles.
+### LLR-012 independent Gate B campaign {#llr-012-independent-gate-b-campaign}
+
+**Adopted 2026-11-14; implementation and qualification pending.** Campaign
+`P013-LLR-012` is the independent basis for closing Gate B and LLR-008. It
+repeats ordinary certification, authoring, registration and case continuity; it
+does not combine new observations with the historical bounded subset to fill
+missing witnesses. Gate A, the old subset and its private-source capsule retain
+their exact historical bytes, tool pins and limitations. Durable ADC remains
+LLR-011. A passing LLR-012 closes LLR-008; it does not close future ADC
+operations.
+
+Freeze a versioned requirement inventory before capture: requirement, backend,
+phase, result owner, evidence class, source observations and qualifier
+predicate. Runtime, native historical readback, conformance and named
+follow-ups remain separate. The qualifier computes coverage from bound
+witnesses, not backend names or a producer's claim. No missing witness may be
+supplied by prose.
+
+SQLite and stock Synapse use independent runs with fresh actors and separate
+issuer, authority, Vault, AD and projection state. Within one run, roles may
+share a process only with separately retained key identities and adopted
+policies. Actual v1 certification and host signing remain mandatory. Fixture
+confidence is 0.5, recorded in the pinned scenario rather than imposed on
+product authoring.
+
+#### Scenario order and result ownership
+
+Registration creates head 0; A-to-B creates head 1; B-to-C creates head 2. Each
+backend records that sequence and independently observes heads `[1,2]` for cold
+readback. Source/key/audience identities come from the actual actors.
+
+1. Certify A, explicitly preview a new case, then prepare, sign, bind, admit,
+   obtain the portable receipt and register the case.
+2. Accept A-to-B and discard the local author-workflow response body. SQLite
+   also waits for A's certificate to expire before that succession.
+3. On both backends, wait for B's certificate to expire, then accept B-to-C
+   under C's valid current certificate.
+4. Read/retry the original author operation: exact A-to-B result, without a new
+   PEX/AD handoff. Changed input under its ID refuses. Include the original
+   result in exact post-restart readbacks.
+5. Submit new A-to-C under a new ID: `stale-predecessor` with
+   `retry` equal to `evidence-change`; head, current succession and accepted-succession count
+   remain unchanged, with no acceptance event. The vertical development run
+   establishes whether ordinary API preparation or authority acceptance owns
+   that refusal, then freezes the exact path before the campaign. Do not bypass
+   the API to force authority execution. If authority owns it, retain exact
+   refusal readback too. New A-to-B after B expiry is not this control: its
+   successor-certificate check would fail before predecessor evaluation.
+6. Refuse abandonment of the bound case key, restart/replay without new
+   signatures, sends or command effects, then perform closure as the last case
+   mutation. Only reads and recipient restarts follow; older Active material
+   cannot undo sticky terminal knowledge.
+
+`http_loss` discards the body returned by local `AuthorWorkflow`, not a
+transport packet or an authority command. Resuming its sealed operation reads
+the original result. The AD ledger must show no new handoff to authority.
+Authority `replay_request` is a separate conformance/previous Gate A law, not a
+claim made by this fault injection.
+
+Use a separate Synapse anchor while the coordinator explicitly withholds its
+witness step. Before and after restart, the same author preparation refuses for
+missing proof. `anchor-unresolved` names the scenario, not a new wire enum or a
+persisted authority decision; the inventory pins the existing typed refusal. A
+malformed request is not a missing-proof witness. Check no new signature/nonce,
+PEX/AD handoff, case/history entry, acceptance SSE event, key exposure or P036
+reservation. Matrix time cannot replace the absent receipt. Run the witness and
+open the same anchor under a new ID as positive control; document existing
+old-ID semantics without adding durable refusal. Existing S026/P036 lifecycles
+remain.
+
+A separate exposed, unbound preview on each backend survives restart and
+appears in inventory. UI POST without CSRF refuses without S026/P036/inventory
+effects. A valid POST abandons it: S026 erase fact, P036 opening-release fact
+and absence from active exposed inventory. These are two owner effects, not one
+transaction; empty inventory alone does not prove release. Bound-key
+abandonment refuses without erasure or release. Named conformance covers
+interruption between owner effects and safe retry. No physical block-erasure
+guarantee is inferred.
+
+Scenario data declares phases, dependencies and each credential's last use.
+Compound preflight includes expiry waits, issuance/status, requests, restart,
+replay and closure, while intentionally expired predecessor certificates need
+cover only their legitimate uses. Build/setup precedes short credential
+windows. Preflight neither extends credentials nor replaces owner
+authorization.
+
+#### Shared abstractions before the capture producer
+
+Follow Node's reusable-data-abstraction and convergence rules. Start with the
+curated reuse index, inspect concrete callers and compare operations, laws,
+effects, errors, identity, authority, lifecycle, cost and dependency direction.
+Two uses warrant consideration, not automatic extraction. Prefer an existing
+owner, a small function or an explicit representation adapter.
+
+Review and implement suitable sharing for version-bound workflow reads/body
+loss, SSE inspection separate from Gate A topology, per-backend privacy-surface
+inventories, named Cargo/Python test outcomes and phase/deadline calculations
+using existing preflight. Migrate real consumers and preserve their
+contract-law regressions; do not leave unused generic APIs or build a universal
+scheduler. Keep author results, authority decisions and AD idempotency
+separate. Share value scanning beneath logical snapshots and raw files, not
+their completeness laws.
+
+Each material candidate ends in implemented consolidation, documented
+intentional separation or an owned follow-up with a revisit condition. Update
+the reuse index only for inspectable existing constructs. Repeat this review at
+closeout and check that sharing reduced coupling and preserved diagnostic
+clarity.
+
+#### Privacy, conformance and clean capture
+
+Freeze canaries/access classes before runtime. Both backends retain complete
+logical AD/INAC/notification tables, including history, outbox and tombstones,
+and passive schema through `ordinary_ledger.observe` read-only WAL snapshots.
+Views, virtual tables and unknown schemas refuse. Scan all non-database data,
+cache and log files after stopping actors, including rotated logs, public HTTP,
+full PDU evidence and fresh SSE. Each file is scanned or explicitly inventoried
+as omitted; keys/recovery bundles are excluded with class and reason. Physical
+DB/WAL pages remain S023-002, not an unrecorded exception to this gate.
+
+Scan raw values and declared base64/base64url, hex, JSON-escape and
+canary-digest representations, charging every occurrence. Retain the exact
+scanned material through P035-011. Measure work/time/bytes in the development
+vertical; freeze limits with margin before full capture. Exhaustion preserves
+refusal and leaves the row open, without sampling or later scope removal.
+Authorized recipient knowledge and public disclosure remain distinct
+access-class predicates.
+
+Fresh SSE has readiness barriers before effects and after restart, expected
+real events, continuity and completion/truncation checks. An empty stream does
+not prove privacy. Capture all other required process, request and response
+witnesses per case; controlled faults are labeled as such.
+
+Conformance rows identify concrete commands and test names. Each must appear as
+executed `ok` in captured output: ignored, skipped, filtered or missing tests
+give no credit. Preserve both race orders, authority replay, status rollback
+and equivocation, missed closure, unchanged-head refresh, limits, clock
+rollback, CAS interruptions, custody/erasure/recovery and pure-fold amendment
+coverage. Native reads with selected evaluation times do not become runtime
+HTTP refusals.
+
+The configurable producer, scenario, dependencies, binaries and offline
+qualifier are pinned to clean committed sources before campaign execution.
+Private config is closed data with secret handles, no executable logic; its
+retained semantic digest excludes secrets and private paths. Map every
+private-source step to a committed/reused step or justified omission. Vertical
+outputs are development material only. Preserve ordinary
+signing/unlock/recovery guards. Dispose only owned processes; export and retain
+Synapse PDU before tearing down its container.
+
+A qualifier change after capture requires reason/diff review and renewed loose,
+extracted and both-store fresh qualification. Changed runtime or unavailable
+observations require a fresh corresponding capture. Never relax an assertion to
+make an observed candidate pass.
+
+#### Retention decision and closure
+
+This decision explicitly replaces the old area's 64 KiB history allowance with
+128 KiB. First publication adds at most 56 KiB of unique Git blobs; the
+campaign's entire new control history, including replaced versions, stays at
+most 64 KiB. Count history and staged blobs, including README/index changes,
+not just the final tree. Intermediate controls stay in private campaign
+scratch; publish final controls once after qualification/review. The
+policy-control-history allowance remains 500000 bytes. Re-measure all aggregate
+margins before runtime/publication.
+
+One combined positive set for both backends uses P035-011 with XZ dictionary
+128 MiB and stays within 16 MiB. Each refusal capsule stays within 1 MiB;
+refusals stay within 4 MiB per campaign and profile, including previous
+campaigns of that profile. A new campaign ID does not reset the profile budget.
+Measure current refusal use and the vertical's forecast before full runtime. No
+sampling, campaign splitting or silent budget increase follows an overrun.
+
+Loose qualification, safe extraction and fresh retrieval/qualification from
+both adopted stores must agree. Retain exactly the qualified material, without
+keys, recovery bundles or physical owner databases. Read current
+retention/retirement contracts; record owner, classification, inventory/hashes,
+dependencies/holds, minimum retention and restoration/replica facts. Unknown
+remains unknown.
+
+After review, repairs and full repository/workspace gates, LLR-012 and LLR-008
+become done; durable ADC remains LLR-011. Reconcile LLR-001/007
+dependency/evidence notes, S011 Private Case Continuity, Node
+ledger/MVP/readiness and P035-019a/b, with a new actual-date acceptance
+decision. Point the old scope audit to this independent replacement basis
+without changing frozen observations. Until every required row, retention step
+and check passes, both the new gate and LLR-008 remain open. No global
+Whisper/Agora readiness follows from this bounded gate.
 
 ## Open Questions
 
@@ -334,8 +515,8 @@ claimed scope. A failed gate preserves its real result and leaves its task open.
 
 ## Next Actions
 
-- LLR-012: qualify the B-prime supplement above from committed capture code;
-  preserve original data and results, and link the additive proof.
+- LLR-012: implement and qualify the independent Gate B campaign above;
+  preserve historical data/results and link the new standalone proof.
 - P015-005: ordinary scoped v2 issuance and detached anchors.
 - LLR-009/010/011: portable presentation qualification, context transition and
   separately authorized durable ADC operations.
