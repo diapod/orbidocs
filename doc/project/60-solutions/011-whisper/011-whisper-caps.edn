@@ -160,6 +160,7 @@
              "whisper-case-result.v1"
              "whisper-case-reception.v1"
              "whisper-case-status-request.v1"
+             "whisper-case-continuation-decision.local.v1"
              "whisper-case-command.v1"
              "whisper-case-succession-presentation.v1"
              "whisper-case-authority-policy.v1"

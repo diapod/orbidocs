@@ -3,7 +3,7 @@
 Decision date: 2026-11-06. Scope corrected 2026-11-14 after evidence review:
 direct Gate A is qualified; Gate B has a qualified bounded subset. LLR-008
 is **partial** pending the explicitly owned B-prime supplement (LLR-012).
-Owners: P013-PEX-001, P013-LLR-001/008/007
+Owners: P013-PEX-001, P013-LLR-001/008/007/012
 and the S023-001 route profile. The decision alone is not runtime evidence.
 
 Current evidence: `node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
@@ -300,7 +300,8 @@ case-state milestone LLR-008 remains partial until LLR-012 is qualified.
 | Key loss, erasure and recovery opt-in | Custody conformance; LLR-012 coverage audit | No physical erasure claim; missing named witnesses stay open, never inferred from an export. |
 | Missing Synapse receipt, anchor unresolved | LLR-012 runtime follow-up | A positive receipt does not prove absence refuses without timestamp fallback. |
 | Closure / sticky terminal knowledge | Observed SQLite closure plus native cold readback only | Matrix closure remains LLR-012 runtime follow-up. |
-| Live SSE privacy | Historical Gate A only | A source comparison is corroboration, not a new Gate B stream. |
+| Live SSE privacy | LLR-012 runtime follow-up | Gate A remains historical; capture fresh B-prime streams. Source comparison cannot replace them. |
+| Amendment preserves succession | Pure-fold conformance; durable path LLR-011 | No enabled ADC route or runtime amendment claim. |
 | Complete clean-source capture producer | LLR-012 provenance requirement | Product commits were clean; the private capture programs were not in those commits. |
 
 Real v1 issuance and host signing remain mandatory; synthetic v2 cannot close B.
@@ -311,8 +312,9 @@ invented HTTP success. Quota edges, clock rollback, pre/post-CAS interruption an
 ADC race laws remain conformance; ADC production routes remain LLR-011. A
 controlled-clock evaluation is not a long-duration observation.
 
-The Node [scope review](https://github.com/diapod/node/blob/master/docs/audits/PRIVATE-CASE-GATE-B-SCOPE-2026-11-14.md)
-provides the backend matrix, recovered capture provenance and exact limits.
+The Node review,
+`node:docs/audits/PRIVATE-CASE-GATE-B-SCOPE-2026-11-14.md`, provides the backend
+matrix, recovered capture provenance and exact limits.
 Frozen reports and external references are unchanged. A qualifier's `qualified`
 result attests its predicates, never completeness of this entire contract.
 
