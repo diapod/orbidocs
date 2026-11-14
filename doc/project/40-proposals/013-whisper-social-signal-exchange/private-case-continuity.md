@@ -515,6 +515,15 @@ retention/retirement contracts; record owner, classification, inventory/hashes,
 dependencies/holds, minimum retention and restoration/replica facts. Unknown
 remains unknown.
 
+Owner decision, 2026-11-14: the necessary exact logs, cache artifacts and
+observations containing private filesystem paths may use an operator-only
+LLR-012 retention scope in both adopted private stores. Content audit must
+exclude keystores, keys, tokens, passwords, recovery bundles and full physical
+owner databases. Git contains only path-free metadata and digests. This is no
+public-disclosure permission, budget increase or qualification waiver; the
+ordinary completeness, privacy and fresh-retrieval gates remain mandatory.
+The operational projection is owned by `node:docs/evidence/RETENTION.md`.
+
 After review, repairs and full repository/workspace gates, LLR-012 and LLR-008
 become done; durable ADC remains LLR-011. Reconcile LLR-001/007
 dependency/evidence notes, S011 Private Case Continuity, Node
