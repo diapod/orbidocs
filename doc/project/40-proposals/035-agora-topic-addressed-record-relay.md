@@ -3298,7 +3298,7 @@ qualifications, change generic retirement budgets or assert an independent backu
 
 | Follow-up | Status | Boundary |
 |---|---|---|
-| `evidence-linked-cache-retirement` | partial | Node fixture-qualifies the contained-graph profile and constrained reviewer. One adopted namespace completed exact R8/ROLE cache effects. The 2026-11-14 read-only closeout verifies those completed facts across an exact dual-signed 21-root append review; original receipts, journal and producer authority remain unchanged. Other stores/hosts and broader qualification remain separate gates. |
+| `evidence-linked-cache-retirement` | partial | Node fixture-qualifies the contained-graph profile and constrained reviewer. One adopted namespace completed exact R8/ROLE cache effects. The 2026-11-14 read-only closeout verifies those completed facts across an exact dual-signed 21-root append review; original receipts, journal and producer authority remain unchanged. A final post-campaign read at clean Node `5d89b2b3d` uses identical code and fresh exact terminal-state reviews. Other stores/hosts and broader qualification remain separate gates. |
 
 Node execution plan: `node:docs/development/P094-MODEL-RETIREMENT-PLAN.md`.
 
