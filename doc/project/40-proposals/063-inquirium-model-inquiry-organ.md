@@ -1116,6 +1116,21 @@ explicit success criterion for retiring the Sensorium OS model actions.
    and its no-drop/no-downgrade criteria remain in Proposal 064; this proposal
    does not claim that slice has landed.
 
+## Execution-failure fallback ownership
+
+[P064's fallback closeout](064-inquirium-implementation-recommendations.md#execution-failure-fallback)
+owns the planned transition from an admitted runtime's execution failure to the
+next candidate. Existing ordered selection and NSE admission remain reusable
+foundations; they do not demonstrate this transition. P064-FBK-001/002 define and
+connect one host-owned decision/attempt path for text generate, with P064-FBK-004
+qualifying consumers. Adapters report outcomes; they do not select successors or
+renew authority. Inquirium Core gains neither a scheduler nor a second retry
+registry. Other operations require their own qualification before using the policy.
+
+P064-FBK-003 adds the optional manual final candidate after P101's prerequisite
+contracts. A manual-only P101 profile can be delivered independently; automated
+fallback completion does not acquire a dependency on a human operator.
+
 ## Planned Manual Inference Exchange
 
 [Proposal 101](101-manual-inference-exchange.md) proposes a single-text-inference

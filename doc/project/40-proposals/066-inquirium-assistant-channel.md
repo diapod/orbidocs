@@ -1734,6 +1734,24 @@ No unresolved questions remain for this proposal's current contract.
     crash-recoverable batches. The active table is not the audit source of truth,
     and failed maintenance never restores authorization.
 
+## Execution-failure fallback integration
+
+Planned work is owned by
+[P064-FBK-001–004](064-inquirium-implementation-recommendations.md#execution-failure-fallback),
+not a separate Assistant retry policy. Before each successor attempt, reuse the
+exact-context preflight, model acceptance, independent egress acknowledgement,
+shared budget and authoritative attempt fence. A different runtime/input or
+destination must satisfy the acknowledgement's existing scope; obtain fresh
+consent where it does not, before disclosure. Preserve earlier attempt disclosure
+even if the final response is local. Known completed-result publication failures
+use P090-007b repair without reinference; uncertain completion remains fenced.
+
+P064-FBK-004 must exercise the Assistant's actual entry point and transcript
+replay, including zero successor calls on provider refusal, stale acknowledgement
+and uncertain dispatch. The StrictLocal baseline cannot acquire remote or manual
+fallback; P101 applies only to the separately admitted attended export profile.
+This closeout does not change existing baseline or alpha qualification.
+
 ## Attended manual inference exchange
 
 Proposed extension, 2026-11-14. [P101](101-manual-inference-exchange.md) owns the

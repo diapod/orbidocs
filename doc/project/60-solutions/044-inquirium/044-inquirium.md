@@ -464,6 +464,25 @@ the same host authority and conformance boundary.
 
 Status: `post-mvp`.
 
+### Execution-failure fallback
+
+Status: **planned closeout, not qualified by ordered selection**.
+[P064](../../40-proposals/064-inquirium-implementation-recommendations.md#execution-failure-fallback)
+owns the failure decision table, host integration and shared acceptance tracker
+P064-FBK-001–004. Reuse runtime candidate ordering, host/NSE filtering, exact
+bindings, admission, budgets and P090 attempt fencing. The planned first scope is
+text generate and its admitted consumers; it creates no adapter-owned retry loop.
+Known candidate failures may advance under policy, while provider refusal,
+authority loss, uncertain execution and persistence repair cannot silently invoke
+another provider. Successful secondary inference and degraded substitute content
+remain different outcomes; earlier attempt disclosure survives either.
+
+Automatic fallback has an independent completion gate. The optional P101 manual
+profile is last in its explicitly admitted chain, requires an attended grant and
+fresh applicable export consent, and cannot satisfy StrictLocal. Its single-member
+mode needs no automatic model. Existing capability statuses and alpha gates are
+unchanged by these planned additions.
+
 ### Manual Inference Exchange
 
 Status: **proposed, not implemented**; optional, outside the alpha dependency

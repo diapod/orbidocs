@@ -1070,6 +1070,23 @@ than adding a universal task engine or changing Inquirium's responsibilities.
 | P073-PA-001 | Freeze participant delegation and status access | todo | P024-009 | Freeze admitted participant submission and lifecycle/status/activity projections for one named existing bounded controller profile. Bind task/controller identity, subject, budget, review/effect grants and result custody; distinguish requester authority from the Agent's own identity. Specify allowed suspend/resume/stop operations, retention, bounded continuation and unknown/terminal outcomes. Select and name the existing host grant/budget admission ports; login or an Assistant suggestion cannot grant spawn/effects. No raw owner journal disclosure. | P073-PA-002; P098-015 |
 | P073-PA-002 | Deliver one participant-delegated task profile | todo | P073-PA-001; P024-010 | Deliver the frozen host admission path, lifecycle controls and bounded owner activity/status/result references. Qualify actual O/P/Q submission, budget refusal, duplicate/lost-reply recovery, restart, authority withdrawal and permitted stop/resume against the named existing controller profile. Prove one real bounded task reaches an owner-evidenced outcome; fixture-only controls do not complete this gate. Remote execution, new effect families and broader model qualification remain with their existing owners. No finished Assistant or P098 surface is required. | P098-014; P098-015 |
 
+## Inference fallback consumer boundary
+
+The planned [P064 execution-failure closeout](064-inquirium-implementation-recommendations.md#execution-failure-fallback)
+is one host-owned inference attempt chain, not another Agent loop. A controller
+consumes its accepted, terminal or deferred outcome and retains the same request,
+passage and budget binding. It must not independently resubmit the same inference
+after provider refusal, uncertain dispatch or a known result's persistence failure.
+Candidate switches share the Agent's outer budget and existing tool/effect gates;
+no abandoned output grants tool execution. P064-FBK-004 qualifies this composition
+through the real host/controller boundary, including restart and one consumption.
+
+The manual tail in P064-FBK-003 additionally uses P073-MEX-001/P101-005's attended
+continuation. Pending human input is not failure; Agent does not advance again or
+renew its authority while waiting. Manual-only continuation remains independent
+of automatic fallback implementation, and current synchronous evidence closes
+neither new path.
+
 ## Planned Manual Inference Consumer
 
 [Proposal 101](101-manual-inference-exchange.md) adds a proposed Inquirium execution

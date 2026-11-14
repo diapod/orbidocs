@@ -660,7 +660,7 @@ dispatch/switch-on:
   - rate-limited
   - runtime-transient-unavailable
   - schema-invalid-repairable
-  # provider/refusal intentionally absent: terminal by default
+  # provider/refusal intentionally absent: terminal for this request
 ```
 
 Classes outside this list must not automatically enter retry or fallback.
@@ -670,10 +670,12 @@ Dispatch policy should separate three decisions:
 - `fallback/other-runtime`;
 - `fail/request`.
 
-`provider/refusal` is terminal for the whole request unless policy explicitly
-defines another interpretation, such as retry after a protocol profile change
-or human review. This keeps "which failure should retry, fallback, or fail" in
-configuration, not in adapter-specific code.
+`provider/refusal` is terminal for the whole request: automatic retry, profile
+changes and switching providers, including a manual bridge, cannot launder it.
+A human-reviewed change of purpose/profile is a separately admitted request,
+not another attempt in this chain. The bounded implementation scope and failure
+classification rules are defined in
+[Execution-Failure Fallback Closeout](#execution-failure-fallback).
 
 ### Model Profile vs Dispatch Policy Profile
 
@@ -2673,12 +2675,159 @@ Model theft / model artifact leakage
 Every threat should have at least one negative fixture in conformance or
 acceptance tests.
 
+## Execution-Failure Fallback Closeout {#execution-failure-fallback}
+
+Status: **planned**, 2026-11-14. Existing ordered selection is not evidence of
+fallback after execution failure. In `node:daemon/src/model_runtime_host.rs`,
+`invoke_inquirium_generate_with_operation_prompt_layers` skips ineligible
+candidates but returns the selected invocation's result directly. The guarded
+host path in `node:daemon/src/host_capabilities_host.rs` prepares one
+`InquiriumGeneratePlan` and invokes that runtime. The regression
+`direct_generate_uses_selection_order_and_falls_back_when_default_is_disabled`
+proves selection after disabling a candidate, not recovery from its execution
+failure. Keep these evidence classes separate.
+
+The first closeout covers text `generate` through direct and guarded host entry
+points, including its admitted Assistant and Agent consumers. Derived text
+operations must preserve their own contracts when using this substrate. It does
+not silently enable retries for embedding, image, training, external Agent
+sessions or effectful tools, nor implement quality racing/hedging from the broader
+dispatch-policy design. Automatic-only fallback can close independently of P101;
+the optional manual tail is a separate integration task.
+
+### One owner, existing candidate and attempt contracts
+
+1. Start with `node:docs/development/reuse-index.v1.json` and the actual owners.
+   Reuse `RuntimeCandidateConfig`, `RuntimeSelectionPolicy.order`, host filtering,
+   model/profile bindings, NSE selection, adapter error normalization, P090
+   attempt fences/provenance and existing budget/grant admission. Do not add an
+   independent catalog, a fallback-specific error vocabulary or a retry loop in
+   each adapter, Assistant and Agent. Where an existing code lacks failure scope
+   or dispatch certainty, extend its owning contract with a closed distinction.
+2. The host compiles a bounded, ordered candidate plan under one request and
+   dispatch-policy revision. Reuse `selection.order` and the stable runtime-ref
+   tie-break; validate any NSE choice against that same admitted set. Explicit
+   runtime pinning does not silently become a chain. Profile/grant constraints
+   apply to every candidate; configuration uses P091's existing resolver. NSE
+   cannot bypass the manual-last constraint or broaden the caller's pinning.
+3. Freeze logical inputs and the candidate-plan revision. Before each attempt,
+   recheck current grants, routability, conformance, classification, parameters,
+   context/output constraints and budget against its exact runtime/model binding.
+   Candidate-specific prompt rendering uses existing assembly and fresh digest
+   binding; it cannot silently drop input or weaken the result contract. A changed
+   catalog does not append new candidates to an in-flight plan.
+4. Keep the next-step decision pure: admitted plan, normalized outcome, dispatch
+   evidence, consumed budget and explicit time produce stop, bounded same-runtime
+   retry, next eligible candidate, or pending continuation. These are recommended
+   logical shapes, not newly implemented wire variants. Execution stays with the
+   existing daemon composition/consumer owner; Inquirium gains no scheduler or
+   parallel lifecycle store. One owner controls retries per logical inference;
+   Agent step budgets also bound its total attempts.
+
+### Failure scope determines whether switching is allowed
+
+`switch-on` is necessary but not sufficient: authority, dispatch certainty and
+remaining budgets also gate every transition. The names below describe categories;
+map them to existing owner codes before introducing any new code.
+
+| Observation | Required decision |
+| --- | --- |
+| Disabled, non-routable or incompatible candidate before invocation | Record a selection skip and inspect the next eligible candidate; do not invent a provider attempt. |
+| Known failed attempt with an admitted transient class, such as unavailable runtime or rate limiting | Retry or advance only within the configured class and shared budgets; preserve any observed dispatch/egress. HTTP status or exception text alone is insufficient classification. |
+| Candidate-local configuration fault proven before dispatch, such as unusable launch settings | Permit advancing only if the host can isolate it to that candidate under a valid catalog and an explicit policy class. Expose the fault for repair. Broken catalog integrity or missing authoritative configuration fails the request, not open fallback. |
+| Provider refusal, policy/authorization denial, revoked authority, invalid request, cancellation or expiry | Terminal for this request; no alternate provider or manual exchange. Candidate capability filtering before dispatch is distinct from overriding an authoritative denial. |
+| Timeout, lost response or crash with uncertain execution | Preserve the existing attempt fence and reconcile through the owner. No automatic retry or next candidate while unresolved; a timeout is not proof of non-dispatch. |
+| Accepted output followed by trace, transcript or publication failure | Recover the existing result through its owner; do not run another model to repair persistence. |
+| Known pending manual inference | Return/reuse the S029 continuation; pending is not a failure and does not trigger another candidate. |
+| Unknown/unmapped failure | Stop with explicit diagnostics; do not classify it as transient by default. |
+
+Context-size adaptation, schema repair and quality escalation remain separately
+admitted transformations under their existing contracts; they are not reasons to
+relax a hard requirement in this availability closeout.
+
+### Budgets, recovery and disclosure
+
+Use one logical request with bounded child attempts, runtime bindings and reasons.
+Freeze maxima for attempts, fallback hops, elapsed time and cost; apply the same
+ceilings across retries, candidate switches and resume. Never reset them at the
+next adapter. Count reservations and observed or conservatively bounded usage
+through the existing owner, without claiming unknown provider cost is zero.
+Backoff cannot renew grants or hold an active inference lease while waiting.
+
+Reuse the authoritative attempt owner/fence, not a rebuildable projection, to
+admit a successor only after a known failed predecessor and the next admission.
+Persist that decision before new dispatch. Restart after uncertain dispatch cannot
+create a new attempt; restart before a recorded dispatch can proceed only when
+the owner proves it safe. Fence late/duplicate results against their exact attempt
+and terminal request state. At most one result is consumed locally; this does not
+claim exactly-once execution by an external provider. Proposals for tool effects
+from abandoned attempts grant nothing and must never execute as retry cleanup.
+
+P090 retains all attempt observations, including failed non-local attempts before
+a local success; winner selection must not erase earlier egress or uncertainty.
+Keep output ancestry separate from the request's attempt history and disclosure.
+P066 preflight/ack bindings must be revalidated for the actual successor, input
+and destination. An earlier acknowledgement is reusable only when its existing
+contract covers that exact attempt; otherwise stop before disclosure and request
+fresh consent. No candidate can weaken `StrictLocal` or other classification rules.
+Final diagnostics report exhausted candidates and typed causes without prompts,
+credentials or private provider details.
+
+### Manual exchange is an optional final candidate
+
+[P101](101-manual-inference-exchange.md#eligibility) remains the owner of the
+manual exchange. A manual candidate, if explicitly enabled, is the final member
+of the admitted chain even if its numeric order would put it first. Reject
+conflicting configuration rather than silently reorder it. A manual-only plan
+is valid: a one-element chain has no dependency on an automatic provider.
+No automatic candidate follows it, and no hedging spends human attention.
+
+Reaching this candidate is not consent to export. Require P101's current attended
+grant, usable authenticated surface, finite exchange budget, strict decoder and
+exact pre-issuance export acknowledgement. Unattended/background invocations
+exclude it. Refusal, cancellation, expiry and uncertain prior execution cannot
+be converted into a prompt for the operator to try another chat. The manual
+candidate's unknown locality cannot satisfy StrictLocal. Reuse S029 waiting and
+P089's compatible result/replay mechanism; retain P101's distinct trust boundary.
+
+### Closeout tracker and offline acceptance
+
+All rows below start `todo`; existing selection/platform-fallback or manual-design
+rows do not close them. Use one source-bound report with separately qualified
+automatic and optional manual scopes; do not expand alpha prerequisites.
+
+| ID | Work item | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P064-FBK-001 | Freeze the execution-failure decision table and bounded candidate/attempt contract. | todo | Audit existing owner types/codes, P091 configuration, runtime ordering, NSE and P090 fences. Specify candidate-local vs request-terminal failure, unknown dispatch, pinning, limits, successor admission and manual-last validation; pure offline tests cover every decision. No parallel registry/error taxonomy. |
+| P064-FBK-002 | Connect automatic execution-failure fallback through the existing host owner. | todo | Depends on P064-FBK-001. Direct and guarded text-generate entry points use one mechanism with current admission, shared accounting, terminal selection and restart fencing. Offline deterministic-adapter fixtures prove A fails transiently then B succeeds, all-fail diagnostics, no switch on terminal/ambiguous outcomes and repair without reinference. No P101 dependency. |
+| P064-FBK-003 | Attach the opt-in manual final candidate to the same chain. | todo | Depends on P064-FBK-002, P064-MEX-001 and P101-002/003/004. Exercise automatic failure to admitted manual wait/import, manual-last validation, strict-local/refusal/background exclusion and unchanged budgets after restart. Manual-only P101 qualification remains independently deliverable. |
+| P064-FBK-004 | Qualify consumer composition and synchronize scoped evidence. | todo | Automatic scope depends on P064-FBK-002; optional manual scope additionally on P064-FBK-003 and the relevant P101-005 consumer. One shared offline report verifies direct/guarded generate, Assistant and bounded Agent paths, deferred continuation, output ancestry and attempt disclosure. Link results from P063/P066/P073/P090/S044; report unqualified paths explicitly and leave their statuses open. |
+
+Use deterministic transports and the same authenticated host entry points as real
+consumers; a pure decision-table test alone is insufficient. Required controls:
+selection skip versus actual failure; bounded retry and all candidates exhausted;
+isolated misconfiguration versus invalid global catalog; provider refusal and
+authority withdrawal with zero successor calls; ambiguous timeout with no
+redispatch; accepted result plus failed publication with no reinference; stale
+ack before any successor egress; global budget exhaustion; crash around successor
+admission/dispatch; late first result after fallback; single result consumption
+and no duplicated charge after restart. Add manual wait/import through the real
+authenticated endpoint, wrong principal, duplicate/late paste, cancellation and
+manual-only startup. No live model, external network or full campaign is needed
+for this integration gate; P101 retains ownership of separate UI and semantic
+qualification.
+
 ## Fallbacks as Degraded Results
 
-Fallback is not successful inference. If the model produced no result, the
-operation was interrupted, the runtime was unavailable, or output could not be
-projected, the outcome should be `degraded`, `rejected`, `cancelled`, or
-`failed`, not `completed`.
+Substitute text or a default value is not successful inference. When no admitted
+candidate produced an accepted result, report the actual `degraded`, `rejected`,
+`cancelled`, or `failed` outcome, not `completed`. An interrupted operation,
+unavailable runtime or unprojectable output cannot manufacture completion.
+
+A subsequent candidate that actually completes inference and passes the unchanged
+result contract may return `Completed`, with its exact binding and the preserved
+attempt history. Distinguish successful execution through another candidate from
+manufacturing a placeholder after exhaustion.
 
 Practical shape:
 

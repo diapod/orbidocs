@@ -922,6 +922,27 @@ never satisfy a scoped `--require` claim. When an implementation lands, the entr
 returns to `planned` and becomes part of P090 completeness again. This decision
 does not defer any other carrier.
 
+## Execution-failure fallback consumer
+
+Planned integration follows
+[P064's closeout](064-inquirium-implementation-recommendations.md#execution-failure-fallback)
+and its P064-FBK-001–004 tracker. Reuse P090's existing attempt owner, authoritative
+fence, descriptor composition, accounting and finalized-result repair. Each
+successor binds the same logical request and its own exact runtime/input/attempt;
+admission after known failure must be explicit, never a bypass of the fence for
+uncertain execution. A successful successor does not erase failed predecessors'
+observed egress or non-local execution. Preserve output ancestry separately from
+attempt history and disclosure; do not claim an unused failed output was consumed.
+Unknown cost or dispatch remains unknown, and a completed local result does not
+prove all attempts were local.
+
+P064-FBK-004 qualifies these boundaries through consumer restart/replay, lost
+responses, stale acknowledgements and persistence faults. Reuse existing trace
+redaction: failure diagnostics contain no prompt, credential or private provider
+payload. P101's manual tail retains ambiguous provider execution even after a
+valid paste and local result commit; it must not manufacture provider evidence.
+The new multi-attempt composition is not closed by existing single-attempt gates.
+
 ## Manual inference exchange consumer
 
 Proposed extension, 2026-11-14; not an implemented or qualified provider profile.

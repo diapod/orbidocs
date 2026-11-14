@@ -99,6 +99,12 @@ identity or quality of an external model. Consumers requiring verified model
 identity or calibrated model evidence cannot use this unverified candidate.
 
 P064 owns candidate/failure policy; the adapter does not select fallbacks.
+Its [execution-failure closeout](064-inquirium-implementation-recommendations.md#execution-failure-fallback)
+tracks the shared host chain as P064-FBK-001/002 and the manual tail as
+P064-FBK-003. An enabled manual candidate must be last in the admitted ordered
+plan; conflicting order is rejected rather than silently changed. A manual-only
+plan is valid and needs no automatic runtime or completed automatic-fallback
+implementation. Pending human input never advances the chain.
 Manual fallback is opt-in for explicitly admitted classes such as transient
 unavailability. Never fall back from `provider/refusal`, policy denial,
 revocation, operator cancellation or expiry. `StrictLocal` cannot select this
@@ -352,5 +358,5 @@ All rows are `todo`; documentary adoption is not runtime completion.
 | P101-002 | Host-native transport and durable deferred result lifecycle | todo | P101-001 | S044/S029/P089 reuse; no blocking call, immutable sealed custody, quotas, restart, replay and one logical consumption |
 | P101-003 | Pre-issuance export admission and honest provenance | todo | P101-001 | P047/P066/P090/P100 reuse; exact ack and principal, Personal policy, ambiguous dispatch, asserted origin, bounded retained bytes |
 | P101-004 | Model-free notification, packet view and strict authenticated import | todo | P101-002; P101-003 | S035/S039/P066 reuse; host-only form, copy after ack/click, exact parser, nonce/marker and principal controls, no browser automation |
-| P101-005 | Attended consumer continuation and explicit fallback policy | todo | P101-002; P101-003; P101-004 | P073/P066/P069 reuse; individual consumer qualification, fresh rights at resume, no StrictLocal/refusal downgrade, separate attention and execution budgets |
+| P101-005 | Attended consumer continuation and explicit fallback policy | todo | P101-002; P101-003; P101-004 | P073/P066/P069 reuse; individual consumer qualification, fresh rights at resume, no StrictLocal/refusal downgrade, separate attention and execution budgets. Qualify manual-only continuation independently; switching from a failed automatic candidate is separately owned by P064-FBK-003 and jointly checked in P064-FBK-004. Do not add that optional integration as a prerequisite of the sole-provider proof. |
 | P101-006 | Qualify sole-provider offline and UI acceptance | todo | P101-004; P101-005 | Full matrix above, shared source-bound report, no other models or test-only completion path; preserve existing alpha/baseline statuses |
