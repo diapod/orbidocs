@@ -464,6 +464,32 @@ the same host authority and conformance boundary.
 
 Status: `post-mvp`.
 
+### Manual Inference Exchange
+
+Status: **proposed, not implemented**; optional, outside the alpha dependency
+chain. [Proposal 101](../../40-proposals/101-manual-inference-exchange.md) owns the
+single-text-inference manual bridge and its acceptance. A native host transport
+may supply an Inquirium result without an automatic model, through an explicitly
+attended, principal-bound copy/paste exchange. Agent, Assistant and Corpus use the
+same inquiry boundary; no new Agent identity or model-specific workflow is added.
+
+Reuse the P089 deferred-result/replay pattern, S029 status/continuations, host
+classification/export admission, P090 provenance, P100 origin labels and existing
+interaction controls. The host owns waiting and result consumption; a middleware
+adapter does not keep a synchronous invocation alive for a human. Private frozen
+packages stay with their domain owner, not in notifications or the generic
+registry. UI/bootstrap must be model-independent. Current synchronous consumers,
+unknown locality, unsupported parameters and lack of provider verification are
+explicit integration/qualification limits, not silently relaxed contracts.
+
+Implementation is tracked by P101-001–006, P063-MEX-001, P064-MEX-001,
+P073-MEX-001 and P089-MEX-001. P101-006 must demonstrate the real authenticated
+entry points with no other model, including restart and late/duplicate/foreign
+answers; a deterministic human stand-in proves mechanism conformance only.
+There is no automatic fallback after provider refusal or into this profile from
+StrictLocal. Background/Scheduler invocations cannot select an operator-gated
+candidate.
+
 ### Local Typed-decision Evaluation
 
 Status: `planned post-mvp` (2026-10-18); no alpha dependency or runtime acceptance

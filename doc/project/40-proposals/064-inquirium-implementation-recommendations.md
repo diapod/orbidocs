@@ -2696,6 +2696,44 @@ Downstream can then distinguish candidate evidence, fallback text, policy
 denial, asynchronous operation, and failure. This is required for auditability
 and reliable automation.
 
+## Planned Manual Exchange Execution Profile
+
+[Proposal 101](101-manual-inference-exchange.md) owns the proposed manual bridge;
+P064 owns its selection, output and dispatch integration. One exchange is one
+text inference, not an external Agent session. Reuse host prompt assembly,
+classification/export admission, envelope projection and P090 provenance before
+introducing new DTOs. Audit the reuse index and P089 result transitions; extract
+only the shared deferred-result mechanism whose invariants match both consumers.
+An adapter must not acquire GUI, grant or lifecycle authority.
+
+The host returns an S029 continuation instead of occupying a synchronous worker,
+HTTP request or resource lease during human waiting. Keep computation budgets,
+absolute operation expiry and a finite human-exchange budget distinct; waiting
+never renews authority. Freeze the request before release and recheck current
+principal/grants, exact request version and operation state before consumption.
+
+Manual fallback is opt-in and attended-only. It cannot follow `provider/refusal`
+under this profile, and cannot satisfy `StrictLocal` with unknown destination
+locality. A separately approved non-StrictLocal request is required to change
+that boundary; an export acknowledgement alone does not override it. Cancelled,
+expired and stale requests are terminal outcomes, not transient provider errors.
+No hedging or automatic repair may silently spend human attention.
+
+The strict decoder is a prerequisite: duplicate keys, ambiguous wrappers,
+truncated envelopes and invalid correlation refuse deterministically. Apply only
+P101's lossless, explicitly bounded transport normalization, never model-assisted
+repair or silent mutation of content. Import is untrusted candidate output;
+`AskOperator`/`ProposeToolCall` are disabled by default in the v1 manual profile.
+Only a separately qualified consumer may admit them through the existing host
+validation and effect gates. Host-owned bridge UI cannot be requested through
+model control output.
+Unknown model/parameter/usage facts remain unknown or explicitly asserted or
+estimated. Offline endpoint fixtures qualify integration, not model quality.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P064-MEX-001 | Integrate manual candidate restrictions, strict envelope decoding and bounded dispatch policy. | todo | Depends on P101-001/003; feeds P101-005/006. Audit existing decoder fixes before reuse; prove no refusal laundering, StrictLocal fallback, unsupported-parameter acceptance, background selection or unbounded repair. Exercise the authenticated UI import endpoint with a deterministic human stand-in; require no real model and preserve independent semantic qualification. |
+
 ## Typed Outcomes for Every Boundary
 
 The same sum-type result pattern should apply to runtime selection, lease

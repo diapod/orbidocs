@@ -336,6 +336,37 @@ and status projection.
 Status: `done`; implemented by Solution 047, with detailed evidence retained in
 Proposal 073.
 
+### Attended manual inference profile (planned)
+
+[P101](../../40-proposals/101-manual-inference-exchange.md) specifies an optional
+manual exchange provider below Inquirium. The Assistant is one consumer, not the
+owner of the packet, result or wait state. Reuse existing turn/context binding,
+P066 acknowledgements, S029 deferred status, S039 actions and transcript/result
+projections. The profile can be the only configured inference provider when an
+operator explicitly attends the request; it is not an autonomous baseline and
+does not qualify the existing local-model release gate.
+
+`StrictLocal` remains unchanged: an unknown manual destination is ineligible.
+Switching requires a separately admitted profile/request and export permission,
+not a silent fallback or consent that relabels locality. Raw Personal export is
+disabled in the first profile. Redaction must produce a separately admitted
+projection; an acknowledgement cannot lower classification. A provider refusal
+does not trigger a suggestion to copy the same request into another chat.
+
+The host generates the pending card, export warning and fixed import form without
+asking a model. They also work outside the conversation view; no assistant turn
+is needed to unlock the provider that would execute that turn. Waiting is explicit
+and bounded, without holding an execution lease. Reuse one frozen packet through
+restart and require current authority before redisplay/import. A pasted response
+is untrusted, assertion-labelled model output, not an operator decision or proof
+of external dispatch. Transcript and result views retain unknown locality and
+ambiguous dispatch per P090 until independently supported evidence changes them.
+The response import does not authorize a tool, publication or another exchange.
+
+| ID | Task | Status | Acceptance |
+| --- | --- | --- | --- |
+| S045-MEX-001 | Qualify one assistant turn with only the manual provider | todo | Depends on P101-002/003/004/005 and P100-MEX-001. Start with no automatic model, open the deterministic pending UI, admit one export, restart, import through the authenticated endpoint and resume the turn once. Verify StrictLocal, foreign principal, revocation, expiry, duplicate and malformed-answer refusals; preserve unknown provenance and separate effect approval. Qualify attended availability without claiming model quality or an autonomous alpha baseline. |
+
 ## Trade-offs
 
 The channel is less socially seamless than pretending the assistant is another

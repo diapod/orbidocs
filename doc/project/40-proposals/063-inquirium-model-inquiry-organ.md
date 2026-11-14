@@ -1116,10 +1116,38 @@ explicit success criterion for retiring the Sensorium OS model actions.
    and its no-drop/no-downgrade criteria remain in Proposal 064; this proposal
    does not claim that slice has landed.
 
+## Planned Manual Inference Exchange
+
+[Proposal 101](101-manual-inference-exchange.md) proposes a single-text-inference
+execution profile usable without any automatic local or remote model. It keeps
+Inquirium's semantic operation and host policy boundary: Agent, Assistant and
+Corpus are consumers, not owners of another inference mechanism. The first
+candidate is a native host transport, provisionally
+`ModelTransportConfig::ManualExchange`; this name is a design recommendation,
+not an existing variant or capability registration.
+
+The transport returns a typed pending result with a request reference. The host
+owns durable waiting, principal-bound import, cancellation and S029 continuation;
+a synchronous middleware adapter must not hold a call open while a person works.
+Reuse P089's pending/committed/replayed pattern without importing its external
+Agent identity, provider session or tool authority. The deferred registry is a
+read model, not a new store for private prompt bytes.
+
+Eligibility requires an explicitly attended invocation and current host grants.
+Background/Scheduler jobs and unattended nodes cannot select this profile.
+Bootstrap and its UI must work without inferencing. Text-only support, unknown
+provider/model identity and unenforceable sampling parameters stay explicit;
+unsupported hard requirements deny selection. `operator-gated` availability is
+not a fabricated healthy model probe. Host fixture conformance remains required,
+while activation never sends an automatic request to a human or external chat.
+This proposed work adds no alpha prerequisite and does not close existing model
+qualification or synchronous-consumer evidence.
+
 ## Tracking
 
 | ID | Work item | Status | Notes |
 |---|---|---|---|
+| P063-MEX-001 | Admit a native manual-exchange candidate and typed deferred inference outcome. | todo | Depends on P101-001; integrates P101-002/003. Reuse host selection, classification, parameter support and conformance contracts; prove attended-only routing, text-only refusals, unknown locality and model-free bootstrap. Do not claim automatic-model equivalence or alter existing release gates. |
 | P063-01 | Establish Inquirium as a separate model inquiry organ | accepted | This proposal defines the boundary and is now accepted for implementation planning. |
 | P063-02 | Reframe `model-runtime` as Inquirium substrate | accepted | Existing Node crates are useful lower layers, but should not be workflow-facing. |
 | P063-03 | Define Inquirium capability vocabulary | done | The workflow-facing vocabulary now has explicit generate, embed, batch-embed, classify, rerank, summarize, transform, image-generate, image-edit, and train-adapt operation classes. Summarize/transform are intentionally compiled by the host to the lower generate primitive; image and train-adapt retain separate runtime/data-plane semantics. |

@@ -45,6 +45,22 @@ Related schemas:
 - `inference-execution-posture.v1`
 - `inference-execution-provenance.v1`
 
+## Planned manual inference consumer
+
+[P073-MEX-001](../../40-proposals/073-agent-orchestration-organ.md) tracks Agent's
+consumer integration with [P101](../../40-proposals/101-manual-inference-exchange.md).
+The host-native inference transport returns an attended deferred result; Agent
+reuses its continuation boundary and does not become the bridge owner. Existing
+P089 `Unknown` to `Deferred` mapping is a pattern, not proof that operator waiting
+is already supported. Keep synchronous GUIDE qualifications unchanged.
+
+An admitted attended profile has finite exchange and attention budgets, separate
+waiting/execution accounting, current grants on resume and one logical result
+consumption. No lease or authority is extended by waiting. Background agents cannot
+select the bridge; provider refusal and StrictLocal never silently fall back to
+it. A model-free end-to-end consumer test belongs to the shared P101-006 evidence.
+This remains proposed and does not expand the alpha gate.
+
 ## Status
 
 Implemented node-local hard-MVP solution.

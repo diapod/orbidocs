@@ -256,6 +256,32 @@ Status:
 
 - `done`
 
+### Manual inference exchange attention surface (planned)
+
+[P101](../../40-proposals/101-manual-inference-exchange.md) uses the existing
+notification/action path to point an explicitly attending operator to a pending
+inference exchange. The owner creates this request deterministically, without an
+Inquirium call. Assistant-channel cards and the separate pending-work view share
+the same renderer and authenticated action endpoints; neither requires a model to
+start or to render an error/cancel action. Reuse Interaction Broker readiness and
+completion facts rather than adding notification-owned request state.
+
+Notification metadata and previews contain no export packet, source context or
+pasted answer. Before packet display/download/copy, the owner applies the exact
+export grant and acknowledgement. Copy is a separate explicit user action after
+admission; there is no automatic clipboard write or browser automation. The new
+response-import control is a fixed, host-owned bounded form, not an extension of
+the model-selectable free-text question vocabulary. It accepts untrusted text via
+the same owner endpoint used by the offline human stand-in. Import requires the
+bound principal or explicit delegated scope plus normal session/CSRF protections;
+notification ownership and administrative role alone cannot answer another
+principal's request. The owner validates nonce, framing, version, limits and
+current authority before completion; the UI renders its typed result.
+
+| ID | Task | Status | Acceptance |
+| --- | --- | --- | --- |
+| S039-MEX-001 | Render attended exchange requests through existing actions | todo | Depends on P101-003/004. With no model configured, authorized operators can review the export acknowledgement, copy, import and cancel through one owner path. Foreign-principal, stale, oversized and expired submissions refuse. Packet canaries never enter notifications or previews; model output cannot request the import widget. No programmatic clipboard write precedes explicit consent and click. |
+
 ## May Implement
 
 ### Native OS Notifications

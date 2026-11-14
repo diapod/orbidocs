@@ -922,6 +922,43 @@ never satisfy a scoped `--require` claim. When an implementation lands, the entr
 returns to `planned` and becomes part of P090 completeness again. This decision
 does not defer any other carrier.
 
+## Manual inference exchange consumer
+
+Proposed extension, 2026-11-14; not an implemented or qualified provider profile.
+[P101](101-manual-inference-exchange.md) owns the single-inference manual exchange
+contract; P090 owns its evidence interpretation. Reuse the existing descriptor,
+posture/preflight, attempt accounting and assertion references, not a parallel
+"manual provenance" format.
+
+Before making the export packet available, the host applies P047
+`evaluate_egress` with `Surface::Export` and the exact P066 `egress/ack-ref`.
+Packet issuance is the irreversible disclosure opportunity; a clipboard click
+is not the admission boundary. The acknowledgement binds the principal, input
+revision, projection, destination posture and one attempt. It does not establish
+that a third-party provider received or processed the packet. V1 disables raw
+Personal export; a redacted projection must independently pass classification
+policy, and consent never performs declassification. `projection/kind: redacted`
+on a provenance descriptor does not by itself mean the source text was redacted.
+
+Before issuance, a refused request retains the existing `not-dispatched`,
+`not-applicable`, `none` semantics. After issuance, default observations are
+`dispatch: ambiguous`, `locality: unknown`, `input-egress: possible` and
+`provider/disclosure: unknown`. A valid paste proves local receipt and correlation,
+not model execution: it must not automatically promote `dispatch` to `dispatched`
+or locality to `local`/`non-local`. Optional operator statements about provider,
+model, egress or locality remain assertion-linked evidence with their own basis;
+they do not overwrite host observations or satisfy observed-only policy.
+
+Freeze the packet and its binding before issuance. Restart/replay preserves that
+binding and conservative provenance, never silently regenerating or redispatching
+the prompt. Reuse P090-007a's attempt admission: showing the same admitted packet
+again is not a fresh model attempt; a replacement packet or repair round is.
+Completion provenance preserves the ambiguity even when the local result commits.
+
+| ID | Work item | Depends on | Status | Done criteria / evidence |
+| --- | --- | --- | --- | --- |
+| P090-MEX-001 | Qualify manual packet export and evidence projection | P101-001, P101-003; existing P090 preflight/descriptor owners | todo | Exact export acknowledgement precedes packet visibility; pre-issuance refusal and post-issuance ambiguity remain distinct through paste, cancellation, restart, transcript and result projection. Operator assertions never manufacture observed provider execution. Personal/redacted, StrictLocal and stale-ack refusals use existing admission rules. One packet/attempt and bounded repair accounting are verified offline; no current provider qualification is broadened. |
+
 ## Implementation Tracker
 
 Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.

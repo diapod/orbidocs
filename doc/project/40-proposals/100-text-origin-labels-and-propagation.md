@@ -93,7 +93,7 @@ assuming that a wrapper type will spread by itself.
 
 | Producer name | Meaning |
 | --- | --- |
-| `human` | Entered through a human-operated surface. Not proof of human composition: pasted model output is indistinguishable |
+| `human` | Entered through an ordinary human-composition surface. Not proof of human composition: unmarked pasted output may be indistinguishable. A host-owned specialized import profile uses its declared semantics instead (see manual inference exchange below) |
 | `model` | Produced by an inference runtime |
 | `software` | Produced by deterministic code: static templates, host messages, generated reports |
 | `external` | Obtained from outside the node's own actors (web page, mail, document, sensor text); author not established |
@@ -1064,6 +1064,40 @@ Its Cargo manifest and SPDX headers declare that license, and
 `docs/development/source-headers.v1.json` records the explicit grant, which
 also covers `Processing` when it moves out of `whisper-core`. The Python helper
 needs its own entry in that manifest.
+
+### Manual inference exchange ingress profile
+
+Proposed extension, 2026-11-14, owned jointly with
+[P101](101-manual-inference-exchange.md). A response imported through the dedicated
+manual-inference form is not ordinary human composition. The host chooses a
+versioned surface profile, bound to the pending request, before parsing the paste.
+The pasted payload cannot choose its profile or supply authoritative origin labels.
+
+The proposed logical label is `origin/classes: [model]` with
+`origin/evidence: [asserted]`, not two producer classes named `model` and
+`asserted`. **`asserted` is a proposed evidence-vocabulary extension, not an
+existing accepted schema value.** P100-001 and P100-MEX-001 must freeze its wire
+version and migration rules before use. Its meaning is "presented as model output
+through this bound import surface"; it proves neither machine authorship, exact
+model identity, nor absence of operator edits. Host observation proves the import,
+not the remote production claim. Do not add `human` merely because a person pasted
+or approved the response. Later edits on a linked, host-observed edit surface
+follow the existing `human`/`human-edited` join rule; earlier external edits remain
+unobserved. Influence preserves known input origins and unknown external chat
+context; an imported answer must not acquire a clean lineage by losing its input
+bindings.
+
+Reuse the shared vocabulary, ingress interpreter and host return-path stamping.
+Do not loosen the ordinary form default, accept arbitrary label overrides, or
+rewrite historical/signed carriers. Consumers requiring positive human production
+or qualified model provenance must reject or review this asserted profile; a
+Corpus human-only path cannot accept it just because its transport was a form.
+V1 remains one text inference. This addition does not complete the existing P100
+tracker or add a release/alpha prerequisite.
+
+| ID | Work item | Depends on | Status | Done criteria / evidence |
+| --- | --- | --- | --- | --- |
+| P100-MEX-001 | Freeze and implement host-selected manual-response origin stamping | P100-001, P100-002, P101-001 | todo | Versioned `asserted` evidence semantics and surface profile are frozen with compatibility vectors; dedicated manual paste stamps model/asserted while ordinary human composition retains its existing default. Payload label spoofing, unchanged approval, linked edits, unknown external influence, replay and Corpus human-only refusal are tested through the same shared interpreter. No observation is misrepresented as proof of external model execution. |
 
 ## Implementation Tracker
 

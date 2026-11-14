@@ -20,6 +20,22 @@ Related schemas:
 - `interaction-broker-probe.v1`
 - `deferred-operation-status.v1`
 
+## Planned manual inference consumer
+
+[P101](../../40-proposals/101-manual-inference-exchange.md) proposes reusing the
+scoped `WaitCondition::OperationDone` / deferred-operation observation for an
+attended inference consumer. Pending work is exposed by the existing notification
+inbox; operation completion wakes the consumer, not a browser automation loop.
+Neither the watch nor status read authorizes export, packet reads or answer
+submission. The inquiry owner retains private packet/result custody, and current
+principal/grant checks precede wake-up consumption. Host UI and watches must work
+with no model available. This profile is proposed, not qualified by existing
+Broker acceptance, and adds no alpha requirement.
+
+| ID | Task | Status | Depends on | Acceptance |
+|---|---|---|---|---|
+| S035-MEX-001 | Qualify scoped manual-inquiry completion watches | todo | P101-002, P101-004 | Reuse scoped operation observation; notification and result reads remain separately authorized; restart, cancel, expiry and duplicate completion wake do not expose a packet or consume twice. Link shared P101-006 evidence. |
+
 ## Status
 
 Implemented current provider foundation

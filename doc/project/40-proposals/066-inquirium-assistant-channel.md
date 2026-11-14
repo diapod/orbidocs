@@ -1734,6 +1734,35 @@ No unresolved questions remain for this proposal's current contract.
     crash-recoverable batches. The active table is not the audit source of truth,
     and failed maintenance never restores authorization.
 
+## Attended manual inference exchange
+
+Proposed extension, 2026-11-14. [P101](101-manual-inference-exchange.md) owns the
+manual single-inference contract. P066 owns consent and assistant presentation;
+this is not a replacement for the `StrictLocal` baseline. Select it only through
+an explicit attended export profile, never by relabeling a local UI as local
+inference or turning an export ack into a StrictLocal exception.
+
+Reuse existing ack, notification/action and registered-widget infrastructure.
+The host assembles packet instructions and surfaces a pending exchange without
+calling any model. Before packet visibility, apply P047 export policy and bind
+`egress/ack-ref` to the exact principal, packet revision and destination posture.
+V1 refuses raw Personal exports; redacted text still needs ordinary admission.
+The consent summary explains unknown external retention, memory and settings.
+Clipboard copy is an explicit action after admission, never an automatic effect.
+
+Use a fixed host-only response-import form, not an enlargement of model-selected
+`OperatorQuestionWidgetKind` or its allowlisted consent answers. The form accepts
+bounded untrusted text and routes it through the P101 strict framing/schema
+validator; a model cannot request this widget or provide its input schema.
+Only the bound authenticated principal may respond in v1. S039 can expose the same
+form in the inbox, so neither the originating chat nor an active model is required.
+S029/S035 status and wake-up reuse do not themselves grant packet/result access.
+Importing output is distinct from accepting its interpretation or approving effects.
+
+| ID | Task | Status | Depends on | Acceptance |
+|---|---|---|---|---|
+| P066-MEX-001 | Qualify model-free attended export consent and assistant exchange view | todo | P101-001, P101-003, P101-004 | Static host prompt and fixed import form work with zero automatic models; StrictLocal/private/stale-ack refusal precedes body visibility; current principal, restart, cancellation and one continuation verified through shared P101-006 report. No existing baseline or alpha status upgraded. |
+
 ## Next Actions
 
 1. Preserve the delivered P090-007a inline Assistant path and extend the remaining
