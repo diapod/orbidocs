@@ -406,7 +406,14 @@ cover only their legitimate uses. Build/setup precedes short credential
 windows. Preflight neither extends credentials nor replaces owner
 authorization. Full-phase budgets include all certification work. A separate
 measured post-issue response tail starts at the actual issue time and is checked
-after every issue/renewal; it never extends the original certificate. Two
+after every issue/renewal; it never extends the original certificate.
+
+Early controls use separate deadlines for current authoring and subsequent
+historical work. Preview, signing and publication must complete under the
+original certificate/case/epoch bounds before the last-current-use boundary.
+Historical receipt, CaseKey and registration operations retain their original
+case/epoch and whole-phase work limits; that boundary grants no later current
+key use. Native admission and source-time policies remain unchanged. Two
 separate backend processes each receive 256 MiB of the existing 512 MiB combined
 live-SSE allowance.
 
