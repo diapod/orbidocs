@@ -460,9 +460,9 @@ and the public signal text. Bind every value to the exact source evidence;
 unrelated literals or empty minimum scan sets refuse. Preserve all sixteen
 semantic bindings when values coincide; deduplicate scanner patterns only.
 
-Public HTTP, fresh SSE and both original/export PDU buffers forbid main anchors,
-private B/C nyms and primary identity values across both runs. The separate
-Matrix control anchor is an additional source-derived scan pattern. Public A
+Public HTTP, fresh browser SSE and both original/export PDU buffers forbid main
+anchors, private B/C nyms and primary identity values across both runs. The
+separate Matrix control anchor is an additional source-derived scan pattern. Public A
 and the public signal text remain permitted on those public surfaces. Opaque
 transport custody and operational logs also forbid A and that text. The private
 owner's legitimate knowledge has a separate access class, not a public-privacy
@@ -470,6 +470,31 @@ claim. This does not renew the historical Gate A protected-text PEX evidence.
 The selection declares the fixed policy; it cannot supply replacement values
 or weaker access rights. Runtime-derived values are re-bound independently by
 the offline qualifier before native work.
+
+##### SSE exposure correction, 2026-11-15
+
+Before the new FULL campaign, distinguish the daemon's operator control stream
+from the actual Node UI browser projection. `/v1/events` uses the daemon control
+credential and contains whole health/component snapshots and peer diagnostics.
+The local operator may see primary participant and node identities there.
+Preserve the complete raw streams as operational evidence; main/control
+anchors, nyms A/B/C and the public signal text remain forbidden. An ordinary
+module credential gives no authority to read this stream, including when it
+accompanies an operator credential. The HTTP owner must enforce that boundary.
+
+`/app/events` is a separate, participant-session-protected Node UI projection.
+Its server consumes the control stream and forwards a closed wake-up event
+vocabulary with empty JSON data. Capture that actual browser endpoint with
+its own readiness, restart, real-event, phase and completion witnesses; scan
+its original bytes under the public canary minimum. Reconstructing a safe
+projection from archived control frames does not supply this witness. Empty
+streams and raw control activity cannot replace real browser activity.
+
+This is a correction before fresh capture, not a retrospective relabeling of
+historical evidence or removal of a privacy requirement. Raw operator and
+browser streams retain distinct fixed classes, both are scanned completely,
+and archive metadata cannot weaken their rights or omit a generation. Work
+budget exhaustion remains a refusal and leaves the corresponding row open.
 
 Both backends retain complete
 logical AD/INAC/notification tables, including history, outbox and tombstones,
