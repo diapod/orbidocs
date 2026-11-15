@@ -444,8 +444,14 @@ late controls, including 30 seconds for current authoring and at least 25 second
 on entering the two-exchange terminal subgroup. It removes an unused source-status
 refresh, while retaining the actual signed terminal case status, its lease and
 native recipient checks. The fixture certificate remains 120 seconds and its
-epoch 600 seconds. The Matrix forecast uses 595 seconds including preparation;
-actual window guards must still refuse insufficient time. The original
+epoch 600 seconds. The Matrix forecast reserves 595 seconds inside the epoch,
+including a 70-second setup contingency. Heavy environment preparation starts
+120 seconds before the case window; the controller waits for the declared
+publication window and then the case-authority window. A new authority policy
+expires at the unchanged case horizon, respecting the owner's 600-second maximum
+age. Scheduling floors are not publication or admission times. Actual window
+guards still refuse insufficient time, without retargeting an expired input.
+The original
 five-second expired delivery from development attempt119 remains a refusal.
 Native admission and source-time policies remain unchanged. Two separate backend
 processes each receive 256 MiB of the existing 512 MiB combined live-SSE allowance.
