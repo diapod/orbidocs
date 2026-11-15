@@ -682,7 +682,10 @@ clean committed revisions. Compile without incremental. Preserve feature
 worktrees; no integration or push is authorized. Reconcile S011, Node ledger/MVP
 and readiness views; global Whisper/Agora and release readiness remain partial.
 
-### Offer-control composition checkpoint
+### Historical offer-control composition checkpoint
+
+This is the component checkpoint before direct Gate A qualification, not the
+current gate status. Its implementation claims retain their original scope.
 
 The receiving implementation now shares exact public-offer reservation/signing
 law between separately fenced case-command and protected-signal owners. The
@@ -691,8 +694,8 @@ custody under independent current gates. Exact committed custody acknowledgement
 can be recovered before live-offer lookup after a crash, even after offer expiry
 or cleanup; this neither renews admission nor extends record read authority.
 Component regressions cover cross-offer substitution, actual owner restart and
-expired-result recovery. Native direct adoption is composed below; real two-node
-Gate A and ordinary-v1 SQLite/Synapse Gate B remain open.
+expired-result recovery. At this checkpoint, real two-node Gate A and
+ordinary-v1 SQLite/Synapse Gate B remained open.
 
 The optional native custodian now installs the offer/P037/Memarium composition
 with a finite, separately adopted peer/record-custody policy. A standalone role
@@ -704,8 +707,8 @@ command-offer operation remains distinct. Both direct consumers share bounded
 AD/INAC framing controls. Their authority/offer maintenance runs through S020;
 disabled offer owners use the existing bounded retention catalog. Native seam
 conformance is not the real two-node Gate A. Native direct source/response adapters
-are installed; separately adopted owner progression is described below and both
-runtime gates remain open.
+were installed; separately adopted owner progression was still required before
+the runtime gates could close.
 
 ### Original pending-command lease
 
@@ -790,11 +793,13 @@ entries. No transport anonymity, physical purge, universal-encoding privacy,
 new media topology or release readiness is established.
 
 The earlier dated checkpoints above preserve their observation-only status.
-Ordinary-v1 issuance/host/Vault opening, independent horizons, positive portable
-Matrix receipt and SQLite/Synapse continuity remain required before full closure.
+At the Gate A checkpoint, ordinary-v1 issuance/host/Vault opening, independent
+horizons, positive portable Matrix receipt and SQLite/Synapse continuity remained
+required before full closure. The independent LLR-012 result above now owns that
+bounded Gate B claim.
 
 
-## Open ordinary-v1 admission-policy clarification — 2026-11-08
+## Historical ordinary-v1 admission-policy clarification — 2026-11-08
 
 Implementation review found a contract gap, not an absent store getter. The
 ordinary P015 decision-v1 path issues WhisperV1 under
@@ -803,8 +808,9 @@ requires `witnessed-admission-receipt-v1` and v2 witness-window fields. Lifecycl
 support for v2 does not authorize its production issuance. Synthetic v2 or
 relabeling the v1 profile cannot satisfy the required ordinary-v1 Gate B.
 
-An explicit, independently admitted versioned admission policy over real v1
-credentials is proposed; the owner decision remains pending. Existing signed
+At this checkpoint, an explicit, independently admitted versioned admission
+policy over real v1 credentials was proposed and the owner decision was pending.
+The later portable bridges below record its resolution. Existing signed
 profiles, receipt meanings and historical evidence are unchanged. Matrix time-only
 observations remain insufficient. Source/receipt composition and positive
 SQLite/Synapse continuity are still required after that clarification.
