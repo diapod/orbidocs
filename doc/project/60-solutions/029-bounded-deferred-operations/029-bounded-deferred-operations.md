@@ -405,6 +405,38 @@ Status:
 
 - `done`
 
+### Manual inference exchange consumer (planned)
+
+[P101](../../40-proposals/101-manual-inference-exchange.md) adds an attended,
+single-inference consumer of the existing deferred-operation mechanism. It does
+not make a synchronous middleware adapter wait for a human or create a new
+generic task engine. The host execution boundary returns an awaiting-operator
+result; reuse the P089 completion/replay pattern and the existing Agent deferred
+continuation path, subject to qualification for this new consumer.
+
+The inference operation owner holds the sealed immutable packet, input revision,
+nonce, admitted principal, acknowledgement binding and single terminal result.
+The deferred registry retains references and bounded status metadata only, never
+raw prompt/answer bytes or a second authoritative lifecycle. Use existing private
+storage and its finite retention contract; completion, expiry and cancellation
+release packet content while a minimal bounded replay record preserves the
+single-commit decision. Crash-safe cleanup must not erase the result needed to
+resume an unconsumed continuation.
+
+Restart exposes the same packet only after current read/operation admission; it
+does not generate another packet or imply that external execution did not happen.
+Import and continuation recheck the admitted principal (or an explicitly delegated
+scope), current grants, expiry and operation generation. Waiting holds no model
+lease, worker, blocking request or resource lock. Separate operator-wait accounting
+from compute budgets without extending authorization or the operation deadline.
+Interaction Broker may wait on `WaitCondition::OperationDone`; it is a consumer of
+owner facts, not the completion authority. A browser closing is not cancellation,
+and no background producer may silently enqueue manual consultations.
+
+| ID | Task | Status | Acceptance |
+| --- | --- | --- | --- |
+| S029-MEX-001 | Qualify the manual inference deferred consumer | todo | Depends on P101-001/002. Reuse owner-backed status, cancellation and continuation; authenticated import across restart commits once, duplicate delivery replays without a second continuation, expired/cancelled requests refuse, and minimal retained metadata leaks no packet content. Prove no held execution lease and bounded queue/retention. Existing S029 completion claims remain unchanged. |
+
 ## May Implement
 
 ### Automatic Poller Wakeups

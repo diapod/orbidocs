@@ -47,6 +47,19 @@ Related schemas:
 - `inference-execution-posture.v1` (planned)
 - `inference-execution-provenance.v1` (planned)
 
+## Planned attended inference consumer
+
+[P069-MEX-001](../../40-proposals/069-corpus.md#attended-manual-inference-consumer)
+consumes the optional [P101](../../40-proposals/101-manual-inference-exchange.md)
+manual exchange through Inquirium. Corpus keeps candidate/evaluation/admission
+ownership; no new provider or copy-paste loop is introduced. Its first use is an
+attended local text candidate with asserted model origin and unknown execution,
+not a federated offer or a calibrated evaluation. Reuse chair/Broker continuation
+only after verifying its current scopes and durable result consumption. Consumers
+requiring verified model identity, locality or embeddings remain unavailable.
+Implementation and consumer qualification are pending under P069-MEX-001 and
+P101-005/006; existing Corpus readiness does not change.
+
 ## Status
 
 Hard-MVP solution implemented; node-local live-deliberation slice implemented.

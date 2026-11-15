@@ -915,6 +915,28 @@ row's `next_steps`. A material expansion of the accepted contract returns to
    `turn-outcome`, accounting, cancellation, and recovery without UI automation
    or session-cookie access?
 
+## Reuse Boundary for Manual Inference Exchange
+
+[Proposal 101](101-manual-inference-exchange.md) deliberately stays below Agent:
+it supplies one Inquirium text result, whereas P089 owns an external Agent turn.
+Its host execution path should first inspect and reuse this implementation's
+`AwaitingOperator`, `Committed`, `Replayed` and unknown-outcome recovery pattern,
+plus the existing `AgentRuntimeError::Deferred` host continuation. The current
+`external_driver_runtime_step` host path maps only `Unknown` to `Deferred`;
+`AwaitingTool`/`AwaitingOperator` still return `InvalidRequest` in the closed
+profile. The existence of those variants is not a connected human-wait path:
+P101-002 must implement and qualify that admission/continuation seam. Reuse does not
+mean treating a pasted answer as a provider-authoritative runtime commit or
+copying external-session, Agent identity, accounting or tool privileges.
+
+Factor a generic deferred inference result/once-only consumption primitive only
+where the invariants really coincide. Keep private frozen package custody at its
+domain owner and project bounded status into S029. Planned waiting has a known
+pending state; an already released package has an ambiguous external dispatch.
+Neither is permission to rerun an external action after restart. The manual
+profile has its own conformance fixtures and no automatic browser operation.
+P089's existing completed baseline is not reopened by this proposed consumer.
+
 ## Implementation Tracker
 
 Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
@@ -928,6 +950,7 @@ other or for the complete P090 propagation vertical.
 
 | ID | Work item | Depends on | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- | :--- |
+| P089-MEX-001 | Audit and share the host deferred-result/replay mechanism with manual inference. | P101-001 | todo | Supports P101-002. Compare actual owners and transitions before extraction; reuse only matching pending, committed and replay invariants. Preserve existing P089 external-turn semantics, single accounting, private sessions and refusal behavior in regressions; no new provider or external Agent identity is introduced. |
 | `P089-001` | Architectural placement: distinguish model-runtime adapters, one-shot external-agent evidence bridges, and stateful External Agent Runtime Adapters. | — | `done` | Decisions 1–5 here; the boundary is propagated to Proposals 064/071 and Solutions 044/047 without an implementation claim. |
 | `P089-001a` | Resolve review-level document consistency: fix source refs and attribution, make Solution 047 statuses explicit, define progress and the adapter instance epoch, and add one continuous Room scenario. | `P089-001` | `done` | P089 `Based on`, Terminology, Decisions 2–9, Concrete Scenario, and acceptance/failure matrices; Solution 047 `May Implement`. |
 | `P089-001b` | State the Inquirium MCP execution boundary without inventing a second effect path. | `P089-001` | `done` | Proposal 064 now defines `allowed/tools` as an admission ceiling and assigns every out-of-inquiry effect to its owning host domain. |

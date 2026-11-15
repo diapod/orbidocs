@@ -314,8 +314,18 @@ Responsibilities:
 - keep candidates non-routable when required passing evidence is absent, stale,
   or failing;
 - expose healthy and routable as separate operator-visible states;
+- retain a validated native generate denial's closed code before discarding a
+  failed candidate; an absent code remains null, and the logical response status
+  is distinct from an observed HTTP status in private boundary capture;
 - emit metadata-only, host-keyed traces without prompt, model output, vectors,
   image bytes, or protected context.
+
+Process output and raw HTTP witnesses belong only to separately authorized,
+scoped and expiring private content capture. They are not copied into conformance
+report metadata. Capture may already cover an isolated native-conformance probe,
+but this does not implicitly enable it or widen its selectors. Already observed
+wire requests/results retain their original correlation through candidate cleanup.
+No diagnostic permits another inference, retry or routability promotion.
 
 Status: `done`.
 
@@ -453,6 +463,51 @@ schema profiles, and signed evaluator critics may be added when they preserve
 the same host authority and conformance boundary.
 
 Status: `post-mvp`.
+
+### Execution-failure fallback
+
+Status: **planned closeout, not qualified by ordered selection**.
+[P064](../../40-proposals/064-inquirium-implementation-recommendations.md#execution-failure-fallback)
+owns the failure decision table, host integration and shared acceptance tracker
+P064-FBK-001–004. Reuse runtime candidate ordering, host/NSE filtering, exact
+bindings, admission, budgets and P090 attempt fencing. The planned first scope is
+text generate and its admitted consumers; it creates no adapter-owned retry loop.
+Known candidate failures may advance under policy, while provider refusal,
+authority loss, uncertain execution and persistence repair cannot silently invoke
+another provider. Successful secondary inference and degraded substitute content
+remain different outcomes; earlier attempt disclosure survives either.
+
+Automatic fallback has an independent completion gate. The optional P101 manual
+profile is last in its explicitly admitted chain, requires an attended grant and
+fresh applicable export consent, and cannot satisfy StrictLocal. Its single-member
+mode needs no automatic model. Existing capability statuses and alpha gates are
+unchanged by these planned additions.
+
+### Manual Inference Exchange
+
+Status: **proposed, not implemented**; optional, outside the alpha dependency
+chain. [Proposal 101](../../40-proposals/101-manual-inference-exchange.md) owns the
+single-text-inference manual bridge and its acceptance. A native host transport
+may supply an Inquirium result without an automatic model, through an explicitly
+attended, principal-bound copy/paste exchange. Agent, Assistant and Corpus use the
+same inquiry boundary; no new Agent identity or model-specific workflow is added.
+
+Reuse the P089 deferred-result/replay pattern, S029 status/continuations, host
+classification/export admission, P090 provenance, P100 origin labels and existing
+interaction controls. The host owns waiting and result consumption; a middleware
+adapter does not keep a synchronous invocation alive for a human. Private frozen
+packages stay with their domain owner, not in notifications or the generic
+registry. UI/bootstrap must be model-independent. Current synchronous consumers,
+unknown locality, unsupported parameters and lack of provider verification are
+explicit integration/qualification limits, not silently relaxed contracts.
+
+Implementation is tracked by P101-001–006, P063-MEX-001, P064-MEX-001,
+P073-MEX-001 and P089-MEX-001. P101-006 must demonstrate the real authenticated
+entry points with no other model, including restart and late/duplicate/foreign
+answers; a deterministic human stand-in proves mechanism conformance only.
+There is no automatic fallback after provider refusal or into this profile from
+StrictLocal. Background/Scheduler invocations cannot select an operator-gated
+candidate.
 
 ### Local Typed-decision Evaluation
 
@@ -698,6 +753,70 @@ A text-envelope instance refuses `output_contract` before dispatch; schema-bound
 JSON uses an ordinary profile. Duplicate decoded JSON keys refuse and transport
 diagnostics survive projection. The focused HTTP, profile-policy and schema tests
 establish this C/H boundary; the shared report owns the separate concrete-model result.
+
+The first concrete GUIDE qualification uses one preregistered exact model/profile
+candidate, not a reliability estimate. Its private execution layout and source
+inventories are immutable and checked before/after; the public Git history anchors
+only the preregistration digest before model preparation. Scoped operator capture
+expires after 300 seconds and closes before independent catalog verification.
+Private HTTP diagnostics retain observed status, response and
+`response/stop-reason` (null when absent), with independent anonymous process-output
+sinks. Instruction-token diagnostics reuse PromptAssemblyPolicy's estimate.
+An explicitly limited network fallback can supply model evidence while the shared
+host-network qualification remains partial. Operator semantic approval is required;
+no preparation code, scripted adapter or native conformance supplies that verdict.
+
+The 2026-11-02 preregistered candidate passed copied C/H gates, but its fresh
+native conformance returned `denied` and activation refused HTTP 409 before
+Agent creation. The inner denial class was not retained. P064-GUIDE-001 and
+P072-GUIDE-003 remain partial. The subsequent model-free correction (Node `e8cffc70`) preserves
+validated generate-denial codes and tests consent-bound private diagnostics
+through candidate cleanup. It cannot recover the original missing observation.
+The expressly approved continuation (Node `287eefe3`, anchor `ba9228a7`)
+measured native `output-envelope-refused` before Agent creation: HTTP 200,
+64 reported completion tokens at the 64-token request bound, raw finish reason
+`length`, invalid JSON and retained private tails. The global catalog-use
+operation layer also reached the readiness fixture; Agent orientation and native
+readiness are now separated by an operator-approved model-free scope correction
+(Node `456df916`).
+The GUIDE base generate policy carries generic format guidance; the existing
+Agent-only admitted layer carries catalog instructions through PromptAssemblyPolicy.
+The native 64-token probe and 2048 instruction-token cap remain unchanged. This
+implementation and its assembly/owner tests alone do not prove model behavior.
+The expressly approved third preparation on corrected candidate `c3b2ce10`,
+anchored by `fa0d6d99`, then passed native conformance with the unchanged 64-token
+bound. Its sole Agent trial refused `output-envelope-refused` at the first
+inference: HTTP 200, seven concatenated JSON values, 465/768 completion tokens and
+raw finish reason `stop`. No catalog read or fixture handler dispatch was admitted.
+Both separate captures and bounded tails are retained with exact readback; all
+596 copied Rust and 51 Python cases passed. P064/P072 remain partial because the
+full sequence and semantic verdict are missing; global host/provider network
+qualification remains limited by the fallback. All three preparations and the
+Agent slot are consumed. No automatic retry, parser repair or token increase
+follows; another experiment requires a new exact decision and preregistration.
+The synchronous controller scope remains unchanged.
+
+The operator-approved 2026-11-03 instruction clarification (Node `7d310903`) is model-free. The
+existing generic format policy requires one JSON envelope per response, complete
+proposal fields and waiting for a real host observation. The existing Agent-only
+catalog layer adds one read at a time, host-default paging and exact ids from
+actual list results. PromptAssemblyPolicy retains the 2048 instruction-token cap;
+strict parsing, Schema Gate, grant admission and the native 64-token bound are
+unchanged. Model compliance remains unmeasured on this wording. All historical
+preparation and Agent-slot facts remain consumed, with no further inference
+authorized. P064/P072 qualification stays partial.
+
+The separately approved renewed trial (Node `b991686d`, anchor `de703706`) passed
+copied 596 Rust/55 Python cases and native conformance. Agent trial 2 then produced
+one valid complete envelope, but its list arguments used unknown `id` instead of
+`id/prefix`. The host refused HTTP 422 `agent_model_proposal_rejected` before any
+catalog read or fixture dispatch. Runtime HTTP 200, 110/768 completion tokens and
+stop distinguish this from transport, envelope-syntax or budget failure. All four
+preparations and both Agent slots are consumed. The raw harness summary remains
+unchanged; a subsequent model-free diagnostic projection recognizes the host's
+terminal status shape. No repeat, prompt tuning or contract coercion followed.
+The complete model sequence, semantic verdict and full network evidence remain
+open in the shared report; P064/P072 stay partial.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.

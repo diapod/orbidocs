@@ -3358,3 +3358,26 @@ a second resolver, activation system or editor.
 | ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
 |---|---|---|---|---|---|
 | P091-016 | todo | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |
+
+
+## F12: explicit retirement of ended transactional incarnations
+
+Accepted design (2026-11-12); implementation and qualification are separate gates.
+This closes the abandoned-unit gap owned by P091-007/013, including removed Flow
+units, without adding settings or changing P091-016.
+
+| Boundary | Adopted contract |
+| --- | --- |
+| Revocation | Durable closure of exact transactional pending revokes its ACK right. A delayed write with the former expected sequence loses CAS and cannot release the executor/profile. An earlier successful ACK is never relabelled withheld. |
+| Lifecycle proof | One exclusive configuration-runtime lock spans a Daemon cycle and all retained consumer hosts. Only its owner issues current instance nonces. Current-instance membership is exact, including a valid removed Flow id. Configuration absence, PID, age and a new nonce alone are not proof. |
+| Contention | Managed Flow/Inquirium/Arca consumption is withheld with typed configuration-runtime-owned-elsewhere refusal; operator reads and recovery remain available. There is no forced takeover or fallback to unmanaged consumption. |
+| Retirement | One bounded pass on ownership acquisition, before new allocations, closes eligible v2 transactional pending by exact CAS. No consumer dispatch or new generation is needed. A later operator review addresses one attempt, uses ConsumeFirst and binds its exact record revision rather than unrelated journal writes. |
+| History | Keep v1/v2 readers, v2 writes, existing closure reason and generation high-water. Malformed/future facts retain conservative reservations. Legacy v1 transactional pending keeps its existing zero-reservation read classification without a migration-only write. |
+| Capacity | Closure consumes the reserved event and replaces reserved bytes by actual fact bytes; it does not shrink SQLite. 1023 retained events plus one reservation can complete; 1024 retained events plus an outstanding promise require the existing approved archive first. No quota, TTL, timeout or durability change. |
+| External observation | Arca remains the control case: startup retirement does not rewrite its pending or unresolved observation as non-consumption. |
+| Compatibility | Stop the preceding daemon before upgrade or rollback. Concurrent older/newer runtime on the same root is unsupported when the older version does not own this lock. CAS is not evidence that such an older process ended. |
+
+The Node owner implements the lifecycle proof, bounded latest-fact reader,
+per-attempt retirement/recovery and local operator resource. Procedures belong in
+Node operations documentation; dated reviews and candidate-specific results stay
+in Node audits/evidence. No release or whole-P091 completion follows from adoption.

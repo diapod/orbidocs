@@ -406,6 +406,48 @@ offline checks:
   status without upgrading earlier reports. Record reuse decisions and any
   intentionally separate domain types in the closeout.
 
+#### Separate analysis/redaction task and explicit advisory return {#assistant-task-handoff}
+
+Accepted design refinement, 2026-11-14; P078-019 remains deferred with the optional
+P078-006 profile. Follow [P066 Decision 14](066-inquirium-assistant-channel.md#task-context-isolation)
+for task context isolation and result-return admission. P066 owns the common
+mechanism; P078 specializes source, analysis and review bindings. This profile
+does not block manual review, original retention or origin propagation.
+
+Use a single bounded P063/P064 request for one analysis or redaction; use a
+separate task session for iterative refinement. JSON-e Flow can compose the
+existing calls; use P073 only when multi-step orchestration is needed and retain
+its explicit approval boundary. Reuse `whisper.redaction.prepare` where its
+draft contract fits. Do not introduce a Harvester-specific model adapter, prompt
+builder, session store or implicit copy of the advisory transcript. Source text
+is untrusted data; the task's domain instructions are scoped to the task and
+cannot modify shared assistant or model-binding policy.
+
+Bind the task to the exact admitted finding/source/analysis revision and intended
+reviewer/return session. Return a bounded proposed analysis or draft with existing
+provenance, classification, uncertainty and source bindings. The assistant may
+present it for review; later advisory-model consumption requires P066 return
+admission and receives only the selected result as data, not task instructions,
+raw sources or intermediate reasoning. Reuse immutable Harvester review: accepting
+the interpretation, creating a draft and approving publication remain separate
+acts. Changed inputs invalidate the old review; missing/expired custody is not
+repaired by an implicit fetch. A returned draft does not become an independent
+corroborating source.
+
+**Consumer acceptance (P078-019).** Extend the existing P078-006 offline fixtures
+and P066-TASK-002 harness with an advisory → redaction → advisory sequence. Check
+that task-only idiolect-reduction and epistemic-analysis canaries are absent from
+the subsequent advisory request and its automatically assembled memory/context.
+After explicit return, only the bound draft/analysis projection may appear there,
+as data; hostile commands in the result must not become privileged instructions.
+Cover wrong-session returns, changed review/source revisions, cancellation,
+expiry, duplicate delivery and restart, with no automatic fetch, memory capture
+or publication. Reuse P066 provider-state isolation evidence for the exact runtime
+profile, rather than claiming isolation from a new session id. Keep live-model
+calibration separately authorized under P078-006; deterministic fixtures establish
+context boundaries, not a guarantee that legitimate result content cannot affect
+later advice.
+
 ### Web source retention and origin {#web-source-retention-and-origin}
 
 Adopted design extension, 2026-11-04; P078-015/016 remain `in-progress`. Web findings
@@ -587,6 +629,7 @@ policy profile with a higher surveillance and abuse risk.
 | Over-grouping hides distinct signals | User misses important differences | Grouping is a mutable local projection; review UI supports split and merge. |
 | Under-grouping floods the user | Attention overload | `finding/group-key`, source digest grouping, and rate-limited review queues. |
 | Model hallucination creates false findings | User sees invented patterns | Findings cite local source refs and confidence; model output is advisory only. |
+| Redaction instructions persist into advisory context | Later advice inherits task-specific behavior or private source material | Reuse P066 task isolation and explicit result-only return; P078-019 qualifies the consumer path, including recall and provider state. |
 | Network-capable harvester becomes crawler malware | Excessive egress and data collection | Network sources are explicit grants; output remains findings-only; audit scan scope and timing. |
 | Public gateway accepts hostile attachments | Malware, parser exploits, zip bombs, or tracking payloads enter trusted tools | Quarantine first; scan size, MIME, archives, metadata, and malware before preview, model processing, or promotion. |
 | Public submitter assumes emergency response | Harm escalates while waiting for review | Submission UI must state non-emergency scope and direct acute cases to local emergency channels. |
@@ -635,7 +678,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-003 | Node import and review read-model | done | Daemon exposes explicit operator import/list/detail/review endpoints backed by a dedicated SQLite Harvester review store; continuous directory watch remains a later opt-in profile. |
 | P078-004 | Whisper draft handoff | done | Accepted findings can create a local `weak-signal-whisper-draft.local.v1` stub with `publication/state = not-published`; Whisper publication remains a separate approval gate. |
 | P078-005 | First source adapter acceptance fixture | done | Filesystem Markdown/text import is the first adapter: it reads only under the configured Harvester `sources/` root, bounds source size/snippets, and emits schema-valid findings. |
-| P078-006 | Inquirium-assisted grouping and epistemic analysis profile | deferred | Optional profile under [the analysis contract and acceptance](#inquirium-epistemic-analysis). Reuse P063/P064 inference, P066 epistemic posture, existing source bindings and immutable Harvester review; P073 orchestrates only when needed. Separate source claims, model inferences and human decisions; validate grounding and preserve uncertainty. Require offline boundary fixtures and separately authorized, calibrated model/profile evidence. Not a prerequisite for P078-015/016, P084-014/015 or P013-WEB-001/002; manual review and origin/retention handoff remain usable without it. |
+| P078-006 | Inquirium-assisted grouping and epistemic analysis profile | deferred | Optional profile under [the analysis contract and acceptance](#inquirium-epistemic-analysis). Reuse P063/P064 inference, P066 epistemic posture, existing source bindings and immutable Harvester review; P073 orchestrates only when needed. Separate source claims, model inferences and human decisions; validate grounding and preserve uncertainty. Require offline boundary fixtures and separately authorized, calibrated model/profile evidence. Advisory task handoff additionally requires P078-019; standalone analysis does not depend on that UI/return integration. Not a prerequisite for P078-015/016, P084-014/015 or P013-WEB-001/002; manual review and origin/retention handoff remain usable without it. |
 | P078-007 | Network-capable Harvester profile | deferred | Future Artifact Delivery handoff for explicitly configured remote sources; P084 owns changing web observation, P088 owns carrier-neutral artifact custody, and P078 consumes only explicitly admitted snapshots or derived intake artifacts under findings-only, bounded/quarantined semantics. |
 | P078-008 | Public Harvester Gateway profile | deferred | Separate future proposal for public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue; P078 only keeps hook compatibility. |
 | P078-009 | Collector-submitted corroboration profile | deferred | Umbrella-operated collectors submit supporting/contradicting/context findings anchored to accepted phenomena or reviewer-approved queries. |
@@ -646,6 +689,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-014 | Authored rumors as dormant records | todo | Depends on P078-010 and P013-LLR-003. The dormant-fact profile also reads the participant's own authored rumors from Memarium, so a later twin can be matched for re-contact ([P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)). Authored-rumor matches produce findings for the author only; they never count as sources or re-publish the old record. |
 | P078-015 | Bind retained originals and finite horizons to web review and draft handoff | in-progress | Depends on P084-014 and P013-WEB-001. Extend existing finding/review/local-draft contracts with exact custody bindings and reviewed public origin summary; preserve source/representation identity and classification. Current authority, availability, deadline and quota refusals block only this original-backed promotion; no raw-copy store or implicit refetch. Legacy drafts remain explicitly unqualified. |
 | P078-016 | Qualify operator review and provenance handoff | in-progress | Depends on P078-015; feeds P084-015 and P013-WEB-002. Extend existing Harvester API/UI harnesses with retention deadline/status, mixed/unknown/media-monitoring labels, exact review replay, loss/expiry before publication and zero private-source leakage. Use deterministic offline sources and separately record UI evidence; synchronize Node ledger and owning solutions on implementation, without upgrading earlier reports. |
+| P078-019 | Bind isolated analysis/redaction tasks to explicit advisory result return | deferred | Depends on P066-TASK-001/002 and the P078-006 source/analysis/review contract; live-model use also requires its scoped calibration. Reuse existing Harvester review/draft storage and Inquirium calls; qualify [the consumer handoff](#assistant-task-handoff), task-only instruction canaries, current source/review bindings and result-as-data return. Independent-participant review/draft delivery additionally consumes P078-017/018. No new inference/session store, automatic memory capture or publication; manual retention/review remains independent. |
 
 ### Operator UI checkpoint (P084-012c)
 

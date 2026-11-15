@@ -1926,6 +1926,28 @@ sequenceDiagram
   Note over A,P: MVP stops here: single contracting provider answers via P011;<br/>live deliberation is the post-MVP layer on P070
 ```
 
+## Attended manual inference consumer
+
+Proposed extension, 2026-11-14. [P101](101-manual-inference-exchange.md) supplies a
+single deferred text inquiry through Inquirium; Corpus must not add its own
+copy-paste provider, waiting registry or model adapter. Reuse existing chair
+operation observation/Interaction Broker continuation where the actual contract
+matches, with fresh participant authority and input revision checks on resume.
+
+V1 is an explicitly attended local candidate workflow, not an automatic Corpus
+service offer. A pasted answer is asserted model-origin input, not proof of
+`local-llm`, `remote-llm` or `human-curated` model class, independent corroboration,
+calibration, evaluation authority or human authorship. Preserve P100/P090 labels;
+where an existing offer/evaluation requires facts the bridge cannot establish,
+refuse that use instead of guessing a class. Federation, unattended provider work
+and automatic evidence admission remain outside this integration. Unsupported
+embedding/reranking requirements are not silently dropped. No other model is
+needed to display the pending task, import it or cancel it.
+
+| ID | Task | Status | Depends on | Acceptance |
+|---|---|---|---|---|
+| P069-MEX-001 | Qualify one attended local Corpus candidate consumer | todo | P101-001 through P101-004; existing Corpus/Interaction Broker owners | Select an existing local text-inquiry boundary explicitly; freeze any missing unverified-input profile before implementation. Restart/resume uses the same authenticated endpoint and one logical result consumption; retain asserted/unknown origin and provenance; no offer, quality, evaluation or publication authority follows from import. Record consumer evidence in P101-006. |
+
 ## Implementation Tracker
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done (with code

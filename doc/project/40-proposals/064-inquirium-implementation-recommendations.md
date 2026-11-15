@@ -660,7 +660,7 @@ dispatch/switch-on:
   - rate-limited
   - runtime-transient-unavailable
   - schema-invalid-repairable
-  # provider/refusal intentionally absent: terminal by default
+  # provider/refusal intentionally absent: terminal for this request
 ```
 
 Classes outside this list must not automatically enter retry or fallback.
@@ -670,10 +670,12 @@ Dispatch policy should separate three decisions:
 - `fallback/other-runtime`;
 - `fail/request`.
 
-`provider/refusal` is terminal for the whole request unless policy explicitly
-defines another interpretation, such as retry after a protocol profile change
-or human review. This keeps "which failure should retry, fallback, or fail" in
-configuration, not in adapter-specific code.
+`provider/refusal` is terminal for the whole request: automatic retry, profile
+changes and switching providers, including a manual bridge, cannot launder it.
+A human-reviewed change of purpose/profile is a separately admitted request,
+not another attempt in this chain. The bounded implementation scope and failure
+classification rules are defined in
+[Execution-Failure Fallback Closeout](#execution-failure-fallback).
 
 ### Model Profile vs Dispatch Policy Profile
 
@@ -2673,12 +2675,159 @@ Model theft / model artifact leakage
 Every threat should have at least one negative fixture in conformance or
 acceptance tests.
 
+## Execution-Failure Fallback Closeout {#execution-failure-fallback}
+
+Status: **planned**, 2026-11-14. Existing ordered selection is not evidence of
+fallback after execution failure. In `node:daemon/src/model_runtime_host.rs`,
+`invoke_inquirium_generate_with_operation_prompt_layers` skips ineligible
+candidates but returns the selected invocation's result directly. The guarded
+host path in `node:daemon/src/host_capabilities_host.rs` prepares one
+`InquiriumGeneratePlan` and invokes that runtime. The regression
+`direct_generate_uses_selection_order_and_falls_back_when_default_is_disabled`
+proves selection after disabling a candidate, not recovery from its execution
+failure. Keep these evidence classes separate.
+
+The first closeout covers text `generate` through direct and guarded host entry
+points, including its admitted Assistant and Agent consumers. Derived text
+operations must preserve their own contracts when using this substrate. It does
+not silently enable retries for embedding, image, training, external Agent
+sessions or effectful tools, nor implement quality racing/hedging from the broader
+dispatch-policy design. Automatic-only fallback can close independently of P101;
+the optional manual tail is a separate integration task.
+
+### One owner, existing candidate and attempt contracts
+
+1. Start with `node:docs/development/reuse-index.v1.json` and the actual owners.
+   Reuse `RuntimeCandidateConfig`, `RuntimeSelectionPolicy.order`, host filtering,
+   model/profile bindings, NSE selection, adapter error normalization, P090
+   attempt fences/provenance and existing budget/grant admission. Do not add an
+   independent catalog, a fallback-specific error vocabulary or a retry loop in
+   each adapter, Assistant and Agent. Where an existing code lacks failure scope
+   or dispatch certainty, extend its owning contract with a closed distinction.
+2. The host compiles a bounded, ordered candidate plan under one request and
+   dispatch-policy revision. Reuse `selection.order` and the stable runtime-ref
+   tie-break; validate any NSE choice against that same admitted set. Explicit
+   runtime pinning does not silently become a chain. Profile/grant constraints
+   apply to every candidate; configuration uses P091's existing resolver. NSE
+   cannot bypass the manual-last constraint or broaden the caller's pinning.
+3. Freeze logical inputs and the candidate-plan revision. Before each attempt,
+   recheck current grants, routability, conformance, classification, parameters,
+   context/output constraints and budget against its exact runtime/model binding.
+   Candidate-specific prompt rendering uses existing assembly and fresh digest
+   binding; it cannot silently drop input or weaken the result contract. A changed
+   catalog does not append new candidates to an in-flight plan.
+4. Keep the next-step decision pure: admitted plan, normalized outcome, dispatch
+   evidence, consumed budget and explicit time produce stop, bounded same-runtime
+   retry, next eligible candidate, or pending continuation. These are recommended
+   logical shapes, not newly implemented wire variants. Execution stays with the
+   existing daemon composition/consumer owner; Inquirium gains no scheduler or
+   parallel lifecycle store. One owner controls retries per logical inference;
+   Agent step budgets also bound its total attempts.
+
+### Failure scope determines whether switching is allowed
+
+`switch-on` is necessary but not sufficient: authority, dispatch certainty and
+remaining budgets also gate every transition. The names below describe categories;
+map them to existing owner codes before introducing any new code.
+
+| Observation | Required decision |
+| --- | --- |
+| Disabled, non-routable or incompatible candidate before invocation | Record a selection skip and inspect the next eligible candidate; do not invent a provider attempt. |
+| Known failed attempt with an admitted transient class, such as unavailable runtime or rate limiting | Retry or advance only within the configured class and shared budgets; preserve any observed dispatch/egress. HTTP status or exception text alone is insufficient classification. |
+| Candidate-local configuration fault proven before dispatch, such as unusable launch settings | Permit advancing only if the host can isolate it to that candidate under a valid catalog and an explicit policy class. Expose the fault for repair. Broken catalog integrity or missing authoritative configuration fails the request, not open fallback. |
+| Provider refusal, policy/authorization denial, revoked authority, invalid request, cancellation or expiry | Terminal for this request; no alternate provider or manual exchange. Candidate capability filtering before dispatch is distinct from overriding an authoritative denial. |
+| Timeout, lost response or crash with uncertain execution | Preserve the existing attempt fence and reconcile through the owner. No automatic retry or next candidate while unresolved; a timeout is not proof of non-dispatch. |
+| Accepted output followed by trace, transcript or publication failure | Recover the existing result through its owner; do not run another model to repair persistence. |
+| Known pending manual inference | Return/reuse the S029 continuation; pending is not a failure and does not trigger another candidate. |
+| Unknown/unmapped failure | Stop with explicit diagnostics; do not classify it as transient by default. |
+
+Context-size adaptation, schema repair and quality escalation remain separately
+admitted transformations under their existing contracts; they are not reasons to
+relax a hard requirement in this availability closeout.
+
+### Budgets, recovery and disclosure
+
+Use one logical request with bounded child attempts, runtime bindings and reasons.
+Freeze maxima for attempts, fallback hops, elapsed time and cost; apply the same
+ceilings across retries, candidate switches and resume. Never reset them at the
+next adapter. Count reservations and observed or conservatively bounded usage
+through the existing owner, without claiming unknown provider cost is zero.
+Backoff cannot renew grants or hold an active inference lease while waiting.
+
+Reuse the authoritative attempt owner/fence, not a rebuildable projection, to
+admit a successor only after a known failed predecessor and the next admission.
+Persist that decision before new dispatch. Restart after uncertain dispatch cannot
+create a new attempt; restart before a recorded dispatch can proceed only when
+the owner proves it safe. Fence late/duplicate results against their exact attempt
+and terminal request state. At most one result is consumed locally; this does not
+claim exactly-once execution by an external provider. Proposals for tool effects
+from abandoned attempts grant nothing and must never execute as retry cleanup.
+
+P090 retains all attempt observations, including failed non-local attempts before
+a local success; winner selection must not erase earlier egress or uncertainty.
+Keep output ancestry separate from the request's attempt history and disclosure.
+P066 preflight/ack bindings must be revalidated for the actual successor, input
+and destination. An earlier acknowledgement is reusable only when its existing
+contract covers that exact attempt; otherwise stop before disclosure and request
+fresh consent. No candidate can weaken `StrictLocal` or other classification rules.
+Final diagnostics report exhausted candidates and typed causes without prompts,
+credentials or private provider details.
+
+### Manual exchange is an optional final candidate
+
+[P101](101-manual-inference-exchange.md#eligibility) remains the owner of the
+manual exchange. A manual candidate, if explicitly enabled, is the final member
+of the admitted chain even if its numeric order would put it first. Reject
+conflicting configuration rather than silently reorder it. A manual-only plan
+is valid: a one-element chain has no dependency on an automatic provider.
+No automatic candidate follows it, and no hedging spends human attention.
+
+Reaching this candidate is not consent to export. Require P101's current attended
+grant, usable authenticated surface, finite exchange budget, strict decoder and
+exact pre-issuance export acknowledgement. Unattended/background invocations
+exclude it. Refusal, cancellation, expiry and uncertain prior execution cannot
+be converted into a prompt for the operator to try another chat. The manual
+candidate's unknown locality cannot satisfy StrictLocal. Reuse S029 waiting and
+P089's compatible result/replay mechanism; retain P101's distinct trust boundary.
+
+### Closeout tracker and offline acceptance
+
+All rows below start `todo`; existing selection/platform-fallback or manual-design
+rows do not close them. Use one source-bound report with separately qualified
+automatic and optional manual scopes; do not expand alpha prerequisites.
+
+| ID | Work item | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P064-FBK-001 | Freeze the execution-failure decision table and bounded candidate/attempt contract. | todo | Audit existing owner types/codes, P091 configuration, runtime ordering, NSE and P090 fences. Specify candidate-local vs request-terminal failure, unknown dispatch, pinning, limits, successor admission and manual-last validation; pure offline tests cover every decision. No parallel registry/error taxonomy. |
+| P064-FBK-002 | Connect automatic execution-failure fallback through the existing host owner. | todo | Depends on P064-FBK-001. Direct and guarded text-generate entry points use one mechanism with current admission, shared accounting, terminal selection and restart fencing. Offline deterministic-adapter fixtures prove A fails transiently then B succeeds, all-fail diagnostics, no switch on terminal/ambiguous outcomes and repair without reinference. No P101 dependency. |
+| P064-FBK-003 | Attach the opt-in manual final candidate to the same chain. | todo | Depends on P064-FBK-002, P064-MEX-001 and P101-002/003/004. Exercise automatic failure to admitted manual wait/import, manual-last validation, strict-local/refusal/background exclusion and unchanged budgets after restart. Manual-only P101 qualification remains independently deliverable. |
+| P064-FBK-004 | Qualify consumer composition and synchronize scoped evidence. | todo | Automatic scope depends on P064-FBK-002; optional manual scope additionally on P064-FBK-003 and the relevant P101-005 consumer. One shared offline report verifies direct/guarded generate, Assistant and bounded Agent paths, deferred continuation, output ancestry and attempt disclosure. Link results from P063/P066/P073/P090/S044; report unqualified paths explicitly and leave their statuses open. |
+
+Use deterministic transports and the same authenticated host entry points as real
+consumers; a pure decision-table test alone is insufficient. Required controls:
+selection skip versus actual failure; bounded retry and all candidates exhausted;
+isolated misconfiguration versus invalid global catalog; provider refusal and
+authority withdrawal with zero successor calls; ambiguous timeout with no
+redispatch; accepted result plus failed publication with no reinference; stale
+ack before any successor egress; global budget exhaustion; crash around successor
+admission/dispatch; late first result after fallback; single result consumption
+and no duplicated charge after restart. Add manual wait/import through the real
+authenticated endpoint, wrong principal, duplicate/late paste, cancellation and
+manual-only startup. No live model, external network or full campaign is needed
+for this integration gate; P101 retains ownership of separate UI and semantic
+qualification.
+
 ## Fallbacks as Degraded Results
 
-Fallback is not successful inference. If the model produced no result, the
-operation was interrupted, the runtime was unavailable, or output could not be
-projected, the outcome should be `degraded`, `rejected`, `cancelled`, or
-`failed`, not `completed`.
+Substitute text or a default value is not successful inference. When no admitted
+candidate produced an accepted result, report the actual `degraded`, `rejected`,
+`cancelled`, or `failed` outcome, not `completed`. An interrupted operation,
+unavailable runtime or unprojectable output cannot manufacture completion.
+
+A subsequent candidate that actually completes inference and passes the unchanged
+result contract may return `Completed`, with its exact binding and the preserved
+attempt history. Distinguish successful execution through another candidate from
+manufacturing a placeholder after exhaustion.
 
 Practical shape:
 
@@ -2695,6 +2844,44 @@ InquiriumResult =
 Downstream can then distinguish candidate evidence, fallback text, policy
 denial, asynchronous operation, and failure. This is required for auditability
 and reliable automation.
+
+## Planned Manual Exchange Execution Profile
+
+[Proposal 101](101-manual-inference-exchange.md) owns the proposed manual bridge;
+P064 owns its selection, output and dispatch integration. One exchange is one
+text inference, not an external Agent session. Reuse host prompt assembly,
+classification/export admission, envelope projection and P090 provenance before
+introducing new DTOs. Audit the reuse index and P089 result transitions; extract
+only the shared deferred-result mechanism whose invariants match both consumers.
+An adapter must not acquire GUI, grant or lifecycle authority.
+
+The host returns an S029 continuation instead of occupying a synchronous worker,
+HTTP request or resource lease during human waiting. Keep computation budgets,
+absolute operation expiry and a finite human-exchange budget distinct; waiting
+never renews authority. Freeze the request before release and recheck current
+principal/grants, exact request version and operation state before consumption.
+
+Manual fallback is opt-in and attended-only. It cannot follow `provider/refusal`
+under this profile, and cannot satisfy `StrictLocal` with unknown destination
+locality. A separately approved non-StrictLocal request is required to change
+that boundary; an export acknowledgement alone does not override it. Cancelled,
+expired and stale requests are terminal outcomes, not transient provider errors.
+No hedging or automatic repair may silently spend human attention.
+
+The strict decoder is a prerequisite: duplicate keys, ambiguous wrappers,
+truncated envelopes and invalid correlation refuse deterministically. Apply only
+P101's lossless, explicitly bounded transport normalization, never model-assisted
+repair or silent mutation of content. Import is untrusted candidate output;
+`AskOperator`/`ProposeToolCall` are disabled by default in the v1 manual profile.
+Only a separately qualified consumer may admit them through the existing host
+validation and effect gates. Host-owned bridge UI cannot be requested through
+model control output.
+Unknown model/parameter/usage facts remain unknown or explicitly asserted or
+estimated. Offline endpoint fixtures qualify integration, not model quality.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P064-MEX-001 | Integrate manual candidate restrictions, strict envelope decoding and bounded dispatch policy. | todo | Depends on P101-001/003; feeds P101-005/006. Audit existing decoder fixes before reuse; prove no refusal laundering, StrictLocal fallback, unsupported-parameter acceptance, background selection or unbounded repair. Exercise the authenticated UI import endpoint with a deterministic human stand-in; require no real model and preserve independent semantic qualification. |
 
 ## Typed Outcomes for Every Boundary
 
@@ -2771,6 +2958,23 @@ errors such as out-of-space.
 This improves post-failure reasoning. After restart, the host can distinguish
 complete artifacts from temporary leftovers, and the operator can see what is
 safe to remove.
+
+### Local Maintenance Ownership Handoff
+
+A local OS-owner maintenance adapter may transfer its exclusive model-root lease
+by same-process exec to a pinned administrative worker, after current lease and
+managed-process quiescence checks. The receiver retains the same locked open-file
+description through every protected effect and its verification. Controller death
+must not release that ownership while the worker can still act; protected effects
+must not escape into a child that outlives the lease. A completed prior inspection
+is not an ownership transfer.
+
+This mechanism does not grant cache/evidence retirement authority, renew TTLs or
+replace exact owner/reviewer decisions. Expiry, one-use journal, partial-result
+recovery and independent effect verification remain with the retirement owner.
+Unregistered processes and arbitrary hostile code of the same OS principal are
+outside this local boundary. Node owns the implementation, procedure and measured
+results; see `node/docs/operations/MODEL-MAINTENANCE.md`.
 
 ## Production Local Model Provisioning
 
@@ -3225,7 +3429,7 @@ follows from that observation.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | partial | The supervised H run passes guided and unguided observations through PromptAssemblyPolicy; a Public-ceiling Agent and a Public-egress candidate each refuse the Personal catalog result before a second adapter call. A test-specific larger prompt profile isolates the 64 KiB controller byte guard, while the default happy path retains its 2,048-token cap. Four happy-path Inquirium trace payloads and metadata omit the hostile notes and named private data. Explicit host-selected text-envelope decoding now reaches the existing inert control channel, with local projection/HTTP/Schema Gate tests. Native tool-result semantics are a separate extension. The bounded Qwen3-Coder/MLX trial passed fresh native conformance and authored one admitted list read, then failed at the second inference (nested HTTP 502, legacy Agent decoder 422). No describe or final answer was observed; source cause remains unknown. Concrete-model catalog/context qualification stays partial. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | partial | The supervised H run passes guided and unguided observations through PromptAssemblyPolicy; a Public-ceiling Agent and a Public-egress candidate each refuse the Personal catalog result before a second adapter call. A test-specific larger prompt profile isolates the 64 KiB controller byte guard, while the default happy path retains its 2,048-token cap. Four happy-path Inquirium trace payloads and metadata omit the hostile notes and named private data. Explicit host-selected text-envelope decoding now reaches the existing inert control channel, with local projection/HTTP/Schema Gate tests. Native tool-result semantics are a separate extension. The historical 2026-10-28 Qwen3-Coder/MLX trial passed fresh native conformance and authored one admitted list read, then failed at the second inference (nested HTTP 502, legacy Agent decoder 422). No describe or final answer was observed; source cause remains unknown. Concrete-model catalog/context qualification stays partial. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. The preregistered 2026-11-02 candidate (Node b45c1f95, digest anchor 9ffa2582) passed copied C/H gates; verified installation was followed by native-conformance denial and HTTP 409 before Agent creation. No Agent slot or new catalog-use M evidence was consumed; the historical inner denial class remains unknown. A subsequent model-free correction now persists typed generate-denial codes and measures consent-bound HTTP/tails through candidate cleanup, without reinterpreting that refusal or running another model. The expressly approved continuation (Node287eefe3, anchorba9228a7) passed copied C/H and separate capture API gates, but preparation2 refused output-envelope-refused before Agent creation. Captured HTTP200 reports64/64 completion tokens, finish_reason length and invalid JSON; full native capture and process tails are preserved. Global catalog-use instructions also reached the readiness probe. The operator-approved model-free correction now separates generic envelope-format guidance from the existing Agent-only catalog orientation layer through PromptAssemblyPolicy, with native64-token and instruction2048-token bounds unchanged. The corrected-policy candidate (Node c3b2ce10, preregistration anchor fa0d6d99) then passed all copied gates (596 Rust and 51 Python cases) and the expressly approved third preparation passed native conformance under the unchanged 64-token bound. It consumed the sole Agent slot; the first Agent inference refused `output-envelope-refused` before any catalog read: actual HTTP 200, seven concatenated JSON values, 465/768 completion tokens and raw finish reason `stop`. Separate native/Agent capture and bounded tails are retained with exact readback. Mechanics failed, so no semantic verdict or complete M sequence is claimed. Both qualification rows stay partial; all three preparations and the Agent slot are consumed, with no automatic retry or limit increase. Global host/provider network qualification remains partial under the explicit fallback. A further experiment requires a new exact operator decision and preregistration; shared report retains the full tuple and custody. The operator-approved 2026-11-03 model-free clarification requires one envelope per turn, complete proposal fields, and waiting for a real host result. Generic format rules stay separate from Agent-only catalog guidance, which uses host-default paging and exact observed ids. It changes no parser, schema, grant, runtime limit or consumed campaign fact and authorizes no inference; both qualification rows remain partial. The renewed trial (Node b991686d, anchor de703706) passed copied 596 Rust/55 Python and native conformance, then consumed Agent slot 2. Its first valid complete envelope proposed list with unknown id instead of id/prefix; the host refused HTTP 422 agent_model_proposal_rejected before any catalog read or fixture dispatch (110/768 completion tokens, stop). All four preparations and two Agent slots are consumed, with no retry or tuning. P064/P072 stay partial; the raw summary is preserved and a separate model-free diagnostic correction recognizes the terminal host status. |
 
 ## Optional Typed-decision Experiment Tracking
 
