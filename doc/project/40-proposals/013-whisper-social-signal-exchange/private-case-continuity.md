@@ -452,7 +452,26 @@ clarity.
 
 #### Privacy, conformance and clean capture
 
-Freeze canaries/access classes before runtime. Both backends retain complete
+Freeze canary source roles and access classes before runtime, not unknown
+future random nym values. The closed LLR-012 profile derives eight actual
+canaries per backend after capture: main anchor, public nym A, private nyms B/C,
+A's primary participant and node, its primary did:key public-key fingerprint,
+and the public signal text. Bind every value to the exact source evidence;
+unrelated literals or empty minimum scan sets refuse. Preserve all sixteen
+semantic bindings when values coincide; deduplicate scanner patterns only.
+
+Public HTTP, fresh SSE and both original/export PDU buffers forbid main anchors,
+private B/C nyms and primary identity values across both runs. The separate
+Matrix control anchor is an additional source-derived scan pattern. Public A
+and the public signal text remain permitted on those public surfaces. Opaque
+transport custody and operational logs also forbid A and that text. The private
+owner's legitimate knowledge has a separate access class, not a public-privacy
+claim. This does not renew the historical Gate A protected-text PEX evidence.
+The selection declares the fixed policy; it cannot supply replacement values
+or weaker access rights. Runtime-derived values are re-bound independently by
+the offline qualifier before native work.
+
+Both backends retain complete
 logical AD/INAC/notification tables, including history, outbox and tombstones,
 and passive schema through `ordinary_ledger.observe` read-only WAL snapshots.
 Views, virtual tables and unknown schemas refuse. Scan all non-database data,
