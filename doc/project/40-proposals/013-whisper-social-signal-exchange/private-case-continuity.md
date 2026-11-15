@@ -368,7 +368,8 @@ readback. Source/key/audience identities come from the actual actors.
    result in exact post-restart readbacks.
 5. Submit new A-to-C under a new ID: `stale-predecessor` with
    `retry` equal to `evidence-change`; head, current succession and accepted-succession count
-   remain unchanged, with no acceptance event. The vertical development run
+   remain unchanged, with no new accepted CaseStore event. This is proved by the
+   owner cut, not the SSE privacy scan. The vertical development run
    establishes whether ordinary API preparation or authority acceptance owns
    that refusal, then freezes the exact path before the campaign. Do not bypass
    the API to force authority execution. If authority owns it, retain exact
@@ -407,11 +408,15 @@ Use a separate Synapse anchor while the coordinator explicitly withholds its
 witness step. Before and after restart, the same author preparation refuses for
 missing proof. `anchor-unresolved` names the scenario, not a new wire enum or a
 persisted authority decision; the inventory pins the existing typed refusal. A
-malformed request is not a missing-proof witness. Check no new signature/nonce,
-PEX/AD handoff, case/history entry, acceptance SSE event, key exposure or P036
-reservation. Matrix time cannot replace the absent receipt. Run the witness and
+malformed request is not a missing-proof witness. Check unchanged accepted
+CaseStore history, prepared PEX/AD handoff identities and S026/P036 journals:
+no new case/history acceptance, handoff, key exposure or reservation. These
+predicates do not observe every signer call or nonce consumption. SSE separately
+checks readiness, activity and scoped canary privacy. Matrix time cannot replace
+the absent receipt. Run the witness and
 open the same anchor under a new ID as positive control; document existing
-old-ID semantics without adding durable refusal. Existing S026/P036 lifecycles
+old-ID semantics without adding durable refusal. The qualified campaign does
+not observe the old ID after the witness resumes. Existing S026/P036 lifecycles
 remain.
 
 After the main public opening and before main registration, use original A
@@ -757,10 +762,11 @@ A fresh native run also discarded the first successful HTTP result body at the
 controller boundary, then recovered the exact result through normal readback
 and restart. Complete bounded logical AD/INAC views are prepared for the capsule;
 no owner images or keys are included. This is not wire loss or proof of a lost
-AD domain reply before source commit. Independent full direct Gate A
-loose/archive/two-store qualification remains open. Ordinary-v1 positive SQLite and
-Synapse Gate B, independent horizons and ordinary UI/succession are still required;
-no tracker is promoted from these scoped observations.
+AD domain reply before source commit. As of this 2026-11-08 checkpoint, full
+direct Gate A loose/archive/two-store qualification remained open. Ordinary-v1
+positive SQLite and Synapse Gate B, independent horizons and ordinary
+UI/succession were still required; no tracker was promoted from these scoped
+observations.
 
 
 ## Independent direct Gate A qualification — 2026-11-08
@@ -937,7 +943,9 @@ They keep the existing source-profile and certificate digests, require separate
 exact policy/use admission and never select a fallback. The SQLite v1 bridge
 uses the original local receipt; it does not produce Matrix anchors. Synapse
 requires the separately adopted full-PDU observation witness. P015-005 is not
-substituted for either bridge, and current ordinary-v1 Gate B remains open.
+substituted for either bridge. As of this 2026-11-12 checkpoint, ordinary-v1
+Gate B remained open; the independent 2026-11-15 qualification above supersedes
+that status, without changing the historical source or proof scope.
 
 Source-bound case evidence has explicit `whisper-case-command.v2` and
 `whisper-case-succession-presentation.v2` carriers. They add the opaque
