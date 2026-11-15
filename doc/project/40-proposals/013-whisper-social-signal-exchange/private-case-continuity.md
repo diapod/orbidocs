@@ -388,7 +388,9 @@ open the same anchor under a new ID as positive control; document existing
 old-ID semantics without adding durable refusal. Existing S026/P036 lifecycles
 remain.
 
-A separate exposed, unbound preview on each backend survives restart and
+After the main public opening and before main registration, use original A
+for the separate controls. They must not publicly expose a private successor B
+or C. A separate exposed, unbound preview on each backend survives restart and
 appears in inventory. UI POST without CSRF refuses without S026/P036/inventory
 effects. A valid POST abandons it: S026 erase fact, P036 opening-release fact
 and absence from active exposed inventory. These are two owner effects, not one
@@ -402,7 +404,11 @@ Compound preflight includes expiry waits, issuance/status, requests, restart,
 replay and closure, while intentionally expired predecessor certificates need
 cover only their legitimate uses. Build/setup precedes short credential
 windows. Preflight neither extends credentials nor replaces owner
-authorization.
+authorization. Full-phase budgets include all certification work. A separate
+measured post-issue response tail starts at the actual issue time and is checked
+after every issue/renewal; it never extends the original certificate. Two
+separate backend processes each receive 256 MiB of the existing 512 MiB combined
+live-SSE allowance.
 
 #### Shared abstractions before the capture producer
 
