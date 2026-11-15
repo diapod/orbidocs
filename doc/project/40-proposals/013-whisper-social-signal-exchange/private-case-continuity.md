@@ -305,8 +305,10 @@ case-state milestone LLR-008 remains partial until LLR-012 is qualified.
 | Complete clean-source capture producer | LLR-012 provenance requirement | Product commits were clean; the private capture programs were not in those commits. |
 
 Real v1 issuance and host signing remain mandatory; synthetic v2 cannot close B.
-Restart/replay must not resend, re-sign or perform commands again. The correction
-changes evidence classes only where stated; it does not weaken domain invariants.
+Restart/replay must not perform case commands or create their signing
+preparations and handoffs again. Existing AD retries of already prepared bytes
+retain their separate transport lifecycle. The correction changes evidence
+classes only where stated; it does not weaken domain invariants.
 Runtime cases retain their own process/HTTP observations. Conformance has no
 invented HTTP success. Quota edges, clock rollback, pre/post-CAS interruption and
 ADC race laws remain conformance; ADC production routes remain LLR-011. A
@@ -367,9 +369,27 @@ readback. Source/key/audience identities come from the actual actors.
    refusal readback too. New A-to-B after B expiry is not this control: its
    successor-certificate check would fail before predecessor evaluation.
 6. Refuse abandonment of the bound case key, restart/replay without new
-   signatures, sends or command effects, then perform closure as the last case
-   mutation. Only reads and recipient restarts follow; older Active material
-   cannot undo sticky terminal knowledge.
+   case-command effects or newly prepared PEX handoffs, then perform closure as
+   the last case mutation. Existing AD retransmission of the same frozen bytes
+   keeps its own lifecycle. Only reads and recipient restarts follow; older
+   Active material cannot undo sticky terminal knowledge.
+
+**Restart/replay observation clarification (2026-11-15).** The independent
+campaign observes all local case objects and current proof holds, not equality
+of physical SQLite tables. The owner's short request, reply and key-offer rows
+may expire at their original deadlines; durable case/results, author operations,
+knowledge and accepted proofs must cover the declared quiet window and remain
+exact. Unknown families and new objects refuse. All prepared AD handoff
+identities and frozen input/plan digests remain unchanged; an existing delivery
+may finish without creating a new handoff. Preserve physical inventories as
+diagnostics. This does not claim zero maintenance writes, zero wire retries or
+visibility into uncommitted signing calls. Native signature/domain checks and
+exact saved-result readbacks remain mandatory. The development attempt that
+exposed the false physical-equality assumption remains a refusal; this
+prospective predicate does not reclassify it. The saved-result retry interval
+uses the same prepared-handoff identity law. Distinct HTTP witnesses bind exact
+results and both start/completion clocks, so an in-flight response cannot be
+represented as a completed readback before replay or the final owner cut.
 
 `http_loss` discards the body returned by local `AuthorWorkflow`, not a
 transport packet or an authority command. Resuming its sealed operation reads
