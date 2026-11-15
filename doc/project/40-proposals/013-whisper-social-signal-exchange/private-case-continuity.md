@@ -439,22 +439,32 @@ separate existing authority; publication-certificate expiry does not revoke read
 membership. Their historical work retains the case, signed source-epoch and
 inherited finite work deadline, without authorizing another current succession.
 
-The prospective controller correction dated 2026-11-15 allocates 64 seconds for
-late controls, including 30 seconds for current authoring and at least 25 seconds
-on entering the two-exchange terminal subgroup. It removes an unused source-status
-refresh, while retaining the actual signed terminal case status, its lease and
-native recipient checks. The fixture certificate remains 120 seconds and its
-epoch 600 seconds. The Matrix forecast reserves 595 seconds inside the epoch,
-including a 70-second setup contingency. Heavy environment preparation starts
-120 seconds before the case window; the controller waits for the declared
-publication window and then the case-authority window. A new authority policy
-expires at the unchanged case horizon, respecting the owner's 600-second maximum
-age. Scheduling floors are not publication or admission times. Actual window
-guards still refuse insufficient time, without retargeting an expired input.
-The original
+The initial prospective controller correction dated 2026-11-15 allocated 64
+seconds for late controls. Plain Matrix176 subsequently gave the declared
+50-second child only 37.956 seconds; restart/replay left 24.392 seconds, below
+the unchanged 25-second terminal minimum, with about 122 seconds of case horizon
+remaining. That functional rehearsal remains refused and supplies no formal
+qualification. The superseding prospective allocation is 90 seconds: 30 for
+current authoring, a named 10-second custody allowance and 50 for postlude.
+Composition is checked before effects. The allowance is a controller estimate,
+not a guaranteed upper bound; the child keeps its remaining parent deadline,
+without reset or refund. The actual terminal minimum, signed terminal case
+status, lease and native recipient checks remain mandatory. The unused
+source-status refresh remains omitted.
+
+The fixture certificate remains 120 seconds and its epoch 600 seconds. The new
+in-epoch forecasts reserve 567 seconds for SQLite and 581 for Matrix, including
+a 30-second setup contingency after an approximately 5.5-second case-setup
+measurement. Heavy environment preparation starts 120 seconds before the case
+window; the controller waits for the declared publication window and then the
+case-authority window. A new authority policy expires at the unchanged case
+horizon, respecting the owner's 600-second maximum age. Scheduling floors are
+not publication or admission times. Actual window guards still refuse
+insufficient time, without retargeting an expired input. The original
 five-second expired delivery from development attempt119 remains a refusal.
-Native admission and source-time policies remain unchanged. Two separate backend
-processes each receive 256 MiB of the existing 512 MiB combined live-SSE allowance.
+This is controller work allocation, without changing native admission,
+source-time or evidence budgets. Two separate backend processes each receive
+256 MiB of the existing 512 MiB combined live-SSE allowance.
 
 #### Shared abstractions before the capture producer
 
