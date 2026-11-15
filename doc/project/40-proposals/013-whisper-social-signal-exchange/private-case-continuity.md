@@ -433,9 +433,22 @@ historical work. Preview, signing and publication must complete under the
 original certificate/case/epoch bounds before the last-current-use boundary.
 Historical receipt, CaseKey and registration operations retain their original
 case/epoch and whole-phase work limits; that boundary grants no later current
-key use. Native admission and source-time policies remain unchanged. Two
-separate backend processes each receive 256 MiB of the existing 512 MiB combined
-live-SSE allowance.
+key use. Late controls likewise finish current-certificate use only after the
+actual A-to-C contrast. CaseKey closure and audience status reading use their
+separate existing authority; publication-certificate expiry does not revoke read
+membership. Their historical work retains the case, signed source-epoch and
+inherited finite work deadline, without authorizing another current succession.
+
+The prospective controller correction dated 2026-11-15 allocates 64 seconds for
+late controls, including 30 seconds for current authoring and at least 25 seconds
+on entering the two-exchange terminal subgroup. It removes an unused source-status
+refresh, while retaining the actual signed terminal case status, its lease and
+native recipient checks. The fixture certificate remains 120 seconds and its
+epoch 600 seconds. The Matrix forecast uses 595 seconds including preparation;
+actual window guards must still refuse insufficient time. The original
+five-second expired delivery from development attempt119 remains a refusal.
+Native admission and source-time policies remain unchanged. Two separate backend
+processes each receive 256 MiB of the existing 512 MiB combined live-SSE allowance.
 
 #### Shared abstractions before the capture producer
 
