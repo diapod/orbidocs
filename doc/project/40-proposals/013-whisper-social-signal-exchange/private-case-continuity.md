@@ -490,6 +490,16 @@ its original bytes under the public canary minimum. Reconstructing a safe
 projection from archived control frames does not supply this witness. Empty
 streams and raw control activity cannot replace real browser activity.
 
+Process readiness and participant-session readiness are distinct. Retain every
+owner generation. The raw subscription starts at process readiness; the browser
+records an actual locked response and activates only after an observed ordinary
+unlock, before the next signing or case action. The observer does not unlock
+the participant or turn authentication, dependency or transport failures into
+readiness. A generation stopped before its successful browser barrier remains
+incomplete. Preserve the original locked-sign refusal, then use the normal UI
+unlock and CSRF boundary before the browser barrier and signing retry. Exact
+readiness attempts and the unlock fact bind that transition to its generation.
+
 This is a correction before fresh capture, not a retrospective relabeling of
 historical evidence or removal of a privacy requirement. Raw operator and
 browser streams retain distinct fixed classes, both are scanned completely,
