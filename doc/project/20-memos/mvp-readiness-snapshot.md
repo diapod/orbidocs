@@ -26,13 +26,11 @@ percentages below do not measure the subsequent changes.
   both native consumers, bounded minimal traces, fault controls and identical
   loose/extracted/fresh-both-store outcomes. Evidence:
   `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
-  Ordinary-v1 full-record SQLite/single-Synapse Gate B has a qualified subset with source-bound
-  receipt v2 (P035-019a/019b), actual host/Vault opening and private succession,
-  cold recipients, restart/replay and equal fresh both-store outcomes. Evidence:
-  `node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
-  Closure and cold negatives are SQLite-only; expired A is observed on Matrix,
-  expired B on SQLite. LLR-008 remains partial pending LLR-012 and the
-  [scope correction](../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md#gate-b-scope-correction-2026-11-14).
+  The independent LLR-012 result closes Gate B and LLR-008 for ordinary-v1
+  private full-record SQLite and one stock Synapse homeserver. Current evidence:
+  `node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`.
+  The original subset and scope correction remain historical. This navigation
+  pointer changes no historical percentages or global/release readiness.
   Historical Gate A credential scope and receipt v1 pins are unchanged. P015-005,
   LLR-009/010/011, PEX-002, S023-002 and global readiness remain separate.
 - The primary integration passed the repeated software gates documented in

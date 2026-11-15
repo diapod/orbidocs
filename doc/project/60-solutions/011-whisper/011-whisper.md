@@ -442,13 +442,13 @@ production P037 offers, Memarium protected-signal custody, exact pending case
 inbox before separately adopted S020 processing, refusal/fault/restart controls
 and selected access-class privacy. Loose, extracted and fresh both-store results
 agree. Evidence: `node:docs/evidence/private-case-continuity/2026-11-08-direct-gate-a/README.md`.
-Ordinary-v1 full-record SQLite/single-homeserver Gate B has a qualified subset:
-actual AD certification/renewals, host/Vault opening, source-bound receipt v2,
-private A-B-C, cold authorization, process restart and unchanged replay. Evidence:
-`node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
-Closure and cold negative readbacks were SQLite-only; Matrix observed expired
-A before B, SQLite expired B before C. LLR-008 is partial pending LLR-012.
-See the [scope correction](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md#gate-b-scope-correction-2026-11-14).
+The [independent LLR-012 campaign](../../40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md#llr-012-independent-gate-b-campaign)
+closes Gate B and LLR-008 for ordinary-v1 private full-record SQLite and one
+stock Synapse homeserver. Its clean capture, both backend controls, fresh live
+SSE, named conformance and retention basis are recorded in
+`node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`.
+The original bounded subset and its scope correction remain historical; they do
+not supply missing witnesses for the independent campaign.
 Synthetic-v2 Gate A credentials retain their separate historical scope.
 Production v2 issuance, detached ordinary anchors and LLR-009/010/011 remain separate.
 Memarium remains the protected-record owner; the case service owns ordered

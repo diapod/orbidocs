@@ -1,16 +1,18 @@
 # Private Case Continuity {#private-case-continuity}
 
 Decision date: 2026-11-06. Scope corrected 2026-11-14 after evidence review:
-direct Gate A is qualified; Gate B has a qualified bounded subset. LLR-008
-is **partial** pending the independent replacement Gate B campaign (LLR-012).
+direct Gate A retains its qualification. Independent LLR-012 now closes Gate B
+and LLR-008 for the bounded private full-record SQLite/single-Synapse profile.
+The original B subset remains historical; current evidence and exclusions follow below.
 Owners: P013-PEX-001, P013-LLR-001/008/007/012
 and the S023-001 route profile. The decision alone is not runtime evidence.
 
-Current evidence: `node:docs/evidence/private-case-continuity/2026-11-14-ordinary-gate-b/README.md`.
+Current evidence: `node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`.
+The historical scope review and original subset remain unchanged.
 Loose, pooled, extracted and fresh both-store qualification agree for the
-measured subset, not every original Gate B requirement. See the
-[scope correction](#gate-b-scope-correction-2026-11-14). Historical
-checkpoints below retain their original observation-only scope. Production v2
+independent campaign. The [scope correction](#gate-b-scope-correction-2026-11-14)
+preserves the limitations of the original subset. Historical checkpoints below
+retain their original observation-only scope. Production v2
 issuance, detached ordinary anchors, LLR-009/010/011, S023-002 and global readiness
 remain separate.
 
@@ -21,10 +23,11 @@ explicitly opens a case anchored to an admitted signal, then continues that case
 under a current nym when an action requires it. Private delivery, historical
 admission, accepted case history and current authorization are independent facts.
 
-Gate A qualifies private exchange independently. The observed Gate B subset
-qualifies opening and succession on SQLite and Synapse, with restart and replay.
-The remaining acceptance obligations below keep the complete gate open. A Synapse
-anchor-unresolved refusal does not substitute for its positive path.
+Gate A qualifies private exchange independently. The independent LLR-012
+campaign qualifies opening, succession, restart/replay and terminal knowledge
+on SQLite and Synapse. The original Gate B subset remains historical. The
+Synapse anchor-unresolved refusal has a separate same-anchor positive control;
+the refusal alone does not establish the positive path.
 
 Based on the [P013 domain map](../013-whisper-social-signal-exchange.md),
 [LLR owner](long-lived-rumors.md), [P015 contextual authorship](../015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md),
@@ -284,7 +287,8 @@ The original Gate B contract required the full matrix below. Review found that
 its 2026-11-14 report proved a smaller subset. The following correction is adopted
 **now**, after that run; it does not claim prior approval or reclassify the frozen
 observations. LLR-001 and LLR-007 retain their bounded completed scope; the full
-case-state milestone LLR-008 remains partial until LLR-012 is qualified.
+case-state milestone LLR-008 remained partial until the independent LLR-012
+qualification recorded in the current evidence reference above.
 
 ### Gate B scope correction 2026-11-14
 
@@ -322,7 +326,9 @@ result attests its predicates, never completeness of this entire contract.
 
 ### LLR-012 independent Gate B campaign {#llr-012-independent-gate-b-campaign}
 
-**Adopted 2026-11-14; implementation and qualification pending.** Campaign
+**Adopted 2026-11-14; independently qualified 2026-11-15.** See
+`node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`
+for actual results and limits. Campaign
 `P013-LLR-012` is the independent basis for closing Gate B and LLR-008. It
 repeats ordinary certification, authoring, registration and case continuity; it
 does not combine new observations with the historical bounded subset to fill
@@ -657,14 +663,14 @@ claimed scope. A failed gate preserves its real result and leaves its task open.
 
 ## Next Actions
 
-- LLR-012: implement and qualify the independent Gate B campaign above;
+- Preserve the independent LLR-012 evidence and its current retention bindings;
   preserve historical data/results and link the new standalone proof.
 - P015-005: ordinary scoped v2 issuance and detached anchors.
 - LLR-009/010/011: portable presentation qualification, context transition and
   separately authorized durable ADC operations.
 - PEX-002 and S023-002: load/scale and trace-purge qualification.
 - Keep the completed convergence dispositions in the Node integration map;
-  review changed abstractions again before closing LLR-012.
+  review materially changed abstractions before a later campaign.
 
 After each substantial stage: review, repair, recheck and commit. Runtime uses
 clean committed revisions. Compile without incremental. Preserve feature

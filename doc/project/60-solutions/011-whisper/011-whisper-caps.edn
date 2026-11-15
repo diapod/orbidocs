@@ -177,9 +177,9 @@
    :responsibilities
    ["Own PEX-001 and LLR-001/007/008's named-recipient exchange, four periods, ordered case history and current case authority"
     "Reuse P015/P035 historical admission and S026 custody; expose operator opening, succession and explicit abandonment without transport authority"
-    "Keep direct Gate A and the qualified ordinary full-record SQLite/single-Synapse subset separate; closure and cold negatives were SQLite-only"
-    "Remain partial until LLR-012 closes missing runtime and capture-provenance requirements; do not infer all Gate B from a qualified subprofile"]
-   :status :partial}
+    "Keep Gate A and the original subset historical; independent LLR-012 closes the private full-record SQLite/single-Synapse case composition"
+    "Qualified independent capture, source-bound evidence and named conformance: node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md; future ADC, presentation, load, physical purge and release scope remain separate"]
+   :status :done}
 
   {:cap/id :historical-authorship-of-long-lived-rumors
    :title "Historical Authorship of Long-Lived Rumors"
@@ -217,8 +217,8 @@
   "association-room-proposal.v1"]
 
  :notes
- ["Component status includes the partial local assessment continuation; the existing Agora M4, artifact-trace and bounded phase-1 contextual-authorship capabilities are done; three optional privacy continuations remain future; historical continuity is partial."
-  "Scope correction 2026-11-14: direct Gate A and an ordinary-v1 full-record SQLite/single-Synapse subset qualify; closure and cold negatives are SQLite-only. LLR-008 remains partial for LLR-012. Historical Authorship remains partial for LLR-000/004/009. See node:docs/audits/PRIVATE-CASE-GATE-B-SCOPE-2026-11-14.md."
+ ["Component status includes the partial local assessment continuation; the existing Agora M4, artifact-trace and bounded phase-1 contextual-authorship capabilities are done; three optional privacy continuations remain future; private case continuity is done in its bounded LLR-012 scope; Historical Authorship remains partial."
+  "Independent LLR-012 closes private case continuity and LLR-008 in the ordinary-v1 full-record SQLite/single-Synapse scope. Gate A and the original subset remain historical. Historical Authorship remains partial for LLR-000/004/009; global/release readiness is unchanged. See node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md."
   "P013-AE-001 qualifies only the bounded common local view on a generic open resource reference; P013-AE-002 and the full Whisper curation, propagation and attention workflow remain planned."
   "Whisper intake/redaction is a supervised channel_json middleware service with a separately owned intake/trace/operator HTTP surface; shared transport-independent semantics belong in `whisper-core`."
   "Post-M4 productization adds a host-owned provider-policy shape for Inquirium/model-runtime redaction providers and a secretless simulator acceptance bridge without making adapters publication authorities."
