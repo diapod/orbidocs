@@ -1264,9 +1264,11 @@ The [finite-output contract](015-nym-certificates-and-renewal-baseline/authoring
 freezes P015-011 full-record scope, dependency selection and reference lifetime.
 The fresh formal result at Node `c15ec3e13` / Orbidocs `b3d63b30` qualifies 13
 runtime groups, 996 component outcomes and all 47 named witnesses. Loose,
-extracted and fresh DEV/BIGBOY qualifications agree. P015-011 remains `partial`
-pending final replica-adoption/isolation disposition and closeout gates; the
-macOS nested-sandbox refusal is not successful isolated qualification. Evidence:
+extracted and fresh DEV/BIGBOY qualifications agree. The owner-adopted typed
+replica exception preserves isolated integrity/extraction for the exact new set,
+full ordinary two-store qualification and a code-enforced primary hold; see the
+finite-output contract. P015-011 remains `partial` pending final software gates
+and cleanup. The nested-sandbox refusal is not isolated domain qualification. Evidence:
 `node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.
 
 The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.

@@ -16,8 +16,9 @@ percentages below do not measure the subsequent changes.
   Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
 - [Finite authoring retention](../40-proposals/015-nym-certificates-and-renewal-baseline/authoring-output-retention.md):
   P015-011 has bounded runtime and identical fresh two-store qualification;
-  final replica-adoption/isolation disposition remains open. It stays partial;
-  this does not qualify private detached readback or change global readiness.
+  its exact typed replica exception preserves a primary-retirement hold.
+  It stays partial pending final software gates and cleanup; this does not
+  qualify private detached readback or change global readiness.
 - [P015 succession](../40-proposals/015-nym-certificates-and-renewal-baseline.md#succession-tracker):
   P015-004 has independently completed its pure MVP gate; the October amendment
   below records its earlier open state. P015-006 has its own bounded lifecycle

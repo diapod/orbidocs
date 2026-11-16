@@ -3,7 +3,8 @@
 ## Executive Summary
 
 Accepted implementation contract for P015-011, 2026-11-16. The bounded runtime
-result is recorded under Next Actions; final replica adoption remains open.
+result is recorded under Next Actions; replica isolation has an explicitly
+adopted exception, with final software closeout still open.
 The authoring journal is a finite retry buffer;
 Memarium/P036 owns retained full-record material after a verified handoff.
 Both case and non-case authoring are included. Private detached readback and
@@ -210,10 +211,23 @@ loose/extracted and fresh DEV/BIGBOY qualification of the 96439-byte retained se
 Attempt 01 and its original tooling refusal remain unchanged. Evidence:
 `node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.
 
-Final replica-inventory adoption is pending: all eleven primary and ordinary
-secondary reads passed, but the additional isolated proof for P015-011 refused
-because macOS prohibits nesting the qualifier's network sandbox inside the
-replica read-denial sandbox. No isolation exception is adopted without an
-explicit owner decision. Finish that disposition, repository gates and artifact
-cleanup before changing P015-011 from partial. Global Whisper, private detached
-readback and P015-005 remain separate. No merge or push is part of this work.
+The retention owner accepted one identity-bound isolation exception on
+2026-11-16, recorded as closed policy/adoption data at
+`node:docs/release/evidence-p015011-adoption.json` and explained in
+`node:docs/audits/P015-011-ISOLATION-EXCEPTION.md`. All twelve inventory entries
+passed fresh ordinary verification in both stores. Under OS-enforced denial of
+primary and prior scratch, the other ten historical entries and the new
+cause-only capsule retain full verification in their own scopes. Only the exact
+P015-011 bundle and pinned qualifier have class `integrity-extraction-only`,
+reason `platform-sandbox-nesting`; the isolated observation performs no domain
+qualification. Qualifier filesystem hermeticity remains unproved.
+
+The primary copy cannot be retired while that exception is open. Code enforces
+the hold independently of artifact labels. Closure requires a new additive full
+isolated adoption, preserving the original failed attempt and cause capsule.
+The cheap nonnested alternatives required administrator authentication or
+interrupting other work; no such environment changes were made. P035-020 owns
+host-composed isolation as separate work. Exception/capsule/control bytes consume
+the unchanged budgets. Finish repository gates and artifact cleanup before
+changing P015-011 from partial. Global Whisper, private detached readback and
+P015-005 remain separate. No merge or push is part of this work.
