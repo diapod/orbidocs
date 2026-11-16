@@ -96,7 +96,24 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :whisper-case-key-custody
+ [{:cap/id :finite-whisper-authoring-output
+   :title "Finite Protected Whisper Authoring Output"
+   :kind :storage
+   :based-on ["doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/authoring-output-retention.md"]
+   :schemas ["nym-authorship-readback.local.v4"
+             "nym-authorship-readback-response.local.v2"
+             "whisper-authoring-output-policy.local.v1"]
+   :responsibilities
+   ["Own the finite preview/sign/retry buffer and sealed exact operation scope"
+    "Resolve explicit P091 custody mode before preparation; pin the original owner/provider"
+    "Release new signatures only before both deadlines and after SQL/final-fence commit"
+    "Replace all local full-record payload revisions with a sealed P036 reference after authorized exact local inspection"
+    "Return typed unavailable without local fallback after handoff or DB-only rollback"
+    "Run time-only bounded S020 expiry without Vault or author commitment disclosure"
+    "Preserve frozen legacy families and their unknown retention; detached private readback remains separate"]
+   :status :partial}
+
+  {:cap/id :whisper-case-key-custody
    :title "Case Continuity Key Custody"
    :kind :optional
    :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md"]

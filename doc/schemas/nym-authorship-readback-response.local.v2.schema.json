@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/authoring-output-retention.md"
+  ],
+  "$id": "urn:orbiplex:schema:nym-authorship-readback-response.local:v2",
+  "title": "nym-authorship-readback-response.local.v2",
+  "oneOf": [
+    {
+      "$ref": "nym-authorship-readback.local.v1.schema.json"
+    },
+    {
+      "$ref": "nym-authorship-readback.local.v2.schema.json"
+    },
+    {
+      "$ref": "nym-authorship-readback.local.v3.schema.json"
+    },
+    {
+      "$ref": "nym-authorship-readback.local.v4.schema.json"
+    }
+  ]
+}

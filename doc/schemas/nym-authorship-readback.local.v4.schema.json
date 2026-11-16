@@ -1,0 +1,766 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/authoring-output-retention.md"
+  ],
+  "$id": "urn:orbiplex:schema:nym-authorship-readback.local:v4",
+  "title": "nym-authorship-readback.local.v4",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "certification/id",
+        "profile/digest",
+        "state",
+        "availability/state",
+        "storage/mode",
+        "buffer/until",
+        "reference/until",
+        "tombstone/until",
+        "preview/expires-at",
+        "preview/digest",
+        "document",
+        "record"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nym-authorship-readback.local.v4"
+        },
+        "operation/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "certification/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "profile/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "enum": [
+            "review-required",
+            "preview-expired"
+          ]
+        },
+        "availability/state": {
+          "const": "available"
+        },
+        "storage/mode": {
+          "enum": [
+            "buffer-only",
+            "handoff-available"
+          ]
+        },
+        "buffer/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "reference/until": {
+          "type": "null"
+        },
+        "tombstone/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/expires-at": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "document": {
+          "$ref": "#/$defs/document"
+        },
+        "record": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "certification/id",
+        "profile/digest",
+        "state",
+        "availability/state",
+        "storage/mode",
+        "buffer/until",
+        "reference/until",
+        "tombstone/until",
+        "preview/expires-at",
+        "preview/digest",
+        "document",
+        "record",
+        "review/ref",
+        "review/digest"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nym-authorship-readback.local.v4"
+        },
+        "operation/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "certification/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "profile/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "enum": [
+            "review-required",
+            "preview-expired"
+          ]
+        },
+        "availability/state": {
+          "const": "available"
+        },
+        "storage/mode": {
+          "enum": [
+            "buffer-only",
+            "handoff-available"
+          ]
+        },
+        "buffer/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "reference/until": {
+          "type": "null"
+        },
+        "tombstone/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/expires-at": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "document": {
+          "$ref": "#/$defs/document"
+        },
+        "record": {
+          "type": "null"
+        },
+        "review/ref": {
+          "type": "string",
+          "pattern": "^weak-signal-review:[a-f0-9]{64}$",
+          "maxLength": 83
+        },
+        "review/digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "maxLength": 71
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "certification/id",
+        "profile/digest",
+        "state",
+        "availability/state",
+        "storage/mode",
+        "buffer/until",
+        "reference/until",
+        "tombstone/until",
+        "preview/expires-at",
+        "preview/digest",
+        "document",
+        "record"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nym-authorship-readback.local.v4"
+        },
+        "operation/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "certification/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "profile/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "const": "signed"
+        },
+        "availability/state": {
+          "const": "available"
+        },
+        "storage/mode": {
+          "enum": [
+            "buffer-only",
+            "handoff-available"
+          ]
+        },
+        "buffer/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "reference/until": {
+          "type": "null"
+        },
+        "tombstone/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/expires-at": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "document": {
+          "$ref": "#/$defs/document"
+        },
+        "record": {
+          "allOf": [
+            {
+              "type": "object"
+            },
+            {
+              "$ref": "#/$defs/record"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "certification/id",
+        "profile/digest",
+        "state",
+        "availability/state",
+        "storage/mode",
+        "buffer/until",
+        "reference/until",
+        "tombstone/until",
+        "preview/expires-at",
+        "preview/digest",
+        "document",
+        "record",
+        "review/ref",
+        "review/digest"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nym-authorship-readback.local.v4"
+        },
+        "operation/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "certification/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "profile/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "const": "signed"
+        },
+        "availability/state": {
+          "const": "available"
+        },
+        "storage/mode": {
+          "enum": [
+            "buffer-only",
+            "handoff-available"
+          ]
+        },
+        "buffer/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "reference/until": {
+          "type": "null"
+        },
+        "tombstone/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/expires-at": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "document": {
+          "$ref": "#/$defs/document"
+        },
+        "record": {
+          "allOf": [
+            {
+              "type": "object"
+            },
+            {
+              "$ref": "#/$defs/record"
+            }
+          ]
+        },
+        "review/ref": {
+          "type": "string",
+          "pattern": "^weak-signal-review:[a-f0-9]{64}$",
+          "maxLength": 83
+        },
+        "review/digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "maxLength": 71
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "certification/id",
+        "profile/digest",
+        "state",
+        "availability/state",
+        "storage/mode",
+        "buffer/until",
+        "reference/until",
+        "tombstone/until",
+        "preview/expires-at",
+        "preview/digest",
+        "document",
+        "record"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nym-authorship-readback.local.v4"
+        },
+        "operation/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "certification/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "profile/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "const": "signed"
+        },
+        "availability/state": {
+          "const": "available"
+        },
+        "storage/mode": {
+          "const": "handed-off"
+        },
+        "buffer/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "reference/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "tombstone/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/expires-at": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "document": {
+          "$ref": "#/$defs/document"
+        },
+        "record": {
+          "allOf": [
+            {
+              "type": "object"
+            },
+            {
+              "$ref": "#/$defs/record"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "certification/id",
+        "profile/digest",
+        "state",
+        "availability/state",
+        "storage/mode",
+        "buffer/until",
+        "reference/until",
+        "tombstone/until",
+        "preview/expires-at",
+        "preview/digest",
+        "document",
+        "record",
+        "review/ref",
+        "review/digest"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nym-authorship-readback.local.v4"
+        },
+        "operation/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "certification/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "profile/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "const": "signed"
+        },
+        "availability/state": {
+          "const": "available"
+        },
+        "storage/mode": {
+          "const": "handed-off"
+        },
+        "buffer/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "reference/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "tombstone/until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/expires-at": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "format": "date-time"
+        },
+        "preview/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "document": {
+          "$ref": "#/$defs/document"
+        },
+        "record": {
+          "allOf": [
+            {
+              "type": "object"
+            },
+            {
+              "$ref": "#/$defs/record"
+            }
+          ]
+        },
+        "review/ref": {
+          "type": "string",
+          "pattern": "^weak-signal-review:[a-f0-9]{64}$",
+          "maxLength": 83
+        },
+        "review/digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "maxLength": 71
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "certification/id",
+        "profile/digest",
+        "state",
+        "availability/state",
+        "storage/mode",
+        "buffer/until",
+        "reference/until",
+        "tombstone/until",
+        "reason",
+        "retry"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nym-authorship-readback.local.v4"
+        },
+        "operation/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "certification/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+        },
+        "profile/digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "const": "unavailable"
+        },
+        "availability/state": {
+          "const": "unavailable"
+        },
+        "storage/mode": {
+          "type": "null"
+        },
+        "buffer/until": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40,
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reference/until": {
+          "type": "null"
+        },
+        "tombstone/until": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40,
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "enum": [
+            "preview-expired",
+            "expired",
+            "expired-before-handoff",
+            "material-unavailable",
+            "legacy-unknown"
+          ]
+        },
+        "retry": {
+          "$ref": "#/$defs/retry"
+        },
+        "diagnostic/reason": {
+          "enum": [
+            "vault-locked",
+            "dependency-unavailable",
+            "policy-denied",
+            "busy",
+            "clock-regressed",
+            "corrupt",
+            "reconciliation-required"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "reason": {
+                "enum": [
+                  "expired",
+                  "expired-before-handoff",
+                  "preview-expired",
+                  "legacy-unknown"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "retry": {
+                "const": "never"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "document": {
+      "anyOf": [
+        {
+          "$ref": "nym-authorship-readback.local.v1.schema.json#/properties/document"
+        },
+        {
+          "$ref": "nym-authorship-readback.local.v2.schema.json#/properties/document"
+        },
+        {
+          "$ref": "nym-authorship-readback.local.v3.schema.json#/properties/document"
+        }
+      ]
+    },
+    "record": {
+      "anyOf": [
+        {
+          "$ref": "nym-authorship-readback.local.v1.schema.json#/properties/record"
+        },
+        {
+          "$ref": "nym-authorship-readback.local.v2.schema.json#/properties/record"
+        },
+        {
+          "$ref": "nym-authorship-readback.local.v3.schema.json#/properties/record"
+        }
+      ]
+    },
+    "retry": {
+      "$ref": "whisper-case-result.v1.schema.json#/properties/outcome/oneOf/1/properties/retry"
+    }
+  }
+}

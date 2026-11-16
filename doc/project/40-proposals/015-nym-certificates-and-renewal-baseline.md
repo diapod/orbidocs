@@ -1262,7 +1262,9 @@ design, not a new normative store or a cryptographic-erasure guarantee.
 
 The [accepted finite-output contract](015-nym-certificates-and-renewal-baseline/authoring-output-retention.md)
 freezes P015-011 full-record scope, dependency selection, reference lifetime and
-qualification gates (2026-11-16). Implementation and runtime gates remain open.
+qualification gates (2026-11-16). Shared laws, finite persistence and host/v4/UI
+have scoped component implementation; ordinary development e2e and formal
+runtime qualification remain open.
 
 The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.
 The original 2026-11-07 note did not authorize implementation or retroactive

@@ -14,6 +14,7 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
+
     "whisper-case-continuation-decision.local.v1.schema.json",
     "whisper-pex-key-offer.v1.schema.json",
     "whisper-pex-key-offer.v2.schema.json",
@@ -57,6 +58,10 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    'whisper-authoring-output-policy.local.v1.schema.json',
+    'nym-authorship-readback.local.v4.schema.json',
+    'nym-authorship-readback-response.local.v2.schema.json',
+
     "memarium-admission-custody-request.local.v2.schema.json",
     "memarium-admission-custody-export.v2.schema.json",
 
@@ -2302,6 +2307,11 @@ GOLDEN_WHITELIST = (
 )
 
 SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    'whisper-authoring-output-policy.local.v1.schema.json',
+    'nym-authorship-readback.local.v4.schema.json',
+    'nym-authorship-readback-response.local.v2.schema.json',
+
+
     "agent.supplied-input-manifest.v3.schema.json",
     "agent.outcome.v4.schema.json",
     "agent.product.read.request.v3.schema.json",

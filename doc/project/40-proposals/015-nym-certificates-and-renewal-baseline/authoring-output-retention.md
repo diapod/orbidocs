@@ -193,8 +193,11 @@ only with its first explicit consumer and needs its own contract and qualificati
 
 ## Next Actions
 
-Implement shared laws, finite store/S020, then full-record handoff/v4/UI. Review,
-fix and commit each stage. Perform the end-to-end development gate before formal
+Shared laws, the finite store/S020 and the neutral pinned local-material port
+have component implementations. Host/v4/UI adoption passed scoped component
+review at Node f0af0ddd5; ordinary development e2e and formal runtime
+qualification are still open.
+Review, fix and commit each stage. Perform the end-to-end development gate before formal
 qualification. Complete convergence and milestone artifact cleanup reviews, then
 reconcile P015, S026/P036, ledger and readiness/generated views. P015-011 stays
 partial until every gate passes; global Whisper and P015-005 remain separately
