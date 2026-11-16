@@ -709,10 +709,102 @@ optimistic progress. Exact schema fields, migration handling for legacy attempts
 without complete identity, and authenticated support negotiation must be frozen
 in S027-009-01; missing legacy evidence cannot be synthesized as authority.
 
+### Bounded Lean Pilot {#lean-delivery-pilot}
+
+**Accepted direction, 2026-11-16; proof and implementation evidence pending.**
+S027-009-06 first qualifies a small executable model of delivery recovery in
+Lean. P013 then applies the reviewed method to
+[ADC-005/LLR-011 release ordering](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#lean-release-model).
+This sequence limits rework; Messaging does not depend on Whisper. The pilot
+does not replace S027-009-01–05 or make formalization of the whole federation a
+release prerequisite. Existing runtime work may proceed in parallel.
+
+#### Scope and reuse
+
+Start from the owning contract above and inspect
+`node:messaging-core/src/delivery.rs`: `DeliveryFacts`, `DeliveryEvent`,
+`DeliveryEffect`, `transition`, `require_retry` and `allowed_actions`. Reuse its
+identity, generation, refusal and explicit-recovery vocabulary; do not create a
+second production state machine, retry owner or verification carrier. Inventory
+the existing transition tests and prepared-attempt/admission fixtures before
+adding cases. The specification remains upstream of both implementations: a
+disagreement with Rust requires investigation, not copying its behavior into a
+weaker theorem.
+
+Model one message, its generations and already authenticated, exactly correlated
+observations. Keep message identity distinct from signed-attempt identity and
+historical admission distinct from current send permission. Make time/window,
+authority, prior execution and receiver-deduplication facts explicit inputs.
+State bounds and their correspondence to Rust counters and checked arithmetic;
+an unbounded mathematical integer must not silently stand for a bounded counter.
+Cryptography, acquisition, storage, UI and network effects remain outside this
+first model. In particular, emitting `PrepareNextGeneration` does not itself
+prove insert-once admission, a durable reservation or permission at actual push.
+
+#### Required claims
+
+| Claim | Required model property |
+|---|---|
+| Delivered remains terminal | No admitted event sequence regresses confirmed delivery into a retryable state or emits a new preparation from it. |
+| Retry preserves authority | Every preparation requires current sender authority, recipient consent, an open resume window and no running prior attempt. Unknown prior execution additionally requires explicit uncertain-retry confirmation and current receiver deduplication. |
+| Unknown is not permission | Missing/unavailable observations alone neither prepare a generation nor count as confirmed consent refusal; local AD absence does not authorize ordinary retry. |
+| Generations preserve causal scope | An old refusal cannot pause a newer generation; an exactly correlated older success may confirm delivery. Foreign or future observations cannot be admitted as matching history. |
+| Read and command contracts agree | For each offered recovery action, the corresponding command has the same admission predicate under the same facts. The correspondence is explicit for actions outside the pure transition function; no proof of an absent handler is claimed. |
+
+Prove the applicable invariant inductively over reachable states and admissible
+histories, rather than only evaluating a finite list of examples. Include legal
+positive witnesses: ordinary retry, confirmed uncertain retry and delayed success.
+A model that denies every action cannot satisfy the intended contract. This
+pilot proves safety properties, not eventual delivery under arbitrary outages.
+
+#### Acceptance and evidence boundary
+
+1. Before proof work, freeze a bounded claim/assumption map linking each claim
+   to this contract, its Lean declaration, Rust symbols and existing/new fixtures.
+   Review event admission and abstractions independently of the proof script.
+   Explicit assumptions may describe trusted inputs or environmental guarantees;
+   they must not assume the transition property being proved.
+2. Pin Lean and any libraries; compile every claimed theorem without `sorry`,
+   `admit` or unchecked custom axioms. Inspect transitive axiom dependencies;
+   the pilot accepts only the declared standard logical basis. Native-evaluation
+   axioms or other additions to the trusted base require a separate decision.
+3. Retain executable positive/refusal vectors and compare the model with the
+   pinned Rust core over bounded generated event sequences, including stale and
+   future generations, expiry, missing results and all authority combinations.
+   Name the corpus and bounds. These comparisons test correspondence; they do
+   not prove the Rust implementation refines Lean for every input.
+4. Deliberately weaken guards for delivered-state retry, unknown-outcome retry
+   and stale refusal. Retain concrete counterexamples or distinguishing executable
+   traces; a failed tactic or timeout alone is inconclusive. Reject vacuous or
+   unreachable-only claims. Keep these mutations out of the production
+   implementation. Reuse existing counterexamples where sufficient.
+5. Produce one source-bound report separating checked model claims, assumptions,
+   Rust comparison results and untested owner/runtime boundaries. Reuse the
+   S027-009 evidence owner and retention conventions. Pin specification/model/
+   Rust revisions and toolchain; invalidate correspondence when their relevant
+   contracts drift. No inference models, live nodes, browser, network or full
+   campaign are required for this offline pilot once its toolchain is provisioned.
+
+The main cost is maintaining correspondence between model and code. Bound the
+pilot to these claims; if tooling or representation dominates the work, retain
+the findings and request a scoped redesign rather than weaken the claims or
+launch an unbounded verification project. Aeneas-based Rust extraction may be
+evaluated later; it is not a prerequisite. Storage atomicity, execution-time
+authorization, crash/restart, inter-node interoperability and public readiness
+still require S027-009's actual-owner tests. No completed baseline is reopened.
+
+The pilot closeout records which laws/fixtures can be reused by P013 and which
+must remain Messaging-specific. In particular, every Messaging body push needs
+current consent; a previously accepted Whisper disclosure commit has its own
+irreversibility contract. No shared proof may erase that difference.
+
 ### Implementation Tracker {#consent-loss-recovery-tracker}
 
 All rows are `todo`: design registration is not implementation or qualification.
 Dependencies below are closure prerequisites; contract/fixture work may overlap.
+The pure-kernel freeze required by S027-009-06 is a bounded part of S027-009-01,
+not a claim that the whole contract/runtime row is complete. S027-009-01–05
+retain their runtime gates independently of the separately reported Lean pilot.
 P076-036/037 and S027-008 are existing reuse/regression baselines. MSG-ONB-009/010
 are evidence cases owned by S027-009-04, not a second implementation workstream.
 
@@ -723,8 +815,11 @@ are evidence cases owned by S027-009-04, not a second implementation workstream.
 | S027-009-03 | Historical read and typed delivery outcome / INAC and AD | S027-009-02 | todo | Required ledger, peer/key/digest binding, bounded body-free reconciliation and authenticated deduplication support. Foreign/absent/mismatched lookups agree; AD preserves refusal/retry fields; local 404 creates zero new generations; failed outcome finalization cannot erase admission. Retain first actual WSS/INAC evidence. |
 | S027-009-04 | Explicit single/bulk recovery and UI / Messaging and Node UI | S027-009-03 | todo | One durable AD retry budget; distinct confirmed uncertain retry; no duplicate generation from concurrent tabs/bulk; current authority and consent before every push. UI shows stage/reason/observation/actions, keeps composer and owner/CSRF checks. Qualify [MSG-ONB-009/010](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md#recipient-consent-recovery-acceptance) on the same relationship/route; late failures cannot downgrade delivered. |
 | S027-009-05 | Retained qualification and convergence closeout / S027 owner | S027-009-04; S027-008; P076-036/037 regression | todo | Separate conformance, real host/browser and regression evidence; test retention/startup GC/capacity/tombstones, Memarium outage and restart/replay/reindex. Regress sovereign independent membership, delegated/mixed and strict Story-010; complete bounded local-proof zero-fetch and P076-037 policy tests. Pin clean sources/binaries, retain failures and qualify identically before/after extraction via `$PRIMARY_EVIDENCE_STORE`. Reconcile Node ledger/MVP, owner docs, schemas and registries; record convergence dispositions under `node:DEV-GUIDELINES.md`. |
+| S027-009-06 | Bounded Lean delivery-recovery pilot / Messaging core owner | S027-009-01 pure-kernel contract freeze only; existing Rust transition/fixture baseline | todo | Meet the [pilot gate](#lean-delivery-pilot): reviewed claim/assumption map, pinned checked proofs over reachable histories, positive witnesses and guard-mutation controls; bounded differential traces against the existing Rust core; source-bound report separating proof, correspondence tests and runtime obligations. Record reusable laws and intentional domain differences for P013-ADC-011. No full S027-009 runtime, browser or public-release qualification follows. |
 
-The next action is S027-009-01. Qualification uses synthetic federation and
+The next action is S027-009-01, with its pure-kernel contract freeze enabling
+S027-009-06 without waiting for the remaining runtime integration. Runtime
+qualification uses synthetic federation and
 `a.localhost` / `b.localhost` browser sessions with explicit consent, without
 models or VMs. Correlate message ID, generations, both digests, AD ID, UI, outbox,
 domain admission and mailbox. Local-proof zero-fetch does not establish offline
@@ -753,7 +848,8 @@ confirming through that pause; generic refresh remains unable to resume it.
 `rejected` requires preserved typed refusal evidence in both schema and Rust.
 These focused tests do not yet prove authenticated own/foreign/missing INAC reads,
 mandatory transport reservation, retention/deletion writers or browser recovery.
-All five tracker rows remain `todo` until their complete gates are measured.
+The original five runtime tracker rows remain `todo` until their complete gates
+are measured; the later Lean pilot has its own evidence gate.
 
 AD now atomically binds Messaging component/key/input digest to the first resolved
 plan, recovering it without another route resolution after a lost reply or restart.

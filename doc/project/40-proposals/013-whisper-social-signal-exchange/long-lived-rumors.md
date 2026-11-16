@@ -543,6 +543,24 @@ two-signature verifier. Shared law fixtures cover wrong scope, same head with a
 refreshed status, rollback, same revision/different accepted head and restart;
 domain fixtures retain missed withdrawal, conflicting history and key loss.
 
+### Lean continuation and owner conformance
+
+[P013-ADC-011](author-disclosure-conditions.md#lean-release-model) owns the
+release model after S027-009-06; LLR does not create a duplicate proof tracker.
+Before new LLR-011 behavior is implemented, freeze the shared ADC preconditions
+and check the model gate. Reuse `whisper-core::case`, its head comparison,
+`ReleaseOrder` and the existing LLR-008 acceptance/outcome owner. Share proof
+mechanics with Messaging only where the laws match; current push consent and
+an irreversible accepted disclosure are different domain contracts.
+
+LLR-011 supplies the durable owner before ADC-005's complete release execution.
+Its acceptance maps model transitions to Rust symbols, compares bounded traces
+and verifies actual atomic head/slot/outcome writes, exact replay after later
+withdrawal, stale-CAS refusal and crash recovery. Signature preparation/exposure
+must preserve the owner boundary. Model closure does not close LLR-011, qualify
+storage, or alter earlier LLR-008/012 evidence. Changes to the modeled contract
+require rechecking its proofs and the implementation correspondence.
+
 ## Long-Lived Rumor Tracker {#long-lived-rumor-tracker}
 
 The P035-019 boundary review requalified LLR-002 with shared authorization,
@@ -581,7 +599,7 @@ extract a generic library; the later implementation owns that comparison.
 | P013-LLR-008 | Case state and currency | done | P013-LLR-006; P013-PEX-001; P013-LLR-012 (aggregate qualification) | Case registration, succession, author closure, status, anchor invalidation and terminal knowledge use the single durable owner and recipient CaseKnowledge. Independent LLR-012 is the qualified aggregate Gate B basis; the 2026-11-07 owner component remains separately scoped. Withdrawal/release ordering, amendment-after-succession and other ADC controls retain pure-fold conformance only; durable enablement remains P013-LLR-011. Evidence: `node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`. No LLR-009/010/011 or global/release closure follows. |
 | P013-LLR-009 | Bounded portable succession verification | todo | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Qualify the LLR-007-frozen `whisper-case-succession-presentation.v1` and its [portable profile](#portable-case-succession-verification): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all negative/privacy/cache-conflict/restart cases listed above pass. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |
 | P013-LLR-010 | Case context transition | todo | P015-005; P013-LLR-008 | Specify who attests transition; forward-only bounded steps; no preimage disclosure outside audience; successor status in the new context; no merging of source/ref values across counting domains. Golden/refusal vectors cover rollback to an old profile, foreign federation and replay. This does not block LLR-008/009 for one context, which claim no cross-context succession. |
-| P013-LLR-011 | ADC control operations in the case owner | todo | P013-LLR-008; P013-ADC-001; P013-ADC-005 | Enable amendment, withdrawal, confirmation, release commit and abandonment in the existing LLR-008 owner, never a second store. Durable fixtures: missed withdrawal; lost commit response then withdrawal; amendment after succession retaining the successor; withdrawal racing release commit in both orders. Each operation retains its own signers and typed ADC preconditions; disabled adapters refuse `operation-not-enabled` (`use-not-enabled` at custody). |
+| P013-LLR-011 | ADC control operations in the case owner | todo | P013-LLR-008; P013-ADC-001; P013-ADC-011 | Enable amendment, withdrawal, confirmation, release commit and abandonment in the existing LLR-008 owner, never a second store. Durable fixtures: missed withdrawal; lost commit response then withdrawal; amendment after succession retaining the successor; withdrawal racing release commit in both orders. Each operation retains its own signers and typed ADC preconditions; disabled adapters refuse `operation-not-enabled` (`use-not-enabled` at custody). Implement after the ADC-011 model gate and shared ADC precondition freeze, before ADC-005 release composition; compare Rust traces with the model and test atomic head/slot/outcome persistence, stale CAS and actual crash boundaries. |
 | P013-LLR-012 | Independent Gate B campaign and capture provenance | done | P013-PEX-001; P013-LLR-006; P035-019a/019b | Qualify the [2026-11-14 independent Gate B contract](private-case-continuity.md#llr-012-independent-gate-b-campaign) from one committed producer and offline qualifier. Separate fresh SQLite/Synapse actors; actual v1 issuance, host prepare/sign/bind, source receipts, heads 0/1/2, B expiry before C on both backends, additional A expiry on SQLite, author-result body loss and exact retry/readback after later state/restart without new PEX/AD handoff, new A-to-C stale-predecessor, UI POST/CSRF abandonment with separate S026 erase/P036 release witnesses, missing Synapse receipt author-preparation refusal without effects and positive same-anchor/new-ID control, cold negatives, closure/sticky knowledge, full logical/raw-non-DB privacy and fresh live SSE. Named conformance witnesses must execute as ok; missing witnesses stay open. Discover and implement contract-compatible shared abstractions before the producer, then repeat convergence review. New campaign alone closes Gate B/LLR-008; frozen original subset remains historical and cannot fill gaps. Positive both-backend set <=16 MiB with XZ 128 MiB; refusal capsules <=1 MiB and campaign/profile totals <=4 MiB, not reset by campaign ID. Explicit area-history decision: 128 KiB; initial new unique controls <=56 KiB, entire campaign control history <=64 KiB. Qualify loose, extracted and fresh both-store material. LLR-008 done only after this gate; durable ADC stays LLR-011. Independent qualification and retained source/tool/both-store results: `node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`; acceptance 2026-11-15. Historical subset bytes are unchanged. |
 
 ### Bounded acceptance, 2026-10-30

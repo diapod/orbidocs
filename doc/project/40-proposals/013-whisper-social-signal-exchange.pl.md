@@ -1420,6 +1420,12 @@ prezentację. Powiązanie nie jest dowodem przynęty ani podstawą dyskredytowan
 sygnalisty. Ten profil post-MVP nie zmienia zliczania źródeł i nie blokuje
 istniejącej ścieżki ujawnienia.
 
+Prace weryfikacyjne prowadzą od [pilotażu Lean S027-009-06](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#lean-delivery-pilot)
+do [P013-ADC-011](013-whisper-social-signal-exchange/author-disclosure-conditions.md#lean-release-model),
+a następnie do nowej logiki ADC-005/LLR-011 w Rust. Bramka modelu obejmuje porządek
+ujawnienia, zgodę i odzyskiwanie; zgodność implementacji oraz kwalifikacja runtime
+pozostają osobne. Dotychczasowe kwalifikacje LLR i zakres alfy nie zmieniają się.
+
 <!-- Kotwice zgodności dla dawnej sekcji w tym pliku i jej podsekcji. -->
 <a id="author-disclosure-conditions-2026-10-27"></a>
 <a id="summary_1"></a>
