@@ -734,4 +734,7 @@ limits the protected authoring retry buffer and adopts existing local full-recor
 inspection under current operator/Vault authority. The owner confirms capture
 without opening payload; detached private bytes remain outside this adoption.
 Read-private audit is not a confidentiality barrier against authorized local
-full-record inspection. Design acceptance does not qualify runtime retention.
+full-record inspection. The bounded P015-011 runtime passed loose/extracted and
+fresh both-store qualification at Node `c15ec3e13`; final replica-adoption and
+isolation disposition remain pending, so task/capability status stays partial.
+See `node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.

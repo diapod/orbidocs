@@ -1249,23 +1249,25 @@ transport and release readiness are not implied.
 
 ## Protected authoring prepared-output retention follow-up, 2026-11-07
 
-The S026 certified-authoring operation journal predates the ordered-case workflow.
-`node:daemon/src/identity_host/nym_authorship.rs` seals the frozen preview and signed
-output under the recoverable operational Vault key, with no finite exchange expiry.
-Its completion marker intentionally supports exact readback after case-key erasure.
-This is an implementation gap against the accepted sole-custody/finite-retention
-design, not a new normative store or a cryptographic-erasure guarantee.
+The historical S026 certified-authoring journal predates the ordered-case
+workflow. `node:daemon/src/identity_host/nym_authorship.rs` sealed the preview and
+signed output under the recoverable operational Vault key without finite expiry.
+Its completion marker supported exact readback after case-key erasure.
+P015-011 addresses that finite-retention implementation gap below; legacy remains
+unknown. A recoverable-root buffer is not a cryptographic-erasure guarantee.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P015-011 | Bound protected authoring prepared-output retention | partial | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
 
-The [accepted finite-output contract](015-nym-certificates-and-renewal-baseline/authoring-output-retention.md)
-freezes P015-011 full-record scope, dependency selection, reference lifetime and
-qualification gates (2026-11-16). Shared laws, finite persistence and host/v4/UI
-have scoped component implementation. The complete ordinary development walk
-passed at Node `c653df8f6`; this does not close the formal evidence, both-store
-retention or final gates. P015-011 remains `partial`.
+The [finite-output contract](015-nym-certificates-and-renewal-baseline/authoring-output-retention.md)
+freezes P015-011 full-record scope, dependency selection and reference lifetime.
+The fresh formal result at Node `c15ec3e13` / Orbidocs `b3d63b30` qualifies 13
+runtime groups, 996 component outcomes and all 47 named witnesses. Loose,
+extracted and fresh DEV/BIGBOY qualifications agree. P015-011 remains `partial`
+pending final replica-adoption/isolation disposition and closeout gates; the
+macOS nested-sandbox refusal is not successful isolated qualification. Evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.
 
 The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.
 The original 2026-11-07 note did not authorize implementation or retroactive

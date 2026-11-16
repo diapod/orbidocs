@@ -2,16 +2,17 @@
 
 ## Executive Summary
 
-Accepted implementation contract for P015-011, 2026-11-16. This is a design,
-not runtime qualification. The authoring journal is a finite retry buffer;
+Accepted implementation contract for P015-011, 2026-11-16. The bounded runtime
+result is recorded under Next Actions; final replica adoption remains open.
+The authoring journal is a finite retry buffer;
 Memarium/P036 owns retained full-record material after a verified handoff.
 Both case and non-case authoring are included. Private detached readback and
 idempotent disclosure audit are deferred until an actual consumer requires them.
 
 ## Context and Problem Statement
 
-The recoverably sealed authoring journal currently retains every preview and
-signed revision indefinitely. A case-key binding or custody reservation does not
+Before P015-011, the recoverably sealed authoring journal retained every preview
+and signed revision indefinitely. A case-key binding or custody reservation does not
 prove capture. Restoring an old domain DB must not revive a buffer removed after
 handoff or erasure, even before its original time limit.
 
@@ -203,9 +204,16 @@ fresh B detached control. This is development validation, not formal evidence.
 The optional source projection now uses the same driver and P035-011 journal;
 its read-only trace predicates require actual owner/process witnesses and
 separately selected native verification. They cannot qualify a campaign alone.
-The pinned formal controller/qualifier, named component evidence, both-store
-retention and final gates remain open. Review, fix and commit each stage.
-Complete convergence and milestone artifact cleanup reviews, then
-reconcile P015, S026/P036, ledger and readiness/generated views. P015-011 stays
-partial until every gate passes; global Whisper and P015-005 remain separately
-scoped. No merge or push is part of this work.
+Fresh formal attempt 02 at Node `c15ec3e13` / Orbidocs `b3d63b30` passed all
+13 runtime groups, 996 component outcomes and 47 named witnesses, with identical
+loose/extracted and fresh DEV/BIGBOY qualification of the 96439-byte retained set.
+Attempt 01 and its original tooling refusal remain unchanged. Evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.
+
+Final replica-inventory adoption is pending: all eleven primary and ordinary
+secondary reads passed, but the additional isolated proof for P015-011 refused
+because macOS prohibits nesting the qualifier's network sandbox inside the
+replica read-denial sandbox. No isolation exception is adopted without an
+explicit owner decision. Finish that disposition, repository gates and artifact
+cleanup before changing P015-011 from partial. Global Whisper, private detached
+readback and P015-005 remain separate. No merge or push is part of this work.
