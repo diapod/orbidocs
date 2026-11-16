@@ -195,10 +195,17 @@ only with its first explicit consumer and needs its own contract and qualificati
 
 Shared laws, the finite store/S020 and the neutral pinned local-material port
 have component implementations. Host/v4/UI adoption passed scoped component
-review at Node f0af0ddd5; ordinary development e2e and formal runtime
-qualification are still open.
-Review, fix and commit each stage. Perform the end-to-end development gate before formal
-qualification. Complete convergence and milestone artifact cleanup reviews, then
+review at Node f0af0ddd5. The complete ordinary development walk passed at
+Node c653df8f6, including real case/non-case FullRecord handoff, restart, erasure,
+provider loss, DB-only restore and expiry, followed by the explicitly approved
+fresh B detached control. This is development validation, not formal evidence.
+
+The optional source projection now uses the same driver and P035-011 journal;
+its read-only trace predicates require actual owner/process witnesses and
+separately selected native verification. They cannot qualify a campaign alone.
+The pinned formal controller/qualifier, named component evidence, both-store
+retention and final gates remain open. Review, fix and commit each stage.
+Complete convergence and milestone artifact cleanup reviews, then
 reconcile P015, S026/P036, ledger and readiness/generated views. P015-011 stays
 partial until every gate passes; global Whisper and P015-005 remain separately
 scoped. No merge or push is part of this work.
