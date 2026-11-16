@@ -117,3 +117,22 @@ measurements on structural buffers, not acceptance of semantic proof maxima.
 The existing actual PEX codec test seals and opens every family at its plaintext
 maximum within the unchanged binary envelope limit; no second base64 wrapper
 is part of that framing. Full semantic and formal E qualification remain open.
+
+## Local byte-envelope checkpoint (development)
+
+The existing RoleLimit abstraction is parameterized by role and shared by the
+presentation and recipient-local input tables. CaseKnowledge's existing raw-input
+cardinalities bound four anchor statuses, two anchor closures, one saved source
+status and 32 KiB metadata: 2600 KiB in all. These inputs are not subtracted from
+the carrier's allowance. Historical anchor preflight also separates its local
+observations; malformed members still refuse before semantic use.
+
+The aggregate non-payload anchor dependency ceiling conservatively covers the
+v2 presentation envelope plus the local envelope. It is a dependency bound, not
+a carrier or a private-payload hold. Both owners derive their terminal proof
+reserves from this ceiling. Operator configuration must reserve sufficient bytes
+and storage for the configured number of live cases/operations; an old small
+budget refuses explicitly. No configured storage ceiling is silently increased.
+The test fixtures allocate ordinary capacity in addition to their derived reserve.
+This checkpoint does not yet qualify local signature-work separation or cached
+verified provenance; those requirements remain open.
