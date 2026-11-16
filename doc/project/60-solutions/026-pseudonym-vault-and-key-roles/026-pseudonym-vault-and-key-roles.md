@@ -724,5 +724,8 @@ same durable authority. Closure does not require the current successor's signatu
 or predecessor CAS; exact saved requests replay without another signature. It
 preserves the historical successor while preventing further case continuation.
 Closing the case before erasing its local key is the recommended order: local
-key erasure cannot disable a copied key. Remaining ADC controls belong to
-P013-LLR-011, and observer-load qualification remains P013-PEX-002.
+key erasure cannot disable a copied key. P013-LLR-011 now has a separately
+qualified offline ADC authority-owner component, with a default-disabled domain
+verifier. This does not enable source ADC custody or ADC-005 release execution;
+see `node:whisper-case-service/ADC.md`. Observer-load qualification remains
+P013-PEX-002.

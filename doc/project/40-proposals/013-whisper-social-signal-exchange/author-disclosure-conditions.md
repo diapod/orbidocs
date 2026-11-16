@@ -647,14 +647,14 @@ and ids stay unchanged.
 
 **Model gate qualified, 2026-11-16; ADC-005 remains `todo`.** LLR-011 now has
 an implemented [owner component](long-lived-rumors.md#long-lived-rumor-tracker)
-with source-pinned qualification pending. The
+with separately qualified source-pinned offline owner tests. The
 [Node report](https://github.com/diapod/node/blob/master/docs/audits/P013-ADC-011-LEAN-RELEASE-2026-11-16.md)
 pins 73 checked theorems, 35 executable vectors, 4,096 generated model steps and
 18 existing Rust case-law tests. It uses the reviewed
 [S027-009-06 discipline](../../60-solutions/027-messaging-middleware/027-messaging-middleware.md#lean-delivery-pilot)
-while preserving separate domain laws. Full comparison with the new Rust
-implementation is the separate LLR-011 owner gate; actual AD composition and
-submission/readback remain ADC-005.
+while preserving separate domain laws. The subsequent LLR-011 gate qualifies
+its implemented owner-decision subset and fenced writes; complete executor/AD
+composition, comparison and submission/readback remain ADC-005.
 
 ADC-001/004's freeze for this model covers current authority/count/confirmation,
 canonical audience and exact request/head/intent identities, permitted narrowing
@@ -702,9 +702,10 @@ Use concrete counterexamples or distinguishing executable traces for removed
 audience, withdrawal and replay guards; proof-search failure alone is inconclusive.
 Do not force noncommuting operations into permutation-invariant laws.
 
-Reuse existing Rust vectors for already implemented shared laws. Full comparison
-with the new Rust behavior belongs to ADC-005/LLR-011 and remains pending when
-this model gate closes. Their acceptance must compare the pinned model and Rust
+Reuse existing Rust vectors for already implemented shared laws. Comparison
+with new Rust was outside this original model gate. LLR-011 subsequently
+qualified its fresh owner-decision subset and real fenced writes; ADC-005
+execution/handoff comparison remains open. Their acceptance must compare the pinned model and Rust
 on bounded generated traces and inject crashes at the actual owner boundaries:
 before/after acceptance, before reply exposure and around AD submission/readback.
 All effect authorization and privacy gates remain in force. Neither proof of the
@@ -812,4 +813,4 @@ an execution dependency of ADC-005 on LLR-009.
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | Render N and its effective epoch threshold, public criterion and proof disclosure, window, concrete audiences, mode, authorized holders, notice and coordination participation. Keep condition, proposal and per-slot execution states separate. Declining suppresses that proposal across restart; no renewed prompt without an explicit retry or consented bounded policy. Show widening as a new independent case and withdrawal as effective only after authority acceptance. |
 | P013-ADC-009 | Sealed pre-threshold confidentiality | deferred | P013-ADC-004; cryptographic review | A mechanism in which no correlator can read protected material before N sources exist, for example threshold or escrow-style encryption. It needs a separate, proposal-grade review. |
 | P013-ADC-010 | Optional private affiliation context at disclosure confirmation | todo | P015-007–008; P013-ADC-008; P013-PEX-001 | Reuse the bounded result verifier and one host-authorized projection for UI/Agent and other consumers. Acceptance includes separate consent by the checked author, no-consent/unavailable paths with no penalty, no access to protected peer bodies, employee-as-whistleblower and employee-as-interested-party cases without an intent verdict, limited coverage/expiry, swapped-result refusal, small-group identification risk and no leakage through Agora, release proof, exports, logs or notifications. Existing counts and release authority stay identical with the feature absent, refused or unavailable; authorized context informs only the human confirmation decision. Offline synthetic fixtures qualify semantics without claiming live affiliation verification; private delivery composes the separately qualified P015-008 path. |
-| P013-ADC-011 | Lean release-ordering model before ADC-005/LLR-011 / Whisper domain owner | done | S027-009-06 pilot review; P013-ADC-001/004 contract freezes; P013-LLR-008 contract | Meet the [model gate](#lean-release-model): reviewed executable state/assumption map, checked reachable-history proofs for consent/order/narrowing/slots/replay/handoff/successor preservation, positive witnesses and guard-mutation counterexamples. Reuse S027 proof discipline and existing case laws without sharing domain authority. Pin contracts, model/toolchain and existing Rust fixtures; new Rust comparison and real owner qualification remain ADC-005/LLR-011. No dependency on their completed runtime, no alpha expansion and no change to historical qualification. |
+| P013-ADC-011 | Lean release-ordering model before ADC-005/LLR-011 / Whisper domain owner | done | S027-009-06 pilot review; P013-ADC-001/004 contract freezes; P013-LLR-008 contract | Meet the [model gate](#lean-release-model): reviewed executable state/assumption map, checked reachable-history proofs for consent/order/narrowing/slots/replay/handoff/successor preservation, positive witnesses and guard-mutation counterexamples. Reuse S027 proof discipline and existing case laws without sharing domain authority. Pin contracts, model/toolchain and existing Rust fixtures; the subsequent LLR-011 owner comparison/qualification is separate, and ADC-005 executor/AD qualification remains open. No dependency on their completed runtime, no alpha expansion and no change to historical qualification. |

@@ -916,6 +916,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`weak-signal-web-review.v1.schema.json`](schemas-gen/schemas/weak-signal-web-review.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `1` |
 | [`weak-signal-whisper-draft.local.v2.schema.json`](schemas-gen/schemas/weak-signal-whisper-draft.local.v2.md) | `17` | `0` | `yes` | `yes` | `0` | `0` |
 | [`whisper-case-acceptance.v1.schema.json`](schemas-gen/schemas/whisper-case-acceptance.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
+| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) | `9` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-case-authorities.local.v1.schema.json`](schemas-gen/schemas/whisper-case-authorities.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-authority-policy.v1.schema.json`](schemas-gen/schemas/whisper-case-authority-policy.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-closure.v1.schema.json`](schemas-gen/schemas/whisper-case-closure.v1.md) | `7` | `0` | `no` | `yes` | `0` | `1` |
@@ -1855,6 +1856,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`weak-signal-web-review.v1.schema.json`](schemas-gen/schemas/weak-signal-web-review.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`weak-signal-whisper-draft.local.v2.schema.json`](schemas-gen/schemas/weak-signal-whisper-draft.local.v2.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`whisper-case-acceptance.v1.schema.json`](schemas-gen/schemas/whisper-case-acceptance.v1.md) |  |  |
+| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) |  |  |
 | [`whisper-case-authorities.local.v1.schema.json`](schemas-gen/schemas/whisper-case-authorities.local.v1.md) |  |  |
 | [`whisper-case-authority-policy.v1.schema.json`](schemas-gen/schemas/whisper-case-authority-policy.v1.md) |  |  |
 | [`whisper-case-closure.v1.schema.json`](schemas-gen/schemas/whisper-case-closure.v1.md) |  |  |
@@ -2086,7 +2088,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
-- Canonical schemas: `934`
-- Generated schema docs: `935`
-- Positive examples: `835`
-- Negative examples: `832`
+- Canonical schemas: `935`
+- Generated schema docs: `936`
+- Positive examples: `836`
+- Negative examples: `833`
