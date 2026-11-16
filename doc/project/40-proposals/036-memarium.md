@@ -1188,3 +1188,12 @@ must recover the original source objects while payload remains live, and omit
 it after erasure. Missing source material refuses custody; no timestamp fallback
 or synthetic anchor may satisfy ordinary-v1 Gate B. Implementation conformance
 and actual SQLite/Synapse continuity qualification remain separate claims.
+
+### Finite authoring buffer contract (P015-011, 2026-11-16)
+
+The [accepted P015-011 contract](orbidocs:doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/authoring-output-retention.md)
+limits the protected authoring retry buffer and adopts existing local full-record
+inspection under current operator/Vault authority. The owner confirms capture
+without opening payload; detached private bytes remain outside this adoption.
+Read-private audit is not a confidentiality barrier against authorized local
+full-record inspection. Design acceptance does not qualify runtime retention.

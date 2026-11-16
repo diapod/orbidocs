@@ -1258,10 +1258,16 @@ design, not a new normative store or a cryptographic-erasure guarantee.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-011 | Bound protected authoring prepared-output retention | todo | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
+| P015-011 | Bound protected authoring prepared-output retention | partial | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
+
+The [accepted finite-output contract](015-nym-certificates-and-renewal-baseline/authoring-output-retention.md)
+freezes P015-011 full-record scope, dependency selection, reference lifetime and
+qualification gates (2026-11-16). Implementation and runtime gates remain open.
 
 The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.
-No new retention implementation or retroactive cleanup is authorized by this note.
+The original 2026-11-07 note did not authorize implementation or retroactive
+cleanup. The accepted 2026-11-16 contract authorizes the new finite lifecycle;
+legacy cleanup still requires a separate reviewed migration.
 
 ### Tracker identity reconciliation (2026-11-07)
 

@@ -726,3 +726,12 @@ preserves the historical successor while preventing further case continuation.
 Closing the case before erasing its local key is the recommended order: local
 key erasure cannot disable a copied key. Remaining ADC controls belong to
 P013-LLR-011, and observer-load qualification remains P013-PEX-002.
+
+### Finite authoring buffer contract (P015-011, 2026-11-16)
+
+The [accepted P015-011 contract](orbidocs:doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/authoring-output-retention.md)
+limits the protected authoring retry buffer and adopts existing local full-record
+inspection under current operator/Vault authority. The owner confirms capture
+without opening payload; detached private bytes remain outside this adoption.
+Read-private audit is not a confidentiality barrier against authorized local
+full-record inspection. Design acceptance does not qualify runtime retention.
