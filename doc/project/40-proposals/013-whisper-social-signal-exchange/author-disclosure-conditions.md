@@ -645,21 +645,19 @@ and ids stay unchanged.
 
 ## Lean Release Model Before Durable ADC Enablement {#lean-release-model}
 
-**Accepted direction, 2026-11-16; P013-ADC-011 remains `todo`.** First complete
-and review the bounded [S027-009-06 pilot](../../60-solutions/027-messaging-middleware/027-messaging-middleware.md#lean-delivery-pilot),
-then formalize this release contract before implementing the new ADC-005/LLR-011
-control behavior in Rust. Reuse the pilot's claim/assumption map, checked proof
-basis, executable vectors, mutation controls and source-bound reporting. This
-is sequencing of verification work, not a dependency on completed Messaging
-delivery, UI or federation qualification. Existing LLR/PEX qualifications and
-the alpha scope remain unchanged.
+**Model gate qualified, 2026-11-16; ADC-005/LLR-011 remain `todo`.** The
+[Node report](https://github.com/diapod/node/blob/master/docs/audits/P013-ADC-011-LEAN-RELEASE-2026-11-16.md)
+pins 73 checked theorems, 35 executable vectors, 4,096 generated model steps and
+18 existing Rust case-law tests. It uses the reviewed
+[S027-009-06 discipline](../../60-solutions/027-messaging-middleware/027-messaging-middleware.md#lean-delivery-pilot)
+while preserving separate domain laws. Full comparison with the new Rust
+implementation and real owner/AD qualification remain ADC-005/LLR-011 gates.
 
-The bounded S027 pilot is now qualified; its
-[review and reuse findings](https://github.com/diapod/node/blob/master/docs/audits/S027-009-06-LEAN-PILOT-2026-11-16.md)
-provide induction, axiom-audit, witness, mutation and real-kernel comparison methods.
-P013-ADC-011 remains `todo`. Reuse mechanics only: Messaging requires current
-consent before each push; accepted Whisper disclosure commits have their own
-irreversibility law. No ADC-005/LLR-011 implementation begins here.
+ADC-001/004's freeze for this model covers current authority/count/confirmation,
+canonical audience and exact request/head/intent identities, permitted narrowing
+and half-open deadlines. It does not close their schemas or runtime rows.
+The model's request capacity of 64 is a finite proof/test profile, not product
+policy. Historical qualifications, alpha scope and public readiness are unchanged.
 
 ### Model and implementation boundary
 
@@ -811,4 +809,4 @@ an execution dependency of ADC-005 on LLR-009.
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | Render N and its effective epoch threshold, public criterion and proof disclosure, window, concrete audiences, mode, authorized holders, notice and coordination participation. Keep condition, proposal and per-slot execution states separate. Declining suppresses that proposal across restart; no renewed prompt without an explicit retry or consented bounded policy. Show widening as a new independent case and withdrawal as effective only after authority acceptance. |
 | P013-ADC-009 | Sealed pre-threshold confidentiality | deferred | P013-ADC-004; cryptographic review | A mechanism in which no correlator can read protected material before N sources exist, for example threshold or escrow-style encryption. It needs a separate, proposal-grade review. |
 | P013-ADC-010 | Optional private affiliation context at disclosure confirmation | todo | P015-007–008; P013-ADC-008; P013-PEX-001 | Reuse the bounded result verifier and one host-authorized projection for UI/Agent and other consumers. Acceptance includes separate consent by the checked author, no-consent/unavailable paths with no penalty, no access to protected peer bodies, employee-as-whistleblower and employee-as-interested-party cases without an intent verdict, limited coverage/expiry, swapped-result refusal, small-group identification risk and no leakage through Agora, release proof, exports, logs or notifications. Existing counts and release authority stay identical with the feature absent, refused or unavailable; authorized context informs only the human confirmation decision. Offline synthetic fixtures qualify semantics without claiming live affiliation verification; private delivery composes the separately qualified P015-008 path. |
-| P013-ADC-011 | Lean release-ordering model before ADC-005/LLR-011 / Whisper domain owner | todo | S027-009-06 pilot review; P013-ADC-001/004 contract freezes; P013-LLR-008 contract | Meet the [model gate](#lean-release-model): reviewed executable state/assumption map, checked reachable-history proofs for consent/order/narrowing/slots/replay/handoff/successor preservation, positive witnesses and guard-mutation counterexamples. Reuse S027 proof discipline and existing case laws without sharing domain authority. Pin contracts, model/toolchain and existing Rust fixtures; new Rust comparison and real owner qualification remain ADC-005/LLR-011. No dependency on their completed runtime, no alpha expansion and no change to historical qualification. |
+| P013-ADC-011 | Lean release-ordering model before ADC-005/LLR-011 / Whisper domain owner | done | S027-009-06 pilot review; P013-ADC-001/004 contract freezes; P013-LLR-008 contract | Meet the [model gate](#lean-release-model): reviewed executable state/assumption map, checked reachable-history proofs for consent/order/narrowing/slots/replay/handoff/successor preservation, positive witnesses and guard-mutation counterexamples. Reuse S027 proof discipline and existing case laws without sharing domain authority. Pin contracts, model/toolchain and existing Rust fixtures; new Rust comparison and real owner qualification remain ADC-005/LLR-011. No dependency on their completed runtime, no alpha expansion and no change to historical qualification. |
