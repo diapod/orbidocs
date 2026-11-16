@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-case-adc-request:v1",
+  "title": "whisper-case-adc-request.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "request/id",
+    "condition/original",
+    "command",
+    "signer",
+    "issued-at",
+    "not-after",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-case-adc-request.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "request/id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 36
+    },
+    "condition/original": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "command": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "body"
+          ],
+          "properties": {
+            "operation": {
+              "const": "amendment"
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "others",
+                "window_end",
+                "release_end",
+                "audiences",
+                "mode"
+              ],
+              "properties": {
+                "others": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "window_end": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "release_end": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "audiences": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 16,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180
+                  }
+                },
+                "mode": {
+                  "enum": [
+                    "confirm",
+                    "preauthorized"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "withdrawal"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "body"
+          ],
+          "properties": {
+            "operation": {
+              "const": "confirmation"
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "original",
+                "audience",
+                "trigger",
+                "not_after"
+              ],
+              "properties": {
+                "original": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "audience": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 180
+                },
+                "trigger": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "not_after": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "body"
+          ],
+          "properties": {
+            "operation": {
+              "const": "release-commit"
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "original",
+                "payload",
+                "proof",
+                "envelope_plan",
+                "trigger",
+                "audience",
+                "executor",
+                "route",
+                "delivery_id",
+                "handover_by"
+              ],
+              "properties": {
+                "original": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "payload": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "proof": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "envelope_plan": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "trigger": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "audience": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 180
+                },
+                "executor": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 180
+                },
+                "route": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 180
+                },
+                "delivery_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 180
+                },
+                "handover_by": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "body"
+          ],
+          "properties": {
+            "operation": {
+              "const": "abandonment"
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "audience",
+                "delivery_id"
+              ],
+              "properties": {
+                "audience": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 180
+                },
+                "delivery_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 180
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "signer": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  }
+}

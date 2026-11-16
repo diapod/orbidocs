@@ -645,13 +645,16 @@ and ids stay unchanged.
 
 ## Lean Release Model Before Durable ADC Enablement {#lean-release-model}
 
-**Model gate qualified, 2026-11-16; ADC-005/LLR-011 remain `todo`.** The
+**Model gate qualified, 2026-11-16; ADC-005 remains `todo`.** LLR-011 now has
+an implemented [owner component](long-lived-rumors.md#long-lived-rumor-tracker)
+with source-pinned qualification pending. The
 [Node report](https://github.com/diapod/node/blob/master/docs/audits/P013-ADC-011-LEAN-RELEASE-2026-11-16.md)
 pins 73 checked theorems, 35 executable vectors, 4,096 generated model steps and
 18 existing Rust case-law tests. It uses the reviewed
 [S027-009-06 discipline](../../60-solutions/027-messaging-middleware/027-messaging-middleware.md#lean-delivery-pilot)
 while preserving separate domain laws. Full comparison with the new Rust
-implementation and real owner/AD qualification remain ADC-005/LLR-011 gates.
+implementation is the separate LLR-011 owner gate; actual AD composition and
+submission/readback remain ADC-005.
 
 ADC-001/004's freeze for this model covers current authority/count/confirmation,
 canonical audience and exact request/head/intent identities, permitted narrowing

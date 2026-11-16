@@ -96,7 +96,9 @@
                 "access-denied",
                 "request-id-conflict",
                 "status-budget-exhausted",
-                "operation-budget-exhausted"
+                "operation-budget-exhausted",
+                "adc-condition-unsatisfied",
+                "adc-condition-widening"
               ]
             },
             "retry": {
