@@ -40,7 +40,7 @@ Before activation, D23 must establish which source bytes are necessary, includin
 unavoidable author bytes inside signed Matrix PDUs; signed objects are never
 trimmed. D24 must measure actual carried JSON, plaintext and sealed PEX output.
 4 MiB carried, 64 KiB referenced, 5 MiB sealed and depth 16 remain fixed.
-If encoding exceeds these limits, retain the old decoded bound and explicitly
+If future encoding changes exceed these limits, retain the old decoded bound and explicitly
 qualify non-composable role maxima with presentation-decoded-limit refusal.
 Const assertions bind versioned sums and per-element base64/JSON overhead.
 Structural maximum vectors do not claim semantic acceptance of contradictory
@@ -99,3 +99,21 @@ separate on codex/self-contained-signatures, without primary integration or push
 Convergence review includes the harness and existing P032 contract-law fixtures.
 P015-005, P015-011, PEX-002, ADC, context transitions and release readiness remain
 outside this qualification.
+
+## V2 byte review checkpoint (development, not qualification)
+
+D23: Matrix room-v10 verification requires the exact PDU and independently
+checks its content against the exact author buffer. The author occurrence inside
+the signed PDU cannot be removed without destroying the source proof. The
+presentation role projection references exact source objects by digest; it does
+not add a second copy of each source object. Repeated author content across the
+PDU and AnchorRecord is therefore a required distinct proof occurrence, not a
+removable unsigned wrapper. Source buffers remain bounded to 256 KiB together.
+
+The v2 decoded allowance is 3,067,904 bytes including the 32 KiB metadata reserve.
+The structural maximum test measured 3,035,136 decoded role bytes, 4,049,509
+carried JSON bytes and 35,203 referenced JSON bytes. These are development
+measurements on structural buffers, not acceptance of semantic proof maxima.
+The existing actual PEX codec test seals and opens every family at its plaintext
+maximum within the unchanged binary envelope limit; no second base64 wrapper
+is part of that framing. Full semantic and formal E qualification remain open.
