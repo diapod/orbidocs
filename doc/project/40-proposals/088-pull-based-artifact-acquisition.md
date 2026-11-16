@@ -6,18 +6,21 @@ Based on:
 - `doc/project/40-proposals/036-memarium.md`
 - `doc/project/40-proposals/039-crisis-space-seed-v1.md`
 - `doc/project/40-proposals/042-inter-node-artifact-channel.md`
+- `doc/project/40-proposals/047-classification-label-propagation.md`
 - `doc/project/40-proposals/062-temporal-storage-convention.md`
 - `doc/project/40-proposals/078-weak-signal-harvester.md`
+- `doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`
 - `doc/project/40-proposals/081-horizontal-protocol-primitives.md`
 - `doc/project/40-proposals/084-sensorium-web-observation-connector.md`
 - `doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`
 - `doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`
+- `doc/project/40-proposals/100-text-origin-labels-and-propagation.md`
 - `doc/project/60-solutions/020-scheduler/020-scheduler.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 
 ## Status
 
-Draft; all architectural Open Questions, the Phase 0 seam audit, and the
+Draft; all baseline architectural Open Questions, the Phase 0 seam audit, and the
 `P088-005` through `P088-006` executable-contract foundation were completed on
 2026-08-24. `P088-004` remains partial: behavior probes reach all 20 refusal
 codes emitted by the pure core, while 12 host-emitted codes retain explicit
@@ -25,6 +28,11 @@ owning-story deferrals instead of being presented as implemented evidence. The
 next dependency-ordered item is the `P088-007` shared-object staging ledger and
 recovery boundary. Implementation remains post-MVP and does not block current
 hard-MVP readiness.
+
+Design addition, 2026-11-16: the optional
+[linguistic resilience carrier](#linguistic-resilience-carrier) is tracked by
+`P088-040` through `P088-043`. It has no implementation or runtime qualification
+claim and does not extend the V1 promotion set or block alpha.
 
 ## Date
 
@@ -60,6 +68,12 @@ formats under an operator-owned profile. Neither a connector nor remotely suppli
 content chooses executable parsing behavior. Optional INAC location advice may
 name several exact alternates, fallbacks, or related artifacts in one control
 message, but every location remains a non-authoritative retrieval hint.
+
+An optional future linguistic codec may carry a small portable package in
+natural-language text. Its purpose is redundant recovery and partial resilience
+to carrier disruption or censorship, not rumor secrecy. It reuses the same
+extraction and admission boundaries; publishing copies remains a separate,
+explicitly authorized activity.
 
 The portable package is content-neutral outer framing. It carries digest, size,
 encoding, and optional multi-file layout, but does not repeat the inner artifact's
@@ -722,14 +736,142 @@ candidate framing, maximum parse depth, nodes or MIME parts, candidate count,
 total extracted bytes, per-candidate bytes, CPU or wall time, and temporary-storage
 bounds. An independent packaged extractor may be installed through supervised
 middleware or P085, but installation remains inert and every profile activation is
-operator-owned. Model-assisted or heuristic extraction may propose spans for
-review, but it is not a normative admission path.
+operator-owned. Heuristic extraction, free-form model interpretation, or
+model-selected spans may propose candidates for review, but are not a normative
+admission path. A future exact model-distribution codec requires the separate
+qualification in [Decision 23](#linguistic-resilience-carrier); this does not add
+it to the V1 profiles below.
 
 The V1 promotion set contains the identity `whole-resource`, armored plain-text,
 static HTML, and bounded RFC 822/MIME profiles. Identity and armored text land
 first; static HTML lands with bounded HTTP(S); RFC 822/MIME is a conformance
 profile before any mailbox connector. Torrent remains a future connector
 candidate and does not define a special extraction profile.
+
+<a id="linguistic-resilience-carrier"></a>
+### Decision 23: Linguistic Resilience Is An Optional Carrier Profile
+
+The proposed profile encodes the exact bytes of a small portable package into
+natural-language text and decodes that text back into a package candidate. It
+adds a replaceable representation, not a new Artifact Delivery transport,
+signature format, rumor kind, or source of authority. P088 owns acquisition and
+extraction; creating a carrier is a separate pure operation, and publishing or
+maintaining replicas remains outside its read-only V1.
+
+The intended benefit is recovering an already authorized artifact when an
+ordinary route or copy is unavailable. This is not a confidentiality, anonymity,
+undetectability, or censorship-resistance guarantee. A public codec may also let
+third parties recognize and decode carriers. Encryption, if appropriate, remains
+an inner-artifact responsibility; a linguistic representation does not make
+protected bytes eligible for public distribution. A successful round trip proves
+codec feasibility only. Availability improvement requires evidence about the
+actual carriers and their independent failure modes.
+
+**Selected experiment, 2026-11-16:** recover the exact bytes of a small package
+after a declared set of web-format transformations, where ordinary armored text
+fails. This is an offline format-survival experiment with explicit synthetic
+carrier disclosure, not hidden publication, content-moderation evasion, or a test
+on a real platform. The transform families below are selected; their exact
+parameters, composition order, budgets, vectors, and comparative thresholds must
+still be frozen in `P088-040`. No existing runtime qualification is claimed.
+
+| Transform family | What `P088-040` must freeze |
+| :--- | :--- |
+| Whitespace collapse and line reflow | Exact whitespace classes, line endings, wrapping widths and whether word boundaries are preserved |
+| Unicode and typographic normalization | Separate NFC and NFKC cases; an explicit finite quotation-mark/dash substitution table; no implicit language rewriting |
+| Static HTML sanitization | Exact tag/attribute removal and entity decoding, text-node order and separators; no script execution or subresource fetches |
+| Removal of long runs and non-letter runs | Exact Unicode character classes, run definition, length thresholds and deletion/replacement behavior; a synthetic format filter, not a content heuristic |
+| Carrier-length cap | Final UTF-8 byte and character/word limits and expansion ceiling; over-cap encoding refuses rather than truncating or fragmenting |
+
+Transformations are local deterministic functions with individual and ordered
+composition vectors, applied equally to all candidates. Include identity and
+boundary controls. HTML fixtures exercise the P088 static-carrier extraction seam
+associated with P084 bounded retrieval; they do not claim a live P084 fetch or
+browser result. Truncation is a negative test, not the implementation of the
+length cap. Paraphrase and translation are also outside the recovery profile.
+
+Compare in order: existing armored text, a fixed word list, then grammar. Give
+armor its supported line wrapping and normalization; do not create an artificial
+failure by withholding them. Use identical package bytes, disclosure obligations,
+channel functions and budget ceilings. Whitespace normalization alone is not an
+advantage when armor tolerates it too. A model-based family may be considered only
+after simpler candidates fail a named required transform or its frozen budget,
+with that failure recorded and a separate bounded model experiment authorized.
+There is no requirement to implement every family.
+
+**Stop rule:** if armor meets the goal, retain armor. If a word list improves on
+armor and meets the frozen goal and budgets, accepting it and stopping before
+prose/model work is a complete outcome. Grammar needs a measured benefit over
+both simpler comparators. Round-trip success, natural-looking prose, or losing
+to a simpler solution is not evidence of added value. The expectation that a word
+list may suffice is a hypothesis, not a measured result.
+
+The following boundaries apply:
+
+1. **Exact recovery before admission.** The codec returns exact package bytes or
+   a typed refusal. Framing, digest checks, inner verification, freshness,
+   anti-rollback, classification, and domain admission then follow the ordinary
+   path. Plausible reconstruction, paraphrase, or a model's interpretation cannot
+   repair a signed artifact. Existing prohibitions on heuristic admission remain.
+2. **Operator-bound decoding.** The admitted profile binds the codec version,
+   framing, selector, allowed carrier transformations, and every required asset
+   by immutable identity. Remote text cannot choose an implementation, download
+   a tokenizer or model, activate a profile, raise limits, or trigger a fetch.
+   Decoder dependencies must already be available under local policy.
+3. **Separate byte identities.** Preserve carrier, extracted package, and inner
+   artifact identities through the existing extraction evidence and receipts.
+   Cover-text authorship, style, source URL, and any generation model are distinct
+   from the inner artifact's author and epistemic status. The original package
+   and signatures must survive unchanged.
+4. **Replicas are not corroboration.** Multiple carriers of the same artifact
+   retain its identity and use ordinary idempotency. They neither become new
+   independent Whisper sources nor increase an opinion's evidential weight.
+   Acquisition cannot bypass Whisper embargo, disclosure scope, or publication
+   approval; correction and retraction remain with the domain owner.
+5. **Historical availability is not current authority.** Recovering an old signed
+   package does not renew its validity or revoke a later correction. Missing fresh
+   authorization is handled by the existing domain policy, not by treating a
+   surviving replica as fresh. Deleting a local carrier cannot erase public copies.
+6. **Synthetic cover is not testimony.** Assign the cover text its own
+   [P100](100-text-origin-labels-and-propagation.md) label when created:
+   `origin/classes` includes `software` for generated grammar/word-list text and
+   `model` for model-generated text; composition, influence, and evidence follow
+   P100 rather than inventing a host-observed claim for a module declaration.
+   Keep this label separate from the unchanged inner artifact's provenance.
+   Approval does not erase synthetic origin. Public cover must disclose that it
+   is a synthetic artifact carrier, not masquerade as independent human testimony;
+   this preserves the source distinction in the Vision's
+   [Culture as a Low-Pass Filter](../../normative/20-vision/en/VISION.en.md#culture-as-a-low-pass-filter).
+
+The visible declaration is part of the carrier frame, for example "synthetic
+Orbiplex carrier profile alpha", expressed with short words under the selected
+profile. Its exact language, profile identifier, start/end boundaries, length and
+integrity metadata must survive the same accepted transformations as the payload
+and count toward all size limits. Missing, conflicting or damaged mandatory
+framing causes refusal. Do not rely on a removable HTML attribute or opaque long
+header as the sole declaration. The marker helps locate a candidate only within
+an already admitted resource; it grants no crawling, profile activation, trust or
+publication authority. P100 metadata is retained separately by the node; the
+visible marker neither replaces it nor authenticates an external carrier's claim.
+
+**Encoding owner:** the offline experiment owns a pure codec only. A future
+runtime `encode` action belongs to a host-owned, operator-invoked export/preparation
+surface, which admits the middleware implementation, binds input bytes and
+classification, and owns approval and output retention. It produces a local
+carrier candidate, without posting it. Reuse P047 export checks and P100 labels;
+later publication or sending uses the existing domain effect owner and P100 §14
+where that surface is covered. Section 14 currently names four surfaces and starts
+in observe-only mode: it is not a universal or already enforcing export gate.
+An uncovered publication surface needs an explicit owner/contract decision before
+activation. No runtime encode action is introduced by this design addition.
+
+Start with one complete small package per carrier and manually placed or synthetic
+copies. Fragmentation, erasure coding across sites, autonomous posting, replica
+repair scheduling, and a web-wide carrier search are separate future decisions.
+Bounded error correction within one carrier, if required by the selected channel
+model, is separate from fragmentation or erasure coding across replicas.
+Existing operator-admitted sources and bounded selectors locate the carrier; this
+profile grants no ambient crawling or publication authority.
 
 ## Contract Family
 
@@ -1310,6 +1452,200 @@ until a separate publication decision and signature succeed.
 17. Treat `unchanged` as successful freshness evidence only when the connector
     binds it to the current source generation and prior accepted checkpoint.
 
+### Optional linguistic codec: Python first, shared host boundaries
+
+A pure Python library is the preferred initial implementation candidate. Its pure
+boundary is:
+
+```text
+encode(package_bytes, profile, assets, encoder_choices, limits)
+    -> carrier_bytes | refusal
+decode(carrier_bytes, profile, assets, limits)
+    -> package_candidate_bytes | refusal
+```
+
+Every input affecting symbol/token mapping must be fully determined by the
+admitted profile, verified assets, or a bounded public carrier header parsed under
+that profile. This includes the exact prompt/context bytes, tokenizer, vocabulary,
+language, distribution parameters, numerical rules, padding, and end-of-message
+rules. A carrier header may supply only explicitly permitted bounded values; it
+cannot select code, assets, or a wider profile. Decoder-required context cannot
+reside only in the encoder's process, chat history, hidden key, or random state.
+`encoder_choices` contains only choices that do not change decoding, such as
+random selection among independently decodable variants. Any seed needed by the
+decoder is a public bound input, not an encoder-only choice. Missing or
+inconsistent inputs cause refusal. Freeze vectors for this dependency completeness.
+
+Both functions remain independent of I/O, identity stores, network access, model
+discovery, and publication. Decode emits bounded candidates or refusals, never a
+domain write. Start as an offline experiment; later expose it through a supervised
+[P080 `channel_json`](080-multiplexed-middleware-channel-executor.md) adapter.
+Do not revive P019's superseded per-module HTTP executor or create another runtime.
+Host preparation verifies and supplies immutable codec assets before invocation;
+the pure decoder performs no implicit file lookup or model loading.
+
+Reuse `CarrierExtractor`, the bounded candidate sink, extraction facts, staging,
+and the ordinary package verifier. Static web retrieval reuses the P084 bounded
+fetch seam, not a lossy observation summary. HTML selection, when needed, must
+precede codec decoding under one declared bounded profile; neither step follows
+links or executes page content. Avoid a second extractor registry or speculative
+crate hierarchy. Port a measured hot path to Rust only if resource measurements
+justify it; preserve the language-neutral contract and golden vectors.
+
+**Schema audit, 2026-11-16:** the closed
+[`artifact-extraction-profile.v1`](../../schemas/artifact-extraction-profile.v1.schema.json)
+already has `parser/id`, `implementation/digest`, `whole-text` selection,
+`candidate/framing: portable-package`, cardinality, byte and duration caps. It
+has no dedicated asset, context, transformation, ECC, token-step, or memory-budget
+fields. The smallest candidate binding is one inert
+[P085 package](085-operator-sovereign-extensibility-and-experiment-packages.md)
+whose immutable manifest covers the decoder, descriptor, and complete asset
+closure, with that identity bound by the admitted implementation. `P088-040` must
+verify what the implementation digest actually covers; a digest of code alone
+does not bind external weights or a mutable model name. Fixed transformations
+can be part of that immutable implementation contract. Independently selectable
+transformations/context or host-enforced limits not representable in V1 require
+an explicit versioned schema decision, Schema Gate fixtures, and mirrors; do not
+smuggle fields into closed V1 or assume V2 is necessary merely to name an asset.
+
+#### Separate channel protection from text mapping
+
+Use two explicit stages: package framing and optional channel protection
+(ECC, block boundaries, synchronization), followed by symbol-to-text mapping.
+Decoding reverses these stages before the ordinary package verifier. A no-ECC
+identity profile is valid for lossless/declared-normalization channels, but must
+claim no correction of inserted, deleted, or substituted words. A checksum detects
+some errors; it is not error correction. Any correction profile needs a bounded
+error model, recovery radius, unambiguous result, and independent vectors.
+
+Reuse the protection contract and vectors where the symbol alphabets and error
+models agree. Do not presume one ECC algorithm fits every family: a changed token
+can desynchronize an arithmetic decoder, so outer ECC alone may never receive
+recoverable symbols. Synchronization/blocking may require a mapping-specific
+binding. Compare both mapping cost and the full protected pipeline against armor;
+do not attribute gains from extra redundancy to the linguistic mapping itself.
+Introduce a shared implementation only after compatible concrete consumers exist,
+following the retrospective convergence rule rather than speculative abstraction.
+
+Evaluate the following families in order in `P088-041`, after the armored-text
+baseline. Stop when the simplest qualifying representation meets the goal:
+
+| Family | Implementation direction | Main qualification requirement |
+| :--- | :--- | :--- |
+| Word list | A public fixed dictionary maps symbol groups to words without a model | First candidate for the selected web-format suite; dictionary language, error profile, visible disclosure, and all framing overhead are explicit; speech/transcription benefits are outside this experiment |
+| Fixed grammar | Explicit grammatical choices encode symbols; a small Python decoder can operate without a model | Proceed only to test a named unmet requirement of the simpler comparators; prose quality alone is not a reason to continue |
+| Model-distribution codec | Conditional later candidate: keyless arithmetic mapping under a frozen model/tokenizer and complete public context | Recorded failure of all simpler applicable candidates is required before a separately authorized model experiment; then qualify numerical semantics, tokenization, cross-architecture decoding and costs |
+
+[BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) and
+[RFC 1751](https://www.rfc-editor.org/rfc/rfc1751.txt) are word-list precedents,
+not package formats to adopt unchanged. BIP-39 encodes 128–256 entropy bits into
+mnemonics; RFC 1751 represents 128-bit keys. Neither defines this artifact carrier
+or general error correction. With a 2048-word dictionary, an illustrative 280-byte
+payload needs at least `ceil(280 * 8 / 11) = 204` words before extra framing,
+padding, checksum, ECC, synchronization, or disclosure. This is a lower bound,
+not a measured fixture result; use actual final package bytes for acceptance.
+
+If the model-family escalation gate is met, the first algorithmic reference is
+[Neural Linguistic Steganography](https://aclanthology.org/D19-1115/), whose
+[repository](https://github.com/harvardnlp/NeuralSteganography) uses Python/PyTorch
+and Transformers. [Meteor](https://meteorfrom.space/) explicitly describes a
+symmetric-key system and links a GPT-2 Colab demo; the
+[iMEC paper](https://arxiv.org/html/2210.14889v4) also assumes a private-key
+stegosystem. They remain literature references, not candidates qualified by this
+first experiment. Publishing parameters or keys does not preserve their published
+security guarantees. iMEC's [README](https://github.com/schroederdewitt/perfectly-secure-steganography)
+distinguishes its public Python/NumPy implementation from the optimized C++ used
+for reported speeds; do not import those figures as prototype evidence.
+
+**Reuse-license check, 2026-11-16:** no explicit code-reuse grant was identified in
+the inspected repository roots and READMEs of NeuralSteganography and iMEC. Public
+availability or a paper citation is not authorization to vendor code. Prefer an
+independent implementation from the published algorithm, or obtain an explicit
+grant before copying. Review licenses of any chosen code, word list, dependencies,
+tokenizer and weights separately. The prototype must state whether decoding needs
+a model; model-based encoding does not imply a model-free decoder. Public
+extraction must not depend on an undisclosed shared secret.
+
+#### Portable decoding qualification
+
+Pinning a runtime is insufficient as a protocol definition. Specify probability
+quantization, cumulative intervals, precision, rounding, tie-breaking, vocabulary
+ordering and context bytes; provide a portable reference procedure and vectors.
+Require exact decoding in both directions across at least x86-64 and ARM64 before
+qualifying a model-based profile for integration. CPU decoding must be possible
+without one accelerator vendor; this test does not establish a practical budget
+for every SBC or phone. Record supported configurations and their costs. An
+unavailable second architecture leaves this qualification open, not waived.
+
+For every token sequence the encoder emits, require
+`tokenize(detokenize(tokens)) == tokens` under the frozen rules, or a separately
+specified unambiguous inverse proven on its admitted domain. Reject ambiguous
+sequences before emitting a carrier. Test tokenizer aliases and floating-point
+boundary cases explicitly. Cross-platform vectors are evidence, not a substitute
+for language- and hardware-independent semantics.
+
+Freeze byte encoding, Unicode handling, whitespace, punctuation, framing, and
+truncation rules before benchmarking. Only declared carrier transformations may
+be normalized; never normalize the recovered package or silently paraphrase it.
+Bound input bytes, tokens or grammar steps, output expansion, candidate count,
+CPU/wall time, memory, and temporary storage before work. A deterministic
+model-based decoder would require its own exact-codec qualification; it is not an
+exception allowing heuristic or free-form model interpretation into admission.
+
+### Optional linguistic-carrier acceptance
+
+The offline experiment and the integrated proof are distinct milestones:
+
+1. Freeze the parameters, ordered compositions, vectors and budgets of Decision
+   23's selected offline web-format suite before benchmarking. Compare armor,
+   then words, then grammar only as needed, on identical package bytes with the
+   same disclosure and protection budget rules. A qualifying profile must recover
+   the exact bytes for every required transform and composition within the frozen
+   budgets. Refusal is safe failure, not a successful recovery result. Record
+   "armor suffices", "word list suffices", a justified more complex profile, or
+   no-go. Simulation does not establish a real-platform availability benefit.
+2. Use synthetic, non-sensitive signed packages and neutral cover text. Golden
+   vectors recover byte-identical packages from text and an explicitly selected
+   static-HTML fixture. Record codec/assets/profile identity, expansion ratio,
+   final framed byte/word/token counts, recovery rate under named transformations,
+   latency, and memory. No live model or network is needed for the word-list or
+   fixed-grammar baseline. Test channel protection independently, then the complete
+   mapping/protection composition; identify which stage supplies each benefit.
+3. Negative vectors for paraphrase, translation and truncation of the framed
+   carrier must refuse; do not repair them with semantic inference or accept a
+   partial package. Include unsupported typography, wrong profile/assets,
+   malformed or missing declaration/end marker, ambiguous boundaries, budget
+   exhaustion, missing/altered context, hidden dependencies, conflicting headers,
+   over-radius corruption, and tokenizer ambiguity. On arbitrary input the safety
+   rule remains exact expected bytes or refusal. A decoder observes received bytes,
+   not editing history: it cannot promise to detect a transformation whose result
+   is indistinguishable from an allowed intact carrier. Keep that limit explicit;
+   do not add a model-based paraphrase classifier. The selected negative vectors
+   must actually damage or violate the declared frame/mapping. Require the
+   cross-architecture and tokenization vectors above only for model candidates.
+4. Verify the cover's P100 label and evidence basis independently of the recovered
+   artifact's original label and bytes. The visible word-based declaration,
+   profile identification, end marker and other required framing survive every
+   accepted transformation; include them in measured length and expansion. The
+   selector cannot follow a marker outside the admitted resource or activate the
+   advertised profile. Operator approval cannot turn the cover into human
+   testimony. No publication claim may rely on an observe-only influence gate
+   enforcing a refusal.
+5. In the integrated test, make the ordinary route unavailable and recover the
+   same artifact by operator paste or local-file acquisition. Reuse Criterion A's
+   revocation fixture and ordinary verifier/acceptor to demonstrate its effect.
+   This needs no public posting or Whisper publication runtime. If HTTP is tested,
+   require `P088-015` as well; a local HTML fixture alone is not HTTP evidence.
+6. Acquire the same artifact through two carriers and restart between staging and
+   admission: preserve distinct acquisition evidence and one domain effect. Test
+   stale/expired authority, conflicting or substituted bytes, private source
+   metadata, profile revocation, and missing decoder assets. Missing material
+   never triggers an implicit download or a relaxed verifier.
+7. Demonstrate no extractor I/O, source activation, publication, or retention
+   bypass. Report precisely which carrier edits and failures were exercised; a
+   codec round trip does not qualify the host pipeline, Whisper source counting,
+   public-network availability, or resistance to an active censor.
+
 ## Security Invariants
 
 - **INV-ACQ-SOURCE-IS-NOT-TRUST:** Locator, carrier, connector, and source label do
@@ -1367,6 +1703,10 @@ until a separate publication decision and signature succeed.
   during advice-driven retrieval.
 - **INV-ACQ-EXTRACTOR-DOES-NOT-FETCH:** Extraction is offline and cannot resolve
   links, external entities, scripts, styles, media, or nested remote resources.
+- **INV-ACQ-CODEC-EXACT-OR-REFUSE:** An admitted codec recovers exact package bytes
+  under its complete bound inputs or refuses; it never admits an approximation,
+  guesses missing context, or implicitly fetches assets. Candidate recovery does
+  not replace ordinary digest, signature, authority, or freshness verification.
 - **INV-ACQ-REMOTE-SELECTOR-ONLY-NARROWS:** Remote selector data can only narrow an
   already active local extraction profile and its budgets.
 - **INV-ACQ-CARRIER-IS-NOT-CANDIDATE:** Carrier and extracted package bytes have
@@ -1410,6 +1750,9 @@ until a separate publication decision and signature succeed.
   remain behind existing operator policy and strict budgets.
 - Reproducible extraction requires profile and implementation digests plus careful
   carrier retention or explicit loss of replayability.
+- Linguistic carriers expand small payloads and may be fragile under editing,
+  translation, or summarization. Neural codecs may add substantial decoding cost
+  and pinned assets; ordinary armored text may be preferable for most sources.
 
 ## Failure Modes and Mitigations
 
@@ -1439,11 +1782,33 @@ until a separate publication decision and signature succeed.
 | Successful `unchanged` does not refresh source | Stable data becomes stale despite healthy checks | Generation-bound unchanged evidence advances freshness only |
 | Crash occurs after anti-rollback advance but before effect | Newer work masks missing domain effect | Domain-owned transaction or recoverable journal with explicit reconciliation |
 | Unknown outcome is treated as success | Authority or data appears without proof | Closed terminal outcomes; `unknown` never promotes |
+| Linguistic carrier is edited or decoder assets drift | Decoding fails or produces different bytes | Pinned exact codec, declared transformation vectors, bounded decoding, ordinary digest/signature checks, and explicit refusal |
+| Several text replicas are treated as independent testimony | Artificial amplification of a rumor or opinion | Preserve inner artifact identity and domain idempotency; carrier multiplicity supplies availability evidence only |
+| Decoder relies on hidden context or unstable token/numerical behavior | Same carrier decodes differently across processes or hosts | Complete public inputs, canonical token inversion, specified numerical semantics, and cross-architecture vectors before qualification |
+| Synthetic cover is presented as a person's testimony | Misattribution and synthetic feedback into social evidence | Separate P100 cover label and visible disclosure; original artifact provenance remains unchanged |
 
 ## Open Questions
 
-No unresolved questions remain. All eight questions were resolved and the
-audit-dependent choices below were frozen by the Phase 0 seam audit.
+No unresolved baseline questions remain. All eight baseline questions were
+resolved and the audit-dependent choices below were frozen by the Phase 0 seam
+audit. The optional linguistic experiment's direction was selected on 2026-11-16:
+Decision 23's offline web-format suite, with visible synthetic framing and an
+armor → word-list → grammar comparison. Remaining questions are:
+
+- Which exact thresholds, character classes, Unicode/typographic mappings,
+  sanitization rules, composition orders and final-size/decoder budgets define
+  the reproducible suite? `P088-040` freezes them before benchmarking; this is
+  not an invitation to pick easier thresholds after observing results.
+- Does a word list add useful recovery over armor, and is anything more complex
+  needed? `P088-041` records the comparative evidence and stops at the simplest
+  qualifying profile, including "word list suffices" or no-go. Model work needs
+  the recorded simpler-family failures and separate authorization. Schema V2 is
+  required only for gaps the immutable implementation binding and existing host
+  policy cannot express honestly.
+
+Neither question reopens V1. Human transfer, translation recovery and content
+heuristics are outside this experiment. The future runtime encoding owner is
+fixed by Decision 23; its exact action/grant binding precedes activation.
 
 Resolved 2026-08-24:
 
@@ -1569,6 +1934,21 @@ those artifacts apply.
 | `P088-038` | Pass cross-profile extraction conformance and recovery | `P088-034`, `P088-035`, `P088-036`, `P088-037` | `todo` | Exact file, surrounding text, static HTML, and RFC 822/MIME recover byte-identical package candidates and stable receipts while retaining distinct extraction facts; parser/version substitution, profile revocation, crash points, cap exhaustion, surrounding-content leakage, ambiguous cardinality, and platform-independent golden vectors pass. |
 | `P088-039` | Integrate embedded location advice with extraction | `P088-028`, `P088-029`, `P088-030`, `P088-032`, `P088-035`, `P088-036` | `todo` | One INAC message carries several locations including a static-HTML embedded carrier; an already active local policy resolves the URI and profile digest, remote selector data only narrows the profile, carrier and candidate evidence remain separate, target inner digest is verified, one receipt is admitted through the ordinary pipeline, and unapproved profile, recursive advice, parser substitution, subresource access, or related-artifact substitution refuses. |
 
+### Optional linguistic-resilience subtracker
+
+These items are deferred post-V1 work. They are not children of `P088-024`,
+requirements of `P088-021`, or alpha blockers. The offline feasibility experiment
+can precede the unfinished host work; a positive experiment does not waive the
+listed integration prerequisites. A runtime-dependent codec also needs explicit
+authorization and a bounded experiment before any model execution.
+
+| ID | Work item | Depends on | Status | Done criteria / evidence |
+| :--- | :--- | :--- | :--- | :--- |
+| `P088-040` | Freeze the linguistic experiment contract and reuse boundaries | Decision 23; existing P088 contracts | `deferred` | Freeze exact parameters, ordered compositions and vectors for the selected offline web-format suite; fair armored-text and word-list comparators, recovery/benefit thresholds, final-size/expansion/decoder budgets and stop conditions. Bind a short-word synthetic declaration and complete surviving frame, public decoder inputs, protection/mapping contracts, P100 provenance and host export ownership. Record negative paraphrase/translation/truncation vectors and their observational limits. Complete the package-digest/schema and license audits. Model portability criteria apply only after simpler-family failure; nothing authorizes publication. All choices precede the benchmark; no baseline gate changes. |
+| `P088-041` | Qualify a pure Python codec experiment offline | `P088-040` | `deferred` | Execute deterministic local transformations and their frozen compositions on identical packages: armor first, then words, grammar only for a named unmet requirement. Recover exact bytes on every required case within budgets; refusal is safe failure, not utility success. Measure mapping and full protection composition, final size including disclosure/frame, and decoder cost. Preserve input/refusal/provenance/license evidence. Stop with armor/word-list sufficiency, a justified qualifying profile, or no-go. Model execution requires recorded failure of all simpler applicable candidates and separate authorization, followed by x86-64/ARM64 and token-inversion qualification. No publication, live-platform probe or host run. |
+| `P088-042` | Integrate a qualified codec through the existing extraction host | `P088-041`, `P088-032`, `P088-033`, `P088-035`; P080 supervised channel | `deferred` | One thin Python adapter uses the existing host/candidate sink, profile activation, immutable carrier and bounded preinstalled assets. Any required versioned schema, mirror, Schema Gate and refusal updates land together. Keep original artifact and cover provenance distinct. Substitution, missing context/assets, expansion, cancellation and restart refuse safely; no network, runtime encode/export action, publication or second registry is introduced. |
+| `P088-043` | Prove redundant-carrier recovery through ordinary admission | `P088-042`, `P088-009`, `P088-011`, `P088-013` | `deferred` | Optional linguistic-carrier acceptance passes through paste/file and the existing Criterion A domain path: ordinary route unavailable, exact signed bytes recovered, distinct carrier evidence, one effect after duplicate acquisition/restart, stale authority and malformed candidates refused. HTTP additionally requires `P088-015`. Evidence distinguishes offline feasibility, runtime integration and unproven censorship resilience. |
+
 ## Next Actions
 
 1. Implement `P088-007` through `P088-009` before adding a real filesystem or
@@ -1585,6 +1965,10 @@ those artifacts apply.
 6. Do not start Criterion B merely to make Criterion A pass.
 7. Promote a Solution only through `P088-021`; a connector demo or successful
    download alone is insufficient.
+8. Consider `P088-040` and `P088-041` only as a separately bounded optional
+   experiment. Keep `P088-042` and `P088-043` behind their existing host and
+   admission dependencies; do not delay the first useful acquisition slice or
+   alpha for linguistic carriers.
 
 ## Related Documents
 
@@ -1599,6 +1983,8 @@ those artifacts apply.
 - [Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
 - [Replay Scheduler](../60-solutions/020-scheduler/020-scheduler.md)
 - [Proposal 078: Weak Signal Harvester](078-weak-signal-harvester.md)
+- [Proposal 080: Multiplexed Middleware Channel Executor](080-multiplexed-middleware-channel-executor.md)
 - [Proposal 084: Sensorium Web Observation Connector](084-sensorium-web-observation-connector.md)
 - [Proposal 085: Operator-Sovereign Extensibility](085-operator-sovereign-extensibility-and-experiment-packages.md)
 - [Proposal 086: Component Communication Observation](086-component-communication-observation-and-trace-sessions.md)
+- [Proposal 100: Text Origin Labels and Propagation](100-text-origin-labels-and-propagation.md)
