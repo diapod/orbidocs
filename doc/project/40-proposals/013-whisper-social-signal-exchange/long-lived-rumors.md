@@ -561,6 +561,12 @@ must preserve the owner boundary. Model closure does not close LLR-011, qualify
 storage, or alter earlier LLR-008/012 evidence. Changes to the modeled contract
 require rechecking its proofs and the implementation correspondence.
 
+Stage-0 follow-up corrects audience-specific confirmation, permanent refusal
+classes and separates retained original verification from live evaluation.
+See [the pre-executor correction](author-disclosure-conditions.md#pre-executor-stage0)
+and `node:docs/audits/P013-ADC-STAGE0-2026-11-16.md`. Earlier qualified measurements
+remain dated historical results; ADC-005 execution remains open.
+
 ### LLR-011 owner contract freeze (2026-11-16)
 
 The component implements the five ADC controls through the existing private

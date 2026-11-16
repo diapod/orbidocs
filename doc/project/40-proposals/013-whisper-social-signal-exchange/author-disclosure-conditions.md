@@ -721,6 +721,33 @@ review, not a new authority dependency. If the pilot cannot establish a useful
 bounded method, record a scoped decision before changing this sequence; never
 silently waive a proof gate or expand it to the whole protocol.
 
+## Pre-executor stage-0 corrections (2026-11-16) {#pre-executor-stage0}
+
+Before ADC-005 enablement, correct the model/owner/AD prerequisites. The current
+model permits exact authoritative AD absence to restore unknown to committed
+strictly before handover expiry. Only the same accepted intent and execution
+identity may then be handed over. At/after expiry absence permits abandonment;
+unknown/unavailable never implies absence, and admission cannot be undone.
+Confirmations are stored per canonical audience and admitted only in confirm
+mode. Narrowing pre-authorized to confirm therefore requires fresh confirmation.
+Permanent withdrawn, occupied-slot and expired refusal codes have retry Never.
+Original retained registration verification is independent of live evaluation;
+a first withdrawal cannot require the current counter or AD service.
+
+AD reuses its existing exact input/first-plan bindings for the release schema,
+refusing changed bytes under the same component/idempotency key. Volatile history
+cannot establish absence; ADC enablement requires complete durable SQLite.
+Missing historical binding or incomplete recovery is unavailable, not permission
+for another execution. Deadline/admission/absence serialization remains an ADC-005
+integration gate, not a theorem about the pure model.
+
+Independent specification vectors cover recovery-table obligations and explicit
+state edges in addition to model/Rust equality. Model-only executor witnesses do
+not qualify the absent runtime executor. Historical ADC-011 and LLR-011 reports
+retain their exact bytes and original scope; see
+`node:docs/audits/P013-ADC-STAGE0-2026-11-16.md` for corrections and current tests.
+ADC-005 remains todo until real ADC-004, source custody and executor acceptance.
+
 ## Optional Confidential Affiliation Review {#confidential-affiliation-review}
 
 Proposed post-MVP addition (2026-11-04), independently tracked as P013-ADC-010.
@@ -807,6 +834,7 @@ an execution dependency of ADC-005 on LLR-009.
 | P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. Reuse one vocabulary-bound normalization/key function for authoring, notice creation and holder validation; display rendering never feeds the hash, and semantic-model suggestions never bypass author approval. |
 | P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
 | P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; P013-PEX-001 | Per-epoch counting with exact original-epoch exclusion and conservative N + 1 thereafter, with author-present and author-absent fixtures and UI effective-threshold explanation. `whisper-embargo-attestation.v1`, status freshness, publication receipt and counting at commit. Share bounded primitives between full-private and detached-public verifier paths; recipient verification never fetches protected text and explicitly trusts the admitted counter. Independently verifiable counts remain a separate open design. Reuse the contextual contribution evaluator with separate coordination/disclosure policies; qualify permutation/replay parity, duplicate sources and evidence-representative replacement without altering M4. |
+| P013-ADC-005-00 | Model, owner and AD prerequisite corrections | done | P013-ADC-011; P013-LLR-011 | Repair exact-absence recovery, audience confirmations, terminal refusal classes, independent retained-original verification and exact AD submission identity; independently specified expected outcomes, axiom audit, actual owner and AD concurrency/restart tests. See [stage-0 scope](#pre-executor-stage0). 80 audited model theorems, 40 vectors, 15636 comparisons including eight independent expected histories, 293 core/owner and 176 AD tests. Executor and full ADC-005 acceptance remain open. |
 | P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-ADC-011; P013-LLR-011; P070 | `whisper-embargo-confirmation.v1`, `whisper-embargo-release-intent.v1`, `whisper-release-commit.v1` and `whisper-embargo-release.v1`. Receipt binds pre-commit intent, not its own final envelope. Slot/logical release id binds original condition and canonical audience digests; Agora record/id remains content-addressed. Same room/two routes uses one slot; two consented rooms use two; unauthorized room refuses. Atomic count/consent/slot acceptance, both commit/withdrawal orders, pre-authorized withdrawal/expiry after attestation, per-request outcomes, exact-byte replay, lost reply and crash before AD hand-over; AD unknown never means absent. Abandonment leaves the slot consumed. Offline recipient package verifies without the protected signal; closure evidence follows Story 014. Use LLR-008's acceptance owner; P013-LLR-011 owns durable enablement of these control operations and the shared prepared-output recovery laws; no parallel embargo case database or AD retry loop. After the ADC-011 model gate, compare new Rust behavior against the pinned model and qualify actual owner/AD crash boundaries; model proof alone does not close this row. |
 | P013-ADC-006 | Context-join proposals | todo | P013-ADC-002; P013-DFR-004 | Content-free `whisper-context-join-proposal.v1` from correlators to candidate authors, only under `keyed-and-confirmed-joins`; acceptance authors a related signal in the target context; model output stays advisory. A fixture proves that no context merges without the candidate author's act. |
 | P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002; P015-005 | `whisper-correlation-notice.v1` is signed under an explicitly admitted publication tuple, content-free, expiring and discoverable through the term bucket. The editor warns about disclosure of the matter. Related signals point to the public notice record/id with a closed target kind; no hidden signal id is required or leaked. Tests refuse wrong kind/schema/topic/scope tuples and verify a notice-only reader can author a related signal. |
