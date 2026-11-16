@@ -654,6 +654,13 @@ is sequencing of verification work, not a dependency on completed Messaging
 delivery, UI or federation qualification. Existing LLR/PEX qualifications and
 the alpha scope remain unchanged.
 
+The bounded S027 pilot is now qualified; its
+[review and reuse findings](https://github.com/diapod/node/blob/master/docs/audits/S027-009-06-LEAN-PILOT-2026-11-16.md)
+provide induction, axiom-audit, witness, mutation and real-kernel comparison methods.
+P013-ADC-011 remains `todo`. Reuse mechanics only: Messaging requires current
+consent before each push; accepted Whisper disclosure commits have their own
+irreversibility law. No ADC-005/LLR-011 implementation begins here.
+
 ### Model and implementation boundary
 
 Reuse the existing `whisper-core::case` transitions and `ReleaseOrder` as

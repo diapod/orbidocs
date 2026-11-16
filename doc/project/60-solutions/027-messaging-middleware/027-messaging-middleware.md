@@ -711,7 +711,10 @@ in S027-009-01; missing legacy evidence cannot be synthesized as authority.
 
 ### Bounded Lean Pilot {#lean-delivery-pilot}
 
-**Accepted direction, 2026-11-16; proof and implementation evidence pending.**
+**Bounded pilot qualified, 2026-11-16; runtime qualification remains separate.**
+The [Node report](https://github.com/diapod/node/blob/master/docs/audits/S027-009-06-LEAN-PILOT-2026-11-16.md)
+records checked safety, 57,984 correspondence cases, 33 core tests and the exact
+source/tool pins. Owner authentication, storage, push and public readiness remain unverified.
 S027-009-06 first qualifies a small executable model of delivery recovery in
 Lean. P013 then applies the reviewed method to
 [ADC-005/LLR-011 release ordering](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#lean-release-model).
@@ -800,7 +803,8 @@ irreversibility contract. No shared proof may erase that difference.
 
 ### Implementation Tracker {#consent-loss-recovery-tracker}
 
-All rows are `todo`: design registration is not implementation or qualification.
+Rows S027-009-01–05 remain `todo`; the separately qualified pure pilot does not
+close their runtime gates. Design registration alone is not qualification.
 Dependencies below are closure prerequisites; contract/fixture work may overlap.
 The pure-kernel freeze required by S027-009-06 is a bounded part of S027-009-01,
 not a claim that the whole contract/runtime row is complete. S027-009-01–05
@@ -815,10 +819,10 @@ are evidence cases owned by S027-009-04, not a second implementation workstream.
 | S027-009-03 | Historical read and typed delivery outcome / INAC and AD | S027-009-02 | todo | Required ledger, peer/key/digest binding, bounded body-free reconciliation and authenticated deduplication support. Foreign/absent/mismatched lookups agree; AD preserves refusal/retry fields; local 404 creates zero new generations; failed outcome finalization cannot erase admission. Retain first actual WSS/INAC evidence. |
 | S027-009-04 | Explicit single/bulk recovery and UI / Messaging and Node UI | S027-009-03 | todo | One durable AD retry budget; distinct confirmed uncertain retry; no duplicate generation from concurrent tabs/bulk; current authority and consent before every push. UI shows stage/reason/observation/actions, keeps composer and owner/CSRF checks. Qualify [MSG-ONB-009/010](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md#recipient-consent-recovery-acceptance) on the same relationship/route; late failures cannot downgrade delivered. |
 | S027-009-05 | Retained qualification and convergence closeout / S027 owner | S027-009-04; S027-008; P076-036/037 regression | todo | Separate conformance, real host/browser and regression evidence; test retention/startup GC/capacity/tombstones, Memarium outage and restart/replay/reindex. Regress sovereign independent membership, delegated/mixed and strict Story-010; complete bounded local-proof zero-fetch and P076-037 policy tests. Pin clean sources/binaries, retain failures and qualify identically before/after extraction via `$PRIMARY_EVIDENCE_STORE`. Reconcile Node ledger/MVP, owner docs, schemas and registries; record convergence dispositions under `node:DEV-GUIDELINES.md`. |
-| S027-009-06 | Bounded Lean delivery-recovery pilot / Messaging core owner | S027-009-01 pure-kernel contract freeze only; existing Rust transition/fixture baseline | todo | Meet the [pilot gate](#lean-delivery-pilot): reviewed claim/assumption map, pinned checked proofs over reachable histories, positive witnesses and guard-mutation controls; bounded differential traces against the existing Rust core; source-bound report separating proof, correspondence tests and runtime obligations. Record reusable laws and intentional domain differences for P013-ADC-011. No full S027-009 runtime, browser or public-release qualification follows. |
+| S027-009-06 | Bounded Lean delivery-recovery pilot / Messaging core owner | S027-009-01 pure-kernel contract freeze only; existing Rust transition/fixture baseline | done | Meet the [pilot gate](#lean-delivery-pilot): reviewed claim/assumption map, pinned checked proofs over reachable histories, positive witnesses and guard-mutation controls; bounded differential traces against the existing Rust core; source-bound report separating proof, correspondence tests and runtime obligations. Record reusable laws and intentional domain differences for P013-ADC-011. No full S027-009 runtime, browser or public-release qualification follows. |
 
-The next action is S027-009-01, with its pure-kernel contract freeze enabling
-S027-009-06 without waiting for the remaining runtime integration. Runtime
+The next runtime action remains S027-009-01; the bounded pure-kernel pilot is
+qualified independently of that remaining integration. Runtime
 qualification uses synthetic federation and
 `a.localhost` / `b.localhost` browser sessions with explicit consent, without
 models or VMs. Correlate message ID, generations, both digests, AD ID, UI, outbox,
