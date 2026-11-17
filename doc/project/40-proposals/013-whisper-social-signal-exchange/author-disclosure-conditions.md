@@ -858,6 +858,31 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-001 protected source preparation checkpoint (2026-11-17)
+
+The existing Node authoring owner now accepts explicit private `case.disclosure`
+input on its ordinary operator preview. It checks the exact M_A use in both
+profile and certificate, canonical payload/Room descriptors/nonweak keys and the
+default settlement horizon before case-key exposure. The finite encrypted
+authoring checkpoint reserves independent random origin/payload/audience
+openings before preview exposure. Case preparation binds C_M into that same
+source preview without replacing its original source nonce/time.
+
+Explicit Sign prepares the entire signed M_A set and exact signed source in
+one checkpoint/fence before response. Replay retains bytes and openings; a
+partial signature failure produces no partial returned set. The public source
+readback contains neither M, payload/openings nor other audiences. An arbitrary
+caller-supplied C_M cannot substitute for complete source consent.
+
+This is source-owner implementation/component coverage, not a new qualification.
+The disclosed component certificate is synthetic; actual issuance/native custody
+and the full runtime remain separate gates. The finite source checkpoint is not
+a promised full case-horizon hold or proof of transfer to S026. Complete-consent
+handoff, source/payload/key holds, public owner publication, executor and all four
+runtime cells remain open; ADC-001/003/004/005 remain todo. See the
+[Node source contract](https://github.com/diapod/node/blob/master/daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md#protected-adc-source-preparation-2026-11-17).
+Historical qualification sources, bytes and scope are unchanged.
+
 ## ADC-001 exact public-consent retention checkpoint (2026-11-17)
 
 The existing Node original port now supplies the exact authenticated single-audience

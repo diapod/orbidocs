@@ -56,6 +56,39 @@
           "maxLength": 5462,
           "pattern": "^[A-Za-z0-9_-]+$",
           "description": "Exact canonical signed whisper-case-authority-policy.v1 bytes as unpadded base64url; material alone grants no P091 admission."
+        },
+        "disclosure": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Explicit private release input. The source owner supplies commitments, independent random openings, case binding and signatures; never included in ordinary source readback.",
+          "required": [
+            "condition",
+            "audiences",
+            "executors",
+            "custody",
+            "payload/bytes"
+          ],
+          "properties": {
+            "condition": {
+              "$ref": "whisper-embargo-original.v1.schema.json#/properties/condition"
+            },
+            "audiences": {
+              "$ref": "whisper-embargo-original.v1.schema.json#/properties/audiences"
+            },
+            "executors": {
+              "$ref": "whisper-embargo-original.v1.schema.json#/properties/executors"
+            },
+            "custody": {
+              "$ref": "whisper-embargo-original.v1.schema.json#/properties/custody"
+            },
+            "payload/bytes": {
+              "type": "string",
+              "maxLength": 87382,
+              "pattern": "^[A-Za-z0-9_-]*$",
+              "writeOnly": true,
+              "description": "Exact release payload encoded as canonical unpadded base64url; the enclosing request and final carrier budgets also apply."
+            }
+          }
         }
       },
       "required": [

@@ -480,7 +480,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nse-middleware-evidence.v1.schema.json`](schemas-gen/schemas/nse-middleware-evidence.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
 | [`nse-policy-table.v1.schema.json`](schemas-gen/schemas/nse-policy-table.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `1` |
 | [`nse-select-turn-order-table.v1.schema.json`](schemas-gen/schemas/nse-select-turn-order-table.v1.md) | `7` | `1` | `yes` | `yes` | `1` | `1` |
-| [`nym-authorship-preview.local.v1.schema.json`](schemas-gen/schemas/nym-authorship-preview.local.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
+| [`nym-authorship-preview.local.v1.schema.json`](schemas-gen/schemas/nym-authorship-preview.local.v1.md) | `6` | `0` | `yes` | `yes` | `2` | `2` |
 | [`nym-authorship-preview.local.v2.schema.json`](schemas-gen/schemas/nym-authorship-preview.local.v2.md) | `8` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-authorship-proof.v1.schema.json`](schemas-gen/schemas/nym-authorship-proof.v1.md) | `9` | `5` | `yes` | `yes` | `0` | `0` |
 | [`nym-authorship-readback-request.local.v1.schema.json`](schemas-gen/schemas/nym-authorship-readback-request.local.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
@@ -2113,5 +2113,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `946`
 - Generated schema docs: `947`
-- Positive examples: `854`
-- Negative examples: `852`
+- Positive examples: `855`
+- Negative examples: `853`

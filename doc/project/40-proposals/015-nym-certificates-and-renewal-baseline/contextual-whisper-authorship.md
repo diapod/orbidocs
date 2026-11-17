@@ -100,6 +100,14 @@ fixture and does not qualify the operator ceremony/native custody. This is a
 source-client prerequisite, not complete all-or-none M/M_A authoring or release
 execution. P015-005-ADC and ADC-005 remain todo and historical scope is unchanged.
 
+The ordinary protected authoring preview additionally consumes that granted M_A
+tuple for explicit private ADC source consent. It freezes independent openings
+before review, binds C_M into the same source and persists all signed M_A with
+the signed source before response. This remains source-owner component coverage:
+complete-consent transfer to S026, native issuance/custody and full ADC execution
+are unqualified. It does not close P015-005-ADC; see the
+[source contract](https://github.com/diapod/node/blob/master/daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md#protected-adc-source-preparation-2026-11-17).
+
 ## Decisions
 
 ### Source profile and ordering
