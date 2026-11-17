@@ -757,3 +757,15 @@ new key authority or release permission is introduced. Source and target keep
 separate fences and finite lifecycles. Native key-horizon holds, egress and full
 runtime qualification remain open in P013 ADC-001/003/004/005. The hard-MVP status
 above and all historical qualifications keep their existing scope.
+
+### ADC author-control signing component (2026-11-18)
+
+The existing finite case continuity owner now signs amendment, withdrawal and
+confirmation through the closed `PreparedAdcAuthorRequest`. It admits no raw
+preimage or executor operation, and requires the exact bound original anchor,
+owned key and case horizon before its fenced signing fact. Current case consent
+and ordering remain with S028; source certificate renewal and counting do not
+participate. This service component does not qualify a new host route, a hold on
+the authority's key or any ADC-005 runtime cell. Existing qualification remains
+unchanged. See `node:case-key-service/README.md` and the
+[ADC continuation](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#adc-execution-continuation).

@@ -951,6 +951,18 @@ source/key/payload holds and runtime egress, public count/commit statement, AD
 closure, executor/cold receiver and all four runtime cells remain open. ADC-004
 and ADC-005 stay todo; historical evidence and readiness are unchanged.
 
+## ADC author continuity signing component (2026-11-18)
+
+Implementation component; ADC-005 remains todo. S026's existing case-key owner
+now accepts only a closed prepared author amendment, withdrawal or confirmation.
+It checks the bound author-byte anchor, actual case public key, original horizon,
+clock, erasure and fence before returning a signature, independently of a live
+source certificate or count. Release-commit and abandonment remain executor
+operations. The ordered case owner still determines effective consent and accepts
+or refuses the control. No host route, authority-key hold, release execution,
+runtime cell or historical qualification is established by this component.
+See `node:case-key-service/README.md` for tests and convergence boundaries.
+
 ## ADC explicit source transfer component (2026-11-18)
 
 The existing operator case workflow adds `retain-adc-consent` with only adopted
