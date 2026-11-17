@@ -1496,6 +1496,12 @@ relationship is neither proof of a trap nor grounds for discrediting a
 whistleblower. This post-MVP profile does not change source counting or block
 the existing disclosure path.
 
+Verification work proceeds from the [S027-009-06 Lean pilot](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#lean-delivery-pilot)
+to [P013-ADC-011](013-whisper-social-signal-exchange/author-disclosure-conditions.md#lean-release-model),
+then new ADC-005/LLR-011 Rust behavior. The model gate covers release ordering,
+consent and recovery; implementation correspondence and runtime qualification
+remain separate. Existing LLR qualifications and the alpha scope are unchanged.
+
 <!-- Compatibility anchors for the former inline section and its subheadings. -->
 <a id="author-disclosure-conditions-2026-10-27"></a>
 <a id="summary_1"></a>

@@ -1,0 +1,13 @@
+{
+  "schema": "whisper-case-adc-request.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "request/id": "c010bb08-54dd-4ddb-8888-003451227631",
+  "condition/original": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "command": {
+    "operation": "withdrawal"
+  },
+  "signer": "z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+  "issued-at": "2026-11-04T12:00:00Z",
+  "not-after": "2026-11-04T12:00:00Z",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
