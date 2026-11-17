@@ -1,0 +1,10 @@
+{
+  "schema": "whisper-release-execution.v1",
+  "submission": {
+    "component": "adc-executor",
+    "idempotency/key": "release:fixture-A"
+  },
+  "route": "route:private-A",
+  "plan/digest": "sha256:IRBIMnEqGxjSog9oPvgCaX5BVQ-0-BQJXLGYRJH-Il0",
+  "execution/nonce": "BAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQ"
+}

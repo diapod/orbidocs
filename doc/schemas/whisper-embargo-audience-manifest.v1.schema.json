@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-embargo-audience-manifest:v1",
+  "title": "whisper-embargo-audience-manifest.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile/digest",
+    "certificate/digest",
+    "context/digest",
+    "epoch",
+    "nym/id",
+    "case/continuity-key-digest",
+    "case/status-authority",
+    "case/not-after",
+    "condition/original",
+    "payload/commitment",
+    "condition",
+    "audience",
+    "executors",
+    "manifest/nonce",
+    "publication/context",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-embargo-audience-manifest.v1"
+    },
+    "profile/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "certificate/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "context/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "nym/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "case/continuity-key-digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "case/status-authority": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "case/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "condition/original": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "payload/commitment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "others",
+        "window_end",
+        "release_end",
+        "mode"
+      ],
+      "properties": {
+        "others": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "window_end": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "release_end": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "mode": {
+          "enum": [
+            "confirm",
+            "preauthorized"
+          ]
+        }
+      }
+    },
+    "audience": {
+      "$ref": "room-release-audience.v1.schema.json"
+    },
+    "executors": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 48,
+        "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+      }
+    },
+    "manifest/nonce": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "publication/context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record/kind",
+        "content/schema",
+        "topic/key",
+        "disclosure/scope",
+        "signing/use"
+      ],
+      "properties": {
+        "record/kind": {
+          "const": "whisper-release"
+        },
+        "content/schema": {
+          "const": "whisper-embargo-audience-manifest.v1"
+        },
+        "topic/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "disclosure/scope": {
+          "const": "single-audience"
+        },
+        "signing/use": {
+          "const": "embargo-audience-manifest"
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 86,
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  }
+}

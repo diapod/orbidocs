@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-release-execution:v1",
+  "title": "whisper-release-execution.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "execution/nonce",
+    "submission",
+    "route",
+    "plan/digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-release-execution.v1"
+    },
+    "execution/nonce": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "submission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component",
+        "idempotency/key"
+      ],
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "idempotency/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "route": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "plan/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    }
+  }
+}

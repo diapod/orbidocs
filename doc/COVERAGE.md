@@ -760,6 +760,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`room-relay-endpoint.v1.schema.json`](schemas-gen/schemas/room-relay-endpoint.v1.md) | `14` | `0` | `yes` | `yes` | `2` | `1` |
 | [`room-relay-sealed-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-sealed-delivery.v1.md) | `15` | `0` | `yes` | `yes` | `1` | `0` |
 | [`room-relay-sender-key-distribution.v1.schema.json`](schemas-gen/schemas/room-relay-sender-key-distribution.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `0` |
+| [`room-release-audience.v1.schema.json`](schemas-gen/schemas/room-release-audience.v1.md) | `3` | `0` | `no` | `yes` | `0` | `1` |
 | [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | `17` | `1` | `yes` | `yes` | `1` | `0` |
 | [`scheduled-module-job-request.v1.schema.json`](schemas-gen/schemas/scheduled-module-job-request.v1.md) | `8` | `1` | `no` | `yes` | `1` | `1` |
@@ -938,7 +939,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) | `0` | `0` | `no` | `yes` | `6` | `2` |
 | [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `4` | `2` |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
+| [`whisper-embargo-audience-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-audience-manifest.v1.md) | `17` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) | `11` | `0` | `no` | `yes` | `0` | `0` |
+| [`whisper-embargo-original.v1.schema.json`](schemas-gen/schemas/whisper-embargo-original.v1.md) | `15` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
 | [`whisper-origin-lineage.v1.schema.json`](schemas-gen/schemas/whisper-origin-lineage.v1.md) | `2` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-origin.v1.schema.json`](schemas-gen/schemas/whisper-origin.v1.md) | `4` | `1` | `no` | `yes` | `0` | `0` |
@@ -947,6 +950,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-private-exchange-header.v2.schema.json`](schemas-gen/schemas/whisper-private-exchange-header.v2.md) | `10` | `0` | `no` | `yes` | `1` | `2` |
 | [`whisper-redaction-prepare-request.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-request.v1.md) | `9` | `6` | `yes` | `yes` | `1` | `0` |
 | [`whisper-redaction-prepare-response.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-response.v1.md) | `11` | `1` | `yes` | `yes` | `1` | `1` |
+| [`whisper-release-execution.v1.schema.json`](schemas-gen/schemas/whisper-release-execution.v1.md) | `5` | `0` | `no` | `yes` | `0` | `1` |
+| [`whisper-release-intent.v1.schema.json`](schemas-gen/schemas/whisper-release-intent.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-reviewed-publication-check.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-check.local.v1.md) | `1` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-reviewed-publication-result.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-result.local.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-signal-draft.local.v1.schema.json`](schemas-gen/schemas/whisper-signal-draft.local.v1.md) | `19` | `18` | `yes` | `yes` | `0` | `0` |
@@ -1703,6 +1708,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`room-relay-endpoint.v1.schema.json`](schemas-gen/schemas/room-relay-endpoint.v1.md) |  |  |
 | [`room-relay-sealed-delivery.v1.schema.json`](schemas-gen/schemas/room-relay-sealed-delivery.v1.md) |  |  |
 | [`room-relay-sender-key-distribution.v1.schema.json`](schemas-gen/schemas/room-relay-sender-key-distribution.v1.md) |  |  |
+| [`room-release-audience.v1.schema.json`](schemas-gen/schemas/room-release-audience.v1.md) |  |  |
 | [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) |  |  |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md) |
 | [`scheduled-module-job-request.v1.schema.json`](schemas-gen/schemas/scheduled-module-job-request.v1.md) |  |  |
@@ -1881,7 +1887,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) |  |  |
 | [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) |  |  |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) |  |  |
+| [`whisper-embargo-audience-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-audience-manifest.v1.md) |  |  |
 | [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) |  |  |
+| [`whisper-embargo-original.v1.schema.json`](schemas-gen/schemas/whisper-embargo-original.v1.md) |  |  |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
 | [`whisper-origin-lineage.v1.schema.json`](schemas-gen/schemas/whisper-origin-lineage.v1.md) |  |  |
 | [`whisper-origin.v1.schema.json`](schemas-gen/schemas/whisper-origin.v1.md) |  |  |
@@ -1890,6 +1898,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-private-exchange-header.v2.schema.json`](schemas-gen/schemas/whisper-private-exchange-header.v2.md) |  |  |
 | [`whisper-redaction-prepare-request.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-request.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
 | [`whisper-redaction-prepare-response.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-response.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
+| [`whisper-release-execution.v1.schema.json`](schemas-gen/schemas/whisper-release-execution.v1.md) |  |  |
+| [`whisper-release-intent.v1.schema.json`](schemas-gen/schemas/whisper-release-intent.v1.md) |  |  |
 | [`whisper-reviewed-publication-check.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-check.local.v1.md) |  |  |
 | [`whisper-reviewed-publication-result.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-result.local.v1.md) |  |  |
 | [`whisper-signal-draft.local.v1.schema.json`](schemas-gen/schemas/whisper-signal-draft.local.v1.md) |  |  |
@@ -2095,7 +2105,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
-- Canonical schemas: `938`
-- Generated schema docs: `939`
-- Positive examples: `843`
-- Negative examples: `838`
+- Canonical schemas: `943`
+- Generated schema docs: `944`
+- Positive examples: `848`
+- Negative examples: `843`

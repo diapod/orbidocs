@@ -1,0 +1,36 @@
+{
+  "schema": "whisper-embargo-original.v1",
+  "profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "certificate/digest": "sha256:A9Zt0Ig1wco_EozOrNHzGslBYwlrIPRFroQoW8CDLXI",
+  "context/digest": "sha256:6neSom9AXirpxvScqTu-YHbOrAofxT2DQmx9fy2Td-Q",
+  "epoch": 1,
+  "nym/id": "nym:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "case/continuity-key-digest": "sha256:Ctw2BXzvefinuKhiu5-rjL3BOChJjGNsTZLXYf1iGg8",
+  "case/status-authority": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "case/not-after": "2030-01-01T00:00:00.000000000Z",
+  "payload/commitment": "sha256:emBiOJHVsFjetP6FrMBUeseUuw7EsDZtVU2byaXYfSU",
+  "condition": {
+    "others": 2,
+    "window_end": 1800000000,
+    "release_end": 1800000100,
+    "mode": "confirm"
+  },
+  "audiences": [
+    {
+      "schema": "room-release-audience.v1",
+      "room/id": "room:adc-A",
+      "history/policy-digest": "sha256:uXoQ3VpJVCJ1jNB9dqUy10Q0ksvp8HXMqQmHsTAmhl0"
+    }
+  ],
+  "executors": [
+    "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW"
+  ],
+  "custody": {
+    "mode": "withheld",
+    "holder/keys": [
+      "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW"
+    ]
+  },
+  "original/nonce": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+  "additional/authority": true
+}

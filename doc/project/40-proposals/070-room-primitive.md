@@ -2043,6 +2043,13 @@ room identity and consented history-access policy revision; its identity exclude
 transport routes. The same room reached through two routes consumes one release
 slot, whereas two rooms require separately consented descriptors and slots.
 
+The consent descriptor is `room-release-audience.v1`, implemented as
+`room-core::ReleaseAudience`: `room/id` plus `history/policy-digest`, the digest
+of the exact consented history-policy revision. It carries no transport route,
+local revision counter or membership grant. The release consumer must separately
+verify the actual policy and current access. Shared descriptor/schema component
+tests do not qualify that still-planned runtime consumer.
+
 Before accepting the release, verify the detached author manifest/admission
 package, payload, release-intent digest and authority commit receipt. No protected
 correlation text is fetched. Room membership does not authorize a broader release.

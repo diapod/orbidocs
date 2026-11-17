@@ -1,0 +1,5 @@
+{
+  "schema": "room-release-audience.v1",
+  "room/id": "room:adc-A",
+  "history/policy-digest": "sha256:uXoQ3VpJVCJ1jNB9dqUy10Q0ksvp8HXMqQmHsTAmhl0"
+}

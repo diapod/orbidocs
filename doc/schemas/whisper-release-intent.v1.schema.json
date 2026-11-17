@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-release-intent:v1",
+  "title": "whisper-release-intent.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "release/id",
+    "condition/original",
+    "manifest/digest",
+    "payload/commitment",
+    "audience",
+    "executor",
+    "handover/by",
+    "public/envelope",
+    "proof/package-digest",
+    "execution/commitment"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-release-intent.v1"
+    },
+    "release/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "condition/original": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "manifest/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "payload/commitment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "audience": {
+      "$ref": "room-release-audience.v1.schema.json"
+    },
+    "executor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 48,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "handover/by": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "public/envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record/kind",
+        "content/schema",
+        "authored/at"
+      ],
+      "properties": {
+        "record/kind": {
+          "const": "whisper-release"
+        },
+        "content/schema": {
+          "const": "whisper-embargo-release.v1"
+        },
+        "authored/at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 30
+        }
+      }
+    },
+    "proof/package-digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "execution/commitment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    }
+  }
+}

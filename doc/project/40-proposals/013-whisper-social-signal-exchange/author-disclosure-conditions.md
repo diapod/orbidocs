@@ -858,6 +858,40 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-001/005 private/public contract development checkpoint (2026-11-17)
+
+The new `whisper-embargo-original.v1` contains private M; the separate signed
+`whisper-embargo-audience-manifest.v1` carries one M_A. These do not change the
+qualified P035/LLR `whisper-embargo-manifest.v1` contract or signing preimage.
+Closed `whisper-release-execution.v1` and `whisper-release-intent.v1` separate
+private execution identity/route/plan from public release evidence. P070 owns
+`room-release-audience.v1`: room identity plus an exact history-policy digest,
+without routes. The nested consumers share its schema and Rust descriptor.
+
+Domain-separated commitments bind private origin, exact payload and execution
+using independent 256-bit openings; public intent has no unsalted private proof
+alias. M_A has its own nonce and signature domain. Complete registration checks
+require every consented audience exactly once, exact common/header/condition
+bindings, actual signatures and P015 scope. Current revocations, original-anchor
+verification, protected preparation and durable registration remain separate.
+The wrappers do not make those missing facts true by parsing.
+
+A new exact auxiliary use must occur in both profile and certificate:
+`(whisper-release, whisper-embargo-audience-manifest.v1, exact topic/key,
+single-audience, embargo-audience-manifest)`. No default gains that tuple. The
+actual authoring function checks current signing window, fresh status, revocations
+and signer before signing, then verifies the returned signature. Old manifest
+and publication grants cannot substitute. P015-005-ADC retains the real issuer
+composition and qualification gate; the whole P015-005 is not closed here.
+
+Canonical schemas/mirrors and refusal fixtures cover private-field injection,
+unknown routes, scope, signature/domain, nonce, bijection and identity bindings.
+See `node:whisper-core/DISCLOSURE.md` for exact preimages, caps and reproduction.
+This component does not replace the current owner's private prototype intent,
+install a real ADC-004 evaluator, freeze an atomic S026 output, or qualify public
+commit attestation, custody, AD closure, executor/cold receiver or any runtime
+matrix cell. ADC-001/004/005 remain todo; historical evidence is unchanged.
+
 ## ADC-004/005 real relay barrier development checkpoint (2026-11-17)
 
 The file-backed SQLite relay provides explicit host source adoption, a durable

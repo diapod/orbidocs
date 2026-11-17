@@ -172,7 +172,8 @@
           "signing/use": {
             "enum": [
               "publication",
-              "embargo-manifest"
+              "embargo-manifest",
+              "embargo-audience-manifest"
             ]
           }
         }

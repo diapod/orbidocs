@@ -1,0 +1,21 @@
+{
+  "schema": "whisper-release-intent.v1",
+  "release/id": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w",
+  "condition/original": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+  "manifest/digest": "sha256:TixhSb5Tas7yg75a_A-CkQAbKGfv8TBKgp977pzd2q8",
+  "payload/commitment": "sha256:emBiOJHVsFjetP6FrMBUeseUuw7EsDZtVU2byaXYfSU",
+  "audience": {
+    "schema": "room-release-audience.v1",
+    "room/id": "room:adc-A",
+    "history/policy-digest": "sha256:uXoQ3VpJVCJ1jNB9dqUy10Q0ksvp8HXMqQmHsTAmhl0"
+  },
+  "executor": "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "handover/by": 1800000050,
+  "public/envelope": {
+    "record/kind": "whisper-release",
+    "content/schema": "whisper-embargo-release.v1",
+    "authored/at": "2026-11-17T12:00:00.000000000Z"
+  },
+  "proof/package-digest": "sha256:0NF0NNPRMACvdoZzD_s4_No689p_93VK1xgJbka1jE0",
+  "execution/commitment": "sha256:Cmf6ObqsUAXcvQsbJQFzM-MfuMvu8OuN5fedaC2qUHs"
+}

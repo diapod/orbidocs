@@ -183,6 +183,11 @@ SCHEMA_WHITELIST = (
     "agora-admission-readback.v3.schema.json",
     "agora-admission-write-result.local.v1.schema.json",
     "whisper-embargo-manifest.v1.schema.json",
+    "room-release-audience.v1.schema.json",
+    "whisper-embargo-original.v1.schema.json",
+    "whisper-embargo-audience-manifest.v1.schema.json",
+    "whisper-release-execution.v1.schema.json",
+    "whisper-release-intent.v1.schema.json",
     "whisper-source-certificate.v2.schema.json",
     "whisper-source-profile.v2.schema.json",
     "witness-key-delegation.v1.schema.json",
@@ -873,6 +878,11 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "room-release-audience.v1.json",
+    "whisper-embargo-original.v1.json",
+    "whisper-embargo-audience-manifest.v1.json",
+    "whisper-release-execution.v1.json",
+    "whisper-release-intent.v1.json",
     'evaluation-stale.whisper-case-workflow-result.local.v1.json',
     'evaluation-stale-exhausted.whisper-case-workflow-result.local.v1.json',
     'evaluation-stale.whisper-case-workflow-result.local.v2.json',
@@ -1576,6 +1586,11 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "private-origin-in-audience.whisper-embargo-audience-manifest.v1.json",
+    "private-count-in-intent.whisper-release-intent.v1.json",
+    "route-in-audience.room-release-audience.v1.json",
+    "missing-plan.whisper-release-execution.v1.json",
+    "wide-origin.whisper-embargo-original.v1.json",
     'evaluation-stale.whisper-case-result.v1.json',
     'evaluation-stale-exhausted.whisper-case-result.v1.json',
 

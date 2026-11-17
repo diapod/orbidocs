@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-release-audience:v1",
+  "title": "room-release-audience.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "room/id",
+    "history/policy-digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "room-release-audience.v1"
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^room:[A-Za-z0-9._:=-]+$"
+    },
+    "history/policy-digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    }
+  }
+}

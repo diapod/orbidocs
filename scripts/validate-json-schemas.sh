@@ -29,6 +29,16 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.room-release-audience.v1.json) echo "$SCHEMAS_DIR/room-release-audience.v1.schema.json" ;;
+    */room-release-audience.v1.json) echo "$SCHEMAS_DIR/room-release-audience.v1.schema.json" ;;
+    *.whisper-embargo-original.v1.json) echo "$SCHEMAS_DIR/whisper-embargo-original.v1.schema.json" ;;
+    */whisper-embargo-original.v1.json) echo "$SCHEMAS_DIR/whisper-embargo-original.v1.schema.json" ;;
+    *.whisper-embargo-audience-manifest.v1.json) echo "$SCHEMAS_DIR/whisper-embargo-audience-manifest.v1.schema.json" ;;
+    */whisper-embargo-audience-manifest.v1.json) echo "$SCHEMAS_DIR/whisper-embargo-audience-manifest.v1.schema.json" ;;
+    *.whisper-release-execution.v1.json) echo "$SCHEMAS_DIR/whisper-release-execution.v1.schema.json" ;;
+    */whisper-release-execution.v1.json) echo "$SCHEMAS_DIR/whisper-release-execution.v1.schema.json" ;;
+    *.whisper-release-intent.v1.json) echo "$SCHEMAS_DIR/whisper-release-intent.v1.schema.json" ;;
+    */whisper-release-intent.v1.json) echo "$SCHEMAS_DIR/whisper-release-intent.v1.schema.json" ;;
     *.memarium-admission-custody-request.local.v1.json) echo "$SCHEMAS_DIR/memarium-admission-custody-request.local.v1.schema.json" ;;
     *.memarium-admission-custody-request.local.v2.json) echo "$SCHEMAS_DIR/memarium-admission-custody-request.local.v2.schema.json" ;;
     *.memarium-admission-custody-export.v2.json) echo "$SCHEMAS_DIR/memarium-admission-custody-export.v2.schema.json" ;;
@@ -1974,6 +1984,10 @@ validate_with_ajv() {
   data_file=$2
 
   case "$schema_file" in
+    *whisper-embargo-original.v1.schema.json|*whisper-embargo-audience-manifest.v1.schema.json|*whisper-release-intent.v1.schema.json)
+      ajv validate --spec=draft2020 --strict=false -s "$schema_file" \
+        -r "$SCHEMAS_DIR/room-release-audience.v1.schema.json" -d "$data_file" >/dev/null
+      ;;
     *membership-admission-policy.v1.schema.json)
       ajv validate \
         --spec=draft2020 \
