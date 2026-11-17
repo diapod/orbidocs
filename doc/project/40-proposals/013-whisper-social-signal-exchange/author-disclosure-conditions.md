@@ -858,6 +858,24 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC source-owner consent retention checkpoint (2026-11-17)
+
+The existing S026 AuthorWorkflow now retains complete M/M_A consent in one
+bounded, purpose-separated encrypted blob and one fenced owner update. The
+operation checks the actual source signature/certificate/scope, original binding,
+case authority/horizon and complete audience bijection. Exact retry preserves
+first bytes and original time; historical read grants no current release right.
+Blob references survive actual PEX registration preparation and short requester
+expiry. Wrong scope/gate, changed consent, failed writes and missing material
+refuse without substituting a new set. No source body or public hold receipt is
+introduced. See `node:whisper-case-service/ADC.md` for the component contract.
+
+These are development component checks, not a new retained campaign. Actual
+vault/operational leases, protected source/payload holds, atomic source signing,
+runtime egress composition, real P015 issuance, ADC-004 count/public statement,
+AD closure, executor and all four runtime cells remain open. ADC-001/003/004/005
+stay todo; no historical qualification or public readiness is renewed.
+
 ## ADC-001/005 private/public contract development checkpoint (2026-11-17)
 
 The new `whisper-embargo-original.v1` contains private M; the separate signed
