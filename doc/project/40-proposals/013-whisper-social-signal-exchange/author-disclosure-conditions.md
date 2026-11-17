@@ -858,6 +858,33 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-004/005 real relay barrier development checkpoint (2026-11-17)
+
+The file-backed SQLite relay provides explicit host source adoption, a durable
+private inventory pin and an RAII IMMEDIATE writer barrier. The pin binds the
+adopted instance/installation, actual file, scope revision and status digest.
+It shares the complete inventory and existing revision check; it grants neither
+count authority, inventory completeness nor a renewed signed status lease.
+The one acquisition budget (at most 250 ms) covers mutex and SQLite waiting,
+with current-pin checks afterwards. The composing case owner samples its final
+time only after acquisition and retains the token through commit/fence.
+
+Relay schema 7 preserves one installation identity and refuses missing/corrupt
+metadata rather than reminting it. Verified reopen requires fresh explicit host
+adoption; unchanged files can retain their pin. Copy/restore or maintenance by
+file/directory replacement requires readmission. This local mechanism assumes
+cooperating maintenance, not protection from privileged in-place full DB rollback.
+It fences the local index for both Agora carriers, not the Synapse homeserver.
+
+Development signed-source tests pass 69 contextual SQLite cases, with one
+controlled child helper ignored by the ordinary runner; external writers, WAL
+readers, timeout/cleanup, replacement, restart and process death are covered.
+Relay migration/descriptor suites and all-target Clippy pass. Owner ADC fixtures
+still use a synthetic evaluator. Actual ADC-004 count/original composition,
+M/M_A, custody, public proofs, AD atomic closure, executor and all four runtime
+cells remain open. ADC-004/005 stay todo. No formal campaign, model/VM or new
+runtime qualification was performed; historical evidence is unchanged.
+
 ## ADC-005 source-barrier and stale-recovery development checkpoint (2026-11-17)
 
 The case owner now separates publication predicates from acquisition of an
