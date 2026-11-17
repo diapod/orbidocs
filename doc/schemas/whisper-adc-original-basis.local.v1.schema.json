@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-adc-original-basis:local:v1",
+  "title": "whisper-adc-original-basis.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "description": "Private immutable registration binding to an already verified P035 original and its complete M_A set. No source inventory, custody hold, current count or release authorization is established by this descriptor. Never the public recipient proof.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "anchor/inputs",
+    "condition/original",
+    "admission/evidence",
+    "audience/manifests"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-adc-original-basis.local.v1"
+    },
+    "anchor/inputs": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "condition/original": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "admission/evidence": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "audience/manifests": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50,
+        "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      }
+    }
+  }
+}

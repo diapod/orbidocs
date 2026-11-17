@@ -1,0 +1,9 @@
+{
+  "schema": "whisper-adc-original-basis.local.v1",
+  "anchor/inputs": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "condition/original": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBA",
+  "admission/evidence": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCA",
+  "audience/manifests": [
+    "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA"
+  ]
+}

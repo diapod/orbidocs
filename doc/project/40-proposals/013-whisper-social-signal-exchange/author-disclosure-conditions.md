@@ -919,6 +919,26 @@ M/M_A, custody, public proofs, AD atomic closure, executor and all four runtime
 cells remain open. ADC-004/005 stay todo. No formal campaign, model/VM or new
 runtime qualification was performed; historical evidence is unchanged.
 
+## ADC-001/005 actual original-port checkpoint (2026-11-17)
+
+The Node `AdmittedAdcOriginal` now verifies the actual proven P035 registration
+observation, M/M_A bijection and exact original source certificate before
+freezing the existing ordered-owner basis. Canonical audience descriptors derive
+route-independent release IDs. The bounded private
+`whisper-adc-original-basis.local.v1` descriptor binds the exact admission/original
+and complete manifest set through Schema Gate; it is neither a custody hold nor
+the public recipient proof.
+
+Actual full/detached owner fixtures register through this port, reopen without
+live original/count adapters, replay the exact original registration and accept
+the first withdrawal from frozen state. Missing/changed/forged consent, foreign
+anchors and unavailable timing/completeness refuse. These component checks do
+not install the daemon's ADC execution path or qualify private source retention.
+
+S026 atomic source preparation/holds, real P015 issuance, ADC-004 count/public
+statement, AD close, executor and all four runtime cells remain open. Parent
+ADC-001/004/005 statuses and historical qualifications are unchanged.
+
 ## ADC-001/005 signed original-source binding checkpoint (2026-11-17)
 
 The optional `disclosure/original` field carries C_M in signed protected signal
