@@ -721,6 +721,184 @@ review, not a new authority dependency. If the pilot cannot establish a useful
 bounded method, record a scoped decision before changing this sequence; never
 silently waive a proof gate or expand it to the whole protocol.
 
+## ADC-005 accepted continuation (2026-11-17) {#adc-execution-continuation}
+
+Accepted design; implementation is in progress and ADC-005 remains `todo`.
+This continuation supersedes the earlier recipient-manifest, public commit
+receipt, AD delivery-id and abandonment descriptions where they conflict. The
+dated ADC-011/LLR-011 qualifications remain evidence for their pinned contracts,
+not qualification of these revised semantics.
+
+### Private origin, audience proof and public commit
+
+The private manifest M retains all original audiences. Each audience A gets a
+separate author-signed M_A containing only its exact P070 descriptor, condition
+projection, admitted executors, continuity key, fixed counting authority and case
+horizon. M contains a secret random 256-bit nonce; its domain-separated hiding
+commitment C_M is the common original identity. Registration verifies a bijection
+between M's audience set and the prepared M_A set. S026 freezes all or none; the
+protected signal does not distribute M_A to every correlator.
+
+One approved release payload has one separately salted commitment C_P, common to
+all audiences of this condition. The author or admitted custodian retains its
+opening until release. Different payloads require a new case. The public package
+opens C_P but not C_M. It carries neither other audiences nor their count,
+dictionary-testable aliases, private source identifiers or protected body.
+
+The public intent binds C_M, C_P, M_A, the audience, executor, handover deadline,
+safe package digest and public envelope metadata. A hiding commitment binds the
+private execution descriptor (component, idempotency key, route and exact plan).
+`Intent.proof` must not be an ordinary digest of low-entropy count facts. Release
+identity is H(release-domain, C_M, canonical-audience-descriptor), independent of
+route and distinct from the final content-addressed Agora record id.
+
+ADC-004 owns a separate public commit statement and signer domain. It binds the
+public intent and effective audience restrictions, reports satisfied and its
+time, and carries no case/source revision, exact observed count, private
+Acceptance or input digest. Private outcome and exact public bytes commit
+together; no candidate signature is disclosed before fence completion. The
+recipient verifies author consent for A directly, trusting the admitted counter
+for count, freshness, ordering and effective narrowing. Full history is not a
+portable completeness proof. Cross-room correlation through C_M and timing is
+an explicit residual disclosure.
+
+M_A's counting authority equals the registered authority and commit signer for
+the complete case. A different configured signer is dependency loss, not a new
+domain decision. Ordinary key retirement must honor the case hold. Loss of the
+key prevents new signed decisions; it does not revoke historical commitments.
+Author/nym succession does not change this authority. Authority rotation or
+delegation is a separate proposal, outside ADC-005. Offline receivers cannot
+discover omitted revocations and assume uncompromised pinned-key custody.
+
+### Time, settlement and owner resources
+
+Freeze 60 s minimum handoff, 60 s reply margin, 900 s settlement window, 5 s
+preparation budget and three stale cycles in the admitted case policy. Registration
+requires request TTL 125..900 s and release_end + 900 <= case/not-after. The
+executor selects min(request/not-after - 60, release_end); the prepared reply
+must survive handoverBy + 60. Static shortage is Never; a shorter available
+transport/preparer lease is dependency unavailability. Recheck owner time after
+guard acquisition. The core still requires now < handoverBy: the 60 s host
+policy only narrows admitted commits. Neither value guarantees delivery.
+
+Each accepted commit reserves one further command result and finite physical
+resources for that slot's accepted abandonment, independently of ordinary quota
+and the first-withdrawal reserve. Bad claims cannot consume that reserve.
+The executor separately reserves its final-envelope and settlement journal space.
+
+The source fence is a non-writing BEGIN IMMEDIATE guard implemented by the relay
+schema owner. Acquire within 250 ms, reread time, validate the exact pin and
+deadlines, commit the case through its final fence, then release. Pin scope is
+the admitted local index even for Synapse; ingestion delay consumes the signed
+300 s freshness budget. A pin includes installation/file identity, scope,
+revision and status digest; copies, restore and file-replacing maintenance need
+readmission. No source acquisition, signing or sealing runs under this guard.
+
+EvaluationStale is a transport deferral, not a case result. Durably invalidate
+the undisclosed candidate before reevaluating identical bytes. A bounded record
+retains request id/digest conflict binding and stale count across restart until
+request expiry plus replay margin. Each stale cycle charges operation_count but
+not max_commands_per_case; after the third, return exhausted without evaluation.
+New request ids still charge the shared operation budget. This deliberately
+revises the previous frozen-candidate recovery rule, never a committed result.
+
+### Executor and accountable abandonment
+
+`whisper-case-service::executor::ReleaseExecutor` is the planned journal owner,
+using the existing fenced Store in role adc-executor and projections keyed by
+adc-execution:release-id. Prepared bytes use existing case object/event/blob
+mechanics and protected custody, not a second authority or transport retry loop.
+Owner slots become Committed or Abandoned; unknown, released, delivered and
+tombstoned are executor observations. Terminal executor outcomes include commit
+rejected, commit-outcome-lost and unresolved-at-closure. If the exact response
+lease is lost, do not mint another reply or guess the slot receipt.
+
+AD assigns its delivery id only at admission. Freeze (component, idempotency key)
+before commit. Before the deadline, exact KnownAbsent allows the same prepared
+bytes to be submitted; Unknown/Unavailable do not. At/after the deadline, one
+complete-history AD transaction serializes exact absence, deadline and tombstone
+against admission. Tombstones cannot be GC'd merely after deadline+skew: without
+a durable anti-rollback premise that would reopen the identity. Bounded capacity
+blocks new work; namespace retirement must continue refusing old submissions.
+
+Abandonment changes the owner core, not only host policy. An accepted claim
+requires Active, the slot's executor signature, exact intent/receipt/submission
+binding, owner time at/after handoverBy and a Committed slot. The owner trusts the
+executor's report after its local tombstone; it does not query the remote AD or
+counter. Extend the existing abandonment command/domain with those bindings,
+tombstone time and coverage marker. Journal its signed bytes before transmission.
+The claim promises no execution and reports local absence; it is not proof that
+nobody obtained the content. Slot consumption is irreversible.
+
+Authentication, saved replay and id-conflict checks precede independent binding
+and phase checks. Only a sole early-time failure yields NotYetValid/retry-at,
+without signed case result or prepare entry. Bind the slot receipt, not current
+head: unrelated amendment and withdrawal preserve it. Closure freezes owner
+slots and new abandonment becomes Terminal/Never; local AD history can still
+resolve transport facts without reopening the case. Expired request bytes do
+not revive. Tombstone plus unknown settlement always replays the recorded claim,
+never hands the payload to AD.
+
+### Dependency and qualification ownership
+
+P015-011 supplies finite prepared-output retention. A scoped child of P015-005
+must qualify the required publication/manifest tuples and actual issuance, not
+silently close its whole parent. ADC-001 owns M/M_A, registration bijection and
+intent contracts; ADC-004 owns actual counting, attestation and public commit;
+ADC-003 owns holder obligations and every egress canary. ADC-005 consumes those
+gates, P070 descriptors, P035 admission and the revised ADC-011/LLR-011 model and
+owner. A schema or arithmetic helper alone closes none of these parents.
+
+First complete a diagnostic end-to-end path, then a fresh pinned qualification.
+Retain separate evidence for model laws, real owners and the 2x2 matrix (Agora
+SQLite/Synapse by withheld/held-under-obligation). Compare model to actual Rust,
+with independent specification vectors, mutation witnesses and axiom audit.
+Measure commit-to-AD, settlement, guard hold and stale incidence. Model results
+prove neither cryptography nor filesystem crash recovery. No inference/VM,
+installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
+full_candidate_qualified=false and release_ready=false throughout this slice.
+
+## ADC-005 native environment checkpoint (2026-11-17) {#adc-native-environment}
+
+The resumed implementation uses integrated Node `d13029149` / Orbidocs
+`871068e3` as its base. P015-011's finite-authoring retention gate is now done
+in its separately qualified scope; ADC consumes that contract rather than
+reimplementing it. ADC's own source-custody use still needs qualification.
+
+An initial pure host-policy implementation lives in
+`node:whisper-core/src/case/adc_policy.rs`, with eight offline contract tests.
+Defaults are 60 s minimum handoff, 60 s reply margin, 900 s settlement window,
+5 s preparation budget and three stale cycles. Registration arithmetic requires
+TTL 125..900 s and `release_end + settlement_window <= case/not-after`.
+The executor chooses handover no later than request expiry minus reply margin.
+Static handoff/reply shortage is Never; shortening only by the available reply
+preparer is dependency unavailability. Canonical result schema and Node mirror
+carry `adc-handoff-window-short` and `adc-reply-window-short`; transport
+`evaluation-stale` is not a case-result reason.
+
+The host-policy helpers are not yet installed in the owner. Policy snapshots,
+revalidation after guard acquisition, abandonment reserves, durable stale
+accounting, revised owner/executor models and actual release composition remain
+open. This checkpoint does not promote ADC-001/004/005 or supersede the qualified
+historical LLR-011 behavior. Time arithmetic is not a promise of delivery.
+
+Implementation checkpoint, not release execution qualification. The current
+Node launcher has an explicit `--native-only` gate and a read-only JSON preflight
+in `tools/matrix-fixture/synapse/native_preflight.py`. ADC qualification requires
+bare-metal Linux, a local Unix-socket Docker engine and both exact profile images
+already installed. macOS refuses before Docker or fixture-state writes; missing
+virtualization detection, containers and uncertain observations fail closed.
+The launcher and Compose services prohibit automatic pulls. Missing software or
+images need a separate operator decision.
+
+The measured macOS result is `not-run/virtualized-runtime`. Seven new gate tests
+and 23 existing fixture-setup tests pass offline without a service. This closes
+only the environment-gate implementation fragment. It does not qualify Synapse,
+payload custody, public proofs, owner revisions or release execution. The matrix
+axes remain Agora carrier (SQLite/Synapse) and custody (withheld/held-under-obligation).
+ADC-005 stays `todo` while required Synapse runtime cells are `not-run`; historical
+P035 evidence is not a substitute. The preceding stage-0 evidence is unchanged.
+
 ## Pre-executor stage-0 corrections (2026-11-16) {#pre-executor-stage0}
 
 Before ADC-005 enablement, correct the model/owner/AD prerequisites. The current
@@ -830,12 +1008,12 @@ an execution dependency of ADC-005 on LLR-009.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P013-ADC-000 | Story 014 disclosure-condition variant acceptance | todo | P013-ADC-001–008; P057-017; P015 Gates A and B; P015-005; P013-PEX-001; P013-DFR-001–004; P013-DFR-006 | One retained run of the [variant](../../30-stories/story-014-dormant-contest-entry.md#variant-author-disclosure-condition) proves S014-A12–A21 and its assertion-to-task matrix. Canary scans cover queries, Agora, AD copies, notifications and logs. Required cases include receiver verification without private-body retrieval, separate correlator and counting authority, two rooms versus two routes, later-epoch author present/absent, both commit/withdrawal orders, pre-authorized expiry, declined-prompt suppression, lost commit response and restart before AD hand-over. |
-| P013-ADC-001 | Freeze embargo manifest and condition contracts | todo | P015 v2 signal; P015-005; P013-LLR-006; P035-019 | `whisper-embargo-manifest.v1`, `whisper-embargo-condition.v1`, `whisper-release-payload.v1` and `whisper-embargo-amendment.v1`; acyclic manifest -> protected signal -> admission receipt construction, one anchor/at most one original condition, identical key/authority/case-lifetime commitments and closed public proof fields. P035 admission verifies their equality, supporting LLR-009's detached anchor proof without a new signature carrier. Preserve original condition identity through narrowing; widening creates a new case without silently withdrawing the old. Explicit authorized holder set; role-bound custody; per-descriptor consent. Golden and refusal fixtures cover offline verification without protected text, forbidden proof fields, substituted manifest/payload/authority/case lifetime, widening, unknown fields and expiry. LLR-006 owns the key contract; this row consumes it. |
+| P013-ADC-001 | Freeze embargo manifest and condition contracts | todo | P015 v2 signal; P015-005; P013-LLR-006; P035-019 | Private and single-audience manifest contracts, `whisper-embargo-condition.v1`, `whisper-release-payload.v1` and amendment through `whisper-case-adc-request.v1`; apply the [accepted continuation](#adc-execution-continuation), including hiding commitments and registration bijection; acyclic manifest -> protected signal -> admission receipt construction, one anchor/at most one original condition, identical key/authority/case-lifetime commitments and closed public proof fields. P035 admission verifies their equality, supporting LLR-009's detached anchor proof without a new signature carrier. Preserve original condition identity through narrowing; widening creates a new case without silently withdrawing the old. Explicit authorized holder set; role-bound custody; per-descriptor consent. Golden and refusal fixtures cover offline verification without protected text, forbidden proof fields, substituted manifest/payload/authority/case lifetime, widening, unknown fields and expiry. LLR-006 owns the key contract; this row consumes it. |
 | P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. Reuse one vocabulary-bound normalization/key function for authoring, notice creation and holder validation; display rendering never feeds the hash, and semantic-model suggestions never bypass author approval. |
 | P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
 | P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; P013-PEX-001 | Per-epoch counting with exact original-epoch exclusion and conservative N + 1 thereafter, with author-present and author-absent fixtures and UI effective-threshold explanation. `whisper-embargo-attestation.v1`, status freshness, publication receipt and counting at commit. Share bounded primitives between full-private and detached-public verifier paths; recipient verification never fetches protected text and explicitly trusts the admitted counter. Independently verifiable counts remain a separate open design. Reuse the contextual contribution evaluator with separate coordination/disclosure policies; qualify permutation/replay parity, duplicate sources and evidence-representative replacement without altering M4. |
 | P013-ADC-005-00 | Model, owner and AD prerequisite corrections | done | P013-ADC-011; P013-LLR-011 | Repair exact-absence recovery, audience confirmations, terminal refusal classes, independent retained-original verification and exact AD submission identity; independently specified expected outcomes, axiom audit, actual owner and AD concurrency/restart tests. See [stage-0 scope](#pre-executor-stage0). 80 audited model theorems, 40 vectors, 15636 comparisons including eight independent expected histories, 293 core/owner and 176 AD tests. Executor and full ADC-005 acceptance remain open. |
-| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-ADC-011; P013-LLR-011; P070 | `whisper-embargo-confirmation.v1`, `whisper-embargo-release-intent.v1`, `whisper-release-commit.v1` and `whisper-embargo-release.v1`. Receipt binds pre-commit intent, not its own final envelope. Slot/logical release id binds original condition and canonical audience digests; Agora record/id remains content-addressed. Same room/two routes uses one slot; two consented rooms use two; unauthorized room refuses. Atomic count/consent/slot acceptance, both commit/withdrawal orders, pre-authorized withdrawal/expiry after attestation, per-request outcomes, exact-byte replay, lost reply and crash before AD hand-over; AD unknown never means absent. Abandonment leaves the slot consumed. Offline recipient package verifies without the protected signal; closure evidence follows Story 014. Use LLR-008's acceptance owner; P013-LLR-011 owns durable enablement of these control operations and the shared prepared-output recovery laws; no parallel embargo case database or AD retry loop. After the ADC-011 model gate, compare new Rust behavior against the pinned model and qualify actual owner/AD crash boundaries; model proof alone does not close this row. |
+| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-ADC-011; P013-LLR-011; P070 | Apply the [accepted continuation](#adc-execution-continuation): confirmation/commit/abandonment use `whisper-case-adc-request.v1`, with separate public intent, public commit statement and release contracts. Revise ADC-011/LLR-011 semantics and requalify; historical gates do not transfer. Public statement binds pre-commit intent, not its own final envelope or private owner revision. Qualify all four runtime cells, reserves, exact reply loss and bounded stale recovery. Slot/logical release id binds original condition and canonical audience digests; Agora record/id remains content-addressed. Same room/two routes uses one slot; two consented rooms use two; unauthorized room refuses. Atomic count/consent/slot acceptance, both commit/withdrawal orders, pre-authorized withdrawal/expiry after attestation, per-request outcomes, exact-byte replay, lost reply and crash before AD hand-over; AD unknown never means absent. Abandonment leaves the slot consumed. Offline recipient package verifies without the protected signal; closure evidence follows Story 014. Use LLR-008's acceptance owner; P013-LLR-011 owns durable enablement of these control operations and the shared prepared-output recovery laws; no parallel embargo case database or AD retry loop. After the ADC-011 model gate, compare new Rust behavior against the pinned model and qualify actual owner/AD crash boundaries; model proof alone does not close this row. |
 | P013-ADC-006 | Context-join proposals | todo | P013-ADC-002; P013-DFR-004 | Content-free `whisper-context-join-proposal.v1` from correlators to candidate authors, only under `keyed-and-confirmed-joins`; acceptance authors a related signal in the target context; model output stays advisory. A fixture proves that no context merges without the candidate author's act. |
 | P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002; P015-005 | `whisper-correlation-notice.v1` is signed under an explicitly admitted publication tuple, content-free, expiring and discoverable through the term bucket. The editor warns about disclosure of the matter. Related signals point to the public notice record/id with a closed target kind; no hidden signal id is required or leaked. Tests refuse wrong kind/schema/topic/scope tuples and verify a notice-only reader can author a related signal. |
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | Render N and its effective epoch threshold, public criterion and proof disclosure, window, concrete audiences, mode, authorized holders, notice and coordination participation. Keep condition, proposal and per-slot execution states separate. Declining suppresses that proposal across restart; no renewed prompt without an explicit retry or consented bounded policy. Show widening as a new independent case and withdrawal as effective only after authority acceptance. |

@@ -98,9 +98,11 @@
                 "status-budget-exhausted",
                 "operation-budget-exhausted",
                 "adc-condition-unsatisfied",
-            "adc-withdrawn",
-            "adc-slot-consumed",
-            "adc-expired",
+                "adc-withdrawn",
+                "adc-slot-consumed",
+                "adc-expired",
+                "adc-handoff-window-short",
+                "adc-reply-window-short",
                 "adc-condition-widening"
               ]
             },
