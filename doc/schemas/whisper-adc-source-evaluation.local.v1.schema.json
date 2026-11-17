@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-adc-source-evaluation:local:v1",
+  "title": "whisper-adc-source-evaluation.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "description": "Private finite ADC candidate observation over an independently adopted complete local inventory. Not a portable count attestation, root, consent or source custody promise. Its raw membership/evidence identities must never enter a recipient package.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "anchor/inputs",
+    "condition/original",
+    "request/digest",
+    "source/pin",
+    "epoch",
+    "evidence/digest",
+    "observed/at",
+    "valid/until",
+    "facts"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-adc-source-evaluation.local.v1"
+    },
+    "anchor/inputs": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "condition/original": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "request/digest": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "source/pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "source",
+        "scope",
+        "revision",
+        "status_digest"
+      ],
+      "properties": {
+        "format": {
+          "const": "contextual-inventory-pin.v1"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "instance",
+            "installation",
+            "file"
+          ],
+          "properties": {
+            "instance": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[!-~]+$"
+            },
+            "installation": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "file": {
+              "type": "string",
+              "minLength": 50,
+              "maxLength": 50,
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "status_digest": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      }
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "evidence/digest": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "observed/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "now",
+        "authority_current",
+        "count_scoped",
+        "source_as_of",
+        "observed_count",
+        "author_epoch",
+        "trigger",
+        "actor"
+      ],
+      "properties": {
+        "now": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "authority_current": {
+          "const": true
+        },
+        "count_scoped": {
+          "const": true
+        },
+        "source_as_of": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "observed_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "author_epoch": {
+          "type": "boolean"
+        },
+        "trigger": {
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "actor": {
+          "const": ""
+        }
+      }
+    }
+  }
+}

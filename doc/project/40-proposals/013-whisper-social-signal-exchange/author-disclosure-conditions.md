@@ -858,6 +858,29 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-004 local source-count component checkpoint (2026-11-17)
+
+The explicitly adopted `node:whisper-intake::adc::LocalAdcCounter` now composes
+actual contextual SQLite admission/complete inventory with the existing shared
+contribution evaluator and real case-owner source barrier. It excludes the exact
+original source only in its original epoch, applies the existing conservative
+N+1 decision later, and retains historical certificate admission. Missing/future/
+stale evidence never becomes a guessed zero or a new freshness clock.
+
+The canonical private `whisper-adc-source-evaluation.local.v1` descriptor freezes
+exact request/facts, evidence, scope/epoch, finite validity and installed source
+pin. It is bounded to 4096 bytes and passes Schema Gate; it is neither a public
+count proof nor a portable authority token. Recovered owner candidates revalidate
+that pin without recounting. Actual full/detached component histories cover
+publication races, saved preparation/reopen and unchanged final replay.
+
+See `node:whisper-intake/ADC.md` for ownership, boundaries and refusal cases.
+These are development checks under synthetic credential/clock policy, not a
+clean-source campaign or full ADC-004 qualification. Actual auxiliary issuance,
+source/key/payload holds and runtime egress, public count/commit statement, AD
+closure, executor/cold receiver and all four runtime cells remain open. ADC-004
+and ADC-005 stay todo; historical evidence and readiness are unchanged.
+
 ## ADC source-owner consent retention checkpoint (2026-11-17)
 
 The existing S026 AuthorWorkflow now retains complete M/M_A consent in one

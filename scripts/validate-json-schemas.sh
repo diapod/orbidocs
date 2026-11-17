@@ -29,6 +29,8 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.whisper-adc-source-evaluation.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-source-evaluation.local.v1.schema.json" ;;
+    */whisper-adc-source-evaluation.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-source-evaluation.local.v1.schema.json" ;;
     *.whisper-adc-original-basis.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-original-basis.local.v1.schema.json" ;;
     */whisper-adc-original-basis.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-original-basis.local.v1.schema.json" ;;
     *.room-release-audience.v1.json) echo "$SCHEMAS_DIR/room-release-audience.v1.schema.json" ;;

@@ -1,0 +1,20 @@
+{
+  "schema": "whisper-adc-source-evaluation.local.v1",
+  "anchor/inputs": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "condition/original": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "epoch": 1,
+  "evidence/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "observed/at": "2026-11-17T12:00:00Z",
+  "valid/until": "2026-11-17T12:01:00Z",
+  "facts": {
+    "now": 1794916800,
+    "authority_current": true,
+    "count_scoped": true,
+    "source_as_of": 1794916800,
+    "observed_count": 2,
+    "author_epoch": true,
+    "trigger": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "actor": ""
+  }
+}
