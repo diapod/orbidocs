@@ -1913,6 +1913,18 @@ The first verifier requires all of:
 This section is informative design guidance. Implementers must still follow
 `node:DEV-GUIDELINES.md` and the owning contracts.
 
+### Shared immutable calibration inputs
+
+Repeated fresh calibration profiles may import the same exact immutable model
+assets from one operator-selected source on a development volume. Prefer a source
+on the same filesystem to permit copy-on-write import; this is an optimization,
+not a common profile registry. Configuration, identity, source trust, endorsement,
+receipts, activation, cache and trial state remain independent. Neither source
+preparation nor reuse grants inference authority, extends validity or transfers
+an earlier qualification. P066 owns the single-owner storage/import contract;
+`node:docs/operations/SHARED-MODEL-INPUTS.md` owns the preparation procedure and
+private locator. Existing profiles and frozen campaign inputs are not rewritten.
+
 ### Strata
 
 #### L0: `operator-task-pack-core`
