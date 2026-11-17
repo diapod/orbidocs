@@ -951,6 +951,21 @@ source/key/payload holds and runtime egress, public count/commit statement, AD
 closure, executor/cold receiver and all four runtime cells remain open. ADC-004
 and ADC-005 stay todo; historical evidence and readiness are unchanged.
 
+## ADC approved-payload retention component (2026-11-17)
+
+The existing S026 consent blob now retains the exact approved release payload and
+its independent C_P opening together with M/M_A. The pure original verifier
+checks exact bytes, bounded size and distinct opening before retention and after
+decode. The source read gate and scoped protection key still control access;
+these private exports are not a counter projection or permission to release.
+Replay preserves the first ciphertext and horizon. Missing pre-enable fields
+refuse instead of synthesizing material. Requester expiry does not erase the
+longer existing consent hold; the case/replay horizon does not renew itself.
+
+This component does not establish actual protected-source transfer, native
+payload/key holds, public commit publication, executor/AD closure or runtime
+qualification. ADC-001/003/004/005 remain todo. Historical evidence is unchanged.
+
 ## ADC source-owner consent retention checkpoint (2026-11-17)
 
 The existing S026 AuthorWorkflow now retains complete M/M_A consent in one
