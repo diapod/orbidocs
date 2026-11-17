@@ -1,0 +1,20 @@
+{
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "intent": {
+    "operation/id": "rumor-one:issue-1",
+    "operation": "issue",
+    "issuer/peer": "node:issuer",
+    "topic/class": "local-community",
+    "signal/similarity-key": "unusual-service-interruption",
+    "topic/key": "whisper/local-community",
+    "scope/auxiliary-uses": [
+      {
+        "record/kind": "whisper-release",
+        "content/schema": "whisper-embargo-audience-manifest.v1",
+        "topic/key": "whisper/local-community",
+        "disclosure/scope": "single-audience",
+        "signing/use": "embargo-audience-manifest"
+      }
+    ]
+  }
+}

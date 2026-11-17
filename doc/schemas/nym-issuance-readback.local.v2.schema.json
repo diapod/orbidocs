@@ -248,6 +248,10 @@
       "format": "date-time",
       "maxLength": 40,
       "description": "Maximum original result-reception policy horizon (target epoch end plus tombstone retention), not evidence of current issuer availability."
+    },
+    "scope/auxiliary-uses": {
+      "$ref": "nym-issuance-request.v2.schema.json#/properties/scope~1auxiliary-uses",
+      "description": "Frozen requested auxiliary scope, not issued authority. Grant facts belong to the separately verified certificate."
     }
   },
   "required": [

@@ -85,6 +85,21 @@ the new request binding refuse; frozen historical evidence and qualifiers retain
 their exact sources and scope. See the
 [Node boundary](https://github.com/diapod/node/blob/master/nym-core/README.md#explicit-adc-auxiliary-issuance-2026-11-17).
 
+The actual applicant/Vault owner now accepts the same bounded selection through
+its existing local prepare command. It checks local Import Gate, adopted-profile
+membership, topic and exchange phase before opening custody or minting, binds the
+selection into the frozen intent and all signed request proofs, and compares it
+again on protected-state recovery. Changing that selection under an existing
+operation id conflicts. Readback v2 exposes the requested scope, separately from
+the certificate's granted authority; ordinary operations omit it.
+
+Actual Vault-store component tests cover reopen/exact bytes and no extra mint,
+plus refusal without a new applicant candidate or changed Vault. They retain the
+existing recovery-current gate; the explicit export marker is simulated in the
+fixture and does not qualify the operator ceremony/native custody. This is a
+source-client prerequisite, not complete all-or-none M/M_A authoring or release
+execution. P015-005-ADC and ADC-005 remain todo and historical scope is unchanged.
+
 ## Decisions
 
 ### Source profile and ordering

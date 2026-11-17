@@ -1,0 +1,12 @@
+{
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "intent": {
+    "operation/id": "rumor-one:issue-1",
+    "operation": "issue",
+    "issuer/peer": "node:issuer",
+    "topic/class": "local-community",
+    "signal/similarity-key": "unusual-service-interruption",
+    "topic/key": "whisper/local-community",
+    "scope/auxiliary-uses": []
+  }
+}

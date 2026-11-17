@@ -516,10 +516,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nym-issuance-delivery.local.v2.schema.json`](schemas-gen/schemas/nym-issuance-delivery.local.v2.md) | `7` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-issuance-error.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-error.local.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
 | [`nym-issuance-operation.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-operation.local.v1.md) | `3` | `1` | `yes` | `yes` | `0` | `0` |
-| [`nym-issuance-prepare.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-prepare.local.v1.md) | `3` | `1` | `yes` | `yes` | `1` | `0` |
+| [`nym-issuance-prepare.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-prepare.local.v1.md) | `3` | `1` | `yes` | `yes` | `2` | `1` |
 | [`nym-issuance-readback-response.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-readback-response.local.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
 | [`nym-issuance-readback.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-readback.local.v1.md) | `24` | `2` | `yes` | `yes` | `1` | `0` |
-| [`nym-issuance-readback.local.v2.schema.json`](schemas-gen/schemas/nym-issuance-readback.local.v2.md) | `24` | `2` | `yes` | `yes` | `0` | `0` |
+| [`nym-issuance-readback.local.v2.schema.json`](schemas-gen/schemas/nym-issuance-readback.local.v2.md) | `25` | `3` | `yes` | `yes` | `1` | `1` |
 | [`nym-issuance-reply-offer-request.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-reply-offer-request.local.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
 | [`nym-issuance-reply-offer.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-reply-offer.local.v1.md) | `5` | `1` | `yes` | `yes` | `0` | `0` |
 | [`nym-issuance-reply-offer.local.v2.schema.json`](schemas-gen/schemas/nym-issuance-reply-offer.local.v2.md) | `5` | `1` | `yes` | `yes` | `0` | `0` |
@@ -2113,5 +2113,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `946`
 - Generated schema docs: `947`
-- Positive examples: `852`
-- Negative examples: `850`
+- Positive examples: `854`
+- Negative examples: `852`

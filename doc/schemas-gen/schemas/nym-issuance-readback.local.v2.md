@@ -36,6 +36,7 @@ Source schema: [`doc/schemas/nym-issuance-readback.local.v2.schema.json`](../../
 | [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
 | [`source/activation-not-before`](#field-source-activation-not-before) | `no` | string |  |
 | [`reply/decision-consent-until`](#field-reply-decision-consent-until) | `yes` | string | Maximum original result-reception policy horizon (target epoch end plus tombstone retention), not evidence of current issuer availability. |
+| [`scope/auxiliary-uses`](#field-scope-auxiliary-uses) | `no` | ref: `nym-issuance-request.v2.schema.json#/properties/scope~1auxiliary-uses` | Frozen requested auxiliary scope, not issued authority. Grant facts belong to the separately verified certificate. |
 
 ## Conditional Rules
 
@@ -294,3 +295,11 @@ Digest of the exact privately signed issuance request; never a transport handle 
 - Shape: string
 
 Maximum original result-reception policy horizon (target epoch end plus tombstone retention), not evidence of current issuer availability.
+
+<a id="field-scope-auxiliary-uses"></a>
+## `scope/auxiliary-uses`
+
+- Required: `no`
+- Shape: ref: `nym-issuance-request.v2.schema.json#/properties/scope~1auxiliary-uses`
+
+Frozen requested auxiliary scope, not issued authority. Grant facts belong to the separately verified certificate.
