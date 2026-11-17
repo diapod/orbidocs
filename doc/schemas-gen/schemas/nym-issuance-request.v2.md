@@ -33,6 +33,7 @@ Source schema: [`doc/schemas/nym-issuance-request.v2.schema.json`](../../schemas
 | [`bootstrap/key-public`](#field-bootstrap-key-public) | `yes` | string | Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key. |
 | [`bootstrap/proof`](#field-bootstrap-proof) | `yes` | object |  |
 | [`scope/content-schemas`](#field-scope-content-schemas) | `yes` | const: `['whisper-signal.v2', 'whisper-signal.v3']` |  |
+| [`scope/auxiliary-uses`](#field-scope-auxiliary-uses) | `no` | array | Explicit optional ADC audience-manifest use. Absence grants no such auxiliary use; the exact tuple must be admitted by the profile and match topic/key. Publication and predecessor auxiliary scopes retain their separate policies. |
 
 ## Conditional Rules
 
@@ -196,3 +197,11 @@ Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or n
 
 - Required: `yes`
 - Shape: const: `['whisper-signal.v2', 'whisper-signal.v3']`
+
+<a id="field-scope-auxiliary-uses"></a>
+## `scope/auxiliary-uses`
+
+- Required: `no`
+- Shape: array
+
+Explicit optional ADC audience-manifest use. Absence grants no such auxiliary use; the exact tuple must be admitted by the profile and match topic/key. Publication and predecessor auxiliary scopes retain their separate policies.

@@ -60,6 +60,31 @@ Knowledge minimization and participant agency require bounded private mappings,
 explicit renewal consent and no public reset linkage. Reproducibility requires
 immutable admission decisions and a separate current eligibility projection.
 
+## ADC auxiliary request development checkpoint (2026-11-17)
+
+`nym-issuance-request.v2` now admits an optional, closed `scope/auxiliary-uses`
+array containing exactly one ADC audience-manifest tuple: `(whisper-release,
+whisper-embargo-audience-manifest.v1, exact topic/key, single-audience,
+embargo-audience-manifest)`. The signed request must select it explicitly, its
+topic must match the request, and the adopted profile must contain the complete
+tuple. Missing selection grants no ADC use; null, empty, multiple, wildcard or
+broadened selections refuse. Predecessor publication and LLR manifest policy is
+unchanged; this child scope does not implement the complete P015-005 design.
+
+The issuer no longer copies ADC permissions from the profile without that
+selection. Applicant verification rejects an overgrant or undergrant even with
+valid certificate and decision signatures. The existing signing domains cover
+the selection. Exact tuple membership is shared with manifest-use verification;
+no independent-list Cartesian product or authority inferred from labels is added.
+
+Real issue/open/restart/exact-replay component tests use the fenced key store
+with explicitly simulated media policy. They neither qualify native custody nor
+the combined protected S026 signing/preparation and ADC release path. The
+P015-005-ADC child and parent remain todo. Older experimental replies violating
+the new request binding refuse; frozen historical evidence and qualifiers retain
+their exact sources and scope. See the
+[Node boundary](https://github.com/diapod/node/blob/master/nym-core/README.md#explicit-adc-auxiliary-issuance-2026-11-17).
+
 ## Decisions
 
 ### Source profile and ordering

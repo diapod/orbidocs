@@ -526,7 +526,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`nym-issuance-request-sealed.v1.schema.json`](schemas-gen/schemas/nym-issuance-request-sealed.v1.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-issuance-request-sealed.v2.schema.json`](schemas-gen/schemas/nym-issuance-request-sealed.v2.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`nym-issuance-request.v1.schema.json`](schemas-gen/schemas/nym-issuance-request.v1.md) | `20` | `2` | `yes` | `yes` | `1` | `0` |
-| [`nym-issuance-request.v2.schema.json`](schemas-gen/schemas/nym-issuance-request.v2.md) | `21` | `2` | `yes` | `yes` | `0` | `0` |
+| [`nym-issuance-request.v2.schema.json`](schemas-gen/schemas/nym-issuance-request.v2.md) | `22` | `3` | `yes` | `yes` | `1` | `4` |
 | [`nym-issuance-send.local.v1.schema.json`](schemas-gen/schemas/nym-issuance-send.local.v1.md) | `4` | `1` | `yes` | `yes` | `0` | `0` |
 | [`nym-issue-request.v1.schema.json`](schemas-gen/schemas/nym-issue-request.v1.md) | `10` | `8` | `yes` | `yes` | `1` | `1` |
 | [`nym-issuer-bootstrap-descriptor.local.v1.schema.json`](schemas-gen/schemas/nym-issuer-bootstrap-descriptor.local.v1.md) | `3` | `0` | `yes` | `yes` | `0` | `0` |
@@ -2113,5 +2113,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `946`
 - Generated schema docs: `947`
-- Positive examples: `851`
-- Negative examples: `846`
+- Positive examples: `852`
+- Negative examples: `850`
