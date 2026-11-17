@@ -877,12 +877,12 @@ carry `adc-handoff-window-short` and `adc-reply-window-short`; transport
 `evaluation-stale` is not a case-result reason.
 
 The host-policy helpers are not yet installed in the owner. Policy snapshots,
-revalidation after guard acquisition, physical abandonment reserves, durable stale
+revalidation after guard acquisition, durable stale
 accounting, revised owner/executor models and actual release composition remain
 open. This checkpoint does not promote ADC-001/004/005 or supersede the qualified
 historical LLR-011 behavior. Time arithmetic is not a promise of delivery.
 
-The next owner component correction reserves one command result for each
+The owner component correction reserves one command result for each
 committed slot and checks that capacity before preparing a new commit. Ordinary
 commands cannot spend it; valid settlement survives a full command/operation
 budget and restart without accumulating preparations on signer failures. The
@@ -890,11 +890,26 @@ owner's admitted principal is retained independently of its replaceable signer:
 fresh mismatched-signer decisions are unavailable, while exact history remains
 readable. Three added actual-owner fixtures cover these boundaries. This still
 uses the original synthetic abandonment evidence port, not the revised executor
-claim; its new model, per-slot physical capacity and full runtime stay open.
+claim; its new model and full runtime stay open.
 The diagnostic comparison entry passes 15,636 model/Rust comparisons, eight
 independent specification histories and 304 scoped component tests, including
 18 ADC owner fixtures. No new clean-source qualification or formal evidence
 campaign is claimed; previous qualifiers and proofs retain their scope.
+
+The storage-quota extension adds a finite fenced hold per accepted slot,
+consumed only by its settlement or released by closure. Even terminal writes
+preserve other holds. Object/event/byte quota, exact pending-basis readback,
+rollback and process-kill boundaries are tested in the existing Store. Format
+two preserves verified no-hold v1 facts/head preimages during a metadata-only
+upgrade; active holds use a distinct root domain and predecessors refuse them.
+This is quota protection, not disk preallocation or a claim against physical
+I/O failure. It does not install registration policy, revise abandonment/model
+laws or qualify execution. The diagnostic entry passes 15,636 model/Rust steps,
+eight independent specification histories and 312 scoped Rust tests, including
+19 ADC fixtures; one existing exporter remains ignored. The ordinary-path
+read-only observer recognizes both store formats, with 37 scoped Python tests.
+Historical qualifiers retain their source pins and bytes. See the current
+[Node checkpoint](https://github.com/diapod/node/blob/master/whisper-case-service/ADC.md).
 
 Implementation checkpoint, not release execution qualification. The current
 Node launcher has an explicit `--native-only` gate and a read-only JSON preflight
