@@ -42,6 +42,7 @@ Contextual rumor signal. The exact outer nym certificate and P081 presentation b
 | [`case/continuity-key-digest`](#field-case-continuity-key-digest) | `no` | string |  |
 | [`case/status-authority`](#field-case-status-authority) | `no` | string |  |
 | [`case/not-after`](#field-case-not-after) | `no` | string |  |
+| [`disclosure/original`](#field-disclosure-original) | `no` | string | Optional ADC C_M hiding commitment, bound by the exact source signature and admission; never an ordinary digest of private evaluation facts. |
 
 ## Conditional Rules
 
@@ -311,3 +312,11 @@ Maximum number of bounded forwards allowed under local policy.
 
 - Required: `no`
 - Shape: string
+
+<a id="field-disclosure-original"></a>
+## `disclosure/original`
+
+- Required: `no`
+- Shape: string
+
+Optional ADC C_M hiding commitment, bound by the exact source signature and admission; never an ordinary digest of private evaluation facts.

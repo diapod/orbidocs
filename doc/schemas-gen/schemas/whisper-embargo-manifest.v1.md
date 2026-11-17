@@ -17,6 +17,7 @@ Source schema: [`doc/schemas/whisper-embargo-manifest.v1.schema.json`](../../sch
 | [`case/status-authority`](#field-case-status-authority) | `yes` | string |  |
 | [`case/not-after`](#field-case-not-after) | `yes` | string |  |
 | [`signature`](#field-signature) | `yes` | object |  |
+| [`disclosure/original`](#field-disclosure-original) | `no` | string | Optional ADC C_M hiding commitment, bound by the exact source signature and admission; never an ordinary digest of private evaluation facts. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -84,3 +85,11 @@ Source schema: [`doc/schemas/whisper-embargo-manifest.v1.schema.json`](../../sch
 
 - Required: `yes`
 - Shape: object
+
+<a id="field-disclosure-original"></a>
+## `disclosure/original`
+
+- Required: `no`
+- Shape: string
+
+Optional ADC C_M hiding commitment, bound by the exact source signature and admission; never an ordinary digest of private evaluation facts.

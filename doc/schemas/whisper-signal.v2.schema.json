@@ -213,6 +213,12 @@
       "type": "string",
       "format": "date-time",
       "maxLength": 40
+    },
+    "disclosure/original": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50,
+      "description": "Optional ADC C_M hiding commitment, bound by the exact source signature and admission; never an ordinary digest of private evaluation facts."
     }
   },
   "allOf": [
@@ -281,6 +287,11 @@
     "case/not-after": [
       "case/continuity-key-digest",
       "case/status-authority"
+    ],
+    "disclosure/original": [
+      "case/continuity-key-digest",
+      "case/status-authority",
+      "case/not-after"
     ]
   }
 }

@@ -51,6 +51,7 @@ Contextual authored signal with reviewed material origin; origin grants no sourc
 | [`origin/collection-method`](#field-origin-collection-method) | `yes` | ref: `whisper-origin.v1.schema.json#/properties/origin~1collection-method` |  |
 | [`origin/processing`](#field-origin-processing) | `yes` | ref: `whisper-origin.v1.schema.json#/properties/origin~1processing` |  |
 | [`origin/coverage`](#field-origin-coverage) | `yes` | ref: `whisper-origin.v1.schema.json#/properties/origin~1coverage` |  |
+| [`disclosure/original`](#field-disclosure-original) | `no` | string | Optional ADC C_M hiding commitment, bound by the exact source signature and admission; never an ordinary digest of private evaluation facts. |
 
 ## Conditional Rules
 
@@ -344,3 +345,11 @@ Maximum number of bounded forwards allowed under local policy.
 
 - Required: `yes`
 - Shape: ref: `whisper-origin.v1.schema.json#/properties/origin~1coverage`
+
+<a id="field-disclosure-original"></a>
+## `disclosure/original`
+
+- Required: `no`
+- Shape: string
+
+Optional ADC C_M hiding commitment, bound by the exact source signature and admission; never an ordinary digest of private evaluation facts.

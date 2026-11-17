@@ -919,6 +919,26 @@ M/M_A, custody, public proofs, AD atomic closure, executor and all four runtime
 cells remain open. ADC-004/005 stay todo. No formal campaign, model/VM or new
 runtime qualification was performed; historical evidence is unchanged.
 
+## ADC-001/005 signed original-source binding checkpoint (2026-11-17)
+
+The optional `disclosure/original` field carries C_M in signed protected signal
+v2/v3 and the separate detached anchor manifest. Both require the complete case
+commitment. P035 checks their exact equality before detached admission; the
+existing receipt commits the signed objects without adding a manifest list or
+private opening. An ordinary source without C_M cannot acquire ADC retrospectively.
+
+The independently verified historical anchor carries C_M, the original source
+certificate digest/epoch and receipt acceptance time. The registered owner retains
+these claims; ordinary snapshot/input preimages remain unchanged. The original
+verifier binds that source to M and the complete exact M_A bijection. Historical
+publication-time validity is separate from current permission to sign or count.
+
+Actual full/detached producer-to-anchor tests and snapshot refusal/roundtrip checks
+exercise this component. Source custody, S026 atomic preparation, real scoped
+issuance, installed original/count adapters, public commit, AD closure, executor
+and all four runtime cells remain open. ADC-001/004/005 stay `todo`; this checkpoint
+does not replace historical ADC-011/LLR-011 qualification or promote readiness.
+
 ## ADC-005 source-barrier and stale-recovery development checkpoint (2026-11-17)
 
 The case owner now separates publication predicates from acquisition of an

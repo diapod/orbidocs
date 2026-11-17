@@ -940,7 +940,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `4` | `2` |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`whisper-embargo-audience-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-audience-manifest.v1.md) | `17` | `0` | `no` | `yes` | `0` | `1` |
-| [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) | `11` | `0` | `no` | `yes` | `0` | `0` |
+| [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) | `12` | `1` | `no` | `yes` | `0` | `0` |
 | [`whisper-embargo-original.v1.schema.json`](schemas-gen/schemas/whisper-embargo-original.v1.md) | `15` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
 | [`whisper-origin-lineage.v1.schema.json`](schemas-gen/schemas/whisper-origin-lineage.v1.md) | `2` | `0` | `no` | `yes` | `0` | `0` |
@@ -957,8 +957,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-signal-draft.local.v1.schema.json`](schemas-gen/schemas/whisper-signal-draft.local.v1.md) | `19` | `18` | `yes` | `yes` | `0` | `0` |
 | [`whisper-signal-draft.local.v2.schema.json`](schemas-gen/schemas/whisper-signal-draft.local.v2.md) | `23` | `19` | `yes` | `yes` | `0` | `0` |
 | [`whisper-signal.v1.schema.json`](schemas-gen/schemas/whisper-signal.v1.md) | `21` | `21` | `yes` | `yes` | `3` | `2` |
-| [`whisper-signal.v2.schema.json`](schemas-gen/schemas/whisper-signal.v2.md) | `28` | `18` | `yes` | `yes` | `1` | `0` |
-| [`whisper-signal.v3.schema.json`](schemas-gen/schemas/whisper-signal.v3.md) | `32` | `18` | `yes` | `yes` | `0` | `0` |
+| [`whisper-signal.v2.schema.json`](schemas-gen/schemas/whisper-signal.v2.md) | `29` | `19` | `yes` | `yes` | `1` | `0` |
+| [`whisper-signal.v3.schema.json`](schemas-gen/schemas/whisper-signal.v3.md) | `33` | `19` | `yes` | `yes` | `0` | `0` |
 | [`whisper-source-certificate.v1.schema.json`](schemas-gen/schemas/whisper-source-certificate.v1.md) | `18` | `7` | `yes` | `yes` | `1` | `0` |
 | [`whisper-source-certificate.v2.schema.json`](schemas-gen/schemas/whisper-source-certificate.v2.md) | `19` | `7` | `yes` | `yes` | `0` | `0` |
 | [`whisper-source-certificate.v3.schema.json`](schemas-gen/schemas/whisper-source-certificate.v3.md) | `19` | `7` | `yes` | `yes` | `0` | `0` |
