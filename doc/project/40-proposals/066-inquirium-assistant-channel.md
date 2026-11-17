@@ -769,6 +769,16 @@ only after explicit import, digesting, manifest construction, and the normal
 trust and endorsement path. Mutable workspace or engine-cache paths are never
 model identity.
 
+Independent profiles may share an operator-selected immutable source of model
+bytes while retaining distinct managed roots and control registries. Local
+import may clone a pinned, admitted regular-file descriptor into its journaled,
+quota-reserved stage, falling back to bounded copying when cloning is unsupported
+or crosses devices. Both paths require the same full digest/size verification
+before publication. Source availability never transfers source trust, endorsement,
+activation, pins, leases or runtime caches. Sharing physical extents does not make
+the source and destination one object or establish physical-space savings; ordinary
+single-owner cleanup remains local to each profile.
+
 An engine tree is a materialized view over admitted assets, not an alternative
 authority store. Materialization should prefer reflink/copy-on-write where the
 filesystem supports it and otherwise use a verified copy. It must not expose
