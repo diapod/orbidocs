@@ -2561,3 +2561,14 @@ evaluation is stale. Unchanged public records do not establish that subclaim.
 Work is paused at the owner's request; no new window or production adoption.
 The original runtime and reader results remain unchanged. Resume basis:
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-V3-RENEW-RECEPTION-20261108.md`.
+
+### Explicit ADC source transfer component (2026-11-18)
+
+The existing local case workflow now accepts only adopted profile/certification/
+authoring-operation references for `retain-adc-consent`. Actual source/Vault and
+S026 owners transfer the complete retained consent and approved payload/opening
+without a private JSON export, fresh signature or status fetch. The saved scope
+binding supports exact replay; current actor/root/disclosure and profile adoption
+remain gates. This uses the collection-status budget for private retention, not
+a new first-emission permission. Native holds/egress and complete issuance/runtime
+qualification remain under P015-005-ADC and ADC-001/003/004/005.

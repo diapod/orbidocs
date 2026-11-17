@@ -387,6 +387,53 @@
           "required": [
             "operation",
             "operation/id",
+            "source"
+          ],
+          "properties": {
+            "operation": {
+              "const": "retain-adc-consent"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "profile/digest",
+                "certification/id",
+                "operation/id"
+              ],
+              "properties": {
+                "profile/digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+                  "maxLength": 50
+                },
+                "certification/id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^[A-Za-z0-9_.:-]+$"
+                },
+                "operation/id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^[A-Za-z0-9_.:-]+$"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
             "continuity/key-digest",
             "audience",
             "evidence"

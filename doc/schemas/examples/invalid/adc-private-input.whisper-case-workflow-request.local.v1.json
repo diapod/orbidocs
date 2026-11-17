@@ -1,0 +1,13 @@
+{
+  "schema": "whisper-case-workflow-request.local.v1",
+  "command": {
+    "operation": "retain-adc-consent",
+    "operation/id": "8a5a2881-582f-4f70-a78f-f91c40e7c703",
+    "source": {
+      "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "certification/id": "source-certification",
+      "operation/id": "source-authoring",
+      "payload/bytes": "cHJpdmF0ZQ"
+    }
+  }
+}

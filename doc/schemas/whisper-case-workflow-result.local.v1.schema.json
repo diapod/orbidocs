@@ -641,6 +641,29 @@
           "maxLength": 40
         }
       }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "adc-consent/state"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "adc-consent/state": {
+          "const": "retained",
+          "description": "Authenticated local transfer acknowledgement; no portable custody or release authority."
+        }
+      }
     }
   ]
 }

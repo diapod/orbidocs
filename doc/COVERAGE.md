@@ -936,10 +936,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-status.v1.schema.json`](schemas-gen/schemas/whisper-case-status.v1.md) | `7` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-case-succession-presentation.v1.schema.json`](schemas-gen/schemas/whisper-case-succession-presentation.v1.md) | `4` | `0` | `no` | `yes` | `0` | `2` |
 | [`whisper-case-succession-presentation.v2.schema.json`](schemas-gen/schemas/whisper-case-succession-presentation.v2.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
-| [`whisper-case-workflow-request.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v1.md) | `2` | `0` | `no` | `yes` | `5` | `5` |
-| [`whisper-case-workflow-request.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v2.md) | `2` | `0` | `no` | `yes` | `2` | `1` |
-| [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) | `0` | `0` | `no` | `yes` | `6` | `2` |
-| [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `4` | `2` |
+| [`whisper-case-workflow-request.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v1.md) | `2` | `0` | `no` | `yes` | `6` | `6` |
+| [`whisper-case-workflow-request.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v2.md) | `2` | `0` | `no` | `yes` | `3` | `2` |
+| [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) | `0` | `0` | `no` | `yes` | `7` | `2` |
+| [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `5` | `2` |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`whisper-embargo-audience-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-audience-manifest.v1.md) | `17` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) | `12` | `1` | `no` | `yes` | `0` | `0` |
@@ -2113,5 +2113,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `946`
 - Generated schema docs: `947`
-- Positive examples: `855`
-- Negative examples: `853`
+- Positive examples: `859`
+- Negative examples: `855`

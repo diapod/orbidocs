@@ -185,7 +185,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **261** host-local / **293** total; **54** owner groups.
+Entries: **262** host-local / **294** total; **55** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -413,6 +413,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 |---|---|---|---|---|---|---|
 | <code>whisper.case.policy.prepare</code> | <code>host/whisper.case.policy.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>whisper.case.policy.read</code> | <code>host/whisper.case.policy.read</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper source consent host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.case.adc-consent.retain</code> | <code>host/whisper.case.adc-consent.retain</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>daemon bounded HTTP capture host</code>
 

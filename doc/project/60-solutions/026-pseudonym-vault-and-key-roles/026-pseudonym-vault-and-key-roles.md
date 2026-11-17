@@ -745,3 +745,15 @@ is not claimed. Final software gates, review, owned-cache cleanup and fresh
 qualification after cleanup passed; the full-record task/capability is done as
 of 2026-11-17. Private detached readback remains a separate extension.
 See `node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.
+
+## ADC source transfer boundary (2026-11-18)
+
+The post-MVP ADC continuation uses the existing protected source and author
+workflow owners. An explicit local reference-only transfer resolves actual
+participant/Vault/certificate and adopted source status, then retains complete
+M/M_A plus approved payload/opening in one fenced encrypted S026 update. Saved
+source-operation binding controls replay; no private-material read endpoint,
+new key authority or release permission is introduced. Source and target keep
+separate fences and finite lifecycles. Native key-horizon holds, egress and full
+runtime qualification remain open in P013 ADC-001/003/004/005. The hard-MVP status
+above and all historical qualifications keep their existing scope.
