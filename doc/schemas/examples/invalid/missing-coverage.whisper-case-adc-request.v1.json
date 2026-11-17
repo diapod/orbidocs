@@ -1,0 +1,37 @@
+{
+  "schema": "whisper-case-adc-request.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "request/id": "c010bb08-54dd-4ddb-8888-003451227631",
+  "condition/original": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "command": {
+    "operation": "abandonment",
+    "body": {
+      "intent": {
+        "original": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "audience": "room-A/history-v1",
+        "payload": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "proof": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "executor": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+        "route": "route-A",
+        "envelope_plan": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "submission": {
+          "component": "whisper-case",
+          "idempotency/key": "adc-release-A"
+        },
+        "trigger": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "handover_by": 1793793900
+      },
+      "receipt": {
+        "head": 1,
+        "event_digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "observed_count": 2,
+        "source_as_of": 1793793600
+      },
+      "tombstone_at": 1793793900
+    }
+  },
+  "signer": "z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+  "issued-at": "2026-11-04T12:00:00Z",
+  "not-after": "2026-11-04T12:15:00Z",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

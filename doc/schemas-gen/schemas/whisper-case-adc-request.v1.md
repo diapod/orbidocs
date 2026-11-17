@@ -15,6 +15,13 @@ Source schema: [`doc/schemas/whisper-case-adc-request.v1.schema.json`](../../sch
 | [`issued-at`](#field-issued-at) | `yes` | string |  |
 | [`not-after`](#field-not-after) | `yes` | string |  |
 | [`signature`](#field-signature) | `yes` | string |  |
+
+## Definitions
+
+| Definition | Shape | Description |
+|---|---|---|
+| [`intent`](#def-intent) | object |  |
+| [`receipt`](#def-receipt) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -70,3 +77,15 @@ Source schema: [`doc/schemas/whisper-case-adc-request.v1.schema.json`](../../sch
 
 - Required: `yes`
 - Shape: string
+
+## Definition Semantics
+
+<a id="def-intent"></a>
+## `$defs.intent`
+
+- Shape: object
+
+<a id="def-receipt"></a>
+## `$defs.receipt`
+
+- Shape: object

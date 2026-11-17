@@ -613,6 +613,32 @@
           "const": "not-published"
         }
       }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "reason",
+        "retry",
+        "retry-at"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "reason": {
+          "const": "adc-not-yet-valid"
+        },
+        "retry": {
+          "const": "at-deadline"
+        },
+        "retry-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        }
+      }
     }
   ]
 }

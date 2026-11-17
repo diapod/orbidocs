@@ -858,6 +858,39 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-005 executor-claim development checkpoint (2026-11-17)
+
+The current pre-enable v1 request replaces remote-AD evaluation for abandonment
+with the executor's signed exact intent/receipt/submission claim, tombstone time
+and coverage binding. The owner authenticates an admitted actor independently
+of the supplied slot fields, then applies the revised active/committed/deadline
+law. It trusts the executor report; a coverage digest is not independent proof
+of AD absence. Owner phases are only committed/abandoned. Current private intent
+fields are not yet the recipient-safe public intent required by ADC-001.
+
+Valid early claims return a typed time deferral without candidate, result or
+operation charge, even at full ordinary quota. Bad binding is a retained refusal
+before that deferral. Expired bytes do not revive and future issue time is
+included in retry-at. The original slot receipt survives author withdrawal or
+amendment; closure freezes new claims and exact saved results remain replayable.
+The local operator workflow schemas v1/v2 preserve an explicit retry-at, without
+minting a signed case result. Full executor/remote deferral handling remains an
+execution integration obligation.
+
+The model separates owner settlement from executor closure. Exact absent AD
+history proposes closure; only an exact completed closure establishes a local
+tombstone. Settlement and tombstone stickiness lift to finite histories, and
+concrete guard mutations cover receipt, authenticated actor and tombstone.
+Development checks cover 102 audited theorems, 53 named vectors and 4096 trace
+steps; actual axiom union is propext/Quot.sound. The actual Rust decision adapter
+covers 17,699 comparisons and twelve independent expected histories. The scoped
+Rust entry passes 318 tests including 24 signed ADC fixtures, with one existing
+exporter ignored; the daemon retry-at projection test passes for both local
+workflow versions. All-target core/owner and daemon-library Clippy pass. These are
+current worktree checks, not a new clean-source retained qualification or proof
+of crypto, AD closure, custody or filesystem recovery. Historical ADC-011/LLR-011
+evidence retains its pins/scope; ADC-005 remains todo.
+
 ## ADC-005 native environment checkpoint (2026-11-17) {#adc-native-environment}
 
 The resumed implementation uses integrated Node `d13029149` / Orbidocs
@@ -888,9 +921,9 @@ commands cannot spend it; valid settlement survives a full command/operation
 budget and restart without accumulating preparations on signer failures. The
 owner's admitted principal is retained independently of its replaceable signer:
 fresh mismatched-signer decisions are unavailable, while exact history remains
-readable. Three added actual-owner fixtures cover these boundaries. This still
-uses the original synthetic abandonment evidence port, not the revised executor
-claim; its new model and full runtime stay open.
+readable. Three added actual-owner fixtures cover these boundaries. At that checkpoint the synthetic abandonment port and old model were still in
+use. The executor-claim component above supersedes those boundaries; the full
+runtime remains open.
 The diagnostic comparison entry passes 15,636 model/Rust comparisons, eight
 independent specification histories and 304 scoped component tests, including
 18 ADC owner fixtures. No new clean-source qualification or formal evidence

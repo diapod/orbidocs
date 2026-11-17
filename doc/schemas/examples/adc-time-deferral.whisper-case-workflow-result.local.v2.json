@@ -1,0 +1,6 @@
+{
+  "schema": "whisper-case-workflow-result.local.v2",
+  "reason": "adc-not-yet-valid",
+  "retry": "at-deadline",
+  "retry-at": "2026-11-17T12:00:00Z"
+}
