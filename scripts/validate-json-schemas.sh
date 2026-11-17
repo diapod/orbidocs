@@ -29,6 +29,8 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.whisper-release-commit-statement.v1.json) echo "$SCHEMAS_DIR/whisper-release-commit-statement.v1.schema.json" ;;
+    */whisper-release-commit-statement.v1.json) echo "$SCHEMAS_DIR/whisper-release-commit-statement.v1.schema.json" ;;
     *.whisper-adc-source-evaluation.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-source-evaluation.local.v1.schema.json" ;;
     */whisper-adc-source-evaluation.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-source-evaluation.local.v1.schema.json" ;;
     *.whisper-adc-original-basis.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-original-basis.local.v1.schema.json" ;;

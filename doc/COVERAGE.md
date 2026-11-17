@@ -952,6 +952,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-private-exchange-header.v2.schema.json`](schemas-gen/schemas/whisper-private-exchange-header.v2.md) | `10` | `0` | `no` | `yes` | `1` | `2` |
 | [`whisper-redaction-prepare-request.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-request.v1.md) | `9` | `6` | `yes` | `yes` | `1` | `0` |
 | [`whisper-redaction-prepare-response.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-response.v1.md) | `11` | `1` | `yes` | `yes` | `1` | `1` |
+| [`whisper-release-commit-statement.v1.schema.json`](schemas-gen/schemas/whisper-release-commit-statement.v1.md) | `13` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-release-execution.v1.schema.json`](schemas-gen/schemas/whisper-release-execution.v1.md) | `5` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-release-intent.v1.schema.json`](schemas-gen/schemas/whisper-release-intent.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-reviewed-publication-check.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-check.local.v1.md) | `1` | `0` | `no` | `yes` | `0` | `0` |
@@ -1902,6 +1903,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-private-exchange-header.v2.schema.json`](schemas-gen/schemas/whisper-private-exchange-header.v2.md) |  |  |
 | [`whisper-redaction-prepare-request.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-request.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
 | [`whisper-redaction-prepare-response.v1.schema.json`](schemas-gen/schemas/whisper-redaction-prepare-response.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
+| [`whisper-release-commit-statement.v1.schema.json`](schemas-gen/schemas/whisper-release-commit-statement.v1.md) |  |  |
 | [`whisper-release-execution.v1.schema.json`](schemas-gen/schemas/whisper-release-execution.v1.md) |  |  |
 | [`whisper-release-intent.v1.schema.json`](schemas-gen/schemas/whisper-release-intent.v1.md) |  |  |
 | [`whisper-reviewed-publication-check.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-check.local.v1.md) |  |  |
@@ -2109,7 +2111,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
-- Canonical schemas: `945`
-- Generated schema docs: `946`
-- Positive examples: `850`
-- Negative examples: `845`
+- Canonical schemas: `946`
+- Generated schema docs: `947`
+- Positive examples: `851`
+- Negative examples: `846`

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-release-commit-statement:v1",
+  "title": "whisper-release-commit-statement.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "description": "Public single-audience ADC commit statement under the fixed admitted case authority. No private Acceptance, source count, revisions or other audiences. Signature origin and exact consent binding are separate from actual owner commit/exposure and independent author admission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "release/id",
+    "condition/original",
+    "manifest/digest",
+    "intent/digest",
+    "audience",
+    "executor",
+    "handover/by",
+    "condition",
+    "case/authority",
+    "attested/at",
+    "result",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-release-commit-statement.v1"
+    },
+    "release/id": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "condition/original": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "manifest/digest": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "intent/digest": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "audience": {
+      "$ref": "room-release-audience.v1.schema.json"
+    },
+    "executor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "handover/by": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "others",
+        "window_end",
+        "release_end",
+        "mode"
+      ],
+      "properties": {
+        "others": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "window_end": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "release_end": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "mode": {
+          "enum": [
+            "confirm",
+            "preauthorized"
+          ]
+        }
+      }
+    },
+    "case/authority": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "attested/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 30
+    },
+    "result": {
+      "const": "satisfied"
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 86,
+      "maxLength": 86,
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  }
+}

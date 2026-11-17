@@ -1,0 +1,25 @@
+{
+  "schema": "whisper-release-commit-statement.v1",
+  "release/id": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w",
+  "condition/original": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+  "manifest/digest": "sha256:TixhSb5Tas7yg75a_A-CkQAbKGfv8TBKgp977pzd2q8",
+  "intent/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "audience": {
+    "schema": "room-release-audience.v1",
+    "room/id": "room:adc-A",
+    "history/policy-digest": "sha256:uXoQ3VpJVCJ1jNB9dqUy10Q0ksvp8HXMqQmHsTAmhl0"
+  },
+  "executor": "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "handover/by": 1800000050,
+  "condition": {
+    "others": 2,
+    "window_end": 1800000000,
+    "release_end": 1800000100,
+    "mode": "confirm"
+  },
+  "case/authority": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "attested/at": "2026-11-17T12:00:25.000000000Z",
+  "result": "satisfied",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "observed_count": 7
+}
