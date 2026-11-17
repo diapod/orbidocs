@@ -293,6 +293,8 @@
             "owner-material-limit",
             "owner-integrity-unavailable",
             "owner-dependency-unavailable",
+            "evaluation-stale",
+            "evaluation-stale-exhausted",
             "owner-expired",
             "owner-binding",
             "owner-schema-unsupported",

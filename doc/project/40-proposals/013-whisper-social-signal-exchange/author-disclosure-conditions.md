@@ -858,6 +858,42 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-005 source-barrier and stale-recovery development checkpoint (2026-11-17)
+
+The case owner now separates publication predicates from acquisition of an
+RAII source barrier. Missing adapter support refuses. Signing/reply preparation
+are outside it; final time, retained pin and lease checks follow acquisition.
+The token lives through Store commit and its final fence. Full evaluation is
+not rerun under the barrier or when recovering a pending candidate. The owner
+supplies a 250 ms acquisition budget; real relay enforcement and durable
+instance/installation/file/scope/revision pins remain ADC-004 work.
+
+Stale publication atomically deletes its candidate, records a bounded technical
+cycle/digest binding and charges the shared operation window. It changes no
+accepted head or signed outcome and cannot use settlement reserves. Restart
+preserves the three-cycle limit and cross-operation request-ID conflict checks.
+Cleanup failure blocks the owner until verified reopen. The same bytes can
+be reevaluated only after durable invalidation; the fourth stale-cycle attempt
+does not evaluate. Saved final results retain exact replay. Technical history
+uses existing finite Store limits and the case/replay horizon.
+
+Typed local workflow responses and relay diagnostics distinguish transient
+`evaluation-stale` from terminal `evaluation-stale-exhausted`; neither is a
+signed case result. Five new component histories cover acquisition delay,
+fence lifetime, missing guard, cycles/restart/conflicts/budgets and cleanup
+failure. Their source pin/lock is synthetic, not real relay qualification.
+The inspected signer audit receives no signature or raw control. ADC-004
+adapters, privacy proofs and actual execution remain open; ADC-005 stays todo.
+
+The private snapshot now requires a guarded-publication contract marker. Older
+strict readers refuse the new shape; new readers do not upgrade old prototypes
+by default. Diagnostic regression passed 17,699 model/Rust comparisons, twelve
+independent histories and 330 scoped Rust tests, including 35 signed ADC owner
+histories (one existing exporter ignored). The marker-bearing owner suite
+passed again directly, 35/35; two focused daemon adapter tests passed. Schemas
+and source mirrors include positive local errors and negative case-result
+fixtures. No full runtime, new retained campaign or readiness claim is made.
+
 ## ADC-005 frozen-registration development checkpoint (2026-11-17)
 
 The existing case owner now has an explicit host composition entry,

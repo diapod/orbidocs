@@ -1,0 +1,5 @@
+{
+  "schema": "whisper-case-workflow-result.local.v1",
+  "reason": "evaluation-stale",
+  "retry": "evidence-change"
+}
