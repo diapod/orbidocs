@@ -47,7 +47,10 @@ refuse. until only decreases through reasoned facts. initial_until and
 tombstone_until never change. Reads, retries, imports and restarts do not renew.
 The separate preview deadline still limits signing. Clock observations use the
 shared monotonic fence. Sign checks before and after private work, before commit
-and before release. No result is released until the DB and final fence commit.
+and before release. The preview deadline admits the initial signature commit;
+a saved signature does not become preview-expired while its buffer remains live.
+After commit, release checks the buffer/reference deadline, not the earlier
+preview deadline. No result is released until the DB and final fence commit.
 
 A handoff must commit before until. Its sealed reference may serve until
 min(Memarium payload_until, tombstone_until), further constrained by current
@@ -74,7 +77,10 @@ release; never expose local first-seen observation authority in the response.
 
 The payload digest, commitment and retained reference remain sealed. Locked
 Vault maintenance performs only time expiry/compaction, never custody queries.
-Readback is the handoff trigger. Background maintenance gets no decryption grant.
+Readback is the handoff trigger. A fresh committed signature is returned without
+a custody query: no consumer could have captured bytes not yet released.
+Subsequent reads inspect the original provider. Background maintenance gets no
+decryption grant.
 
 Full-record local inspection does not append PayloadRead facts. Public
 read-private keeps its per-call audit. Its audit cannot be claimed as a
@@ -99,8 +105,10 @@ an effect description, or a typed refusal. The host performs effects.
 | handoff-available/detached | Protected profile fact; buffer expires normally. |
 | handoff-available/full available | CAS sealed reference and remove all local payloads. |
 | handed-off/read | Exact local_material only, before reference horizon. |
-| erased or terminal missing full bytes | material-unavailable, retry=never. |
-| dependency failure/ReplaceProvider | dependency-recovery; do not repin or fall back. |
+| erased, expired or proof-unavailable full material, even before until | material-unavailable, retry=never; retire the buffer, no fallback. |
+| current egress/tier policy denies local read | dependency-unavailable, retry=policy-change. |
+| observation changed during local read | dependency-unavailable, retry=dependency-recovery. |
+| dependency failure/ReplaceProvider | dependency-unavailable, retry=dependency-recovery; a pin mismatch requires the original provider, never repinning or fallback. |
 | buffer/until | Delete revisions and keep small tombstone. |
 | reference/reference deadline | Delete reference; retain terminal knowledge until original tombstone end. |
 | tombstone/tombstone_until | Absent; read/sign cannot create anything. |
@@ -110,7 +118,9 @@ an effect description, or a typed refusal. The host performs effects.
 Disallowed combinations refuse. Expired is a terminal reason; tombstone is its
 retained representation. The v4 readback exposes separate buffer/reference
 horizons and typed availability. Reasons: preview-expired, expired,
-expired-before-handoff, material-unavailable, legacy-unknown. Detached uses
+expired-before-handoff, material-unavailable, dependency-unavailable and
+legacy-unknown. Terminal material-unavailable requires retry=never; dependency
+unavailability requires dependency-recovery or policy-change. Detached uses
 expired, never expired-before-handoff. Retry reuses the complete existing
 protocol vocabulary, including dependency-recovery; it is not a new enum copy.
 Closed v1-v3 schema bytes remain unchanged.
@@ -118,7 +128,10 @@ Closed v1-v3 schema bytes remain unchanged.
 ### Persistence, capacity and recovery
 
 The independent fence binds the revision and actual state digest, including
-clear maintenance metadata. Horizons are also bound to sealed state/AAD. A
+clear maintenance metadata. V2 roots bind ciphertext addresses and lengths;
+exact payload bytes are checked on every read. Legacy inline roots are fully
+verified before a pending/commit/final-fenced upgrade, never reinterpreted.
+Horizons are also bound to sealed state/AAD. A
 mismatch is Corrupt. Pending/committed recovery must resolve exact DB outcomes;
 missing established fencing cannot be initialized as a fresh owner. This blocks
 DB-only rollback, not simultaneous restore of DB and fence/filesystem.
@@ -129,7 +142,11 @@ Keep 256 live operations, 16 revisions and 4096 events, plus 2048 reserved or ac
 tombstone slots. Reserve terminal capacity at admission, including live references.
 Full capacity blocks new preparations, never retirement of admitted work.
 S020 runs every 60 seconds, at most 64 operations with bounded nonoverlapping
-execution. Access-time checks are authoritative even without the sweeper.
+execution. One fenced transaction retires each selected batch. Access-time
+checks are authoritative even without the sweeper. Exhausting the bounded
+narrowing journal retires the operation instead of retaining an unjustified
+longer horizon. MaterialAvailability remains reserved; the current host does
+not derive an initial horizon from unobserved material.
 
 Legacy blocks colliding IDs across all participating owners and remains untouched.
 Capacity refusal caused by protected legacy is legacy-capacity. Do not create a
@@ -164,6 +181,13 @@ DB restore before/after handoff and erase; missing/tampered fence and metadata;
 locked Vault never queries custody; exact/full/detached distinctions; unchanged
 operator and audit class; scope equality across reserve/abandon; legacy refusal;
 regressions for issuer, renewal and case owner consumers.
+
+The development gate is the functional walk plus its offline trace predicates
+and native-inspection adapters in disposable scratch. Deterministic deferred
+publication must precede eventual acceptance in the adapter regression. These
+checks create no retained campaign, archive or Git evidence controls. A passing
+walk alone is insufficient: formal qualification must not be the first test of
+the selected trace and HTTP/native result shapes.
 
 A single development driver must pass both full-record variants, detached expiry,
 restart, handoff, erase before until, reference read after buffer expiry, restore

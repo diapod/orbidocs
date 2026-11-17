@@ -689,7 +689,8 @@
             "expired",
             "expired-before-handoff",
             "material-unavailable",
-            "legacy-unknown"
+            "legacy-unknown",
+            "dependency-unavailable"
           ]
         },
         "retry": {
@@ -703,7 +704,8 @@
             "busy",
             "clock-regressed",
             "corrupt",
-            "reconciliation-required"
+            "reconciliation-required",
+            "provider-pin-mismatch"
           ]
         }
       },
@@ -716,7 +718,8 @@
                   "expired",
                   "expired-before-handoff",
                   "preview-expired",
-                  "legacy-unknown"
+                  "legacy-unknown",
+                  "material-unavailable"
                 ]
               }
             }
@@ -725,6 +728,25 @@
             "properties": {
               "retry": {
                 "const": "never"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "reason": {
+                "const": "dependency-unavailable"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "retry": {
+                "enum": [
+                  "dependency-recovery",
+                  "policy-change"
+                ]
               }
             }
           }
