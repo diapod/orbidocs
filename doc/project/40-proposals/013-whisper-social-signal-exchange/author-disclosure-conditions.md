@@ -858,6 +858,31 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-001 exact public-consent retention checkpoint (2026-11-17)
+
+The existing Node original port now supplies the exact authenticated single-audience
+manifest set as well as its compact basis. Actual full/detached P035 admission and
+the complete M/M_A/certificate-use verifier precede freezing those bytes. The
+registration owner rechecks signature and basis consistency, then retains the
+canonical manifests and release-id/digest map in its existing fenced prepare/final
+blob graph. Raw signed manifests are not independent certificate/profile authority.
+Unsupported original adapters refuse before reserving a registration candidate.
+
+Recovery uses the saved set without source acquisition or certificate renewal;
+exact replay and first withdrawal preserve it with live ports disabled. Private
+M, payload and secret openings are not copied into this public-consent storage.
+Owner inspection remains privileged, not a public inventory of other audiences.
+The experimental record marker changes to `public-consent.v1`; incompatible
+pre-enable records refuse rather than acquiring an invented legacy meaning.
+
+This is development component coverage, not clean-source/runtime qualification.
+Public intent admission, protected execution openings, atomic retention/exposure
+of the public statement with the private result, source/key/payload holds, actual
+issuance, executor/cold receiver and all four runtime cells remain open.
+ADC-001/004/005 and global/public readiness are unchanged. See the
+[Node owner contract](https://github.com/diapod/node/blob/master/whisper-case-service/ADC.md#exact-public-consent-in-owner-registration-2026-11-17).
+Historical qualification bytes and scope remain unchanged.
+
 ## ADC-004 public statement contract checkpoint (2026-11-17)
 
 `whisper-release-commit-statement.v1` is now the bounded single-audience public
