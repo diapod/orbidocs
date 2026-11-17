@@ -858,6 +858,35 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+## ADC-005 frozen-registration development checkpoint (2026-11-17)
+
+The existing case owner now has an explicit host composition entry,
+`register_adc`, which freezes the independently verified original, finite
+release policy and empty projection with registration. Ordinary registration
+does not authorize a later ADC retrofit. Pending registration recovers its
+exact policy/proof; restart or configuration changes do not renew it. The
+private pre-enable snapshot requires the policy, with no guessed migration.
+Default settlement/TTL checks run before preparation or signing. The current
+short-clock component fixtures explicitly choose a shorter test profile; they
+are not evidence for the default 60/60/900-second runtime profile.
+
+Static handoff/reply shortfalls are retained permanent refusals; a shorter
+actual response lease is unavailable, not a consent refusal. A fresh final
+time and the actual sealed lease are checked before publication, using the
+registered TTL/horizon. First withdrawal needs no live count/original adapter.
+This shares the existing owner/candidate/Store/fence machinery. It does not
+qualify M/M_A admission, remote policy disclosure, the relay guard, real
+ADC-004 adapters, stale-cycle recovery or release execution. ADC-005 remains
+todo and all historical qualification scope remains unchanged.
+
+Diagnostic checks passed 17,699 model/Rust comparisons, twelve independent
+specification histories and 324 scoped Rust tests, including 30 named ADC
+fixtures. One existing exporter remains ignored; the new strict policy
+roundtrip test passed separately. The runner requires the exact reviewed
+execution-name inventory, with missing/duplicate/substituted/ignored controls.
+Core/owner all-target Clippy and global retention checks pass. No new formal
+campaign, retained qualification or release-readiness claim is introduced.
+
 ## ADC-005 executor-claim development checkpoint (2026-11-17)
 
 The current pre-enable v1 request replaces remote-AD evaluation for abandonment

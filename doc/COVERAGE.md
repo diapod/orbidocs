@@ -919,7 +919,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`weak-signal-whisper-draft.local.v2.schema.json`](schemas-gen/schemas/weak-signal-whisper-draft.local.v2.md) | `17` | `0` | `yes` | `yes` | `0` | `0` |
 | [`whisper-authoring-output-policy.local.v1.schema.json`](schemas-gen/schemas/whisper-authoring-output-policy.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
 | [`whisper-case-acceptance.v1.schema.json`](schemas-gen/schemas/whisper-case-acceptance.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
-| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) | `9` | `0` | `no` | `yes` | `0` | `1` |
+| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) | `9` | `0` | `no` | `yes` | `1` | `2` |
 | [`whisper-case-authorities.local.v1.schema.json`](schemas-gen/schemas/whisper-case-authorities.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-authority-policy.v1.schema.json`](schemas-gen/schemas/whisper-case-authority-policy.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-closure.v1.schema.json`](schemas-gen/schemas/whisper-case-closure.v1.md) | `7` | `0` | `no` | `yes` | `0` | `1` |
@@ -935,8 +935,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-succession-presentation.v2.schema.json`](schemas-gen/schemas/whisper-case-succession-presentation.v2.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
 | [`whisper-case-workflow-request.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v1.md) | `2` | `0` | `no` | `yes` | `5` | `5` |
 | [`whisper-case-workflow-request.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v2.md) | `2` | `0` | `no` | `yes` | `2` | `1` |
-| [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) | `0` | `0` | `no` | `yes` | `3` | `1` |
-| [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `1` | `1` |
+| [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) | `0` | `0` | `no` | `yes` | `4` | `2` |
+| [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `2` | `2` |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) | `11` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
@@ -2097,5 +2097,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `938`
 - Generated schema docs: `939`
-- Positive examples: `836`
-- Negative examples: `833`
+- Positive examples: `839`
+- Negative examples: `836`
