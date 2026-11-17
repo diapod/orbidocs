@@ -2,7 +2,7 @@
 
 Snapshot date: 2026-09-05.
 
-## Current-status reconciliation — 2026-11-16
+## Current-status reconciliation — 2026-11-17
 
 This page preserves dated snapshots, not a second current implementation tracker.
 For current Node readiness use `node:docs/MVP.md`, the structured
@@ -15,10 +15,11 @@ percentages below do not measure the subsequent changes.
   loose/extracted and fresh two-store results, not an all-new single-binary run.
   Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-11-04-whisper-authorship/README.md`.
 - [Finite authoring retention](../40-proposals/015-nym-certificates-and-renewal-baseline/authoring-output-retention.md):
-  P015-011 has bounded runtime and identical fresh two-store qualification;
-  its exact typed replica exception preserves a primary-retirement hold.
-  It stays partial pending final software gates and cleanup; this does not
-  qualify private detached readback or change global readiness.
+  P015-011 is done for bounded full-record case/non-case retention after
+  identical fresh two-store qualification, final gates, review and cleanup.
+  Its exact typed replica exception preserves a primary-retirement hold;
+  qualifier filesystem hermeticity, private detached readback and global
+  readiness remain separate.
 - [P015 succession](../40-proposals/015-nym-certificates-and-renewal-baseline.md#succession-tracker):
   P015-004 has independently completed its pure MVP gate; the October amendment
   below records its earlier open state. P015-006 has its own bounded lifecycle

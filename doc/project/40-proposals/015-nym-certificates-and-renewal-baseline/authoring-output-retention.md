@@ -2,9 +2,8 @@
 
 ## Executive Summary
 
-Accepted implementation contract for P015-011, 2026-11-16. The bounded runtime
-result is recorded under Next Actions; replica isolation has an explicitly
-adopted exception, with final software closeout still open.
+P015-011 closed on 2026-11-17 for the accepted full-record scope. The bounded
+qualification and identity-bound replica exception are recorded below.
 The authoring journal is a finite retry buffer;
 Memarium/P036 owns retained full-record material after a verified handoff.
 Both case and non-case authoring are included. Private detached readback and
@@ -188,27 +187,15 @@ superseded blobs. Loose, extracted and both-store fresh qualifications must agre
 Record owner, classification, inventory, dependencies/holds and minimum retention;
 unknown stays unknown. Prior operator-only/recovery-export grants do not extend.
 
-## Open Questions
+### Qualified scope and replica exception — 2026-11-17
 
-None for the accepted full-record scope. The deferred detached reader activates
-only with its first explicit consumer and needs its own contract and qualification.
-
-## Next Actions
-
-Shared laws, the finite store/S020 and the neutral pinned local-material port
-have component implementations. Host/v4/UI adoption passed scoped component
-review at Node f0af0ddd5. The complete ordinary development walk passed at
-Node c653df8f6, including real case/non-case FullRecord handoff, restart, erasure,
-provider loss, DB-only restore and expiry, followed by the explicitly approved
-fresh B detached control. This is development validation, not formal evidence.
-
-The optional source projection now uses the same driver and P035-011 journal;
-its read-only trace predicates require actual owner/process witnesses and
-separately selected native verification. They cannot qualify a campaign alone.
-Fresh formal attempt 02 at Node `c15ec3e13` / Orbidocs `b3d63b30` passed all
-13 runtime groups, 996 component outcomes and 47 named witnesses, with identical
-loose/extracted and fresh DEV/BIGBOY qualification of the 96439-byte retained set.
-Attempt 01 and its original tooling refusal remain unchanged. Evidence:
+The ordinary development walk preceded a fresh formal capture of the same driver
+at Node `c15ec3e13` / Orbidocs `b3d63b30`. All full-record runtime/conformance
+requirements passed, with identical loose, extracted and fresh two-store results.
+The complete retained positive set is 96439 bytes. The first formal refusal
+remains unchanged. Final review, full workspace gate and artifact cleanup passed;
+fresh qualification also succeeded after removing the owned Cargo dev cache.
+Evidence and exact scope:
 `node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.
 
 The retention owner accepted one identity-bound isolation exception on
@@ -228,6 +215,19 @@ isolated adoption, preserving the original failed attempt and cause capsule.
 The cheap nonnested alternatives required administrator authentication or
 interrupting other work; no such environment changes were made. P035-020 owns
 host-composed isolation as separate work. Exception/capsule/control bytes consume
-the unchanged budgets. Finish repository gates and artifact cleanup before
-changing P015-011 from partial. Global Whisper, private detached readback and
-P015-005 remain separate. No merge or push is part of this work.
+the unchanged budgets. Final repository gates and the owned-cache cleanup passed
+before closure. Global Whisper, private detached readback and P015-005 remain
+separate. No merge or push was part of this closeout.
+
+## Open Questions
+
+None for the accepted full-record scope. The deferred detached reader activates
+only with its first explicit consumer and needs its own contract and qualification.
+
+## Next Actions
+
+- P035-020: qualify host-composed isolation and close the exact exception through
+  additive full isolated adoption; preserve primary until then.
+- Activate private detached authoring readback/audit only for its first explicit
+  consumer, with a separate P015/P036 contract and qualification.
+- Keep P015-005, global Whisper and release readiness under their own gates.

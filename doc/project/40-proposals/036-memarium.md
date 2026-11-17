@@ -1200,6 +1200,7 @@ full-record inspection. The bounded P015-011 runtime passed loose/extracted and
 fresh both-store qualification at Node `c15ec3e13`. The accepted identity-bound
 replica exception proves isolated integrity/extraction, with primary retirement
 blocked until additive full isolated adoption; qualifier filesystem hermeticity
-is not claimed. Final software gates and cleanup remain open, so task/capability
-status stays partial.
+is not claimed. Final software gates, review, owned-cache cleanup and fresh
+qualification after cleanup passed; the full-record task/capability is done as
+of 2026-11-17. Private detached readback remains a separate extension.
 See `node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.

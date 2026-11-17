@@ -1258,7 +1258,7 @@ unknown. A recoverable-root buffer is not a cryptographic-erasure guarantee.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-011 | Bound protected authoring prepared-output retention | partial | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
+| P015-011 | Bound protected authoring prepared-output retention | done | P015-003; P036 retention; S026 | Before nonsynthetic private-case rollout or production P015-005 activation, bind a finite original horizon to protected authoring prepared output; do not renew it on read/import/restart. Preserve exact completion/readback within that horizon, make the Memarium handoff and local references explicit, and return a typed unavailable outcome after expiry. Preserve unknown legacy rows pending reviewed migration. Qualify expiry/replay/recovery and state the recoverable-root, filesystem-copy and erasure boundary; a recoverable operational key alone cannot prove crypto-erasure. |
 
 The [finite-output contract](015-nym-certificates-and-renewal-baseline/authoring-output-retention.md)
 freezes P015-011 full-record scope, dependency selection and reference lifetime.
@@ -1267,8 +1267,10 @@ runtime groups, 996 component outcomes and all 47 named witnesses. Loose,
 extracted and fresh DEV/BIGBOY qualifications agree. The owner-adopted typed
 replica exception preserves isolated integrity/extraction for the exact new set,
 full ordinary two-store qualification and a code-enforced primary hold; see the
-finite-output contract. P015-011 remains `partial` pending final software gates
-and cleanup. The nested-sandbox refusal is not isolated domain qualification. Evidence:
+finite-output contract. P015-011 is `done` for full-record case/non-case scope
+after final software gates, review and cleanup on 2026-11-17. The nested-sandbox
+refusal is not isolated domain qualification; P035-020 and private detached
+readback remain separate. Evidence:
 `node:docs/evidence/matrix-opaque-envelope/2026-11-16-authoring-retention/README.md`.
 
 The LLR-007 synthetic-v2 transport/consumer gate does not discharge this dependency.

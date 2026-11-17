@@ -111,7 +111,7 @@
     "Return typed unavailable without local fallback after handoff or DB-only rollback"
     "Run time-only bounded S020 expiry without Vault or author commitment disclosure"
     "Preserve frozen legacy families and their unknown retention; detached private readback remains separate"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :whisper-case-key-custody
    :title "Case Continuity Key Custody"

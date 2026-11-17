@@ -679,9 +679,11 @@ checks do not close the independent clean-source A-F gates.
 
 ## Open boundaries
 
-P015-011 owns finite retention of the pre-existing protected authoring prepared-output
-journal. Its sealed rows can survive independently of the new case workflow; this
-qualification proves neither global source-payload erasure nor root-recovery erasure.
+P015-011 closed finite full-record case/non-case authoring retention on
+2026-11-17; see the [owning contract](../015-nym-certificates-and-renewal-baseline/authoring-output-retention.md).
+Legacy rows keep unknown retention. Private detached readback and the exact
+replica isolation exception remain separate; primary retirement stays blocked.
+This proves neither global source-payload erasure nor root-recovery erasure.
 
 P015-005, ADC runtime, LLR-009 full qualification, LLR-010 context/authority
 transition, onion routing and global/physical privacy remain separate. Synthetic
@@ -689,6 +691,10 @@ v2 certificates in acceptance do not qualify production issuance. No power-loss,
 whole-machine rollback or global copy-erasure claim follows.
 
 ## Implementation stages and acceptance history
+
+The dated checkpoints below retain their then-current source and dependency
+scope. Current P015-011 full-record closure is stated above; it does not renew
+those historical qualifications.
 
 Implement contracts -> pure core and PEX/S010 -> durable owners -> LLR-007 ->
 independent A-F acceptance. Review, fix and commit each stage on the feature branch;
