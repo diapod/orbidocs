@@ -739,6 +739,39 @@
           "const": "adc-commit-outcome-lost"
         }
       }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "release/id", "phase"],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v1"
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "enum": [
+            "adc-release-awaiting-ad",
+            "adc-release-ad-outcome-unknown",
+            "adc-release-admitted",
+            "adc-release-tombstoned"
+          ]
+        },
+        "delivery/id": {
+          "type": "string",
+          "pattern": "^delivery:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        }
+      },
+      "if": {
+        "properties": {
+          "phase": { "const": "adc-release-admitted" }
+        }
+      },
+      "then": { "required": ["delivery/id"] },
+      "else": { "not": { "required": ["delivery/id"] } }
     }
   ]
 }

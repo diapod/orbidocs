@@ -989,7 +989,10 @@
           ],
           "properties": {
             "operation": {
-              "const": "handoff-adc-commit"
+              "enum": [
+                "handoff-adc-commit",
+                "handoff-adc-release"
+              ]
             },
             "release/id": {
               "type": "string",
