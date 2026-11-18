@@ -660,6 +660,12 @@ contributions on the same witnessed original. Two contributions from one source
 count once. Exact replay preserves the eligible evidence commitment, trigger and
 count. This covers the SQLite admission and evaluator path. ADC-004 remains todo.
 
+The local ADC-005 owner check now commits two independently confirmed
+audiences with the real detached original and counter. A competing signed
+intent for a second route of the first audience cannot allocate another slot.
+The original reply still replays after the other audience commits and the
+owner reopens. Native Agora delivery is measured separately.
+
 ## Lean Release Model Before Durable ADC Enablement {#lean-release-model}
 
 **Model gate qualified, 2026-11-16; ADC-005 remains `todo`.** LLR-011 now has
