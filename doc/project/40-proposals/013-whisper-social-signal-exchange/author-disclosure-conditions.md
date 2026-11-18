@@ -1509,6 +1509,22 @@ applies after shutdown. The relay provenance is a fixture at the native ingress
 boundary. Source/payload custody, native execution and cold verification, and
 the four runtime cells remain open. ADC-004 and ADC-005 stay `todo`.
 
+## ADC-003/005 source custody at executor preparation
+
+The S026 source owner constructs the protected package for one retained audience
+under independently adopted P035 trust. The source custody port must observe the
+owned author node in `withheld` mode or the named custodian's finite obligation
+in `held-under-obligation` mode. The source checks the signed holder and executor
+lists and requires coverage through the case horizon. It keeps the complete
+private original and other audiences at the source.
+
+The executor first-write boundary checks and preserves the exact custody
+binding in its encrypted journal and rechecks the lease before commit to disk.
+Component tests connect the encrypted source and executor stores with a fixture
+custody port. The native host must still supply the actual custody observations,
+held handover and end-to-end delivery. ADC-003/005 remain `todo` and runtime
+qualification remains open.
+
 ## Optional Confidential Affiliation Review {#confidential-affiliation-review}
 
 Proposed post-MVP addition (2026-11-04), independently tracked as P013-ADC-010.
