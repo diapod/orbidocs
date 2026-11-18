@@ -1059,7 +1059,11 @@ The operator v1/v2 `prepare-adc-author-control` action resolves the actual bound
 case key/anchor/authority/horizon and rechecks custody at handoff. It does not
 renew a nym certificate, consult a live count, sign an executor command or create
 another queue. Remote acceptance remains with the case authority; AD custody is
-not a result. Development checks pass all 292 service tests (one existing exporter ignored),
+not a result. The local v1/v2 read contract admits the previously retained
+signed amendment, withdrawal or confirmation as request material with empty
+evidence. The projection stays within the authenticated source operator
+boundary and refuses executor claims. Development checks pass all 292 service
+tests (one existing exporter ignored),
 11 local Schema Gate tests and a native three-control V1/V2 history. V2 requires
 independent direct adoption plus a signed recipient offer; missing adoption is
 measured as a refusal. Minimal-trace inspection remains redacted, and synthetic

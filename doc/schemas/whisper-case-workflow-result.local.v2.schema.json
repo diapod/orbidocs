@@ -127,6 +127,22 @@
                 },
                 {
                   "$ref": "whisper-case-closure.v1.schema.json"
+                },
+                {
+                  "$ref": "whisper-case-adc-request.v1.schema.json",
+                  "properties": {
+                    "command": {
+                      "properties": {
+                        "operation": {
+                          "enum": [
+                            "amendment",
+                            "withdrawal",
+                            "confirmation"
+                          ]
+                        }
+                      }
+                    }
+                  }
                 }
               ]
             },
@@ -193,7 +209,8 @@
                       "schema": {
                         "enum": [
                           "whisper-case-registration.v1",
-                          "whisper-case-closure.v1"
+                          "whisper-case-closure.v1",
+                          "whisper-case-adc-request.v1"
                         ]
                       }
                     }
