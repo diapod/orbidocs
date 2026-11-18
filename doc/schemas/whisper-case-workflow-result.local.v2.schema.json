@@ -801,6 +801,7 @@
             "adc-release-awaiting-ad",
             "adc-release-ad-outcome-unknown",
             "adc-release-admitted",
+            "adc-release-delivered",
             "adc-release-tombstoned",
             "adc-abandonment-pending",
             "adc-abandoned",
@@ -815,7 +816,7 @@
       "if": {
         "properties": {
           "phase": {
-            "const": "adc-release-admitted"
+            "enum": ["adc-release-admitted", "adc-release-delivered"]
           }
         }
       },
