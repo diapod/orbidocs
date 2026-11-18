@@ -951,6 +951,18 @@ source/key/payload holds and runtime egress, public count/commit statement, AD
 closure, executor/cold receiver and all four runtime cells remain open. ADC-004
 and ADC-005 stay todo; historical evidence and readiness are unchanged.
 
+### Counter recovery from committed registration
+
+The ordered owner can reconstitute the original counting identity from the
+fenced registration and its exact retained profile, certificate, basis and
+M_A set. A composing host selects the admitted local relay. Authenticated
+release continuation can recover its counter without private M or a new original
+admission. A prepared candidate still uses its saved pin, and fresh evaluations
+still require current source evidence. Completed replay and author controls do
+not depend on counter recovery. Full/detached development tests cover this
+boundary, including missing retained material and recovery without recounting.
+Native adoption, finite custody and the four runtime cells remain open.
+
 ## ADC atomic public commit component (2026-11-18)
 
 Development component, not full runtime qualification. Executor-signed private
