@@ -401,9 +401,9 @@ A future community site at that domain is a separate deployment.
 
 ### 10.1 Federation presentation from root configuration
 
-The federation's **name**, optional **tagline** and optional **description** belong
-in its root configuration, not in a hardcoded UI template or a second branding
-registry. [P076](076-federation-identity-and-network-selector.md#federation-presentation-metadata-planned)
+Root configuration holds the federation's **name** and three optional fields:
+**tagline**, **description** and **logo**.
+[P076](076-federation-identity-and-network-selector.md#federation-presentation-metadata-planned)
 owns the planned typed, localized presentation block; S041 owns its projection
 from the verified active root. The current `federation-root.v1` schema and loader
 reject unknown fields, so these fields must not be appended to existing packs
@@ -416,6 +416,12 @@ The description may provide supporting introductory text. The footer reads
 **“powered by Orbiplex.AI”**, distinguishing the underlying software from the
 federation. This footer spelling is a presentation attribution, not a change to
 the Orbiplex protocol brand.
+
+When the active root supplies a logo visible to the reader, place it beside
+the name. Keep the name as text and give this adjacent decorative image an empty
+`alt`. If the logo is absent or unavailable, show the same heading on its own.
+P076 defines the signed, self-contained PNG representation. The source artwork
+may be vector-based.
 
 For Emergat, the presentation name is `Emergat`, the primary home is
 `https://emergat.org/`, and tagline values use the standalone forms from section
@@ -479,7 +485,7 @@ topology and evidence scope rather than claiming redundancy from names alone.
 | P102-003 | Prepare the bilingual introduction on the existing project site | done | Focused local Hugo production build (2026-11-18) and rendered-HTML checks cover EN/PL wording, primary domain and navigation, without a public authorship note for the call; the site stays at `orbiplex.ai`. Full-site build remains blocked by legacy HTML content admission, outside these pages; deployment is not claimed |
 | P102-004 | Deploy the community home and secondary-domain redirects | todo | Operator records hosting/DNS ownership, HTTPS checks for all three domains, primary canonical URL and verified redirects; renewal responsibility is assigned; no change to federation authority |
 | P102-005 | Review the intended public uses against the reported trademark findings | todo | Current official records and actual use scope reviewed; outcome and any naming constraints recorded; no inference of immunity from nonprofit/unincorporated status |
-| P102-006 | Render federation presentation on the Node UI welcome screen | todo | Depends on P076-BRAND-001 and existing P095/P098 public/private view contracts. Read the active root projection; heading = name, optional tagline below, optional description, footer exactly `powered by Orbiplex.AI`. Browser acceptance covers EN/PL/fallback, absent optional fields, absent/public/private metadata, escaped markup, another federation and restart with a changed active root; no prior-federation branding survives. No change to admission, readiness, configuration ownership or signed historical fixtures. |
+| P102-006 | Render federation presentation on the Node UI welcome screen | todo | Depends on P076-BRAND-001 and existing P095/P098 public/private view contracts. Read the active root projection; heading = name, optional logo beside it, optional tagline below, optional description, footer exactly `powered by Orbiplex.AI`. Browser acceptance covers EN/PL/fallback, absent optional fields, absent/public/private metadata, escaped markup, another federation and restart with a changed active root. Verify offline logo display without external requests, direct image access denied without read admission, and the text heading alone when the logo is omitted. The earlier logo URL ceases to serve its image and the shell shows only current branding. No change to admission, readiness, configuration ownership or signed historical fixtures. |
 | P102-007 | Provision and qualify initial Seed Directory endpoints and optional bootstrap peer | todo | After P102-005 for the intended uses, record full URLs, real node identities, TLS, topology and root-pack bindings for `seed-001.emergat.io` and `seed-002.emergat.io`; explicitly activate or omit `primus.emergat.io`. Verify discovery through the normal consumer path, either-directory outage, rejection of invalid official proof and absence of website redirects on service hosts. Reuse P076/S031 and production activation gates; naming, DNS provisioning or a health response alone is not completion. |
 
 P102-004 follows P102-005 for the intended public uses. It does not close the

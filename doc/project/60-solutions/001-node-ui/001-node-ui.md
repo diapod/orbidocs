@@ -18,7 +18,8 @@ This document defines solution-level responsibilities of the Node UI component.
 Planned federation presentation is tracked in
 [P102-006](../../40-proposals/102-community-brand-and-naming-layers.md#102-rollout-and-evidence),
 consuming P076-BRAND-001's verified root projection. Welcome shows the federation
-name, optional tagline below it and optional description, with the fixed footer
+name, an optional admitted logo beside it, optional tagline below it and
+optional description, with the fixed footer
 `powered by Orbiplex.AI`. Reuse existing templates, locale fallback and
 public/private-view boundaries; do not make UI an owner of federation identity.
 This is a planned capability, not a claim about the current welcome template.

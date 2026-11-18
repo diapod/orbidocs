@@ -370,7 +370,7 @@ guarantee an operator configured this file to get.
 #### Federation presentation metadata (planned)
 
 [P102](102-community-brand-and-naming-layers.md#101-federation-presentation-from-root-configuration)
-requires a federation name, optional tagline and optional description in root
+requires a federation name and allows a tagline, description and logo in root
 configuration. This is presentation data, separate from `federation_id`, trust,
 membership and operational readiness. Proposed shape for a **future versioned
 root contract**, not valid extra fields in today's closed `federation-root.v1`:
@@ -405,8 +405,36 @@ and plain text, with explicit count/UTF-8 size limits frozen before coding.
 No HTML, remote style assets, implicit URL fetching or model-generated fallback.
 The homepage is an address only, never a bootstrap or official-service proof.
 
+**Optional logo.** A federation may set one `presentation.logo` for all locales.
+The following value encodes a transparent one-pixel test image. The federation
+supplies its own artwork at authoring time.
+
+```json
+{
+  "media_type": "image/png",
+  "data_base64url": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII"
+}
+```
+
+The first profile accepts exactly these two fields. Use the existing canonical
+unpadded base64url convention for bytes in JSON. Proposed limits are 32 KiB of
+PNG bytes (43,691 encoded characters) and 256 pixels per side. Check encoded
+length before decoding, require exact re-encoding, and include the encoded value
+in the whole-pack budget. The root signatures already cover both fields.
+
+Authors can keep a scalable SVG master and export a small transparent PNG
+before signing. A single static raster keeps every node's rendering contract
+small. SVG processing rules vary with the embedding context
+([SVG 2 §2.3](https://www.w3.org/TR/SVG2/conform.html#processing-modes)).
+For the first profile, export a non-interlaced 8-bit RGB or RGBA PNG with only
+`IHDR`, `IDAT` and `IEND` chunks. This excludes animation and embedded metadata.
+On admission, check dimensions before raster allocation, use a bounded PNG
+decoder to verify the complete image, and reject trailing bytes. A malformed
+logo refuses the candidate pack through normal root admission. Omitting the
+field is valid.
+
 `visibility` is the closed enum `public | restricted`, defaulting to restricted;
-only explicit `public` admits these texts to an unauthenticated initial shell.
+only explicit `public` admits the text and logo to an unauthenticated initial shell.
 Restricted metadata follows existing authorized
 private-view guards. Authentication alone must not substitute for the applicable
 read admission. A verified signature does not make configuration public.
@@ -419,6 +447,10 @@ file overlays must not impersonate this root-derived metadata. Updating it follo
 root authoring/signing and the existing restart-only activation rule; it does not
 rotate trust keys or confer new rights. UI applies locale selection and rendering
 without receiving the complete root pack, key/roster details or operator paths.
+For an admitted logo the UI can render an `<img>` using a same-origin image
+route bound to the active root revision. Apply the same read admission to a
+direct image request, return `image/png` with `nosniff` and `no-store`, and
+refuse stale revisions. This works offline with `img-src 'self'`.
 
 The schema and `FederationRootPack` loader are closed today. P076-BRAND-001 must
 freeze a new schema version and an explicit compatibility/migration path, keeping
@@ -921,7 +953,7 @@ Presentation continuation (outside the completed foundation rows above):
 
 | ID | Item | Status | Acceptance |
 |---|---|---|---|
-| P076-BRAND-001 | Version root presentation metadata and expose the verified active projection | todo | Freeze the bounded shape above, schema version and compatibility path; extend existing root/ceremony/inspection owners. Prove signed coverage, unsupported-field/version refusal, v1 continuity, absent/partial translations, public versus restricted projection and restart-only activation. A naming change changes no selector, membership or trust key. Supplies P102-006; UI completion is not a dependency of this owner task. |
+| P076-BRAND-001 | Version root presentation metadata and expose the verified active projection | todo | Freeze the bounded shape above, schema version and compatibility path; extend existing root/ceremony/inspection owners. Prove signed coverage, unsupported-field/version refusal, v1 continuity, absent/partial translations, public versus restricted projection and restart-only activation. Exercise absent and valid logos, tampered bytes, noncanonical encoding, boundary sizes, malformed PNG, APNG and SVG labelled as PNG. A naming change changes no selector, membership or trust key. Supplies P102-006; UI completion is not a dependency of this owner task. |
 
 Task-level guidance for the tracker entries above, aligned with
 `node/DEV-GUIDELINES.md`. The goal is a smooth, layered implementation with no

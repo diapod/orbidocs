@@ -69,8 +69,9 @@ neither root authority nor evidence of production activation; the gates in
 the Status section still apply. This naming does not extend to other federations.
 
 **Planned presentation extension:** P076-BRAND-001 owns name, optional localized
-tagline/description and homepage in versioned root configuration, plus a bounded
-projection from the verified active root. It is not implemented by the existing
+tagline/description, optional homepage and optional embedded PNG logo in
+versioned root configuration, plus a bounded projection from the verified active
+root. It is not implemented by the existing
 closed v1 schema. Only explicitly public fields may enter a public UI shell;
 restricted fields retain existing read guards. P102-006 consumes that projection
 for a name heading, tagline below it and `powered by Orbiplex.AI` footer. Reuse
