@@ -1,0 +1,19 @@
+{
+  "schema": "whisper-embargo-attestation.v1",
+  "case/anchor": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+  "case/authority": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "condition/original": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+  "release/id": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w",
+  "manifest/digest": "sha256:TixhSb5Tas7yg75a_A-CkQAbKGfv8TBKgp977pzd2q8",
+  "executor": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "mode": "confirm",
+  "epoch": 2,
+  "counting/basis": "later-epoch-conservative",
+  "trigger/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "source/as-of": "2026-11-17T11:59:00Z",
+  "evaluated/at": "2026-11-17T12:00:00Z",
+  "valid/until": "2026-11-17T12:03:00Z",
+  "result": "threshold-met",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "release/not-after": "2026-11-17T12:07:00Z"
+}

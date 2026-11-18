@@ -946,7 +946,7 @@
             "manifest/digest",
             "request/id",
             "route",
-            "trigger/digest"
+            "attestation"
           ],
           "properties": {
             "operation": {
@@ -971,9 +971,12 @@
               "pattern": "^[!-~]+$",
               "maxLength": 256
             },
-            "trigger/digest": {
+            "attestation": {
               "type": "string",
-              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Unpadded base64url of the exact signed whisper-embargo-attestation.v1."
             }
           }
         },

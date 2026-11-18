@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-embargo-attestation:v1",
+  "title": "whisper-embargo-attestation.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "description": "Private single-audience threshold proposal for the named executor. It binds the exact retained consent and the opaque live trigger. Carries no counts, inventory, revisions, payload or commit authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "case/authority",
+    "condition/original",
+    "release/id",
+    "manifest/digest",
+    "executor",
+    "mode",
+    "epoch",
+    "counting/basis",
+    "trigger/digest",
+    "source/as-of",
+    "evaluated/at",
+    "valid/until",
+    "result",
+    "signature",
+    "release/not-after"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-embargo-attestation.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "case/authority": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 144
+    },
+    "condition/original": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "release/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "manifest/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "executor": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 144
+    },
+    "mode": {
+      "enum": [
+        "confirm",
+        "preauthorized"
+      ]
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "counting/basis": {
+      "enum": [
+        "author-epoch-exact",
+        "later-epoch-conservative"
+      ]
+    },
+    "trigger/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "source/as-of": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 32
+    },
+    "evaluated/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 32
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 32
+    },
+    "result": {
+      "const": "threshold-met"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{85}[AQgw]$"
+    },
+    "release/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 32
+    }
+  }
+}
