@@ -655,6 +655,11 @@ orders. A permutation/replay fixture must produce the same eligible-source set
 and evidence commitment from the same admitted inputs. Historical M4 counting
 and ids stay unchanged.
 
+The local ADC-004 component now exercises all six admission orders for three
+contributions on the same witnessed original. Two contributions from one source
+count once. Exact replay preserves the eligible evidence commitment, trigger and
+count. This covers the SQLite admission and evaluator path. ADC-004 remains todo.
+
 ## Lean Release Model Before Durable ADC Enablement {#lean-release-model}
 
 **Model gate qualified, 2026-11-16; ADC-005 remains `todo`.** LLR-011 now has
