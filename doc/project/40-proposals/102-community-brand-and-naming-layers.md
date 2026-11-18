@@ -1,13 +1,17 @@
 # Proposal 102: Community Brand and Naming Layers
 
-Status: **Proposed (Draft)**. Date: **2026-11-18**.
+Status: **Naming decision adopted; operational rollout pending**. Date: **2026-11-18**.
 
 Based on:
 
+- [Vision](../../normative/20-vision/en/VISION.en.md) and
+  [Ontological Basis](../../normative/90-supplementary/en/ONTOLOGICAL-BASIS.en.md):
+  relational agency, enactive participation and the limits of objectification.
+  These explain the name and call; they do not create duties to participate.
 - [Core Values](../../normative/30-core-values/en/CORE-VALUES.en.md) and
   [Constitution](../../normative/40-constitution/en/CONSTITUTION.en.md): federation over
   centralization, human agency, auditability. This proposal names a social layer and
-  creates no rights, no authority and no root trust.
+  creates no governance authority, membership rights or root trust.
 - [ORBIPLEX-MAIN-ROOT-CHARTER](../../normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md)
   (`DIA-ROOT-001`): the governance home of the `orbiplex-main` root. Nothing here
   touches custody, threshold, roster or the root-pack ceremony.
@@ -19,20 +23,26 @@ Based on:
 
 ## Executive Summary
 
-Adopt **Emergat** as the name of the first public community of people and operators
-around Orbiplex. The community is deliberately **unincorporated**: it is not a legal
-entity, not a service provider, and not a trademark holder.
+Adopt **Emergat** as the public name of the first public federation built with
+Orbiplex and of its community of participants and operators. Its primary domain
+is **`emergat.org`**. This names the intended federation; it does not announce
+production activation or establish that public operation is ready.
+
+The community is currently **unincorporated**. This decision creates no legal
+entity and appoints no service provider. Actual operators remain responsible for
+their services; the absence of incorporation does not settle trademark risk.
 
 This fills a gap rather than renaming anything. The project already names its
-organization (Distributed Intelligence), its system and protocol family (Orbiplex),
+organization (Distributed Intelligence Agency), its system and protocol family (Orbiplex),
 and its federation root selector (`orbiplex-main`). It had no name for the social
 body that gathers around them, and `orbiplex-main` was being borrowed for that
 purpose even though it is a technical selector, not a community name.
 
-The canonical written form is **Emergat**. The domains `emergat.org`, `emergat.io`
-and `emergat.ai` are held by the project owner. `emergat.org` is the primary home,
-because a top-level domain tied to a disputed territory code should not be
-load-bearing for a name intended to outlive it.
+The canonical written form is **Emergat**. Paweł Wilk reports ownership of
+`emergat.org`, `emergat.io` and `emergat.ai`; the latter two are secondary addresses.
+The name is independent of every domain suffix. The proposed community call is
+**“Emergat. Agency emerges from participation.”**, with its Polish counterpart
+**“Emergat. Sprawczość wyłania się z uczestnictwa.”** (section 3.3).
 
 ## 1. Context and Problem Statement
 
@@ -43,7 +53,7 @@ load-bearing for a name intended to outlive it.
 | Umbrella organization | Distributed Intelligence Agency | `README.md`, Constitution |
 | System and protocol family | Orbiplex | `README.md`, protocol documents |
 | Federation root selector | `orbiplex-main` | P076, `DIA-ROOT-001`, `federation-root.v1` |
-| **Community of people and operators** | **absent** | – |
+| **Public name of the first federation and its community** | **previously absent** | now defined by this proposal |
 
 **Fact.** `orbiplex-main` appears in canonical schema fixtures, for example
 `doc/schemas/examples/orbiplex-main.federation-root.json`, and in the root charter as an
@@ -79,7 +89,14 @@ identity, which is exactly the kind of entanglement the stratification rules for
 | Umbrella organization | Distributed Intelligence Agency | no |
 | System and protocol family | Orbiplex | no |
 | Federation root selector | `orbiplex-main` | **no** |
-| Community of people and operators | **Emergat** | new |
+| Public name of the first federation and its community | **Emergat** | new |
+| Primary domain of that federation/community | **`emergat.org`** | new |
+
+This table is the canonical naming reference. Emergat is one federation using
+Orbiplex, not a new name for all Orbiplex installations or federations. The
+federation's operational identity remains governed by P076 and S041; its public
+name does not replace the selector or root pack. The project site remains
+`orbiplex.ai`, and technical documentation remains at `docs.orbiplex.ai`.
 
 ### 2.2 Canonical orthography
 
@@ -105,16 +122,22 @@ deliberate advantage over `Orbiplex`, which required an explicit oblique stem
 | Dative | Emergatowi |
 | Accusative | Emergat |
 | Instrumental | Emergatem |
-| Locative | w Emergacie |
+| Locative | w Emergacie |
 | Vocative | Emergacie |
 
 ### 2.4 What this proposal does not change
 
-1. No schema, fixture or `federation_id` value changes. `orbiplex-main` stays.
+1. This documentation change does not alter schemas, fixtures or `federation_id`.
+   `orbiplex-main` stays. The root presentation extension in section 10.1 is
+   planned separately; historical signed packs must not be rewritten.
 2. No normative act is amended. `DIA-ROOT-001` keeps its scope.
 3. No legal entity is created, and no authority is delegated to the community as such.
 4. No trademark application follows from this proposal (section 5.4).
-5. The product and service naming question stays open (section 9).
+5. Orbiplex remains the system/protocol brand. Naming a distinct application or
+   hosted service remains a separate decision (section 9).
+6. A domain, HTTPS certificate, logo or tagline does not prove federation
+   membership or confer issuer authority. Bootstrap still verifies the signed
+   root pack and local policy; do not infer trusted service endpoints from DNS.
 
 ## 3. Etymology and Semantics
 
@@ -124,10 +147,12 @@ deliberate advantage over `Orbiplex`, which required an explicit oblique stem
 *emergere* ("to rise out, to surface"), formed from *e-* ("out of") and *mergere* ("to
 submerge"). It means **"let it emerge"** or "may it come forth".
 
-**Fact.** This places the name in the family of Latin subjunctives that entered English
-as nouns: *fiat* ("let it be done"), *caveat* ("let them beware"), *exeat*, *placet*.
+Comparable subjunctive forms used as nouns include *fiat* ("let it be done"),
+*caveat* ("let him or her beware") and *exeat* ("let him or her leave").
 
-**Inference.** The name is therefore a **jussive**, not a description. Every other
+**Author's intended reading.** The name is a **jussive** invitation, rather than a
+description; the verbal form alone does not force that reading in every context
+([Allen and Greenough, §439](https://dcc.dickinson.edu/grammar/latin/hortatory-subjunctive)). Every other
 candidate considered (section 8) named a thing: an allotment, a place, a sign, a
 relation, a property. This one names an intention, and the intention it names –
 emergence of capability from interaction between autonomous nodes – is the mechanism the
@@ -146,19 +171,54 @@ verbal noun in `-tio` (genitive `-tionis`), the formation behind *creatio*, *gen
 *emanatio* and *communicatio*. The sense would be "the emerging, the act of coming
 forth".
 
-**Fact.** The classical deverbal noun from *emergere* is *emersio*, formed on the supine
-stem *emersus*, as *immersio* is from *immergere*. *Emergatio* is not attested classical
-Latin.
-
-**Inference.** *Emergatio* is therefore a transparent neologism rather than a
-restoration. Its value is that it completes a pair with the canonical name – *emergat*
+**Author's wordplay.** *Emergatio* is used here as a neologism, not as a claim of
+classical attestation. Its value is that it completes a pair with the canonical name – *emergat*
 as the call, *emergatio* as what the call names – which is why it is worth explaining
 once in community prose and then leaving alone.
 
+### 3.3 Proposed tagline and community call
+
+| Language | With the name | Standalone |
+| :--- | :--- | :--- |
+| English | **Emergat. Agency emerges from participation.** | **Agency emerges from participation.** |
+| Polish | **Emergat. Sprawczość wyłania się z uczestnictwa.** | **Sprawczość wyłania się z uczestnictwa.** |
+
+**Authorship record.** Paweł Wilk is the sole author of both formulations, as
+declared by him on 2026-11-18. They are proposed for community use, together with
+the name or independently. This records provenance; it does not assert trademark
+registration, determine legal protectability or change existing licensing grants.
+Keep this provenance in the proposal; the public website introductions omit an
+authorship note, as requested by the author.
+
+**Meaning intended by the author.** The call follows the Vision's account of
+agency arising in relationships and the Ontological Basis's
+[enactive participation](../../normative/90-supplementary/en/ONTOLOGICAL-BASIS.en.md):
+participating in the world makes cooperation and agency possible. “Emerges” also
+evokes *appearing* at the first described boundary of the
+[scale of epistemization](../../normative/90-supplementary/en/ONTOLOGICAL-BASIS.en.md),
+before a subject–object division, schematization, linguistic inference and
+objectification. That source explicitly treats appearing as a **boundary of the
+model, not an observed transition**. The call does not turn it into an object or
+claim an empirical sequence of the world's creation.
+
+These are related readings, not an equation of preconceptual appearing with
+system-level emergence. Socially, the invitation is to recognize and work across
+barriers of sense between perspectives and layers, so that people can cooperate
+without reducing every perspective to one grammar. Emergat should help with that
+translation; it does not promise to erase meaningful distinctions, consent,
+privacy or boundaries of authority.
+
+**Use boundary.** This is an invitation, not an eligibility rule: dignity, rights
+and the freedom to decline participation do not depend on contributing. Keep the
+approved wording and punctuation; the Polish non-breaking space after `z` is a
+typographic equivalent, not a different formulation. Do not present the call as
+a technical availability, security or production-readiness claim.
+
 ## 4. Registry and Domain Status
 
-**Fact.** Domains held, as recorded in WHOIS on 2026-11-18, all registered through
-Cloudflare:
+**Owner-reported record.** The author recorded the following WHOIS information
+on 2026-11-18, with Cloudflare as registrar. This review does not independently
+verify registration, renewal, DNS, HTTPS or serving status:
 
 | Domain | Created (UTC) | Registry expiry |
 | :--- | :--- | :--- |
@@ -166,29 +226,28 @@ Cloudflare:
 | `emergat.io` | 2026-11-17T23:22:51Z | 2027-11-17 |
 | `emergat.org` | 2026-11-17T23:26:09Z | 2028-11-17 |
 
-**Decision.** `emergat.org` is the primary community home. `emergat.io` and `emergat.ai`
-redirect to it.
+**Decision.** `emergat.org` is the primary federation/community home. Configure
+`emergat.io` and `emergat.ai` as redirects to it during operational rollout; this
+applies to the apex web addresses, not every subdomain. In particular, the
+service hosts under `emergat.io` selected in section 10.2 must not be caught by
+a wildcard website redirect. This document does not claim that redirects or
+services are already deployed. The name and federation authority remain
+independent of domain availability; running services still depend on their
+configured endpoints.
 
-**Fact.** `.io` is the country-code top-level domain assigned to the British Indian Ocean
-Territory. A UK–Mauritius treaty on the Chagos Archipelago was signed on 2025-05-22;
-reporting as of this document's date is inconsistent about whether it is in force or
-suspended, and no retirement of `.io` has been announced. Retirement would require the
-`IO` code to leave ISO 3166-1, and the registry operator runs the TLD independently of
-the territory's status.
-
-**Inference.** The risk is remote and would unfold over years, so the domain is usable.
-But a community name meant to last decades should not embed a TLD whose existence depends
-on an unresolved sovereignty question. This is the second, independent reason the
-canonical name excludes `io` (section 2.2).
-
-**Fact.** Screened on 2026-11-15 and re-checked 2026-11-18: `emergat` was free on
-crates.io and the npm registry, with zero repositories matching the name on GitHub.
+**Owner-reported screening.** On 2026-11-15 and again on 2026-11-18, `emergat`
+was reported available on crates.io and npm, with no matching GitHub repository.
+This is dated discovery evidence, not a reserved namespace or proof of legal
+availability. No package or repository rename follows from it.
 
 ## 5. Trademark Due Diligence
 
 ### 5.1 Method
 
-Searched USPTO (`tmsearch.uspto.gov`) and TMview (`tmdn.org/tmview`) on 2026-11-18.
+The author's draft records searches of USPTO (`tmsearch.uspto.gov`) and TMview
+(`tmdn.org/tmview`) on 2026-11-18. Sections 5.2–5.3 preserve those reported results;
+they were not independently reproduced during this review and do not establish
+current registration status or an exhaustive search.
 
 Each zero result was validated with a **control query** known to return hits, because an
 earlier search in this workstream returned a false "no results found" when a URL
@@ -201,15 +260,17 @@ attorney work.
 
 ### 5.2 Emergat itself
 
-**Fact.** USPTO: `emergat` returns **0 results**. Control: `emergent` returns 214.
+**Reported result.** USPTO: `emergat` returned **0 results**. Control: `emergent` returned 214.
 
-**Fact.** TMview: `emergat` returns **0 rows**. Control: `emergant` returns 2.
+**Reported result.** TMview: `emergat` returned **0 rows**. Control: `emergant` returned 2.
 
-**Fact.** **No company** trading as "Emergat" was found.
+**Reported result.** No company trading as "Emergat" was found in the author's
+screening. The search scope is not sufficient to claim worldwide absence.
 
 ### 5.3 The potentially conflicting mark: EMERGA
 
-**Fact.** Widening to `emerga` in TMview returned 34 marks. The material ones belong to
+**Reported result.** Widening to `emerga` in TMview returned 34 marks. The draft
+identified the following as belonging to
 **EmerGa Association**, Toulouse, France:
 
 | Register | Number | Nice class | Scope | Status |
@@ -217,37 +278,35 @@ attorney work.
 | France INPI | 5074358 | **42** | software design and development, SaaS, cloud computing, IT consultancy, server hosting, electronic data storage | registered 2024-11-15 |
 | EUIPO | 019087755 | **9** | IT devices, software, databases (electronic and interactive), recorded data sets | registered, status date 2025-01-27 |
 
-**Fact.** Also live: `EMERGA` at UKIPO in classes 9 and 35 (filed 2023-10-24), and
+**Reported result.** Also listed as live: `EMERGA` at UKIPO in classes 9 and 35 (filed 2023-10-24), and
 `EMERGA CHARGE` at EUIPO and UKIPO.
 
-**Fact.** `EMERGANT` is live at USPTO in class **36** (financial investment in business
+**Reported result.** `EMERGANT` was listed as live at USPTO in class **36** (financial investment in business
 valuation), owned by Emergant LLC, Delaware, filed 2021-09-16 and 2021-09-17.
 
-**Inference.** `EMERGA` and `EMERGAT` share their first six characters and differ only in
-a final consonant. In similarity assessment the beginning of a mark carries the most
-weight. The goods and services overlap completely with what a federated network service
-would claim, and the EUIPO registration covers the whole Union. A trademark application
-for `EMERGAT` in classes 9 or 42 would therefore be contested in at least two
-jurisdictions.
+**Inference.** The similarity of `EMERGA` and `EMERGAT`, together with the reported
+software/service coverage, warrants review of the intended uses. It does not
+establish infringement, an inevitable opposition or an unavailable registration.
+The actual specification of goods/services and context matter, not merely a
+shared prefix or Nice class number. The apparently different `EMERGANT` context
+also requires checking before treating it as irrelevant.
 
-**Inference.** `EMERGANT` is a weaker concern: a different interior letter, a different
-class, and unrelated services.
+### 5.4 Naming decision and unresolved clearance
 
-### 5.4 Why this does not block the decision
+**Legal boundary.** Nonprofit purpose, lack of incorporation and not applying for
+a mark do not automatically put a use outside trademark law. Article 9 of
+[Regulation (EU) 2017/1001](https://eur-lex.europa.eu/eli/reg/2017/1001/oj/eng)
+sets conditions for restricting use in the course of trade; the CJEU's
+[C-298/23 judgment](https://juris.curia.europa.eu/juris/document/document_print.jsf?docid=315003&doclang=EN)
+also distinguishes an organisation's nonprofit purpose from whether it acts as
+an economic operator. These sources define a boundary, not a verdict on Emergat.
 
-**Inference.** Trademark rights restrain use **in commerce**, as a mark identifying goods
-or services. An unincorporated community that offers no services under the name, sells
-nothing and holds no mark operates outside that scope. The residual exposure is a demand
-to stop using the name, not an opposition proceeding, because no application exists to
-oppose.
-
-**Decision.** Do not file a trademark application for Emergat. Record the EMERGA finding
-here so that any later move toward formalization – a legal entity, a paid service, a
-trademark – re-opens this section first rather than starting a fresh search.
-
-**Constraint.** If the community ever formalizes and begins offering services under
-the name in classes 9 or 42, this proposal must be revisited before that happens, not
-after.
+**Decision.** Adopt the name and domain in project materials, without filing a
+trademark application through this proposal. Keep the reported findings for a
+qualified review of actual public uses, including free hosted services, before
+launch. Clearance remains unresolved (P102-005); no legal immunity or legal
+exclusivity is claimed here. Renaming this public layer remains possible without
+changing protocol identifiers or the root-pack ceremony.
 
 ## 6. Trade-offs
 
@@ -256,14 +315,14 @@ after.
 1. Fills the social layer without touching protocol, schemas or normative acts.
 2. Names the project's mechanism (emergence) rather than its topography or its law.
 3. Inflects natively in Polish, unlike `Orbiplex`.
-4. Free across the technical registries checked, with no repository squatting.
+4. Separates a stable technical identity from a public name that can evolve.
 5. A jussive name states an intention, which suits a community that grows by accession.
 
 **Risks**
 
-1. `EMERGA` blocks the trademark path in the EU and UK (section 5.3).
+1. Reported similar marks leave legal clearance unresolved (section 5).
 2. In English, `emerg-` is dominated by *emergency*, not *emergence*; non-technical
-   listeners will hear the alarm sense first.
+   listeners may hear the alarm sense first; this is a hypothesis to test.
 3. `g` before `a` is orthographically hard /g/, but analogy to *emerge* and *emergent*
    pulls some readers toward /dʒ/. Polish readers are unambiguous.
 4. The `emergent` field is crowded (Emergent BioSolutions, Emergent Software, EmergentX),
@@ -281,29 +340,26 @@ after.
 | Failure mode | Mitigation |
 | :--- | :--- |
 | Spelling fragments into `EmergatIO`, `Emergatio`, `emergatIO` | Section 2.2 fixes one canonical form; style guidance and review enforce it |
-| `Nemorat`/`Nemoron`-style typo lands on an English slur; swapping the adjacent `e`/`o` in related coinages produced *moron* during screening | Register defensive spellings only if abuse appears; do not treat typo space as free |
 | Community name drifts into protocol identity, for example a `federation_id` rename | Section 2.4 forbids it; P076 keeps the selector decoupled |
-| `.io` retired after a Chagos settlement | `emergat.org` is already primary; the name contains no TLD |
-| EmerGa Association objects to the use | No mark is claimed, no services are offered under the name, and the community can rename its social layer without touching any protocol identifier |
+| A secondary domain becomes unavailable | `emergat.org` is primary; neither the name nor federation authority depends on a secondary domain |
+| A rights holder objects to a public use | Review the specific use and response with qualified advice; the public layer can be renamed without changing protocol identifiers |
+| A branded page is mistaken for a production federation or trust anchor | State rollout status and keep root-pack/admission gates explicit; DNS and WebPKI do not confer federation authority |
+| The call is read as making rights conditional on contribution | Preserve the voluntary-participation boundary in section 3.3 |
 | Readers take the `-at` institutional reading as etymological fact | Section 3.1 marks it as analogical |
 
 ## 8. Options Considered
 
-Five candidates completed etymological, registry and – for the final four – trademark
-review. Over one hundred further names were screened and rejected earlier in the same
-workstream.
-
-**Inference.** The two cleanest names rest on Greek roots nobody
-commercialized. Emergat and another considered are encumbered because they stand on
-roots with live, popular meaning in European languages. Accepting Emergat trades
-legal exclusivity for semantic precision – a defensible trade for an unincorporated
-community, and an indefensible one for a commercial service.
+The author reports screening over one hundred names, with five reaching
+etymological/registry review and four reaching preliminary trademark searches.
+These are design-history notes, not completed legal clearance. Emergat was chosen
+for its semantic fit; neither exclusivity nor lack of conflicting rights follows
+from that choice.
 
 Whole families were rejected on structural grounds worth recording, so they are not
 re-proposed:
 
-- **Descriptive stems** (`connector`, `tech-`, `code-`, `base-`): unprotectable as mark
-  elements, discounted in similarity assessment, and invisible in search. `coden`
+- **Descriptive stems** (`connector`, `tech-`, `code-`, `base-`): less distinctive
+  for the author's naming purpose and difficult to distinguish in search. `coden`
   additionally collides with CODEN, the bibliographic serial identifier administered
   through the International CODEN Service – a clash inside this project's own
   metadata vocabulary.
@@ -323,26 +379,117 @@ re-proposed:
 
 ## 9. Open Questions
 
-1. **Product and service naming.** Emergat names the community. The user-facing
-   application and the hosted service are still unnamed.
+1. **Product and service naming.** Emergat names the first public federation and
+   its community. Orbiplex remains the system brand; any separate application
+   or hosted-service brand requires its own decision.
 2. **Umbrella organization.** Whether "Distributed Intelligence Agency" (or
    "Distributed Intelligence") stays is a separate decision and is not addressed
    here.
-3. **Formalization trigger.** No criterion is yet defined for when the community would
-   need a legal form, which is also when section 5 must be re-opened.
+3. **Operational stewardship.** Who will operate the public domain and services,
+   and under which legal form if any? This is distinct from trademark clearance,
+   which depends on actual uses, not only incorporation or charging fees.
 4. **Localized community prose.** Whether `Emergatio` is explained in Polish and Czech
    community material, or only in English.
 
-## 10. Next Actions
+## 10. Implementation Guidance and Tracker
 
-1. Add **Emergat** to the glossary with the layer boundary from section 2.1 and the
-   declension table from section 2.3.
-2. Point `emergat.io` and `emergat.ai` at `emergat.org`.
-3. State the canonical spelling rule from section 2.2 wherever documentation style is
-   defined, so review can enforce it.
-4. Re-open section 5 before any of: incorporating a legal entity, offering a paid service
-   under the name, or filing a trademark application.
-5. Decide the product and service name (question 1) before the root-pack ceremony closes
-   the practical renaming window.
-6. Do not alter `federation_id`, `orbiplex-main` fixtures or `DIA-ROOT-001` on account of
-   this proposal.
+Reuse the existing documentation and bilingual Hugo site. Section 2 is the
+naming reference and section 3.3 owns the call and authorship record; other
+surfaces link here rather than inventing independent naming policies. The
+Orbiplex project site can introduce Emergat without moving to `emergat.org`.
+A future community site at that domain is a separate deployment.
+
+### 10.1 Federation presentation from root configuration
+
+The federation's **name**, optional **tagline** and optional **description** belong
+in its root configuration, not in a hardcoded UI template or a second branding
+registry. [P076](076-federation-identity-and-network-selector.md#federation-presentation-metadata-planned)
+owns the planned typed, localized presentation block; S041 owns its projection
+from the verified active root. The current `federation-root.v1` schema and loader
+reject unknown fields, so these fields must not be appended to existing packs
+before the versioned contract and loader support are implemented.
+
+**Welcome screen:** show the federation's name as the heading. If a tagline is
+defined for the selected locale/fallback, show it **below the name**. Both tagline
+and description are optional; missing values produce no empty placeholders.
+The description may provide supporting introductory text. The footer reads
+**“powered by Orbiplex.AI”**, distinguishing the underlying software from the
+federation. This footer spelling is a presentation attribution, not a change to
+the Orbiplex protocol brand.
+
+For Emergat, the presentation name is `Emergat`, the primary home is
+`https://emergat.org/`, and tagline values use the standalone forms from section
+3.3, so the name is not repeated. Suggested descriptions:
+
+- EN: “The first public federation built with Orbiplex, and its community of
+  participants and operators.”
+- PL: “Pierwsza publiczna federacja korzystająca z Orbipleksu oraz jej społeczność
+  uczestników i operatorów.”
+
+Descriptions introduce the federation; they do not replace the separate,
+owner-backed operational readiness indicator. Root metadata must be explicitly
+public before appearing in an unauthenticated welcome shell; otherwise use the
+existing guarded view. With no accepted displayable metadata, keep a neutral
+`Orbiplex.AI` welcome heading. Never substitute Emergat for another federation.
+
+### 10.2 Rollout and evidence
+
+Use **Emergat** in first-federation introductions and human-facing descriptions.
+Keep **Orbiplex** for software, protocol documentation and other federations'
+installations. A runtime display name must remain scoped to the selected
+federation, not hardcoded as the name of every node. Do not replace identifiers,
+signed bytes, historical evidence, package names, API paths or default trust
+configuration as part of branding. No new runtime abstraction is needed here.
+
+**Initial public-service addresses (planned, selected 2026-11-18)**
+
+| Hostname | Intended role | Existing root-pack field |
+| :--- | :--- | :--- |
+| `seed-001.emergat.io` | First Seed Directory API | One `seed_directory_bootstrap[]` entry with a full HTTPS `endpoint` |
+| `seed-002.emergat.io` | Second Seed Directory API | A second `seed_directory_bootstrap[]` entry with a full HTTPS `endpoint` |
+| `primus.emergat.io` | Optional initial peer, if a separate bootstrap peer is needed | A `bootstrap_seed_peers[]` entry with a full WSS `endpoint_url` |
+
+These are selected deployment names, not active endpoints, signed identities or
+proof of official-service status. Reuse the existing
+[P076 root-pack contract](076-federation-identity-and-network-selector.md) and
+[S031 Seed Directory](../60-solutions/031-seed-directory/031-seed-directory.md):
+`presentation.homepage` remains the human-facing site, while
+`seed_directory_bootstrap[]` locates the catalogues. Do not add a parallel
+`service-root` field or derive service authority from a DNS name. `primus` names
+a bootstrap peer, not a privileged trust root or mandatory central node.
+
+Before activation, determine the API/WSS paths and any non-default ports, bind
+each endpoint to its real `node_id`, provision TLS, and set the directory's
+explicit `enabled`, `trust_level` and `weight`. Official directory status must
+carry a verified inline `federation-service-endorsement.v1`; do not fabricate
+identities or unsigned production fixtures to fill the plan. Use the existing
+root authoring/signing and activation path. This service rollout does not depend
+on the later presentation-metadata extension P076-BRAND-001.
+
+Two hostnames alone do not establish fault independence. Record whether their
+operators, hosts and network paths are independent; both names share the
+`emergat.io` DNS dependency. Verify bounded behaviour with either directory
+unavailable and refusal of invalid official-service proofs. Publish the actual
+topology and evidence scope rather than claiming redundancy from names alone.
+
+| ID | Task | Status | Acceptance / evidence |
+| :--- | :--- | :--- | :--- |
+| P102-001 | Adopt the naming reference and synchronize documentation entry points | done | P102, Orbidocs README/style guidance, Node README and P076/S041 distinguish Emergat, Orbiplex, `orbiplex-main` and domain authority; no selector/schema/fixture change |
+| P102-002 | Record the bilingual call, sole authorship and interpretive grounding | done | Section 3.3 contains both full and standalone forms, Paweł Wilk's declaration, upstream links and the voluntary-participation boundary |
+| P102-003 | Prepare the bilingual introduction on the existing project site | done | Focused local Hugo production build (2026-11-18) and rendered-HTML checks cover EN/PL wording, primary domain and navigation, without a public authorship note for the call; the site stays at `orbiplex.ai`. Full-site build remains blocked by legacy HTML content admission, outside these pages; deployment is not claimed |
+| P102-004 | Deploy the community home and secondary-domain redirects | todo | Operator records hosting/DNS ownership, HTTPS checks for all three domains, primary canonical URL and verified redirects; renewal responsibility is assigned; no change to federation authority |
+| P102-005 | Review the intended public uses against the reported trademark findings | todo | Current official records and actual use scope reviewed; outcome and any naming constraints recorded; no inference of immunity from nonprofit/unincorporated status |
+| P102-006 | Render federation presentation on the Node UI welcome screen | todo | Depends on P076-BRAND-001 and existing P095/P098 public/private view contracts. Read the active root projection; heading = name, optional tagline below, optional description, footer exactly `powered by Orbiplex.AI`. Browser acceptance covers EN/PL/fallback, absent optional fields, absent/public/private metadata, escaped markup, another federation and restart with a changed active root; no prior-federation branding survives. No change to admission, readiness, configuration ownership or signed historical fixtures. |
+| P102-007 | Provision and qualify initial Seed Directory endpoints and optional bootstrap peer | todo | After P102-005 for the intended uses, record full URLs, real node identities, TLS, topology and root-pack bindings for `seed-001.emergat.io` and `seed-002.emergat.io`; explicitly activate or omit `primus.emergat.io`. Verify discovery through the normal consumer path, either-directory outage, rejection of invalid official proof and absence of website redirects on service hosts. Reuse P076/S031 and production activation gates; naming, DNS provisioning or a health response alone is not completion. |
+
+P102-004 follows P102-005 for the intended public uses. It does not close the
+separate production-federation gates in P076-004 or `DIA-ROOT-001`. A landing page,
+a root-pack ceremony and participant-facing operational readiness are separate
+outcomes; choosing a product name is not a prerequisite for the ceremony.
+
+**Next actions:** resolve the public-use review and the existing whole-site build
+blocker before arranging deployment. Continue federation activation under
+its existing owners and acceptance criteria. Implement root presentation through
+P076-BRAND-001, then consume it through P102-006; website content does not prove
+that either runtime task is complete. P102-007 separately qualifies the service
+addresses above using existing bootstrap contracts.

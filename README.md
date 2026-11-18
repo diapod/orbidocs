@@ -6,9 +6,19 @@
 
 - Umbrella project / organization: **Distributed Intelligence Agency**
 - System and protocol family: **Orbiplex**
+- First public federation and its community: **Emergat**, primary domain **`emergat.org`**
 - Website: https://distributed-intelligence.agency/
 - Contact: team@distributed-intelligence.agency
 - GitHub organization: https://github.com/orgs/diapod/
+
+Proposed community call: **Emergat. Agency emerges from participation.**
+
+Polish: **Emergat. Sprawczość wyłania się z uczestnictwa.**
+Both formulations are solely authored by Paweł Wilk and may be presented with or
+without the leading name. See [P102](doc/project/40-proposals/102-community-brand-and-naming-layers.md)
+for their meaning, provenance and canonical naming rules. Naming adoption does
+not announce production launch: `orbiplex-main` remains the technical selector,
+and federation activation keeps its existing trust and readiness gates.
 
 ## Repository Layout
 

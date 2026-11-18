@@ -62,6 +62,22 @@ policy material may be used to evaluate official-service endorsements,
 bootstrap candidates, Seed Directory trust, and federation-scoped discovery.
 Runtime consumers still verify artifacts at each use site.
 
+The intended first public federation is named **Emergat**, with primary domain
+`emergat.org`, under [P102](../../40-proposals/102-community-brand-and-naming-layers.md).
+Its technical selector remains `orbiplex-main`. A public name or domain supplies
+neither root authority nor evidence of production activation; the gates in
+the Status section still apply. This naming does not extend to other federations.
+
+**Planned presentation extension:** P076-BRAND-001 owns name, optional localized
+tagline/description and homepage in versioned root configuration, plus a bounded
+projection from the verified active root. It is not implemented by the existing
+closed v1 schema. Only explicitly public fields may enter a public UI shell;
+restricted fields retain existing read guards. P102-006 consumes that projection
+for a name heading, tagline below it and `powered by Orbiplex.AI` footer. Reuse
+signing, ceremony and restart-only activation; no separate branding authority or
+ordinary overlay may impersonate root metadata. See the
+[owner contract](../../40-proposals/076-federation-identity-and-network-selector.md#federation-presentation-metadata-planned).
+
 Cross-federation cooperation is deliberately above this component. Proposal
 079's `alliance-policy.v1` runtime foundation can verify unilateral policy
 halves and resolve an active alliance from matching fresh halves. It may become

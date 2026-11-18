@@ -14,8 +14,17 @@ Identity baseline:
 
 1. Organization: **Distributed Intelligence Agency**
 2. System and protocol brand: **Orbiplex**
-3. Public website: `https://docs.orbiplex.ai/`
-4. GitHub organization: `https://github.com/orgs/diapod/`
+3. First public federation and its community: **Emergat**, primary domain `emergat.org`
+4. Technical documentation: `https://docs.orbiplex.ai/`; project site: `https://orbiplex.ai/`
+5. GitHub organization: `https://github.com/orgs/diapod/`
+
+Use [P102](doc/project/40-proposals/102-community-brand-and-naming-layers.md) as
+the naming reference, including Polish declension and the bilingual community
+call solely authored by Paweł Wilk. Write **Emergat**, not `EmergatIO` or
+`Emergatio`, as the canonical public name. Keep **Orbiplex** for the system and
+protocols and `orbiplex-main` for the technical selector. A brand/domain change
+must not rewrite signed fixtures, historical evidence or root authority. Do not
+describe naming adoption as production activation.
 
 ## 2. Core Intent
 

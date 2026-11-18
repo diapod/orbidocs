@@ -66,6 +66,12 @@ the public network) configures a distinct `federation_id`, backed by its own
 "federation" to that operational sense, and leaves broader cross-federation
 cooperation to the separate, lighter `alliance` concept.
 
+[P102](102-community-brand-and-naming-layers.md) names this intended first public
+federation and its community **Emergat**, with primary domain `emergat.org`.
+The public name does not replace `federation_id = orbiplex-main`, confer trust
+through DNS/WebPKI or close the production activation gate P076-004. Other
+federations using Orbiplex do not acquire that name automatically.
+
 This root trust file is also the boundary between Orbiplex authority and
 ordinary transport compatibility. Public WebPKI can protect an HTTPS/WSS
 connection to a public endpoint, but it is not the source of federation
@@ -360,6 +366,66 @@ deployment (for example a corporate installation) locally overrides the public
 failure fails the node closed rather than falling back to `orbiplex-main`
 defaults — falling back silently would quietly weaken exactly the isolation
 guarantee an operator configured this file to get.
+
+#### Federation presentation metadata (planned)
+
+[P102](102-community-brand-and-naming-layers.md#101-federation-presentation-from-root-configuration)
+requires a federation name, optional tagline and optional description in root
+configuration. This is presentation data, separate from `federation_id`, trust,
+membership and operational readiness. Proposed shape for a **future versioned
+root contract**, not valid extra fields in today's closed `federation-root.v1`:
+
+```json
+{
+  "presentation": {
+    "name": "Emergat",
+    "homepage": "https://emergat.org/",
+    "visibility": "public",
+    "default_locale": "en",
+    "locales": {
+      "en": {
+        "tagline": "Agency emerges from participation.",
+        "description": "The first public federation built with Orbiplex, and its community of participants and operators."
+      },
+      "pl": {
+        "tagline": "Sprawczość wyłania się z uczestnictwa.",
+        "description": "Pierwsza publiczna federacja korzystająca z Orbipleksu oraz jej społeczność uczestników i operatorów."
+      }
+    }
+  }
+}
+```
+
+The whole block is optional for existing/minimal federation profiles; `name` is
+required when it is present. `homepage`, localized `tagline` and `description`
+are optional. If `locales` is present, `default_locale` must name one of its
+entries. Resolve each optional text by exact UI locale, base language, then
+declared default; if none defines it, omit that text. Use bounded BCP 47 keys
+and plain text, with explicit count/UTF-8 size limits frozen before coding.
+No HTML, remote style assets, implicit URL fetching or model-generated fallback.
+The homepage is an address only, never a bootstrap or official-service proof.
+
+`visibility` is the closed enum `public | restricted`, defaulting to restricted;
+only explicit `public` admits these texts to an unauthenticated initial shell.
+Restricted metadata follows existing authorized
+private-view guards. Authentication alone must not substitute for the applicable
+read admission. A verified signature does not make configuration public.
+
+Reuse root schema admission, canonical signing, pack-version monotonicity,
+startup activation and existing config inspection. The presentation block is
+covered by the root's signatures. Project only its admitted fields through a
+small read-only DTO bound to the active federation/root revision. Ordinary P091
+file overlays must not impersonate this root-derived metadata. Updating it follows
+root authoring/signing and the existing restart-only activation rule; it does not
+rotate trust keys or confer new rights. UI applies locale selection and rendering
+without receiving the complete root pack, key/roster details or operator paths.
+
+The schema and `FederationRootPack` loader are closed today. P076-BRAND-001 must
+freeze a new schema version and an explicit compatibility/migration path, keeping
+existing signed v1 bytes valid in their supported path and refusing unsupported
+versions. Extend existing ceremony tooling and read projection rather than adding
+a brand service, second store or alternate unsigned root loader. Do not silently
+ignore unknown fields or rewrite historical packs to make them pass.
 
 ### 4. Distribution Defaults (`orbiplex-main`)
 
@@ -850,6 +916,12 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-026 | Freeze the production `orbiplex-main` ceremony shape | done | Implemented 2026-07-03 in the node ceremony tooling as an explicit `--production-orbiplex-main` profile for manifest, assemble, and verify commands. The profile requires `federation_id = orbiplex-main`, exactly one org-kind threshold attestation root, optional attestation-root `purposes[]` to include `federation-root` when present, a self-contained `federation-root` custody policy, at least a 2-of-3 unique signer-key threshold with duplicate signer refs rejected, top-level `policy_ref` using the `policy:dia-root-001@...` charter-version convention, manifest digest/threshold parity, strict deterministic assembly, threshold satisfaction before writing, and hard failure on unauthorized or invalid signatures. `federation-root.v1` has no dedicated rotation-overlap field yet, so the checker records that as `not-representable-in-federation-root.v1` rather than inventing an unofficial field. Concrete roster/keys remain governance-authored. |
 
 ## Implementation Recommendations
+
+Presentation continuation (outside the completed foundation rows above):
+
+| ID | Item | Status | Acceptance |
+|---|---|---|---|
+| P076-BRAND-001 | Version root presentation metadata and expose the verified active projection | todo | Freeze the bounded shape above, schema version and compatibility path; extend existing root/ceremony/inspection owners. Prove signed coverage, unsupported-field/version refusal, v1 continuity, absent/partial translations, public versus restricted projection and restart-only activation. A naming change changes no selector, membership or trust key. Supplies P102-006; UI completion is not a dependency of this owner task. |
 
 Task-level guidance for the tracker entries above, aligned with
 `node/DEV-GUIDELINES.md`. The goal is a smooth, layered implementation with no

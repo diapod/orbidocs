@@ -287,6 +287,19 @@ absence from initial/no-JS HTML, attributes, embedded JSON and preload responses
 
 ### 2. Visual baseline shipped with the defaults
 
+Federation presentation follows
+[P102](102-community-brand-and-naming-layers.md#101-federation-presentation-from-root-configuration):
+the welcome heading is the federation name, with an optional tagline below it
+and optional introductory description. The footer reads `powered by Orbiplex.AI`.
+Consume the verified root presentation projection planned by P076-BRAND-001;
+P102-006 owns runtime integration and browser acceptance. This is plain content,
+not a CSS/theme extension. Apply the existing public/private configuration split
+above: a root signature alone does not permit public disclosure. Missing
+displayable root metadata keeps the neutral `Orbiplex.AI` heading; absent
+tagline/description produces no placeholder. Never hardcode Emergat for other
+federations or use the call as a readiness indicator. These tasks remain separate
+from the existing Alpha baseline closure; the current UI does not yet consume them.
+
 The baseline is a quiet, readable application with generous spacing and clear hierarchy.
 It includes actual templates and shared style tokens; a configurable menu alone does not
 satisfy P098. Initial values below are proposed defaults to validate:
