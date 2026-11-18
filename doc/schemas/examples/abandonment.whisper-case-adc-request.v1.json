@@ -23,9 +23,7 @@
       },
       "receipt": {
         "head": 1,
-        "event_digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "observed_count": 2,
-        "source_as_of": 1793793600
+        "event_digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
       },
       "tombstone_at": 1793793900,
       "history_coverage": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"

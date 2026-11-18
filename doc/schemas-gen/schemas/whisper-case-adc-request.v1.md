@@ -22,7 +22,7 @@ Source schema: [`doc/schemas/whisper-case-adc-request.v1.schema.json`](../../sch
 | Definition | Shape | Description |
 |---|---|---|
 | [`intent`](#def-intent) | object |  |
-| [`receipt`](#def-receipt) | object |  |
+| [`receipt`](#def-receipt) | object | Identity of the signed private release acceptance; count and observation time remain with the case owner. |
 
 ## Conditional Rules
 
@@ -132,3 +132,5 @@ Exact private executor-signed publication inputs. Required only for release-comm
 ## `$defs.receipt`
 
 - Shape: object
+
+Identity of the signed private release acceptance; count and observation time remain with the case owner.

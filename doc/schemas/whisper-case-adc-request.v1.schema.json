@@ -325,13 +325,12 @@
       }
     },
     "receipt": {
+      "description": "Identity of the signed private release acceptance; count and observation time remain with the case owner.",
       "type": "object",
       "additionalProperties": false,
       "required": [
         "head",
-        "event_digest",
-        "observed_count",
-        "source_as_of"
+        "event_digest"
       ],
       "properties": {
         "head": {
@@ -342,16 +341,6 @@
         "event_digest": {
           "type": "string",
           "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
-        },
-        "observed_count": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 9007199254740991
-        },
-        "source_as_of": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 9007199254740991
         }
       }
     }

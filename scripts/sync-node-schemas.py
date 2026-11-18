@@ -122,6 +122,7 @@ SCHEMA_WHITELIST = (
     "artifact-delivery-relay-header.v1.schema.json",
     "whisper-case-status-request.v1.schema.json",
     "whisper-case-result.v1.schema.json",
+    "whisper-case-adc-request.v1.schema.json",
     "whisper-case-command.v1.schema.json",
     "whisper-case-workflow-request.local.v1.schema.json",
     "whisper-case-workflow-request.local.v2.schema.json",
@@ -921,6 +922,9 @@ EXAMPLE_WHITELIST = (
     "artifact-delivery-relay-header.v1.json",
     "whisper-case-status-request.v1.json",
     "whisper-case-result.v1.json",
+    "whisper-case-adc-request.v1.json",
+    "release-commit.whisper-case-adc-request.v1.json",
+    "abandonment.whisper-case-adc-request.v1.json",
     "whisper-case-command.v1.json",
     "whisper-case-workflow-request.local.v1.json",
     "prepare-authority-policy.whisper-case-workflow-request.local.v1.json",
@@ -1594,6 +1598,14 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "executor-as-author.whisper-case-workflow-request.local.v1.json",
+    "executor-as-author.whisper-case-workflow-request.local.v2.json",
+    "missing-coverage.whisper-case-adc-request.v1.json",
+    "missing-publication.whisper-case-adc-request.v1.json",
+    "private-facts.whisper-case-adc-request.v1.json",
+    "publication-on-author.whisper-case-adc-request.v1.json",
+    "receipt-private-facts.whisper-case-adc-request.v1.json",
+    "wrong-body.whisper-case-adc-request.v1.json",
     "private-origin-in-audience.whisper-embargo-audience-manifest.v1.json",
     "private-count-in-intent.whisper-release-intent.v1.json",
     "route-in-audience.room-release-audience.v1.json",
