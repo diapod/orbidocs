@@ -1,0 +1,12 @@
+{
+  "schema": "whisper-case-workflow-request.local.v2",
+  "command": {
+    "operation": "prepare-adc-author-control",
+    "operation/id": "c010bb08-54dd-4ddb-8888-003451227631",
+    "continuity/key-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "condition/original": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "control": {
+      "operation": "withdrawal"
+    }
+  }
+}

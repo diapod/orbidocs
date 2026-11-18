@@ -888,6 +888,54 @@
               ]
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "continuity/key-digest",
+            "condition/original",
+            "control"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-adc-author-control"
+            },
+            "operation/id": {
+              "type": "string",
+              "format": "uuid",
+              "maxLength": 36
+            },
+            "continuity/key-digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "condition/original": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "control": {
+              "allOf": [
+                {
+                  "$ref": "whisper-case-adc-request.v1.schema.json#/properties/command"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "enum": [
+                        "amendment",
+                        "withdrawal",
+                        "confirmation"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     }

@@ -1,0 +1,37 @@
+{
+  "schema": "whisper-case-workflow-request.local.v2",
+  "command": {
+    "operation": "prepare-adc-author-control",
+    "operation/id": "c010bb08-54dd-4ddb-8888-003451227631",
+    "continuity/key-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "condition/original": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "control": {
+      "operation": "abandonment",
+      "body": {
+        "intent": {
+          "original": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "audience": "room-A/history-v1",
+          "payload": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "proof": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "executor": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
+          "route": "route-A",
+          "envelope_plan": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "submission": {
+            "component": "whisper-case",
+            "idempotency/key": "adc-release-A"
+          },
+          "trigger": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "handover_by": 1793793900
+        },
+        "receipt": {
+          "head": 1,
+          "event_digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "observed_count": 2,
+          "source_as_of": 1793793600
+        },
+        "tombstone_at": 1793793900,
+        "history_coverage": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    }
+  }
+}

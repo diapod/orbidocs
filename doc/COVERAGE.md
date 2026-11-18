@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `10` | `2` |
 | `20-memos` (Memos) | `46` | `11` |
 | `30-stories` (Stories) | `19` | `1` |
-| `40-proposals` (Proposals) | `123` | `102` |
+| `40-proposals` (Proposals) | `124` | `103` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `68` | `48` |
 
-- Total project markdown files: `293`
-- Proposals referencing source material: `102` / `123`
+- Total project markdown files: `294`
+- Proposals referencing source material: `103` / `124`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -936,8 +936,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-status.v1.schema.json`](schemas-gen/schemas/whisper-case-status.v1.md) | `7` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-case-succession-presentation.v1.schema.json`](schemas-gen/schemas/whisper-case-succession-presentation.v1.md) | `4` | `0` | `no` | `yes` | `0` | `2` |
 | [`whisper-case-succession-presentation.v2.schema.json`](schemas-gen/schemas/whisper-case-succession-presentation.v2.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
-| [`whisper-case-workflow-request.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v1.md) | `2` | `0` | `no` | `yes` | `6` | `6` |
-| [`whisper-case-workflow-request.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v2.md) | `2` | `0` | `no` | `yes` | `3` | `2` |
+| [`whisper-case-workflow-request.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v1.md) | `2` | `0` | `no` | `yes` | `7` | `7` |
+| [`whisper-case-workflow-request.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-request.local.v2.md) | `2` | `0` | `no` | `yes` | `4` | `3` |
 | [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) | `0` | `0` | `no` | `yes` | `7` | `2` |
 | [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `5` | `2` |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
@@ -2113,5 +2113,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `946`
 - Generated schema docs: `947`
-- Positive examples: `859`
-- Negative examples: `855`
+- Positive examples: `861`
+- Negative examples: `857`

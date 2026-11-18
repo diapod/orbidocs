@@ -187,7 +187,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **262** host-local / **294** ogółem; grupy właścicieli: **55**.
+Wpisy: **263** host-local / **295** ogółem; grupy właścicieli: **56**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -421,6 +421,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>whisper.case.adc-consent.retain</code> | <code>host/whisper.case.adc-consent.retain</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon Whisper source control host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>whisper.case.adc-author.prepare</code> | <code>host/whisper.case.adc-author.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>daemon bounded HTTP capture host</code>
 

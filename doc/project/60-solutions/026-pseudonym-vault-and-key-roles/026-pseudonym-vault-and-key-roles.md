@@ -769,3 +769,13 @@ participate. This service component does not qualify a new host route, a hold on
 the authority's key or any ADC-005 runtime cell. Existing qualification remains
 unchanged. See `node:case-key-service/README.md` and the
 [ADC continuation](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#adc-execution-continuation).
+
+### ADC source author-control workflow (2026-11-18 development)
+
+The v1/v2 local operator workflow now consumes the closed author signing operation
+through actual bound S026 custody. It freezes unsigned input before key use,
+retains exact prepared outputs, verifies the corresponding ordered acceptance,
+and checks custody again at handoff. No new source certificate, live count,
+executor authority or transport retry owner is introduced. This component is
+separate from the full ADC-005 custody/runtime matrix and all historical gates.
+See `node:whisper-case-service/ADC.md` and `node:daemon/docs/RELAY-DELIVERY.md`.
