@@ -3378,8 +3378,9 @@ units, without adding settings or changing P091-016.
 | Compatibility | Stop the preceding daemon before upgrade or rollback. Concurrent older/newer runtime on the same root is unsupported when the older version does not own this lock. CAS is not evidence that such an older process ended. |
 
 The Node owner implements lifecycle proof, bounded latest-fact readback and
-per-attempt retirement. The read-only CLI exposes a live page of node-wide
-consumption and an exact result keyed by unit, generation and instance. It can
+per-attempt retirement. The CLI exposes a live page of node-wide consumption, exact
+retirement preview and approval, and a retained result keyed by unit, generation
+and instance. It can
 look up retained evidence for a removed Flow. An absent matching fact yields
 `unknown`; current activity remains a separate claim.
 
@@ -3387,5 +3388,8 @@ The 2026-11-18 CLI checkpoint exercised removed-Flow readback after a controlled
 pre-ACK crash and daemon restart. An optional Lean model and shared Rust vectors
 checked the bounded pure transition. See
 `node:docs/audits/P091-F12-RETIREMENT-2026-11-12.md` for the measured scope.
-The client action for exact operator retirement, full-page integration and
-WebView qualification remain open under P091-007/013.
+The CLI retirement checkpoint followed a full-journal refusal with approved
+archival, a fresh exact review and a retained read after the commit response
+was lost. This exercises the existing ConsumeFirst boundary without another
+consumption. Full-page integration and WebView qualification remain open
+under P091-007/013.
