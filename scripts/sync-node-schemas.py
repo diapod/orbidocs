@@ -881,6 +881,8 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "adc-consent.whisper-case-command.v1.json",
+    "adc-consent.whisper-case-command.v2.json",
     "room-release-audience.v1.json",
     "whisper-embargo-original.v1.json",
     "whisper-embargo-audience-manifest.v1.json",
@@ -1605,6 +1607,9 @@ INVALID_EXAMPLE_WHITELIST = (
 
     "source.memarium-admission-custody-request.local.v1.json",
 
+    "foreign-consent.whisper-case-command.v1.json",
+    "payload-consent.whisper-case-command.v1.json",
+    "empty-consent.whisper-case-command.v1.json",
     "source-role.whisper-case-command.v1.json",
     "source-role.whisper-case-succession-presentation.v1.json",
     "unknown-source.whisper-case-command.v2.json",

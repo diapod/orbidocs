@@ -971,6 +971,31 @@ authority/source/payload holds, executor/AD closure, cold receiver and all four
 runtime cells remain open. ADC-004/005 stay todo. See `node:whisper-core/DISCLOSURE.md`
 and `node:whisper-case-service/ADC.md`; historical qualifications remain unchanged.
 
+## ADC private registration carrier component (2026-11-18)
+
+The private command v1/v2 carries original M and the complete signed M_A set in
+closed `adc/consent`, with its canonical digest bound by the continuity-signed
+registration. Other command families refuse it. Payload and opening remain in
+the protected source hold and are not registration material. This extends the
+pre-enable contract in place; ordinary registrations omit both optional fields
+and retain their bytes. Existing control and transport budgets are unchanged.
+
+The source uses its existing encrypted S026 hold and exact PEX preparation.
+The ordered service requires explicit composition adoption, independently
+verifies P035 evidence/source certificate/complete consent and freezes the
+existing per-case basis, manifests and policy. It does not replace a global
+original provider. Completed exact replay and first withdrawal remain available
+without live count/original ports after reopen. Signature budgets include both
+manifest checks and reconstruction of the scoped certificate.
+
+Development packet/dispatcher tests cover actual encryption/opening, exact
+binding, default refusal, missing/changed material, bad child signature, no
+partial case/signature, reopen and immutable handoff. This does not install the
+native daemon adoption, finite authority/source/payload holds, per-case counter,
+executor or cold receiver. ADC-001/004/005 and the four runtime cells retain
+their open status; historical evidence and readiness claims are unchanged.
+Implementation details: `node:whisper-case-service/ADC.md`.
+
 ## ADC source author-control workflow component (2026-11-18)
 
 Implementation component; ADC-005 remains todo. The existing S026 author workflow

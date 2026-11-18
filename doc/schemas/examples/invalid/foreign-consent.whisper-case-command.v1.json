@@ -1,0 +1,84 @@
+{
+  "schema": "whisper-case-command.v1",
+  "family": "case-status-request",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "exchange": "exchange:DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw",
+  "response/public-key": "CwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCws",
+  "control": "eyJhZGMvY29uc2VudC1kaWdlc3QiOiJzaGEyNTY6eFpaRkd1N25RdHliTjBLSExLNVNnNjAyTFBlQWxJY092T2pDUnFpTHI0ZyIsImF1ZGllbmNlIjpbIm5vZGU6ZGlkOmtleTp6Nk1raHE0RzVSTjhmM242cUducFJyVmpaNURMQldNUkdRZWhOQ3A3NnNDem5KaGsiXSwiYXV0aG9yaXphdGlvbi9wdWJsaWMta2V5IjoiejZNa2hxNEc1Uk44ZjNuNnFHbnBSclZqWjVETEJXTVJHUWVoTkNwNzZzQ3puSmhrIiwiY2FzZS9hbmNob3IiOiJzaGEyNTY6QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQSIsImNhc2UvYXV0aG9yaXR5Ijoibm9kZTpkaWQ6a2V5Ono2TWtocTRHNVJOOGYzbjZxR25wUnJWalo1RExCV01SR1FlaE5DcDc2c0N6bkpoayIsImNhc2Uvbm90LWFmdGVyIjoiMjAyNi0xMS0wNFQxMjowMDowMFoiLCJpbnB1dHMvZGlnZXN0Ijoic2hhMjU2OkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEiLCJpc3N1ZWQvYXQiOiIyMDI2LTExLTA0VDEyOjAwOjAwWiIsIm5vdC1hZnRlciI6IjIwMjYtMTEtMDRUMTI6MDA6MDBaIiwicmVxdWVzdC9pZCI6ImMwMTBiYjA4LTU0ZGQtNGRkYi04ODg4LTAwMzQ1MTIyNzYzMSIsInNjaGVtYSI6IndoaXNwZXItY2FzZS1yZWdpc3RyYXRpb24udjEiLCJzaWduYXR1cmUiOiJBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQSJ9",
+  "evidence": [],
+  "adc/consent": {
+    "original": {
+      "schema": "whisper-embargo-original.v1",
+      "profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+      "certificate/digest": "sha256:A9Zt0Ig1wco_EozOrNHzGslBYwlrIPRFroQoW8CDLXI",
+      "context/digest": "sha256:6neSom9AXirpxvScqTu-YHbOrAofxT2DQmx9fy2Td-Q",
+      "epoch": 1,
+      "nym/id": "nym:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+      "case/continuity-key-digest": "sha256:Ctw2BXzvefinuKhiu5-rjL3BOChJjGNsTZLXYf1iGg8",
+      "case/status-authority": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+      "case/not-after": "2030-01-01T00:00:00.000000000Z",
+      "payload/commitment": "sha256:emBiOJHVsFjetP6FrMBUeseUuw7EsDZtVU2byaXYfSU",
+      "condition": {
+        "others": 2,
+        "window_end": 1800000000,
+        "release_end": 1800000100,
+        "mode": "confirm"
+      },
+      "audiences": [
+        {
+          "schema": "room-release-audience.v1",
+          "room/id": "room:adc-A",
+          "history/policy-digest": "sha256:uXoQ3VpJVCJ1jNB9dqUy10Q0ksvp8HXMqQmHsTAmhl0"
+        }
+      ],
+      "executors": [
+        "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW"
+      ],
+      "custody": {
+        "mode": "withheld",
+        "holder/keys": [
+          "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW"
+        ]
+      },
+      "original/nonce": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE"
+    },
+    "manifests": [
+      {
+        "schema": "whisper-embargo-audience-manifest.v1",
+        "profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+        "certificate/digest": "sha256:A9Zt0Ig1wco_EozOrNHzGslBYwlrIPRFroQoW8CDLXI",
+        "context/digest": "sha256:6neSom9AXirpxvScqTu-YHbOrAofxT2DQmx9fy2Td-Q",
+        "epoch": 1,
+        "nym/id": "nym:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+        "case/continuity-key-digest": "sha256:Ctw2BXzvefinuKhiu5-rjL3BOChJjGNsTZLXYf1iGg8",
+        "case/status-authority": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+        "case/not-after": "2030-01-01T00:00:00.000000000Z",
+        "condition/original": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+        "payload/commitment": "sha256:emBiOJHVsFjetP6FrMBUeseUuw7EsDZtVU2byaXYfSU",
+        "condition": {
+          "others": 2,
+          "window_end": 1800000000,
+          "release_end": 1800000100,
+          "mode": "confirm"
+        },
+        "audience": {
+          "schema": "room-release-audience.v1",
+          "room/id": "room:adc-A",
+          "history/policy-digest": "sha256:uXoQ3VpJVCJ1jNB9dqUy10Q0ksvp8HXMqQmHsTAmhl0"
+        },
+        "executors": [
+          "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW"
+        ],
+        "manifest/nonce": "AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM",
+        "publication/context": {
+          "record/kind": "whisper-release",
+          "content/schema": "whisper-embargo-audience-manifest.v1",
+          "topic/key": "ai.orbiplex.rooms/adc-A",
+          "disclosure/scope": "single-audience",
+          "signing/use": "embargo-audience-manifest"
+        },
+        "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    ]
+  }
+}

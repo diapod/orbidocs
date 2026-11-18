@@ -109,6 +109,28 @@
           }
         ]
       }
+    },
+    "adc/consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original",
+        "manifests"
+      ],
+      "properties": {
+        "original": {
+          "$ref": "whisper-embargo-original.v1.schema.json"
+        },
+        "manifests": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "whisper-embargo-audience-manifest.v1.schema.json"
+          }
+        }
+      },
+      "description": "Private original M and complete M_A set for registration only; the signed registration binds its canonical digest. It never carries the approved payload or its opening and does not establish local trust."
     }
   },
   "x-dia-maximum-canonical-bytes": 4194304,
@@ -254,6 +276,20 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "adc/consent"
+        ]
+      },
+      "then": {
+        "properties": {
+          "family": {
+            "const": "case-registration"
           }
         }
       }

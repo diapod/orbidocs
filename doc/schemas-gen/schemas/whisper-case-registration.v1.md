@@ -17,6 +17,7 @@ Source schema: [`doc/schemas/whisper-case-registration.v1.schema.json`](../../sc
 | [`audience`](#field-audience) | `yes` | array |  |
 | [`inputs/digest`](#field-inputs-digest) | `yes` | string | Immutable anchor identity from exact signed P035 receipt/author bindings; excludes evaluator trust, provenance and later completeness observations. The authority retains its local evaluation digest separately. |
 | [`signature`](#field-signature) | `yes` | string |  |
+| [`adc/consent-digest`](#field-adc-consent-digest) | `no` | string | Exact canonical digest of the optional private adc/consent carrier. Presence and equality are required together at the command boundary. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -86,3 +87,11 @@ Immutable anchor identity from exact signed P035 receipt/author bindings; exclud
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-adc-consent-digest"></a>
+## `adc/consent-digest`
+
+- Required: `no`
+- Shape: string
+
+Exact canonical digest of the optional private adc/consent carrier. Presence and equality are required together at the command boundary.

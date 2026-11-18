@@ -77,6 +77,12 @@
       "type": "string",
       "pattern": "^[A-Za-z0-9_-]{86}$",
       "maxLength": 86
+    },
+    "adc/consent-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 50,
+      "description": "Exact canonical digest of the optional private adc/consent carrier. Presence and equality are required together at the command boundary."
     }
   },
   "x-dia-maximum-canonical-bytes": 4096

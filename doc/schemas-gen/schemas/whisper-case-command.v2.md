@@ -13,6 +13,7 @@ Source schema: [`doc/schemas/whisper-case-command.v2.schema.json`](../../schemas
 | [`response/public-key`](#field-response-public-key) | `yes` | string |  |
 | [`control`](#field-control) | `yes` | string |  |
 | [`evidence`](#field-evidence) | `yes` | array |  |
+| [`adc/consent`](#field-adc-consent) | `no` | object | Private original M and complete M_A set for registration only; the signed registration binds its canonical digest. It never carries the approved payload or its opening and does not establish local trust. |
 
 ## Conditional Rules
 
@@ -158,6 +159,30 @@ Then:
 }
 ```
 
+### Rule 5
+
+When:
+
+```json
+{
+  "required": [
+    "adc/consent"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "family": {
+      "const": "case-registration"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -201,3 +226,11 @@ Then:
 
 - Required: `yes`
 - Shape: array
+
+<a id="field-adc-consent"></a>
+## `adc/consent`
+
+- Required: `no`
+- Shape: object
+
+Private original M and complete M_A set for registration only; the signed registration binds its canonical digest. It never carries the approved payload or its opening and does not establish local trust.
