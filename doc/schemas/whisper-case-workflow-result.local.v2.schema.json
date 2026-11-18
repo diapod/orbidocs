@@ -672,7 +672,10 @@
         "schema",
         "operation/id",
         "release/id",
-        "phase"
+        "phase",
+        "exchange/handle",
+        "reply/public-key",
+        "request/not-after"
       ],
       "properties": {
         "schema": {
@@ -689,6 +692,119 @@
         },
         "phase": {
           "const": "adc-execution-preparing"
+        },
+          "exchange/handle": {
+            "type": "string",
+            "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+            "maxLength": 52
+          },
+          "reply/public-key": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "maxLength": 43,
+            "minLength": 43
+          },
+          "request/not-after": {
+            "type": "string",
+            "format": "date-time",
+            "maxLength": 40
+          }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "release/id",
+        "phase",
+        "delivery/id"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "const": "adc-commit-transport-custody"
+        },
+        "delivery/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "release/id",
+        "phase"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "const": "adc-commit-outcome-lost"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "release/id",
+        "phase"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "enum": [
+            "adc-release-awaiting-ad",
+            "adc-release-ad-outcome-unknown",
+            "adc-release-admitted",
+            "adc-release-tombstoned"
+          ]
+        },
+        "delivery/id": {
+          "type": "string",
+          "pattern": "^delivery:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        }
+      },
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "adc-release-admitted"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "delivery/id"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "delivery/id"
+          ]
         }
       }
     }
