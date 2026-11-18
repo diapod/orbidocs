@@ -867,7 +867,9 @@
             "operation",
             "operation/id",
             "manifest/digest",
-            "control"
+            "request/id",
+            "route",
+            "trigger/digest"
           ],
           "properties": {
             "operation": {
@@ -882,10 +884,19 @@
               "type": "string",
               "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
             },
-            "control": {
+            "request/id": {
               "type": "string",
-              "pattern": "^[A-Za-z0-9_-]+$",
-              "maxLength": 5462
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "route": {
+              "type": "string",
+              "pattern": "^[!-~]+$",
+              "maxLength": 256
+            },
+            "trigger/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
             }
           }
         }
