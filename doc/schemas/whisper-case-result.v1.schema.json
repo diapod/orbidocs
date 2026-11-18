@@ -122,6 +122,25 @@
               ]
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "attestation"
+          ],
+          "properties": {
+            "state": {
+              "const": "proposed"
+            },
+            "attestation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
         }
       ]
     }

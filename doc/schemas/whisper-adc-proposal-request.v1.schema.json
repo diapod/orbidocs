@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-adc-proposal-request:v1",
+  "title": "whisper-adc-proposal-request.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 4096,
+  "description": "Private ADC threshold query from a named executor. The signature binds the exact PEX exchange and response key. This is a read of a bounded observation, without a case transition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "case/anchor",
+    "case/authority",
+    "release/id",
+    "executor",
+    "request/id",
+    "issued/at",
+    "not-after",
+    "response/key-digest",
+    "signature",
+    "exchange"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-adc-proposal-request.v1"
+    },
+    "case/anchor": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "case/authority": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 144
+    },
+    "release/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "executor": {
+      "type": "string",
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 144
+    },
+    "request/id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "maxLength": 36
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 32
+    },
+    "not-after": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 32
+    },
+    "response/key-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{85}[AQgw]$"
+    },
+    "exchange": {
+      "type": "string",
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "maxLength": 52
+    }
+  }
+}

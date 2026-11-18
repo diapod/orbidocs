@@ -25,6 +25,7 @@ Private single-audience threshold proposal for the named executor. It binds the 
 | [`result`](#field-result) | `yes` | const: `threshold-met` |  |
 | [`signature`](#field-signature) | `yes` | string |  |
 | [`release/not-after`](#field-release-not-after) | `yes` | string |  |
+| [`request/digest`](#field-request-digest) | `no` | string |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -127,4 +128,10 @@ Private single-audience threshold proposal for the named executor. It binds the 
 ## `release/not-after`
 
 - Required: `yes`
+- Shape: string
+
+<a id="field-request-digest"></a>
+## `request/digest`
+
+- Required: `no`
 - Shape: string
