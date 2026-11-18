@@ -1663,6 +1663,16 @@ withdrawal when the journal is available. Positive network handover and
 executor integration remain outstanding. ADC-003/005 remain `todo` and runtime
 qualification remains open.
 
+The author crosses the same direct AD boundary using the authenticated local
+`handoff-held-adc-transfer` operation and an explicit route to the named
+custodian. The source verifies the retained registration, one selected
+manifest, the holder binding and its current private disclosure policy. S026
+fences the exact offered ciphertext before AD and binds the exchange to the
+offer and route through the case horizon. Ciphertext retention in this journal
+ends at the original offer deadline. Tests reopen the author journal
+and check exact replay, changed-route refusal and expiry. AD owns transport
+execution and retries, and the recipient observes custody independently.
+
 ### Signed registration policy
 
 The private ADC registration acceptance carries a signed `adc/registration`
