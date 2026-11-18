@@ -1737,6 +1737,8 @@ only its local phase and, when admitted, the AD identifier.
 Agora verifies the complete carried proof before SQLite HTTP admission or
 Matrix reception. It resolves the expected audience and history policy from
 local adoption, including the observed Matrix room on that carrier. The
+Matrix receiver registers the exact rooms from its local audience policy in
+the durable account receiver before advancing the sync cursor. The
 receiver reads only local observations concerning the carried receipt. The
 Matrix origin verifies the carried proof before atomically storing the
 publication with its adopted physical room, carrier and author bytes. Retry
