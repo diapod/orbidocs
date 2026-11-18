@@ -1482,8 +1482,10 @@ Historical qualifiers retain their source pins and bytes. See the current
 Implementation checkpoint, not release execution qualification. The current
 Node launcher has an explicit `--native-only` gate and a read-only JSON preflight
 in `tools/matrix-fixture/synapse/native_preflight.py`. ADC qualification requires
-bare-metal Linux, a local Unix-socket Docker engine and both exact profile images
-already installed. macOS refuses before Docker or fixture-state writes; missing
+bare-metal Linux, a local Unix-socket Docker engine with Compose and both exact
+profile images already installed. Missing Compose returns
+`not-run/compose-unavailable` before fixture-state writes. macOS refuses before
+Docker or fixture-state writes; missing
 virtualization detection, containers and uncertain observations fail closed.
 The launcher and Compose services prohibit automatic pulls. Missing software or
 images need a separate operator decision.
