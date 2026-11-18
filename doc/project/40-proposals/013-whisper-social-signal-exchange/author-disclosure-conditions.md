@@ -1541,6 +1541,14 @@ registration with the already bound continuity key and protected consent.
 Authority-side admission and delivery across independent processes remain part
 of the runtime gate.
 
+A focused native check now passes the exact S026 detached registration packet
+to a separate authority daemon. Its AD ingress accepts the packet, the ordered
+owner returns a signed result, and the source verifies, retains and recovers
+that result after reopening. The authority signing key remains held through
+the case horizon. Authenticated relay provenance is supplied at the fixture
+boundary. This check establishes independent owner composition, not WSS
+delivery, release execution, cold reception or a runtime matrix cell.
+
 The S026 source owner constructs the protected package for one retained audience
 under independently adopted P035 trust. The source custody port must observe the
 owned author node in `withheld` mode or the named custodian's finite obligation
