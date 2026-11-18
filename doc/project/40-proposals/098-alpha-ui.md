@@ -289,9 +289,10 @@ absence from initial/no-JS HTML, attributes, embedded JSON and preload responses
 
 Federation presentation follows
 [P102](102-community-brand-and-naming-layers.md#101-federation-presentation-from-root-configuration):
-the welcome heading is the federation name, with an optional logo beside it,
-an optional tagline below it and optional introductory description. The footer
-reads `powered by Orbiplex.AI`.
+when a logo is visible, stack the logo, federation name and optional tagline
+from top to bottom. Center the column horizontally and vertically in the
+available welcome area and center-align its contents. Keep the optional
+introductory description and the `powered by Orbiplex.AI` footer outside the column.
 Consume the verified root presentation projection planned by P076-BRAND-001;
 P102-006 owns runtime integration and browser acceptance. This is plain content,
 not a CSS/theme extension. Apply the existing public/private configuration split
