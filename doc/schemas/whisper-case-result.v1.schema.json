@@ -13,6 +13,23 @@
     "evaluated/at",
     "outcome"
   ],
+  "allOf": [
+    {
+      "if": { "required": ["signature"] },
+      "then": {
+        "properties": {
+          "outcome": {
+            "required": ["state", "reason"],
+            "properties": {
+              "state": { "const": "refused" },
+              "reason": { "not": { "const": "not-yet-valid" } }
+            },
+            "not": { "required": ["closure/acceptance"] }
+          }
+        }
+      }
+    }
+  ],
   "properties": {
     "schema": {
       "const": "whisper-case-result.v1"
@@ -41,6 +58,12 @@
       "type": "string",
       "format": "date-time",
       "maxLength": 30
+    },
+    "signature": {
+      "type": "string",
+      "maxLength": 86,
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "description": "Optional private Ed25519 proof of a durable release-commit refusal. Verify in the release-commit-refusal domain against the owner pinned by the exact request."
     },
     "outcome": {
       "oneOf": [

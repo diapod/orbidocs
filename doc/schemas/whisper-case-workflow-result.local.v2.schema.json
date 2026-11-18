@@ -776,7 +776,7 @@
           "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
         },
         "phase": {
-          "const": "adc-commit-outcome-lost"
+          "enum": ["adc-commit-outcome-lost", "adc-commit-rejected"]
         }
       }
     },

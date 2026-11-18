@@ -825,6 +825,14 @@ tombstoned are executor observations. Terminal executor outcomes include commit
 rejected, commit-outcome-lost and unresolved-at-closure. If the exact response
 lease is lost, do not mint another reply or guess the slot receipt.
 
+A durable release-commit refusal carries the case owner's private signature
+over the exact `whisper-case-result.v1` in the dedicated
+`orbiplex.whisper.case.release-commit-refusal.v1` domain. The executor checks
+the existing exchange, expected authority, exact request and live reply
+lease before recording `commit-rejected`. Unsigned diagnostics leave
+commit outcome unknown. The signed result and its replay remain private to
+the case workflow.
+
 The implemented commit stages bind one assessed `M_A` to the historical
 source anchor and the executor's signed request. The existing fenced Store
 holds the exact request, independently expiring response key and prepared PEX
