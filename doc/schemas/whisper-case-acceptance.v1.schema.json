@@ -128,10 +128,53 @@
         null
       ]
     },
+    "adc/registration": {
+      "description": "Private ADC registration snapshot signed by the case authority. It binds the original commitment and effective policy, and is absent from ordinary and later acceptances.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "condition/original",
+        "policy",
+        "request/ttl-seconds"
+      ],
+      "properties": {
+        "condition/original": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+          "maxLength": 50
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimum_handoff",
+            "reply_margin",
+            "settlement_window",
+            "preparation_budget",
+            "stale_cycles"
+          ],
+          "properties": {
+            "minimum_handoff": {"type": "integer", "minimum": 1, "maximum": 900},
+            "reply_margin": {"type": "integer", "minimum": 1, "maximum": 900},
+            "settlement_window": {"type": "integer", "minimum": 1, "maximum": 900},
+            "preparation_budget": {"type": "integer", "minimum": 1, "maximum": 900},
+            "stale_cycles": {"type": "integer", "minimum": 1, "maximum": 3}
+          }
+        },
+        "request/ttl-seconds": {"type": "integer", "minimum": 3, "maximum": 900}
+      }
+    },
     "signature": {
       "type": "string",
       "pattern": "^[A-Za-z0-9_-]{86}$",
       "maxLength": 86
+    }
+  },
+  "dependentSchemas": {
+    "adc/registration": {
+      "properties": {
+        "operation": {"const": "register"}
+      }
     }
   },
   "x-dia-maximum-canonical-bytes": 4096

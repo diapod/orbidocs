@@ -16,6 +16,7 @@ Source schema: [`doc/schemas/whisper-case-acceptance.v1.schema.json`](../../sche
 | [`inputs/digest`](#field-inputs-digest) | `yes` | string |  |
 | [`head`](#field-head) | `yes` | object |  |
 | [`anchor/basis`](#field-anchor-basis) | `yes` | enum: `after`, `none-observed-closed`, `none-observed-fresh`, `None` |  |
+| [`adc/registration`](#field-adc-registration) | `no` | object | Private ADC registration snapshot signed by the case authority. It binds the original commitment and effective policy, and is absent from ordinary and later acceptances. |
 | [`signature`](#field-signature) | `yes` | string |  |
 ## Field Semantics
 
@@ -78,6 +79,14 @@ Source schema: [`doc/schemas/whisper-case-acceptance.v1.schema.json`](../../sche
 
 - Required: `yes`
 - Shape: enum: `after`, `none-observed-closed`, `none-observed-fresh`, `None`
+
+<a id="field-adc-registration"></a>
+## `adc/registration`
+
+- Required: `no`
+- Shape: object
+
+Private ADC registration snapshot signed by the case authority. It binds the original commitment and effective policy, and is absent from ordinary and later acceptances.
 
 <a id="field-signature"></a>
 ## `signature`
