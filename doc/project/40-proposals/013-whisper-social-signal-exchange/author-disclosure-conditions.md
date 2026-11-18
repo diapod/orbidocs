@@ -1498,9 +1498,16 @@ Fresh ADC decisions check the configured provider against the pinned authority
 before changing case state. Exact historical replay is independent of current
 signing and renewal of the hold. Component tests exercise the registration
 failure before candidate creation, same-byte replay, native rotation refusal,
-loss/reopen and monotone recovery. Native end-to-end admission and source/payload
-custody, the executor and cold verifier, and the four runtime cells remain open.
-ADC-004 and ADC-005 stay `todo`.
+loss/reopen and monotone recovery.
+
+The native registration probe also completes PEX/AD ingress and opens the
+authority's signed reply for FullRecord and DetachedManifest. Both use actual
+signed P035 receipts in a synthetic federation and the default ADC policy with
+the 900-second settlement window. The daemon saves the original binding, both
+audience manifest digests, the owner policy and the key hold. The hold still
+applies after shutdown. The relay provenance is a fixture at the native ingress
+boundary. Source/payload custody, native execution and cold verification, and
+the four runtime cells remain open. ADC-004 and ADC-005 stay `todo`.
 
 ## Optional Confidential Affiliation Review {#confidential-affiliation-review}
 
