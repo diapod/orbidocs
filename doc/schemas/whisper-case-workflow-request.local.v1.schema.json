@@ -1085,6 +1085,47 @@
           "additionalProperties": false,
           "required": [
             "operation",
+            "release/id",
+            "audience",
+            "request/id",
+            "route",
+            "attestation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-held-adc-execution"
+            },
+            "release/id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "audience": {
+              "$ref": "urn:orbiplex:schema:room-release-audience:v1"
+            },
+            "request/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "route": {
+              "type": "string",
+              "pattern": "^[!-~]+$",
+              "maxLength": 256
+            },
+            "attestation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Unpadded base64url of the exact signed whisper-embargo-attestation.v1."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
             "release/id"
           ],
           "properties": {
@@ -1129,6 +1170,33 @@
             "manifest/digest": {
               "type": "string",
               "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "release/id",
+            "audience",
+            "request/id"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-held-adc-proposal"
+            },
+            "release/id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "audience": {
+              "$ref": "urn:orbiplex:schema:room-release-audience:v1"
+            },
+            "request/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
             }
           }
         }

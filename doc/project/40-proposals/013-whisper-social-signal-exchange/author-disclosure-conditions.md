@@ -1659,8 +1659,8 @@ peers, audiences, witness trust and deadlines. The operator prepares the offer
 through the existing local case workflow. The dedicated binary AD carriage
 uses the authenticated direct minimal-trace path. The local provider stays
 outside application backup selection and S020 can expire records after role
-withdrawal when the journal is available. Positive network handover and
-executor integration remain outstanding. ADC-003/005 remain `todo` and runtime
+withdrawal when the journal is available. Positive handover and execution on
+separate nodes remain outstanding. ADC-003/005 remain `todo` and runtime
 qualification remains open.
 
 The author crosses the same direct AD boundary using the authenticated local
@@ -1672,6 +1672,15 @@ offer and route through the case horizon. Ciphertext retention in this journal
 ends at the original offer deadline. Tests reopen the author journal
 and check exact replay, changed-route refusal and expiry. AD owns transport
 execution and retries, and the recipient observes custody independently.
+
+The held executor reads that recipient's Memarium under the independently
+adopted Room policy. Operator proposal and commit preparation select the held
+release ID and audience. The existing journal distinguishes author registration
+from held custody and rechecks the exact package and registration acceptance
+before commit handoff. It can complete an accepted commit from its own frozen
+proof with the held role's local witness policy. The component test exercises
+the held provider, restart, refusal when the held copy is unavailable and AD
+publication. Separate-node WSS execution and the full matrix remain open.
 
 ### Signed registration policy
 
