@@ -941,7 +941,7 @@
           ],
           "properties": {
             "operation": {
-              "const": "handoff-adc-commit"
+              "enum": ["handoff-adc-commit", "handoff-adc-abandonment"]
             },
             "release/id": {
               "type": "string",
@@ -964,7 +964,7 @@
           ],
           "properties": {
             "operation": {
-              "const": "handoff-adc-release"
+              "enum": ["handoff-adc-release", "prepare-adc-abandonment", "read-adc-abandonment"]
             },
             "release/id": {
               "type": "string",

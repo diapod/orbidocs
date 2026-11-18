@@ -991,7 +991,10 @@
             "operation": {
               "enum": [
                 "handoff-adc-commit",
-                "handoff-adc-release"
+                "handoff-adc-release",
+                "prepare-adc-abandonment",
+                "handoff-adc-abandonment",
+                "read-adc-abandonment"
               ]
             },
             "release/id": {

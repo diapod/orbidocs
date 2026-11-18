@@ -727,7 +727,7 @@
           "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
         },
         "phase": {
-          "const": "adc-commit-transport-custody"
+          "enum": ["adc-commit-transport-custody", "adc-abandonment-transport-custody"]
         },
         "delivery/id": {
           "type": "string",
@@ -753,7 +753,7 @@
           "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
         },
         "phase": {
-          "const": "adc-commit-outcome-lost"
+          "enum": ["adc-commit-outcome-lost", "adc-abandonment-preparing"]
         }
       }
     },
@@ -774,7 +774,9 @@
             "adc-release-awaiting-ad",
             "adc-release-ad-outcome-unknown",
             "adc-release-admitted",
-            "adc-release-tombstoned"
+            "adc-release-tombstoned",
+            "adc-abandonment-pending",
+            "adc-abandoned"
           ]
         },
         "delivery/id": {
