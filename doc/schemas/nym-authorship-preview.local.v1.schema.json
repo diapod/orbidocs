@@ -81,6 +81,11 @@
             "custody": {
               "$ref": "whisper-embargo-original.v1.schema.json#/properties/custody"
             },
+            "source/detached": {
+              "type": "boolean",
+              "default": false,
+              "description": "Select the detached source form. Explicit signing requires the exact embargo-manifest signing use in addition to the audience-manifest use."
+            },
             "payload/bytes": {
               "type": "string",
               "maxLength": 87382,
