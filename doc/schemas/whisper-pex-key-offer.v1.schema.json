@@ -41,7 +41,8 @@
       "enum": [
         "protected-signal-custodian",
         "case-authority",
-        "case-applicant"
+        "case-applicant",
+        "held-custody-recipient"
       ]
     },
     "sender/id": {
@@ -60,7 +61,8 @@
       "enum": [
         "whisper-protected-signal.v1",
         "whisper-case-command.v1",
-        "whisper-case-result.v1"
+        "whisper-case-result.v1",
+        "whisper-embargo-custody-transfer.v1"
       ]
     },
     "recipient/key": {
@@ -108,5 +110,32 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "recipient/role": {
+            "const": "held-custody-recipient"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "whisper-embargo-custody-transfer.v1"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "payload/schema": {
+            "not": {
+              "const": "whisper-embargo-custody-transfer.v1"
+            }
+          }
+        }
+      }
+    }
+  ]
 }

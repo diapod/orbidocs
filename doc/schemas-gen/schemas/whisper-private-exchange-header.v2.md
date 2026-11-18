@@ -9,7 +9,7 @@ Authenticated binary PEX header shared by every enabled family. Response-key loc
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `whisper-private-exchange-header.v2` |  |
-| [`family`](#field-family) | `yes` | enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`, `protected-signal` |  |
+| [`family`](#field-family) | `yes` | enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`, `protected-signal`, `held-custody-transfer` |  |
 | [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
 | [`recipient/key-digest`](#field-recipient-key-digest) | `yes` | string |  |
 | [`sender/ephemeral-key`](#field-sender-ephemeral-key) | `yes` | string |  |
@@ -74,6 +74,32 @@ Then:
 }
 ```
 
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "family": {
+      "const": "held-custody-transfer"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "plaintext/size": {
+      "maximum": 57856
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -86,7 +112,7 @@ Then:
 ## `family`
 
 - Required: `yes`
-- Shape: enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`, `protected-signal`
+- Shape: enum: `case-registration`, `case-request`, `case-result`, `case-status-request`, `case-status-response`, `case-presentation-carried`, `case-presentation-referenced`, `case-presentation-carried-confirmed`, `case-presentation-referenced-confirmed`, `case-reception`, `protected-signal`, `held-custody-transfer`
 
 <a id="field-exchange-handle"></a>
 ## `exchange/handle`

@@ -33,7 +33,8 @@
         "case-presentation-carried-confirmed",
         "case-presentation-referenced-confirmed",
         "case-reception",
-        "protected-signal"
+        "protected-signal",
+        "held-custody-transfer"
       ]
     },
     "exchange/handle": {
@@ -115,6 +116,22 @@
         "properties": {
           "plaintext/size": {
             "maximum": 49152
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "held-custody-transfer"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plaintext/size": {
+            "maximum": 57856
           }
         }
       }
