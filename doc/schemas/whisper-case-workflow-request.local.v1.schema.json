@@ -976,6 +976,23 @@
               "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "release/id"
+          ],
+          "properties": {
+            "operation": {
+              "const": "handoff-adc-commit"
+            },
+            "release/id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            }
+          }
         }
       ]
     }
