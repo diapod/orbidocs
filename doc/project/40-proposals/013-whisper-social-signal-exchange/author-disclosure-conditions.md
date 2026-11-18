@@ -1467,6 +1467,21 @@ retain their exact bytes and original scope; see
 `node:docs/audits/P013-ADC-STAGE0-2026-11-16.md` for corrections and current tests.
 ADC-005 remains todo until real ADC-004, source custody and executor acceptance.
 
+## ADC-005 live counter adoption checkpoint
+
+The daemon can now select the local ADC counter for an already admitted case
+registration through explicit adoption of the live Agora SQLite index. The
+relay retains ingestion, migration and recovery. The companion reads the exact
+inventory and holds the existing short writer barrier through the case commit.
+The adoption binds the installation, file and named local instance. Replacing
+the index requires readmission. For Synapse the pin covers the local ingested
+index; freshness and homeserver completeness remain separate checks.
+
+A focused owner test exercises real retained admissions, a frozen candidate,
+restart recovery without recounting and exact replay. ADC-004 and ADC-005
+remain `todo` pending native registration and custody adoption, executed release
+and cold verification, and the runtime matrix.
+
 ## Optional Confidential Affiliation Review {#confidential-affiliation-review}
 
 Proposed post-MVP addition (2026-11-04), independently tracked as P013-ADC-010.
