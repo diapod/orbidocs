@@ -821,6 +821,15 @@ against admission. Tombstones cannot be GC'd merely after deadline+skew: without
 a durable anti-rollback premise that would reopen the identity. Bounded capacity
 blocks new work; namespace retirement must continue refusing old submissions.
 
+The AD component now reserves the local `adc-executor` identity with the exact
+intent digest and deadline in the complete SQLite ledger before domain commit.
+The executor retains the reservation with its prepared operation. AD serializes
+first admission and settlement and pins the reservation to the admitted file.
+The executor verifies domain acceptance and binds the exact release envelope.
+Component tests exercise restart, both writer orders, the expiry boundary,
+rollback and missing history. The native executor and runtime cells remain open.
+See `node:artifact-delivery/README.md` for custody and capacity limits.
+
 Abandonment changes the owner core, not only host policy. An accepted claim
 requires Active, the slot's executor signature, exact intent/receipt/submission
 binding, owner time at/after handoverBy and a Committed slot. The owner trusts the
