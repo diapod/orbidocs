@@ -907,6 +907,12 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+The native Synapse developer check distinguishes local Agora admission from
+durable forwarding and independent reception. The publisher's forwarding
+record must name the exact Matrix event read back by the independent account.
+The independent Agora relay must also return the original signed author bytes.
+Neither local AD admission nor a publisher-local readback closes a runtime cell.
+
 ## ADC-001 protected source preparation checkpoint (2026-11-17)
 
 The existing Node authoring owner now accepts explicit private `case.disclosure`
