@@ -187,6 +187,7 @@ SCHEMA_WHITELIST = (
     "room-release-audience.v1.schema.json",
     "whisper-embargo-original.v1.schema.json",
     "whisper-embargo-audience-manifest.v1.schema.json",
+    "whisper-embargo-custody-transfer.v1.schema.json",
     "whisper-release-execution.v1.schema.json",
     "whisper-adc-original-basis.local.v1.schema.json",
     "whisper-adc-source-evaluation.local.v1.schema.json",

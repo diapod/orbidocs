@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-embargo-custody-transfer:v1",
+  "title": "whisper-embargo-custody-transfer.v1",
+  "description": "Private plaintext for one authorized execution holder. Only carried inside an independently authorized end-sealed exchange. Verification does not establish actual custody or authorize publication.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "recipient/node", "registration/acceptance", "proof/package"],
+  "properties": {
+    "schema": {"const": "whisper-embargo-custody-transfer.v1"},
+    "recipient/node": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "registration/acceptance": {
+      "description": "Exact original authority-signed private acceptance, encoded as unpadded base64url.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5462,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "proof/package": {"$ref": "whisper-release-proof-package.v1.schema.json"}
+  },
+  "x-dia-maximum-canonical-bytes": 57856
+}
