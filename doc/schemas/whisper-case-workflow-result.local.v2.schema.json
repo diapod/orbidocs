@@ -664,6 +664,33 @@
           "description": "Authenticated local transfer acknowledgement; no portable custody or release authority."
         }
       }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "release/id",
+        "phase"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "const": "adc-execution-preparing"
+        }
+      }
     }
   ]
 }
