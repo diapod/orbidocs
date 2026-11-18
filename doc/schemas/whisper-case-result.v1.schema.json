@@ -59,6 +59,12 @@
               "type": "string",
               "maxLength": 5462,
               "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            "release/statement": {
+              "type": "string",
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Exact purpose-built public release-commit statement; never the private acceptance projection."
             }
           }
         },
@@ -120,5 +126,5 @@
       ]
     }
   },
-  "x-dia-maximum-canonical-bytes": 5929
+  "x-dia-maximum-canonical-bytes": 11414
 }

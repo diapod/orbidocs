@@ -225,6 +225,23 @@
     "signature": {
       "type": "string",
       "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intent",
+        "execution"
+      ],
+      "properties": {
+        "intent": {
+          "$ref": "whisper-release-intent.v1.schema.json"
+        },
+        "execution": {
+          "$ref": "whisper-release-execution.v1.schema.json"
+        }
+      },
+      "description": "Exact private executor-signed publication inputs. Required only for release-commit; the execution opening is never part of the Room release."
     }
   },
   "$defs": {
@@ -254,7 +271,8 @@
         },
         "proof": {
           "type": "string",
-          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "description": "Digest of the exact public whisper-release-intent.v1 carried by publication; never a private observation or count digest."
         },
         "envelope_plan": {
           "type": "string",
@@ -337,5 +355,35 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "release-commit"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "publication"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "publication"
+          ]
+        }
+      }
+    }
+  ]
 }

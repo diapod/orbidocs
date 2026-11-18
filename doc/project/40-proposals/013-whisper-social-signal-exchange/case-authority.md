@@ -1091,3 +1091,23 @@ liveness failure; passing at 200 ms is not its root-cause diagnosis.
 P013-LLR-011 now implements the durable ADC control component in the same
 owner, behind an explicit default-disabled domain verifier. Its separate
 offline owner qualification does not enable ADC-005 release composition. P015-005 now explicitly depends on P015-011. Historical qualification remains attached to its original enabled scope. The boundary review at clean Node `a002a1d2d` / Orbidocs `a9dbed36` independently qualified the expanded author-closure/native-header scope: 1031 tests, actual full/detached closure, cold terminal knowledge, mutation refusals and equal loose/extracted/two-store qualification. See `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`. PEX-002 remains open for observer-load liveness; the separately reproduced idle WSS read-budget defect was corrected without extending the result deadline.
+
+
+### ADC public result component (2026-11-18)
+
+The experimental ADC release-commit request now signs its exact public intent and
+private execution opening as `publication` inside the existing 4096-B control.
+Only release-commit may carry it. The private `Intent.proof` is the public intent
+digest; it is not an observation/count hash or a Room proof. Retained M_A, exact
+execution binding and the fixed case authority are checked before counting.
+
+An accepted release carries the separate `outcome.release/statement`. Its exact
+public bytes share the final owner Store/fence with the private result and slot;
+no signed candidate is exposed, and replay never creates another public statement.
+The maximum result is 11414 B, still inside the existing 16-KiB PEX result profile;
+non-release result bytes and the 4096-B control cap are unchanged. Before first
+ADC enablement, old private-only release results refuse rather than silently gaining
+a public proof. Source custody, release execution/AD closure, cold reception and
+full runtime acceptance remain governed by
+[ADC-004/005](author-disclosure-conditions.md#author-disclosure-condition-tracker).
+This component does not renew historical owner qualifications.

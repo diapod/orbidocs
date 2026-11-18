@@ -15,6 +15,7 @@ Source schema: [`doc/schemas/whisper-case-adc-request.v1.schema.json`](../../sch
 | [`issued-at`](#field-issued-at) | `yes` | string |  |
 | [`not-after`](#field-not-after) | `yes` | string |  |
 | [`signature`](#field-signature) | `yes` | string |  |
+| [`publication`](#field-publication) | `no` | object | Exact private executor-signed publication inputs. Required only for release-commit; the execution opening is never part of the Room release. |
 
 ## Definitions
 
@@ -22,6 +23,40 @@ Source schema: [`doc/schemas/whisper-case-adc-request.v1.schema.json`](../../sch
 |---|---|---|
 | [`intent`](#def-intent) | object |  |
 | [`receipt`](#def-receipt) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "command": {
+      "properties": {
+        "operation": {
+          "const": "release-commit"
+        }
+      },
+      "required": [
+        "operation"
+      ]
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "publication"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -77,6 +112,14 @@ Source schema: [`doc/schemas/whisper-case-adc-request.v1.schema.json`](../../sch
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-publication"></a>
+## `publication`
+
+- Required: `no`
+- Shape: object
+
+Exact private executor-signed publication inputs. Required only for release-commit; the execution opening is never part of the Room release.
 
 ## Definition Semantics
 

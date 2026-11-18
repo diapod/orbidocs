@@ -922,7 +922,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-adc-source-evaluation.local.v1.schema.json`](schemas-gen/schemas/whisper-adc-source-evaluation.local.v1.md) | `10` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-authoring-output-policy.local.v1.schema.json`](schemas-gen/schemas/whisper-authoring-output-policy.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
 | [`whisper-case-acceptance.v1.schema.json`](schemas-gen/schemas/whisper-case-acceptance.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
-| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) | `9` | `0` | `no` | `yes` | `1` | `2` |
+| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) | `10` | `1` | `no` | `yes` | `2` | `5` |
 | [`whisper-case-authorities.local.v1.schema.json`](schemas-gen/schemas/whisper-case-authorities.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-authority-policy.v1.schema.json`](schemas-gen/schemas/whisper-case-authority-policy.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-closure.v1.schema.json`](schemas-gen/schemas/whisper-case-closure.v1.md) | `7` | `0` | `no` | `yes` | `0` | `1` |
@@ -2113,5 +2113,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `946`
 - Generated schema docs: `947`
-- Positive examples: `861`
-- Negative examples: `857`
+- Positive examples: `862`
+- Negative examples: `860`

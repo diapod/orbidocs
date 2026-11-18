@@ -1,0 +1,28 @@
+{
+  "schema": "whisper-case-adc-request.v1",
+  "case/anchor": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "request/id": "c010bb08-54dd-4ddb-8888-003451227631",
+  "condition/original": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+  "command": {
+    "operation": "release-commit",
+    "body": {
+      "original": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+      "payload": "sha256:emBiOJHVsFjetP6FrMBUeseUuw7EsDZtVU2byaXYfSU",
+      "proof": "sha256:Z13z091FjLvmszt8nfzcOuqHEBlZ7ZVvZAhdJxkvfNg",
+      "audience": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w",
+      "executor": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+      "route": "route:private-A",
+      "envelope_plan": "sha256:IRBIMnEqGxjSog9oPvgCaX5BVQ-0-BQJXLGYRJH-Il0",
+      "submission": {
+        "component": "adc-executor",
+        "idempotency/key": "release:fixture-A"
+      },
+      "trigger": "sha256:_maWzi0Cd-ce3eYG2RxpFNp3ntyKAijREEXVXq_ErK8",
+      "handover_by": 1800000050
+    }
+  },
+  "signer": "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "issued-at": "2026-11-17T12:00:00.000000000Z",
+  "not-after": "2026-11-17T12:01:00.000000000Z",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
