@@ -191,6 +191,8 @@ SCHEMA_WHITELIST = (
     "whisper-adc-original-basis.local.v1.schema.json",
     "whisper-adc-source-evaluation.local.v1.schema.json",
     "whisper-release-commit-statement.v1.schema.json",
+    "whisper-release-proof-package.v1.schema.json",
+    "whisper-embargo-release.v1.schema.json",
     "whisper-release-intent.v1.schema.json",
     "whisper-source-certificate.v2.schema.json",
     "whisper-source-profile.v2.schema.json",

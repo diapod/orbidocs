@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-release-proof-package:v1",
+  "title": "whisper-release-proof-package.v1",
+  "description": "Exact single-audience proof and approved payload opening, frozen before the authority commit.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 49152,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "audience/manifest",
+    "anchor/manifest",
+    "anchor/profile",
+    "anchor/receipt",
+    "payload/bytes",
+    "payload/nonce"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-release-proof-package.v1"
+    },
+    "audience/manifest": {
+      "$ref": "whisper-embargo-audience-manifest.v1.schema.json"
+    },
+    "anchor/manifest": {
+      "$ref": "whisper-embargo-manifest.v1.schema.json"
+    },
+    "anchor/profile": {
+      "oneOf": [
+        {
+          "$ref": "whisper-source-profile.v1.schema.json"
+        },
+        {
+          "$ref": "whisper-source-profile.v2.schema.json"
+        },
+        {
+          "$ref": "whisper-source-profile.v3.schema.json"
+        }
+      ]
+    },
+    "anchor/receipt": {
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "$ref": "agora-admission-receipt.v1.schema.json"
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "agora-admission-receipt.v2.schema.json"
+                },
+                {
+                  "properties": {
+                    "receipt/source": {
+                      "const": "witnessed-admission"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "properties": {
+            "receipt/profile": {
+              "const": "detached-manifest"
+            }
+          }
+        }
+      ]
+    },
+    "payload/bytes": {
+      "type": "string",
+      "maxLength": 87382,
+      "pattern": "^[A-Za-z0-9_-]*$"
+    },
+    "payload/nonce": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 43,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    }
+  }
+}
