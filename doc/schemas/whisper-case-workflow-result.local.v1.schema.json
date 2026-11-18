@@ -776,7 +776,8 @@
             "adc-release-admitted",
             "adc-release-tombstoned",
             "adc-abandonment-pending",
-            "adc-abandoned"
+            "adc-abandoned",
+            "adc-unresolved-at-closure"
           ]
         },
         "delivery/id": {

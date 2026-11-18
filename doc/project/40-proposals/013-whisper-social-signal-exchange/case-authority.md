@@ -1065,6 +1065,12 @@ S026 key possession, original anchor/horizon, current operator and privacy polic
 remain mandatory. A terminal observation takes precedence over an incomplete
 positive presentation, including after restart.
 
+For ADC settlement, the closed case retains the original signed acceptance at
+the same fence. A private Terminal/Never response can carry it to the exact
+executor of a still-committed slot. This gives that executor authenticated
+closure knowledge while the slot retains its committed phase. See
+[ADC executor settlement](author-disclosure-conditions.md#adc-execution-continuation).
+
 All active PEX families now use the authenticated v2 header. The former v1 active
 schema was removed under the pre-release migration rule; frozen source manifests
 and retained capsules still bind their original bytes. The response-key location

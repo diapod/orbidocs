@@ -76,9 +76,24 @@
             "reason",
             "retry"
           ],
+          "dependentSchemas": {
+            "closure/acceptance": {
+              "properties": {
+                "reason": { "const": "terminal" },
+                "retry": { "const": "never" }
+              }
+            }
+          },
           "properties": {
             "state": {
               "const": "refused"
+            },
+            "closure/acceptance": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Original signed closure acceptance carried privately to the executor of the still-committed slot."
             },
             "reason": {
               "enum": [
