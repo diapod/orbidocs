@@ -1482,6 +1482,26 @@ restart recovery without recounting and exact replay. ADC-004 and ADC-005
 remain `todo` pending native registration and custody adoption, executed release
 and cold verification, and the runtime matrix.
 
+## ADC-005 native registration and key hold checkpoint
+
+The native authority profile can explicitly adopt ADC registration alongside
+the adopted counter. The ordered owner authenticates the request and verifies
+the original source and exact per-audience consent. Before a candidate is
+written, the identity owner durably holds that exact signing key through the
+case horizon. Its bounded record keeps the greatest horizon for the current key.
+An interrupted attempt can conservatively leave a finite hold. Ordinary rotation
+preparation and identity bootstrap use the same lock, including when the case
+role is disabled. A caller's prepared time cannot end the hold. No entry stores
+private key material.
+
+Fresh ADC decisions check the configured provider against the pinned authority
+before changing case state. Exact historical replay is independent of current
+signing and renewal of the hold. Component tests exercise the registration
+failure before candidate creation, same-byte replay, native rotation refusal,
+loss/reopen and monotone recovery. Native end-to-end admission and source/payload
+custody, the executor and cold verifier, and the four runtime cells remain open.
+ADC-004 and ADC-005 stay `todo`.
+
 ## Optional Confidential Affiliation Review {#confidential-affiliation-review}
 
 Proposed post-MVP addition (2026-11-04), independently tracked as P013-ADC-010.
