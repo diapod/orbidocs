@@ -778,6 +778,7 @@
             "adc-release-tombstoned",
             "adc-abandonment-pending",
             "adc-abandoned",
+            "adc-abandonment-refused",
             "adc-unresolved-at-closure"
           ]
         },

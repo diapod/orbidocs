@@ -687,8 +687,10 @@ composition, comparison and submission/readback remain ADC-005.
 ADC-001/004's freeze for this model covers current authority/count/confirmation,
 canonical audience and exact request/head/intent identities, permitted narrowing
 and half-open deadlines. It does not close their schemas or runtime rows.
-The model's request capacity of 64 is a finite proof/test profile, not product
-policy. Historical qualifications, alpha scope and public readiness are unchanged.
+The model's request capacity of 64 is a finite proof/test profile. Its capacity
+law covers retained results plus one reserve per committed audience, and the
+full-budget vector exercises settlement. Historical qualifications, alpha
+scope and public readiness are unchanged.
 
 ### Model and implementation boundary
 
@@ -829,10 +831,12 @@ busy-handler restoration succeed.
 EvaluationStale is a transport deferral, not a case result. Durably invalidate
 the undisclosed candidate before reevaluating identical bytes. A bounded record
 retains request id/digest conflict binding and stale count across restart until
-request expiry plus replay margin. Each stale cycle charges operation_count but
-not max_commands_per_case; after the third, return exhausted without evaluation.
-New request ids still charge the shared operation budget. This deliberately
-revises the previous frozen-candidate recovery rule, never a committed result.
+request expiry plus replay margin. Stale cycles charge a separate per-case
+window with the same configured interval and bound as the operation window.
+Fresh request IDs share that stale budget. Exhaustion defers release-commit
+evaluation and leaves author controls and slot settlement available. The
+per-request counter still stops after the third stale cycle. Neither counter
+charges max_commands_per_case or changes a committed result.
 
 ### Executor and accountable abandonment
 
@@ -852,6 +856,15 @@ the existing exchange, expected authority, exact request and live reply
 lease before recording `commit-rejected`. Unsigned diagnostics leave
 commit outcome unknown. The signed result and its replay remain private to
 the case workflow.
+
+Abandonment repeats the exact journaled exchange while its request is live.
+After expiry a fresh private exchange can identify the same AD tombstone and
+slot. The owner authenticates the executor and returns the original signed
+acceptance with outcome `settled`. Its signed inputs digest binds the exact
+tombstone claim. The read uses the status budget and a short reply lease, with
+no new head or command charge. A dedicated abandonment-refusal signature
+lets the executor retain a permanent refusal across restart. An unsigned
+diagnostic remains pending. Neither terminal result can resume handoff.
 
 The implemented commit stages bind one assessed `M_A` to the historical
 source anchor and the executor's signed request. The existing fenced Store
@@ -938,6 +951,10 @@ durable forwarding and independent reception. The publisher's forwarding
 record must name the exact Matrix event read back by the independent account.
 The independent Agora relay must also return the original signed author bytes.
 Neither local AD admission nor a publisher-local readback closes a runtime cell.
+Each future Synapse qualification binds the structured native preflight emitted
+by the same fixture launch to the candidate. It records the native Linux check,
+local Unix engine, Compose version and both image digests. The earlier developer
+runs have no independently retained preflight record.
 
 The executor records `adc-release-admitted` for the exact retained AD run.
 It advances to `adc-release-delivered` after an authenticated read from the
@@ -1387,7 +1404,7 @@ supplies a 250 ms acquisition budget; real relay enforcement and durable
 instance/installation/file/scope/revision pins remain ADC-004 work.
 
 Stale publication atomically deletes its candidate, records a bounded technical
-cycle/digest binding and charges the shared operation window. It changes no
+cycle/digest binding and charges the dedicated stale-attempt window. It changes no
 accepted head or signed outcome and cannot use settlement reserves. Restart
 preserves the three-cycle limit and cross-operation request-ID conflict checks.
 Cleanup failure blocks the owner until verified reopen. The same bytes can
@@ -1580,8 +1597,12 @@ registration through explicit adoption of the live Agora SQLite index. The
 relay retains ingestion, migration and recovery. The companion reads the exact
 inventory and holds the existing short writer barrier through the case commit.
 The adoption binds the installation, file and named local instance. Replacing
-the index requires readmission. For Synapse the pin covers the local ingested
-index; freshness and homeserver completeness remain separate checks.
+the index requires readmission. An in-place restore that returns to an older
+scope revision can otherwise replay the numeric revision with different
+inventory. Each revision now carries a random generation from the same SQLite
+transaction. A changed generation invalidates the candidate and requires a
+fresh evaluation. For Synapse the pin covers the local ingested index. Remote
+freshness and homeserver completeness remain separate checks.
 
 A focused owner test exercises real retained admissions, a frozen candidate,
 restart recovery without recounting and exact replay. ADC-004 and ADC-005

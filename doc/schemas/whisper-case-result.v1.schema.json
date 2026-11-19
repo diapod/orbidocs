@@ -63,7 +63,7 @@
       "type": "string",
       "maxLength": 86,
       "pattern": "^[A-Za-z0-9_-]{86}$",
-      "description": "Optional private Ed25519 proof of a durable release-commit refusal. Verify in the release-commit-refusal domain against the owner pinned by the exact request."
+      "description": "Optional private Ed25519 proof of a durable ADC refusal. Verify in the domain of the exact operation against the owner pinned by the request."
     },
     "outcome": {
       "oneOf": [
@@ -158,6 +158,21 @@
                 "dependency-recovery",
                 "at-deadline"
               ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "original/acceptance"],
+          "properties": {
+            "state": { "const": "settled" },
+            "original/acceptance": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Original signed abandonment acceptance. Its inputs/digest binds the exact tombstone claim independently of the request exchange."
             }
           }
         },

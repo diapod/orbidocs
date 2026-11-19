@@ -12,13 +12,13 @@
       "audience": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w",
       "executor": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
       "route": "route:private-A",
-      "envelope_plan": "sha256:IRBIMnEqGxjSog9oPvgCaX5BVQ-0-BQJXLGYRJH-Il0",
+      "envelope/plan": "sha256:IRBIMnEqGxjSog9oPvgCaX5BVQ-0-BQJXLGYRJH-Il0",
       "submission": {
         "component": "adc-executor",
         "idempotency/key": "release:fixture-A"
       },
       "trigger": "sha256:_maWzi0Cd-ce3eYG2RxpFNp3ntyKAijREEXVXq_ErK8",
-      "handover_by": 1800000050
+      "handover/by": 1800000050
     }
   },
   "signer": "z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
