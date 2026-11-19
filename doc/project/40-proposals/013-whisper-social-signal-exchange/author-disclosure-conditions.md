@@ -1011,6 +1011,8 @@ run at Node `985127e69`, with an issued certificate, passed both custody
 modes and tore down the owned fixture. Its launch printed a successful native
 preflight with both pinned images. The later early-erasure path was exercised
 by the SQLite held probe. These observations cover their respective sources.
+Both SQLite publication modes passed a subsequent development run with signed
+counting-authority custody and a fixture budget that includes AD hop retries.
 
 The executor records `adc-release-admitted` for the exact retained AD run.
 It advances to `adc-release-delivered` after an authenticated read from the
