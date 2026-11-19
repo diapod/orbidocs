@@ -1629,8 +1629,10 @@ the exact certificate from the real P015 V2 applicant and issuer exchange.
 The issuer publishes a fresh signed status after the witnessed admission to
 establish the P041 basis. Omitting the requested manifest use produces a
 certificate that cannot authorize protected authoring. This check uses fixture
-media attestation and reply delivery and runs through S026 preparation. The
-native four-cell runtime still needs to consume that issued certificate.
+media attestation and reply delivery for issuance. The issued certificate now
+also goes through S026 registration, real WSS/INAC execution and independent
+SQLite publication readback in both custody modes. The Synapse development
+pair used an earlier fixture certificate. The formal matrix is open.
 
 A focused native check now passes the exact S026 detached registration packet
 to a separate authority daemon. Its AD ingress accepts the packet, the ordered

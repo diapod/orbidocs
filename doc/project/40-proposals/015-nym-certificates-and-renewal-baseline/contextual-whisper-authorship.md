@@ -115,8 +115,10 @@ and P035 detached admission. The status refreshed after that admission proves
 the timing needed to prepare the exact encrypted S026 registration. A
 certificate issued without the requested tuple refuses before source key
 custody. The fixture supplies media attestation and reply delivery. Native
-issuer media and the complete release loop with the issued certificate remain
-open under P015-005-ADC and ADC-005.
+issuer media remains open under P015-005-ADC. The subsequent SQLite WSS/INAC
+development run consumes that issued certificate through publication and
+independent verification in both custody modes. ADC-005 still requires the
+complete pinned runtime matrix.
 
 ## Decisions
 
