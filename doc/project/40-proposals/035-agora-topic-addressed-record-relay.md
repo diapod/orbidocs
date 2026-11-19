@@ -388,6 +388,10 @@ Rules:
 
 - An unknown `record/kind` MUST be stored and served, but MUST be treated as
   *opaque* by the relay query layer until a schema contract is registered.
+- Public Agora record carriers refuse schemas reserved for private
+  [Whisper custody](013-whisper-social-signal-exchange/author-disclosure-conditions.md#custody-obligations).
+  This restriction applies to both the declared content schema and the root
+  payload schema, including under open-world extension handling.
 - A schema contract MUST be a separate proposal or schema file; it MUST NOT
   be merged into this proposal.
 - Applications MUST NOT assume that all relays understand all kinds.
