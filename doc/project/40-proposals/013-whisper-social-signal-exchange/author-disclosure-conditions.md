@@ -1379,8 +1379,10 @@ A new exact auxiliary use must occur in both profile and certificate:
 single-audience, embargo-audience-manifest)`. No default gains that tuple. The
 actual authoring function checks current signing window, fresh status, revocations
 and signer before signing, then verifies the returned signature. Old manifest
-and publication grants cannot substitute. P015-005-ADC retains the real issuer
-composition and qualification gate; the whole P015-005 is not closed here.
+and publication grants cannot substitute. The macOS developer diagnostic now
+exercises the exact auxiliary issuance and registration on encrypted APFS
+media. P015-005-ADC retains the full native issuer composition and
+qualification gate.
 
 Canonical schemas/mirrors and refusal fixtures cover private-field injection,
 unknown routes, scope, signature/domain, nonce, bijection and identity bindings.

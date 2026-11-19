@@ -114,8 +114,13 @@ durable decision and public status readback, the protected signed M/M_A set
 and P035 detached admission. The status refreshed after that admission proves
 the timing needed to prepare the exact encrypted S026 registration. A
 certificate issued without the requested tuple refuses before source key
-custody. The fixture supplies media attestation and reply delivery. Native
-issuer media remains open under P015-005-ADC. The subsequent SQLite WSS/INAC
+custody. The initial fixture supplies software media attestation and reply
+delivery. A separate macOS development check ran the same issuer and
+registration on a newly attached encrypted APFS image with the production
+media probe. It verified FileVault, existing backup exclusions and volume
+identity, then exercised both the missing-scope refusal and exact-scope
+registration. Reply delivery still uses the fixture port. Native issuance
+qualification remains open under P015-005-ADC. The subsequent SQLite WSS/INAC
 development run consumes that issued certificate through publication and
 independent verification in both custody modes. ADC-005 still requires the
 complete pinned runtime matrix.
