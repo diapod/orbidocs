@@ -91,6 +91,14 @@
       "type": "string",
       "format": "date-time"
     },
+    "custody/profile": {
+      "const": "whisper-embargo-custody:v1"
+    },
+    "custody/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Signed local custody obligation. Its horizon covers the case independently of the shorter exchange lease."
+    },
     "signature": {
       "type": "object",
       "additionalProperties": false,
@@ -121,6 +129,7 @@
         }
       },
       "then": {
+        "required": ["custody/profile", "custody/not-after"],
         "properties": {
           "payload/schema": {
             "const": "whisper-embargo-custody-transfer.v1"
@@ -128,6 +137,12 @@
         }
       },
       "else": {
+        "not": {
+          "anyOf": [
+            { "required": ["custody/profile"] },
+            { "required": ["custody/not-after"] }
+          ]
+        },
         "properties": {
           "payload/schema": {
             "not": {

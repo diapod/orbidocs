@@ -249,8 +249,11 @@ There is no offered-to-unoffered decryption fallback.
  The policy domain is
 `orbiplex.whisper-case-authority-policy.v1` followed by NUL and JCS without signature.
 
-Offer role binds case-authority, protected-signal-custodian or case-applicant;
-reply delivery requires its own admitted recipient offer. PEX family names are
+Offer role binds case-authority, protected-signal-custodian, case-applicant or
+held-custody-recipient. The held role signs the custody profile and horizon
+under the existing v1 offer domain. The private ADC transfer owner checks the
+obligation against the case horizon. Reply delivery requires its own admitted
+recipient offer. PEX family names are
 closed. Runtime must reject role/family mismatch, same-key unsafe constructions
 and use outside the named exchange. No body or private case correlation is an
 outer field. Ciphertext string validation does not establish the 65536-byte
