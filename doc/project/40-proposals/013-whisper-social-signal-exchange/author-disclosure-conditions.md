@@ -1086,6 +1086,11 @@ listener supplies the positive control and a typed OS refusal inside the verifie
 The verifier uses the carried package, independent local trust and a fresh
 SQLite index. Its digest binds the result to the original publication.
 
+The local detached-fixture size check exercises real M/M_A, proof preparation,
+the ordered commit and final signature for SQLite and both Matrix carriers.
+Each carrier's boundary case verifies at the recipient. The next payload byte
+is refused during planning, before requesting a commit.
+
 The native Synapse developer check distinguishes local Agora admission from
 durable forwarding and independent reception. The publisher's forwarding
 record must name the exact Matrix event read back by the independent account.
@@ -1816,8 +1821,10 @@ establish the P041 basis. Omitting the requested manifest use produces a
 certificate that cannot authorize protected authoring. This check uses fixture
 media attestation and reply delivery for issuance. The issued certificate now
 also goes through S026 registration, real WSS/INAC execution and independent
-SQLite publication readback in both custody modes. The Synapse development
-pair used an earlier fixture certificate. The formal matrix is open.
+SQLite publication readback in both custody modes. The earlier Synapse pair
+used a fixture certificate. Both modes later passed with an issued certificate
+at Node `985127e69`, as described in the native preflight checkpoint above.
+The formal matrix is open.
 
 A focused native check now passes the exact S026 detached registration packet
 to a separate authority daemon. Its AD ingress accepts the packet, the ordered
