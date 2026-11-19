@@ -954,7 +954,11 @@ Neither local AD admission nor a publisher-local readback closes a runtime cell.
 Each future Synapse qualification binds the structured native preflight emitted
 by the same fixture launch to the candidate. It records the native Linux check,
 local Unix engine, Compose version and both image digests. The earlier developer
-runs have no independently retained preflight record.
+runs have no independently retained preflight record. A later development
+run at Node `985127e69`, with an issued certificate, passed both custody
+modes and tore down the owned fixture. Its launch printed a successful native
+preflight with both pinned images. The later early-erasure path was exercised
+by the SQLite held probe. These observations cover their respective sources.
 
 The executor records `adc-release-admitted` for the exact retained AD run.
 It advances to `adc-release-delivered` after an authenticated read from the
