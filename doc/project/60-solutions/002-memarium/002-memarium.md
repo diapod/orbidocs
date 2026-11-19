@@ -421,6 +421,12 @@ control router passes `AuthenticatedOperator`, while the module-capability
 router passes `Module`. Absence of a module authtok is never interpreted as
 operator authority inside Memarium.
 
+The application backup boundary checks selected entry and fact discriminators
+against the private custody schema set. It returns
+`private-custody-carrier-required` before serializing a recognized private ADC
+item and discards the incomplete bundle. The held provider stays outside
+ordinary backup selection.
+
 ### Crisis Space Management
 
 Based on:

@@ -524,6 +524,12 @@ their outer labels. Existing protected-signal and held-custody exchanges carry
 inline opaque PEX bytes on an adopted direct `minimal-trace-v1` INAC route.
 That carriage leaves the holder, recipient and proof checks with their owners.
 
+Application backup selection cannot read the separate held provider by release
+identity. A recognized private ADC document in an ordinary Memarium entry or
+fact also returns `private-custody-carrier-required` before serialization into
+the backup. This includes private retained backups. The operation reveals no
+protected content in the refusal.
+
 The held-release handover carries one selected audience inside a separate
 private `whisper-embargo-custody-transfer.v1` exchange. The signed private
 registration acceptance contains the keys named in both the original holder
