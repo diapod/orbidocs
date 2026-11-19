@@ -509,6 +509,14 @@ cannot create a low-entropy-secret oracle. The report mechanism does not authori
 the private connection, grant a capability, admit an effect, or establish remote
 delivery.
 
+The ADC custody boundary applies before a live observation or report is
+reduced to digest-only capture. The broker refuses a recognized private schema
+or private document in inline observations and context snapshots. Middleware
+refuses recognized private reports before projection. It uses the existing
+private trace projection for recognized channel frames, including JSON in a
+typed HTTP carrier and replies correlated to a protected request. That
+projection omits body, size, digest and request correlation fields.
+
 A shared middleware SDK helper owns framing, negotiation, a bounded local drop
 counter, ids, and serialization. A middleware implementation chooses only where to
 call the helper around a private boundary. It does not implement a broker, recorder,
