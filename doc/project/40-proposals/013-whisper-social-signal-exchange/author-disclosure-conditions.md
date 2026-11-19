@@ -517,6 +517,13 @@ where plaintext is available, before sealing and after authenticated opening.
 The check identifies structured custody documents. Opaque and unlabelled
 copies remain subject to the holder's egress obligation above.
 
+Artifact Delivery refuses recognizable custody plaintext at outbound plan
+preparation and again before the adapter effect, including on recovery. The
+same schema checks cover inline and resolved reference bodies, regardless of
+their outer labels. Existing protected-signal and held-custody exchanges carry
+inline opaque PEX bytes on an adopted direct `minimal-trace-v1` INAC route.
+That carriage leaves the holder, recipient and proof checks with their owners.
+
 The held-release handover carries one selected audience inside a separate
 private `whisper-embargo-custody-transfer.v1` exchange. The signed private
 registration acceptance contains the keys named in both the original holder

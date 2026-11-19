@@ -1848,7 +1848,14 @@ refuses before either detailed/minimal admission persistence or indirect materia
 resolution, including new opaque identities after restart/role withdrawal.
 Ordinary acceptor registration cannot downgrade a guarded schema. AD owns this
 mechanical boundary; the host supplies schema membership and independently admits
-the exact minimal receiver/source. No Whisper family knowledge is built into AD.
+the exact minimal receiver/source.
+
+Outbound preparation and adapter execution share the protocol's private ADC
+schema discriminators. Recognized custody plaintext, including a root JSON
+`schema` in resolved `artifact/ref` bytes, returns `private-custody-carrier-required`
+with `OutboundDenied`. The two adopted opaque custody carriers use inline
+Whisper PEX bytes on a configured `minimal-trace-v1` direct INAC route. These
+constraints leave peer and domain authority with their existing owners.
 
 Direct INAC negotiation uses a metadata-only `offer` before its inline `push`.
 AD passes its frozen local trace profile to the adapter; no schema inference or
