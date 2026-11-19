@@ -1080,6 +1080,12 @@ prove neither cryptography nor filesystem crash recovery. No inference/VM,
 installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
+The opt-in SQLite development check on macOS passes the exact WSS/INAC release
+to a separate cold verifier with OS networking denied. A reachable loopback
+listener supplies the positive control and a typed OS refusal inside the verifier.
+The verifier uses the carried package, independent local trust and a fresh
+SQLite index. Its digest binds the result to the original publication.
+
 The native Synapse developer check distinguishes local Agora admission from
 durable forwarding and independent reception. The publisher's forwarding
 record must name the exact Matrix event read back by the independent account.
