@@ -939,9 +939,11 @@ After expiry a fresh private exchange can identify the same AD tombstone and
 slot. The owner authenticates the executor and returns the original signed
 acceptance with outcome `settled`. Its signed inputs digest binds the exact
 tombstone claim. The read uses the status budget and a short reply lease, with
-no new head or command charge. A dedicated abandonment-refusal signature
-lets the executor retain a permanent refusal across restart. An unsigned
-diagnostic remains pending. Neither terminal result can resume handoff.
+no new head or command charge. Exact replay of the new read within its lease
+returns the stored response without charging the status budget again. A dedicated
+abandonment-refusal signature lets the executor retain a permanent refusal
+across restart. An unsigned diagnostic remains pending. Neither terminal result
+can resume handoff.
 
 The implemented commit stages bind one assessed `M_A` to the historical
 source anchor and the executor's signed request. The existing fenced Store
