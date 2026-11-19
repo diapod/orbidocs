@@ -821,6 +821,10 @@ the admitted local index even for Synapse; ingestion delay consumes the signed
 300 s freshness budget. A pin includes installation/file identity, scope,
 revision and status digest; copies, restore and file-replacing maintenance need
 readmission. No source acquisition, signing or sealing runs under this guard.
+If the case owner panics under the guard, it lets the unwind stop before
+dropping the relay reservation. It marks the case store as requiring verified
+reopen and resumes the panic. The relay remains usable when its rollback and
+busy-handler restoration succeed.
 
 EvaluationStale is a transport deferral, not a case result. Durably invalidate
 the undisclosed candidate before reevaluating identical bytes. A bounded record
@@ -867,6 +871,12 @@ complete-history AD transaction serializes exact absence, deadline and tombstone
 against admission. Tombstones cannot be GC'd merely after deadline+skew: without
 a durable anti-rollback premise that would reopen the identity. Bounded capacity
 blocks new work; namespace retirement must continue refusing old submissions.
+
+**Enablement gate.** The current ledger caps ADC at 4096 reservation identities
+over its lifetime, including admitted, abandoned and unresolved operations.
+Before enabling ADC on a long-lived node, qualify durable identity-namespace
+retirement and renewal, with stale submissions still refused after retirement,
+restart and rollback. The bounded diagnostic matrix uses synthetic ledgers.
 
 The AD component now reserves the local `adc-executor` identity with the exact
 intent digest and deadline in the complete SQLite ledger before domain commit.
