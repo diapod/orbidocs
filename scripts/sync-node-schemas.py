@@ -122,6 +122,7 @@ SCHEMA_WHITELIST = (
     "artifact-delivery-relay-header.v1.schema.json",
     "whisper-case-status-request.v1.schema.json",
     "whisper-case-result.v1.schema.json",
+    "whisper-held-custody-withdrawal.v1.schema.json",
     "whisper-case-adc-request.v1.schema.json",
     "whisper-case-command.v1.schema.json",
     "whisper-case-workflow-request.local.v1.schema.json",
