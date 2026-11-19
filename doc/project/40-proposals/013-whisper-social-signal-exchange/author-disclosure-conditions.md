@@ -1059,7 +1059,9 @@ The independent Agora relay must also return the original signed author bytes.
 Neither local AD admission nor a publisher-local readback closes a runtime cell.
 Each future Synapse qualification binds the structured native preflight emitted
 by the same fixture launch to the candidate. It records the native Linux check,
-local Unix engine, Compose version and both image digests. The earlier developer
+local Unix engine, Compose version and both image digests. The launch also
+records the resolved Compose image set and refuses startup if it differs from
+the locally verified pins or cannot be resolved. The earlier developer
 runs have no independently retained preflight record. A later development
 run at Node `985127e69`, with an issued certificate, passed both custody
 modes and tore down the owned fixture. Its launch printed a successful native
