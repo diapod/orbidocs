@@ -506,8 +506,16 @@ when the ordinary schema policy accepts opaque extensions. Matrix keeps the
 source event identity and refusal code for checkpointing, without retaining
 the carrier bytes, author bytes or private record identifier. A queued Matrix
 publication with a private custody object ends in a permanent refusal before
-contacting a room. The authorized
-audience release retains its separate receipt and proof admission.
+contacting a room. The authorized audience release retains its separate
+receipt and proof admission.
+
+Room uses the same private schema discriminators for live sends, projections
+and relay payloads. A private Room `content/type` or a private root `schema`
+in JSON carried by `content` returns `private-custody-carrier-required` before
+advancing the live or relay sequence. The sealed profile applies the check
+where plaintext is available, before sealing and after authenticated opening.
+The check identifies structured custody documents. Opaque and unlabelled
+copies remain subject to the holder's egress obligation above.
 
 The held-release handover carries one selected audience inside a separate
 private `whisper-embargo-custody-transfer.v1` exchange. The signed private

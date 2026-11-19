@@ -183,6 +183,12 @@ pub/sub):
   significant. In particular, peers MUST NOT normalize `sent-at` or fill an
   absent `content/digest` in the ACK. Admission metadata belongs outside the
   echoed message. A changed message is a protocol refusal, not send success.
+- **Private custody documents**: the live and relay plaintext boundaries
+  refuse private ADC schemas with `private-custody-carrier-required`. This
+  includes recognized schemas declared in `content/type` or in the root
+  `schema` of a JSON document carried in `content`. Refusal leaves ordering and
+  fan-out untouched. Sealed senders and recipients check their plaintext
+  boundaries; relays without the sender key handle only ciphertext.
 - **Retry / expiry / cleanup**: live frames are best-effort and idempotent by
   `(room/id, from, seq/no)`; the room has a durable `expires-at`; on expiry or close
   the transport channel is torn down through a bounded P055-style cleanup operation and
