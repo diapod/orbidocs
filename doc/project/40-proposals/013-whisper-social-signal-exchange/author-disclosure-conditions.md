@@ -1075,9 +1075,13 @@ First complete a diagnostic end-to-end path, then a fresh pinned qualification.
 Retain separate evidence for model laws, real owners and the 2x2 matrix (Agora
 SQLite/Synapse by withheld/held-under-obligation). Compare model to actual Rust,
 with independent specification vectors, mutation witnesses and axiom audit.
-Measure commit-to-AD, settlement, guard hold and stale incidence. Model results
-prove neither cryptography nor filesystem crash recovery. No inference/VM,
-installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
+Measure commit-to-AD from the durable case fence through first exact AD
+admission, including release of the writer reservation. Measure settlement,
+guard hold and stale incidence separately. Distinguish ordinary publication,
+publication after withdrawal, accepted abandonment and closure in the samples.
+Model results prove neither cryptography nor filesystem crash recovery.
+No inference/VM, installation or pull. Unavailable native Synapse means
+not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
 
 The opt-in SQLite development check on macOS passes the exact WSS/INAC release
