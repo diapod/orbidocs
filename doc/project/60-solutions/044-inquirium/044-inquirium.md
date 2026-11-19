@@ -239,6 +239,12 @@ Exact manifests, transport fields, launcher arguments, platform admission,
 environment isolation, health checks, and conformance fixtures belong to
 `node:model-runtime/README.md`, the Node runtime catalog, and Node tests.
 
+The `http_api` adapter refuses recognizable private custody documents in the
+final provider body, including JSON supplied as a text part. Recognition uses
+the shared custody schema discriminators. The check runs after host binding and
+provider mapping, before egress observation or dispatch. The host projects the
+typed `private-custody-carrier-required` refusal.
+
 Local typed-decision protocols such as Basal are an optional planned extension,
 not an implemented family in this inventory. See
 [Local Typed-decision Evaluation](#local-typed-decision-evaluation).

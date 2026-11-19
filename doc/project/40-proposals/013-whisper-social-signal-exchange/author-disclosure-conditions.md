@@ -530,6 +530,12 @@ fact also returns `private-custody-carrier-required` before serialization into
 the backup. This includes private retained backups. The operation reveals no
 protected content in the refusal.
 
+The direct remote-model HTTP API checks the final provider body after binding
+and mapping. Recognized private ADC documents, including serialized JSON text
+parts, return `private-custody-carrier-required` before egress observation or
+provider dispatch. The holder's obligation still applies to material without a
+recognizable schema and to other model transport paths.
+
 The held-release handover carries one selected audience inside a separate
 private `whisper-embargo-custody-transfer.v1` exchange. The signed private
 registration acceptance contains the keys named in both the original holder
