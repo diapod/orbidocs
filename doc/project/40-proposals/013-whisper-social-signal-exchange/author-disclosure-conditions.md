@@ -296,6 +296,11 @@ reach AD the basis may be older; the hand-over deadline limits that gap without
 a recount, and a withdrawal accepted after the commit does not cancel the
 committed release.
 
+The ADC counter parses the verified issuer's RFC 3339 times as instants
+without reformatting the status. The signed status digest continues to anchor
+the inventory pin. The fixed-width time format applies to the locally
+persisted evaluation.
+
 Evidence that recipients can re-verify without trusting the counting authority
 remains to be designed in `P013-ADC-004`.
 
