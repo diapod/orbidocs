@@ -5,7 +5,8 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md"
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md"
   ],
   "type": "object",
   "additionalProperties": false,
@@ -89,6 +90,16 @@
           "succession",
           "closure"
         ]
+      }
+    },
+    "adc/custody": {
+      "type": "object",
+      "description": "Counting authority custody promise. Covers the selection interval and binds a separate absolute case horizon.",
+      "additionalProperties": false,
+      "required": ["profile", "not-after"],
+      "properties": {
+        "profile": { "const": "whisper-embargo-custody:v1" },
+        "not-after": { "type": "string", "format": "date-time", "maxLength": 40 }
       }
     },
     "signature": {
