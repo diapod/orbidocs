@@ -62,7 +62,8 @@
         "whisper-protected-signal.v1",
         "whisper-case-command.v1",
         "whisper-case-result.v1",
-        "whisper-embargo-custody-transfer.v1"
+        "whisper-embargo-custody-transfer.v1",
+        "whisper-held-custody-withdrawal.v1"
       ]
     },
     "recipient/key": {
@@ -132,7 +133,7 @@
         "required": ["custody/profile", "custody/not-after"],
         "properties": {
           "payload/schema": {
-            "const": "whisper-embargo-custody-transfer.v1"
+            "enum": ["whisper-embargo-custody-transfer.v1", "whisper-held-custody-withdrawal.v1"]
           }
         }
       },
@@ -146,7 +147,7 @@
         "properties": {
           "payload/schema": {
             "not": {
-              "const": "whisper-embargo-custody-transfer.v1"
+              "enum": ["whisper-embargo-custody-transfer.v1", "whisper-held-custody-withdrawal.v1"]
             }
           }
         }

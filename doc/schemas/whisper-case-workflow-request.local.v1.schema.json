@@ -812,7 +812,7 @@
           ],
           "properties": {
             "operation": {
-              "const": "prepare-held-adc-offer"
+              "enum": ["prepare-held-adc-offer", "prepare-held-adc-withdrawal-offer"]
             },
             "sender": {
               "type": "string",
@@ -864,6 +864,64 @@
               "maxLength": 36
             },
             "manifest/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "recipient": {
+              "type": "string",
+              "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "maxLength": 180
+            },
+            "exchange/handle": {
+              "type": "string",
+              "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+              "maxLength": 52
+            },
+            "reply/public-key": {
+              "type": "array",
+              "minItems": 32,
+              "maxItems": 32,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            },
+            "request/not-after": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "offer/bytes": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5464,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "case/anchor",
+            "release/id",
+            "recipient",
+            "exchange/handle",
+            "reply/public-key",
+            "request/not-after",
+            "offer/bytes"
+          ],
+          "properties": {
+            "operation": {
+              "const": "handoff-held-adc-withdrawal"
+            },
+            "case/anchor": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "release/id": {
               "type": "string",
               "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
             },

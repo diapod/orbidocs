@@ -727,7 +727,7 @@
           "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
         },
         "phase": {
-          "enum": ["adc-commit-transport-custody", "adc-abandonment-transport-custody"]
+          "enum": ["adc-commit-transport-custody", "adc-abandonment-transport-custody", "adc-held-withdrawal-transport-custody"]
         },
         "delivery/id": {
           "type": "string",
