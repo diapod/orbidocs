@@ -840,8 +840,12 @@ boundaries. This does not broaden the source-pinned direct Gate A result.
 ## Local policy adoption boundary
 
 The P091 `/whisper/case-authorities` value is the closed local
-`whisper-case-authorities.local.v1` list of exact `{authority/id, policy/digest}`
-pairs, with an empty deny-all default and at most 64 entries. Policy bytes are
+`whisper-case-authorities.local.v1` list of role-specific pins, with an empty
+deny-all default and at most 64 entries. Opening a case as its authority uses
+exact `{authority/id, policy/digest}` pairs. The distinct
+`{holder/id, offer/digest}` pairs select
+[ADC holders](author-disclosure-conditions.md#custody-obligations).
+Policy bytes are
 separate input material: new-case preview carries the canonical signed policy as
 unpadded base64url in `case.authority/policy`. Supplied bytes cannot establish
 local trust or change the selected certificate profile/federation.
