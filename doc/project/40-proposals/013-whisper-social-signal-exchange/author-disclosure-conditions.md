@@ -1619,6 +1619,14 @@ registration with the already bound continuity key and protected consent.
 Authority-side admission and delivery across independent processes remain part
 of the runtime gate.
 
+The ADC component also prepares and reopens this encrypted registration using
+the exact certificate from the real P015 V2 applicant and issuer exchange.
+The issuer publishes a fresh signed status after the witnessed admission to
+establish the P041 basis. Omitting the requested manifest use produces a
+certificate that cannot authorize protected authoring. This check uses fixture
+media attestation and reply delivery and runs through S026 preparation. The
+native four-cell runtime still needs to consume that issued certificate.
+
 A focused native check now passes the exact S026 detached registration packet
 to a separate authority daemon. Its AD ingress accepts the packet, the ordered
 owner returns a signed result, and the source verifies, retains and recovers

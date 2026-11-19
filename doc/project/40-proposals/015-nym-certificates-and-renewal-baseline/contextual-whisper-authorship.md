@@ -108,6 +108,16 @@ complete-consent transfer to S026, native issuance/custody and full ADC executio
 are unqualified. It does not close P015-005-ADC; see the
 [source contract](https://github.com/diapod/node/blob/master/daemon/docs/CONTEXTUAL-NYM-CERTIFICATION.md#protected-adc-source-preparation-2026-11-17).
 
+The ADC registration component now consumes a certificate from an actual V2
+applicant exchange through the issuer AD acceptors. It uses the issuer's
+durable decision and public status readback, the protected signed M/M_A set
+and P035 detached admission. The status refreshed after that admission proves
+the timing needed to prepare the exact encrypted S026 registration. A
+certificate issued without the requested tuple refuses before source key
+custody. The fixture supplies media attestation and reply delivery. Native
+issuer media and the complete release loop with the issued certificate remain
+open under P015-005-ADC and ADC-005.
+
 ## Decisions
 
 ### Source profile and ordering
