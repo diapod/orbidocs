@@ -3391,5 +3391,7 @@ checked the bounded pure transition. See
 The CLI retirement checkpoint followed a full-journal refusal with approved
 archival, a fresh exact review and a retained read after the commit response
 was lost. This exercises the existing ConsumeFirst boundary without another
-consumption. Full-page integration and WebView qualification remain open
-under P091-007/013.
+consumption. The node-wide full page projects the same owner actions and
+exposes an exact GET readback before approval. The 2026-11-22 development
+witness used a real daemon and Node UI with JavaScript disabled in Chrome.
+The bounded browser and WebView qualification remains open under P091-007/013.
