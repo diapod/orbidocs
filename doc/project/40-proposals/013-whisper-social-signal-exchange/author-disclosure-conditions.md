@@ -310,8 +310,62 @@ without reformatting the status. The signed status digest continues to anchor
 the inventory pin. The fixed-width time format applies to the locally
 persisted evaluation.
 
-Evidence that recipients can re-verify without trusting the counting authority
-remains to be designed in `P013-ADC-004`.
+ADC-004 lets recipients verify the consent and the signed commit offline.
+The admitted counting authority remains responsible for private cardinality.
+
+### Exact proposal readback and commit evidence {#adc-exact-proposal-readback}
+
+The owner commits the digest of the exact signed proposal and the accepted
+narrowing head together before releasing the proposal. The registration head
+is the initial basis. A competing narrowing invalidates the prepared
+candidate before it can be issued. Reconstruct the effective condition from
+the accepted prefix through that head. Resolve the audience using the exact
+signed manifest bound by the proposal. Missing material or history yields
+`unavailable`. The original commitment stays fixed under narrowing.
+
+`whisper-adc-author-basis-request.v1` names the case, pinned authority, and
+exact proposal digest. The current continuity key signs the request under a
+dedicated S026 purpose. The request binds its ID, window, the PEX exchange and
+the response-key digest. The authority's author-basis query applies the
+current author access policy before returning any bytes. It has no case
+revision, predecessor or publication slot effect.
+
+The authority signs `whisper-adc-author-basis-reply.v1` under a separate
+restricted control domain and sends it through the existing private PEX
+return framing. The author verifies the signature against the authority
+pinned for the case on both the direct and relayed routes. The signed reply
+binds the exact request digest, proposal, observation time and, when
+available, both narrowing heads and both minimums. The author derives the
+required number of sources from the signed proposal's epoch basis and the
+effective minimum for that proposal. A fresh read can report
+`superseded-by-narrowing`. When the audience was removed, the current minimum
+is null. Historical satisfaction and current execution eligibility are
+distinct. The same sealed result replays within the original request window.
+A changed request under the same ID is a conflict. A fresh observation
+requires a new authorized request. Signed private replies may be disclosed
+by their authorized recipient.
+
+At commit, the case owner, author verifier and offline qualifier apply one
+law to the exact private request, accepted history, signed acceptance and
+public release statement. The accepted request and verified intent bind the
+same scope and digests. `attested/at` equals the acceptance time. The public
+condition equals the projection for the selected audience at that acceptance.
+Require a continuous accepted history and check both signatures. Signing and
+history verification precede writer acquisition. The final transaction
+rechecks the subject, status pin and time before the exact results are fenced
+and disclosed.
+
+| Gate | Owner and required witness |
+|---|---|
+| ADC-001 | P015 normal issuance for the exact manifest use through private AD/INAC, atomic S026 preparation and signing of two audiences, P035 admission and P036 custody with independent-owner readback after restart. Exercise refused grants, altered signed bindings, partial signing and reopening. |
+| ADC-004 | The case owner exposes the bounded author query through both PEX routes. Verify historical and current bases, restart and replay, cross-purpose and changed-request refusals, freshness and source-count boundaries. Verify the private acceptance against the public result and reproduce its verified release from a cold recipient with a positive-controlled OS network denial. |
+| ADC-003 | `adc004-author-basis-egress` exercises this private reply and its derived author view. The protected context includes the effective minimum, narrowing heads and supersession. Check executor, custodian, public surfaces, logs, SSE, traces, model inputs and installed notification egress. The same boundary applies before enabling a P057-017 notification route. |
+| ADC-005 | Requalify the four SQLite/Synapse custody cells and four settlement controls. Repeat both two-worker latency populations and record preparation separately from the existing commit and settlement intervals. |
+
+Track the native Synapse prerequisite independently. An unavailable native
+fixture leaves its cells open. Run the source path and the countersigned
+readback end to end with offline predicates before making the fresh formal
+captures.
 
 ## Release {#release}
 
