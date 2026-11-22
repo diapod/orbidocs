@@ -1,7 +1,11 @@
 # LLR-009 qualification contract
 
-Status: accepted implementation contract, 2026-11-16. Runtime qualification is
-pending. The LLR-009 tracker remains todo until all required gates pass.
+Status: accepted 2026-11-16 and qualified 2026-11-22 for the bounded offline
+profile. Run `llr009-formal-001` qualified 8 independent rows
+and separately qualified 3 explicitly enabled attested rows.
+It also passed 11 negative controls and 27 paired macOS isolation probes.
+The clean source, controlled clocks, fresh replay and retention results are
+recorded at `node:docs/evidence/private-case-continuity/2026-11-22-llr009-portable-succession/README.md`.
 
 ## Claims and authority
 
@@ -168,7 +172,7 @@ carried JSON bytes and 35,203 referenced JSON bytes. These are development
 measurements on structural buffers, not acceptance of semantic proof maxima.
 The existing actual PEX codec test seals and opens every family at its plaintext
 maximum within the unchanged binary envelope limit; no second base64 wrapper
-is part of that framing. Full semantic and formal E qualification remain open.
+is part of that framing. The formal E gate covers these encoding limits and the separately signed work-bound fixture.
 
 ## Local byte-envelope checkpoint (development)
 
@@ -197,9 +201,7 @@ the fourth and fifth local anchor status separately verifies retained revocation
 The development profile records the exact named component tests that ran,
 including the fixed P036 payload and proof expiry boundaries and unresolved
 referenced input. Its cold-process report records the outside and inside probe
-outcomes for each matrix row, policy sequence and exact chain. The formal
-readiness checks still require the remaining scenarios and a replay with fresh
-receiver state.
+outcomes for each matrix row, policy sequence and exact chain. The formal replay executed all required scenarios with fresh receiver state.
 
 The aggregate non-payload anchor dependency ceiling conservatively covers the
 v2 presentation envelope plus the local envelope. It is a dependency bound, not
@@ -209,4 +211,4 @@ and storage for the configured number of live cases/operations; an old small
 budget refuses explicitly. No configured storage ceiling is silently increased.
 The test fixtures allocate ordinary capacity in addition to their derived reserve.
 This checkpoint records bounds for the byte envelopes and fenced reuse of
-verification provenance. Formal qualification remains open.
+verification provenance. The formal replay confirmed these bounds under the declared input profile.

@@ -337,3 +337,11 @@ P015 AuthenticSuccession now feeds qualified LLR-008 acceptance and LLR-007 cont
 See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md` and `node:docs/evidence/portable-admission/2026-11-07-case-continuity-qualified`. Earlier staged pending claims are superseded only for this bounded profile.
 
 Author closure now follows the actual continuity-key custody/PEX/authority path without predecessor CAS; a closed head preserves the historical successor and prevents current effects after recipient restart. Erasure alone is not closure. The expanded scoped review is recorded in `node:docs/audits/REVIEW-LLR007-LLR008-PEX001-2026-11-07.md`.
+
+### Offline portable succession, 2026-11-22
+
+LLR-009 independently qualifies the bounded Whisper presentation under local
+trust on macOS, with a separate verdict for operator-enabled attestation.
+P015-004 still establishes authentic succession. LLR-008 acceptance and current
+case/source observations supply separate results. The proof scope and retained
+offline measurements are at `node:docs/evidence/private-case-continuity/2026-11-22-llr009-portable-succession/README.md`.
