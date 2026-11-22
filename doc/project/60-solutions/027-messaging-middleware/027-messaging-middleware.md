@@ -939,6 +939,27 @@ second WSS diagnostic repaired `AlreadyPresent` after receiver process loss,
 preserving the first admission, Maildir copy and read state. The independently
 pinned campaign above records the earlier revision.
 
+### Retry Facts Across Generations
+
+The message owner evaluates all generations that could affect the message. The
+execution state joins their facts in the order `Resolved < Unknown < Running`.
+Missing required history contributes uncovered uncertainty. Ordinary retry
+requires resolved execution. An active execution prevents either retry.
+
+The retry restriction and any absolute deadline come from the current
+generation's resolved result. Earlier restrictions remain historical even if
+the current generation has no result. A current deadline has elapsed when the
+evaluation time reaches it.
+
+Confirmed uncertain retry requires deduplication coverage for every unresolved
+possible emission. Each such generation needs a retained pin established
+before its first possible emission. An authenticated current observation must
+match the pinned receiver, contract and storage epoch, cover the emission
+time and guarantee deduplication through the original recovery horizon.
+The sender can still reconcile or explicitly close an uncertainty that lacks
+this evidence. Exact positive historical admission can confirm delivery even
+when the retry prerequisites fail.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.
