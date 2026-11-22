@@ -796,6 +796,21 @@ sessions and a seeded receiver ledger. It compares absent, foreign and
 mismatched results, checks that reading leaves the ledger unchanged, and observes
 `unavailable` for a damaged own record without disclosing it to the foreign peer.
 
+The development crash diagnostic stopped a live receiver on both sides of the
+domain commit. Before the commit, the exact reservation survived and WSS readback
+returned `unknown`, with no first admission or extra push. After the commit,
+Messaging's exact push fact survived while the INAC reservation remained open.
+After cleaning up the test's orphaned sidecars, startup replay finalized the
+same token and released the owner hold. The sender recovered `delivered` over
+WSS with the original admission, generation and single receiver push intact.
+
+The local AD response now carries `execution/resolved` when a single direct
+attempt's typed terminal refusal agrees with the authenticated historical
+rejection and AD has the complete original run. Multiple attempts, uncertainty
+or a missing run leave the marker absent. Messaging applies the exact current
+generation's pause and stores the observation atomically. Subsequent owner
+reads can return that saved result.
+
 Remaining V1–V3 fault cases and the formal WSS campaign are pending. The
 S027-009-01–03 tracker rows remain open.
 

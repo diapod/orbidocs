@@ -47,6 +47,22 @@
             },
             "admission": {
               "$ref": "inac-admission-status.result.v1.schema.json"
+            },
+            "execution/resolved": {
+              "const": true,
+              "description": "The local AD owner established that this exact rejection accounts for the entire execution. Absence leaves the execution unresolved."
+            }
+          },
+          "if": {
+            "required": ["execution/resolved"]
+          },
+          "then": {
+            "properties": {
+              "admission": {
+                "properties": {
+                  "outcome": { "const": "rejected" }
+                }
+              }
             }
           }
         },
