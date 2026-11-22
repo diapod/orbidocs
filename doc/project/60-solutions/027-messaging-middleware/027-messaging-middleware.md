@@ -1082,6 +1082,12 @@ reservations, generations and results are durable facts.
 | Bulk results | At least 31 days after every item has a durable terminal result. |
 | Messaging attempt-result capacity | 10,000 attempts and 32 MiB of serialized records, including at most 256 unresolved reservations per peer. Refuse admission when the applicable budget is full. Reads do not extend retention. |
 
+The outbox retains exact prepared bytes for active recovery and unfinished
+recording work. Terminal preparations may retire only after the original
+resume window and result-retention floor. A receiver tombstone continues to
+fence reindex until its body is absent and all associated push holds are
+released. Tombstone GC does not delete a mailbox body.
+
 Align startup cleanup and GC with these guarantees; the existing INAC 30-day
 cleanup cannot silently erase a required 31-day result. Protect active/unknown
 attempts from deletion that could authorize resend. Explicitly closing an unknown
