@@ -1061,7 +1061,11 @@ reservations, generations and results are durable facts.
 Align startup cleanup and GC with these guarantees; the existing INAC 30-day
 cleanup cannot silently erase a required 31-day result. Protect active/unknown
 attempts from deletion that could authorize resend. Explicitly closing an unknown
-outcome records `closed-unresolved`, never `expired-unsent`. No receiver guarantee
+outcome records `closed-unresolved`. Expiry has the same outcome when prior
+submission cannot be ruled out. Only an entry proved never submitted becomes
+`expired-unsent`. The terminal fact precedes any file cleanup and blocks EML
+recovery from restarting delivery. Bound late admission can confirm a closed
+outcome. No receiver guarantee
 for the relevant window means no uncertain retry. Do not run network acquisition
 or signing inside SQLite transactions or assume atomic commit across all stores.
 
