@@ -155,11 +155,21 @@ revocation intact.
 
 The isolated ordinary captures reserve 24 presentation signature-work units
 for SQLite and 28 for Matrix, with the same count in both carriage profiles.
-These are measurements of those exact inputs. The 32/33 and 12/13 boundary
-vectors exercise the two budget types. The recipient test with four distinct
-local anchor statuses additionally checks sustained revocation at the local
-role limit and typed refusal at five. The structural byte maxima and those
-budget vectors are separate from the semantic maximum of a complete case.
+A separate signed Matrix fixture uses the real P035 source producer, ordinary
+v1 certification and the authority store. It reaches 32 presentation units in
+both profiles with a closing snapshot, and four additional signed local
+statuses add four units to the local ledger. The succession remains historically
+authentic while current currency is refused. The 33rd presentation unit and
+13th local unit are rejected by the counter boundary tests. These are reservation
+tests; the byte maxima remain structural carriage tests. The recipient test at
+the fourth and fifth local anchor status separately verifies retained revocation.
+
+The development profile records the exact named component tests that ran,
+including the fixed P036 payload and proof expiry boundaries and unresolved
+referenced input. Its cold-process report records the outside and inside probe
+outcomes for each matrix row, policy sequence and exact chain. The formal
+readiness checks still require the remaining scenarios and a replay with fresh
+receiver state.
 
 The aggregate non-payload anchor dependency ceiling conservatively covers the
 v2 presentation envelope plus the local envelope. It is a dependency bound, not
