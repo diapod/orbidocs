@@ -190,6 +190,12 @@ signing format. The new exchange uses versioned signature and sealing domains.
 Unknown or mixed versions refuse before issuance. The v3 half-open publication
 window also applies to v4.
 
+The v3 exchange has its own explicit `nym-bootstrap-consent-v3` transport
+authority. It admits the shared key request and offer and the exact v3 request
+and decision envelopes. Earlier transport grants retain their family bounds.
+The selected grant authorizes the specific artifact handoff. The council
+independently checks the signed request and profile before issuing a certificate.
+
 **Grant.** A single closed tuple vocabulary binds record kind, content schema,
 exact topic key, disclosure scope and signing use. Publication of contextual
 signals, publication of correlation notices, signing the main embargo

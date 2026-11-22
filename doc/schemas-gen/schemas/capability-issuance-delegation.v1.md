@@ -44,7 +44,8 @@ When:
           "template": {
             "enum": [
               "nym-bootstrap-consent",
-              "nym-bootstrap-consent-v2"
+              "nym-bootstrap-consent-v2",
+              "nym-bootstrap-consent-v3"
             ]
           }
         },
@@ -72,7 +73,8 @@ Then:
           "template": {
             "enum": [
               "nym-bootstrap-consent",
-              "nym-bootstrap-consent-v2"
+              "nym-bootstrap-consent-v2",
+              "nym-bootstrap-consent-v3"
             ]
           },
           "issuance_caller": {
