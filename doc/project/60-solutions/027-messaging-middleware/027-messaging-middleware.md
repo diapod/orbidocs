@@ -993,6 +993,16 @@ rejection of the current generation changes the message's pause and retry
 restriction. An exact earlier admission can confirm delivery. View and action
 use the same folded execution facts.
 
+The daemon binds both the historical read and
+`POST /v1/messaging/outbox/{id}/close-unresolved` to its current operator.
+Closure accepts `{"expected/generation": n}` and checks the original generation
+and current execution in one write transaction. A repeated closure returns the
+existing state. A still-running attempt or a stale generation cannot be closed
+by this command. The stored outcome remains `closed-unresolved` unless exact
+admission confirms delivery. The receipt reason `authority-proof-unavailable`
+distinguishes an unavailable verification from a proved denial or missing
+consent. None of these refusals allocates a generation.
+
 
 Single and bulk recovery use the same participant-owned journal. A command
 names one to 25 envelope IDs and their expected generations. The operation ID

@@ -89,7 +89,8 @@
                     "retry-forbidden",
                     "stale-selection",
                     "generation-budget-exhausted",
-                    "preparation-capacity"
+                    "preparation-capacity",
+                    "authority-proof-unavailable"
                   ]
                 }
               }
