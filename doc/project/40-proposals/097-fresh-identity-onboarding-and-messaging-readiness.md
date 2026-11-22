@@ -508,7 +508,14 @@ unlock and auto-ready preserve the pause. Unattributed old entries get
 `unattributed-entry`; explicit discard or resending content as a new ID are the only
 paths forward. Never infer the historical sender from the current operator.
 
-Single retry and participant `POST /v1/messaging/outbox/retry-blocked` reevaluate each
+The Stage B retry below was later superseded by the
+[S027 recovery contract](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#explicit-retry-operation).
+The current API accepts an exact selection at
+`POST /v1/messaging/outbox/retry-operations` and retains completed item receipts
+for 31 days. S027 alone owns the subsequent qualification.
+
+At the Stage B checkpoint, single retry and participant
+`POST /v1/messaging/outbox/retry-blocked` reevaluated each
 intent. Bulk operations durably pin their selection and operation key; each intent
 has its own persisted attempt generation/idempotency key. Concurrent requests do
 not duplicate attempts; unresolved previous AD outcomes must be resolved first.

@@ -966,7 +966,18 @@ that generation. A stricter host retry cap and the earlier of the persisted
 delivery deadline and the original resume deadline still apply. An interrupted
 handoff can leave a debit without an observed push.
 
-### Explicit Retry Operation
+### Explicit Retry Operation {#explicit-retry-operation}
+
+The local daemon binds the operator when accepting
+`POST /v1/messaging/outbox/retry-operations`.
+[messaging-retry-command.local.v1](../../../schemas/messaging-retry-command.local.v1.schema.json)
+accepts an ordinary selection, a preview selection, or confirmation of a
+previously saved digest. The body contains no owner field.
+`GET /v1/messaging/outbox/retry-operations/{operation_id}` returns the
+[operation and durable item receipts](../../../schemas/messaging-retry-operation.local.v1.schema.json)
+without executing work. Only initial preview creation provides its token.
+An earlier journal receipt is available at `/v1/messaging/outbox/retry-operations/legacy/{key}`.
+The former implicit single and bulk endpoints no longer schedule retry.
 
 Single and bulk recovery use the same participant-owned journal. A command
 names one to 25 envelope IDs and their expected generations. The operation ID
