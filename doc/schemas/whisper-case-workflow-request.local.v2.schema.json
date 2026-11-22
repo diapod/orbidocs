@@ -343,6 +343,9 @@
                     },
                     {
                       "$ref": "whisper-source-profile.v2.schema.json"
+                    },
+                    {
+                      "$ref": "whisper-source-profile.v3.schema.json"
                     }
                   ]
                 },
@@ -773,6 +776,9 @@
                 },
                 {
                   "$ref": "whisper-source-profile.v2.schema.json"
+                },
+                {
+                  "$ref": "whisper-source-profile.v3.schema.json"
                 }
               ]
             },
@@ -807,6 +813,9 @@
                 },
                 {
                   "$ref": "whisper-source-profile.v2.schema.json"
+                },
+                {
+                  "$ref": "whisper-source-profile.v3.schema.json"
                 }
               ]
             }
