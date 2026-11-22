@@ -1,0 +1,7 @@
+{
+  "schema": "whisper-adc-author-basis-operation.local.v1",
+  "command": {
+    "operation": "read",
+    "operation/id": "e2314f48-77d9-44c3-8cf7-6e17285dd3eb"
+  }
+}

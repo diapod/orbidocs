@@ -342,6 +342,15 @@ only available by reference. A fresh read can report
 `superseded-by-narrowing`. When the audience was removed, the current minimum
 is null. Historical satisfaction and current execution eligibility are
 distinct. The same sealed result replays within the original request window.
+
+The local operator prepares this request through the P072
+`whisper.case.adc-author-basis` route using a previously begun operation.
+The original workflow still owns the recipient offer and handoff. The
+same route reads the retained owner observation and its required-source
+minimums by operation ID. After the terminal response, use readback.
+The private Whisper view uses this readback
+without starting another exchange. It presents the observation time
+alongside the proposal epoch and requirements.
 A changed request under the same ID is a conflict. A fresh observation
 requires a new authorized request. Signed private replies may be disclosed
 by their authorized recipient.

@@ -957,6 +957,14 @@ protected-signal offers remain v1-only. `whisper.pex.offer.bind` binds that exac
 offer to the persisted exchange. Policy preparation/readback keep their immutable
 signed policy format. These are the existing host-route uses, not middleware
 dispatch, a public listener operation or a generic host-capability alias.
+The host-only `whisper.case.adc-author-basis` capability addresses
+`POST /v1/identity/whisper-case-workflow/author-basis`. Its closed contracts
+are `whisper-adc-author-basis-operation.local.v1` and
+`whisper-adc-author-basis-result.local.v1`. The same operator session
+protects preparation and exact historical readback. The operation keeps
+the existing case workflow's carriage and AD handoff. Its readiness is
+separate from case acceptance and from publication authority.
+
 Recipient adoption, signing-domain grant and native domain acceptance remain
 separate authorities. See the P013
 [execution contract](013-whisper-social-signal-exchange/private-case-continuity.md#opening-custody-commitment-and-portable-bridges-2026-11-12).

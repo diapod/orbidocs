@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-adc-author-basis-operation.local:v1",
+  "title": "whisper-adc-author-basis-operation.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 1024,
+  "description": "Prepare or read a private ADC source-author observation in the local operator session. Begin, offer binding and AD handoff use the original case workflow.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "command"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-adc-author-basis-operation.local.v1"
+    },
+    "command": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "case/continuity-key-digest",
+            "proposal/digest"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare"
+            },
+            "operation/id": {
+              "$ref": "#/$defs/operation-id"
+            },
+            "case/continuity-key-digest": {
+              "$ref": "#/$defs/digest"
+            },
+            "proposal/digest": {
+              "$ref": "#/$defs/digest"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id"
+          ],
+          "properties": {
+            "operation": {
+              "const": "read"
+            },
+            "operation/id": {
+              "$ref": "#/$defs/operation-id"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "operation-id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "maxLength": 36
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    }
+  }
+}

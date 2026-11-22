@@ -35,6 +35,8 @@ schema_for_file() {
     *.whisper-adc-proposal-request.v1.json|*/whisper-adc-proposal-request.v1.json) echo "$SCHEMAS_DIR/whisper-adc-proposal-request.v1.schema.json" ;;
     *.whisper-adc-author-basis-request.v1.json|*/whisper-adc-author-basis-request.v1.json) echo "$SCHEMAS_DIR/whisper-adc-author-basis-request.v1.schema.json" ;;
     *.whisper-adc-author-basis-reply.v1.json|*/whisper-adc-author-basis-reply.v1.json) echo "$SCHEMAS_DIR/whisper-adc-author-basis-reply.v1.schema.json" ;;
+    *.whisper-adc-author-basis-operation.local.v1.json|*/whisper-adc-author-basis-operation.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-author-basis-operation.local.v1.schema.json" ;;
+    *.whisper-adc-author-basis-result.local.v1.json|*/whisper-adc-author-basis-result.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-author-basis-result.local.v1.schema.json" ;;
     *.whisper-adc-source-evaluation.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-source-evaluation.local.v1.schema.json" ;;
     */whisper-adc-source-evaluation.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-source-evaluation.local.v1.schema.json" ;;
     *.whisper-adc-original-basis.local.v1.json) echo "$SCHEMAS_DIR/whisper-adc-original-basis.local.v1.schema.json" ;;
