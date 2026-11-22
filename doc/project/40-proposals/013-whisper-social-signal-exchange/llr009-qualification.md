@@ -147,7 +147,19 @@ presentation and recipient-local input tables. CaseKnowledge's existing raw-inpu
 cardinalities bound four anchor statuses, two anchor closures, one saved source
 status and 32 KiB metadata: 2600 KiB in all. These inputs are not subtracted from
 the carrier's allowance. Historical anchor preflight also separates its local
-observations; malformed members still refuse before semantic use.
+observations; malformed members still refuse before semantic use. Carrier
+metadata uses a fixed 32 KiB reservation. Recipient trust and observation
+metadata use their own bounded allowance. An oversized set of local
+observations returns `local-knowledge-limit` and leaves a previously committed
+revocation intact.
+
+The isolated ordinary captures reserve 24 presentation signature-work units
+for SQLite and 28 for Matrix, with the same count in both carriage profiles.
+These are measurements of those exact inputs. The 32/33 and 12/13 boundary
+vectors exercise the two budget types. The recipient test with four distinct
+local anchor statuses additionally checks sustained revocation at the local
+role limit and typed refusal at five. The structural byte maxima and those
+budget vectors are separate from the semantic maximum of a complete case.
 
 The aggregate non-payload anchor dependency ceiling conservatively covers the
 v2 presentation envelope plus the local envelope. It is a dependency bound, not
