@@ -999,6 +999,12 @@ sealed pin and the first durable emission debit against the receiver's current
 support on WSS. The coverage checks must agree on receiver, contract and store
 epoch. Messaging checks the original resume horizon again under the writer and
 retains the agreed receiver coverage with the generation reservation.
+The exact prepared submission carries the required receiver, contract and
+epoch together with the earlier generation and digest pairs. The outbox marks
+that it needs the policy, so losing the preparation work cannot publish a plain
+retry. The AD owner uses the same binding after restart and rechecks coverage
+before every adapter invocation. A changed node, active predecessor or changed
+receiver coverage prevents a new emission debit.
 
 ### Retention and Failure Boundaries
 

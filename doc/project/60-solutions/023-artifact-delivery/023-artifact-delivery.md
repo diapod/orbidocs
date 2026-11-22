@@ -209,6 +209,11 @@ Current implementation status:
   requires both facts and makes one current support-only query to the original
   authenticated peer. The ordinary historical purpose can still correlate a
   result when coverage evidence is absent.
+  An uncertain retry freezes the receiver and exact earlier generations in
+  `policy.messaging/retry-coverage`. AD checks the resolved node, prior
+  execution state and retained pins against a fresh support-only observation
+  before each possible emission debit. The current contract, epoch, coverage
+  start and original resume horizon all participate in the check.
   On inbound Messaging pushes, AD carries the host-owned reservation context
   only to the Messaging acceptor. That acceptor verifies it against the host's
   active INAC reservation before applying current receive authority.
