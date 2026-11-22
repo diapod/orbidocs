@@ -729,7 +729,11 @@ Reserve capacity before domain admission. An unacknowledged repair fact remains
 held through restart and GC. After durable finalization, INAC keeps the result
 until Messaging has durably recorded confirmation and acknowledged it. Both
 owners then apply the later of the resume horizon and 31 days from completion.
-The two ledgers may reach capacity independently.
+Messaging persists the floor returned by INAC before sending its acknowledgement.
+If the acknowledgement reply is lost and INAC retires the token, a later read of
+its absence can complete the acknowledgement only after the saved floor and only
+with that existing local finalization receipt. Absence during repair leaves
+the fact protected. The two ledgers may reach capacity independently.
 
 Implementation checkpoint, 2026-11-22. Node carries the prepared commitment,
 envelope digest and original deadline through AD and INAC. The receive bridge
@@ -744,10 +748,13 @@ prior uncertainty. The receive path carries an opaque push token through AD.
 Messaging checks the token against the INAC reservation through the local
 [`messaging.delivery.push.check` contract](../../../schemas/messaging-push-check.local.v1.schema.json)
 and commits the exact per-push fact with the admission journal transition.
-INAC finalizes positive results from this fact and has tested repair and
-acknowledgement operations. Startup replay and the handshake that releases
-retention at both owners are pending, as are negotiated support and WSS
-acceptance. The S027-009-01–03 tracker rows remain open.
+INAC finalizes positive results from this fact. A bounded background pass after
+journal initialization replays exact committed facts through the local
+[`messaging.delivery.push.settle` contract](../../../schemas/messaging-push-settle.local.v1.schema.json).
+It persists the [retention receipt](../../../schemas/messaging-push-settlement.local.v1.schema.json)
+before acknowledgement. Component tests exercise both GC orders and missing
+acknowledgement replies. Negotiated support and WSS acceptance remain pending.
+The S027-009-01–03 tracker rows remain open.
 
 ### Retention and Failure Boundaries
 

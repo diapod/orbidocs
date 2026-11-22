@@ -194,9 +194,11 @@ the ledger or carrier, determines whether the message was admitted.
 
 INAC holds an opaque reservation token for each push. The local Messaging owner
 checks it before admission and returns a durable fact for that exact push.
-INAC's finalization primitive retains a positive result through GC while owner
-acknowledgement is outstanding. Automatic startup replay and completion of the
-two-owner acknowledgement protocol remain open in S027.
+INAC retains a positive result through GC while owner acknowledgement is
+outstanding. On restart, the Messaging worker replays committed facts over the
+authenticated local settlement capability. It persists the acknowledged
+finalization floor before releasing INAC's hold. Negotiated support and the
+WSS acceptance remain tracked in S027.
 
 `admission-status` / `admission-status-result` expose a bounded exact-attempt read
 through the `artifact.delivery.reconcile` host port. Authenticate and
