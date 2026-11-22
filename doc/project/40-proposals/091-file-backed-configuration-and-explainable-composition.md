@@ -3485,3 +3485,70 @@ scope. See the F12 verdict in the same Node evidence summary. A fresh F12
 verdict on `ae14ce82a` repeats the three client profiles on the same pinned
 images as the reviewed P091-016 verdict. Both scopes are recorded separately
 in the reviewed checkpoint above.
+
+## Scoped Flow descriptor withdrawal and veto clearance
+
+The P091-004/013 pilot covers `max_flow_steps` for a managed file-backed JSON-e
+Flow. The distribution supplies the descriptor document. The local authenticated
+operator initiates `withdraw` or `clear-withdrawal` by exact review. The Flow host
+checks authority and records the decision. The admission surface accepts a
+`DistributionDefault` document from the running build. Package and loose-import
+activation retain their P085 authority boundary. If stronger host policy requires
+a fresh operator binding, admission reports `operator-binding-required`.
+
+| State or operation | Contract |
+| --- | --- |
+| Slot | Scope kind and reference, owner reference and setting pointer identify the slot. A changed contract revision or descriptor reference identifies a different document at the same slot. Reusing a removed Flow ID retains its prior veto and decision provenance. |
+| Build and veto | A supplied built-in descriptor is admitted when its slot has no veto. The absence of a supplied descriptor does not clear a veto or authorize use. A verified legacy journal with no decision for the slot uses distribution admission at generation 1. An unreadable decision or incomplete history refuses current use. |
+| Withdraw | A single durable fact establishes a veto for the slot without changing declaration bytes. The whole unit refuses new executions, including paths that could otherwise reach private-unit resolution. In-flight executions retain their existing lifecycle. Stop remains a separate operation on the process. |
+| Clear withdrawal | The exact plan binds the current build document, current descriptor-set identity and target generation. After success the operator decision is `absent`. Later builds take distribution admission subject to any subsequent veto. A fresh node launch and ordinary consumption establish a new acknowledgement. |
+| Generations and receipts | Descriptor-set generation, resolution identity and activation generation are separate. Decision CAS advances the slot generation. A fresh admitted resolution can provision through the existing application transition. Prior receipts retain their historical meaning and an old acknowledgement cannot confirm the new launch. |
+| Review and readback | A distinct ConsumeFirst pool binds the exact plan and local actor. A valid reference is taken before comparisons. A repeat POST is stale. The retained decision can be read by exact reference through GET, including after restart and loss of the POST response. A missing retained result is unknown. |
+| History | Each accepted transition writes one bounded owner fact with local attribution, canonical plan digest and public descriptor document. The current fact per slot is protected during archive export and pruning, including a cleared or removed slot. A protected slot survives changes in source membership. |
+
+The cold execution path and file commit serialize under the configuration writer.
+Cold execution rechecks durable admission before allocating a pending attempt and
+holds the writer through acknowledgement. A warm execution checks the published
+slot immediately before issuing an executor. Withdrawal takes the writer and the
+exclusive slot publication boundary, writes the fact and publishes before releasing
+the boundary. A cold request that checked before withdrawal and acquired the
+writer afterward refuses before allocation. A warm request sees either the prior
+state before the transition or the resulting state after it. An ambiguous write or
+failed publication withholds new executions until admission is recovered from
+durable evidence. A restart reconstructs the registry before accepting new work.
+Launch results belong to individual units so a refused A does not prevent B from
+starting. Shared source acquisition failures retain their shared scope.
+
+Only a verified admitted-to-withdrawn transition can use the existing disabling
+reserve. It respects existing completion obligations, and other unclassified
+units do not veto it when its own state and bounded cost can be verified.
+Veto clearance uses ordinary capacity. Exhaustion refuses before effect. Stop
+remains available, and archive recovery requires a fresh approval after archival.
+The Flow owner admits at most 64 historical decision slots, independently of
+the 64 current Flow units. A new slot beyond that limit refuses with
+`descriptor-admission-capacity`. Existing slots use their normal history budget.
+The latest facts can occupy at most 64 of the 960 ordinary history events.
+Archive admission continues to include protected bytes, other protected facts,
+existing obligations and the five-event allowance.
+
+Flow inspection carries a typed admission axis separately from consumption.
+A verified veto gives `inspect-descriptor-admission` before or after launch.
+A prior installed binding becomes descriptor-invalidated. A unit without an
+installation has no receipt for that installation. Veto clearance against an
+obsolete launch gives a node restart requirement. Current CAS conflicts alone
+do not establish a veto. Historical explanation uses exact retained inputs,
+current disclosure policy and explicit unavailability after evidence retirement.
+
+Two follow-ups remain with their owners. CommitHost and archive own bounded
+per-slot compaction of removed-unit application facts and descriptor decisions.
+Revisit before raising the Flow limit, adding a second admission owner, or
+reaching the ordinary near-capacity threshold with protected facts. HistoryOwner
+and CommitHost own archival actor binding, precomputed completion capacity,
+versioned checkpoint correlation and exact operator readback, plus consumption
+of the precise uncertainty codes in History and F12. Revisit on the next
+material history edit, client qualification or documentation promise of exact
+archival readback. The existing archive checkpoint and export are private
+witnesses. GET history currently reports capacity.
+
+The scoped contract precedes the Lean proof and production implementation.
+Qualification requires a separate candidate and an actual daemon restart.
