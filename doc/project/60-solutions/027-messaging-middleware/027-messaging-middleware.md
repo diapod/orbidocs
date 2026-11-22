@@ -857,9 +857,18 @@ throughout the diagnostic.
 The missing-ledger variant parked the receiver's SQLite file while the node
 was running. The WSS read returned `unavailable` and preserved the outbox state
 and generation. The existing mailbox message could still be read. Neither
-read recreated the ledger. Restoring the original file restored exact
-historical readback and delivery with the original push count. Explicit
-startup following permanent ledger loss still needs its own continuity check.
+read recreated the ledger. A separate development run parked the original
+database across a receiver restart while retaining the local continuity marker.
+The database stayed absent, the existing inbox stayed readable, and the
+history response remained `unavailable`. Replacing the original database
+restored the exact admission and left the original push count intact.
+The continuity check identifies the enrolled database. Its coverage includes
+loss and replacement while the marker is retained.
+
+The Matrix-only development run enabled the mailbox adapter against a loopback
+join and polling fixture and disabled both WSS listeners and dialers. The read
+returned `unavailable`, preserved the sender state and generation, and emitted
+zero Matrix events. Restoring the WSS route recovered the original admission.
 
 Remaining V1–V3 fault cases and the formal WSS campaign are pending. The
 S027-009-01–03 tracker rows remain open.
