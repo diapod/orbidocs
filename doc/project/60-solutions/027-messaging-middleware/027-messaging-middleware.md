@@ -1069,6 +1069,7 @@ reservations, generations and results are durable facts.
 | Data | Required bound |
 |---|---|
 | Unresolved messages / resume window | 30 days from original message creation. At initial admission each nonterminal outbox row reserves one slot, including a message waiting for a route or contact consent. Defaults are 256 per participant and 1024 per node. Retry/import/restart cannot extend the window. |
+| Prepared copies and reservations | At most eight generations, including the first. Defaults are 64 MiB of logical prepared bytes per message and 256 MiB per node. Check the first generation reservation before publishing EML. A later generation replaces the superseded reservation. Publication atomically exchanges the active reservation for the exact retained byte count. |
 | INAC results, AD records and generation keys | Through the resume window and at least 31 days after attempt completion. |
 | Receiver deduplication | For the message lifetime; after body deletion, a body-free tombstone for at least 31 days after last admission/recognized duplicate, preventing resurrection. |
 | Bulk results | At least 31 days after every item has a durable terminal result. |
