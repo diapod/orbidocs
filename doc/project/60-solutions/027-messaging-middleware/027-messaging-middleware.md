@@ -979,6 +979,21 @@ without executing work. Only initial preview creation provides its token.
 An earlier journal receipt is available at `/v1/messaging/outbox/retry-operations/legacy/{key}`.
 The former implicit single and bulk endpoints no longer schedule retry.
 
+Node UI uses these same operations for an explicit single selection or a
+selection from the visible page. The preview with its one-time credential is
+a private response. After a lost POST reply, the UI reads the saved operation
+at its existing ID. A scheduled receipt confirms local preparation work;
+historical admission confirms delivery. A local outbox read uses retained
+generation facts and offers checks. The worker establishes live authority and
+coverage before allocating the next generation.
+
+An explicit historical read can check an exact unresolved earlier attempt.
+A complete rejection resolves the queried attempt's execution. Only a
+rejection of the current generation changes the message's pause and retry
+restriction. An exact earlier admission can confirm delivery. View and action
+use the same folded execution facts.
+
+
 Single and bulk recovery use the same participant-owned journal. A command
 names one to 25 envelope IDs and their expected generations. The operation ID
 and the canonical selection bind a replay to its retained decision.
