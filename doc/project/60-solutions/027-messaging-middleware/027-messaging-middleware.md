@@ -960,6 +960,12 @@ The sender can still reconcile or explicitly close an uncertainty that lacks
 this evidence. Exact positive historical admission can confirm delivery even
 when the retry prerequisites fail.
 
+New Messaging preparations request up to five possible emissions in one
+15-minute window. Artifact Delivery owns the shared debit for all adapters on
+that generation. A stricter host retry cap and the earlier of the persisted
+delivery deadline and the original resume deadline still apply. An interrupted
+handoff can leave a debit without an observed push.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.

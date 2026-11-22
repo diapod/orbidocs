@@ -13,6 +13,11 @@
     "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
   ],
   "required": ["schema", "component/id", "artifact", "delivery/plan"],
+  "if": {
+    "required": ["policy"],
+    "properties": { "policy": { "required": ["emission/budget"] } }
+  },
+  "then": { "required": ["idempotency/key"] },
   "properties": {
     "schema": { "const": "artifact-delivery-envelope.v1" },
     "component/id": { "type": "string", "minLength": 1, "maxLength": 256 },
@@ -285,7 +290,16 @@
       "properties": {
         "privacy": { "type": "string", "enum": ["private", "private-direct", "public", "federated"] },
         "delivery": { "type": "string", "enum": ["at-least-once", "best-effort"] },
-        "timeout/ms": { "type": "integer", "minimum": 1 }
+        "timeout/ms": { "type": "integer", "minimum": 1 },
+        "emission/budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max/emissions", "window/ms"],
+          "properties": {
+            "max/emissions": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+            "window/ms": { "type": "integer", "minimum": 1, "maximum": 4294967295 }
+          }
+        }
       }
     }
   }

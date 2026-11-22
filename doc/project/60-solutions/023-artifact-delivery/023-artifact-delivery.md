@@ -515,6 +515,14 @@ boolean aliases such as `?deferred=true` are not part of the contract. This
 keeps P055 as the shared deferred response contract while Artifact Delivery
 continues to own its own delivery ledger and transport semantics.
 
+An exact submission on the standard durable ledger may request a shared
+emission budget through `policy.emission/budget`. AD retains the policy with the
+bound plan. It reserves an emission after the current execution guard and before
+adapter entry. The first debit opens the window, limited by the delivery deadline.
+All targets and subsequent recovery calls use the same durable count and cap.
+The host may impose a lower count. A local support probe or historical admission
+read incurs no debit. A committed debit can outlive an interrupted handoff.
+
 The solution-level shape is:
 
 ```json
