@@ -777,9 +777,15 @@ removed the AD run and its Messaging-side handle and injected the sender's
 `delivery-outcome-unknown` state. The real outbox command restored `delivered`
 and the original handle with no new generation, push or change to the first
 receiver admission. The injection exercises readback after loss of the local
-record. The actual lost-response and local `404` history remains to be measured,
-along with the remaining V1–V3 fault cases and the formal WSS campaign. The
-S027-009-01–03 tracker rows remain open.
+record. A subsequent active-delivery fixture removed the terminal AD run before
+the sender's poll. A real AD `404` paused the outbox, and the WSS read confirmed
+the original admission with no new generation or push. This case also exposed
+missing vault scheduling for a recovered recorded message. The owner now
+enqueues the vault job in the same transaction as the confirmation and uses the
+confirmed signed envelope for the job. A development rerun repeated the pause
+and recovery and reached `vault.stored`. The lost-response and remaining V1–V3
+fault cases and the formal WSS campaign are pending. The S027-009-01–03 tracker
+rows remain open.
 
 ### Retention and Failure Boundaries
 
