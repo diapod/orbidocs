@@ -108,7 +108,7 @@
     }
   },
   "x-dia-maximum-canonical-bytes": 4194304,
-  "x-dia-decoded-maximum-bytes": 2805760,
+  "x-dia-decoded-maximum-bytes": 3067904,
   "x-dia-role-limits": {
     "anchor-record": {
       "count": 1,
