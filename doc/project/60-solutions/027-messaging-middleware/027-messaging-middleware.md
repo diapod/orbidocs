@@ -1204,6 +1204,10 @@ single and bulk actions. A lost acknowledgement reconciled without retransmissio
 and a separate deadline led to a confirmed retransmission from two tabs. The
 recipient reported `AlreadyPresent` with the original mailbox and read state
 preserved. The full role, failure and limits matrix remains the completion gate.
+The S027-008 development rerun passed on the same binaries after the fixture
+waited for the new daemon runtime at each reload. It checked pending-fact
+capacity, idempotent Memarium replay and preservation of paused and terminal
+outbox entries.
 
 | Task | Scope / owner | Depends on | Status | Completion gate |
 |---|---|---|---|---|
