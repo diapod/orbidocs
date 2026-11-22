@@ -3559,6 +3559,12 @@ unrelated Flow kept working. Clearance required a fresh launch and ordinary
 consumption to produce a new ACK. Chromium with and without JS and actual
 WKWebView rendered the verified states. Node owns the dated audit and evidence.
 
-The shared five-law maintenance review ratchet and wider cross-build runtime
-qualification remain open. This checkpoint leaves P091-004/013 partial and
-preserves the separate P091-016 and F12 qualification boundaries.
+The shared maintenance review suite exercises the five laws against History,
+F12 retirement, Arca and Flow descriptor admission. Flow satisfies all five.
+History records four owner-specific deviations, Arca two and F12 one. The Node
+audit records the measured matrix and the process crash controls around the
+durable descriptor fact. The existing non-Flow recovery follow-ups still apply.
+
+Wider cross-build runtime qualification remains open. This checkpoint leaves
+P091-004/013 partial and preserves the separate P091-016 and F12 qualification
+boundaries.
