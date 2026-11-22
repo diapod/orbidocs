@@ -5,31 +5,57 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
-    "doc/project/40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md"
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/private-case-continuity.md",
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#custody-obligations"
   ],
-  "description": "Value of the independently operator-adopted P091 /whisper/case-authorities setting. Empty denies all. Signed policy material is supplied separately and never grants admission.",
+  "description": "Independent P091 pins for case-authority policies and holder custody offers, separated by role. Empty denies all. Supplied signed material never grants admission.",
   "type": "array",
   "maxItems": 64,
   "uniqueItems": true,
   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-      "authority/id",
-      "policy/digest"
-    ],
-    "properties": {
-      "authority/id": {
-        "type": "string",
-        "maxLength": 180,
-        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    "oneOf": [
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "authority/id",
+          "policy/digest"
+        ],
+        "properties": {
+          "authority/id": {
+            "type": "string",
+            "maxLength": 180,
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "policy/digest": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          }
+        }
       },
-      "policy/digest": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 50,
-        "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "holder/id",
+          "offer/digest"
+        ],
+        "properties": {
+          "holder/id": {
+            "type": "string",
+            "maxLength": 180,
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "offer/digest": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          }
+        }
       }
-    }
+    ]
   }
 }

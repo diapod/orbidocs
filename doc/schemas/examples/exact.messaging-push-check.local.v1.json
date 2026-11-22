@@ -1,0 +1,12 @@
+{
+  "schema": "messaging-push-check.local.v1",
+  "peer/node-id": "node:example",
+  "push": {
+    "token": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "evidence": {
+      "messaging/message-commitment": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "messaging/envelope-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "messaging/resume-until": "2026-12-01T00:00:00Z"
+    }
+  }
+}

@@ -41,7 +41,8 @@
       "enum": [
         "protected-signal-custodian",
         "case-authority",
-        "case-applicant"
+        "case-applicant",
+        "held-custody-recipient"
       ]
     },
     "sender/id": {
@@ -60,7 +61,9 @@
       "enum": [
         "whisper-protected-signal.v1",
         "whisper-case-command.v1",
-        "whisper-case-result.v1"
+        "whisper-case-result.v1",
+        "whisper-embargo-custody-transfer.v1",
+        "whisper-held-custody-withdrawal.v1"
       ]
     },
     "recipient/key": {
@@ -89,6 +92,14 @@
       "type": "string",
       "format": "date-time"
     },
+    "custody/profile": {
+      "const": "whisper-embargo-custody:v1"
+    },
+    "custody/not-after": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Signed local custody obligation. Its horizon covers the case independently of the shorter exchange lease."
+    },
     "signature": {
       "type": "object",
       "additionalProperties": false,
@@ -108,5 +119,39 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "recipient/role": {
+            "const": "held-custody-recipient"
+          }
+        }
+      },
+      "then": {
+        "required": ["custody/profile", "custody/not-after"],
+        "properties": {
+          "payload/schema": {
+            "enum": ["whisper-embargo-custody-transfer.v1", "whisper-held-custody-withdrawal.v1"]
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            { "required": ["custody/profile"] },
+            { "required": ["custody/not-after"] }
+          ]
+        },
+        "properties": {
+          "payload/schema": {
+            "not": {
+              "enum": ["whisper-embargo-custody-transfer.v1", "whisper-held-custody-withdrawal.v1"]
+            }
+          }
+        }
+      }
+    }
+  ]
 }

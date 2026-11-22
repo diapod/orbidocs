@@ -249,8 +249,11 @@ There is no offered-to-unoffered decryption fallback.
  The policy domain is
 `orbiplex.whisper-case-authority-policy.v1` followed by NUL and JCS without signature.
 
-Offer role binds case-authority, protected-signal-custodian or case-applicant;
-reply delivery requires its own admitted recipient offer. PEX family names are
+Offer role binds case-authority, protected-signal-custodian, case-applicant or
+held-custody-recipient. The held role signs the custody profile and horizon
+under the existing v1 offer domain. The private ADC transfer owner checks the
+obligation against the case horizon. Reply delivery requires its own admitted
+recipient offer. PEX family names are
 closed. Runtime must reject role/family mismatch, same-key unsafe constructions
 and use outside the named exchange. No body or private case correlation is an
 outer field. Ciphertext string validation does not establish the 65536-byte
@@ -837,8 +840,12 @@ boundaries. This does not broaden the source-pinned direct Gate A result.
 ## Local policy adoption boundary
 
 The P091 `/whisper/case-authorities` value is the closed local
-`whisper-case-authorities.local.v1` list of exact `{authority/id, policy/digest}`
-pairs, with an empty deny-all default and at most 64 entries. Policy bytes are
+`whisper-case-authorities.local.v1` list of role-specific pins, with an empty
+deny-all default and at most 64 entries. Opening a case as its authority uses
+exact `{authority/id, policy/digest}` pairs. The distinct
+`{holder/id, offer/digest}` pairs select
+[ADC holders](author-disclosure-conditions.md#custody-obligations).
+Policy bytes are
 separate input material: new-case preview carries the canonical signed policy as
 unpadded base64url in `case.authority/policy`. Supplied bytes cannot establish
 local trust or change the selected certificate profile/federation.

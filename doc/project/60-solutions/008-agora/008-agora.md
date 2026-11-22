@@ -242,6 +242,11 @@ Status:
   through topic ACL, content-schema validation, signature verification,
   idempotent persistence, and the configured relay backend.
 
+Public SQLite ingest and Matrix admission/forwarding also refuse recognizable
+private ADC documents in nested content, including extensions in aggregate
+notices. The dedicated Whisper release path permits one audience manifest in
+its exact proof slot and verifies the release, receipt and audience separately.
+
 ### Agora Record Query
 
 Based on:

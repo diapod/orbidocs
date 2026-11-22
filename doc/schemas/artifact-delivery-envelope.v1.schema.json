@@ -31,6 +31,17 @@
       },
       "description": "Local host-owned sender reference; carries no authority decision."
     },
+    "execution/messaging-attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["messaging/message-commitment", "messaging/envelope-digest", "messaging/resume-until"],
+      "properties": {
+        "messaging/message-commitment": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+        "messaging/envelope-digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+        "messaging/resume-until": { "type": "string", "format": "date-time", "maxLength": 64 }
+      },
+      "description": "Immutable prepared Messaging evidence. The envelope digest binds the final message artifact before transport wrapping."
+    },
     "delivery/plan": { "$ref": "#/$defs/deliveryPlan" },
     "policy": { "$ref": "#/$defs/policy" },
     "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 }

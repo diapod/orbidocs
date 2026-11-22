@@ -1188,7 +1188,7 @@ its own key and internal caller. Generic signing, alternate domains and wrapped
 preimages remain refused by the shared reserved-use registry. Cached durable replay
 requires neither signer nor re-sealing. See `node:docs/audits/ACCEPTANCE-LLR007-LLR008-PEX001-2026-11-07.md`. P015-005 and ADC stay separate.
 
-### ADC executor commit signing
+### ADC executor control signing
 
 The ADC executor uses the internal node-key operation for
 `orbiplex.whisper.case.release-commit.v1`. P037 checks the canonical private
@@ -1196,3 +1196,11 @@ control, release-commit operation, current node identity and handoff window.
 The shared registry rejects this domain and prefix on generic signing
 surfaces. The ADC executor owns source custody, preflight and exact durable
 replay. The case authority owns acceptance and its separate public statement.
+
+The same local node key signs ADC abandonment through a separate internal
+operation for `orbiplex.whisper.case.abandonment.v1`. The signer checks the
+canonical claim, original and executor binding, and the ordering of handover
+deadline, tombstone and issue time. The operation checks key continuity and
+expiry through signature creation. Generic signing refuses the abandonment
+domain and its raw prefix. The executor journal observes local AD closure and
+derives the claim from that observation and the retained slot receipt.

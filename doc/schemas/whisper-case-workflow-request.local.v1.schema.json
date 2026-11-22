@@ -805,6 +805,164 @@
           "additionalProperties": false,
           "required": [
             "operation",
+            "sender",
+            "exchange/handle",
+            "reply/public-key",
+            "request/not-after"
+          ],
+          "properties": {
+            "operation": {
+              "enum": ["prepare-held-adc-offer", "prepare-held-adc-withdrawal-offer"]
+            },
+            "sender": {
+              "type": "string",
+              "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "maxLength": 180
+            },
+            "exchange/handle": {
+              "type": "string",
+              "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+              "maxLength": 52
+            },
+            "reply/public-key": {
+              "type": "array",
+              "minItems": 32,
+              "maxItems": 32,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            },
+            "request/not-after": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "operation/id",
+            "manifest/digest",
+            "recipient",
+            "exchange/handle",
+            "reply/public-key",
+            "request/not-after",
+            "offer/bytes"
+          ],
+          "properties": {
+            "operation": {
+              "const": "handoff-held-adc-transfer"
+            },
+            "operation/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "manifest/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "recipient": {
+              "type": "string",
+              "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "maxLength": 180
+            },
+            "exchange/handle": {
+              "type": "string",
+              "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+              "maxLength": 52
+            },
+            "reply/public-key": {
+              "type": "array",
+              "minItems": 32,
+              "maxItems": 32,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            },
+            "request/not-after": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "offer/bytes": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5464,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "case/anchor",
+            "release/id",
+            "recipient",
+            "exchange/handle",
+            "reply/public-key",
+            "request/not-after",
+            "offer/bytes"
+          ],
+          "properties": {
+            "operation": {
+              "const": "handoff-held-adc-withdrawal"
+            },
+            "case/anchor": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "release/id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "recipient": {
+              "type": "string",
+              "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+              "maxLength": 180
+            },
+            "exchange/handle": {
+              "type": "string",
+              "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+              "maxLength": 52
+            },
+            "reply/public-key": {
+              "type": "array",
+              "minItems": 32,
+              "maxItems": 32,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            },
+            "request/not-after": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 40
+            },
+            "offer/bytes": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5464,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
             "operation/id",
             "offer/bytes"
           ],
@@ -985,13 +1143,57 @@
           "additionalProperties": false,
           "required": [
             "operation",
+            "release/id",
+            "audience",
+            "request/id",
+            "route",
+            "attestation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-held-adc-execution"
+            },
+            "release/id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "audience": {
+              "$ref": "urn:orbiplex:schema:room-release-audience:v1"
+            },
+            "request/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
+            },
+            "route": {
+              "type": "string",
+              "pattern": "^[!-~]+$",
+              "maxLength": 256
+            },
+            "attestation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Unpadded base64url of the exact signed whisper-embargo-attestation.v1."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
             "release/id"
           ],
           "properties": {
             "operation": {
               "enum": [
                 "handoff-adc-commit",
-                "handoff-adc-release"
+                "handoff-adc-release",
+                "prepare-adc-abandonment",
+                "handoff-adc-abandonment",
+                "read-adc-abandonment"
               ]
             },
             "release/id": {
@@ -1026,6 +1228,33 @@
             "manifest/digest": {
               "type": "string",
               "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "release/id",
+            "audience",
+            "request/id"
+          ],
+          "properties": {
+            "operation": {
+              "const": "prepare-held-adc-proposal"
+            },
+            "release/id": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "audience": {
+              "$ref": "urn:orbiplex:schema:room-release-audience:v1"
+            },
+            "request/id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "maxLength": 36
             }
           }
         }

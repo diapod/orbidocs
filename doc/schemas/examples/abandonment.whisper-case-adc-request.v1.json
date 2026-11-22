@@ -13,20 +13,20 @@
         "proof": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "executor": "node:did:key:z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",
         "route": "route-A",
-        "envelope_plan": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "envelope/plan": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "submission": {
           "component": "whisper-case",
           "idempotency/key": "adc-release-A"
         },
         "trigger": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "handover_by": 1793793900
+        "handover/by": 1793793900
       },
       "receipt": {
         "head": 1,
         "event_digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
       },
-      "tombstone_at": 1793793900,
-      "history_coverage": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      "tombstone/at": 1793793900,
+      "history/coverage": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     }
   },
   "signer": "z6Mkhq4G5RN8f3n6qGnpRrVjZ5DLBWMRGQehNCp76sCznJhk",

@@ -64,6 +64,16 @@
         "maxLength": 64,
         "pattern": "^[A-Za-z0-9:_./-]+$"
       },
+      "properties": {
+        "messaging/message-commitment": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+        "messaging/envelope-digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+        "messaging/resume-until": { "type": "string", "format": "date-time", "maxLength": 64 }
+      },
+      "dependentRequired": {
+        "messaging/message-commitment": ["messaging/envelope-digest", "messaging/resume-until"],
+        "messaging/envelope-digest": ["messaging/message-commitment", "messaging/resume-until"],
+        "messaging/resume-until": ["messaging/message-commitment", "messaging/envelope-digest"]
+      },
       "additionalProperties": {
         "type": "string",
         "maxLength": 512

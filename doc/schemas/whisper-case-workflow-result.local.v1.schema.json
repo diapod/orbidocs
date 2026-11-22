@@ -127,6 +127,22 @@
                 },
                 {
                   "$ref": "whisper-case-closure.v1.schema.json"
+                },
+                {
+                  "$ref": "whisper-case-adc-request.v1.schema.json",
+                  "properties": {
+                    "command": {
+                      "properties": {
+                        "operation": {
+                          "enum": [
+                            "amendment",
+                            "withdrawal",
+                            "confirmation"
+                          ]
+                        }
+                      }
+                    }
+                  }
                 }
               ]
             },
@@ -193,7 +209,8 @@
                       "schema": {
                         "enum": [
                           "whisper-case-registration.v1",
-                          "whisper-case-closure.v1"
+                          "whisper-case-closure.v1",
+                          "whisper-case-adc-request.v1"
                         ]
                       }
                     }
@@ -710,7 +727,7 @@
           "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
         },
         "phase": {
-          "const": "adc-commit-transport-custody"
+          "enum": ["adc-commit-transport-custody", "adc-abandonment-transport-custody", "adc-held-withdrawal-transport-custody"]
         },
         "delivery/id": {
           "type": "string",
@@ -736,7 +753,7 @@
           "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
         },
         "phase": {
-          "const": "adc-commit-outcome-lost"
+          "enum": ["adc-commit-outcome-lost", "adc-commit-rejected", "adc-abandonment-preparing"]
         }
       }
     },
@@ -757,7 +774,12 @@
             "adc-release-awaiting-ad",
             "adc-release-ad-outcome-unknown",
             "adc-release-admitted",
-            "adc-release-tombstoned"
+            "adc-release-delivered",
+            "adc-release-tombstoned",
+            "adc-abandonment-pending",
+            "adc-abandoned",
+            "adc-abandonment-refused",
+            "adc-unresolved-at-closure"
           ]
         },
         "delivery/id": {
@@ -767,7 +789,7 @@
       },
       "if": {
         "properties": {
-          "phase": { "const": "adc-release-admitted" }
+          "phase": { "enum": ["adc-release-admitted", "adc-release-delivered"] }
         }
       },
       "then": { "required": ["delivery/id"] },

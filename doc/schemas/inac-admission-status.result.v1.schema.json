@@ -67,6 +67,25 @@
       "if": {
         "properties": {
           "outcome": {
+            "const": "unavailable"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "support"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
             "enum": [
               "accepted",
               "already-present"

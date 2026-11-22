@@ -61,6 +61,9 @@
           "type": "object",
           "additionalProperties": false,
           "description": "Explicit private release input. The source owner supplies commitments, independent random openings, case binding and signatures; never included in ordinary source readback.",
+          "if": {"properties": {"custody": {"properties": {"mode": {"const": "held-under-obligation"}}}}},
+          "then": {"required": ["custody/offers"], "properties": {"custody/offers": {"minProperties": 1}}},
+          "else": {"properties": {"custody/offers": {"maxProperties": 0}}},
           "required": [
             "condition",
             "audiences",
@@ -80,6 +83,19 @@
             },
             "custody": {
               "$ref": "whisper-embargo-original.v1.schema.json#/properties/custody"
+            },
+            "custody/offers": {
+              "type": "object",
+              "maxProperties": 16,
+              "propertyNames": {"maxLength": 48, "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"},
+              "additionalProperties": {"type": "string", "minLength": 1, "maxLength": 5462, "pattern": "^[A-Za-z0-9_-]+$"},
+              "writeOnly": true,
+              "description": "Exact private base64url PEX custody advertisements keyed by holder key. Held custody requires a current advertisement and local pin for every selected holder. Withheld custody carries no advertisements."
+            },
+            "source/detached": {
+              "type": "boolean",
+              "default": false,
+              "description": "Select the detached source form. Explicit signing requires the exact embargo-manifest signing use in addition to the audience-manifest use."
             },
             "payload/bytes": {
               "type": "string",

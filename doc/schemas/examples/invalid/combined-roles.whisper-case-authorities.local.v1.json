@@ -1,0 +1,8 @@
+[
+  {
+    "authority/id": "node:did:key:z6MkhQLVRJmSctZWXSwm9KPq8wBPmfZykiY7uhD1fqSiw1Tv",
+    "policy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "holder/id": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+    "offer/digest": "sha256:uXoQ3VpJVCJ1jNB9dqUy10Q0ksvp8HXMqQmHsTAmhl0"
+  }
+]

@@ -296,6 +296,11 @@ reach AD the basis may be older; the hand-over deadline limits that gap without
 a recount, and a withdrawal accepted after the commit does not cancel the
 committed release.
 
+The ADC counter parses the verified issuer's RFC 3339 times as instants
+without reformatting the status. The signed status digest continues to anchor
+the inventory pin. The fixed-width time format applies to the locally
+persisted evaluation.
+
 Evidence that recipients can re-verify without trusting the counting authority
 remains to be designed in `P013-ADC-004`.
 
@@ -417,11 +422,66 @@ the authority durably accepts it and is ordered against release commits as
 described under Release; it erases unused held payload copies. Already committed
 execution bytes remain subject to their bounded journal/AD recovery obligations.
 
+The private ADC proposal exchange can carry an owner-signed
+`adc-withdrawn` result in the
+`orbiplex.whisper.case.unused-custody-withdrawal.v1` domain. The owner emits
+this proof only for a named held executor and a release with no committed
+slot, after durable withdrawal. The exact signed request binds the case,
+release, executor and reply key. The recipient journals the verified result
+with the selected held transfer digest before retiring its key and
+ciphertext. Committed slots and ordinary refusal diagnostics are separate
+from this proof. This path requires a current request by the holder.
+
+For a holder without a current request, the owner can sign a separate
+`whisper-held-custody-withdrawal.v1` with the same durable withdrawal and
+unused-slot preconditions. This private statement binds one named holder,
+release, selected manifest, original case authority and horizon. On
+admission the custodian fences exactly that scope. A verified later
+statement can retire the bound key and ciphertext without opening the
+payload. The original receipt keeps its deadline. Prior AD handoff and
+foreign or absent local custody refuse.
+
+The optional one-way withdrawal uses the `held-custody-withdrawal` PEX
+family and a short offer signed by the named custodian. Separate local
+adoptions bind the sending case authority, the receiving custodian and the
+private direct route. The authority's fenced owner retains only the exact
+encrypted frame for replay through the offer lease and its exchange binding
+through the case horizon. The owner's existing bounded cleanup retires the
+encrypted frame's storage references. AD owns retry. The receiver requires the authenticated
+sender to match the signature and checks the stored scope and exchange
+time before erasure. Beyond the offer lease, a fresh exchange consumes a
+new offer. The original custody and case deadlines continue to bound
+offline copies and their receipts.
+
 ## Custody Obligations {#custody-obligations}
 
 Every protected holder, including a separate counting authority, advertises the
 custody profile `whisper-embargo-custody:v1`. The author selects all protected
-holders from that admitted set. A custodian:
+holders from that admitted set.
+
+The counting authority signs its adopted custody profile and absolute
+deadline as `adc/custody` in `whisper-case-authority-policy.v1`. Publication
+uses the existing restricted case-control signing operation. The publication
+lease is bounded by the custody deadline. The author uses the existing
+independent P091 authority, policy-digest and source-profile pins before
+checking that custody covers the reviewed case. The owner checks its own
+adopted deadline on fresh registration. Exact committed replies retain
+their original leases.
+
+For held custody the author supplies exact, sender-bound
+`whisper-pex-key-offer.v1` advertisements for `whisper-embargo-custody-transfer.v1`
+in the private `case.disclosure` input. `custody/offers` is keyed by the public
+keys in `custody.holder/keys`. The source independently pins each selected
+`{holder/id, offer/digest}` in the P091 `whisper/case-authorities` setting.
+Holder pins and counting-authority pins are independently typed. Each offer
+must be current at selection and before the first signature and its advertised
+obligation must cover the case deadline. The advertisements remain private.
+Selection reserves no PEX exchange or custody at the remote holder. A later
+transfer independently checks its own current offer, route and recipient policy.
+Both SQLite development paths passed with this gate. The held actor supplies an
+advertisement signed by its synthetic holder identity before source authoring.
+
+A custodian:
 
 - labels protected material through `classification.v1`, so the existing
   egress guards refuse it;
@@ -436,6 +496,94 @@ holders from that admitted set. A custodian:
   until bounded hand-over/reconciliation completes; they cannot feed a new slot.
 
 These are policy obligations backed by audit, not cryptography.
+
+Agora public record carriers refuse recognizable private custody objects,
+including source and audience manifests, private attestations, custody
+transfers, executable material and private ADC controls. The carrier checks
+declared content schema, nested documents in the content object, and complete
+JSON in its text fields. The author and delegation verifiers own their signed
+scope declarations. Open extensions in threshold notices and other public
+records therefore cannot carry a recognized private document. Matrix keeps
+the source event identity and refusal code for checkpointing and omits the
+carrier bytes, author bytes and private record identifier. A queued Matrix
+publication with private custody content ends in a permanent refusal before
+contacting a room.
+
+The dedicated release carrier permits the audience manifest discriminator in
+the exact `proof/package → audience/manifest` slot of the declared release
+contract. Signing tuples in that proof retain their schema declarations.
+Copies elsewhere and private documents inside the manifest still cause
+refusal. The publisher and receiver independently verify the release
+receipt, proof and audience before public admission.
+
+Room uses the same private schema discriminators for live sends, projections
+and relay payloads. A private Room `content/type` or recognizable private
+document in a JSON object carried by `content` returns
+`private-custody-carrier-required` before
+advancing the live or relay sequence. The sealed profile applies the check
+where plaintext is available, before sealing and after authenticated opening.
+The check identifies structured custody documents. Opaque and unlabelled
+copies remain subject to the holder's egress obligation above.
+
+Artifact Delivery refuses recognizable custody plaintext at outbound plan
+preparation and again before the adapter effect, including on recovery. The
+same schema checks cover inline and resolved reference bodies, including
+nested objects and complete JSON in text fields. The reserved ADC release
+preserves the same exact audience manifest slot as Agora. Existing
+protected-signal and held-custody exchanges carry
+inline opaque PEX bytes on an adopted direct `minimal-trace-v1` INAC route.
+That carriage leaves the holder, recipient and proof checks with their owners.
+
+Application backup selection cannot read the separate held provider by release
+identity. A recognized private ADC document in an ordinary Memarium entry or
+fact also returns `private-custody-carrier-required` before serialization into
+the backup. This includes private retained backups. The operation reveals no
+protected content in the refusal.
+
+Model HTTP adapters check the final provider body after binding and mapping.
+Recognized private ADC documents, including serialized JSON text parts, return
+`private-custody-carrier-required` before egress observation or dispatch to a
+remote or loopback endpoint. The host applies the same check to the effective
+middleware invocation body and to merged subprocess input before spawn. These
+ports do not admit custody holders. The holder's obligation still applies to
+material without a recognizable schema.
+
+Notification creation refuses recognizable custody documents before computing
+request and body digests, reserving idempotency or writing the queue or audit.
+This covers previews that contain a complete serialized JSON document and
+structured request fields such as action input. The create and legacy emit
+routes return `private-custody-carrier-required`.
+
+The P086 broker refuses live observations with a private custody schema or
+recognizable inline custody content before applying capture interest, and
+refuses such context snapshots before interning them. Middleware reports
+reject this content before projection can retain a digest. Channel and host
+capability observations use their private metadata projection before
+measurement. The channel checks the encoded JSON body of its typed HTTP
+carriers and protects replies scoped to a recognized private request.
+
+The held-release handover carries one selected audience inside a separate
+private `whisper-embargo-custody-transfer.v1` exchange. The signed private
+registration acceptance contains the keys named in both the original holder
+list and executor list for `held-under-obligation`. The source verifies the
+original selection and independently authorizes the intended peer. The
+holder's private key offer signs its `whisper-embargo-custody:v1` profile and
+its custody horizon. The source checks that horizon against the retained case
+before sealing the transfer. The short exchange lease continues to bound
+the offered key and ciphertext. The recipient rechecks the signed and
+locally adopted obligations against the verified case before writing the
+copy. These offer fields carry the holder's obligation without case, audience
+or source material.
+
+The recipient verifies its owned node, the authority signature and the selected
+manifest under local witness trust. The complete original and its opening
+stay with the source. The acceptance and its holder projection stay outside
+the public release.
+
+Component verification covers the handover material and its binding to the
+named holder and audience. The receiving host still needs to establish the
+local custody obligation under the adopted storage and egress policy before
+the executor can use the material.
 
 ## Coordination Independence {#coordination-independence}
 
@@ -640,6 +788,17 @@ orders. A permutation/replay fixture must produce the same eligible-source set
 and evidence commitment from the same admitted inputs. Historical M4 counting
 and ids stay unchanged.
 
+The local ADC-004 component now exercises all six admission orders for three
+contributions on the same witnessed original. Two contributions from one source
+count once. Exact replay preserves the eligible evidence commitment, trigger and
+count. This covers the SQLite admission and evaluator path. ADC-004 remains todo.
+
+The local ADC-005 owner check now commits two independently confirmed
+audiences with the real detached original and counter. A competing signed
+intent for a second route of the first audience cannot allocate another slot.
+The original reply still replays after the other audience commits and the
+owner reopens. Native Agora delivery is measured separately.
+
 ## Lean Release Model Before Durable ADC Enablement {#lean-release-model}
 
 **Model gate qualified, 2026-11-16; ADC-005 remains `todo`.** LLR-011 now has
@@ -656,8 +815,10 @@ composition, comparison and submission/readback remain ADC-005.
 ADC-001/004's freeze for this model covers current authority/count/confirmation,
 canonical audience and exact request/head/intent identities, permitted narrowing
 and half-open deadlines. It does not close their schemas or runtime rows.
-The model's request capacity of 64 is a finite proof/test profile, not product
-policy. Historical qualifications, alpha scope and public readiness are unchanged.
+The model's request capacity of 64 is a finite proof/test profile. Its capacity
+law covers retained results plus one reserve per committed audience, and the
+full-budget vector exercises settlement. Historical qualifications, alpha
+scope and public readiness are unchanged.
 
 ### Model and implementation boundary
 
@@ -788,16 +949,24 @@ schema owner. Acquire within 250 ms, reread time, validate the exact pin and
 deadlines, commit the case through its final fence, then release. Pin scope is
 the admitted local index even for Synapse; ingestion delay consumes the signed
 300 s freshness budget. A pin includes installation/file identity, scope,
-revision and status digest; copies, restore and file-replacing maintenance need
-readmission. No source acquisition, signing or sealing runs under this guard.
+revision, its transactionally assigned generation and status digest. Replacing
+the file requires readmission. Restoring an older snapshot in place and
+revisiting a revision through different writes requires a fresh evaluation.
+No source acquisition, signing or sealing runs under this guard.
+If the case owner panics under the guard, it lets the unwind stop before
+dropping the relay reservation. It marks the case store as requiring verified
+reopen and resumes the panic. The relay remains usable when its rollback and
+busy-handler restoration succeed.
 
 EvaluationStale is a transport deferral, not a case result. Durably invalidate
 the undisclosed candidate before reevaluating identical bytes. A bounded record
 retains request id/digest conflict binding and stale count across restart until
-request expiry plus replay margin. Each stale cycle charges operation_count but
-not max_commands_per_case; after the third, return exhausted without evaluation.
-New request ids still charge the shared operation budget. This deliberately
-revises the previous frozen-candidate recovery rule, never a committed result.
+request expiry plus replay margin. Stale cycles charge a separate per-case
+window with the same configured interval and bound as the operation window.
+Fresh request IDs share that stale budget. Exhaustion defers release-commit
+evaluation and leaves author controls and slot settlement available. The
+per-request counter still stops after the third stale cycle. Neither counter
+charges max_commands_per_case or changes a committed result.
 
 ### Executor and accountable abandonment
 
@@ -809,6 +978,25 @@ Owner slots become Committed or Abandoned; unknown, released, delivered and
 tombstoned are executor observations. Terminal executor outcomes include commit
 rejected, commit-outcome-lost and unresolved-at-closure. If the exact response
 lease is lost, do not mint another reply or guess the slot receipt.
+
+A durable release-commit refusal carries the case owner's private signature
+over the exact `whisper-case-result.v1` in the dedicated
+`orbiplex.whisper.case.release-commit-refusal.v1` domain. The executor checks
+the existing exchange, expected authority, exact request and live reply
+lease before recording `commit-rejected`. Unsigned diagnostics leave
+commit outcome unknown. The signed result and its replay remain private to
+the case workflow.
+
+Abandonment repeats the exact journaled exchange while its request is live.
+After expiry a fresh private exchange can identify the same AD tombstone and
+slot. The owner authenticates the executor and returns the original signed
+acceptance with outcome `settled`. Its signed inputs digest binds the exact
+tombstone claim. The read uses the status budget and a short reply lease, with
+no new head or command charge. Exact replay of the new read within its lease
+returns the stored response without charging the status budget again. A dedicated
+abandonment-refusal signature lets the executor retain a permanent refusal
+across restart. An unsigned diagnostic remains pending. Neither terminal result
+can resume handoff.
 
 The implemented commit stages bind one assessed `M_A` to the historical
 source anchor and the executor's signed request. The existing fenced Store
@@ -828,6 +1016,12 @@ complete-history AD transaction serializes exact absence, deadline and tombstone
 against admission. Tombstones cannot be GC'd merely after deadline+skew: without
 a durable anti-rollback premise that would reopen the identity. Bounded capacity
 blocks new work; namespace retirement must continue refusing old submissions.
+
+**Enablement gate.** The current ledger caps ADC at 4096 reservation identities
+over its lifetime, including admitted, abandoned and unresolved operations.
+Before enabling ADC on a long-lived node, qualify durable identity-namespace
+retirement and renewal, with stale submissions still refused after retirement,
+restart and rollback. The bounded diagnostic matrix uses synthetic ledgers.
 
 The AD component now reserves the local `adc-executor` identity with the exact
 intent digest and deadline in the complete SQLite ledger before domain commit.
@@ -853,8 +1047,10 @@ without signed case result or prepare entry. Bind the slot receipt, not current
 head: unrelated amendment and withdrawal preserve it. Closure freezes owner
 slots and new abandonment becomes Terminal/Never; local AD history can still
 resolve transport facts without reopening the case. Expired request bytes do
-not revive. Tombstone plus unknown settlement always replays the recorded claim,
-never hands the payload to AD.
+not revive. While the claim is live, a tombstone plus unknown settlement
+replays the recorded bytes. After expiry a new private exchange can recover
+the original signed settlement for the same bound claim. Neither action hands
+the payload to AD.
 
 The pre-enable request now carries only the accepted revision and event digest
 as the private slot receipt identity. The executor verifies the pinned owner's
@@ -879,10 +1075,79 @@ First complete a diagnostic end-to-end path, then a fresh pinned qualification.
 Retain separate evidence for model laws, real owners and the 2x2 matrix (Agora
 SQLite/Synapse by withheld/held-under-obligation). Compare model to actual Rust,
 with independent specification vectors, mutation witnesses and axiom audit.
-Measure commit-to-AD, settlement, guard hold and stale incidence. Model results
-prove neither cryptography nor filesystem crash recovery. No inference/VM,
-installation or pull; unavailable native Synapse means not-run and ADC-005 todo.
+Measure commit-to-AD from the durable case fence through first exact AD
+admission, including release of the writer reservation. Measure settlement,
+guard hold and stale incidence separately. Distinguish ordinary publication,
+publication after withdrawal, accepted abandonment and closure in the samples.
+Model results prove neither cryptography nor filesystem crash recovery.
+No inference/VM, installation or pull. Unavailable native Synapse means
+not-run and ADC-005 todo.
 full_candidate_qualified=false and release_ready=false throughout this slice.
+
+The opt-in SQLite development check on macOS passes the exact WSS/INAC release
+to a separate cold verifier with OS networking denied. A reachable loopback
+listener supplies the positive control and a typed OS refusal inside the verifier.
+The verifier uses the carried package, independent local trust and a fresh
+SQLite index. Its digest binds the result to the original publication.
+
+The local detached-fixture size check exercises real M/M_A, proof preparation,
+the ordered commit and final signature for SQLite and both Matrix carriers.
+Each carrier's boundary case verifies at the recipient. The next payload byte
+is refused during planning, before requesting a commit.
+
+The native Synapse developer check distinguishes local Agora admission from
+durable forwarding and independent reception. The publisher's forwarding
+record must name the exact Matrix event read back by the independent account.
+The independent Agora relay must also return the original signed author bytes.
+Neither local AD admission nor a publisher-local readback closes a runtime cell.
+Each future Synapse qualification binds the structured native preflight emitted
+by the same fixture launch to the candidate. It records the native Linux check,
+local Unix engine, Compose version and both image digests. The launch also
+records the resolved Compose image set and refuses startup if it differs from
+the locally verified pins or cannot be resolved. The earlier developer
+runs have no independently retained preflight record. A later development
+run at Node `985127e69`, with an issued certificate, passed both custody
+modes and tore down the owned fixture. Its launch printed a successful native
+preflight with both pinned images. The later early-erasure path was exercised
+by the SQLite held probe. These observations cover their respective sources.
+Both SQLite publication modes passed a subsequent development run with signed
+counting-authority custody and a fixture budget that includes AD hop retries.
+
+The 2026-11-19 formal runtime campaign pinned Node `bfa17ac48` and Orbidocs
+`3d0431e1`. It passed after both native Synapse diagnostics and verified
+fixture teardown. The four matrix cells and four withdrawal, abandonment and
+closure controls passed. Each Synapse cell used its own native fixture launch.
+The evidence records the exact executable hashes and the phase timings.
+The separate installed-route ADC-003 egress campaign subsequently qualified
+36 native controls and two supplemental Room controls. It used the inherited
+runtime sources and a fresh diagnostic followed by a fresh formal run. The
+Node evidence at `node:docs/evidence/private-case-continuity/2026-11-19-adc-custody-egress/README.md`
+binds the output to the operator's retained bundle. The installed routes
+include Agora and its Matrix and SQLite paths, Room, AD bodies and references,
+custody and backup, notifications, model adapter pre-dispatch and observation
+ports. Captured Agora process output contained zero synthetic canary matches.
+Holder-availability beacons and redistribution offers remain future P013
+surfaces. This is an egress result for the installed profile.
+
+The formal latency campaign passed 100 publication and 100 abandonment cases
+at Node `dd3919a75` on native macOS, with SQLite, WSS/INAC, withheld custody
+and two actors. The p99 from durable guarded commit to exact AD admission is
+8.574915 s. The p99 from durable tombstone to retained settlement is
+9.062576 s. Writer reservation p99 is 150.003 ms and 98.252 ms respectively.
+Stale incidence is 0/200 commit finalizations. The existing runtime matrix
+continues to record the individual SQLite and Synapse cells. The latency
+bundle and both verified retrievals are recorded in
+`node:whisper-case-service/ADC.md` under “Formal latency populations”.
+ADC-005 retains `todo` for the open ADC-001 and ADC-004 prerequisites.
+The runtime evidence does not change the wider qualification or release flags.
+
+The executor records `adc-release-admitted` for the exact retained AD run.
+It advances to `adc-release-delivered` after an authenticated read from the
+adopted Agora publication owner confirms matching signed bytes and carrier
+completion. SQLite confirms audience-store admission. Matrix requires the
+durable acknowledgement of the selected room and event. The journal fences
+this observation with the original AD ID and a reserved write. Independent
+recipient verification remains part of each runtime qualification cell.
 
 ## ADC-001 protected source preparation checkpoint (2026-11-17)
 
@@ -967,13 +1232,17 @@ The owner now also has a trusted-host proposal port using this same count. It
 checks current case scope, eligible executor, withdrawal, slot and time before
 signing a separate private `whisper-embargo-attestation.v1` under the restricted
 signer domain. Source preparation checks it against retained consent and owned
-executor. The relayed PEX source retrieves a proposal using
+executor. The source retrieves a proposal over relayed PEX v1 or offered direct PEX v2 using
 `whisper-adc-proposal-request.v1`, which signs the exact exchange and reply key.
 The signed attestation binds the request digest and returns in a private
 `whisper-case-result.v1` with outcome `proposed`. Read budget, bounded exact
 reply replay and the case fence are shared with existing owners. The proposal
 leaves the case head and slot unchanged. A component history uses the private
 PEX reply in release commit, with an independent explicit confirmation.
+Direct preparation requires the already persisted v2 exchange and its live
+authority-signed offer. The authority processes the exact carried query through
+its ordered inbox. The source accepts the result from the authenticated
+authority on the same exchange and carrier.
 
 The canonical private `whisper-adc-source-evaluation.local.v1` descriptor freezes
 exact request/facts, evidence, scope/epoch, finite validity and installed source
@@ -1055,7 +1324,11 @@ The operator v1/v2 `prepare-adc-author-control` action resolves the actual bound
 case key/anchor/authority/horizon and rechecks custody at handoff. It does not
 renew a nym certificate, consult a live count, sign an executor command or create
 another queue. Remote acceptance remains with the case authority; AD custody is
-not a result. Development checks pass all 292 service tests (one existing exporter ignored),
+not a result. The local v1/v2 read contract admits the previously retained
+signed amendment, withdrawal or confirmation as request material with empty
+evidence. The projection stays within the authenticated source operator
+boundary and refuses executor claims. Development checks pass all 292 service
+tests (one existing exporter ignored),
 11 local Schema Gate tests and a native three-control V1/V2 history. V2 requires
 independent direct adoption plus a signed recipient offer; missing adoption is
 measured as a refusal. Minimal-trace inspection remains redacted, and synthetic
@@ -1149,8 +1422,10 @@ A new exact auxiliary use must occur in both profile and certificate:
 single-audience, embargo-audience-manifest)`. No default gains that tuple. The
 actual authoring function checks current signing window, fresh status, revocations
 and signer before signing, then verifies the returned signature. Old manifest
-and publication grants cannot substitute. P015-005-ADC retains the real issuer
-composition and qualification gate; the whole P015-005 is not closed here.
+and publication grants cannot substitute. The macOS developer diagnostic now
+exercises the exact auxiliary issuance and registration on encrypted APFS
+media. P015-005-ADC retains the full native issuer composition and
+qualification gate.
 
 Canonical schemas/mirrors and refusal fixtures cover private-field injection,
 unknown routes, scope, signature/domain, nonce, bijection and identity bindings.
@@ -1270,16 +1545,44 @@ The journal derives the executor claim from the retained private commit
 acceptance and local AD tombstone. It fences the exact signed operation,
 separate exchange and expiring reply key before preparing the private packet.
 A live packet replays byte for byte. After the request expires, a new
-operation can report the same tombstone and receipt. It cannot submit
-the release or recover an earlier result whose lease has expired.
+private exchange can report the same tombstone and receipt. It can recover
+the original signed acceptance through a settlement read even after the
+earlier reply lease expires. The owner checks the executor and exact slot
+binding and charges the read budget. This exchange cannot submit the release.
 
 The in-process history couples the real SQLite AD settlement and ordered
 case authority through PEX with controlled time. It rejects a foreign
 executor key, restarts at the control and packet boundaries, renews the
 expired claim and records an owner-signed acceptance after exact reply
-replay. This measures local components and their private handoff; daemon
-routing, host custody, authenticated closure readback and the runtime
-matrix are separate open gates.
+replay.
+
+The operator workflow exposes prepare, handoff and read actions for the
+exact release ID. Preparation requires the retained AD tombstone.
+The relayed carrier uses the adopted CaseRequest circuit. The direct
+carrier binds an authority offer to the settlement exchange and saves it
+with the exact packet before AD admission. The result is routed by its
+durable exchange locator. The local projection distinguishes private
+transport custody, pending settlement, verified abandonment and unresolved
+execution at closure. Only a terminal refusal for the bound executor and
+committed slot can carry the owner's original signed closure acceptance.
+The executor verifies the closure against its pinned authority and earlier
+signed commit and fences the exact result. An authenticated permanent refusal
+for the matching abandonment is retained as `abandonment-refused`. An unsigned
+or retryable refusal leaves settlement pending.
+Separate custodian handover and runtime matrix qualification remain open.
+
+The relayed v1 development probe exercises the operator actions through
+HTTP and the actual WSS/INAC courier. It confirms early refusal, a real
+deadline and AD tombstone, the same delivery ID on handoff replay, and
+signed response readback. The source AD inventory contains no release job
+after settlement. Direct v2 offer retention and replay were tested in the
+component fixture.
+
+A companion relayed v1 development probe closes the case through the same
+operator and WSS/INAC path after an accepted commit. The executor waits for the
+handover deadline, retains its AD tombstone and reads `adc-unresolved-at-closure`
+from the verified terminal reply. The slot remains committed in the component
+history, and the runtime probe observes no public release job.
 
 ## ADC-005 source-barrier and stale-recovery development checkpoint (2026-11-17)
 
@@ -1292,7 +1595,7 @@ supplies a 250 ms acquisition budget; real relay enforcement and durable
 instance/installation/file/scope/revision pins remain ADC-004 work.
 
 Stale publication atomically deletes its candidate, records a bounded technical
-cycle/digest binding and charges the shared operation window. It changes no
+cycle/digest binding and charges the dedicated stale-attempt window. It changes no
 accepted head or signed outcome and cannot use settlement reserves. Restart
 preserves the three-cycle limit and cross-operation request-ID conflict checks.
 Cleanup failure blocks the owner until verified reopen. The same bytes can
@@ -1435,8 +1738,10 @@ Historical qualifiers retain their source pins and bytes. See the current
 Implementation checkpoint, not release execution qualification. The current
 Node launcher has an explicit `--native-only` gate and a read-only JSON preflight
 in `tools/matrix-fixture/synapse/native_preflight.py`. ADC qualification requires
-bare-metal Linux, a local Unix-socket Docker engine and both exact profile images
-already installed. macOS refuses before Docker or fixture-state writes; missing
+bare-metal Linux, a local Unix-socket Docker engine with Compose and both exact
+profile images already installed. Missing Compose returns
+`not-run/compose-unavailable` before fixture-state writes. macOS refuses before
+Docker or fixture-state writes; missing
 virtualization detection, containers and uncertain observations fail closed.
 The launcher and Compose services prohibit automatic pulls. Missing software or
 images need a separate operator decision.
@@ -1483,8 +1788,12 @@ registration through explicit adoption of the live Agora SQLite index. The
 relay retains ingestion, migration and recovery. The companion reads the exact
 inventory and holds the existing short writer barrier through the case commit.
 The adoption binds the installation, file and named local instance. Replacing
-the index requires readmission. For Synapse the pin covers the local ingested
-index; freshness and homeserver completeness remain separate checks.
+the index requires readmission. An in-place restore that returns to an older
+scope revision can otherwise replay the numeric revision with different
+inventory. Each revision now carries a random generation from the same SQLite
+transaction. A changed generation invalidates the candidate and requires a
+fresh evaluation. For Synapse the pin covers the local ingested index. Remote
+freshness and homeserver completeness remain separate checks.
 
 A focused owner test exercises real retained admissions, a frozen candidate,
 restart recovery without recounting and exact replay. ADC-004 and ADC-005
@@ -1518,7 +1827,74 @@ applies after shutdown. The relay provenance is a fixture at the native ingress
 boundary. Source/payload custody, native execution and cold verification, and
 the four runtime cells remain open. ADC-004 and ADC-005 stay `todo`.
 
-## ADC-003/005 source custody at executor preparation
+## ADC-003/005 source custody at executor preparation {#adc-source-custody}
+
+S026 source review can explicitly select the detached form with
+`case.disclosure["source/detached"]`. Its review digest binds the selection
+before any signature. The author needs the exact P015 detached and audience
+manifest tuples. The explicit signing operation fences the auxiliary and the
+protected signal with the private manifest set. The signal binds the exact
+signed auxiliary digest; both bind the same hiding commitment and case.
+P035 still owns witnessed admission and detached projection. Local readback
+of the signed auxiliary does not grant custody, register the case or count as
+a qualified runtime cell.
+
+The P036 owner pins the receipt profile on opening reservation. The witnessed
+detached capture keeps the original horizon and can store the public proof
+without the protected signal. S026 can then prepare an exact encrypted
+registration with the already bound continuity key and protected consent.
+Authority-side admission and delivery across independent processes remain part
+of the runtime gate.
+
+The ADC component also prepares and reopens this encrypted registration using
+the exact certificate from the real P015 V2 applicant and issuer exchange.
+The issuer publishes a fresh signed status after the witnessed admission to
+establish the P041 basis. Omitting the requested manifest use produces a
+certificate that cannot authorize protected authoring. This check uses fixture
+media attestation and reply delivery for issuance. The issued certificate now
+also goes through S026 registration, real WSS/INAC execution and independent
+SQLite publication readback in both custody modes. The earlier Synapse pair
+used a fixture certificate. Both modes later passed with an issued certificate
+at Node `985127e69`, as described in the native preflight checkpoint above.
+The separate formal result is recorded in the 2026-11-19 runtime campaign above.
+
+A focused native check now passes the exact S026 detached registration packet
+to a separate authority daemon. Its AD ingress accepts the packet, the ordered
+owner returns a signed result, and the source verifies, retains and recovers
+that result after reopening. The authority signing key remains held through
+the case horizon. Authenticated relay provenance is supplied at the fixture
+boundary. This check establishes independent owner composition, not WSS
+delivery, release execution, cold reception or a runtime matrix cell.
+
+The component scenario continues through two verified contextual admissions
+in the authority's adopted SQLite index. The authority returns a private
+signed threshold proposal bound to one audience and its named executor. The
+source verifies the result and signs an explicit confirmation of that trigger
+using the retained continuity key. The ordered authority accepts it at
+revision one. The same fixture relay and synthetic identities bound this
+development result.
+
+The same withheld component scenario then reopens the accepted registration
+with current Memarium custody. The executor fences its preparation, commits
+through the native authority's AD ingress and consumes the sealed result. It
+hands the exact signed Agora envelope to its local AD ledger, and replay returns
+the same delivery ID. The cold SQLite-backed verifier uses independent local
+trust and checks the carried proof without the protected original. The relay
+ingress is still supplied by the fixture. A separate development probe uses
+the normal AD Agora adapter to publish the same bytes to a stock SQLite Agora
+process with independently adopted trust and audience. The authenticated HTTP
+readback preserves the exact signed author bytes and the relay supplies its own
+unsigned metadata. A second development probe sends registration, proposal,
+author confirmation and commit over authenticated WSS/INAC through the AD
+source, courier and authority roles. The four exchanges correlate sixteen
+exact AD deliveries, and the courier preserves their opaque PEX bodies. The
+source verifies the retained results and publishes to the independent SQLite
+receiver. Source workflow actions enter through the operator HTTP route.
+The fixture checks missing-token and missing-binding refusals before parsing
+the body, then establishes its local binding through the identity API. It
+supplies the initial retained author consent, synthetic trust and signed
+contextual admissions. Separate custodian handover, authenticated closure
+readback and the runtime matrix remain outstanding.
 
 The S026 source owner constructs the protected package for one retained audience
 under independently adopted P035 trust. The source custody port must observe the
@@ -1529,10 +1905,67 @@ private original and other audiences at the source.
 
 The executor first-write boundary checks and preserves the exact custody
 binding in its encrypted journal and rechecks the lease before commit to disk.
-Component tests connect the encrypted source and executor stores with a fixture
-custody port. The native host must still supply the actual custody observations,
-held handover and end-to-end delivery. ADC-003/005 remain `todo` and runtime
-qualification remains open.
+Earlier component tests connect both custody modes with a fixture custody port.
+The held package uses the one-way `held-custody-transfer` PEX family and the
+signed `held-custody-recipient` key-offer role. Its named destination must
+match the independently admitted offer at sealing and opening. The distinct
+key derivation domain and typed key ports keep held execution material out of
+ordinary protected-signal and case-command flows. The 57,856-byte plaintext
+budget fits the 64 KiB AD minimal-trace frame. Opening establishes which
+private package was carried. Admission and durable custody at the destination
+require the host's current peer policy, independent local witness trust and
+finite custody obligation. Component tests cover exact round-trip and role
+separation. The recipient's bounded offer journal uses its own SQLite scope
+and external fence. It recovers exact signed bytes after restart under current
+peer authorization. Before a held recipient is installed, AD refuses detailed
+admission of both the binary `whisper-held-custody-pex.v1` carriage and its
+inner JSON schema. The local Memarium payload owner records both the
+signed release deadline and the case deadline in a separate journal and
+uses an erasable DEK for each retained payload. The release deadline closes
+reads and triggers managed key and ciphertext removal on maintenance or
+restart. A fenced AD admission can retire the exact held copy sooner. The
+executor replays the idempotent retirement using its originally bound delivery
+identity. The journal keeps the exact transport receipt until the case
+deadline. The committed executor has a separate journal for settlement.
+Component tests cover restart between committed retirement and file
+removal, plus exact receipt replay after erasure. The host receiving
+adapter now checks the exact offer, protected recipient, audience and witness
+policy, and a local obligation through the signed case deadline. It can
+recover an exact committed receipt after offer expiry using digests and
+current peer authorization. Executor readback has a separate live gate.
+An explicit native source profile can now adopt held reception for bounded
+peers, audiences, witness trust and deadlines. The operator prepares the offer
+through the existing local case workflow. The dedicated binary AD carriage
+uses the authenticated direct minimal-trace path. The local provider stays
+outside application backup selection and S020 can expire records after role
+withdrawal when the journal is available. ADC-003/005 remain `todo` and
+runtime qualification remains open.
+
+The author crosses the same direct AD boundary using the authenticated local
+`handoff-held-adc-transfer` operation and an explicit route to the named
+custodian. The source verifies the retained registration, one selected
+manifest, the holder binding and its current private disclosure policy. S026
+fences the exact offered ciphertext before AD and binds the exchange to the
+offer and route through the case horizon. Ciphertext retention in this journal
+ends at the original offer deadline. Tests reopen the author journal
+and check exact replay, changed-route refusal and expiry. AD owns transport
+execution and retries, and the recipient observes custody independently.
+
+The held executor reads that recipient's Memarium under the independently
+adopted Room policy. Operator proposal and commit preparation select the held
+release ID and audience. The existing journal distinguishes author registration
+from held custody and rechecks the exact package and registration acceptance
+before commit handoff. It can complete an accepted commit from its own frozen
+proof with the held role's local witness policy. The component test exercises
+the held provider, restart, refusal when the held copy is unavailable and AD
+publication. A separate development run delivers the package from the author
+to the custodian through direct WSS and minimal-trace AD. Before custody,
+the custodian cannot prepare a proposal. After custody, the proposal and
+commit travel from the custodian through the courier, and the author signs
+confirmation from the original source. The custodian publishes to the
+independent SQLite receiver. Readback matches the signed custodian bytes
+and the cold verifier recovers the approved payload. The Synapse runs and
+formal qualification remain open.
 
 ### Signed registration policy
 
@@ -1565,12 +1998,14 @@ pins the exact signed bytes before an acknowledgment identifies the release
 and local phase. Exact replay returns the same exchange without signing.
 
 The source-local `withheld` path now includes an explicit `handoff-adc-commit`
-for relayed PEX v1. The journal fences the exact control packet and local AD
-reservation before enqueuing transport. Its exchange locator routes the private
+for relayed PEX v1 and offered direct PEX v2. The journal fences the exact control
+packet and local AD reservation before enqueuing transport. Its exchange locator routes the private
 case result back to the executor. The response's transport custody is distinct
 from the signed owner commitment and the later release submission. Reply lease
 exhaustion records a lost outcome independently of current egress permission.
-After the accepted reply, the v1 operator command `handoff-adc-release`
+For direct v2 the journal retains the exact recipient offer with the packet.
+The authenticated reply must come from the named case authority and match
+the durable direct exchange. After the accepted reply, `handoff-adc-release`
 reobtains the frozen audience, route and carrier from the executor journal.
 The host signs the verified Agora envelope with the admitted executor's node
 key. The journal fences the signed bytes before submitting the existing AD
@@ -1578,11 +2013,18 @@ reservation. Retained admission returns the original AD run; established
 absence before the deadline permits submitting the same bytes. At or after
 the deadline the local ledger can persist a tombstone. The operation returns
 only its local phase and, when admitted, the AD identifier.
-Direct PEX v2 proposal retrieval and commit handoff, custody at a separate node,
-destination admission and matrix qualification remain open.
-Destination admission must apply the release proof verifier with independently
-adopted audience and witness policy at the transport boundary. ADC-005 remains
-`todo`.
+Agora verifies the complete carried proof before SQLite HTTP admission or
+Matrix reception. It resolves the expected audience and history policy from
+local adoption, including the observed Matrix room on that carrier. The
+Matrix receiver registers the exact rooms from its local audience policy in
+the durable account receiver before advancing the sync cursor. The
+receiver reads only local observations concerning the carried receipt. The
+Matrix origin verifies the carried proof before atomically storing the
+publication with its adopted physical room, carrier and author bytes. Retry
+uses that room and never resolves an alias; an unpinned historical release
+request cannot be forwarded. Both SQLite custody modes have development
+runs. The 2026-11-19 runtime campaign passed both custody modes on both carriers.
+ADC-005 remains `todo` pending the population latency and prerequisite gates.
 
 ## Optional Confidential Affiliation Review {#confidential-affiliation-review}
 
@@ -1666,12 +2108,12 @@ an execution dependency of ADC-005 on LLR-009.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P013-ADC-000 | Story 014 disclosure-condition variant acceptance | todo | P013-ADC-001–008; P057-017; P015 Gates A and B; P015-005; P013-PEX-001; P013-DFR-001–004; P013-DFR-006 | One retained run of the [variant](../../30-stories/story-014-dormant-contest-entry.md#variant-author-disclosure-condition) proves S014-A12–A21 and its assertion-to-task matrix. Canary scans cover queries, Agora, AD copies, notifications and logs. Required cases include receiver verification without private-body retrieval, separate correlator and counting authority, two rooms versus two routes, later-epoch author present/absent, both commit/withdrawal orders, pre-authorized expiry, declined-prompt suppression, lost commit response and restart before AD hand-over. |
-| P013-ADC-001 | Freeze embargo manifest and condition contracts | todo | P015 v2 signal; P015-005; P013-LLR-006; P035-019 | Private and single-audience manifest contracts, `whisper-embargo-condition.v1`, `whisper-release-payload.v1` and amendment through `whisper-case-adc-request.v1`; apply the [accepted continuation](#adc-execution-continuation), including hiding commitments and registration bijection; acyclic manifest -> protected signal -> admission receipt construction, one anchor/at most one original condition, identical key/authority/case-lifetime commitments and closed public proof fields. P035 admission verifies their equality, supporting LLR-009's detached anchor proof without a new signature carrier. Preserve original condition identity through narrowing; widening creates a new case without silently withdrawing the old. Explicit authorized holder set; role-bound custody; per-descriptor consent. Golden and refusal fixtures cover offline verification without protected text, forbidden proof fields, substituted manifest/payload/authority/case lifetime, widening, unknown fields and expiry. LLR-006 owns the key contract; this row consumes it. Development component: [reference-only source transfer](#adc-explicit-source-transfer-component-2026-11-18) now binds complete protected consent/payload to the existing S026 owner; native custody and clean-source runtime qualification remain required. |
+| P013-ADC-001 | Freeze embargo manifest and condition contracts | todo | P015 v2 signal; P015-005; P013-LLR-006; P035-019 | Private and single-audience manifest contracts, `whisper-embargo-condition.v1`, `whisper-release-payload.v1` and amendment through `whisper-case-adc-request.v1`; apply the [accepted continuation](#adc-execution-continuation), including hiding commitments and registration bijection; acyclic manifest -> protected signal -> admission receipt construction, one anchor/at most one original condition, identical key/authority/case-lifetime commitments and closed public proof fields. P035 admission verifies their equality, supporting LLR-009's detached anchor proof without a new signature carrier. Preserve original condition identity through narrowing; widening creates a new case without silently withdrawing the old. Explicit authorized holder set; role-bound custody; per-descriptor consent. Golden and refusal fixtures cover offline verification without protected text, forbidden proof fields, substituted manifest/payload/authority/case lifetime, widening, unknown fields and expiry. LLR-006 owns the key contract; this row consumes it. Development component: [reference-only source transfer](#adc-explicit-source-transfer-component-2026-11-18) now binds complete protected consent/payload to the existing S026 owner. [Explicit detached source preparation](#adc-source-custody) binds the signed P035 auxiliary to the same reviewed original. The P036 profile-bound capture and S026 encrypted registration are checked together at the component boundary. Independent-process custody and clean-source runtime qualification remain required. |
 | P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. Reuse one vocabulary-bound normalization/key function for authoring, notice creation and holder validation; display rendering never feeds the hash, and semantic-model suggestions never bypass author approval. |
-| P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
-| P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; P013-PEX-001 | Per-epoch counting with exact original-epoch exclusion and conservative N + 1 thereafter, with author-present and author-absent fixtures and UI effective-threshold explanation. `whisper-embargo-attestation.v1` for proposal evidence, separate `whisper-release-commit-statement.v1` and restricted signer domain for the public committed result, status freshness, publication receipt and counting at commit. The private proposal contract, restricted signing, real owner count and local source verification are implemented alongside the separate public statement and atomic owner publication. Relayed PEX proposal retrieval is wired and exercised at the component boundary. Direct source retrieval and source/custody/executor/cold-receiver runtime qualification remain required. Share bounded primitives between full-private and detached-public verifier paths; recipient verification never fetches protected text and explicitly trusts the admitted counter. Independently verifiable counts remain a separate open design. Reuse the contextual contribution evaluator with separate coordination/disclosure policies; qualify permutation/replay parity, duplicate sources and evidence-representative replacement without altering M4. |
+| P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. The native holder gates offers, work admission and local lookup on the current custody deadline independently of maintenance. Component tests cover managed erasure at the signed release deadline and exact receipt replay through the case horizon. Development canaries cover generic Memarium lookup, queries, index projections and backup selection. An exact fenced AD handoff now retires the held copy under its original delivery identity. A holder can recover a signed unused-slot withdrawal through its private proposal query and retire the exact copy. SQLite WSS development probes verified erasure before commit and preservation through handoff after commit. The private held-transfer offer now advertises a signed custody profile and horizon checked by both endpoints. A portable owner statement uses a separately adopted one-way PEX offer and fenced AD delivery to the named custodian. Updated SQLite WSS diagnostics passed both the one-way erasure and the occupied-slot refusal with subsequent exact readback. The counting authority advertises its custody profile and deadline in its signed authority policy. The author checks that policy before preparing keys, and the owner checks its own adopted coverage before holding a key on new registration. Component tests cover the horizon, exact replay and native publication, author preparation and registration. Held authoring also selects each custodian using a sender-bound signed advertisement and a distinct local pin before key preparation and first signing. Component tests cover missing and mismatched selection, insufficient horizons and removal of a pin before signing. Public Agora canaries cover refusal before record, topic and subject readback, SQLite live subscriptions, and Matrix v1/v2 checkpointing without private carrier bytes or record IDs, including nested custody content under open extensions. Component canaries also cover Room, nested custody in outbound Artifact Delivery, Memarium application backup, ordinary model adapters, notification creation and live P086 observation/report boundaries. The 2026-11-19 formal installed-route egress gate passed 36 native controls and two supplemental Room controls. The external reference and verified executable inventory are in `node:docs/evidence/private-case-continuity/2026-11-19-adc-custody-egress/README.md`. The planned beacon and redistribution carriers retain their own future qualification. |
+| P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; P013-PEX-001 | Per-epoch counting with exact original-epoch exclusion and conservative N + 1 thereafter, with author-present and author-absent fixtures and UI effective-threshold explanation. `whisper-embargo-attestation.v1` for proposal evidence, separate `whisper-release-commit-statement.v1` and restricted signer domain for the public committed result, status freshness, publication receipt and counting at commit. The private proposal contract, restricted signing, real owner count and local source verification are implemented alongside the separate public statement and atomic owner publication. The [detached source component](#adc-source-custody) exercises native relayed proposal retrieval and explicit author confirmation against the adopted SQLite counter. Direct source retrieval and source/custody/executor/cold-receiver runtime qualification remain required. Share bounded primitives between full-private and detached-public verifier paths; recipient verification never fetches protected text and explicitly trusts the admitted counter. Independently verifiable counts remain a separate open design. Reuse the contextual contribution evaluator with separate coordination/disclosure policies; qualify permutation/replay parity, duplicate sources and evidence-representative replacement without altering M4. |
 | P013-ADC-005-00 | Model, owner and AD prerequisite corrections | done | P013-ADC-011; P013-LLR-011 | Repair exact-absence recovery, audience confirmations, terminal refusal classes, independent retained-original verification and exact AD submission identity; independently specified expected outcomes, axiom audit, actual owner and AD concurrency/restart tests. See [stage-0 scope](#pre-executor-stage0). 80 audited model theorems, 40 vectors, 15636 comparisons including eight independent expected histories, 293 core/owner and 176 AD tests. Executor and full ADC-005 acceptance remain open. |
-| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-ADC-011; P013-LLR-011; P070 | Apply the [accepted continuation](#adc-execution-continuation): confirmation/commit/abandonment use `whisper-case-adc-request.v1`, with separate public intent, public commit statement and release contracts. Revise ADC-011/LLR-011 semantics and requalify; historical gates do not transfer. Public statement binds pre-commit intent, not its own final envelope or private owner revision. Qualify all four runtime cells, reserves, exact reply loss and bounded stale recovery. Slot/logical release id binds original condition and canonical audience digests; Agora record/id remains content-addressed. Same room/two routes uses one slot; two consented rooms use two; unauthorized room refuses. Atomic count/consent/slot acceptance, both commit/withdrawal orders, pre-authorized withdrawal/expiry after attestation, per-request outcomes, exact-byte replay, lost reply and crash before AD hand-over; AD unknown never means absent. Abandonment leaves the slot consumed. Offline recipient package verifies without the protected signal; closure evidence follows Story 014. Use LLR-008's acceptance owner; P013-LLR-011 owns durable enablement of these control operations and the shared prepared-output recovery laws; no parallel embargo case database or AD retry loop. After the ADC-011 model gate, compare new Rust behavior against the pinned model and qualify actual owner/AD crash boundaries; model proof alone does not close this row. The explicit source-to-S026 transfer, role-closed S026 author-control signing, atomic public/private owner publication, private slot receipt recovery, and fenced preparation of the commit and release envelope are implemented as local components. The detached package verifies under independent local trust in the cold component test. The reserved AD handoff, exact outcome recovery and signed abandonment run in the local component fixture. Native registration retains the authority key and now supplies the [signed registration policy](#signed-registration-policy) required by the executor. The [local withheld preparation and relayed PEX v1 commit handoff](#source-local-withheld-preparation) compose the source, executor journal, private relay and owner result. The native release operation fences the signed Agora envelope before exact local AD admission. Direct PEX v2 proposal retrieval and commit handoff, custody at a separate node, live release delivery, authenticated closure readback, destination admission and all runtime matrix cells remain open. |
+| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-ADC-011; P013-LLR-011; P070 | Apply the [accepted continuation](#adc-execution-continuation): confirmation/commit/abandonment use `whisper-case-adc-request.v1`, with separate public intent, public commit statement and release contracts. Revise ADC-011/LLR-011 semantics and requalify; historical gates do not transfer. Public statement binds pre-commit intent, not its own final envelope or private owner revision. Qualify all four runtime cells, reserves, exact reply loss and bounded stale recovery. Before long-lived enablement, qualify AD identity-namespace retirement and renewal under the 4096-reservation lifetime cap. Slot/logical release id binds original condition and canonical audience digests; Agora record/id remains content-addressed. Same room/two routes uses one slot; two consented rooms use two; unauthorized room refuses. Atomic count/consent/slot acceptance, both commit/withdrawal orders, pre-authorized withdrawal/expiry after attestation, per-request outcomes, exact-byte replay, lost reply and crash before AD hand-over; AD unknown never means absent. Abandonment leaves the slot consumed. Offline recipient package verifies without the protected signal; closure evidence follows Story 014. Use LLR-008's acceptance owner; P013-LLR-011 owns durable enablement of these control operations and the shared prepared-output recovery laws; no parallel embargo case database or AD retry loop. After the ADC-011 model gate, compare new Rust behavior against the pinned model and qualify actual owner/AD crash boundaries; model proof alone does not close this row. The explicit source-to-S026 transfer, role-closed S026 author-control signing, atomic public/private owner publication, private slot receipt recovery, and fenced preparation of the commit and release envelope are implemented as local components. The detached package verifies under independent local trust in the cold component test. The reserved AD handoff, exact outcome recovery and signed abandonment run in the local component fixture. Settlement uses the dedicated P037 node signer and an exact journal locator fenced with the signed claim and reply key. Renewal replaces the locator atomically and authenticated replies remain bound to the current exchange. Native registration retains the authority key and now supplies the [signed registration policy](#signed-registration-policy) required by the executor. The [local withheld preparation and relayed PEX v1 commit handoff](#source-local-withheld-preparation) compose the source, executor journal, private relay and owner result. The native release operation fences the signed Agora envelope before exact local AD admission. The independent SQLite HTTP and Matrix receiver gates resolve locally adopted audience, destination and witness policy before accepting the carried proof. The Matrix origin durably pins the approved physical room and exact carrier before dispatch. Direct PEX v2 proposal retrieval uses the same retained offer and ordered inbox as other case controls. Direct commit handoff retains the signed offer in the executor journal and uses the bound peer reply path. The native withheld component composes Memarium, source and executor journals, an independent authority commit, exact local AD admission and cold SQLite-backed proof verification at fixture relay ingress. The SQLite HTTP development probe publishes the retained bytes through the real AD Agora adapter and verifies an authenticated readback from an independent SQLite receiver. A second development probe sends registration, proposal, author confirmation and commit through a stock WSS/INAC courier and verifies publication and readback at the independent SQLite receiver. The source enters through the authenticated operator HTTP route and checks the token and binding refusals. The relayed v1 settlement probe confirms early refusal, AD tombstone, exact handoff replay and authenticated operator readback over WSS/INAC. Direct v2 offer replay is tested at the component boundary. The executor also retains authenticated closure for the exact abandonment exchange and projects unresolved-at-closure without a new release handoff. The held handover component prepares and verifies the private registration acceptance and selected audience for a named custodian. The held PEX codec now transports those exact bytes under a separate purpose in component tests. The recipient recovers the exact signed held offer from its separately fenced store. AD guards the binary and inner labels while the recipient is disabled. Memarium has an owner-local held payload store with separate fencing, exact recovery and managed key erasure. The held receiving adapter commits the exact verified PEX package under current local obligation and recovers its receipt without an unexpired offer. The daemon adopts the held receiver explicitly, prepares offers locally and checks the authenticated minimal-trace carrier. The separate-node held WSS development run exercises actual AD handover, custodian proposal and execution, author confirmation and exact publication readback at independent SQLite Agora. Native developer runs for both Synapse custody modes verified forwarding and exact independent Agora readback. The shutdown trace exposed an HTTP sync worker race. Both SQLite WSS/INAC custody runs verified durable delivered readback, the carried release-envelope privacy checks and authenticated process shutdown. Agora cancels long polls and retry waits before joining its Matrix workers. The intermediate native Synapse run completed delivered readback and authenticated shutdown in both custody modes using a shortened sync timeout. An isolated WSS/INAC actor now samples local durable commit, exact AD admission, tombstone and retained settlement on one monotonic clock. Both SQLite publication scenarios passed with separate timings for the pending fence, SQLite commit and committed fence. A subsequent development run on native Linux passed both Synapse custody modes with the ordinary 30 s sync timeout, independent delivered readback and authenticated exit. Both SQLite custody modes passed again after the held payload deadline change. The 2026-11-19 formal runtime matrix passed 4/4 cells and 4/4 controls at Node bfa17ac48 after the fresh Synapse diagnostics. Retained evidence is in node:docs/evidence/private-case-continuity/2026-11-19-adc-release-matrix/README.md. The formal two-worker withheld SQLite population passed 100/100 publication and 100/100 abandonment samples, with p99 8.574915 s and 9.062576 s respectively and 0/200 stale. The installed-route ADC-003 egress qualification passed 36 native controls and two Room controls. The timed evidence and its verified external retrieval are recorded in `node:whisper-case-service/ADC.md`. ADC-001 and ADC-004 remain open as upstream prerequisites. |
 | P013-ADC-006 | Context-join proposals | todo | P013-ADC-002; P013-DFR-004 | Content-free `whisper-context-join-proposal.v1` from correlators to candidate authors, only under `keyed-and-confirmed-joins`; acceptance authors a related signal in the target context; model output stays advisory. A fixture proves that no context merges without the candidate author's act. |
 | P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002; P015-005 | `whisper-correlation-notice.v1` is signed under an explicitly admitted publication tuple, content-free, expiring and discoverable through the term bucket. The editor warns about disclosure of the matter. Related signals point to the public notice record/id with a closed target kind; no hidden signal id is required or leaked. Tests refuse wrong kind/schema/topic/scope tuples and verify a notice-only reader can author a related signal. |
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | Render N and its effective epoch threshold, public criterion and proof disclosure, window, concrete audiences, mode, authorized holders, notice and coordination participation. Keep condition, proposal and per-slot execution states separate. Declining suppresses that proposal across restart; no renewed prompt without an explicit retry or consented bounded policy. Show widening as a new independent case and withdrawal as effective only after authority acceptance. |

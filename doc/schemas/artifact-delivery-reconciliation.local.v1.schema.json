@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery"
+  ],
+  "$id": "urn:orbiplex:schema:artifact-delivery-reconciliation.local:v1",
+  "title": "Exact local Artifact Delivery reconciliation result",
+  "required": [
+    "schema",
+    "idempotency/key",
+    "submission/digest",
+    "observation"
+  ],
+  "properties": {
+    "schema": {
+      "const": "artifact-delivery-reconciliation.local.v1"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "submission/digest": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "delivery/id": {
+      "type": "string",
+      "pattern": "^delivery:[A-Za-z0-9_-]{43}$"
+    },
+    "observation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "admission"
+          ],
+          "properties": {
+            "kind": {
+              "const": "historical"
+            },
+            "admission": {
+              "$ref": "inac-admission-status.result.v1.schema.json"
+            },
+            "execution/resolved": {
+              "const": true,
+              "description": "The local AD owner established that this exact rejection accounts for the entire execution. Absence leaves the execution unresolved."
+            }
+          },
+          "if": {
+            "required": ["execution/resolved"]
+          },
+          "then": {
+            "properties": {
+              "admission": {
+                "properties": {
+                  "outcome": { "const": "rejected" }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "reason"
+          ],
+          "properties": {
+            "kind": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "enum": [
+                "no-binding",
+                "incomplete-history",
+                "binding-conflict",
+                "storage",
+                "unsupported",
+                "busy",
+                "deadline",
+                "transport"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "kind": {
+                "const": "historical"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "delivery/id"
+        ]
+      }
+    }
+  ]
+}

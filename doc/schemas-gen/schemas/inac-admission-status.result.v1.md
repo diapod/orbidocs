@@ -27,6 +27,35 @@ When:
 {
   "properties": {
     "outcome": {
+      "const": "unavailable"
+    }
+  },
+  "required": [
+    "outcome"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "not": {
+    "required": [
+      "support"
+    ]
+  }
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "outcome": {
       "enum": [
         "accepted",
         "already-present"
@@ -54,7 +83,7 @@ Then:
 }
 ```
 
-### Rule 2
+### Rule 3
 
 When:
 
@@ -95,7 +124,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 

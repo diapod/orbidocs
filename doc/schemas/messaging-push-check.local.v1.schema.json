@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-push-check.local:v1",
+  "title": "Exact INAC reservation check for the local Messaging acceptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "peer/node-id",
+    "push"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-push-check.local.v1"
+    },
+    "peer/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "push": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "token",
+        "evidence"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "messaging/message-commitment",
+            "messaging/envelope-digest",
+            "messaging/resume-until"
+          ],
+          "properties": {
+            "messaging/message-commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "messaging/envelope-digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "messaging/resume-until": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            }
+          }
+        }
+      }
+    }
+  }
+}

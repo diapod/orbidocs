@@ -244,16 +244,15 @@ proof package. Use PEX-001's protected delivery for audience-limited packages.
 
 ### Bounds and Representation
 
-Initial v1 budgets to freeze and qualify in LLR-009: at most **65,536 encoded
-carrier bytes**, **65,536 total unique decoded proof bytes**, **16 evidence
-items**, **8 levels of JSON nesting**, and **32 signature checks** including
-certificate/authority verification. Count nested and locally resolved evidence
-toward the same budgets; deduplication must not multiply work. These are proposed
-Whisper limits, not a consequence of P076's similarly sized carrier. Check size
-and nesting before expensive parsing/cryptography, and preflight the work budget.
-Oversize or unsupported evidence refuses explicitly, without truncating a
-certificate, authority proof or signed status to make it fit. Fixtures must
-demonstrate that the supported Phase 1 council profile fits these bounds.
+The initial 64 KiB / 16-item / depth-8 proposal is superseded by the
+[adopted case-authority contract](case-authority.md) and the
+[LLR-009 qualification contract](llr009-qualification.md). The implementation's
+versioned role table owns executable limits: v1 has 17 items and unique-byte
+accounting; v2 has 25 items, source roles and occurrence-byte accounting. Both
+have depth 16, 4 MiB carried JSON and 64 KiB referenced JSON. Presentation
+signature work remains bounded at 32; additional recipient-local work has a
+separate role-derived bound. The v2 decoded-bound decision and its required
+encoding measurements are recorded in the qualification contract.
 
 Use role-specific closed fields and existing signed-artifact encodings. A small
 evidence table may share an exact artifact between roles; its byte digest is
@@ -650,7 +649,7 @@ extract a generic library; the later implementation owns that comparison.
 | P013-LLR-006 | Case continuity key | done | P015 v2 signal; S026 Pseudonym Vault | Single owner of the case key commitment, Phase 1 suite, lifetime and uses. Generate one key per case in the Vault; commit case/continuity-key-digest and case/status-authority in the first signed signal, independently of whether ADC is used. One key for amendments, confirmations and succession; bounded lifetime, deletion erasure fact and explicit opt-in recovery. Fixtures cover missing key, wrong commitment, deletion/recovery exclusion and independent cases. ADC-001 consumes this contract; no execution dependency points back to ADC. |
 | P013-LLR-007 | Case-bound succession | done | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 owner (2026-11-07 component scope) | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience (verified local receipt for nyms actually co-held by the same S026 participant; external recipients through PEX, with no fallback), effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. Call the P015-004 verifier; do not duplicate its cryptographic or mode/scope logic. The owner dependency remains the completed 2026-11-07 component scope; independent LLR-012 supplies ordinary-v1 SQLite/single-Synapse closure and negative predecessor readbacks. Evidence: `node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`. |
 | P013-LLR-008 | Case state and currency | done | P013-LLR-006; P013-PEX-001; P013-LLR-012 (aggregate qualification) | Case registration, succession, author closure, status, anchor invalidation and terminal knowledge use the single durable owner and recipient CaseKnowledge. Independent LLR-012 is the qualified aggregate Gate B basis; the 2026-11-07 owner component remains separately scoped. These historical LLR-008/012 proofs do not qualify ADC controls; subsequent offline owner qualification is separately recorded under P013-LLR-011. Evidence: `node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`. No LLR-009/010 or global/release closure follows. |
-| P013-LLR-009 | Bounded portable succession verification | todo | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Qualify the LLR-007-frozen `whisper-case-succession-presentation.v1` and its [portable profile](#portable-case-succession-verification): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all negative/privacy/cache-conflict/restart cases listed above pass. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |
+| P013-LLR-009 | Bounded portable succession verification | done | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Qualify the LLR-007-frozen presentation v1 and explicit source-bearing v2 (SQLite local-receipt bridge / Matrix homeserver observation), both carried/referenced profiles, under the [LLR-009 qualification contract](llr009-qualification.md): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all scoped negative/privacy/cache-conflict/restart cases pass. Formal A–F: 8 independent rows and 3 separately qualified authority-attested rows; see `node:docs/evidence/private-case-continuity/2026-11-22-llr009-portable-succession/README.md`. The reviewed work frontier, detached scan and reproduced verdicts are recorded in `node:docs/audits/LLR009-CLOSEOUT-REVIEW-2026-11-22.md`. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |
 | P013-LLR-010 | Case context transition | todo | P015-005; P013-LLR-008 | Specify who attests transition; forward-only bounded steps; no preimage disclosure outside audience; successor status in the new context; no merging of source/ref values across counting domains. Golden/refusal vectors cover rollback to an old profile, foreign federation and replay. This does not block LLR-008/009 for one context, which claim no cross-context succession. |
 | P013-LLR-011 | ADC control operations in the case owner | done | P013-LLR-008; P013-ADC-001 (owner subset freeze); P013-ADC-011 | Qualified clean `ff7ded3f2` / `21ca896a`: amendment, withdrawal, confirmation, commit and abandonment in the same fenced owner, plus authenticated historical read. 15,623 model/Rust comparisons; 290 Rust tests including 12 signed ADC fixtures; exact replay/refusal, successor preservation, stale CAS, reserved withdrawal, SQL rollback and actual process/fence interruptions. See the owner contract freeze and `node:docs/audits/P013-LLR-011-OWNER-2026-11-16.md`. The domain verifier defaults to `operation-not-enabled`; real ADC-004 evidence/counting, source custody and ADC-005 release/AD composition remain separate. Historical evidence and readiness are unchanged. |
 | P013-LLR-012 | Independent Gate B campaign and capture provenance | done | P013-PEX-001; P013-LLR-006; P035-019a/019b | Qualify the [2026-11-14 independent Gate B contract](private-case-continuity.md#llr-012-independent-gate-b-campaign) from one committed producer and offline qualifier. Separate fresh SQLite/Synapse actors; actual v1 issuance, host prepare/sign/bind, source receipts, heads 0/1/2, B expiry before C on both backends, additional A expiry on SQLite, author-result body loss and exact retry/readback after later state/restart without new PEX/AD handoff, new A-to-C stale-predecessor, UI POST/CSRF abandonment with separate S026 erase/P036 release witnesses, missing Synapse receipt author-preparation refusal without effects and positive same-anchor/new-ID control, cold negatives, closure/sticky knowledge, full logical/raw-non-DB privacy and fresh live SSE. Named conformance witnesses must execute as ok; missing witnesses stay open. Discover and implement contract-compatible shared abstractions before the producer, then repeat convergence review. New campaign alone closes Gate B/LLR-008; frozen original subset remains historical and cannot fill gaps. Positive both-backend set <=16 MiB with XZ 128 MiB; refusal capsules <=1 MiB and campaign/profile totals <=4 MiB, not reset by campaign ID. Explicit area-history decision: 128 KiB; initial new unique controls <=56 KiB, entire campaign control history <=64 KiB. Qualify loose, extracted and fresh both-store material. LLR-008 done only after this gate; durable ADC stays LLR-011. Independent qualification and retained source/tool/both-store results: `node:docs/evidence/private-case-continuity/2026-11-15-independent-gate-b/README.md`; acceptance 2026-11-15. Historical subset bytes are unchanged. |
@@ -722,14 +721,14 @@ current predecessor and orders acceptance; the pure P015 verifier does not.
 Successor federation/context must equal the anchor's. Current authority expires
 with the successor certificate, and a new nym needs new succession; source/ref is
 not identity. LLR-008 capacity must account for horizon AND allowed renewal rate,
-not only epoch length. Its ordered acceptance and LLR-009 runtime remain open.
+not only epoch length. LLR-008 owns ordered acceptance and LLR-009 qualifies the offline presentation.
 
-LLR-009's proposed 65536-byte carrier cannot carry a maximum 512-KiB P015 status.
-That conflict must be resolved and the supported Phase 1 profile measured before
-LLR-009 freezes. No truncation or hidden status fetch repairs this conflict.
-The LLR-006 acceptance composition separately bounds unique decoded material to
+The initial 65536-byte carrier proposal could not carry a maximum 512-KiB P015
+status. LLR-009 now qualifies a 64-KiB referenced profile and a 4-MiB carried
+profile. References resolve only exact locally supplied material.
+The earlier LLR-006 acceptance composition bounded unique decoded material to
 2 MiB, transport to 4 MiB and signature work to 32. It does not promise all
-component maxima fit simultaneously or establish the future LLR-009 carrier.
+component maxima fit simultaneously. LLR-009 has its own versioned bounds.
 
 
 ### Case context transition boundary (P013-LLR-010, 2026-11-02)

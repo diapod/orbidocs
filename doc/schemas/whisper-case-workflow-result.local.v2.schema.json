@@ -127,6 +127,22 @@
                 },
                 {
                   "$ref": "whisper-case-closure.v1.schema.json"
+                },
+                {
+                  "$ref": "whisper-case-adc-request.v1.schema.json",
+                  "properties": {
+                    "command": {
+                      "properties": {
+                        "operation": {
+                          "enum": [
+                            "amendment",
+                            "withdrawal",
+                            "confirmation"
+                          ]
+                        }
+                      }
+                    }
+                  }
                 }
               ]
             },
@@ -193,7 +209,8 @@
                       "schema": {
                         "enum": [
                           "whisper-case-registration.v1",
-                          "whisper-case-closure.v1"
+                          "whisper-case-closure.v1",
+                          "whisper-case-adc-request.v1"
                         ]
                       }
                     }
@@ -670,9 +687,11 @@
       "additionalProperties": false,
       "required": [
         "schema",
-        "operation/id",
         "release/id",
-        "phase"
+        "phase",
+        "exchange/handle",
+        "reply/public-key",
+        "request/not-after"
       ],
       "properties": {
         "schema": {
@@ -688,7 +707,130 @@
           "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
         },
         "phase": {
-          "const": "adc-execution-preparing"
+          "enum": ["adc-execution-preparing", "adc-abandonment-preparing"]
+        },
+          "exchange/handle": {
+            "type": "string",
+            "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+            "maxLength": 52
+          },
+          "reply/public-key": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "maxLength": 43,
+            "minLength": 43
+          },
+          "request/not-after": {
+            "type": "string",
+            "format": "date-time",
+            "maxLength": 40
+          }
+      },
+      "if": {
+        "properties": { "phase": { "const": "adc-execution-preparing" } }
+      },
+      "then": { "required": ["operation/id"] },
+      "else": { "not": { "required": ["operation/id"] } }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "release/id",
+        "phase",
+        "delivery/id"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "enum": ["adc-commit-transport-custody", "adc-abandonment-transport-custody"]
+        },
+        "delivery/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "release/id",
+        "phase"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "enum": ["adc-commit-outcome-lost", "adc-commit-rejected"]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "release/id",
+        "phase"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-case-workflow-result.local.v2"
+        },
+        "release/id": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "phase": {
+          "enum": [
+            "adc-release-awaiting-ad",
+            "adc-release-ad-outcome-unknown",
+            "adc-release-admitted",
+            "adc-release-delivered",
+            "adc-release-tombstoned",
+            "adc-abandonment-pending",
+            "adc-abandoned",
+            "adc-abandonment-refused",
+            "adc-unresolved-at-closure"
+          ]
+        },
+        "delivery/id": {
+          "type": "string",
+          "pattern": "^delivery:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        }
+      },
+      "if": {
+        "properties": {
+          "phase": {
+            "enum": ["adc-release-admitted", "adc-release-delivered"]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "delivery/id"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "delivery/id"
+          ]
         }
       }
     }

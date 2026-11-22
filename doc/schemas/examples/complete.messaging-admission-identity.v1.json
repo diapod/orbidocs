@@ -1,0 +1,7 @@
+{
+  "profile": "messaging-admission-identity.v1",
+  "contract/digest": "sha256:webWix2VrnyIkj0Sm_KG66JAtnAYYl045MoGcgvvKNE",
+  "store/epoch": "BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc",
+  "coverage/from": "2026-11-22T00:00:00Z",
+  "guaranteed/until": "2026-12-23T00:00:00Z"
+}

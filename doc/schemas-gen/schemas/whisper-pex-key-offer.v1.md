@@ -15,16 +15,45 @@ Source schema: [`doc/schemas/whisper-pex-key-offer.v1.schema.json`](../../schema
 | [`schema`](#field-schema) | `yes` | const: `whisper-pex-key-offer.v1` |  |
 | [`purpose`](#field-purpose) | `yes` | const: `whisper-pex` |  |
 | [`recipient/id`](#field-recipient-id) | `yes` | string |  |
-| [`recipient/role`](#field-recipient-role) | `yes` | enum: `protected-signal-custodian`, `case-authority`, `case-applicant` |  |
+| [`recipient/role`](#field-recipient-role) | `yes` | enum: `protected-signal-custodian`, `case-authority`, `case-applicant`, `held-custody-recipient` |  |
 | [`sender/id`](#field-sender-id) | `yes` | string |  |
 | [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
-| [`payload/schema`](#field-payload-schema) | `yes` | enum: `whisper-protected-signal.v1`, `whisper-case-command.v1`, `whisper-case-result.v1` |  |
+| [`payload/schema`](#field-payload-schema) | `yes` | enum: `whisper-protected-signal.v1`, `whisper-case-command.v1`, `whisper-case-result.v1`, `whisper-embargo-custody-transfer.v1` |  |
 | [`recipient/key`](#field-recipient-key) | `yes` | string |  |
 | [`recipient/key-ref`](#field-recipient-key-ref) | `yes` | string |  |
 | [`reply/key`](#field-reply-key) | `yes` | string |  |
 | [`issued/at`](#field-issued-at) | `yes` | string |  |
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
 | [`signature`](#field-signature) | `yes` | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "recipient/role": {
+      "const": "held-custody-recipient"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "payload/schema": {
+      "const": "whisper-embargo-custody-transfer.v1"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -49,7 +78,7 @@ Source schema: [`doc/schemas/whisper-pex-key-offer.v1.schema.json`](../../schema
 ## `recipient/role`
 
 - Required: `yes`
-- Shape: enum: `protected-signal-custodian`, `case-authority`, `case-applicant`
+- Shape: enum: `protected-signal-custodian`, `case-authority`, `case-applicant`, `held-custody-recipient`
 
 <a id="field-sender-id"></a>
 ## `sender/id`
@@ -67,7 +96,7 @@ Source schema: [`doc/schemas/whisper-pex-key-offer.v1.schema.json`](../../schema
 ## `payload/schema`
 
 - Required: `yes`
-- Shape: enum: `whisper-protected-signal.v1`, `whisper-case-command.v1`, `whisper-case-result.v1`
+- Shape: enum: `whisper-protected-signal.v1`, `whisper-case-command.v1`, `whisper-case-result.v1`, `whisper-embargo-custody-transfer.v1`
 
 <a id="field-recipient-key"></a>
 ## `recipient/key`

@@ -294,6 +294,9 @@
               "$ref": "#/$defs/record"
             }
           ]
+        },
+        "source/detached-manifest": {
+          "$ref": "whisper-embargo-manifest.v1.schema.json"
         }
       }
     },
@@ -391,6 +394,9 @@
               "$ref": "#/$defs/record"
             }
           ]
+        },
+        "source/detached-manifest": {
+          "$ref": "whisper-embargo-manifest.v1.schema.json"
         },
         "review/ref": {
           "type": "string",

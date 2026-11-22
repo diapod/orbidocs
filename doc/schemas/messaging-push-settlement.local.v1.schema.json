@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-push-settlement.local:v1",
+  "title": "Local Messaging admission fact settlement result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "result"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-push-settlement.local.v1"
+    },
+    "result": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "retain/until-unix"
+          ],
+          "properties": {
+            "status": {
+              "const": "recorded"
+            },
+            "retain/until-unix": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "const": "acknowledged"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "const": "reservation-missing"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

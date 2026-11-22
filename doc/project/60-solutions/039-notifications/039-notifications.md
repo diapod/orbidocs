@@ -101,6 +101,12 @@ transaction facts. `body/input` is accepted only as transient request material;
 durable rows keep title, body text, body ref, digest/redacted summary, actions,
 and source references.
 
+The queue owner refuses recognizable private ADC documents in create requests
+before computing fingerprints or storing previews, action payloads or audit
+facts. Recognition covers structured values and complete JSON in text fields.
+The host returns `private-custody-carrier-required` for both create and legacy
+emit requests.
+
 SSE carries only `notification-state-changed.v1` snapshots: recipient id,
 optional notification id, unread count, maximum unread priority, and last
 changed timestamp. It never carries title, body, kind, subject, action payload,

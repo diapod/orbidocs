@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-held-custody-withdrawal:v1",
+  "title": "whisper-held-custody-withdrawal.v1",
+  "description": "Private authority statement that withdrawal is durable and the named release had no committed slot.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "case/anchor", "case/authority", "case/not-after",
+    "release/id", "manifest/digest", "recipient/node", "signature"
+  ],
+  "properties": {
+    "schema": { "const": "whisper-held-custody-withdrawal.v1" },
+    "case/anchor": { "$ref": "#/$defs/digest" },
+    "case/authority": { "$ref": "#/$defs/node" },
+    "case/not-after": { "type": "string", "format": "date-time", "maxLength": 64 },
+    "release/id": { "$ref": "#/$defs/digest" },
+    "manifest/digest": { "$ref": "#/$defs/digest" },
+    "recipient/node": { "$ref": "#/$defs/node" },
+    "signature": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "node": { "type": "string", "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$", "maxLength": 128 }
+  }
+}

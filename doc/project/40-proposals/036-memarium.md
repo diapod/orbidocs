@@ -925,6 +925,13 @@ in S026 cannot exceed the anchor's evidence horizon. User-selected horizons and
 ceilings remain governed by P036-004–006, not by certificate validity or a count
 window. Test co-retention, partial bundle loss, expiry and redelivery offline.
 
+For a [reviewed detached ADC source](013-whisper-social-signal-exchange/author-disclosure-conditions.md#adc-source-custody),
+the opening reservation fixes its receipt profile together with the original
+provider, policy and deadlines. A verified matching receipt consumes the
+reservation in the same capture event. Its signed case deadline supplies the
+detached check, and the original proof horizon survives capture. An opening
+written before the profile was recorded keeps its full-record interpretation.
+
 P036-006 and P036-008 own lifecycle/link contracts before their consumers:
 P078-013 and P013-DFR-003 respectively. Consumer acceptance must prove the joined
 behavior, but it is not a reverse implementation dependency of these contracts.

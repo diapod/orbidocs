@@ -39,6 +39,7 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 | [`classification`](#field-classification) | `no` | ref: `classification.v1.schema.json` |  |
 | [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Optional upstream P081 causal context. The receiving host derives its own Artifact Delivery operation context from this evidence. |
 | [`execution/provenance`](#field-execution-provenance) | `no` | object | Local host-owned sender reference; carries no authority decision. |
+| [`execution/messaging-attempt`](#field-execution-messaging-attempt) | `no` | object | Immutable prepared Messaging evidence. The envelope digest binds the final message artifact before transport wrapping. |
 | [`delivery/plan`](#field-delivery-plan) | `yes` | ref: `#/$defs/deliveryPlan` |  |
 | [`policy`](#field-policy) | `no` | ref: `#/$defs/policy` |  |
 | [`idempotency/key`](#field-idempotency-key) | `no` | string |  |
@@ -95,6 +96,14 @@ Optional upstream P081 causal context. The receiving host derives its own Artifa
 - Shape: object
 
 Local host-owned sender reference; carries no authority decision.
+
+<a id="field-execution-messaging-attempt"></a>
+## `execution/messaging-attempt`
+
+- Required: `no`
+- Shape: object
+
+Immutable prepared Messaging evidence. The envelope digest binds the final message artifact before transport wrapping.
 
 <a id="field-delivery-plan"></a>
 ## `delivery/plan`

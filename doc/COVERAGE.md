@@ -116,8 +116,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-custody-configuration.local.v1.schema.json`](schemas-gen/schemas/artifact-custody-configuration.local.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
 | [`artifact-custody-policy.v1.schema.json`](schemas-gen/schemas/artifact-custody-policy.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
 | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
-| [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | `9` | `2` | `yes` | `yes` | `2` | `2` |
+| [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | `10` | `3` | `yes` | `yes` | `2` | `2` |
 | [`artifact-delivery-extend-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-extend-result.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
+| [`artifact-delivery-reconcile.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconcile.local.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
+| [`artifact-delivery-reconciliation.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconciliation.local.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-delivery-recovery.v1.schema.json`](schemas-gen/schemas/artifact-delivery-recovery.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
 | [`artifact-delivery-relay-header.v1.schema.json`](schemas-gen/schemas/artifact-delivery-relay-header.v1.md) | `8` | `0` | `no` | `yes` | `0` | `1` |
 | [`artifact-delivery-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
@@ -408,7 +410,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`membership-signed-command.v1.schema.json`](schemas-gen/schemas/membership-signed-command.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `4` |
 | [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `1` |
 | [`message-envelope.v1.schema.json`](schemas-gen/schemas/message-envelope.v1.md) | `14` | `1` | `yes` | `yes` | `2` | `1` |
-| [`messaging-admission-identity.v1.schema.json`](schemas-gen/schemas/messaging-admission-identity.v1.md) | `5` | `0` | `yes` | `yes` | `0` | `0` |
+| [`messaging-admission-identity.v1.schema.json`](schemas-gen/schemas/messaging-admission-identity.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-consent-renew.local.v1.schema.json`](schemas-gen/schemas/messaging-consent-renew.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
 | [`messaging-consent-renew.local.v2.schema.json`](schemas-gen/schemas/messaging-consent-renew.local.v2.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`messaging-issuance-consent-withdraw.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-consent-withdraw.local.v1.md) | `1` | `0` | `yes` | `yes` | `1` | `0` |
@@ -420,6 +422,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`messaging-issuance-withdraw.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-withdraw.local.v1.md) | `1` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-mailbox-storage.local.v1.schema.json`](schemas-gen/schemas/messaging-mailbox-storage.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `1` |
 | [`messaging-onboarding-disposition.local.v1.schema.json`](schemas-gen/schemas/messaging-onboarding-disposition.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
+| [`messaging-push-check.local.v1.schema.json`](schemas-gen/schemas/messaging-push-check.local.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `0` |
+| [`messaging-push-settle.local.v1.schema.json`](schemas-gen/schemas/messaging-push-settle.local.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `0` |
+| [`messaging-push-settlement.local.v1.schema.json`](schemas-gen/schemas/messaging-push-settlement.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-readiness.local.v1.schema.json`](schemas-gen/schemas/messaging-readiness.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-readiness.local.v2.schema.json`](schemas-gen/schemas/messaging-readiness.local.v2.md) | `13` | `0` | `yes` | `yes` | `0` | `0` |
 | [`messaging-readiness.local.v3.schema.json`](schemas-gen/schemas/messaging-readiness.local.v3.md) | `13` | `0` | `yes` | `yes` | `0` | `0` |
@@ -919,18 +924,19 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`weak-signal-web-review.v1.schema.json`](schemas-gen/schemas/weak-signal-web-review.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `1` |
 | [`weak-signal-whisper-draft.local.v2.schema.json`](schemas-gen/schemas/weak-signal-whisper-draft.local.v2.md) | `17` | `0` | `yes` | `yes` | `0` | `0` |
 | [`whisper-adc-original-basis.local.v1.schema.json`](schemas-gen/schemas/whisper-adc-original-basis.local.v1.md) | `5` | `0` | `no` | `yes` | `0` | `1` |
+| [`whisper-adc-proposal-request.v1.schema.json`](schemas-gen/schemas/whisper-adc-proposal-request.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-adc-source-evaluation.local.v1.schema.json`](schemas-gen/schemas/whisper-adc-source-evaluation.local.v1.md) | `10` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-authoring-output-policy.local.v1.schema.json`](schemas-gen/schemas/whisper-authoring-output-policy.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
-| [`whisper-case-acceptance.v1.schema.json`](schemas-gen/schemas/whisper-case-acceptance.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
-| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) | `10` | `1` | `no` | `yes` | `2` | `5` |
+| [`whisper-case-acceptance.v1.schema.json`](schemas-gen/schemas/whisper-case-acceptance.v1.md) | `12` | `1` | `no` | `yes` | `0` | `1` |
+| [`whisper-case-adc-request.v1.schema.json`](schemas-gen/schemas/whisper-case-adc-request.v1.md) | `10` | `1` | `no` | `yes` | `2` | `6` |
 | [`whisper-case-authorities.local.v1.schema.json`](schemas-gen/schemas/whisper-case-authorities.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-authority-policy.v1.schema.json`](schemas-gen/schemas/whisper-case-authority-policy.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`whisper-case-closure.v1.schema.json`](schemas-gen/schemas/whisper-case-closure.v1.md) | `7` | `0` | `no` | `yes` | `0` | `1` |
-| [`whisper-case-command.v1.schema.json`](schemas-gen/schemas/whisper-case-command.v1.md) | `7` | `0` | `no` | `yes` | `0` | `2` |
-| [`whisper-case-command.v2.schema.json`](schemas-gen/schemas/whisper-case-command.v2.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
+| [`whisper-case-command.v1.schema.json`](schemas-gen/schemas/whisper-case-command.v1.md) | `8` | `1` | `no` | `yes` | `1` | `5` |
+| [`whisper-case-command.v2.schema.json`](schemas-gen/schemas/whisper-case-command.v2.md) | `8` | `1` | `no` | `yes` | `2` | `1` |
 | [`whisper-case-continuation-decision.local.v1.schema.json`](schemas-gen/schemas/whisper-case-continuation-decision.local.v1.md) | `16` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-case-reception.v1.schema.json`](schemas-gen/schemas/whisper-case-reception.v1.md) | `9` | `0` | `no` | `yes` | `0` | `0` |
-| [`whisper-case-registration.v1.schema.json`](schemas-gen/schemas/whisper-case-registration.v1.md) | `11` | `1` | `no` | `yes` | `0` | `1` |
+| [`whisper-case-registration.v1.schema.json`](schemas-gen/schemas/whisper-case-registration.v1.md) | `12` | `2` | `no` | `yes` | `0` | `1` |
 | [`whisper-case-result.v1.schema.json`](schemas-gen/schemas/whisper-case-result.v1.md) | `7` | `0` | `no` | `yes` | `0` | `3` |
 | [`whisper-case-status-request.v1.schema.json`](schemas-gen/schemas/whisper-case-status-request.v1.md) | `9` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-case-status.v1.schema.json`](schemas-gen/schemas/whisper-case-status.v1.md) | `7` | `0` | `no` | `yes` | `0` | `1` |
@@ -941,9 +947,11 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) | `0` | `0` | `no` | `yes` | `7` | `2` |
 | [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) | `0` | `0` | `no` | `yes` | `5` | `2` |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
+| [`whisper-embargo-attestation.v1.schema.json`](schemas-gen/schemas/whisper-embargo-attestation.v1.md) | `18` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-embargo-audience-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-audience-manifest.v1.md) | `17` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) | `12` | `1` | `no` | `yes` | `0` | `0` |
 | [`whisper-embargo-original.v1.schema.json`](schemas-gen/schemas/whisper-embargo-original.v1.md) | `15` | `0` | `no` | `yes` | `0` | `1` |
+| [`whisper-embargo-release.v1.schema.json`](schemas-gen/schemas/whisper-embargo-release.v1.md) | `4` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) | `12` | `11` | `yes` | `yes` | `1` | `1` |
 | [`whisper-origin-lineage.v1.schema.json`](schemas-gen/schemas/whisper-origin-lineage.v1.md) | `2` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-origin.v1.schema.json`](schemas-gen/schemas/whisper-origin.v1.md) | `4` | `1` | `no` | `yes` | `0` | `0` |
@@ -955,6 +963,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-release-commit-statement.v1.schema.json`](schemas-gen/schemas/whisper-release-commit-statement.v1.md) | `13` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-release-execution.v1.schema.json`](schemas-gen/schemas/whisper-release-execution.v1.md) | `5` | `0` | `no` | `yes` | `0` | `1` |
 | [`whisper-release-intent.v1.schema.json`](schemas-gen/schemas/whisper-release-intent.v1.md) | `11` | `0` | `no` | `yes` | `0` | `1` |
+| [`whisper-release-proof-package.v1.schema.json`](schemas-gen/schemas/whisper-release-proof-package.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-reviewed-publication-check.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-check.local.v1.md) | `1` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-reviewed-publication-result.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-result.local.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
 | [`whisper-signal-draft.local.v1.schema.json`](schemas-gen/schemas/whisper-signal-draft.local.v1.md) | `19` | `18` | `yes` | `yes` | `0` | `0` |
@@ -1069,6 +1078,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
 | [`artifact-delivery-extend-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-extend-result.v1.md) |  |  |
+| [`artifact-delivery-reconcile.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconcile.local.v1.md) |  |  |
+| [`artifact-delivery-reconciliation.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconciliation.local.v1.md) |  |  |
 | [`artifact-delivery-recovery.v1.schema.json`](schemas-gen/schemas/artifact-delivery-recovery.v1.md) |  |  |
 | [`artifact-delivery-relay-header.v1.schema.json`](schemas-gen/schemas/artifact-delivery-relay-header.v1.md) |  |  |
 | [`artifact-delivery-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-result.v1.md) |  |  |
@@ -1371,6 +1382,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`messaging-issuance-withdraw.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-withdraw.local.v1.md) |  |  |
 | [`messaging-mailbox-storage.local.v1.schema.json`](schemas-gen/schemas/messaging-mailbox-storage.local.v1.md) |  |  |
 | [`messaging-onboarding-disposition.local.v1.schema.json`](schemas-gen/schemas/messaging-onboarding-disposition.local.v1.md) |  |  |
+| [`messaging-push-check.local.v1.schema.json`](schemas-gen/schemas/messaging-push-check.local.v1.md) |  |  |
+| [`messaging-push-settle.local.v1.schema.json`](schemas-gen/schemas/messaging-push-settle.local.v1.md) |  |  |
+| [`messaging-push-settlement.local.v1.schema.json`](schemas-gen/schemas/messaging-push-settlement.local.v1.md) |  |  |
 | [`messaging-readiness.local.v1.schema.json`](schemas-gen/schemas/messaging-readiness.local.v1.md) |  |  |
 | [`messaging-readiness.local.v2.schema.json`](schemas-gen/schemas/messaging-readiness.local.v2.md) |  |  |
 | [`messaging-readiness.local.v3.schema.json`](schemas-gen/schemas/messaging-readiness.local.v3.md) |  |  |
@@ -1870,6 +1884,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`weak-signal-web-review.v1.schema.json`](schemas-gen/schemas/weak-signal-web-review.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`weak-signal-whisper-draft.local.v2.schema.json`](schemas-gen/schemas/weak-signal-whisper-draft.local.v2.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`whisper-adc-original-basis.local.v1.schema.json`](schemas-gen/schemas/whisper-adc-original-basis.local.v1.md) |  |  |
+| [`whisper-adc-proposal-request.v1.schema.json`](schemas-gen/schemas/whisper-adc-proposal-request.v1.md) |  |  |
 | [`whisper-adc-source-evaluation.local.v1.schema.json`](schemas-gen/schemas/whisper-adc-source-evaluation.local.v1.md) |  |  |
 | [`whisper-authoring-output-policy.local.v1.schema.json`](schemas-gen/schemas/whisper-authoring-output-policy.local.v1.md) |  |  |
 | [`whisper-case-acceptance.v1.schema.json`](schemas-gen/schemas/whisper-case-acceptance.v1.md) |  |  |
@@ -1892,9 +1907,11 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-case-workflow-result.local.v1.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v1.md) |  |  |
 | [`whisper-case-workflow-result.local.v2.schema.json`](schemas-gen/schemas/whisper-case-workflow-result.local.v2.md) |  |  |
 | [`whisper-contextual-source-view.local.v1.schema.json`](schemas-gen/schemas/whisper-contextual-source-view.local.v1.md) |  |  |
+| [`whisper-embargo-attestation.v1.schema.json`](schemas-gen/schemas/whisper-embargo-attestation.v1.md) |  |  |
 | [`whisper-embargo-audience-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-audience-manifest.v1.md) |  |  |
 | [`whisper-embargo-manifest.v1.schema.json`](schemas-gen/schemas/whisper-embargo-manifest.v1.md) |  |  |
 | [`whisper-embargo-original.v1.schema.json`](schemas-gen/schemas/whisper-embargo-original.v1.md) |  |  |
+| [`whisper-embargo-release.v1.schema.json`](schemas-gen/schemas/whisper-embargo-release.v1.md) |  |  |
 | [`whisper-interest.v1.schema.json`](schemas-gen/schemas/whisper-interest.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
 | [`whisper-origin-lineage.v1.schema.json`](schemas-gen/schemas/whisper-origin-lineage.v1.md) |  |  |
 | [`whisper-origin.v1.schema.json`](schemas-gen/schemas/whisper-origin.v1.md) |  |  |
@@ -1906,6 +1923,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`whisper-release-commit-statement.v1.schema.json`](schemas-gen/schemas/whisper-release-commit-statement.v1.md) |  |  |
 | [`whisper-release-execution.v1.schema.json`](schemas-gen/schemas/whisper-release-execution.v1.md) |  |  |
 | [`whisper-release-intent.v1.schema.json`](schemas-gen/schemas/whisper-release-intent.v1.md) |  |  |
+| [`whisper-release-proof-package.v1.schema.json`](schemas-gen/schemas/whisper-release-proof-package.v1.md) |  |  |
 | [`whisper-reviewed-publication-check.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-check.local.v1.md) |  |  |
 | [`whisper-reviewed-publication-result.local.v1.schema.json`](schemas-gen/schemas/whisper-reviewed-publication-result.local.v1.md) |  |  |
 | [`whisper-signal-draft.local.v1.schema.json`](schemas-gen/schemas/whisper-signal-draft.local.v1.md) |  |  |
@@ -2087,7 +2105,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md`](project/60-solutions/024-tls-trust-policy/024-tls-trust-policy.md) | [`service-ca-revocation.v1.schema.json`](schemas-gen/schemas/service-ca-revocation.v1.md) |
 | [`doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md`](project/60-solutions/025-contact-catalog/025-contact-catalog.md) | [`local-contact.v1.schema.json`](schemas-gen/schemas/local-contact.v1.md) |
 | [`doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md`](project/60-solutions/027-messaging-middleware/027-messaging-middleware.md) | [`agora-vault-entry.v1.schema.json`](schemas-gen/schemas/agora-vault-entry.v1.md), [`messaging-mailbox-storage.local.v1.schema.json`](schemas-gen/schemas/messaging-mailbox-storage.local.v1.md) |
-| [`doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery`](project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery) | [`inac-admission-status.query.v1.schema.json`](schemas-gen/schemas/inac-admission-status.query.v1.md), [`inac-admission-status.result.v1.schema.json`](schemas-gen/schemas/inac-admission-status.result.v1.md), [`messaging-admission-identity.v1.schema.json`](schemas-gen/schemas/messaging-admission-identity.v1.md) |
+| [`doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery`](project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery) | [`artifact-delivery-reconcile.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconcile.local.v1.md), [`artifact-delivery-reconciliation.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconciliation.local.v1.md), [`inac-admission-status.query.v1.schema.json`](schemas-gen/schemas/inac-admission-status.query.v1.md), [`inac-admission-status.result.v1.schema.json`](schemas-gen/schemas/inac-admission-status.result.v1.md), [`messaging-admission-identity.v1.schema.json`](schemas-gen/schemas/messaging-admission-identity.v1.md), [`messaging-push-check.local.v1.schema.json`](schemas-gen/schemas/messaging-push-check.local.v1.md), [`messaging-push-settle.local.v1.schema.json`](schemas-gen/schemas/messaging-push-settle.local.v1.md), [`messaging-push-settlement.local.v1.schema.json`](schemas-gen/schemas/messaging-push-settlement.local.v1.md) |
 | [`doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md`](project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md) | [`pairwise-nym-binding-fact.v1.schema.json`](schemas-gen/schemas/pairwise-nym-binding-fact.v1.md), [`pairwise-nym-binding.v1.schema.json`](schemas-gen/schemas/pairwise-nym-binding.v1.md), [`relationship-class-changed.v1.schema.json`](schemas-gen/schemas/relationship-class-changed.v1.md), [`relationship-class.v1.schema.json`](schemas-gen/schemas/relationship-class.v1.md), [`relationship-membership-fact.v1.schema.json`](schemas-gen/schemas/relationship-membership-fact.v1.md), [`relationship-policy-candidate.v1.schema.json`](schemas-gen/schemas/relationship-policy-candidate.v1.md), [`relationship-policy-decision.v1.schema.json`](schemas-gen/schemas/relationship-policy-decision.v1.md), [`relationship-policy-predicate.v1.schema.json`](schemas-gen/schemas/relationship-policy-predicate.v1.md) |
 | [`doc/project/60-solutions/035-interaction-broker/035-interaction-broker.md`](project/60-solutions/035-interaction-broker/035-interaction-broker.md) | [`interaction-broker-probe.v1.schema.json`](schemas-gen/schemas/interaction-broker-probe.v1.md), [`interaction-broker-wait.outcome.v1.schema.json`](schemas-gen/schemas/interaction-broker-wait.outcome.v1.md), [`interaction-broker-wait.request.v1.schema.json`](schemas-gen/schemas/interaction-broker-wait.request.v1.md), [`interaction-broker-watch.v1.schema.json`](schemas-gen/schemas/interaction-broker-watch.v1.md) |
 | [`doc/project/60-solutions/036-room/036-room.md`](project/60-solutions/036-room/036-room.md) | [`corpus-reasoning-room-invite.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-room-invite.v1.md), [`corpus-reasoning-room-invite.v2.schema.json`](schemas-gen/schemas/corpus-reasoning-room-invite.v2.md), [`corpus-reasoning-room-policy.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-room-policy.v1.md), [`corpus-reasoning-room-policy.v2.schema.json`](schemas-gen/schemas/corpus-reasoning-room-policy.v2.md) |
@@ -2111,7 +2129,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
-- Canonical schemas: `946`
-- Generated schema docs: `947`
-- Positive examples: `862`
-- Negative examples: `860`
+- Canonical schemas: `953`
+- Generated schema docs: `954`
+- Positive examples: `870`
+- Negative examples: `866`

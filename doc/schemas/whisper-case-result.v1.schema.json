@@ -13,6 +13,23 @@
     "evaluated/at",
     "outcome"
   ],
+  "allOf": [
+    {
+      "if": { "required": ["signature"] },
+      "then": {
+        "properties": {
+          "outcome": {
+            "required": ["state", "reason"],
+            "properties": {
+              "state": { "const": "refused" },
+              "reason": { "not": { "const": "not-yet-valid" } }
+            },
+            "not": { "required": ["closure/acceptance"] }
+          }
+        }
+      }
+    }
+  ],
   "properties": {
     "schema": {
       "const": "whisper-case-result.v1"
@@ -41,6 +58,12 @@
       "type": "string",
       "format": "date-time",
       "maxLength": 30
+    },
+    "signature": {
+      "type": "string",
+      "maxLength": 86,
+      "pattern": "^[A-Za-z0-9_-]{86}$",
+      "description": "Optional private Ed25519 proof of a durable ADC refusal. Verify in the domain of the exact operation against the owner pinned by the request."
     },
     "outcome": {
       "oneOf": [
@@ -76,9 +99,24 @@
             "reason",
             "retry"
           ],
+          "dependentSchemas": {
+            "closure/acceptance": {
+              "properties": {
+                "reason": { "const": "terminal" },
+                "retry": { "const": "never" }
+              }
+            }
+          },
           "properties": {
             "state": {
               "const": "refused"
+            },
+            "closure/acceptance": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Original signed closure acceptance carried privately to the executor of the still-committed slot."
             },
             "reason": {
               "enum": [
@@ -120,6 +158,21 @@
                 "dependency-recovery",
                 "at-deadline"
               ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "original/acceptance"],
+          "properties": {
+            "state": { "const": "settled" },
+            "original/acceptance": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 5462,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "description": "Original signed abandonment acceptance. Its inputs/digest binds the exact tombstone claim independently of the request exchange."
             }
           }
         },
