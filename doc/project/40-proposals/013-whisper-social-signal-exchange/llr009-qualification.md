@@ -22,7 +22,10 @@ rows. Required negative rows cannot disappear from a selected campaign.
 Presentation work includes every carried or exact-store-resolved presentation
 role and is at most 32 signature checks. Recipient-local observations have a
 separate finite role table, derived from CaseKnowledge's existing input bounds,
-and a distinct LocalWork type. Total work is at most 32 + LOCAL_WORK_MAX.
+and a distinct LocalWork type. The current table permits 12 local checks in
+addition to the 32 presentation checks. The recipient persists both counters
+together in new decisions. Readers accept earlier v1 decisions without either
+counter. Such decisions cannot witness the split for qualification.
 Verified persisted knowledge needs no repeated signature check only when the
 owner establishes its checked provenance and store integrity. Imported bytes or
 an external verified flag cannot manufacture that provenance. Time, scope,
@@ -134,5 +137,5 @@ reserves from this ceiling. Operator configuration must reserve sufficient bytes
 and storage for the configured number of live cases/operations; an old small
 budget refuses explicitly. No configured storage ceiling is silently increased.
 The test fixtures allocate ordinary capacity in addition to their derived reserve.
-This checkpoint does not yet qualify local signature-work separation or cached
-verified provenance; those requirements remain open.
+This checkpoint records bounds for the byte envelopes. Durable reuse of
+verification provenance and formal qualification remain open.

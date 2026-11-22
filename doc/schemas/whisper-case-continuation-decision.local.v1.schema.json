@@ -23,6 +23,10 @@
     "anchor/witness",
     "registration/basis"
   ],
+  "dependentRequired": {
+    "presentation/work": ["local/work"],
+    "local/work": ["presentation/work"]
+  },
   "properties": {
     "schema": {
       "const": "whisper-case-continuation-decision.local.v1"
@@ -111,6 +115,7 @@
                 "dependency-unavailable",
                 "anchor-revoked-before-admission",
                 "anchor-unproven",
+                "local-knowledge-limit",
                 "access-denied",
                 "request-id-conflict",
                 "status-budget-exhausted",
@@ -185,6 +190,16 @@
       "type": "integer",
       "minimum": 0,
       "maximum": 32
+    },
+    "presentation/work": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32
+    },
+    "local/work": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
     },
     "case/authority": {
       "type": "string",
