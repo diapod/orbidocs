@@ -968,7 +968,7 @@ reservations, generations and results are durable facts.
 
 | Data | Required bound |
 |---|---|
-| Paused messages / resume window | 30 days from original message creation; 256 per participant and 1024 per node. Retry/import/restart cannot extend the window. |
+| Unresolved messages / resume window | 30 days from original message creation. At initial admission each nonterminal outbox row reserves one slot, including a message waiting for a route or contact consent. Defaults are 256 per participant and 1024 per node. Retry/import/restart cannot extend the window. |
 | INAC results, AD records and generation keys | Through the resume window and at least 31 days after attempt completion. |
 | Receiver deduplication | For the message lifetime; after body deletion, a body-free tombstone for at least 31 days after last admission/recognized duplicate, preventing resurrection. |
 | Bulk results | At least 31 days after every item has a durable terminal result. |
@@ -980,6 +980,11 @@ attempts from deletion that could authorize resend. Explicitly closing an unknow
 outcome records `closed-unresolved`, never `expired-unsent`. No receiver guarantee
 for the relevant window means no uncertain retry. Do not run network acquisition
 or signing inside SQLite transactions or assume atomic commit across all stores.
+
+Full outbox capacity refuses new admissions. Accepted rows still record
+delivery observations. An exact enqueue replay keeps its original result
+at capacity. Retained rows above the limit after migration or a tighter
+configuration keep their slots until their normal terminal transition.
 
 The cost is bounded retained state and possible admission refusal under storage
 pressure. Unknown results and unavailable proof stay visible rather than becoming

@@ -568,6 +568,12 @@ S027-009-05 (retained qualification). They are not independent implementation ta
 or prerequisites looping back into their owner. Historical MSG-ONB-005–008 and
 P076-034/035 evidence retain their dates, bytes, pins and qualified scope.
 
+For this continuation, S027 reserves outbox capacity when first admitting a
+message. Waiting, paused and active messages use the same slot. A full pool
+refuses new work and preserves pending observations and exact enqueue replays.
+Both complete browser cases belong to S027-009-04. S027-009-05 repeats their
+assertions on the pinned qualification build alongside the wider regressions.
+
 | Case | Status | Required measured assertion / owner |
 |---|---|---|
 | MSG-ONB-009 | todo | S027-009-04: explicit recipient-consent refusal becomes a truthful pause; a new grant does not resume it. On the same relationship/route, confirmed recovery with current local authority and receive consent delivers once. UI distinguishes local authority, recipient refusal and proof/status unavailability; regress P076-036/037 and sovereign independent membership plus delegated/mixed cases. |
