@@ -3357,7 +3357,7 @@ a second resolver, activation system or editor.
 
 | ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
 |---|---|---|---|---|---|
-| P091-016 | partial | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |
+| P091-016 | done (scoped) | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |
 
 
 ### P091-016: behavior and exact revision confirmation
@@ -3416,9 +3416,17 @@ shared comparison and confirmation relations have independent event vectors
 checked through Lean and production Rust. The typed public layout projection
 has an executable P098 fixture covering admitted values, sparse overrides,
 stale receipts and suppression of private fields. P098-002b can consume the
-handoff now. Flow, Inquirium, Arca and the final browser and WebView evidence
-remain open within P091-016. Node owns the implementation and test scope in
+handoff now. Node owns the implementation and test scope in
 `daemon/docs/P091-CONSUMED-CONFIGURATION.md`.
+
+**Qualified checkpoint (2026-11-22).** Clean Node `22e8927b3` qualifies the
+bounded four-owner inspection contract, the actual Flow executor, P085 permit
+and supervised Python Arca. Current browser JS/no-JS and actual WebView
+observations agree with the owner projections. The typed public handoff also
+passes its independent consumer fixture. See
+`node:docs/evidence/configuration-contracts/consumed-revision-20261122.summary.json`.
+Other P091 owners, installed distribution and release qualification retain
+their own gates.
 
 ## F12: explicit retirement of ended transactional incarnations
 
@@ -3455,5 +3463,9 @@ exposes an exact GET readback before approval. When history capacity requires
 recovery, the owner refuses with HTTP 409 and can offer a separate node-wide
 archive review. The 2026-11-22 review used rebuilt daemon and Node UI binaries
 for development regressions in Chrome with JavaScript disabled and enabled.
-The bounded formal browser and actual WebView qualification remains open
-under P091-007/013.
+A separate F12 verdict on clean Node `22e8927b3` qualifies this full-page
+path in Chromium with and without JavaScript and actual WKWebView. A fresh
+trial used a pre-ACK crash, removed Flow, 1,024 constructed events, HTTP 409,
+approved archival, fresh review and one approved POST whose response was lost.
+Exact GET recovered the recorded closure. P091-007/013 retain their broader
+scope. See the F12 verdict in the same Node evidence summary.
