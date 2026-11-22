@@ -102,6 +102,28 @@ Only after the full rehearsal and review pass on the final clean candidate may a
 new formal campaign start with empty recipient stores. Relabeling development
 output is rejected. A failed formal run retains its own diagnostic outcome.
 
+The formal controller pins the independently stored development archive-replay
+result by campaign and exact SHA-256. Its candidate digest also binds the same
+sources, binaries, profile, clock, trust, policy and selected inputs as the
+rehearsal. A formal invocation uses a new campaign and a fresh output root.
+The observer emits a capture receipt with times, observation digest and an
+inventory of projected component logs and privacy observations. Only a fresh
+replay of the complete formal archive emits the two separate verdicts. The
+loose and extracted observations must agree exactly. The controller is supplied
+out of band on both invocations.
+
+The detached gate scans the carrier, exact inputs, recipient files and logs,
+and stopped SQLite storage. Its text and private record identifier come from the
+exact signed author input used by the P035 producer, and its synthetic key
+needle comes from that fixture's continuity signer. The controller binds the
+canaries to the selected detached anchor. Results carry canary hashes, scope
+and findings. Raw canaries, private author bytes and the controller stay outside
+the archive. The coverage exclusions name encrypted or compressed content,
+forensic media and system traces outside the selected roots. Separate negative
+rows change the anchor binding and independently withdraw admission of its
+witness.
+
+
 Copy a self-contained exact subset of LLR-012 source inputs, retaining original
 digests and provenance; trust is independently supplied. Controlled times refer
 to preserved observations, not present-day validity. A copied subset must include
