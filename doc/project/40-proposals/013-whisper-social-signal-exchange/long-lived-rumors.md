@@ -655,9 +655,9 @@ not only epoch length. LLR-008 owns ordered acceptance and LLR-009 qualifies the
 The initial 65536-byte carrier proposal could not carry a maximum 512-KiB P015
 status. LLR-009 now qualifies a 64-KiB referenced profile and a 4-MiB carried
 profile. References resolve only exact locally supplied material.
-The LLR-006 acceptance composition separately bounds unique decoded material to
+The earlier LLR-006 acceptance composition bounded unique decoded material to
 2 MiB, transport to 4 MiB and signature work to 32. It does not promise all
-component maxima fit simultaneously or establish the future LLR-009 carrier.
+component maxima fit simultaneously. LLR-009 has its own versioned bounds.
 
 
 ### Case context transition boundary (P013-LLR-010, 2026-11-02)

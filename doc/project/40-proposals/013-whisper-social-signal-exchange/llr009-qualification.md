@@ -60,11 +60,10 @@ negative facts and separately reportable history. Report presentation/work and
 local/work independently; the same presentation has the same presentation/work
 at recipients with different knowledge.
 
-V1 remains 2740 KiB unique decoded bytes. V2 counts occurrences and may use a
-role-derived 2996 KiB bound (2740 + the 256 KiB aggregate source allowance).
-Before activation, D23 must establish which source bytes are necessary, including
-unavoidable author bytes inside signed Matrix PDUs; signed objects are never
-trimmed. D24 must measure actual carried JSON, plaintext and sealed PEX output.
+V1 allows 2740 KiB of unique decoded bytes. V2 counts occurrences against
+2996 KiB, including 256 KiB of exact source evidence. D23 identified the author
+bytes required inside signed Matrix PDUs. The byte review below records D24's
+measurements and the sealed-envelope gate.
 4 MiB carried, 64 KiB referenced, 5 MiB sealed and depth 16 remain fixed.
 If future encoding changes exceed these limits, retain the old decoded bound and explicitly
 qualify non-composable role maxima with presentation-decoded-limit refusal.
@@ -89,7 +88,8 @@ Legacy invalidation facts keep their refusal. An independently refuted basis
 with an exact proof digest may be filled when the verified Before is supplied
 again.
 
-Operator policy authority_attested_basis defaults to false. Turning it off
+The closed operator policy requires an explicit boolean `authority_attested_basis`.
+The independent qualification rows set it to false. Turning it off
 requires independent readmission of a saved attested basis before another
 current effect. Freshness expiry does not undo historical Verified admission.
 Before is sticky even against a fresh active authority status and across restart.
@@ -193,7 +193,16 @@ A separate signed Matrix fixture uses the real P035 source producer, ordinary
 v1 certification and the authority store. It reaches 32 presentation units in
 both profiles with a closing snapshot, and four additional signed local
 statuses add four units to the local ledger. The succession remains historically
-authentic while current currency is refused. The 33rd presentation unit and
+authentic while current currency is refused. A further signed boundary vector admits the successor in the next epoch and obtains
+`continue-case` at 32 presentation and four local units in both profiles.
+The role-derived v1 work ceiling is 26, including both slots for anchor closures.
+V2 additionally reserves source work once per receipt, irrespective of source object count.
+For Matrix the structural sum is 34, including two possibly contradictory
+closures. The enforced presentation budget is 32;
+`presentation-work-limit` refuses excess work. Two distinct closures for the
+same anchor scope constitute conflicting evidence. They cannot establish a
+second positive epoch closure. A signed post-admission revocation can establish
+`After` within budget. The 33rd presentation unit and
 13th local unit are rejected by the counter boundary tests. These are reservation
 tests; the byte maxima remain structural carriage tests. The recipient test at
 the fourth and fifth local anchor status separately verifies retained revocation.
