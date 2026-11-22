@@ -951,6 +951,13 @@ generation's resolved result. Earlier restrictions remain historical even if
 the current generation has no result. A current deadline has elapsed when the
 evaluation time reaches it.
 
+Initial contact discovery may learn a pairwise receiver route from a consent
+that lists the discovered transport route. An execution or retry lookup uses
+`receiver/exact: true` and the receiver carried by the signed envelope.
+The lookup, capability evaluation and Messaging admission share the same
+pairwise constraint. A consent that requires a contact nym cannot authorize
+retry on a prepared envelope carrying only a transport subject.
+
 Confirmed uncertain retry requires deduplication coverage for every unresolved
 possible emission. Each such generation needs a retained pin established
 before its first possible emission. An authenticated current observation must
