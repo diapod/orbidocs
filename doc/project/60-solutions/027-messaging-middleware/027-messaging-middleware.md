@@ -981,6 +981,18 @@ input. Worker admission still uses the current authority, consent, execution
 and deduplication evidence. Retained receipts from the earlier journal remain
 readable until their retention deadline.
 
+The retry decision applies to paused or failed delivery. The initial wait for
+contact permission continues the original intent. The owner reloads the
+selected generation and folds retained executions when deciding whether to
+reserve another generation. Only the current generation's terminal refusal
+contributes a retry restriction. A legacy history gap does not resolve execution.
+
+The generation compare-and-set, reservation for preparation, durable work
+and per-item receipt share a transaction. Publishing the exact preparation
+replaces the reservation with the bytes retained by the owner. A failed write
+rolls back the complete reservation; loss of the response leaves a readable
+receipt for the original result.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.
