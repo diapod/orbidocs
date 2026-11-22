@@ -1,0 +1,7 @@
+{
+  "schema": "messaging-push-settlement.local.v1",
+  "result": {
+    "status": "recorded",
+    "retain/until-unix": 1797811200
+  }
+}

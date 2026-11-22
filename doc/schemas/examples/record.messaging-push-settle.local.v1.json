@@ -1,0 +1,17 @@
+{
+  "schema": "messaging-push-settle.local.v1",
+  "operation": "record",
+  "fact": {
+    "push": {
+      "token": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "evidence": {
+        "messaging/message-commitment": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "messaging/envelope-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "messaging/resume-until": "2026-12-01T00:00:00Z"
+      }
+    },
+    "admission/id": "admission:Ffg_1mNBDUEV5wfsHoQPv8lQjJDbM3LwmyTClCBPpAU",
+    "observed/at": "2026-11-21T00:00:00Z",
+    "outcome": "accepted"
+  }
+}

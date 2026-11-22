@@ -682,6 +682,217 @@ The upstream contracts remain [P060](../../40-proposals/060-messaging-middleware
    Extend existing retry APIs and add participant-scoped
    `POST /v1/messaging/outbox/{id}/reconcile`, with owner checks and CSRF in UI.
 
+### Exact-attempt reconciliation contract
+
+Contract checkpoint for S027-009-01. The delivery owner freezes the message ID,
+generation key, message commitment, signed-envelope digest, receiver and original
+`resume/until` with the prepared submission. Direct INAC and Matrix mailbox use
+the same stored key and the envelope ID as `artifact/id`. The transport verifies
+the final artifact against the prepared envelope. An object pointer has its own
+digest. AD publishes its local execution ID separately from the prepared binding.
+
+Historical reads use an established authenticated WSS session to the original
+receiver for either push route. Each operation has a five-second total deadline
+and at most one query with a 4 KiB response. Work is shared per message generation
+and limited to one active query per peer. A missing session or unsupported route
+produces `unavailable`. A receiver with a working ledger emits the same public
+`unknown` for an absent, foreign or mismatching record. Budget and correlation are
+per authenticated peer. An authorized owner can repeat the POST after a retained
+success and receive the current `delivered` view without network work.
+
+| Verified observation | Sender transition | Current execution fact |
+|---|---|---|
+| Accepted or already present for a retained current generation | `DomainAccepted`, then `delivered` | Resolve this execution |
+| Accepted or already present for a retained older generation | `DomainAccepted`, then `delivered` | Preserve the newer execution fact |
+| Current consent refusal with all effects resolved | `RecipientConsentDenied`, then `recipient-consent-blocked` | Resolve this execution. Explicit recovery checks current consent |
+| Other current refusal with all effects resolved | `RemoteDeliveryRejected`, then `failed-terminal` | Resolve this execution. Evaluate the retained retry flag and deadline for command admission and allowed actions |
+| Older refusal, a refusal during running AD, or remaining uncertainty | Retain the observation for its attempt | Preserve current execution and retry restrictions |
+| Unknown | Observe, preserving the message state | Preserve current execution and retry restrictions |
+| Unavailable | `ObservationUnavailable` | Preserve current execution and retry restrictions |
+| Missing current local AD result | `LocalDeliveryMissing` for an unresolved message | Unknown. The retained exact binding can still identify the execution |
+
+The delivery owner must establish completion and exclude all outstanding effects
+before a rejection can resolve an execution. Signature, query correlation and
+generation matching alone do not establish completion. Epoch-pinned receiver
+deduplication protects a separately confirmed retry while uncertainty remains.
+
+INAC reserves the attempt, its result budget and any single-use consumption in
+one transaction. It gives the acceptor an opaque reservation token. Messaging
+records the token with the domain result of that push. A repeated generation can
+record `AlreadyPresent` while preserving the first admission and envelope.
+Withdrawal after INAC commits but before domain admission retains consumption
+and produces `recipient-consent-required`. Startup repair proceeds from exact
+Messaging facts into INAC after owner recovery. A bare reservation stays unknown.
+
+The push-result journal has its own 10,000-record and 32 MiB logical byte limits.
+Reserve capacity before domain admission. An unacknowledged repair fact remains
+held through restart and GC. After durable finalization, INAC keeps the result
+until Messaging has durably recorded confirmation and acknowledged it. Both
+owners then apply the later of the resume horizon and 31 days from completion.
+Messaging persists the floor returned by INAC before sending its acknowledgement.
+If the acknowledgement reply is lost and INAC retires the token, a later read of
+its absence can complete the acknowledgement only after the saved floor and only
+with that existing local finalization receipt. Absence during repair leaves
+the fact protected. The two ledgers may reach capacity independently.
+
+Implementation checkpoint, 2026-11-22. Node carries the prepared commitment,
+envelope digest and original deadline through AD and INAC. The runtime gives
+the commitment, signed-envelope digest, final artifact-bytes digest and AD
+submission digest distinct types. The two adapters and the receive bridge
+use the same digest relation for the final artifact. Their wire fields and
+canonical preimages retain their existing encoding. The receive bridge
+requires an exact ledger reservation before the acceptor, atomically consumes
+any single-use invitation, and serves peer-scoped historical point reads.
+The direct AD adapter preserves typed remote refusals. The local
+`artifact.delivery.reconcile` host contract and owner-scoped outbox POST use
+the frozen binding and established INAC session. Messaging persists a verified
+positive observation and a recovered execution ID atomically with the outbox
+state. A remote refusal without complete execution evidence preserves the
+prior uncertainty. The receive path carries an opaque push token through AD.
+Messaging checks the token against the INAC reservation through the local
+[`messaging.delivery.push.check` contract](../../../schemas/messaging-push-check.local.v1.schema.json)
+and commits the exact per-push fact with the admission journal transition.
+INAC finalizes positive results from this fact. A bounded background pass after
+journal initialization replays exact committed facts through the local
+[`messaging.delivery.push.settle` contract](../../../schemas/messaging-push-settle.local.v1.schema.json).
+It persists the [retention receipt](../../../schemas/messaging-push-settlement.local.v1.schema.json)
+before acknowledgement. A component test drives both SQLite collectors at
+the retention floor. It loses the reply after INAC records a duplicate result
+and then loses the acknowledgement. Each GC order preserves the pending
+repair until the corresponding durable receipt allows release.
+
+The complete Messaging journal owns the epoch and
+[admission support declaration](../../../schemas/messaging-admission-identity.v1.schema.json).
+Its contract digest is SHA-256 of the exact canonical schema file. The epoch is an
+opaque, canonical base64url value encoding 32 bytes. INAC can accompany a
+historical result with this declaration independently of the identity examined.
+The sender's AD owner makes one bounded observation over the already established
+authenticated session and seals it in the exact binding before its first body
+effect. Current sender authority also gates this observation because it
+discloses identifiers of the new attempt. A missing or insufficient observation
+seals a missing pin. A later observation cannot backfill it. The pin binds the receiver, the
+original query and resume horizon, the contract digest, and the complete
+store's epoch and coverage. A current observation must confirm continuity with
+those bounds before an uncertain retransmission could use the pin. Exact
+positive historical readback needs no pin.
+
+The 2026-11-22 development run delivered strict Story-010 with explicit INAC
+approval over WSS. Inspection after shutdown matched the sealed sender pin to
+the receiver journal's epoch. A separate cold readback on those synthetic profiles
+removed the AD run and its Messaging-side handle and injected the sender's
+`delivery-outcome-unknown` state. The real outbox command restored `delivered`
+and the original handle with no new generation, push or change to the first
+receiver admission. The injection exercises readback after loss of the local
+record. A subsequent active-delivery fixture removed the terminal AD run before
+the sender's poll. A real AD `404` paused the outbox, and the WSS read confirmed
+the original admission with no new generation or push. This case also exposed
+missing vault scheduling for a recovered recorded message. The owner now
+enqueues the vault job in the same transaction as the confirmation and uses the
+confirmed signed envelope for the job. A development rerun repeated the pause
+and recovery and reached `vault.stored`.
+
+A loopback transport fault discarded receiver-to-sender traffic during a second
+real admission. The receiver committed one push while the sender had no success
+result. After sender restart and loss of the local AD run, polling produced `404`
+and the receiver revoked the original passport. The established WSS session then
+returned the exact historical admission. Reconciliation preserved the prepared
+envelope, generation and first receiver admission. The strict Story-010
+runner observes the matching receiver response on the native WSS session
+before continuing and checks zero new pushes, generations and acceptor calls. A
+separate daemon integration regression uses two independently signed client
+sessions and a seeded receiver ledger. It compares absent, foreign and
+mismatched results, checks that reading leaves the ledger unchanged, and observes
+`unavailable` for a damaged own record without disclosing it to the foreign peer.
+
+A repeat with the return-traffic fault exposed an ordering error at sender
+startup. Outbox processing sampled the send guard before its host capability
+channel was ready and recorded `authority-blocked` before polling the retained
+AD handle. It now observes an existing message execution first. A status
+transport failure preserves its state and handle, and a real 404 records
+`delivery-outcome-unknown`. Envelope construction and a new submission still
+require current send authority. The development repeat recovered the same
+first admission after consent withdrawal and completed recorded-message vault
+storage.
+
+The development crash diagnostic stopped a live receiver on both sides of the
+domain commit. Before the commit, the exact reservation survived and WSS readback
+returned `unknown`, with no first admission or extra push. After the commit,
+Messaging's exact push fact survived while the INAC reservation remained open.
+After cleaning up the test's orphaned sidecars, startup replay finalized the
+same `Accepted` token and released the owner hold. The sender recovered
+`delivered` over WSS with the original admission, mailbox record, Maildir bytes,
+generation and single receiver push intact. Both cases are reproducible with
+the strict Story-010 recovery runner.
+
+The duplicate variant used a newly issued passport and a different signed
+envelope with the same message commitment. It staged the next generation
+in the isolated sender fixture while the recovery command in S027-009-04
+remains open. After a receiver crash, replay finalized the distinct
+`AlreadyPresent` admission for the second generation. The WSS read used
+that admission and preserved the original envelope, Maildir file set,
+recording and read flag.
+
+The sender-side crash diagnostic on 2026-11-22 fenced the Messaging write
+before the new AD handle could be recorded and stopped the live Messaging
+subprocess after AD committed the exact binding. The original AD run still
+reached the receiver's admission. After shutdown, the fixture removed that
+run and retained the binding. Following restart, the locally missing run
+returned 404, and the WSS read recovered the handle, confirmed `delivered`,
+and completed the recorded-message vault job. The prepared envelope,
+generation, first receiver admission and single push survived the diagnostic.
+The runtime was built from Node `38dc001a9`. The runner is
+`node:tools/acceptance/story-010-operator/s027-ad-handle-diagnostic.py`.
+The same fixture held the receiver while the first reconciliation queued
+its historical query and issued a second POST for the same generation. Both
+requests shared the same admission response and one WSS query. A subsequent
+POST returned the delivered state without another query.
+
+The late-success variant held the response while the fixture staged a newer
+paused generation. A read for that generation returned busy without issuing
+another peer query. The matching older result confirmed delivery, recovered the
+original preparation's handle and left the newer generation's handle empty.
+The read caused no additional push.
+
+The rerouted-peer variant moved the same receiver identity to a new WSS
+endpoint. The previous listener refused a connection. The established
+session at the new endpoint returned the original admission without a push
+or a generation change.
+
+The local AD response now carries `execution/resolved` when a single direct
+attempt's typed terminal refusal agrees with the authenticated historical
+rejection and AD has the complete original run. Multiple attempts, uncertainty
+or a missing run leave the marker absent. Messaging applies the exact current
+generation's pause and stores the observation atomically. Subsequent owner
+reads can return that saved result.
+
+In a separate WSS diagnostic, the recipient withdrew the receive passport
+after the exact INAC reservation became durable and before Messaging
+committed an admission. The original reservation finalized with
+`recipient-consent-required` and no first admission. After restart the
+sender's historical read carried `execution/resolved` and persisted
+`recipient-consent-blocked`. The same generation retained one push token
+throughout the diagnostic.
+
+The missing-ledger variant parked the receiver's SQLite file while the node
+was running. The WSS read returned `unavailable` and preserved the outbox state
+and generation. The existing mailbox message could still be read. Neither
+read recreated the ledger. A separate development run parked the original
+database across a receiver restart while retaining the local continuity marker.
+The database stayed absent, the existing inbox stayed readable, and the
+history response remained `unavailable`. Replacing the original database
+restored the exact admission and left the original push count intact.
+The continuity check identifies the enrolled database. Its coverage includes
+loss and replacement while the marker is retained.
+
+The Matrix-only development run enabled the mailbox adapter against a loopback
+join and polling fixture and disabled both WSS listeners and dialers. The read
+returned `unavailable`, preserved the sender state and generation, and emitted
+zero Matrix events. Restoring the WSS route recovered the original admission.
+A separate run disabled WSS without a mailbox route. Readback reported
+`unavailable` without dialing or sending an INAC frame.
+
+The formal WSS campaign is pending. The S027-009-01–03 tracker rows remain open.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.

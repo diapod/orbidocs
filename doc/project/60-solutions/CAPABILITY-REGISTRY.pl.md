@@ -187,7 +187,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **263** host-local / **295** ogółem; grupy właścicieli: **56**.
+Wpisy: **266** host-local / **298** ogółem; grupy właścicieli: **56**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -571,6 +571,7 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>agora.vault.get</code> | <code>host/agora.vault.get</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
 | <code>agora.vault.list</code> | <code>host/agora.vault.list</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
 | <code>agora.vault.put</code> | <code>host/agora.vault.put</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
+| <code>artifact.delivery.reconcile</code> | <code>host/artifact.delivery.reconcile</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>artifact.delivery.send</code> | <code>host/artifact.delivery.send</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>artifact.delivery.status</code> | <code>host/artifact.delivery.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>artifact.delivery.submit</code> | <code>host/artifact.delivery.submit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
@@ -608,6 +609,8 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>memarium.forget</code> | <code>host/memarium.forget</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>memarium.index</code> | <code>host/memarium.index</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>memarium.write</code> | <code>host/memarium.write</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>messaging.delivery.push.check</code> | <code>host/messaging.delivery.push.check</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>messaging.delivery.push.settle</code> | <code>host/messaging.delivery.push.settle</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>middleware.rewrite.broadcast</code> | <code>host/middleware.rewrite.broadcast</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>middleware.rewrite.peer-message</code> | <code>host/middleware.rewrite.peer-message</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>middleware.snooper.observe</code> | <code>host/middleware.snooper.observe</code> | <code>active</code> | <code>host-local</code> | true | true | — |

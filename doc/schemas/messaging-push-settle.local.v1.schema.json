@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-push-settle.local:v1",
+  "title": "Local Messaging admission fact settlement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "operation",
+    "fact"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-push-settle.local.v1"
+    },
+    "operation": {
+      "enum": [
+        "record",
+        "acknowledge"
+      ]
+    },
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "push",
+        "admission/id",
+        "observed/at",
+        "outcome"
+      ],
+      "properties": {
+        "push": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "token",
+            "evidence"
+          ],
+          "properties": {
+            "token": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{43}$"
+            },
+            "evidence": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "messaging/message-commitment",
+                "messaging/envelope-digest",
+                "messaging/resume-until"
+              ],
+              "properties": {
+                "messaging/message-commitment": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "messaging/envelope-digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "messaging/resume-until": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 64
+                }
+              }
+            }
+          }
+        },
+        "admission/id": {
+          "type": "string",
+          "pattern": "^admission:[A-Za-z0-9_-]{43}$"
+        },
+        "observed/at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "outcome": {
+          "enum": [
+            "accepted",
+            "already-present"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -21,8 +21,12 @@ Recipient-owned point-in-time decision for continue-case only. History/authentic
 | [`source/currency`](#field-source-currency) | `yes` | unspecified |  |
 | [`result`](#field-result) | `yes` | enum: `allowed`, `refused` |  |
 | [`signature/work`](#field-signature-work) | `yes` | integer |  |
+| [`presentation/work`](#field-presentation-work) | `no` | integer |  |
+| [`local/work`](#field-local-work) | `no` | integer |  |
+| [`local/source-reused`](#field-local-source-reused) | `no` | boolean |  |
 | [`case/authority`](#field-case-authority) | `yes` | string |  |
 | [`anchor/witness`](#field-anchor-witness) | `yes` | unspecified |  |
+| [`anchor/reliance`](#field-anchor-reliance) | `no` | object |  |
 | [`registration/basis`](#field-registration-basis) | `yes` | unspecified |  |
 
 ## Conditional Rules
@@ -181,6 +185,24 @@ Then:
 - Required: `yes`
 - Shape: integer
 
+<a id="field-presentation-work"></a>
+## `presentation/work`
+
+- Required: `no`
+- Shape: integer
+
+<a id="field-local-work"></a>
+## `local/work`
+
+- Required: `no`
+- Shape: integer
+
+<a id="field-local-source-reused"></a>
+## `local/source-reused`
+
+- Required: `no`
+- Shape: boolean
+
 <a id="field-case-authority"></a>
 ## `case/authority`
 
@@ -192,6 +214,12 @@ Then:
 
 - Required: `yes`
 - Shape: unspecified
+
+<a id="field-anchor-reliance"></a>
+## `anchor/reliance`
+
+- Required: `no`
+- Shape: object
 
 <a id="field-registration-basis"></a>
 ## `registration/basis`

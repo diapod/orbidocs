@@ -707,6 +707,24 @@ schema_for_file() {
     *.artifact-delivery-result.json)
       echo "$SCHEMAS_DIR/artifact-delivery-result.v1.schema.json"
       ;;
+    *.artifact-delivery-reconcile.local.v1.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-reconcile.local.v1.schema.json"
+      ;;
+    *.messaging-push-settle.local.v1.json)
+      echo "$SCHEMAS_DIR/messaging-push-settle.local.v1.schema.json"
+      ;;
+    *.messaging-push-settlement.local.v1.json)
+      echo "$SCHEMAS_DIR/messaging-push-settlement.local.v1.schema.json"
+      ;;
+    *.messaging-admission-identity.v1.json)
+      echo "$SCHEMAS_DIR/messaging-admission-identity.v1.schema.json"
+      ;;
+    *.messaging-push-check.local.v1.json)
+      echo "$SCHEMAS_DIR/messaging-push-check.local.v1.schema.json"
+      ;;
+    *.artifact-delivery-reconciliation.local.v1.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-reconciliation.local.v1.schema.json"
+      ;;
     *.artifact-delivery-status.json)
       echo "$SCHEMAS_DIR/artifact-delivery-status.v1.schema.json"
       ;;

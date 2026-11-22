@@ -463,7 +463,9 @@ not by a second Whisper receipt implementation. The unchanged aggregate-only
 promotion rule is in [implementation Layer 7](011-whisper-impl.md#layer-7-threshold-detection-and-durable-promotion).
 
 [P013-LLR-009](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification)
-plans bounded portable succession verification through those P015/P035 owners.
+qualifies bounded portable succession verification through those P015/P035 owners.
+The formal macOS result distinguishes independent proof from operator-enabled
+attestation. See `node:docs/evidence/private-case-continuity/2026-11-22-llr009-portable-succession/README.md`.
 It keeps historical anchor proof, authentic succession and current case authority
 separate, with zero-fetch acceptance and no disclosure of a private anchor merely
 to complete a package. It applies P032's cross-artifact verification rule;
