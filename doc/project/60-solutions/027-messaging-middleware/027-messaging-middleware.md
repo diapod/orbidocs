@@ -993,6 +993,13 @@ replaces the reservation with the bytes retained by the owner. A failed write
 rolls back the complete reservation; loss of the response leaves a readable
 receipt for the original result.
 
+Before allocating an uncertain retry, Messaging asks the local AD owner for
+current coverage of each unresolved exact attempt. AD checks the original
+sealed pin and the first durable emission debit against the receiver's current
+support on WSS. The coverage checks must agree on receiver, contract and store
+epoch. Messaging checks the original resume horizon again under the writer and
+retains the agreed receiver coverage with the generation reservation.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.

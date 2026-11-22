@@ -204,8 +204,11 @@ Current implementation status:
   unavailable for this read.
   Before the first body push, AD seals the peer's admission support observed
   over the existing authenticated session in that same binding. The pin binds
-  the original exact query and receiver. Later reads can verify continuity or
-  resolve the exact historical result even when an original pin is missing.
+  the original exact query and receiver. The first possible emission time is
+  saved when AD records its first debit. The `receiver-coverage` purpose
+  requires both facts and makes one current support-only query to the original
+  authenticated peer. The ordinary historical purpose can still correlate a
+  result when coverage evidence is absent.
   On inbound Messaging pushes, AD carries the host-owned reservation context
   only to the Messaging acceptor. That acceptor verifies it against the host's
   active INAC reservation before applying current receive authority.

@@ -16,6 +16,7 @@ Source schema: [`doc/schemas/inac-admission-status.query.v1.schema.json`](../../
 | [`artifact/digest`](#field-artifact-digest) | `yes` | string |  |
 | [`message/commitment`](#field-message-commitment) | `yes` | string |  |
 | [`resume/until`](#field-resume-until) | `yes` | string |  |
+| [`support/only`](#field-support-only) | `no` | boolean | Query the receiver's current support without consulting or returning an admission outcome. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -53,3 +54,11 @@ Source schema: [`doc/schemas/inac-admission-status.query.v1.schema.json`](../../
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-support-only"></a>
+## `support/only`
+
+- Required: `no`
+- Shape: boolean
+
+Query the receiver's current support without consulting or returning an admission outcome.

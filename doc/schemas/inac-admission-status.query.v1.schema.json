@@ -45,6 +45,11 @@
       "type": "string",
       "format": "date-time",
       "maxLength": 64
+    },
+    "support/only": {
+      "type": "boolean",
+      "default": false,
+      "description": "Query the receiver's current support without consulting or returning an admission outcome."
     }
   }
 }

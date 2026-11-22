@@ -118,7 +118,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`artifact-delivery-envelope.v1.schema.json`](schemas-gen/schemas/artifact-delivery-envelope.v1.md) | `10` | `3` | `yes` | `yes` | `2` | `2` |
 | [`artifact-delivery-extend-result.v1.schema.json`](schemas-gen/schemas/artifact-delivery-extend-result.v1.md) | `3` | `0` | `no` | `yes` | `0` | `0` |
-| [`artifact-delivery-reconcile.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconcile.local.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
+| [`artifact-delivery-reconcile.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconcile.local.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-delivery-reconciliation.local.v1.schema.json`](schemas-gen/schemas/artifact-delivery-reconciliation.local.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
 | [`artifact-delivery-recovery.v1.schema.json`](schemas-gen/schemas/artifact-delivery-recovery.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
 | [`artifact-delivery-relay-header.v1.schema.json`](schemas-gen/schemas/artifact-delivery-relay-header.v1.md) | `8` | `0` | `no` | `yes` | `0` | `1` |
@@ -348,7 +348,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`federation-service-endorsement.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
 | [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |
-| [`inac-admission-status.query.v1.schema.json`](schemas-gen/schemas/inac-admission-status.query.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
+| [`inac-admission-status.query.v1.schema.json`](schemas-gen/schemas/inac-admission-status.query.v1.md) | `7` | `1` | `yes` | `yes` | `1` | `0` |
 | [`inac-admission-status.result.v1.schema.json`](schemas-gen/schemas/inac-admission-status.result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `2` |
 | [`inac-control.v1.schema.json`](schemas-gen/schemas/inac-control.v1.md) | `11` | `0` | `no` | `yes` | `2` | `1` |
 | [`inference-consumption-policy.v1.schema.json`](schemas-gen/schemas/inference-consumption-policy.v1.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
