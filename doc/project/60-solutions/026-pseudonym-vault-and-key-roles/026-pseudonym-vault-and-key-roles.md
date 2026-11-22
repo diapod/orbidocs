@@ -787,3 +787,13 @@ and checks custody again at handoff. No new source certificate, live count,
 executor authority or transport retry owner is introduced. This component is
 separate from the full ADC-005 custody/runtime matrix and all historical gates.
 See `node:whisper-case-service/ADC.md` and `node:daemon/docs/RELAY-DELIVERY.md`.
+
+### Exact-use protected source acceptance (2026-11-22)
+
+The scoped P015-005-ADC campaign joins real v4 exact-use issuance on native
+macOS custody to S026's single prepared source set. The V4 applicant binds the
+reviewed uniform grant or minimal consent. The prepared set binds `M` and the
+complete `M_A` inventory to the same signed source, exact openings and original
+horizon. A separate isolated recipient verified the selected audience proof
+after the local WSS/INAC handoff. The grant-only notice path proves no new content
+admission. See `node:docs/evidence/portable-admission/2026-11-22-exact-use-qualified/README.md`. The ADC release tracker governs broader runtime.
