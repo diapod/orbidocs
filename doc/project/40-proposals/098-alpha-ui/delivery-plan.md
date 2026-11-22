@@ -318,7 +318,10 @@ implementation record; this proposal alone changes none of those statuses.
 
 P091-016 has supplied the typed public layout projection and executable
 inheritance, refusal and exact-consumption cases. The bounded Node candidate
-`22e8927b3` qualifies the four configuration owners. P098-002b can use the
-projection through the documented owner and disclosure boundary. The catalogue,
+`22e8927b3` qualified the original four-owner contract. Reviewed Node
+`ae14ce82a` qualifies the revised contract and uses the public projection on
+the real Node UI presentation launch. P098-002b can consume that same
+installed-snapshot projection through its own descriptor and disclosure
+boundary. The catalogue,
 theme, manifest and representation dependencies in this delivery plan retain
 their own gates.

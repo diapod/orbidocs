@@ -3356,25 +3356,28 @@ remain on their authorized inspection surfaces. This is an owner contract task, 
 a second resolver, activation system or editor.
 
 | ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 | P091-016 | done (scoped) | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |
 
 
 ### P091-016: behavior and exact revision confirmation
 
-An owner inspects a proposed resolution against the input actually installed in
-a component. Declaration, resolved value, installed input and acknowledged
+An owner compares the candidate with the input the next ordinary use can consume.
+For a restart-bound consumer this is its installed input. Inquirium evaluates
+launch files with the current admitted context. Its last durable acceptance
+continues to identify exactly what the running instance has acknowledged. Declaration, resolved value, installed input and acknowledged
 consumption are separate facts. Owner evidence supplies two independent answers.
 
 | Axis | Decision |
 | --- | --- |
 | Behavior | Equivalent requires two admitted resolutions, equal semantic inputs and equal complete normalized behavioral input. Different requires comparable semantics and a demonstrated input change. Missing evidence, refused sources, fallback launch or a semantic change yield unknown with a typed reason. |
 | Confirmation | Match the owner, setting, install identity, applicable generation and exact resolution, including the owner's private-to-public binding where present. A missing match is unconfirmed, unavailable evidence is unknown, and an unadmitted launch or missing admitted target is not applicable. Historical evidence keeps its original binding. |
-| Next step | Source repair takes precedence over restart. An installed current input without an ACK can await its ordinary first consumption. An equivalent input with a changed revision can optionally be restarted to confirm that revision. Different or unproven behavior calls for restart when an admitted restart is possible. The owner supplies any authorized action link. |
+| Next step | Source repair takes precedence over restart. An installed current input without an ACK can await its ordinary first consumption. A rotated Inquirium context can await the next ordinary consumption. A stopped Arca can await component start. An unavailable or racing observation requests inspection. A repairable source limit requests repair. An equivalent input with a changed revision can optionally be restarted to confirm that revision. Different or unproven behavior calls for restart when an admitted restart is possible. The owner supplies any authorized action link. |
 
 Use every existing resolution input except source-set revision to compare
 semantics. This includes descriptor identity, resolver and domain-port
-revisions, constraints, normalization inputs and the historical epoch.
+revisions, constraints, normalization inputs and the historical admission epoch.
+This epoch is stable across observations of the same admission.
 Private consumption constraints, including validity and binding, remain
 owner evidence. Source revisions and raw-byte CAS retain their existing roles.
 A consumer-visible identity belongs to behavior if it can change admission or
@@ -3383,7 +3386,7 @@ original checks outside the behavioral comparison.
 
 The Node UI owner forecasts the outcome under the same invocation and presently
 observed sources. The possible outcomes are an admitted launch, diagnostic
-full-page fallback and startup refusal. An admitted launch can report a current
+full-page fallback, startup refusal and unavailable observation. An admitted launch can report a current
 source refusal while retaining its earlier installed input. A repaired source
 needs an actual admitted launch to leave fallback, even if its appearance stays
 full-page. The owner publishes startup and current refusals separately.
@@ -3395,8 +3398,11 @@ identity pins, provider details and diagnostics stay on authorized surfaces.
 The handoff reuses P091 sparse composition and the existing activation boundary.
 
 The normal inspection routes publish their new versions together with the
-owning clients. Node UI uses presentation inspection v2, Flow application v3,
-and Inquirium and Arca inspection v4. Clients check the exact setting address
+owning clients. Node UI uses presentation inspection v3, Flow application v4,
+and Inquirium and Arca inspection v5. The shared public verdict uses the closed
+strings equivalent, different and unknown, and a nullable restart requirement.
+Confirmation checks the live instance and allocated generation independently
+of the presented ACK. Clients check the exact setting address
 and version. Confirmation and restart guidance are read-only. Existing save
 approvals, storage formats, current-use authority and recovery remain under
 their respective owners.
@@ -3427,6 +3433,13 @@ passes its independent consumer fixture. See
 `node:docs/evidence/configuration-contracts/consumed-revision-20261122.summary.json`.
 Other P091 owners, installed distribution and release qualification retain
 their own gates.
+
+**Reviewed checkpoint (2026-11-22).** Node `ae14ce82a` requalifies this contract
+on 13 client profiles after the prospective-input and independent live-target
+changes. Inquirium can acknowledge a rotated context on its next ordinary use.
+Node UI consumes the public projection from its installed presentation.
+The P098 appearance catalogue and theme delivery keep their own gates.
+See `node:docs/evidence/configuration-contracts/consumed-revision-review-20261122.summary.json`.
 
 ## F12: explicit retirement of ended transactional incarnations
 
@@ -3468,4 +3481,7 @@ path in Chromium with and without JavaScript and actual WKWebView. A fresh
 trial used a pre-ACK crash, removed Flow, 1,024 constructed events, HTTP 409,
 approved archival, fresh review and one approved POST whose response was lost.
 Exact GET recovered the recorded closure. P091-007/013 retain their broader
-scope. See the F12 verdict in the same Node evidence summary.
+scope. See the F12 verdict in the same Node evidence summary. A fresh F12
+verdict on `ae14ce82a` repeats the three client profiles on the same pinned
+images as the reviewed P091-016 verdict. Both scopes are recorded separately
+in the reviewed checkpoint above.
