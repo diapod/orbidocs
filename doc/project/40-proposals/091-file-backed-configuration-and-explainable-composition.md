@@ -3360,6 +3360,56 @@ a second resolver, activation system or editor.
 | P091-016 | todo | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |
 
 
+### P091-016: behavior and exact revision confirmation
+
+An owner inspects a proposed resolution against the input actually installed in
+a component. Declaration, resolved value, installed input and acknowledged
+consumption are separate facts. Owner evidence supplies two independent answers.
+
+| Axis | Decision |
+| --- | --- |
+| Behavior | Equivalent requires two admitted resolutions, equal semantic inputs and equal complete normalized behavioral input. Different requires comparable semantics and a demonstrated input change. Missing evidence, refused sources, fallback launch or a semantic change yield unknown with a typed reason. |
+| Confirmation | Match the owner, setting, install identity, applicable generation and exact resolution, including the owner's private-to-public binding where present. A missing match is unconfirmed, unavailable evidence is unknown, and an unadmitted launch or missing admitted target is not applicable. Historical evidence keeps its original binding. |
+| Next step | Source repair takes precedence over restart. An installed current input without an ACK can await its ordinary first consumption. An equivalent input with a changed revision can optionally be restarted to confirm that revision. Different or unproven behavior calls for restart when an admitted restart is possible. The owner supplies any authorized action link. |
+
+Use every existing resolution input except source-set revision to compare
+semantics. This includes descriptor identity, resolver and domain-port
+revisions, constraints, normalization inputs and the historical epoch.
+Private consumption constraints, including validity and binding, remain
+owner evidence. Source revisions and raw-byte CAS retain their existing roles.
+A consumer-visible identity belongs to behavior if it can change admission or
+effects. Confirmation-only fields and launch-specific identities serve their
+original checks outside the behavioral comparison.
+
+The Node UI owner forecasts the outcome under the same invocation and presently
+observed sources. The possible outcomes are an admitted launch, diagnostic
+full-page fallback and startup refusal. An admitted launch can report a current
+source refusal while retaining its earlier installed input. A repaired source
+needs an actual admitted launch to leave fallback, even if its appearance stays
+full-page. The owner publishes startup and current refusals separately.
+
+The handoff to P098-002b uses a typed, explicitly public projection of admitted
+fields. A descriptor's non-sensitive flag is necessary for a public value and
+the owner still has to admit the field to the public surface. Private sources,
+identity pins, provider details and diagnostics stay on authorized surfaces.
+The handoff reuses P091 sparse composition and the existing activation boundary.
+
+The normal inspection routes publish their new versions together with the
+owning clients. Node UI uses presentation inspection v2, Flow application v3,
+and Inquirium and Arca inspection v4. Clients check the exact setting address
+and version. Confirmation and restart guidance are read-only. Existing save
+approvals, storage formats, current-use authority and recovery remain under
+their respective owners.
+
+The transition model checks exact acknowledgements across observation,
+inspection and ended launches. Independent vectors also specify the behavior,
+confirmation and next-step relations. See the Node contract vectors at
+`protocol/contracts/golden/configuration-consumed-revision.v1.json`.
+Implementation, the P098-002b handoff and actual client qualification have
+separate checkpoints. The F12 qualification uses the same Node candidate
+with its own verdict.
+
+
 ## F12: explicit retirement of ended transactional incarnations
 
 Accepted design (2026-11-12); implementation and qualification are separate gates.
