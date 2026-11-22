@@ -199,6 +199,10 @@ Current implementation status:
   and [result](../../../schemas/artifact-delivery-reconciliation.local.v1.schema.json)
   contain correlation data and observations. The owner selects the original peer
   from the saved plan and performs at most one query on an established session.
+  Before the first body push, AD seals the peer's admission support observed
+  over the existing authenticated session in that same binding. The pin binds
+  the original exact query and receiver. Later reads can verify continuity or
+  resolve the exact historical result even when an original pin is missing.
   On inbound Messaging pushes, AD carries the host-owned reservation context
   only to the Messaging acceptor. That acceptor verifies it against the host's
   active INAC reservation before applying current receive authority.

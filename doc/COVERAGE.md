@@ -410,7 +410,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`membership-signed-command.v1.schema.json`](schemas-gen/schemas/membership-signed-command.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `4` |
 | [`membership-sponsorship.v1.schema.json`](schemas-gen/schemas/membership-sponsorship.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `1` |
 | [`message-envelope.v1.schema.json`](schemas-gen/schemas/message-envelope.v1.md) | `14` | `1` | `yes` | `yes` | `2` | `1` |
-| [`messaging-admission-identity.v1.schema.json`](schemas-gen/schemas/messaging-admission-identity.v1.md) | `5` | `0` | `yes` | `yes` | `0` | `0` |
+| [`messaging-admission-identity.v1.schema.json`](schemas-gen/schemas/messaging-admission-identity.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-consent-renew.local.v1.schema.json`](schemas-gen/schemas/messaging-consent-renew.local.v1.md) | `2` | `0` | `yes` | `yes` | `0` | `0` |
 | [`messaging-consent-renew.local.v2.schema.json`](schemas-gen/schemas/messaging-consent-renew.local.v2.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`messaging-issuance-consent-withdraw.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-consent-withdraw.local.v1.md) | `1` | `0` | `yes` | `yes` | `1` | `0` |
@@ -2131,5 +2131,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `953`
 - Generated schema docs: `954`
-- Positive examples: `869`
+- Positive examples: `870`
 - Negative examples: `866`

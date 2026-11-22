@@ -716,6 +716,9 @@ schema_for_file() {
     *.messaging-push-settlement.local.v1.json)
       echo "$SCHEMAS_DIR/messaging-push-settlement.local.v1.schema.json"
       ;;
+    *.messaging-admission-identity.v1.json)
+      echo "$SCHEMAS_DIR/messaging-admission-identity.v1.schema.json"
+      ;;
     *.messaging-push-check.local.v1.json)
       echo "$SCHEMAS_DIR/messaging-push-check.local.v1.schema.json"
       ;;

@@ -197,8 +197,11 @@ checks it before admission and returns a durable fact for that exact push.
 INAC retains a positive result through GC while owner acknowledgement is
 outstanding. On restart, the Messaging worker replays committed facts over the
 authenticated local settlement capability. It persists the acknowledged
-finalization floor before releasing INAC's hold. Negotiated support and the
-WSS acceptance remain tracked in S027.
+finalization floor before releasing INAC's hold. A working historical read may
+include a support declaration observed from the complete local Messaging
+journal. This attributes continuity to the journal owner independently of
+whether the query matches a retained attempt. WSS acceptance remains tracked in
+S027.
 
 `admission-status` / `admission-status-result` expose a bounded exact-attempt read
 through the `artifact.delivery.reconcile` host port. Authenticate and

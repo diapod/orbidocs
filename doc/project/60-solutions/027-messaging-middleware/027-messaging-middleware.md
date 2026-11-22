@@ -753,8 +753,33 @@ journal initialization replays exact committed facts through the local
 [`messaging.delivery.push.settle` contract](../../../schemas/messaging-push-settle.local.v1.schema.json).
 It persists the [retention receipt](../../../schemas/messaging-push-settlement.local.v1.schema.json)
 before acknowledgement. Component tests exercise both GC orders and missing
-acknowledgement replies. Negotiated support and WSS acceptance remain pending.
-The S027-009-01–03 tracker rows remain open.
+acknowledgement replies.
+
+The complete Messaging journal owns the epoch and
+[admission support declaration](../../../schemas/messaging-admission-identity.v1.schema.json).
+Its contract digest is SHA-256 of the exact canonical schema file. The epoch is an
+opaque, canonical base64url value encoding 32 bytes. INAC can accompany a
+historical result with this declaration independently of the identity examined.
+The sender's AD owner makes one bounded observation over the already established
+authenticated session and seals it in the exact binding before its first body
+effect. Current sender authority also gates this observation because it
+discloses identifiers of the new attempt. A missing or insufficient observation
+seals a missing pin. A later observation cannot backfill it. The pin binds the receiver, the
+original query and resume horizon, the contract digest, and the complete
+store's epoch and coverage. A current observation must confirm continuity with
+those bounds before an uncertain retransmission could use the pin. Exact
+positive historical readback needs no pin.
+
+The 2026-11-22 development run delivered strict Story-010 with explicit INAC
+approval over WSS. Inspection after shutdown matched the sealed sender pin to
+the receiver journal's epoch. A separate cold readback on those synthetic profiles
+removed the AD run and its Messaging-side handle and injected the sender's
+`delivery-outcome-unknown` state. The real outbox command restored `delivered`
+and the original handle with no new generation, push or change to the first
+receiver admission. The injection exercises readback after loss of the local
+record. The actual lost-response and local `404` history remains to be measured,
+along with the remaining V1–V3 fault cases and the formal WSS campaign. The
+S027-009-01–03 tracker rows remain open.
 
 ### Retention and Failure Boundaries
 

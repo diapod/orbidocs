@@ -1371,6 +1371,7 @@ EXAMPLE_WHITELIST = (
     "running.artifact-delivery-status.json",
     "exact.artifact-delivery-reconcile.local.v1.json",
     "exact.messaging-push-check.local.v1.json",
+    "complete.messaging-admission-identity.v1.json",
     "record.messaging-push-settle.local.v1.json",
     "recorded.messaging-push-settlement.local.v1.json",
     "unknown.artifact-delivery-reconciliation.local.v1.json",
