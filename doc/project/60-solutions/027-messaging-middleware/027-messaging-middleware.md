@@ -1011,7 +1011,9 @@ The daemon binds both the historical read and
 Closure accepts `{"expected/generation": n}` and checks the original generation
 and current execution in one write transaction. A repeated closure returns the
 existing state. A still-running attempt or a stale generation cannot be closed
-by this command. The stored outcome remains `closed-unresolved` unless exact
+by this command. The worker also reports this terminal lifecycle fact to the
+host provenance store for operational retention. The stored outcome remains
+`closed-unresolved` unless exact
 admission confirms delivery. The receipt reason `authority-proof-unavailable`
 distinguishes an unavailable verification from a proved denial or missing
 consent. None of these refusals allocates a generation.

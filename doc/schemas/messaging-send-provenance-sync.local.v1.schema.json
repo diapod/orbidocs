@@ -46,7 +46,8 @@
               null,
               "delivered",
               "expired-unsent",
-              "discarded-unsent"
+              "discarded-unsent",
+              "closed-unresolved"
             ]
           }
         },
