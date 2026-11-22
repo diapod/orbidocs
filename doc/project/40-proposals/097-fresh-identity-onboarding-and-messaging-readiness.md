@@ -578,6 +578,9 @@ P076-034/035 evidence retain their dates, bytes, pins and qualified scope.
 For this continuation, S027 reserves outbox capacity when first admitting a
 message. Waiting, paused and active messages use the same slot. A full pool
 refuses new work and preserves pending observations and exact enqueue replays.
+The recovery outbox pages within the authenticated participant's rows and uses
+the same unresolved-slot accounting as admission. The initial confirmation
+renders the original creation time for each exact selected generation.
 Both complete browser cases belong to S027-009-04. S027-009-05 repeats their
 assertions on the pinned qualification build alongside the wider regressions.
 

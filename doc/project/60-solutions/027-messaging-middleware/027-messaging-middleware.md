@@ -977,6 +977,12 @@ previously saved digest. The body contains no owner field.
 [operation and durable item receipts](../../../schemas/messaging-retry-operation.local.v1.schema.json)
 without executing work. Only initial preview creation provides its token.
 An earlier journal receipt is available at `/v1/messaging/outbox/retry-operations/legacy/{key}`.
+
+`GET /v1/messaging/outbox/recovery?page=N` returns a page of up to 25 entries
+from the authenticated operator's outbox, with adjacent pages and unresolved
+slot usage. The daemon derives the owner locally and the service filters by
+owner before paging. Preview context comes from the exact selected generation
+in the owner store even when that message is outside the operator overview.
 The former implicit single and bulk endpoints no longer schedule retry.
 
 Node UI uses these same operations for an explicit single selection or a
@@ -1191,6 +1197,13 @@ The pure-kernel freeze required by S027-009-06 is a bounded part of S027-009-01,
 and the Lean pilot retains its separate proof scope.
 P076-036/037 and S027-008 are existing reuse/regression baselines. MSG-ONB-009/010
 are evidence cases owned by S027-009-04, not a second implementation workstream.
+
+Development diagnostics exercised both sovereign cases on Chromium with real
+WSS/INAC. The sender recovered consent on the same route through overlapping
+single and bulk actions. A lost acknowledgement reconciled without retransmission,
+and a separate deadline led to a confirmed retransmission from two tabs. The
+recipient reported `AlreadyPresent` with the original mailbox and read state
+preserved. The full role, failure and limits matrix remains the completion gate.
 
 | Task | Scope / owner | Depends on | Status | Completion gate |
 |---|---|---|---|---|

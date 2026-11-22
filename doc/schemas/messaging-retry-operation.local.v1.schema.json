@@ -27,6 +27,20 @@
           "minimum": 0,
           "maximum": 9007199254740991
         },
+        "context/created-at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "context/observation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "observed/at", "outcome"],
+          "properties": {
+            "source": { "const": "recipient-admission" },
+            "observed/at": { "type": "string", "format": "date-time" },
+            "outcome": { "enum": ["accepted", "already-present", "rejected", "unknown", "unavailable"] }
+          }
+        },
         "binding": {
           "type": "object",
           "additionalProperties": false,
