@@ -732,8 +732,13 @@ owners then apply the later of the resume horizon and 31 days from completion.
 Messaging persists the floor returned by INAC before sending its acknowledgement.
 If the acknowledgement reply is lost and INAC retires the token, a later read of
 its absence can complete the acknowledgement only after the saved floor and only
-with that existing local finalization receipt. Absence during repair leaves
-the fact protected. The two ledgers may reach capacity independently.
+with that existing local finalization receipt. Unresolved INAC reservations
+and empty Messaging placeholders expire 31 days after the original resume
+deadline. INAC admits at most 256 unresolved generations per authenticated
+peer inside the shared budget. If a pending domain fact outlives both floors,
+only confirmed absence of its exact token permits retiring the repair as
+unresolved. Until settlement or expiry, a committed repair fact protects
+its first admission from deletion. The two ledgers may reach capacity independently.
 
 Implementation checkpoint, 2026-11-22. Node carries the prepared commitment,
 envelope digest and original deadline through AD and INAC. The runtime gives
@@ -914,6 +919,26 @@ both adapters. INAC's historical ledger currently has one registered
 consumer, Messaging. INAC and AD should extract common ledger policy
 registration when a second family needs an exact historical read.
 
+The November 22 follow-up review adds component regressions for reservation
+expiry, pre-effect refusals, transient support probes and durable retry facts.
+A receiver reports typed consent, identity, lineage or quota refusals from
+its acceptor. Ambiguous failures preserve uncertainty. Before first exposure,
+a busy or timed-out support read keeps the pin pending. The pre-push probe uses
+at most three seconds within its enclosing execution deadline. AD records when this
+probe stopped an attempt before any adapter received the body. Such a record
+can exclude that attempt from possible remote effects when the owner verifies
+a later refusal. Missing evidence keeps the earlier attempt uncertain. Both sender views use
+the stored execution state and an absolute retry deadline. On an explicit
+command the sender may check a saved running handle with its local AD owner
+within the five-second deadline. Only an ended or missing local run allows
+that command to proceed to peer history. Historical reads
+use the AD digest frozen when preparing the generation. The follow-up WSS
+diagnostic withdrew consent after reservation, restarted the sender and
+observed `recipient-consent-blocked` without another push or generation. A
+second WSS diagnostic repaired `AlreadyPresent` after receiver process loss,
+preserving the first admission, Maildir copy and read state. The independently
+pinned campaign above records the earlier revision.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.
@@ -926,7 +951,7 @@ reservations, generations and results are durable facts.
 | INAC results, AD records and generation keys | Through the resume window and at least 31 days after attempt completion. |
 | Receiver deduplication | For the message lifetime; after body deletion, a body-free tombstone for at least 31 days after last admission/recognized duplicate, preventing resurrection. |
 | Bulk results | At least 31 days after every item has a durable terminal result. |
-| Messaging attempt-result capacity | 10,000 attempts and 32 MiB of serialized records; reject new admission when protected records fill capacity. Reads do not extend retention. |
+| Messaging attempt-result capacity | 10,000 attempts and 32 MiB of serialized records, including at most 256 unresolved reservations per peer. Refuse admission when the applicable budget is full. Reads do not extend retention. |
 
 Align startup cleanup and GC with these guarantees; the existing INAC 30-day
 cleanup cannot silently erase a required 31-day result. Protect active/unknown
