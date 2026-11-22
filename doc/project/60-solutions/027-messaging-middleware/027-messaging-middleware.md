@@ -966,6 +966,21 @@ that generation. A stricter host retry cap and the earlier of the persisted
 delivery deadline and the original resume deadline still apply. An interrupted
 handoff can leave a debit without an observed push.
 
+### Explicit Retry Operation
+
+Single and bulk recovery use the same participant-owned journal. A command
+names one to 25 envelope IDs and their expected generations. The operation ID
+and the canonical selection bind a replay to its retained decision.
+
+An uncertain preview also binds the prepared recipient route and message
+commitment for every item. The credential expires after 300 seconds.
+Confirmation checks ownership and the exact selection and consumes the
+credential in one transaction. The operation remains readable by its owner
+after response loss or restart. Confirmed selections give the worker immutable
+input. Worker admission still uses the current authority, consent, execution
+and deduplication evidence. Retained receipts from the earlier journal remain
+readable until their retention deadline.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.
