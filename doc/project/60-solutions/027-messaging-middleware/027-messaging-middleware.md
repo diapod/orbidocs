@@ -783,9 +783,21 @@ the original admission with no new generation or push. This case also exposed
 missing vault scheduling for a recovered recorded message. The owner now
 enqueues the vault job in the same transaction as the confirmation and uses the
 confirmed signed envelope for the job. A development rerun repeated the pause
-and recovery and reached `vault.stored`. The lost-response and remaining V1–V3
-fault cases and the formal WSS campaign are pending. The S027-009-01–03 tracker
-rows remain open.
+and recovery and reached `vault.stored`.
+
+A loopback transport fault discarded receiver-to-sender traffic during a second
+real admission. The receiver committed one push while the sender had no success
+result. After sender restart and loss of the local AD run, polling produced `404`
+and the receiver revoked the original passport. The established WSS session then
+returned the exact historical admission. Reconciliation preserved the prepared
+envelope, generation and first receiver admission, with no second push. A
+separate daemon integration regression uses two independently signed client
+sessions and a seeded receiver ledger. It compares absent, foreign and
+mismatched results, checks that reading leaves the ledger unchanged, and observes
+`unavailable` for a damaged own record without disclosing it to the foreign peer.
+
+Remaining V1–V3 fault cases and the formal WSS campaign are pending. The
+S027-009-01–03 tracker rows remain open.
 
 ### Retention and Failure Boundaries
 
