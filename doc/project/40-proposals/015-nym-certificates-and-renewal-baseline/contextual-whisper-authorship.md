@@ -220,10 +220,15 @@ of subsequent ADC use. The certificate includes the time-bounded auxiliary
 uses even when the author does not use them.
 
 For the operator-selected `minimal` policy, the initial request selects signal
-publication only. Later ADC use requires a fresh issuance. Before sending it,
-the consent surface explains that the council learns the participant's intent
-to use embargo in this topic and the time of that request. Both policies use
-the same exact signed grant check.
+publication only. Later ADC use requires a fresh issuance through a renewal
+with explicit, locally retained consent. Before sending it, the consent surface
+explains that the council can infer intent to use embargo in this topic from
+the newly requested scope and its timing. The locked prior-certification
+reference resolves to an independently verified predecessor within the same
+participant, issuer, profile, context and exact topic. The operator's scope
+policy is preserved across renewal and private reset, and only the requested
+tuples enter the signed request. Both policies use the same exact signed
+grant check.
 
 **Notice before ADC-007.** The tuple vocabulary reserves
 `whisper-correlation-notice` and `whisper-correlation-notice.v1` and recognizes

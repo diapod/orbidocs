@@ -37,6 +37,9 @@
         },
         {
           "$ref": "whisper-source-profile.v3.schema.json"
+        },
+        {
+          "$ref": "whisper-source-profile.v4.schema.json"
         }
       ]
     },
