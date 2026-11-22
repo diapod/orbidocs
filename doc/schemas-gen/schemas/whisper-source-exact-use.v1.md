@@ -21,7 +21,7 @@ Closed tuple vocabulary for exact v4 grants. A profile must separately authorize
 |---|---|---|---|
 | [`record/kind`](#field-record-kind) | `yes` | string |  |
 | [`content/schema`](#field-content-schema) | `yes` | string |  |
-| [`topic/key`](#field-topic-key) | `yes` | string |  |
+| [`topic/key`](#field-topic-key) | `yes` | string | Exact Agora topic key with a 512-byte UTF-8 limit and no surrounding whitespace. |
 | [`disclosure/scope`](#field-disclosure-scope) | `yes` | enum: `federation-scoped`, `cross-federation`, `public-aggregate-only`, `single-audience` |  |
 | [`signing/use`](#field-signing-use) | `yes` | enum: `publication`, `embargo-manifest`, `embargo-audience-manifest` |  |
 ## Field Semantics
@@ -43,6 +43,8 @@ Closed tuple vocabulary for exact v4 grants. A profile must separately authorize
 
 - Required: `yes`
 - Shape: string
+
+Exact Agora topic key with a 512-byte UTF-8 limit and no surrounding whitespace.
 
 <a id="field-disclosure-scope"></a>
 ## `disclosure/scope`
