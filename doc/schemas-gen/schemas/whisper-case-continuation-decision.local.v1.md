@@ -26,6 +26,7 @@ Recipient-owned point-in-time decision for continue-case only. History/authentic
 | [`local/source-reused`](#field-local-source-reused) | `no` | boolean |  |
 | [`case/authority`](#field-case-authority) | `yes` | string |  |
 | [`anchor/witness`](#field-anchor-witness) | `yes` | unspecified |  |
+| [`anchor/reliance`](#field-anchor-reliance) | `no` | object |  |
 | [`registration/basis`](#field-registration-basis) | `yes` | unspecified |  |
 
 ## Conditional Rules
@@ -213,6 +214,12 @@ Then:
 
 - Required: `yes`
 - Shape: unspecified
+
+<a id="field-anchor-reliance"></a>
+## `anchor/reliance`
+
+- Required: `no`
+- Shape: object
 
 <a id="field-registration-basis"></a>
 ## `registration/basis`

@@ -11,7 +11,12 @@ run mode. A capsule supplies exact proof bytes and provenance, never trust.
 `authority-attested` is a separate verdict for explicit operator-enabled
 `AuthorityAttested`; it cannot satisfy or contribute to the independent verdict.
 ReceiptProfile, WitnessSourceUse and RegistrationReliance retain their existing
-meanings. Matrix server keys require separate local admission.
+meanings. Matrix server keys require separate local admission. Fresh recipient
+decisions report `anchor/reliance` with the verified receipt profile, the
+additional witness source use (if applicable) and the certificate family
+actually checked under its bound profile. This is separate from the
+`registration/basis` recorded by the recipient. Historical rows may lack the
+new projection and cannot witness it for LLR-009.
 
 The single matrix is `node:tools/acceptance/case-continuity/llr009-profile.json`.
 Development execution, formal execution and qualification consume its exact

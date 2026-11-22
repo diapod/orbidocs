@@ -222,6 +222,18 @@
         }
       ]
     },
+    "anchor/reliance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt/profile", "source/use", "certificate/schema"],
+      "properties": {
+        "receipt/profile": {"enum": ["full-record", "detached-manifest"]},
+        "source/use": {"enum": [null, "sqlite-local-receipt-bridge", "matrix-homeserver-observation"]},
+        "certificate/schema": {
+          "enum": ["whisper-source-certificate.v1", "whisper-source-certificate.v2", "whisper-source-certificate.v3"]
+        }
+      }
+    },
     "registration/basis": {
       "oneOf": [
         {
