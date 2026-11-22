@@ -969,6 +969,13 @@ counts in v2's byte budget, including a buffer reused under another role.
 Registration and presentations require the source role. V1 schemas, signatures,
 pins and unique-buffer accounting remain unchanged and refuse that role.
 
+For a native witnessed v2 receipt, the source role carries exactly the
+canonical bytes of the witness delegation embedded in that receipt. Its digest
+and bytes must match the signed receipt. The verifier checks the native
+admission once with that delegation; it grants no additional witness authority.
+SQLite bridge and Matrix receipts carry their own required source evidence
+under their independently adopted policies.
+
 Ordinary source-bound operations use the operator-only
 `POST /v2/identity/whisper-case-workflow`, with closed
 `whisper-case-workflow-request.local.v2` and result v2. The path selects the
