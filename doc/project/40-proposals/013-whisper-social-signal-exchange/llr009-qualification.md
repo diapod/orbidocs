@@ -21,6 +21,14 @@ new projection and cannot witness it for LLR-009.
 The single matrix is `node:tools/acceptance/case-continuity/llr009-profile.json`.
 Development execution, formal execution and qualification consume its exact
 rows. Required negative rows cannot disappear from a selected campaign.
+The negative cases distinguish v2 without its required source role
+(`case-structure`), v2 missing the exact source policy (`anchor-unproven`)
+and ordinary-v1 input without its receipt (`case-unresolved`). Each
+refusal is also checked with the attestation option enabled. The
+unproven-registration pair keeps the receipt's exact admission snapshot
+and removes supplemental completeness material; the same input, time and
+trust are evaluated with the option off and on.
+
 
 ## Work and byte boundaries
 
