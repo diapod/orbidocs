@@ -1208,6 +1208,9 @@ The S027-008 development rerun passed on the same binaries after the fixture
 waited for the new daemon runtime at each reload. It checked pending-fact
 capacity, idempotent Memarium replay and preservation of paused and terminal
 outbox entries.
+The mixed sovereign/delegated development scenario also delivered in both
+directions through explicit contact and INAC approvals. Its initial consent
+flow uses ordinary outbox processing on the original generation.
 
 | Task | Scope / owner | Depends on | Status | Completion gate |
 |---|---|---|---|---|
