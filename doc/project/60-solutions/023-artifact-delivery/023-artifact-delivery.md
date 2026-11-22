@@ -198,7 +198,10 @@ Current implementation status:
   [request](../../../schemas/artifact-delivery-reconcile.local.v1.schema.json)
   and [result](../../../schemas/artifact-delivery-reconciliation.local.v1.schema.json)
   contain correlation data and observations. The owner selects the original peer
-  from the saved plan and performs at most one query on an established session.
+  from the saved projection and performs at most one query on an established,
+  authenticated WSS session. The exact binding can still correlate the handle
+  after the execution record has been removed. Matrix-only routing returns
+  unavailable for this read.
   Before the first body push, AD seals the peer's admission support observed
   over the existing authenticated session in that same binding. The pin binds
   the original exact query and receiver. Later reads can verify continuity or

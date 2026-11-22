@@ -192,6 +192,11 @@ Reservation failure precedes single-use consent consumption and acceptor effects
 failed finalization after domain admission remains reconcilable. Messaging, not
 the ledger or carrier, determines whether the message was admitted.
 
+The local continuity marker binds the enrolled SQLite ledger to its database
+identity. Losing that database leaves protected admission and historical
+readback unavailable, including across startup. Restoring the enrolled database
+recovers the ledger, and independent mailbox reads remain available throughout.
+
 INAC holds an opaque reservation token for each push. The local Messaging owner
 checks it before admission and returns a durable fact for that exact push.
 INAC retains a positive result through GC while owner acknowledgement is
