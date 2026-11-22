@@ -798,6 +798,16 @@ sessions and a seeded receiver ledger. It compares absent, foreign and
 mismatched results, checks that reading leaves the ledger unchanged, and observes
 `unavailable` for a damaged own record without disclosing it to the foreign peer.
 
+A repeat with the return-traffic fault exposed an ordering error at sender
+startup. Outbox processing sampled the send guard before its host capability
+channel was ready and recorded `authority-blocked` before polling the retained
+AD handle. It now observes an existing message execution first. A status
+transport failure preserves its state and handle, and a real 404 records
+`delivery-outcome-unknown`. Envelope construction and a new submission still
+require current send authority. The development repeat recovered the same
+first admission after consent withdrawal and completed recorded-message vault
+storage.
+
 The development crash diagnostic stopped a live receiver on both sides of the
 domain commit. Before the commit, the exact reservation survived and WSS readback
 returned `unknown`, with no first admission or extra push. After the commit,
