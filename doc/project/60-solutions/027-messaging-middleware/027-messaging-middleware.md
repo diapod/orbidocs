@@ -992,6 +992,9 @@ and per-item receipt share a transaction. Publishing the exact preparation
 replaces the reservation with the bytes retained by the owner. A failed write
 rolls back the complete reservation; loss of the response leaves a readable
 receipt for the original result.
+The sender worker takes one confirmed position per tick from the durable
+journal. Restart resumes confirmed items with no receipt; previews without
+confirmation do not enter the work queue. Receipt reads remain local.
 
 Before allocating an uncertain retry, Messaging asks the local AD owner for
 current coverage of each unresolved exact attempt. AD checks the original
