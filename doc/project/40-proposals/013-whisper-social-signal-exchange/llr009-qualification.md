@@ -77,6 +77,14 @@ closures. Real legal maximum proofs and structural capacity are separate tests.
 | IndependentlyVerified | same or Refuted, never Attested |
 | IndependentlyRefuted | Refuted only |
 
+A verified Before updates the saved reliance and holds its exact proof in the
+same commit as the refusal. This applies to the initial presentation and to
+later evidence after either an attested or independently verified registration.
+Replay or later positive material cannot upgrade an invalidated registration.
+Legacy invalidation facts keep their refusal. An independently refuted basis
+with an exact proof digest may be filled when the verified Before is supplied
+again.
+
 Operator policy authority_attested_basis defaults to false. Turning it off
 requires independent readmission of a saved attested basis before another
 current effect. Freshness expiry does not undo historical Verified admission.
