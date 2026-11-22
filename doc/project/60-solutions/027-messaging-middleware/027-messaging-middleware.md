@@ -752,8 +752,10 @@ INAC finalizes positive results from this fact. A bounded background pass after
 journal initialization replays exact committed facts through the local
 [`messaging.delivery.push.settle` contract](../../../schemas/messaging-push-settle.local.v1.schema.json).
 It persists the [retention receipt](../../../schemas/messaging-push-settlement.local.v1.schema.json)
-before acknowledgement. Component tests exercise both GC orders and missing
-acknowledgement replies.
+before acknowledgement. A component test drives both SQLite collectors at
+the retention floor. It loses the reply after INAC records a duplicate result
+and then loses the acknowledgement. Each GC order preserves the pending
+repair until the corresponding durable receipt allows release.
 
 The complete Messaging journal owns the epoch and
 [admission support declaration](../../../schemas/messaging-admission-identity.v1.schema.json).
@@ -804,6 +806,14 @@ After cleaning up the test's orphaned sidecars, startup replay finalized the
 same token and released the owner hold. The sender recovered `delivered` over
 WSS with the original admission, generation and single receiver push intact.
 
+The duplicate variant used a newly issued passport and a different signed
+envelope with the same message commitment. It staged the next generation
+in the isolated sender fixture while the recovery command in S027-009-04
+remains open. After a receiver crash, replay finalized the distinct
+`AlreadyPresent` admission for the second generation. The WSS read used
+that admission and preserved the original envelope, Maildir file set,
+recording and read flag.
+
 The sender-side crash diagnostic on 2026-11-22 fenced the Messaging write
 before the new AD handle could be recorded and stopped the live Messaging
 subprocess after AD committed the exact binding. The original AD run still
@@ -818,6 +828,16 @@ The same fixture held the receiver while the first reconciliation queued
 its historical query and issued a second POST for the same generation. Both
 requests shared the same admission response and one WSS query. A subsequent
 POST returned the delivered state without another query.
+
+The late-success variant held the response while the fixture staged a
+newer paused generation. The matching older result confirmed delivery,
+recovered the original preparation's handle and left the newer generation's
+handle empty. The read caused no additional push.
+
+The rerouted-peer variant moved the same receiver identity to a new WSS
+endpoint. The previous listener refused a connection. The established
+session at the new endpoint returned the original admission without a push
+or a generation change.
 
 The local AD response now carries `execution/resolved` when a single direct
 attempt's typed terminal refusal agrees with the authenticated historical
