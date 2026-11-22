@@ -732,8 +732,13 @@ owners then apply the later of the resume horizon and 31 days from completion.
 Messaging persists the floor returned by INAC before sending its acknowledgement.
 If the acknowledgement reply is lost and INAC retires the token, a later read of
 its absence can complete the acknowledgement only after the saved floor and only
-with that existing local finalization receipt. Absence during repair leaves
-the fact protected. The two ledgers may reach capacity independently.
+with that existing local finalization receipt. Unresolved INAC reservations
+and empty Messaging placeholders expire 31 days after the original resume
+deadline. INAC admits at most 256 unresolved generations per authenticated
+peer inside the shared budget. If a pending domain fact outlives both floors,
+only confirmed absence of its exact token permits retiring the repair as
+unresolved. Until settlement or expiry, a committed repair fact protects
+its first admission from deletion. The two ledgers may reach capacity independently.
 
 Implementation checkpoint, 2026-11-22. Node carries the prepared commitment,
 envelope digest and original deadline through AD and INAC. The runtime gives
@@ -891,7 +896,48 @@ zero Matrix events. Restoring the WSS route recovered the original admission.
 A separate run disabled WSS without a mailbox route. Readback reported
 `unavailable` without dialing or sending an INAC frame.
 
-The formal WSS campaign is pending. The S027-009-01–03 tracker rows remain open.
+The focused WSS campaign qualified on 2026-11-22 from clean Node `6fc10c4b`
+and Orbidocs `bf3d508a`. It passed 13 runtime cases, 558 component tests
+and 57,997 Lean–Rust comparisons with 13 named reconciliation vectors. The
+[retained campaign](https://github.com/diapod/node/tree/master/docs/evidence/limited-messaging/2026-11-22-s027-exact-history)
+binds the exact sources, executable digests and observed results. Loose
+and extracted qualification agree. The interrupted pre-merge attempt has
+its own retained record and contributes no counts to this campaign.
+
+The lost-WSS-response case correlates the original message and generation,
+its AD submission, the exact receiver result and the retained admission.
+After a real local AD `404` and consent withdrawal it confirms `delivered`
+with zero new pushes, generations or acceptor calls. The three-peer test
+measures authenticated read isolation. The receiver commit cuts and
+duplicate case measure recovery without changing the first admission,
+mailbox or read state. The fixture stages the newer generations used in
+the duplicate and delayed-success cases. User-facing generation creation
+and browser recovery remain in S027-009-04.
+
+The shared exact-submission registry and checked digest relation cover
+both adapters. INAC's historical ledger currently has one registered
+consumer, Messaging. INAC and AD should extract common ledger policy
+registration when a second family needs an exact historical read.
+
+The November 22 follow-up review adds component regressions for reservation
+expiry, pre-effect refusals, transient support probes and durable retry facts.
+A receiver reports typed consent, identity, lineage or quota refusals from
+its acceptor. Ambiguous failures preserve uncertainty. Before first exposure,
+a busy or timed-out support read keeps the pin pending. The pre-push probe uses
+at most three seconds within its enclosing execution deadline. AD records when this
+probe stopped an attempt before any adapter received the body. Such a record
+can exclude that attempt from possible remote effects when the owner verifies
+a later refusal. Missing evidence keeps the earlier attempt uncertain. Both sender views use
+the stored execution state and an absolute retry deadline. On an explicit
+command the sender may check a saved running handle with its local AD owner
+within the five-second deadline. Only an ended or missing local run allows
+that command to proceed to peer history. Historical reads
+use the AD digest frozen when preparing the generation. The follow-up WSS
+diagnostic withdrew consent after reservation, restarted the sender and
+observed `recipient-consent-blocked` without another push or generation. A
+second WSS diagnostic repaired `AlreadyPresent` after receiver process loss,
+preserving the first admission, Maildir copy and read state. The independently
+pinned campaign above records the earlier revision.
 
 ### Retention and Failure Boundaries
 
@@ -905,7 +951,7 @@ reservations, generations and results are durable facts.
 | INAC results, AD records and generation keys | Through the resume window and at least 31 days after attempt completion. |
 | Receiver deduplication | For the message lifetime; after body deletion, a body-free tombstone for at least 31 days after last admission/recognized duplicate, preventing resurrection. |
 | Bulk results | At least 31 days after every item has a durable terminal result. |
-| Messaging attempt-result capacity | 10,000 attempts and 32 MiB of serialized records; reject new admission when protected records fill capacity. Reads do not extend retention. |
+| Messaging attempt-result capacity | 10,000 attempts and 32 MiB of serialized records, including at most 256 unresolved reservations per peer. Refuse admission when the applicable budget is full. Reads do not extend retention. |
 
 Align startup cleanup and GC with these guarantees; the existing INAC 30-day
 cleanup cannot silently erase a required 31-day result. Protect active/unknown
@@ -1014,27 +1060,24 @@ irreversibility contract. No shared proof may erase that difference.
 
 ### Implementation Tracker {#consent-loss-recovery-tracker}
 
-Rows S027-009-01–05 remain `todo`; the separately qualified pure pilot does not
-close their runtime gates. Design registration alone is not qualification.
-Dependencies below are closure prerequisites; contract/fixture work may overlap.
+The 2026-11-22 exact-history campaign closes S027-009-01–03. Rows
+S027-009-04 and S027-009-05 remain `todo`. Dependencies below are closure
+prerequisites and contract and fixture work may overlap.
 The pure-kernel freeze required by S027-009-06 is a bounded part of S027-009-01,
-not a claim that the whole contract/runtime row is complete. S027-009-01–05
-retain their runtime gates independently of the separately reported Lean pilot.
+and the Lean pilot retains its separate proof scope.
 P076-036/037 and S027-008 are existing reuse/regression baselines. MSG-ONB-009/010
 are evidence cases owned by S027-009-04, not a second implementation workstream.
 
 | Task | Scope / owner | Depends on | Status | Completion gate |
 |---|---|---|---|---|
-| S027-009-01 | Contracts and pure transition table / Messaging with INAC and AD owners | P032; P060; current P076-036/037 and P097 contracts | todo | Inventory reusable seams; freeze both commitments, prepared-attempt binding, peer-scoped read/support contracts, closed reasons/privacy mapping, allowed actions, migration refusals and profile retention. Update canonical schemas, Node mirrors and API registries at implementation time; retain refusal/replay fixtures, including acquisition-disabled versus consent-refused. |
-| S027-009-02 | Insert-once admission and immutable attempts / Messaging | S027-009-01 | todo | Durable reservations before effects; exact prepared bytes/idempotency across lost submission replies; concurrent first admissions and retries preserve first envelope/path/mailbox/recording/read state. Crash between reservation, Maildir, index and outcome remains reconcilable or explicitly unknown; historical bytes stay unchanged. |
-| S027-009-03 | Historical read and typed delivery outcome / INAC and AD | S027-009-02 | todo | Required ledger, peer/key/digest binding, bounded body-free reconciliation and authenticated deduplication support. Foreign/absent/mismatched lookups agree; AD preserves refusal/retry fields; local 404 creates zero new generations; failed outcome finalization cannot erase admission. Retain first actual WSS/INAC evidence. |
+| S027-009-01 | Contracts and pure transition table / Messaging with INAC and AD owners | P032; P060; current P076-036/037 and P097 contracts | done | Inventory reusable seams; freeze both commitments, prepared-attempt binding, peer-scoped read/support contracts, closed reasons/privacy mapping, allowed actions, migration refusals and profile retention. Update canonical schemas, Node mirrors and API registries at implementation time; retain refusal/replay fixtures, including acquisition-disabled versus consent-refused. |
+| S027-009-02 | Insert-once admission and immutable attempts / Messaging | S027-009-01 | done | Durable reservations before effects; exact prepared bytes/idempotency across lost submission replies; concurrent first admissions and retries preserve first envelope/path/mailbox/recording/read state. Crash between reservation, Maildir, index and outcome remains reconcilable or explicitly unknown; historical bytes stay unchanged. |
+| S027-009-03 | Historical read and typed delivery outcome / INAC and AD | S027-009-02 | done | Required ledger, peer/key/digest binding, bounded body-free reconciliation and authenticated deduplication support. Foreign/absent/mismatched lookups agree; AD preserves refusal/retry fields; local 404 creates zero new generations; failed outcome finalization cannot erase admission. Retain first actual WSS/INAC evidence. |
 | S027-009-04 | Explicit single/bulk recovery and UI / Messaging and Node UI | S027-009-03 | todo | One durable AD retry budget; distinct confirmed uncertain retry; no duplicate generation from concurrent tabs/bulk; current authority and consent before every push. UI shows stage/reason/observation/actions, keeps composer and owner/CSRF checks. Qualify [MSG-ONB-009/010](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md#recipient-consent-recovery-acceptance) on the same relationship/route; late failures cannot downgrade delivered. |
 | S027-009-05 | Retained qualification and convergence closeout / S027 owner | S027-009-04; S027-008; P076-036/037 regression | todo | Separate conformance, real host/browser and regression evidence; test retention/startup GC/capacity/tombstones, Memarium outage and restart/replay/reindex. Regress sovereign independent membership, delegated/mixed and strict Story-010; complete bounded local-proof zero-fetch and P076-037 policy tests. Pin clean sources/binaries, retain failures and qualify identically before/after extraction via `$PRIMARY_EVIDENCE_STORE`. Reconcile Node ledger/MVP, owner docs, schemas and registries; record convergence dispositions under `node:DEV-GUIDELINES.md`. |
 | S027-009-06 | Bounded Lean delivery-recovery pilot / Messaging core owner | S027-009-01 pure-kernel contract freeze only; existing Rust transition/fixture baseline | done | Meet the [pilot gate](#lean-delivery-pilot): reviewed claim/assumption map, pinned checked proofs over reachable histories, positive witnesses and guard-mutation controls; bounded differential traces against the existing Rust core; source-bound report separating proof, correspondence tests and runtime obligations. Record reusable laws and intentional domain differences for P013-ADC-011. No full S027-009 runtime, browser or public-release qualification follows. |
 
-The next runtime action remains S027-009-01; the bounded pure-kernel pilot is
-qualified independently of that remaining integration. Runtime
-qualification uses synthetic federation and
+The next runtime action is S027-009-04. Its qualification uses synthetic federation and
 `a.localhost` / `b.localhost` browser sessions with explicit consent, without
 models or VMs. Correlate message ID, generations, both digests, AD ID, UI, outbox,
 domain admission and mailbox. Local-proof zero-fetch does not establish offline

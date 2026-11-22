@@ -312,3 +312,16 @@ Retain separate statements for schema/contract conformance, actual browser runti
 native runtime, accessibility checks and observed usability. Any incomplete item stays
 explicit. Publish the integration map and bounded results alongside the Node
 implementation record; this proposal alone changes none of those statuses.
+
+
+### P091 dependency checkpoint
+
+P091-016 has supplied the typed public layout projection and executable
+inheritance, refusal and exact-consumption cases. The bounded Node candidate
+`22e8927b3` qualified the original four-owner contract. Reviewed Node
+`ae14ce82a` qualifies the revised contract and uses the public projection on
+the real Node UI presentation launch. P098-002b can consume that same
+installed-snapshot projection through its own descriptor and disclosure
+boundary. The catalogue,
+theme, manifest and representation dependencies in this delivery plan retain
+their own gates.

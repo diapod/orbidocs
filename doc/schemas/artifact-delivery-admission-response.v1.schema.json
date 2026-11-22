@@ -15,6 +15,27 @@
     "idempotency/key": {"type": ["string", "null"]},
     "artifact/ref": {"type": "string"},
     "reason": {"type": "string"},
+    "messaging/evidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "fact"],
+          "properties": {
+            "kind": {"const": "committed"},
+            "fact": {"$ref": "messaging-push-settle.local.v1.schema.json#/properties/fact"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {"enum": ["recipient-consent-required", "identity-conflict", "recording-lineage-required", "push-journal-full"]}
+          }
+        }
+      ]
+    },
     "diagnostic": {"type": "object", "additionalProperties": true}
   },
   "x-dia-basis": [
