@@ -30,6 +30,12 @@ Verified persisted knowledge needs no repeated signature check only when the
 owner establishes its checked provenance and store integrity. Imported bytes or
 an external verified flag cannot manufacture that provenance. Time, scope,
 current trust, fencing and terminal-state checks still apply.
+CaseKnowledge binds checked provenance to the exact source-status, case-status
+and acceptance digests in its fenced store. A recovered source floor supplies
+only revision and revocation knowledge. A recovered case lease can only shorten
+the independently checked lease, and a recovered acceptance only supports
+conflict comparison. Legacy rows without provenance require signature checks.
+`local/source-reused` records use of the recipient-owned source floor.
 
 Negative and terminal knowledge precedes positive freshness. Local exhaustion
 blocks continue-case with local-knowledge-limit, preserving already verified
@@ -137,5 +143,5 @@ reserves from this ceiling. Operator configuration must reserve sufficient bytes
 and storage for the configured number of live cases/operations; an old small
 budget refuses explicitly. No configured storage ceiling is silently increased.
 The test fixtures allocate ordinary capacity in addition to their derived reserve.
-This checkpoint records bounds for the byte envelopes. Durable reuse of
-verification provenance and formal qualification remain open.
+This checkpoint records bounds for the byte envelopes and fenced reuse of
+verification provenance. Formal qualification remains open.

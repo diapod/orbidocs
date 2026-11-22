@@ -25,7 +25,8 @@
   ],
   "dependentRequired": {
     "presentation/work": ["local/work"],
-    "local/work": ["presentation/work"]
+    "local/work": ["presentation/work"],
+    "local/source-reused": ["local/work"]
   },
   "properties": {
     "schema": {
@@ -200,6 +201,9 @@
       "type": "integer",
       "minimum": 0,
       "maximum": 12
+    },
+    "local/source-reused": {
+      "type": "boolean"
     },
     "case/authority": {
       "type": "string",
