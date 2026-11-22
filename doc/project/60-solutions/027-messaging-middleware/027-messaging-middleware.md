@@ -826,6 +826,14 @@ or a missing run leave the marker absent. Messaging applies the exact current
 generation's pause and stores the observation atomically. Subsequent owner
 reads can return that saved result.
 
+In a separate WSS diagnostic, the recipient withdrew the receive passport
+after the exact INAC reservation became durable and before Messaging
+committed an admission. The original reservation finalized with
+`recipient-consent-required` and no first admission. After restart the
+sender's historical read carried `execution/resolved` and persisted
+`recipient-consent-blocked`. The same generation retained one push token
+throughout the diagnostic.
+
 Remaining V1–V3 fault cases and the formal WSS campaign are pending. The
 S027-009-01–03 tracker rows remain open.
 
