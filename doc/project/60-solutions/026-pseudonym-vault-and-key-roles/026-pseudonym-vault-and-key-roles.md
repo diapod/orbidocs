@@ -517,6 +517,14 @@ and synthetic v2 certificates. Exact source pins, isolated consumers, retention
 and exclusions are recorded in `node:docs/audits/ACCEPTANCE-PORTABLE-CUSTODY-2026-10-30.md`.
 This does not close P015-005, P036 parent scope, LLR-009 or release qualification.
 
+P015-005 v4 separates exact signed scope from the applicant's selection policy.
+S026 prepares the same profile-pinned set on uniform issue and renewal. The
+operator may select a minimal initial scope. Consent for later ADC issuance
+describes the intent and timing disclosed to the council before sending the
+request. Protected ADC preparation retains one result for the request, opening
+reservations, main manifest and complete audience set under the original
+P015-011 horizon.
+
 The custody boundary review separates provider loss from permanent function loss:
 explicit replacement preserves old erasure horizons, permits new capture, and
 retains proof CAS when only keys were lost. Dedicated owner checkpoints avoid

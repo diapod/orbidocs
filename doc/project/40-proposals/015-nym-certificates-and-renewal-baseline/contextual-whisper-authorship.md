@@ -172,6 +172,76 @@ P015-005 owns positive and cross-kind/cross-scope refusal fixtures; ADC-001/007
 own application use. None of this expands the existing narrow signal-only
 profile or qualifies Gate B.
 
+### P015-005 exact-use profile
+
+**Accepted contract.** The profile controls which exact uses the council can
+issue. Each request selects the complete grant. This preserves the author's
+choice and lets a recipient check the same scope offline against independently
+admitted policy. Runtime completion is tracked separately in P015-005 and
+P015-005-ADC.
+
+**Versioning.** The exact request policy is introduced by
+`whisper-source-profile.v4`. The closed selection rule is `explicit-request`
+for all its uses. V1–v3 retain their signed semantics, including legacy
+defaults. V4 uses `nym-issuance-request.v3`, `nym-issuance-decision.v3` and their
+corresponding sealed contracts. It selects the
+`whisper-source-certificate.v4` shape of the existing `nym-certificate.v1`
+signing format. The new exchange uses versioned signature and sealing domains.
+Unknown or mixed versions refuse before issuance. The v3 half-open publication
+window also applies to v4.
+
+**Grant.** A single closed tuple vocabulary binds record kind, content schema,
+exact topic key, disclosure scope and signing use. Publication of contextual
+signals, publication of correlation notices, signing the main embargo
+manifest and signing an audience manifest are separate uses. The main manifest
+uses `federation-scoped` and the audience manifest uses `single-audience`.
+The signed `scope/requested-uses` list and the certificate's
+`scope/authorized-uses` list are nonempty sets with at most 16 tuples each.
+The issuer verifies whole tuples against the profile and exact request topic
+before issuing. The applicant compares sets and refuses additions and
+omissions even when every signature verifies. Projection fields for legacy
+scope readers never grant a v4 use independently. Auxiliary signing retains
+its own preimage and checks the case commitment, key, context, time and audience.
+
+**Selection and issuer disclosure.** The default applicant policy
+`uniform` requests the profile's `request/uniform-uses` on issue and renewal.
+The profile pins this set as a subset of authorized uses for one exact topic.
+The set contains signal publication and the two manifest uses. Its absence
+causes `profile-uniform-set-missing` at the applicant. A uniform applicant
+has no in-lifetime scope extension operation. The council sees the participant,
+context, time and profile set. The selected tuples carry no per-request signal
+of subsequent ADC use. The certificate includes the time-bounded auxiliary
+uses even when the author does not use them.
+
+For the operator-selected `minimal` policy, the initial request selects signal
+publication only. Later ADC use requires a fresh issuance. Before sending it,
+the consent surface explains that the council learns the participant's intent
+to use embargo in this topic and the time of that request. Both policies use
+the same exact signed grant check.
+
+**Notice before ADC-007.** The tuple vocabulary reserves
+`whisper-correlation-notice` and `whisper-correlation-notice.v1` and recognizes
+`federation-scoped`, `cross-federation` and `public-aggregate-only` for the
+notice publication use. The separately admitted qualification profile allows
+only one notice tuple for its fixture topic and `federation-scoped`. It keeps
+notice outside the uniform set. The production profile has no notice tuple.
+The recipient checks the envelope signature, certificate, adopted profile and
+grant. The subsequent content decision is `content-schema-not-admitted`.
+There is no record write, publication or indexing on this path. ADC-007 owns
+content, expiry, discovery and production grants. A production grant revision
+changes the profile digest and the context. Open cases remain subject to the
+same-context succession rule until LLR-010 defines context transition.
+
+**ADC custody and evidence.** A single S026 prepared result binds the exact
+request, independent opening reservations, M and the entire M_A set. The
+owner commits the whole set before exposing any result. Replay preserves the
+bytes and original expiry. Eligibility is checked separately from historical
+admission. A detached recipient checks only its own opening and records the
+admitted witness's role. The native issuer claim covers the actually executed
+macOS custody mechanism. The existing ADC matrix establishes prior coverage
+and the P015-005 qualification requires a new offline producer-to-recipient
+observation.
+
 ### Unpublished Matrix preparation
 
 Ordinary v2 publication first checks current contextual authorship/status and
