@@ -736,7 +736,11 @@ with that existing local finalization receipt. Absence during repair leaves
 the fact protected. The two ledgers may reach capacity independently.
 
 Implementation checkpoint, 2026-11-22. Node carries the prepared commitment,
-envelope digest and original deadline through AD and INAC. The receive bridge
+envelope digest and original deadline through AD and INAC. The runtime gives
+the commitment, signed-envelope digest, final artifact-bytes digest and AD
+submission digest distinct types. The two adapters and the receive bridge
+use the same digest relation for the final artifact. Their wire fields and
+canonical preimages retain their existing encoding. The receive bridge
 requires an exact ledger reservation before the acceptor, atomically consumes
 any single-use invitation, and serves peer-scoped historical point reads.
 The direct AD adapter preserves typed remote refusals. The local
