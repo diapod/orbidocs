@@ -814,6 +814,10 @@ and completed the recorded-message vault job. The prepared envelope,
 generation, first receiver admission and single push survived the diagnostic.
 The runtime was built from Node `38dc001a9`. The runner is
 `node:tools/acceptance/story-010-operator/s027-ad-handle-diagnostic.py`.
+The same fixture held the receiver while the first reconciliation queued
+its historical query and issued a second POST for the same generation. Both
+requests shared the same admission response and one WSS query. A subsequent
+POST returned the delivered state without another query.
 
 The local AD response now carries `execution/resolved` when a single direct
 attempt's typed terminal refusal agrees with the authenticated historical
