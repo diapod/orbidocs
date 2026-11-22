@@ -792,7 +792,9 @@ real admission. The receiver committed one push while the sender had no success
 result. After sender restart and loss of the local AD run, polling produced `404`
 and the receiver revoked the original passport. The established WSS session then
 returned the exact historical admission. Reconciliation preserved the prepared
-envelope, generation and first receiver admission, with no second push. A
+envelope, generation and first receiver admission. The strict Story-010
+runner observes the matching receiver response on the native WSS session
+before continuing and checks zero new pushes, generations and acceptor calls. A
 separate daemon integration regression uses two independently signed client
 sessions and a seeded receiver ledger. It compares absent, foreign and
 mismatched results, checks that reading leaves the ledger unchanged, and observes
@@ -813,8 +815,10 @@ domain commit. Before the commit, the exact reservation survived and WSS readbac
 returned `unknown`, with no first admission or extra push. After the commit,
 Messaging's exact push fact survived while the INAC reservation remained open.
 After cleaning up the test's orphaned sidecars, startup replay finalized the
-same token and released the owner hold. The sender recovered `delivered` over
-WSS with the original admission, generation and single receiver push intact.
+same `Accepted` token and released the owner hold. The sender recovered
+`delivered` over WSS with the original admission, mailbox record, Maildir bytes,
+generation and single receiver push intact. Both cases are reproducible with
+the strict Story-010 recovery runner.
 
 The duplicate variant used a newly issued passport and a different signed
 envelope with the same message commitment. It staged the next generation
@@ -839,10 +843,11 @@ its historical query and issued a second POST for the same generation. Both
 requests shared the same admission response and one WSS query. A subsequent
 POST returned the delivered state without another query.
 
-The late-success variant held the response while the fixture staged a
-newer paused generation. The matching older result confirmed delivery,
-recovered the original preparation's handle and left the newer generation's
-handle empty. The read caused no additional push.
+The late-success variant held the response while the fixture staged a newer
+paused generation. A read for that generation returned busy without issuing
+another peer query. The matching older result confirmed delivery, recovered the
+original preparation's handle and left the newer generation's handle empty.
+The read caused no additional push.
 
 The rerouted-peer variant moved the same receiver identity to a new WSS
 endpoint. The previous listener refused a connection. The established
@@ -879,9 +884,10 @@ The Matrix-only development run enabled the mailbox adapter against a loopback
 join and polling fixture and disabled both WSS listeners and dialers. The read
 returned `unavailable`, preserved the sender state and generation, and emitted
 zero Matrix events. Restoring the WSS route recovered the original admission.
+A separate run disabled WSS without a mailbox route. Readback reported
+`unavailable` without dialing or sending an INAC frame.
 
-Remaining V1–V3 fault cases and the formal WSS campaign are pending. The
-S027-009-01–03 tracker rows remain open.
+The formal WSS campaign is pending. The S027-009-01–03 tracker rows remain open.
 
 ### Retention and Failure Boundaries
 
