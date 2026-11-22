@@ -199,6 +199,9 @@ Current implementation status:
   and [result](../../../schemas/artifact-delivery-reconciliation.local.v1.schema.json)
   contain correlation data and observations. The owner selects the original peer
   from the saved plan and performs at most one query on an established session.
+  On inbound Messaging pushes, AD carries the host-owned reservation context
+  only to the Messaging acceptor. That acceptor verifies it against the host's
+  active INAC reservation before applying current receive authority.
 - `ad-host` owns the `inac-direct` adapter. Local targets use the local
   `InacRuntime` short-circuit; remote targets use the daemon-supplied
   `PeerSender` seam over the peer supervisor's authenticated WSS peer-message

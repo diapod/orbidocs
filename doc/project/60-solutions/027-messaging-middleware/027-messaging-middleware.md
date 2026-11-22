@@ -740,8 +740,14 @@ The direct AD adapter preserves typed remote refusals. The local
 the frozen binding and established INAC session. Messaging persists a verified
 positive observation and a recovered execution ID atomically with the outbox
 state. A remote refusal without complete execution evidence preserves the
-prior uncertainty. The receiver's repair journal, negotiated support and WSS
-acceptance are pending. The S027-009-01–03 tracker rows remain open.
+prior uncertainty. The receive path carries an opaque push token through AD.
+Messaging checks the token against the INAC reservation through the local
+[`messaging.delivery.push.check` contract](../../../schemas/messaging-push-check.local.v1.schema.json)
+and commits the exact per-push fact with the admission journal transition.
+INAC finalizes positive results from this fact and has tested repair and
+acknowledgement operations. Startup replay and the handshake that releases
+retention at both owners are pending, as are negotiated support and WSS
+acceptance. The S027-009-01–03 tracker rows remain open.
 
 ### Retention and Failure Boundaries
 

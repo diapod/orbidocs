@@ -184,17 +184,22 @@ is idempotent and does not issue a replacement passport.
 ## Planned Messaging Admission Reconciliation {#messaging-admission-reconciliation}
 
 The [S027-009 tracker](../027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker)
-owns this 2026-10-28 continuation: S027-009-01 freezes contracts and S027-009-03
-implements the INAC/AD binding. No new operation is claimed implemented here.
-Extend the existing transfer ledger with required pre-effect reservations and
-durable outcomes bound to authenticated peer, generation idempotency key and
-attempt-envelope digest. A raw transfer ID is not globally unique authority.
+owns the contract and implementation gates for this continuation. The INAC/AD
+implementation extends the transfer ledger with required pre-effect reservations
+and durable outcomes bound to authenticated peer, generation idempotency key
+and attempt-envelope digest. A raw transfer ID is not globally unique authority.
 Reservation failure precedes single-use consent consumption and acceptor effects;
 failed finalization after domain admission remains reconcilable. Messaging, not
 the ledger or carrier, determines whether the message was admitted.
 
-Proposed `admission-status` / `admission-status-result` expose a bounded exact-attempt
-read through the planned `artifact.delivery.reconcile` host port. Authenticate and
+INAC holds an opaque reservation token for each push. The local Messaging owner
+checks it before admission and returns a durable fact for that exact push.
+INAC's finalization primitive retains a positive result through GC while owner
+acknowledgement is outstanding. Automatic startup replay and completion of the
+two-owner acknowledgement protocol remain open in S027.
+
+`admission-status` / `admission-status-result` expose a bounded exact-attempt read
+through the `artifact.delivery.reconcile` host port. Authenticate and
 scope before disclosure; return known outcome, `unknown`, or read unavailability.
 Absent, foreign-peer and mismatched-digest lookups share the same `unknown` shape
 and code. No body, consent consumption or acceptor invocation occurs; current
