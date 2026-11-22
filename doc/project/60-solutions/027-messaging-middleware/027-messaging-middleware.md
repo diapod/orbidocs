@@ -854,6 +854,13 @@ sender's historical read carried `execution/resolved` and persisted
 `recipient-consent-blocked`. The same generation retained one push token
 throughout the diagnostic.
 
+The missing-ledger variant parked the receiver's SQLite file while the node
+was running. The WSS read returned `unavailable` and preserved the outbox state
+and generation. The existing mailbox message could still be read. Neither
+read recreated the ledger. Restoring the original file restored exact
+historical readback and delivery with the original push count. Explicit
+startup following permanent ledger loss still needs its own continuity check.
+
 Remaining V1–V3 fault cases and the formal WSS campaign are pending. The
 S027-009-01–03 tracker rows remain open.
 
