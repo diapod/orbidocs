@@ -707,6 +707,12 @@ schema_for_file() {
     *.artifact-delivery-result.json)
       echo "$SCHEMAS_DIR/artifact-delivery-result.v1.schema.json"
       ;;
+    *.artifact-delivery-reconcile.local.v1.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-reconcile.local.v1.schema.json"
+      ;;
+    *.artifact-delivery-reconciliation.local.v1.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-reconciliation.local.v1.schema.json"
+      ;;
     *.artifact-delivery-status.json)
       echo "$SCHEMAS_DIR/artifact-delivery-status.v1.schema.json"
       ;;

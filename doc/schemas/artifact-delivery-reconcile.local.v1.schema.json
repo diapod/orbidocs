@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery"
+  ],
+  "$id": "urn:orbiplex:schema:artifact-delivery-reconcile.local:v1",
+  "title": "Exact local Artifact Delivery reconciliation request",
+  "required": [
+    "schema",
+    "idempotency/key",
+    "submission/digest",
+    "timeout/ms"
+  ],
+  "properties": {
+    "schema": {
+      "const": "artifact-delivery-reconcile.local.v1"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "submission/digest": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "delivery/id": {
+      "type": "string",
+      "pattern": "^delivery:[A-Za-z0-9_-]{43}$"
+    },
+    "timeout/ms": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5000
+    }
+  }
+}

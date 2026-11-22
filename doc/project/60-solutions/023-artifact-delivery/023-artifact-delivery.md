@@ -193,6 +193,12 @@ Current implementation status:
   nym fixture only when the middleware is started with an explicit acceptance
   mode guard. That fixture certificate is topic-scoped and short-lived, and is
   not a production signing path.
+- For S027-009 the local `artifact.delivery.reconcile` capability reads the exact
+  prepared submission binding of the authenticated Messaging component. The
+  [request](../../../schemas/artifact-delivery-reconcile.local.v1.schema.json)
+  and [result](../../../schemas/artifact-delivery-reconciliation.local.v1.schema.json)
+  contain correlation data and observations. The owner selects the original peer
+  from the saved plan and performs at most one query on an established session.
 - `ad-host` owns the `inac-direct` adapter. Local targets use the local
   `InacRuntime` short-circuit; remote targets use the daemon-supplied
   `PeerSender` seam over the peer supervisor's authenticated WSS peer-message

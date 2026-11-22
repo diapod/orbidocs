@@ -735,9 +735,13 @@ Implementation checkpoint, 2026-11-22. Node carries the prepared commitment,
 envelope digest and original deadline through AD and INAC. The receive bridge
 requires an exact ledger reservation before the acceptor, atomically consumes
 any single-use invitation, and serves peer-scoped historical point reads.
-The direct AD adapter preserves typed remote refusals. The domain repair
-journal, sender reconciliation and real WSS acceptance are pending. The
-S027-009-01–03 tracker rows remain open.
+The direct AD adapter preserves typed remote refusals. The local
+`artifact.delivery.reconcile` host contract and owner-scoped outbox POST use
+the frozen binding and established INAC session. Messaging persists a verified
+positive observation and a recovered execution ID atomically with the outbox
+state. A remote refusal without complete execution evidence preserves the
+prior uncertainty. The receiver's repair journal, negotiated support and WSS
+acceptance are pending. The S027-009-01–03 tracker rows remain open.
 
 ### Retention and Failure Boundaries
 

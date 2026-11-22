@@ -1,0 +1,6 @@
+{
+  "schema": "artifact-delivery-reconcile.local.v1",
+  "idempotency/key": "message:message-envelope:fixture:0",
+  "submission/digest": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "timeout/ms": 5000
+}

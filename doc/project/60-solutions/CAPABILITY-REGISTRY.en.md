@@ -185,7 +185,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **263** host-local / **295** total; **56** owner groups.
+Entries: **264** host-local / **296** total; **56** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -569,6 +569,7 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>agora.vault.get</code> | <code>host/agora.vault.get</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
 | <code>agora.vault.list</code> | <code>host/agora.vault.list</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
 | <code>agora.vault.put</code> | <code>host/agora.vault.put</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
+| <code>artifact.delivery.reconcile</code> | <code>host/artifact.delivery.reconcile</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>artifact.delivery.send</code> | <code>host/artifact.delivery.send</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>artifact.delivery.status</code> | <code>host/artifact.delivery.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>artifact.delivery.submit</code> | <code>host/artifact.delivery.submit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
