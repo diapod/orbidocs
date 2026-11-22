@@ -3357,7 +3357,7 @@ a second resolver, activation system or editor.
 
 | ID | Status | Dependencies | Deliverable and gate | Consumers (not prerequisites) |
 |---|---|---|---|---|---|
-| P091-016 | todo | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |
+| P091-016 | partial | P091-002; existing scoped Node UI resolution/consumption contracts | Freeze the bounded handoff for Node UI descriptors: requested/resolved and actually consumed values, source/descriptor/resolver identities, exact application or launch acknowledgement, restart-required/refused/unknown states and per-field disclosure. Supply positive and negative vectors for a saved-but-unapplied change, invalid source, sparse overrides and stale consumption. Preserve existing owner-specific refusal/recovery and raw-byte CAS; do not expose private source digests in public layout. Reuse configuration-core and the existing Node UI presentation port; missing mechanisms stay named P091 owner work. No generic application-state rewrite or whole P091 runtime qualification is required. | P098-002b |
 
 
 ### P091-016: behavior and exact revision confirmation
@@ -3409,6 +3409,16 @@ Implementation, the P098-002b handoff and actual client qualification have
 separate checkpoints. The F12 qualification uses the same Node candidate
 with its own verdict.
 
+
+**Handoff checkpoint (2026-11-22).** Node UI publishes presentation inspection
+v2 with exact launch confirmation and a conditional restart forecast. The
+shared comparison and confirmation relations have independent event vectors
+checked through Lean and production Rust. The typed public layout projection
+has an executable P098 fixture covering admitted values, sparse overrides,
+stale receipts and suppression of private fields. P098-002b can consume the
+handoff now. Flow, Inquirium, Arca and the final browser and WebView evidence
+remain open within P091-016. Node owns the implementation and test scope in
+`daemon/docs/P091-CONSUMED-CONFIGURATION.md`.
 
 ## F12: explicit retirement of ended transactional incarnations
 
