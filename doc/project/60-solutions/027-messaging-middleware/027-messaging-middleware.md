@@ -804,6 +804,17 @@ After cleaning up the test's orphaned sidecars, startup replay finalized the
 same token and released the owner hold. The sender recovered `delivered` over
 WSS with the original admission, generation and single receiver push intact.
 
+The sender-side crash diagnostic on 2026-11-22 fenced the Messaging write
+before the new AD handle could be recorded and stopped the live Messaging
+subprocess after AD committed the exact binding. The original AD run still
+reached the receiver's admission. After shutdown, the fixture removed that
+run and retained the binding. Following restart, the locally missing run
+returned 404, and the WSS read recovered the handle, confirmed `delivered`,
+and completed the recorded-message vault job. The prepared envelope,
+generation, first receiver admission and single push survived the diagnostic.
+The runtime was built from Node `38dc001a9`. The runner is
+`node:tools/acceptance/story-010-operator/s027-ad-handle-diagnostic.py`.
+
 The local AD response now carries `execution/resolved` when a single direct
 attempt's typed terminal refusal agrees with the authenticated historical
 rejection and AD has the complete original run. Multiple attempts, uncertainty
