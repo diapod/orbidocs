@@ -1006,6 +1006,15 @@ retry. The AD owner uses the same binding after restart and rechecks coverage
 before every adapter invocation. A changed node, active predecessor or changed
 receiver coverage prevents a new emission debit.
 
+After a message execution ends, the sender worker makes one bounded point
+read through the same exact AD binding used by explicit reconciliation.
+Accepted or AlreadyPresent confirms delivery. A bound terminal refusal
+supplies the typed pause. Completion without usable evidence pauses as
+unknown and leaves the generation and prepared submission available for
+reconciliation. A first contact-request result still follows the contact
+permission flow. Legacy state repair must recheck the absence of an exact
+positive admission when changing a projection.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.
