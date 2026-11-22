@@ -254,6 +254,15 @@ observation window, effective release deadline and an opaque trigger tied to the
 admitted membership. The owner retains exact counts, status revisions and
 inventory evidence separately from the proposal and public commit statement.
 
+For the author-facing explanation, N comes from the effective condition
+accepted by the owner for this audience. Apply the verified counting basis
+to that minimum to show N in the original epoch or N + 1 in a later epoch.
+When an accepted narrowing changes N, the original manifest alone cannot
+establish the effective minimum. If the effective condition cannot be bound
+to the proposal, report the explanation as unavailable. The v1 attestation
+carries the counting basis, while the private observation count stays at
+the owner.
+
 Verification has two entry paths sharing the same bounded verifier library:
 
 1. A protected holder verifies the complete signal, nym signature, contextual
