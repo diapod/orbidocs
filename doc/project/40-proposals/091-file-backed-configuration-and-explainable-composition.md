@@ -3380,8 +3380,7 @@ units, without adding settings or changing P091-016.
 The Node owner implements lifecycle proof, bounded latest-fact readback and
 per-attempt retirement. The CLI exposes a live page of node-wide consumption, exact
 retirement preview and approval, and a retained result keyed by unit, generation
-and instance. It can
-look up retained evidence for a removed Flow. An absent matching fact yields
+and instance, including for a removed Flow. An absent matching fact yields
 `unknown`; current activity remains a separate claim.
 
 The 2026-11-18 CLI checkpoint exercised removed-Flow readback after a controlled
@@ -3392,6 +3391,9 @@ The CLI retirement checkpoint followed a full-journal refusal with approved
 archival, a fresh exact review and a retained read after the commit response
 was lost. This exercises the existing ConsumeFirst boundary without another
 consumption. The node-wide full page projects the same owner actions and
-exposes an exact GET readback before approval. The 2026-11-22 development
-witness used a real daemon and Node UI with JavaScript disabled in Chrome.
-The bounded browser and WebView qualification remains open under P091-007/013.
+exposes an exact GET readback before approval. When history capacity requires
+recovery, the owner refuses with HTTP 409 and can offer a separate node-wide
+archive review. The 2026-11-22 review used rebuilt daemon and Node UI binaries
+for development regressions in Chrome with JavaScript disabled and enabled.
+The bounded formal browser and actual WebView qualification remains open
+under P091-007/013.
