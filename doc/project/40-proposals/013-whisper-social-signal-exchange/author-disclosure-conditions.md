@@ -335,9 +335,10 @@ restricted control domain and sends it through the existing private PEX
 return framing. The author verifies the signature against the authority
 pinned for the case on both the direct and relayed routes. The signed reply
 binds the exact request digest, proposal, observation time and, when
-available, both narrowing heads and both minimums. The author derives the
-required number of sources from the signed proposal's epoch basis and the
-effective minimum for that proposal. A fresh read can report
+available, both narrowing heads, both minimums and the epoch and counting
+basis from the retained signed proposal. The author derives its required
+number of sources from those signed facts even if the executor's proposal is
+only available by reference. A fresh read can report
 `superseded-by-narrowing`. When the audience was removed, the current minimum
 is null. Historical satisfaction and current execution eligibility are
 distinct. The same sealed result replays within the original request window.

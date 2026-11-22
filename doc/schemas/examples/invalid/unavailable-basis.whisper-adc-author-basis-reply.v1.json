@@ -3,11 +3,13 @@
   "case/authority": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
   "request/digest": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
   "proposal/digest": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w",
-  "observed/at": "2026-11-17T12:00:00Z",
+  "observed/at": "2026-11-17T12:00:00.000000000Z",
   "state": "unavailable",
   "proposal/head": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
   "current/head": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w",
   "proposal/required-others": 2,
   "current/required-others": 3,
-  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "proposal/epoch": 42,
+  "proposal/counting-basis": "later-epoch-conservative"
 }

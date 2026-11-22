@@ -70,6 +70,17 @@
     "signature": {
       "type": "string",
       "pattern": "^[A-Za-z0-9_-]{85}[AQgw]$"
+    },
+    "proposal/epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "proposal/counting-basis": {
+      "enum": [
+        "author-epoch-exact",
+        "later-epoch-conservative"
+      ]
     }
   },
   "oneOf": [
@@ -86,7 +97,9 @@
         "proposal/head",
         "current/head",
         "proposal/required-others",
-        "current/required-others"
+        "current/required-others",
+        "proposal/epoch",
+        "proposal/counting-basis"
       ]
     },
     {
@@ -97,7 +110,9 @@
         "proposal/head": false,
         "current/head": false,
         "proposal/required-others": false,
-        "current/required-others": false
+        "current/required-others": false,
+        "proposal/epoch": false,
+        "proposal/counting-basis": false
       }
     }
   ]
