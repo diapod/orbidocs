@@ -731,6 +731,14 @@ until Messaging has durably recorded confirmation and acknowledged it. Both
 owners then apply the later of the resume horizon and 31 days from completion.
 The two ledgers may reach capacity independently.
 
+Implementation checkpoint, 2026-11-22. Node carries the prepared commitment,
+envelope digest and original deadline through AD and INAC. The receive bridge
+requires an exact ledger reservation before the acceptor, atomically consumes
+any single-use invitation, and serves peer-scoped historical point reads.
+The direct AD adapter preserves typed remote refusals. The domain repair
+journal, sender reconciliation and real WSS acceptance are pending. The
+S027-009-01–03 tracker rows remain open.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.
