@@ -682,6 +682,55 @@ The upstream contracts remain [P060](../../40-proposals/060-messaging-middleware
    Extend existing retry APIs and add participant-scoped
    `POST /v1/messaging/outbox/{id}/reconcile`, with owner checks and CSRF in UI.
 
+### Exact-attempt reconciliation contract
+
+Contract checkpoint for S027-009-01. The delivery owner freezes the message ID,
+generation key, message commitment, signed-envelope digest, receiver and original
+`resume/until` with the prepared submission. Direct INAC and Matrix mailbox use
+the same stored key and the envelope ID as `artifact/id`. The transport verifies
+the final artifact against the prepared envelope. An object pointer has its own
+digest. AD publishes its local execution ID separately from the prepared binding.
+
+Historical reads use an established authenticated WSS session to the original
+receiver for either push route. Each operation has a five-second total deadline
+and at most one query with a 4 KiB response. Work is shared per message generation
+and limited to one active query per peer. A missing session or unsupported route
+produces `unavailable`. A receiver with a working ledger emits the same public
+`unknown` for an absent, foreign or mismatching record. Budget and correlation are
+per authenticated peer. An authorized owner can repeat the POST after a retained
+success and receive the current `delivered` view without network work.
+
+| Verified observation | Sender transition | Current execution fact |
+|---|---|---|
+| Accepted or already present for a retained current generation | `DomainAccepted`, then `delivered` | Resolve this execution |
+| Accepted or already present for a retained older generation | `DomainAccepted`, then `delivered` | Preserve the newer execution fact |
+| Current consent refusal with all effects resolved | `RecipientConsentDenied`, then `recipient-consent-blocked` | Resolve this execution. Explicit recovery checks current consent |
+| Other current refusal with all effects resolved | `RemoteDeliveryRejected`, then `failed-terminal` | Resolve this execution. Evaluate the retained retry flag and deadline for command admission and allowed actions |
+| Older refusal, a refusal during running AD, or remaining uncertainty | Retain the observation for its attempt | Preserve current execution and retry restrictions |
+| Unknown | Observe, preserving the message state | Preserve current execution and retry restrictions |
+| Unavailable | `ObservationUnavailable` | Preserve current execution and retry restrictions |
+| Missing current local AD result | `LocalDeliveryMissing` for an unresolved message | Unknown. The retained exact binding can still identify the execution |
+
+The delivery owner must establish completion and exclude all outstanding effects
+before a rejection can resolve an execution. Signature, query correlation and
+generation matching alone do not establish completion. Epoch-pinned receiver
+deduplication protects a separately confirmed retry while uncertainty remains.
+
+INAC reserves the attempt, its result budget and any single-use consumption in
+one transaction. It gives the acceptor an opaque reservation token. Messaging
+records the token with the domain result of that push. A repeated generation can
+record `AlreadyPresent` while preserving the first admission and envelope.
+Withdrawal after INAC commits but before domain admission retains consumption
+and produces `recipient-consent-required`. Startup repair proceeds from exact
+Messaging facts into INAC after owner recovery. A bare reservation stays unknown.
+
+The push-result journal has its own 10,000-record and 32 MiB logical byte limits.
+Reserve capacity before domain admission. An unacknowledged repair fact remains
+held through restart and GC. After durable finalization, INAC keeps the result
+until Messaging has durably recorded confirmation and acknowledged it. Both
+owners then apply the later of the resume horizon and 31 days from completion.
+The two ledgers may reach capacity independently.
+
 ### Retention and Failure Boundaries
 
 These are planned Messaging-profile bounds, not a change to every INAC family.
