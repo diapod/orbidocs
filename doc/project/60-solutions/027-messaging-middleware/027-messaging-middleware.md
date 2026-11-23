@@ -1557,8 +1557,14 @@ Unavailable content remains explicit, and a validation failure aborts
 publication. The output is a separate copy outside the cut and restore
 trees. The diagnostic verified a two-page export in an independent
 JSON parser and exercised create-only publication and failure cleanup.
-Contact navigation in the UI, removal, remaining owner gates and profile
-activation are still open.
+The local archive-remove command records authenticated item or whole-archive
+removal in the isolated Messaging owner. Direct reads, pages and new
+exports apply these facts across exact owner replay. The verified cut, raw
+materialization, earlier exports and peer copies retain separate custody.
+The local two-binary diagnostic verified owner isolation, idempotent
+removal, export filtering and an unchanged receipt after exact replay.
+Contact navigation in the UI, physical disposition of the raw profile,
+remaining owner gates and profile activation are still open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
