@@ -1418,7 +1418,7 @@ to the owner's verified local archive.
 |---|---|---|
 | S027-010-01 | in-progress | Baseline older-cut diagnostic and restart control. Freeze the inventory of owners and storage sets, fences, and protected effect boundaries with composition drift tests. |
 | S027-010-02 | in-progress | Bounded Lean model and Rust correspondence for effects, consent, history and recovered work, with witnesses, counterexamples and axiom audit. |
-| S027-010-03 | todo | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
+| S027-010-03 | in-progress | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
 | S027-010-04 | todo | Private archive, owner-only export and deletion, explicit consent renewal and exit. Reindex, replay and other projections cannot revive historical payloads. |
 | S027-010-05 | todo | Technical qualification over WSS/INAC on independent profiles. Full delegated pair, targeted sovereign and mixed controls, and separate old-consent and old-pin observations. |
 | S027-010-06 | todo | Two people on separate hosts complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
@@ -1452,8 +1452,15 @@ descriptor walk. Peer TLS files follow the configured transport sources.
 The native channel middleware uses the same lock independently and holds
 it until process exit. Its host-selected root binding includes the actual
 directory identity, and recovery markers refuse ordinary startup.
-Other executors, independent writers, complete custody dispositions and
-durable cut publication remain separate requirements.
+Other executors, independent writers and complete custody dispositions
+remain separate requirements.
+
+The local cut verifier checks the committed manifest, exact recovery marker
+and complete descriptor-relative tree by size and digest. Publication of
+synthetic materialized bytes exercises the staging and durable manifest
+boundary. Source admission, coordinated copy and owner application remain
+open. Successful byte verification conveys no trust or permission to start
+a restored profile.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
