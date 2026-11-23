@@ -1240,9 +1240,12 @@ uncertain confirmations. Delegated child expiry recovered on the original
 pairwise route. A later request had reused the prior handled contact decision.
 The contact acceptor now opens a distinct explicit approval after confirmed
 consent loss. Component tests cover retention of the prior decision, exact
-replay and competing successors. The delegated runtime rerun remains part of
-the completion gate. The default preparation byte pool is tested at exhaustion
-and after expiry releases the original unsent reservation.
+replay and competing successors. The 2026-11-23 delegated browser diagnostic
+passed 41 assertions. It paused on child expiry, parent expiry and stale parent
+status, obtained new consent on the original pairwise route, and delivered once
+after explicit recovery. Revoking the receiving parent rejected a later push.
+The default preparation byte pool is tested at exhaustion and after expiry
+releases the original unsent reservation.
 The S027-008 development rerun passed on the same binaries after the fixture
 waited for the new daemon runtime at each reload. It checked pending-fact
 capacity, idempotent Memarium replay and preservation of paused and terminal
