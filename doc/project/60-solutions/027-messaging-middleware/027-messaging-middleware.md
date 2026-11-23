@@ -1509,7 +1509,14 @@ submission digest and original key. AD owns the exact peer binding. A strict
 Story-010 development run recovered the original handle and admission over
 WSS after sender restart, removal of the AD run and detachment of the prepared
 bytes. It recorded zero additional pushes or generations for the attempt.
-Classification and gating of restored outbox work remain open.
+The Messaging owner verifies the outbox index and WAL under the same cut
+and commits its history projection with the admission receipt. Exact bound
+confirmations preserve delivered state. Unconfirmed outbox work is marked
+`restored-from-snapshot`. The isolated stage has no live outbox, Maildir,
+retry queue or Vault jobs. The stopped Story-010 sender retained two exact
+outbound attempts and one restored pause. The receiver kept one earlier
+admission. Apply replay matched on both profiles. Protected access and the
+remaining owners' effect gates stay open in the tracker.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
