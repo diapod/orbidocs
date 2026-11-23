@@ -1545,7 +1545,13 @@ composition time and archived delivery state. Expired and discarded items
 remain unavailable even if EML bytes survived in the cut. The two-binary
 diagnostic also passed the outgoing read and refused a foreign row, a
 stale file, and disagreements with the header, original body digest or
-manifest. Conversation browsing, bulk export, removal, remaining owner
+manifest. The local archive-conversation command browses a body-free
+owner-scoped page built from the cut. It uses the existing route-key
+vocabulary and orders both directions without duplicates. Exact replay
+adds the view to an older staged owner while preserving its receipt and
+epoch. The two-binary diagnostic verified owner isolation, a cursor
+between both directions and exact replay for an older staged owner.
+Contact navigation in the UI, bulk export, removal, remaining owner
 gates and profile activation are still open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
