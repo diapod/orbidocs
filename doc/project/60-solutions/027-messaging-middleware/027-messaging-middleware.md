@@ -1589,6 +1589,14 @@ the candidate configuration and the resulting resolution IDs. Live
 composition and current federation trust remain prerequisites for
 opening effects.
 
+The stopped recovery command can record a signed root selected by an
+independently authenticated current P076 digest. It reuses the ordinary
+signature and custody verifier and retains the archived and subsequent
+high-water marks and known service-endorsement withdrawals. The receipt
+ties that exact pack to the cut and prepared configuration. The signed
+root remains isolated while delegation status recovery, owner application
+and effect admission are pending.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
