@@ -209,6 +209,10 @@ Current implementation status:
   requires both facts and makes one current support-only query to the original
   authenticated peer. The ordinary historical purpose can still correlate a
   result when coverage evidence is absent.
+  The original admission-support probe and the fresh retry check share a
+  per-peer slot and can wait for it within their original deadlines. The
+  historical point read keeps its own per-peer slot. A timeout retains a
+  typed availability result and provides no coverage evidence.
   An uncertain retry freezes the receiver and exact earlier generations in
   `policy.messaging/retry-coverage`. AD checks the resolved node, prior
   execution state and retained pins against a fresh support-only observation
