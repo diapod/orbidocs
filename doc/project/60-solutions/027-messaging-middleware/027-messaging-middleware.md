@@ -1580,9 +1580,14 @@ recovery capacity policies with their P091 resolution IDs, the local
 grant disclosure choices, and relative paths for configured owner
 inputs. The local configuration review displays these facts as of the
 cut. It can record one explicit, cut- and destination-bound choice at
-least as restrictive as the captured Messaging policy. Applying the
-choice to the live candidate, validating its rebound paths and obtaining
-current federation trust remain required before opening effects.
+least as restrictive as the captured Messaging policy. The configuration
+preparation command applies that choice to a marked candidate through the
+normal P091 resolvers, checks the captured owner layout and uses only
+verified peer credential inputs from the cut. Destination-bound
+advisory lock paths are recomputed by their owner. The receipt covers
+the candidate configuration and the resulting resolution IDs. Live
+composition and current federation trust remain prerequisites for
+opening effects.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
