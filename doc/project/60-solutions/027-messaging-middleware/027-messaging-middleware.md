@@ -1446,6 +1446,12 @@ Messaging's input follows its supervised data directory. This checkpoint
 provides an ownership diagnostic. A restorable cut still requires writer
 exclusion and verified dispositions for all in-scope owners.
 
+A profile directory lease now excludes ordinary daemon writers during
+physical inspection. The command keeps it through configuration and the
+descriptor walk. Peer TLS files follow the configured transport sources.
+Supervised children, independent writers, complete custody dispositions,
+and durable cut publication remain separate requirements.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
