@@ -1599,7 +1599,8 @@ against that root and exact captured grants. It retains revision floors and
 known withdrawals, and rechecks freshness at the reported time. A change of
 root requires a new positive observation while preserving negative knowledge.
 Both receipts remain isolated while live owner application and effect admission
-are pending.
+are pending. Ordinary daemon and supervised native startup also check recovery
+markers above the selected profile directory before opening mutable owner state.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
