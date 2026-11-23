@@ -1436,8 +1436,8 @@ The daemon can inspect configured owner paths without starting a profile.
 The registered storage providers supply their cut classifications, including
 whether the Seed Directory is embedded or under independent custody.
 Ordinary configuration activation and daemon open refuse a profile carrying
-a recovery marker. The physical inventory, the executor that sets and
-retires that marker, and the individual owners' effect guards remain open.
+a recovery marker. Composition coverage across all owners and the conditions
+for retiring that marker still require end-to-end verification.
 
 The local cut inspection observes directory entries without following
 symlinks and associates them with configured inputs. It distinguishes
@@ -1588,6 +1588,12 @@ advisory lock paths are recomputed by their owner. The receipt covers
 the candidate configuration and the resulting resolution IDs. Live
 composition and current federation trust remain prerequisites for
 opening effects.
+
+The Identity custody apply step verifies the original node signing record
+and authenticates the cut operator through the captured protected passphrase
+slot. It stages only the paired node identity and operator signing inputs and
+records an exact restore-bound receipt. Current operator binding and authority
+remain independent requirements for opening effects.
 
 The stopped recovery command can record a signed root selected by an
 independently authenticated current P076 digest. It reuses the ordinary
