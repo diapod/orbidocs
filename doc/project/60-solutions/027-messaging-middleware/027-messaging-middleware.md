@@ -1455,6 +1455,11 @@ directory identity, and recovery markers refuse ordinary startup.
 Other executors, independent writers and complete custody dispositions
 remain separate requirements.
 
+The recovery inventory reads notification and embedded Seed Directory
+manifest paths from the same path definitions as startup. It also resolves
+the actual scheduler SQLite path and its sidecars. A client profile records
+Seed Directory as an independent authority.
+
 The local cut verifier checks the committed manifest, exact recovery marker
 and complete descriptor-relative tree by size and digest. Publication of
 synthetic materialized bytes exercises the staging and durable manifest
