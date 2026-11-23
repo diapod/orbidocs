@@ -1466,9 +1466,11 @@ requires explicit operator attestation. The initial restore executor binds a
 private destination to the exact verified manifest and a fresh restore ID.
 Daemon and native middleware writers refuse while either intent name exists.
 A complete interrupted intent resumes with the original ID. A mismatched
-or torn intent leaves the destination isolated. Source custody closure, the
-operator backup command, restore materialization and owner application remain
-open. Successful byte verification conveys no trust or startup permission.
+or torn intent leaves the destination isolated. Materialized bytes go into
+a separately marked and leased payload directory. Resume preserves verified
+members and discards only the unpublished scratch member. Source custody
+closure, the operator backup command and owner application remain open.
+Trust and startup permission require separate owner decisions.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
