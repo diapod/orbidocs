@@ -2375,7 +2375,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-010b` | Selectively materialize factory seeds and preserve existing files | `P091-002`, `P091-003`, `P091-004`, `P091-006` | `partial` | Adopted 2026-10-18: preserve seed_config without a list; validate module-relative seed_config_pointers, full arrays, empty/escaped/nested pointers, duplicates/overlaps and finite limits before shared create-only publication. Disabled modules may be seeded without starting; existing declarations/files and operator deletions survive update/restart; seeded enabled is not a protected decision. P091-005a gates exposed operations and all seed acceptance cases are mandatory. **2026-10-18 delivery checkpoint:** Pure selection/limits and shared create-only publication are implemented, including omitted-enabled inheritance and metadata stripping. Existing edits, disabled seeding and actual intent/rename recovery pass; consult the explicit delivery-scope evidence rather than promote unrelated migrations. |
 | `P091-011` | Prove cross-process and standalone consumption | `P091-004`, `P091-005a`, `P091-007`, `P091-009`, `P091-010` | `partial` | Actual supervised Python and separate-process Rust consumers, plus daemon/Node UI, consume explained resolutions. Cover pre-channel inline/ref snapshots, acknowledgement, host denial/outage without fallback, pinned Rust helper and Python exports/injection. Histories retain descriptor/context evidence and no current-use grant is inferred. **2026-10-23 partial proof:** a real built Rust one-shot helper and privately verified pinned Python transport consume the same named setting projection. The subsequent bounded Arca catalog pilot adds actual supervised Python pre-channel provisioning, P080 read and durable exact consumption ACK, with new-instance/high-water and no-fallback refusals; see its checkpoint below. Installed packaging, larger carriers, other Python owners and full multi-owner/client qualification remain open. |
 | `P091-012` | Publish shared manual, component references and HOWTOs | `P091-002`, `P091-005`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Exact keys/sources, four identity names, views, shadowed commits, restore/invalidation and apply modes agree across manual/navigation/CLI/UI. Separate proposed, legacy and supported behavior.  **2026-10-23 partial documentation:** node:configuration-flow/README.md documents the exact address, sources, operator projections, shared reads, restart/consumption distinction and offline helper. The complete shared manual and remaining owners stay open. **2026-11-07 R3 checkpoint:** R3 separates the daemon contract, Node operator procedure and dated review/evidence, with shared Flow CLI instructions; the complete multi-owner manual and wider migration remain open. |
-| `P091-013` | Complete refusal, concurrency and recovery evidence | `P091-005a`, `P091-007`, `P091-007a`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Every failure row has retained executable evidence, including journal/file crash points, host-seed races, descriptor withdrawal/expiry, clock failures, shared-file conflict classification and replan, no-op/third-version recovery, secret redaction and evicted replay inputs. 2026-10-06 scoped task-pack proofs cover all eight security fixtures, real subprocess crash points (intent, partial staging, rename, outcome), old/new/third/no-op, event quota reservation, substituted heads and current-operator daemon restart. This does not close every general P091 refusal/concurrency/platform row. **2026-10-18 delivery checkpoint:** The bounded D1/D2 instruction and real CLI examples explain lexical order, seed inheritance, sparse decisions, receipts and recovery without requiring new JSONL history.  **2026-11-02 bounded lifecycle checkpoint:** shared completion reservations, strict v1/v2 recovery, exact no-replay reconciliation and journal-bound carrier disposal are implemented for Flow/Inquirium/Arca; scoped owner/CLI/browser/no-JS/actual WebView evidence is retained in the Node consumption lifecycle audit. This row remains partial outside those pilots. 2026-11-22: the scoped Flow pilot has an actual restart/dispatch and browser/WebView witness. See the descriptor admission checkpoint. Reviewed Node `6a9f7078b` retains the crash, restart, build-change and separate P091-016/F12 client evidence in the Node audit. |
+| `P091-013` | Complete refusal, concurrency and recovery evidence | `P091-005a`, `P091-007`, `P091-007a`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Every failure row has retained executable evidence, including journal/file crash points, host-seed races, descriptor withdrawal/expiry, clock failures, shared-file conflict classification and replan, no-op/third-version recovery, secret redaction and evicted replay inputs. 2026-10-06 scoped task-pack proofs cover all eight security fixtures, real subprocess crash points (intent, partial staging, rename, outcome), old/new/third/no-op, event quota reservation, substituted heads and current-operator daemon restart. This does not close every general P091 refusal/concurrency/platform row. **2026-10-18 delivery checkpoint:** The bounded D1/D2 instruction and real CLI examples explain lexical order, seed inheritance, sparse decisions, receipts and recovery without requiring new JSONL history.  **2026-11-02 bounded lifecycle checkpoint:** shared completion reservations, strict v1/v2 recovery, exact no-replay reconciliation and journal-bound carrier disposal are implemented for Flow/Inquirium/Arca; scoped owner/CLI/browser/no-JS/actual WebView evidence is retained in the Node consumption lifecycle audit. This row remains partial outside those pilots. 2026-11-22: the scoped Flow pilot has an actual restart/dispatch and browser/WebView witness. See the descriptor admission checkpoint. Reviewed Node `6a9f7078b` retains the crash, restart, build-change and separate P091-016/F12 client evidence in the Node audit. **Open Inquirium regression (R-12).** Node Inquirium configuration maintainer owns the unexplained shared single-leaf editor-law failure (265 passes, one failure). At the next broad qualifying suite or recurrence retain the complete assertion, candidate, concurrency, and fixture state. Close only on a demonstrated cause and regression. |
 | `P091-014` | Retain the four-case operator slice and synchronize evidence | `P091-011`, `P091-012`, `P091-013` | `partial` | All cases complete locate/explain/edit/apply/restart/reset through files and interfaces. Update `node:docs/implementation-ledger.toml`, regenerate via `node:tools/generate-implementation-ledger.py`, reconcile `node:docs/MVP.md` for affected scope. Record usability obstacles, not universal cognitive-load reduction. **2026-10-18 delivery checkpoint:** Node contract/inventory/ledger/MVP and separate D1/D2 evidence are reconciled for this worktree. Historical baseline is unavailable-closed, current scripted baseline/v1 is frozen, and broader platform/release proofs remain gaps. **2026-11-07 R3 checkpoint:** R3 existing-setting common-source campaign passed on Node `341e4eb90`; the critical-review candidate `0b6d25d62` has a separate eight-producer campaign including six actual WebView sessions and verified retained retrieval. The review/candidate evidence is owned by `node:docs/audits/P091-OPERATOR-R3-2026-11-07.md`. Whole-task scope remains partial. |
 | `P091-015` | Close broad coverage and enforce drift/promotion gates | `P091-001`, `P091-010a`, `P091-014` | `todo` | `check-configuration-inventory.py --verify-current` and `check-config-source-boundaries.py` run in Node `.github/workflows/docs.yml`; `--promote` rejects unfinished required settings. Every ordinary durable setting has file-backed shared control; bootstrap/non-setting exceptions stay narrow. Reconcile ledger, generated view, affected MVP/manual coverage and schema indexes; hidden ordinary stores or partial same-surface ledger rows prevent done. |
 
@@ -3493,8 +3493,9 @@ Flow. The distribution supplies the descriptor document. The local authenticated
 operator initiates `withdraw` or `clear-withdrawal` by exact review. The Flow host
 checks authority and records the decision. The admission surface accepts a
 `DistributionDefault` document from the running build. Package and loose-import
-activation retain their P085 authority boundary. If stronger host policy requires
-a fresh operator binding, admission reports `operator-binding-required`.
+activation retain their P085 authority boundary. A fresh per-operator binding
+is a future policy decision. Revisit the proposed refusal code
+`operator-binding-required` when a host supplies that policy and its evidence.
 
 | State or operation | Contract |
 | --- | --- |
@@ -3504,7 +3505,7 @@ a fresh operator binding, admission reports `operator-binding-required`.
 | Clear withdrawal | The exact plan binds the current build document, current descriptor-set identity and target generation. After success the operator decision is `absent`. Later builds take distribution admission subject to any subsequent veto. A fresh node launch and ordinary consumption establish a new acknowledgement. |
 | Generations and receipts | Descriptor-set generation, resolution identity and activation generation are separate. Decision CAS advances the slot generation. A fresh admitted resolution can provision through the existing application transition. Prior receipts retain their historical meaning and an old acknowledgement cannot confirm the new launch. |
 | Review and readback | A distinct ConsumeFirst pool binds the exact plan and local actor. A valid reference is taken before comparisons. A repeat POST is stale. The retained decision can be read by exact reference through GET, including after restart and loss of the POST response. A missing retained result is unknown. |
-| History | Each accepted transition writes one bounded owner fact with local attribution, canonical plan digest and public descriptor document. The current fact per slot is protected during archive export and pruning, including a cleared or removed slot. A protected slot survives changes in source membership. |
+| History | Each accepted transition writes one bounded owner fact with local control-class attribution, canonical plan digest and public descriptor document. An optional retained public resolution input supports historical explanation. The owner prefers the newest fitting witness, then the prior one. Public decisions disclose its presence and transaction time. The current fact per slot is protected during archive export and pruning, including a cleared or removed slot. A protected slot survives changes in source membership. |
 
 The cold execution path and file commit serialize under the configuration writer.
 Cold execution rechecks durable admission before allocating a pending attempt and
@@ -3514,8 +3515,9 @@ exclusive slot publication boundary, writes the fact and publishes before releas
 the boundary. A cold request that checked before withdrawal and acquired the
 writer afterward refuses before allocation. A warm request sees either the prior
 state before the transition or the resulting state after it. An ambiguous write or
-failed publication withholds new executions until admission is recovered from
-durable evidence. A restart reconstructs the registry before accepting new work.
+failed publication withholds new executions of that Flow for the rest of the
+daemon cycle. Exact GET is observational even when the decision is found. A
+node restart reconstructs admission from durable evidence before accepting work.
 Launch results belong to individual units so a refused A does not prevent B from
 starting. Shared source acquisition failures retain their shared scope.
 
@@ -3531,11 +3533,19 @@ The latest facts can occupy at most 64 of the 960 ordinary history events.
 Archive admission continues to include protected bytes, other protected facts,
 existing obligations and the five-event allowance.
 
+The transaction correlates decisions by a domain-separated JCS digest of four
+explicit wire coordinates. Its on-disk subject retains the frozen pilot encoding
+for existing and new slots. Both identities are pinned by golden examples. An
+older reader using the pilot index can find a veto first written by the new owner.
+The journal projection in this pilot accepts a single matching supplied slot.
+
 Flow inspection carries a typed admission axis separately from consumption.
 A verified veto gives `inspect-descriptor-admission` before or after launch.
 A prior installed binding becomes descriptor-invalidated. A unit without an
 installation has no receipt for that installation. Veto clearance against an
-obsolete launch gives a node restart requirement. Current CAS conflicts alone
+obsolete or missing launch with a valid current input yields
+`fresh-launch-required`. A verified withdrawal yields `descriptor-withdrawn`.
+Dispatch distinguishes the active veto from a superseded launch. Current CAS conflicts alone
 do not establish a veto. Historical explanation uses exact retained inputs,
 current disclosure policy and explicit unavailability after evidence retirement.
 
@@ -3561,6 +3571,9 @@ WKWebView rendered the verified states. Node owns the dated audit and evidence.
 
 The shared maintenance review suite exercises the five laws against History,
 F12 retirement, Arca and Flow descriptor admission. Flow satisfies all five.
+The actor equality law is exercised with distinct adapter inputs. The deployed
+control endpoint authenticates the shared local-control class for Flow, F12 and
+Arca. Its attribution identifies the class only.
 History records four owner-specific deviations, Arca two and F12 one. The Node
 audit records the measured matrix and the process crash controls around the
 durable descriptor fact. The existing non-Flow recovery follow-ups still apply.
