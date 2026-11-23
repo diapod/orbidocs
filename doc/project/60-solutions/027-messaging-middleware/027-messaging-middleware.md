@@ -440,12 +440,77 @@ The outbound queue is deterministic and retryable:
    same `Community` classification label before leaving the service boundary;
    message-body privacy and future per-conversation policy remain separate
    messaging-domain layers.
-4. `in-flight` becomes `delivered` after a successful host capability call.
+4. A successful submission returns an AD handle. The outbox becomes
+   `delivered` only on an authenticated admission for the exact attempt
+   from the recipient's Messaging service.
 5. Retryable transport/host failures set `next_attempt_at`; terminal schema,
    conflict, or scope failures become `failed-terminal`.
 
 The service never sends unsigned artifacts. If `signer.sign` is unavailable,
 the queued row remains retryable and the service reports degraded state.
+
+### Sealed mailbox failover (S027-010) {#offline-mailbox-failover}
+
+**Planned, 2026-11-23.** [P060 defines the user-visible contract](../../40-proposals/060-messaging-middleware.md#offline-mailbox-failover).
+Ordinary send currently prepares one direct target. For an established contact
+with an explicitly allowed mailbox and a verified recipient sealing key,
+freeze the direct and mailbox targets for the same node in one
+[S023 delivery plan](../023-artifact-delivery/023-artifact-delivery.md#delivery-plans).
+Keep the exact signed bytes, message ID, generation, idempotency key and AD
+binding across both stages. The default deployment keeps direct-only delivery.
+
+| Observation for this generation | Action by AD |
+|---|---|
+| Direct route is available or reachability is unknown | Try WSS first. Count a completed, retryable direct transport attempt once when AD can establish that it did not deliver the body (for example, a failed connection before the push). At the configured threshold, select the mailbox. |
+| Fresh evidence from an authority trusted for the exact node and route establishes that direct delivery is offline | Select the mailbox immediately if previous attempts have no unresolved effects. One possible source is the receiver's authenticated, time-limited withdrawal of its direct route. A later authenticated reconnect supersedes it. Until a profile has an adopted evidence source, use the threshold path. A missed heartbeat, stale directory entry, Matrix presence or absent local WSS session cannot establish this shortcut. |
+| A push may have reached the recipient, including a lost reply | Preserve uncertainty and use [S027-009 reconciliation](#consent-loss-recovery). Suppress automatic deposit while any previous effect is unresolved. An uncertain retransmission still requires its existing confirmation and deduplication coverage. |
+| Consent or sender authority is denied, proof is insufficient, or time or budget runs out | Apply the existing pause, refusal or expiry. These outcomes cannot trigger fallback. An unavailable or disabled mailbox leaves the outbox recoverable under the original limits. |
+
+Resolve a positive integer threshold through P091 (default **3**) and freeze it
+with the plan. Reuse AD's durable attempt outcomes and emission debits. Polls,
+support probes and replays of the same failure do not advance the count.
+Restart resumes the recorded stage. Both routes share the existing maximum of
+five possible pushes in 15 minutes per generation, the tighter host cap, and
+the original deadlines. Switching cannot replenish the budget. If the direct
+attempts consume it, leave the deposit unattempted.
+
+Before carrier I/O, recheck sender authority, classification, route permission
+and usable receive consent. The current AD pre-push support probe can wait on
+a live WSS peer. Before enabling this profile, define and test the first-deposit
+path with B already stopped when A composes the message. Distinguish proof
+required for a first push from the deduplication pin required for an uncertain
+retransmission. A timeout cannot manufacture that pin or clear a required
+check. If a required proof needs a live peer, keep the message queued and
+report the missing proof. Start acceptance with an established sovereign
+relationship and usable proofs. Delegated profiles retain P076 freshness and
+disclosure rules.
+
+Reuse the [S023 sealed mailbox adapter](../023-artifact-delivery/023-artifact-delivery.md#matrix-mailbox-transport-adapter)
+and its inbound worker. Record a deposit in the outbox as a transport
+observation only after the homeserver acknowledges the complete sealed frame
+or all its chunks. A partial deposit or lost acknowledgement remains
+unconfirmed. At pickup the receiver verifies the frame and runs ordinary INAC
+and Messaging admission with current consent, before Maildir, indexing or
+notifications. Withdrawal can prevent admission of ciphertext already deposited.
+Deletion of all homeserver copies cannot be guaranteed. Reuse the existing
+body-free WSS reconciliation when the peers can next communicate. Until then
+the sender can show a confirmed deposit with delivery still unconfirmed.
+For a refusal, account for both stage histories before declaring execution
+resolved. The current S027-009 terminal-refusal check covers a single direct
+target. A mailbox event ID alone cannot resolve outstanding effects.
+
+**Acceptance.** Use the ordinary compose/outbox path, two independently
+stoppable nodes A and B, and a separate Matrix homeserver that stays up.
+Provision the mailbox route, consent and keys first. Capture correlated stage
+outcomes, carrier receipts and recipient admissions without logging bodies or
+passport contents.
+
+| Case | Required observations |
+|---|---|
+| B stopped, default threshold | A records two distinct conclusive direct failures with zero Matrix events. After the third it makes one logical sealed deposit. A shows deposited and delivery unconfirmed. Stop A before starting B. B picks up and admits exactly one message while A is down. When the peers next overlap, A confirms `delivered` by a body-free read with zero additional pushes. |
+| Alternative configuration and offline shortcut | With threshold 2, restart A after the first failure and deposit after the second. With current authoritative offline evidence for B, deposit with zero direct attempts. Expired, superseded or wrong-node evidence and a missing session alone must take the normal threshold path. Direct success before the threshold produces zero mailbox events. |
+| Consent withdrawn between deposit and pickup | Stop A after deposit. With inbound processing paused, record withdrawal at B before allowing pickup. B refuses the exact attempt and writes no message, index row or notification. On later reconciliation A retains the carrier observation and shows the bound consent refusal when all effects are resolved. Restart, repeated Matrix events and renewal alone produce no new admission or send. |
+| Ambiguous effects and exhausted limits | Drop the direct reply after B commits, or lose the homeserver acknowledgement after a deposit. Restart A. Neither loss counts as a conclusive direct failure or authorizes another body push. Replay at B preserves the first admission. Expired authority, an exhausted shared budget, or a required but unavailable proof produces zero further emissions. |
 
 ## Recovery
 
@@ -546,6 +611,7 @@ historical S027-001–008 qualifications.
 | S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: `contact-request.v1` is admitted through the schema-scoped INAC preflight/policy gate, then the receiver sees the contact-request notification and explicitly accepts the relationship before any `message-envelope.v1` delivery authority exists. It also covers local `always_accept` Attestation Service acquisition through daemon contactability endpoints, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, and a second recorded message stored as an encrypted generic artifact in Node B's Agora Vault. The old peer allowlist/preissued transport passport path and explicit INAC operator-approval path are retained only as acceptance debug/policy variants. |
 | S027-007 | User-mode messaging readiness wizard | done | Node UI has five welcome steps: participant identity, key unlock phrase, operator binding, Messaging issuance authority (sovereign or bounded grant) and Messaging. The latter two can be durably deferred to enter `/app` with visible status. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
 | S027-009 | Recipient-consent loss and duplicate-safe delivery recovery | todo | Development foundations exist; the [single-source tracker](#consent-loss-recovery-tracker) still requires complete contracts, insert-once admission, historical INAC reconciliation, explicit retry/UI and retained qualification. |
+| S027-010 | Sealed mailbox failover for offline recipients | todo | Implement the [P060 offline delivery decision](../../40-proposals/060-messaging-middleware.md#offline-mailbox-failover) on the S023 staged plan and S027-009 exact-attempt recovery. Close on the [threshold, offline shortcut, non-overlapping operation, withdrawal and ambiguity cases](#offline-mailbox-failover). |
 
 ### Bounded Memarium Recovery (S027-008)
 

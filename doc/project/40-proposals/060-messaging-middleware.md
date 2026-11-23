@@ -640,9 +640,11 @@ State transitions:
   attaches it).
 - `ready-for-delivery → in-flight` when the AD delivery envelope is
   accepted by the host (typically returns a `delivery/id` for tracking).
-- `in-flight → delivered` on successful AD admission on the receiver
-  side (tracked via AD `deferred-operation` or recovery worker).
-- `in-flight → failed-terminal` on AD recovery exhaustion.
+- `in-flight → delivered` on authenticated evidence that the recipient's
+  Messaging service admitted this exact attempt (including `AlreadyPresent`).
+  A transport receipt alone leaves domain delivery unconfirmed.
+- On exhaustion, use the [delivery recovery contract](#consent-loss-recovery).
+  A possible remote effect with no conclusive result remains unknown.
 
 The queue scanner runs whenever a new passport is added to
 `PassportCache`. It looks up messages in `waiting-for-contact-permission`
@@ -676,6 +678,30 @@ owns explicit single/bulk recovery and UI evidence. Those gates extend this
 baseline without reopening P060-013/026 or claiming that the new recovery contract
 is implemented. The [S027 tracker](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker)
 is the single source of task status and retention/acceptance requirements.
+
+#### Delivery while the recipient node is offline {#offline-mailbox-failover}
+
+**Decision, 2026-11-23 (planned).** For an established contact, the sender
+keeps the message in its durable outbox. When an operator has enabled a
+sealed Matrix mailbox route for the same recipient node, try direct INAC/WSS
+first. After **three** distinct, conclusively unsuccessful direct transport
+attempts in the same generation (operator-configurable), use that mailbox.
+A fresh, authoritative indication that the exact node is offline permits an
+immediate switch. A missing session, silence or timeout alone leaves presence
+unknown. Either trigger requires that earlier attempts have no unresolved
+effects and that the existing authority, consent, time and emission budgets
+permit a new push. A refusal of consent never triggers a change of carrier.
+
+The sender can show **deposited in the recipient's encrypted mailbox** once
+the carrier confirms the complete deposit. Only the recipient's authenticated
+Messaging admission establishes **delivered**. The recipient checks consent
+again at pickup, including withdrawals since deposit. The homeserver can see
+routing metadata. A recorded-message copy in Agora Vault serves a separate
+archival purpose.
+
+[S023 owns the mailbox transport](../60-solutions/023-artifact-delivery/023-artifact-delivery.md#matrix-mailbox-transport-adapter).
+[S027-010](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#offline-mailbox-failover)
+owns implementation, the single tracker entry and acceptance for this profile.
 
 ### 8. `contacts` Relationship Class
 
@@ -893,7 +919,9 @@ The messaging service registers exactly one inbound acceptor for
 messages use either the `contact-lookup` recipient selector kind
 (P058-019, `done`) or a normal `routing-subject` / `node` selector after
 a middleware-side direct catalog lookup. The `privacy = private-direct`
-invariant applies; today's private-safe adapter is `inac-direct`.
+invariant applies. Ordinary Messaging currently prepares one direct stage.
+The [offline mailbox profile](#offline-mailbox-failover) selects two private
+carriers through the same AD submission.
 
 ### INAC (Solution 017)
 
