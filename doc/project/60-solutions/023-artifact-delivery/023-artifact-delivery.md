@@ -532,8 +532,10 @@ emission budget through `policy.emission/budget`. AD retains the policy with the
 bound plan. It reserves an emission after the current execution guard and before
 adapter entry. The first debit opens the window, limited by the delivery deadline.
 All targets and subsequent recovery calls use the same durable count and cap.
-The host may impose a lower count. A local support probe or historical admission
-read incurs no debit. A committed debit can outlive an interrupted handoff.
+The host may impose a lower count. Support probes and historical admission
+reads incur no emission debit. Both the first support probe and a retry coverage
+check use the receiver's support-only budget, separate from exact admission
+reads. A committed debit can outlive an interrupted handoff.
 
 The solution-level shape is:
 

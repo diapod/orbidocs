@@ -1246,6 +1246,11 @@ status, obtained new consent on the original pairwise route, and delivered once
 after explicit recovery. Revoking the receiving parent rejected a later push.
 The default preparation byte pool is tested at exhaustion and after expiry
 releases the original unsent reservation.
+The ordinary-traffic diagnostic exposed a gap in the AD budget split. A
+receiver had committed an admission while the sender's historical read
+reported a transport failure. The first support probe had used the historical
+operation. Initial and repeat support probes now use the receiver's
+support-only budget, preserving a separate budget for exact historical outcomes.
 The S027-008 development rerun passed on the same binaries after the fixture
 waited for the new daemon runtime at each reload. It checked pending-fact
 capacity, idempotent Memarium replay and preservation of paused and terminal
