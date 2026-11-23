@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-source-exact-use:v1",
+  "title": "whisper-source-exact-use.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/013-whisper-social-signal-exchange.md",
+    "doc/project/40-proposals/084-sensorium-web-observation-connector.md"
+  ],
+  "description": "Closed tuple vocabulary for exact v4 grants. A profile must separately authorize each complete use.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record/kind",
+    "content/schema",
+    "topic/key",
+    "disclosure/scope",
+    "signing/use"
+  ],
+  "properties": {
+    "record/kind": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content/schema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "topic/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "x-dia-maximum-utf8-bytes": 512,
+      "description": "Exact Agora topic key with a 512-byte UTF-8 limit and no surrounding whitespace.",
+      "pattern": "^[^*\\u0000-\\u001F\\u007F-\\u009F]+$"
+    },
+    "disclosure/scope": {
+      "enum": [
+        "federation-scoped",
+        "cross-federation",
+        "public-aggregate-only",
+        "single-audience"
+      ]
+    },
+    "signing/use": {
+      "enum": [
+        "publication",
+        "embargo-manifest",
+        "embargo-audience-manifest"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "record/kind": {
+          "const": "whisper-signal"
+        },
+        "content/schema": {
+          "enum": [
+            "whisper-signal.v2",
+            "whisper-signal.v3"
+          ]
+        },
+        "disclosure/scope": {
+          "enum": [
+            "federation-scoped",
+            "cross-federation",
+            "public-aggregate-only"
+          ]
+        },
+        "signing/use": {
+          "const": "publication"
+        }
+      }
+    },
+    {
+      "properties": {
+        "record/kind": {
+          "const": "whisper-correlation-notice"
+        },
+        "content/schema": {
+          "enum": [
+            "whisper-correlation-notice.v1"
+          ]
+        },
+        "disclosure/scope": {
+          "enum": [
+            "federation-scoped",
+            "cross-federation",
+            "public-aggregate-only"
+          ]
+        },
+        "signing/use": {
+          "const": "publication"
+        }
+      }
+    },
+    {
+      "properties": {
+        "record/kind": {
+          "const": "whisper-embargo-manifest"
+        },
+        "content/schema": {
+          "enum": [
+            "whisper-embargo-manifest.v1"
+          ]
+        },
+        "disclosure/scope": {
+          "enum": [
+            "federation-scoped"
+          ]
+        },
+        "signing/use": {
+          "const": "embargo-manifest"
+        }
+      }
+    },
+    {
+      "properties": {
+        "record/kind": {
+          "const": "whisper-release"
+        },
+        "content/schema": {
+          "enum": [
+            "whisper-embargo-audience-manifest.v1"
+          ]
+        },
+        "disclosure/scope": {
+          "enum": [
+            "single-audience"
+          ]
+        },
+        "signing/use": {
+          "const": "embargo-audience-manifest"
+        }
+      }
+    }
+  ]
+}

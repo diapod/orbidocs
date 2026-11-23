@@ -63,6 +63,20 @@
           "minLength": 50,
           "maxLength": 50
         },
+        "prior/operation-id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+          "maxLength": 128,
+          "description": "Retained local certification used to verify the predecessor and its scope policy for a new profile-v4 renewal or private reset."
+        },
+        "scope/request-policy": {
+          "enum": ["uniform", "minimal"],
+          "description": "Profile-v4 applicant selection. If absent, the applicant uses the profile's uniform set."
+        },
+        "scope/adc-disclosure-consent": {
+          "const": "issuer-may-infer-embargo",
+          "description": "Local acknowledgement for a new minimal-policy renewal that requests ADC uses. Never sent to the issuer."
+        },
         "scope/auxiliary-uses": {
           "$ref": "nym-issuance-request.v2.schema.json#/properties/scope~1auxiliary-uses",
           "description": "Explicit local ADC auxiliary request; absence grants no use and the adopted profile remains authoritative."
