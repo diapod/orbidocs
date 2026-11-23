@@ -3611,11 +3611,11 @@ carry no authority to archive, recover a file write or dispatch a component.
 
 The next successful archive ends live readback of the previous checkpoint.
 Its approved summary includes `results/pruned` with the previous public
-correlation, or an explicit uncorrelated legacy marker. The old checkpoint
+correlation, an explicit uncorrelated legacy marker, or one unreadable marker with the number of ambiguous or damaged checkpoint rows. Exact GET refuses ambiguous or damaged checkpoint evidence. Explicit approval of a productive archive quarantines the original bytes in its private export. The old checkpoint
 remains in the next private export, and the old live GET returns `unknown`.
 A checkpoint alone cannot justify another archive. If ordinary capacity is
 exhausted and replacing this checkpoint would release nothing, report
-`archive-cannot-free-capacity`. Preserve protected facts and reservations.
+`configuration-archive-cannot-free-capacity`. The v2 History overview exposes the refusal. Preserve protected facts and reservations.
 
 Standalone archiving and a middleware approval containing archiving each
 consume their review before comparing actor and exact plan. A repeated POST
@@ -3625,6 +3625,18 @@ file and checkpoint evidence from one snapshot. The top-level state describes
 the file. A checkpoint alone yields a committed archive and an unknown file
 result. An archive is `not-planned` only when the retained approval establishes
 that fact. Conflicting retained evidence produces a typed refusal.
+
+The Messaging operator surface exposes the compound result for
+`messaging_service`. Other middleware inspection resources retain their
+inspection semantics. Once the archive has committed, every subsequent file
+failure reports the committed archive and the separately evidenced file
+outcome. A terminal refusal and an unknown outcome give different recovery
+guidance. Neither permits an implicit repeat.
+
+The v3 checkpoint binds the approved plan using domain-separated JCS.
+Strict readers retain the original v1 and v2 meanings. The stored actor
+denotes the authenticated local-control class shared by UI and CLI.
+Each owner's stable identifier participates in its historical correlation.
 
 For the history owner, the SQLite commit is the irreversible prune boundary.
 Authorization and a durable export of every deleted fact precede it. A changed
