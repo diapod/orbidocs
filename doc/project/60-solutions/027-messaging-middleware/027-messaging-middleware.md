@@ -1532,8 +1532,12 @@ The local archive-outbox command re-verifies the cut and existing restore
 intent. It authenticates the participant against the archived protected key
 slot and presents a bounded page of their body-free outbox history with the
 snapshot time. The Messaging owner checks its application receipt before
-the read. Protected conversation content, export, removal, the remaining
-owner gates and profile activation are still open.
+the read. An authenticated participant can also read one received inline
+message as standalone JSON. The owner compares the participant's retained
+mailbox identity to the committed original in the verified cut. A foreign
+item or a tombstone from the cut remains unavailable. Conversation browsing,
+outgoing bodies, bulk export, removal, remaining owner gates and profile
+activation are still open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
