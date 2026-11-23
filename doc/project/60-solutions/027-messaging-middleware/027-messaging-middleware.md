@@ -1575,6 +1575,15 @@ deduplication coverage. Ordinary INAC ledger startup refuses the marked
 paths. Enabling a restored profile and serving this history over an
 authenticated network operation remain open.
 
+Stopped backup now captures the effective Messaging acquisition and
+recovery capacity policies with their P091 resolution IDs, the local
+grant disclosure choices, and relative paths for configured owner
+inputs. The local configuration review displays these facts as of the
+cut. It can record one explicit, cut- and destination-bound choice at
+least as restrictive as the captured Messaging policy. Applying the
+choice to the live candidate, validating its rebound paths and obtaining
+current federation trust remain required before opening effects.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
