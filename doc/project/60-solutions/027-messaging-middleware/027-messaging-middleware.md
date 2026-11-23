@@ -1563,8 +1563,17 @@ exports apply these facts across exact owner replay. The verified cut, raw
 materialization, earlier exports and peer copies retain separate custody.
 The local two-binary diagnostic verified owner isolation, idempotent
 removal, export filtering and an unchanged receipt after exact replay.
-Contact navigation in the UI, physical disposition of the raw profile,
-remaining owner gates and profile activation are still open.
+Contact navigation in the UI and physical disposition of the raw profile
+remain open.
+
+The INAC history owner now checks the cut's exact ledger, WAL and enrolled
+identity anchor. It commits only peer-bound positive results for exact
+Messaging attempts and a receipt tied to the same restore. Unknown,
+refused and unfinished attempts provide no positive result. The
+projection contains no replayable invitation or offer and declares no
+deduplication coverage. Ordinary INAC ledger startup refuses the marked
+paths. Enabling a restored profile and serving this history over an
+authenticated network operation remain open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
