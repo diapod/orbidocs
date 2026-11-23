@@ -1535,9 +1535,12 @@ snapshot time. The Messaging owner checks its application receipt before
 the read. An authenticated participant can also read one received inline
 message as standalone JSON. The owner compares the participant's retained
 mailbox identity to the committed original in the verified cut. A foreign
-item or a tombstone from the cut remains unavailable. Conversation browsing,
-outgoing bodies, bulk export, removal, remaining owner gates and profile
-activation are still open.
+item or a tombstone from the cut remains unavailable. A local diagnostic
+passed both real CLI binaries from a synthetic committed cut, including
+idempotent apply, both archive reads, refusal for foreign, missing and
+previously deleted items, and ordinary startup refusal. Conversation
+browsing, outgoing bodies, bulk export, removal, remaining owner gates and
+profile activation are still open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
