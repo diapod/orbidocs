@@ -1317,11 +1317,14 @@ bytes. Node `3be87e4cd` supplies the stricter offline qualifier. The
 retained qualification above continues to identify runtime `d6024c1f1`.
 Fresh external retrieval reproduced its `qualified` result with the original
 requalification verifier. Integration adds the existing S027 campaign's
-21,375 governed Git bytes to the primary tree's 68,159,553 bytes. The total
-of 68,180,928 exceeds the repository limit of 68,173,824 by 7,104 bytes.
-The aggregate retention gate blocks primary integration pending a storage
-policy decision. Historical evidence and the runtime work pool have
-independent budgets.
+21,375 governed Git bytes to the primary tree's 68,159,553 bytes. The
+combined 68,180,928 bytes exceeded the former cap by 7,104. The operator
+approved separate retention budgets in Node `357ce74c5` on 2026-11-23.
+The global checker passed on merge `b52d259d9` with 1,025,088 bytes
+remaining for governed evidence and 164,365 bytes for shared policy-control
+history. This cleared the integration blocker. The Node retention maintainer
+owns the next budget review. Historical evidence and the runtime work pool
+have independent budgets.
 
 Convergence review reused checked capacity arithmetic between P091 and
 Messaging, exact submission binding in AD across Messaging and Whisper,
