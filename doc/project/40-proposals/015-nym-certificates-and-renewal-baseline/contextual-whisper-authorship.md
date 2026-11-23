@@ -211,7 +211,11 @@ its own preimage and checks the case commitment, key, context, time and audience
 
 **Selection and issuer disclosure.** The default applicant policy
 `uniform` requests the profile's `request/uniform-uses` on issue and renewal.
-The profile pins this set as a subset of authorized uses for one exact topic.
+A profile declaring this set authorizes exactly one topic across **all**
+`scope/authorized-uses`, including uses outside the uniform subset. A second
+topic makes the profile invalid before the applicant can issue or renew. A v4
+profile without the uniform set may authorize several topics for explicitly
+selected minimal requests. Each request still names one exact topic.
 The set contains signal publication and the two manifest uses. Its absence
 causes `profile-uniform-set-missing` at the applicant. A uniform applicant
 has no in-lifetime scope extension operation. The council sees the participant,
@@ -236,9 +240,12 @@ grant check.
 notice publication use. The separately admitted qualification profile allows
 only one notice tuple for its fixture topic and `federation-scoped`. It keeps
 notice outside the uniform set. The production profile has no notice tuple.
-The recipient checks the envelope signature, certificate, adopted profile and
-grant. The subsequent content decision is `content-schema-not-admitted`.
-There is no record write, publication or indexing on this path. ADC-007 owns
+The read-only Agora fixture command `--inspect-notice-grant` checks the
+envelope signature, certificate, adopted profile and grant. It takes the exact
+disclosure scope from signed `content["disclosure/scope"]`, which must match
+the authorship proof context. It returns `content-schema-not-admitted` on the
+separate content axis. Gate C exercised this command and observed no SQLite
+database creation. HTTP ingest and its persistence decision are outside Gate C. ADC-007 owns
 content, expiry, discovery and production grants. A production grant revision
 changes the profile digest and the context. Open cases remain subject to the
 same-context succession rule until LLR-010 defines context transition.

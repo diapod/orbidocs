@@ -47,7 +47,7 @@ Contextual exact-use policy for the v3 private issuance exchange.
 | [`publication/window-start`](#field-publication-window-start) | `yes` | string |  |
 | [`publication/window-end`](#field-publication-window-end) | `yes` | string |  |
 | [`scope/use-selection`](#field-scope-use-selection) | `yes` | const: `explicit-request` |  |
-| [`request/uniform-uses`](#field-request-uniform-uses) | `no` | array |  |
+| [`request/uniform-uses`](#field-request-uniform-uses) | `no` | array | When present, this set and every authorized use must share one exact topic key. Profile admission checks equality across tuples. |
 
 ## Conditional Rules
 
@@ -343,3 +343,5 @@ Then:
 
 - Required: `no`
 - Shape: array
+
+When present, this set and every authorized use must share one exact topic key. Profile admission checks equality across tuples.

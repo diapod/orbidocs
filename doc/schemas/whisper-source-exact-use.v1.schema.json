@@ -35,7 +35,7 @@
       "maxLength": 512,
       "x-dia-maximum-utf8-bytes": 512,
       "description": "Exact Agora topic key with a 512-byte UTF-8 limit and no surrounding whitespace.",
-      "pattern": "^[^*\\u0000-\\u001F\\u007F]+$"
+      "pattern": "^[^*\\u0000-\\u001F\\u007F-\\u009F]+$"
     },
     "disclosure/scope": {
       "enum": [

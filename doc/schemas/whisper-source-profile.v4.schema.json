@@ -160,6 +160,7 @@
       "const": "explicit-request"
     },
     "request/uniform-uses": {
+      "description": "When present, this set and every authorized use must share one exact topic key. Profile admission checks equality across tuples.",
       "type": "array",
       "minItems": 1,
       "maxItems": 16,
