@@ -118,7 +118,14 @@
               ]
             },
             "nym/certificate": {
-              "$ref": "whisper-source-certificate.v3.schema.json"
+              "oneOf": [
+                {
+                  "$ref": "whisper-source-certificate.v3.schema.json"
+                },
+                {
+                  "$ref": "whisper-source-certificate.v4.schema.json"
+                }
+              ]
             },
             "scoped-claim/request": {
               "$ref": "scoped-claim-request.v1.schema.json"
@@ -276,7 +283,14 @@
                   ]
                 },
                 "nym/certificate": {
-                  "$ref": "whisper-source-certificate.v3.schema.json"
+                  "oneOf": [
+                    {
+                      "$ref": "whisper-source-certificate.v3.schema.json"
+                    },
+                    {
+                      "$ref": "whisper-source-certificate.v4.schema.json"
+                    }
+                  ]
                 },
                 "scoped-claim/request": {
                   "$ref": "scoped-claim-request.v1.schema.json"
