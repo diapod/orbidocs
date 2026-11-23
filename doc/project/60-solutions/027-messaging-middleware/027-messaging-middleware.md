@@ -1432,6 +1432,13 @@ reservation. The [Node boundary inventory](node:docs/development/S027-010-PROFIL
 records the reproducer, observed scope and source-discovered owners. The
 composition and fence checks remain part of 010-01.
 
+The daemon can inspect configured owner paths without starting a profile.
+The registered storage providers supply their cut classifications, including
+whether the Seed Directory is embedded or under independent custody.
+Ordinary configuration activation and daemon open refuse a profile carrying
+a recovery marker. The physical inventory, the executor that sets and
+retires that marker, and the individual owners' effect guards remain open.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
