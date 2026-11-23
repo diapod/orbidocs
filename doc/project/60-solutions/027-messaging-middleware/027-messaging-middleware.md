@@ -1417,7 +1417,7 @@ to the owner's verified local archive.
 | Task | Status | Completion gate |
 |---|---|---|
 | S027-010-01 | in-progress | Baseline older-cut diagnostic and restart control. Freeze the inventory of owners and storage sets, fences, and protected effect boundaries with composition drift tests. |
-| S027-010-02 | todo | Bounded Lean model and Rust correspondence for effects, consent, history and recovered work, with witnesses, counterexamples and axiom audit. |
+| S027-010-02 | in-progress | Bounded Lean model and Rust correspondence for effects, consent, history and recovered work, with witnesses, counterexamples and axiom audit. |
 | S027-010-03 | todo | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
 | S027-010-04 | todo | Private archive, owner-only export and deletion, explicit consent renewal and exit. Reindex, replay and other projections cannot revive historical payloads. |
 | S027-010-05 | todo | Technical qualification over WSS/INAC on independent profiles. Full delegated pair, targeted sovereign and mixed controls, and separate old-consent and old-pin observations. |
@@ -1431,6 +1431,13 @@ flag. The read left the sender generation unchanged and added no receiver
 reservation. The [Node boundary inventory](node:docs/development/S027-010-PROFILE-RESTORE.md)
 records the reproducer, observed scope and source-discovered owners. The
 composition and fence checks remain part of 010-01.
+
+The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
+covers 952 effect, consent and work-origin decisions plus eight named
+expectations. The 18 theorem dependencies contain at most `propext`. This
+checkpoint checks the pure decision inputs. Persistence, owner integration
+and the full specification trace matrix remain open. See the
+[model scope](node:messaging-core/lean/README.md#s027-010-restored-profile-model).
 
 The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
