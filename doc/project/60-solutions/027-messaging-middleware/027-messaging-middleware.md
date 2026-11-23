@@ -1474,9 +1474,11 @@ A complete interrupted intent resumes with the original ID. A mismatched
 or torn intent leaves the destination isolated. Materialized bytes go into
 a separately marked and leased payload directory. The local `restore`
 command reports the isolated byte result and resumes by preserving verified
-members and discarding only unpublished scratch. Source custody
-closure, the operator backup command and owner application remain open.
-Trust and startup permission require separate owner decisions.
+members and discarding only unpublished scratch. The local backup command
+uses the resolved inventory and the physical observation under the stopped
+profile lease. It refuses unassigned bytes and unresolved separate custody
+before writing. Full Story-010 source custody closure and owner application
+remain open. Trust and startup permission require separate owner decisions.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
