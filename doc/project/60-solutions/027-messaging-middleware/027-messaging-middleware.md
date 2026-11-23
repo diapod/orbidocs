@@ -1458,9 +1458,13 @@ remain separate requirements.
 The local cut verifier checks the committed manifest, exact recovery marker
 and complete descriptor-relative tree by size and digest. Publication of
 synthetic materialized bytes exercises the staging and durable manifest
-boundary. Source admission, coordinated copy and owner application remain
-open. Successful byte verification conveys no trust or permission to start
-a restored profile.
+boundary. The capture API copies a complete admitted local tree under its
+source lease and checks the destination volume before writing. The macOS
+adapter distinguishes verified encryption, unencrypted physical backing
+and an unknown status. Known unencrypted media refuse. An unknown status
+requires explicit operator attestation. Source custody closure, the operator
+backup command and owner application remain open. Successful byte
+verification conveys no trust or permission to start a restored profile.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
