@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-retry-command.local:v1",
+  "title": "Messaging retry command",
+  "description": "An explicit owner-scoped selection or a confirmation over its saved digest. The trusted local host supplies the owner.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#explicit-retry-operation"
+  ],
+  "$defs": {
+    "selection-item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "envelope/id",
+        "expected/generation"
+      ],
+      "properties": {
+        "envelope/id": {
+          "type": "string",
+          "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+          "maxLength": 256
+        },
+        "expected/generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "action",
+        "items"
+      ],
+      "properties": {
+        "schema": {
+          "const": "messaging-retry-command.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{16,128}$"
+        },
+        "action": {
+          "enum": [
+            "ordinary",
+            "preview"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 25,
+          "items": {
+            "$ref": "#/$defs/selection-item"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "action",
+        "selection/digest",
+        "confirmation/token"
+      ],
+      "properties": {
+        "schema": {
+          "const": "messaging-retry-command.local.v1"
+        },
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{16,128}$"
+        },
+        "action": {
+          "const": "confirm"
+        },
+        "selection/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "confirmation/token": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        }
+      }
+    }
+  ]
+}

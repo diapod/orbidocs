@@ -15,6 +15,7 @@ Source schema: [`doc/schemas/artifact-delivery-reconcile.local.v1.schema.json`](
 | [`submission/digest`](#field-submission-digest) | `yes` | string |  |
 | [`delivery/id`](#field-delivery-id) | `no` | string |  |
 | [`timeout/ms`](#field-timeout-ms) | `yes` | integer |  |
+| [`purpose`](#field-purpose) | `no` | enum: `historical`, `receiver-coverage` |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -46,3 +47,9 @@ Source schema: [`doc/schemas/artifact-delivery-reconcile.local.v1.schema.json`](
 
 - Required: `yes`
 - Shape: integer
+
+<a id="field-purpose"></a>
+## `purpose`
+
+- Required: `no`
+- Shape: enum: `historical`, `receiver-coverage`

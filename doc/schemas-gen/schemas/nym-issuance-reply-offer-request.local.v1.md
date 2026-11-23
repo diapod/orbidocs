@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/nym-issuance-reply-offer-request.local.v1.schema.json`](../../schemas/nym-issuance-reply-offer-request.local.v1.schema.json)
 
-Explicit version union for the current local adapter; both historical closed contracts remain unchanged.
+Explicit version union for the current local adapter.
 
 ## Fields
 

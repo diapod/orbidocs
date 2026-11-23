@@ -55,6 +55,51 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 | [`inac_authorization`](#def-inac-authorization) | object |  |
 | [`capability_filters`](#def-capability-filters) | object |  |
 | [`policy`](#def-policy) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "required": [
+    "policy"
+  ],
+  "properties": {
+    "policy": {
+      "required": [
+        "messaging/retry-coverage"
+      ]
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "execution/messaging-attempt",
+    "idempotency/key"
+  ],
+  "properties": {
+    "component/id": {
+      "const": "messaging-service"
+    },
+    "artifact": {
+      "properties": {
+        "schema": {
+          "const": "message-envelope.v1"
+        }
+      }
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>

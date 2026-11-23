@@ -86,8 +86,29 @@
                 "unsupported",
                 "busy",
                 "deadline",
-                "transport"
+                "transport",
+                "receiver-coverage-unavailable"
               ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "coverage"],
+          "properties": {
+            "kind": { "const": "receiver-coverage" },
+            "coverage": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["peer/node-id", "contract/digest", "store/epoch", "checked/at", "resume/until"],
+              "properties": {
+                "peer/node-id": { "type": "string", "minLength": 6, "maxLength": 256, "pattern": "^node:" },
+                "contract/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+                "store/epoch": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+                "checked/at": { "type": "string", "format": "date-time", "maxLength": 64 },
+                "resume/until": { "type": "string", "format": "date-time", "maxLength": 64 }
+              }
             }
           }
         }
@@ -101,7 +122,7 @@
           "observation": {
             "properties": {
               "kind": {
-                "const": "historical"
+                "enum": ["historical", "receiver-coverage"]
               }
             }
           }

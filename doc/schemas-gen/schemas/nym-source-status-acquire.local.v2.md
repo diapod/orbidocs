@@ -15,7 +15,7 @@ Bounded status acquisition for an independently adopted v3 profile and exact v3 
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`profile/digest`](#field-profile-digest) | `yes` | string |  |
-| [`certificate`](#field-certificate) | `yes` | ref: `whisper-source-certificate.v3.schema.json` |  |
+| [`certificate`](#field-certificate) | `yes` | unspecified |  |
 | [`purpose`](#field-purpose) | `yes` | enum: `collection`, `first-emission` |  |
 ## Field Semantics
 
@@ -29,7 +29,7 @@ Bounded status acquisition for an independently adopted v3 profile and exact v3 
 ## `certificate`
 
 - Required: `yes`
-- Shape: ref: `whisper-source-certificate.v3.schema.json`
+- Shape: unspecified
 
 <a id="field-purpose"></a>
 ## `purpose`

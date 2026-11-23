@@ -28,7 +28,10 @@ When:
     "observation": {
       "properties": {
         "kind": {
-          "const": "historical"
+          "enum": [
+            "historical",
+            "receiver-coverage"
+          ]
         }
       }
     }

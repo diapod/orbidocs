@@ -23,7 +23,14 @@
       "maxLength": 50
     },
     "certificate": {
-      "$ref": "whisper-source-certificate.v3.schema.json"
+      "oneOf": [
+        {
+          "$ref": "whisper-source-certificate.v3.schema.json"
+        },
+        {
+          "$ref": "whisper-source-certificate.v4.schema.json"
+        }
+      ]
     },
     "purpose": {
       "type": "string",

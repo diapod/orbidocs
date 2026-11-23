@@ -402,6 +402,9 @@
         },
         {
           "$ref": "whisper-source-certificate.v3.schema.json"
+        },
+        {
+          "$ref": "whisper-source-certificate.v4.schema.json"
         }
       ]
     }

@@ -508,7 +508,14 @@ unlock and auto-ready preserve the pause. Unattributed old entries get
 `unattributed-entry`; explicit discard or resending content as a new ID are the only
 paths forward. Never infer the historical sender from the current operator.
 
-Single retry and participant `POST /v1/messaging/outbox/retry-blocked` reevaluate each
+The Stage B retry below was later superseded by the
+[S027 recovery contract](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#explicit-retry-operation).
+The current API accepts an exact selection at
+`POST /v1/messaging/outbox/retry-operations` and retains completed item receipts
+for 31 days. S027 alone owns the subsequent qualification.
+
+At the Stage B checkpoint, single retry and participant
+`POST /v1/messaging/outbox/retry-blocked` reevaluated each
 intent. Bulk operations durably pin their selection and operation key; each intent
 has its own persisted attempt generation/idempotency key. Concurrent requests do
 not duplicate attempts; unresolved previous AD outcomes must be resolved first.
@@ -554,7 +561,7 @@ dated records cannot establish Stage B enforcement.
 
 #### Planned Recipient-Consent Recovery Acceptance {#recipient-consent-recovery-acceptance}
 
-**Registered 2026-10-28; not yet implemented or measured.**
+**Registered 2026-10-28. Development results are recorded in S027.**
 [S027-009](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
 owns the continuation. Keep P097's local send-readiness/authority decisions separate
 from recipient consent and historical admission. Setup, import, unlock, refresh and
@@ -563,15 +570,25 @@ restart do not resume a previously blocked send; the original
 stage, cause, last observation and `allowed_actions`, with existing owner/CSRF and
 composer protections. No new readiness authority or grant profile is introduced.
 
-Reserve these evidence cases for S027-009-04 (implementation and browser gate) and
-S027-009-05 (retained qualification). They are not independent implementation tasks
-or prerequisites looping back into their owner. Historical MSG-ONB-005–008 and
-P076-034/035 evidence retain their dates, bytes, pins and qualified scope.
+S027-009-04 owns both complete browser cases. S027-009-05 repeats their
+assertions on the pinned qualification build with the wider regressions.
+[S027](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery-tracker)
+owns implementation status. Historical MSG-ONB-005–008 and P076-034/035 evidence
+retain their dates, bytes, pins and qualified scope.
 
-| Case | Status | Required measured assertion / owner |
+For this continuation, S027 reserves outbox capacity when first admitting a
+message. Waiting, paused and active messages use the same slot. A full pool
+refuses new work and preserves pending observations and exact enqueue replays.
+The recovery outbox pages within the authenticated participant's rows and uses
+the same unresolved-slot accounting as admission. The initial confirmation
+renders the original creation time for each exact selected generation.
+| Case | Evidence | Measured assertion / owner |
 |---|---|---|
-| MSG-ONB-009 | todo | S027-009-04: explicit recipient-consent refusal becomes a truthful pause; a new grant does not resume it. On the same relationship/route, confirmed recovery with current local authority and receive consent delivers once. UI distinguishes local authority, recipient refusal and proof/status unavailability; regress P076-036/037 and sovereign independent membership plus delegated/mixed cases. |
-| MSG-ONB-010 | todo | S027-009-04: local AD 404/lost reply yields unknown and zero automatic generations. Body-free reconcile, concurrent single/bulk retry and explicitly confirmed uncertain retry require the receiver deduplication contract. Silent prior success returns `AlreadyPresent` with first bytes/path/recording/read state intact; late failure cannot downgrade delivery. Restart/replay/reindex and expiry/capacity guards preserve these results. |
+| MSG-ONB-009 | S027-009-04/05, 2026-11-23 | Confirmed consent loss pauses delivery. A fresh consent alone leaves it paused. Explicit overlapping single and bulk recovery on the same relationship/route delivers once. UI distinguishes local authority, recipient refusal and proof/status unavailability. Includes P076-036/037 and sovereign independent membership, delegated and mixed regressions. |
+| MSG-ONB-010 | S027-009-04/05, 2026-11-23 | Local AD 404 or a lost result leaves uncertainty with no automatic generation. Exact historical read is body-free. Confirmed uncertain retransmission checks the receiver deduplication contract and returns `AlreadyPresent`, preserving first bytes, path, recording and read state. Two tabs, restart/replay/reindex and expiry/capacity preserve these boundaries. |
+
+The [2026-11-23 recovery qualification](node:docs/evidence/limited-messaging/2026-11-23-s027-delivery-recovery/README.md)
+records the correlated browser and host results, conformance and strict Story-010.
 
 Use separate `a.localhost` / `b.localhost` browser sessions, ordinary explicit
 INAC/receive consents and real WSS/INAC admission. Correlate message ID, attempt

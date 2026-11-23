@@ -218,6 +218,9 @@ at most 4 KiB under existing INAC budgets. Authenticated
 `messaging-admission-identity.v1` support must cover the relevant deduplication
 window before uncertain retry; an unsupported peer or a JSON label does not suffice.
 This session-bound read adds no signing key or portable time receipt.
+`support/only` uses the same authenticated operation with a separate budget
+bucket. It checks the receiver's current support without looking up the queried
+attempt. A usable response carries `unknown` and the current support declaration.
 
 Preserve `RefusalCode`, `retryable` and `retry_after_ms` into AD status. Map private
 Messaging consent reasons to `recipient-consent-required` before transmission,
