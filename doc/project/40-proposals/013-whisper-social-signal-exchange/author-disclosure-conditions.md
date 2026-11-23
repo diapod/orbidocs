@@ -2018,6 +2018,9 @@ The author crosses the same direct AD boundary using the authenticated local
 `handoff-held-adc-transfer` operation and an explicit route to the named
 custodian. The source verifies the retained registration, one selected
 manifest, the holder binding and its current private disclosure policy. S026
+resolves the V2 operation's exact Room descriptor and history-policy digest
+from the retained signed consent of a V2 registration. Only the selected
+manifest enters the transfer. V1 selects by the exact manifest digest. S026
 fences the exact offered ciphertext before AD and binds the exchange to the
 offer and route through the case horizon. Ciphertext retention in this journal
 ends at the original offer deadline. Tests reopen the author journal
