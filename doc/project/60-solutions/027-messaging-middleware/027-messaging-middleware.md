@@ -1083,7 +1083,7 @@ reservations, generations and results are durable facts.
 | Data | Required bound |
 |---|---|
 | Unresolved messages / resume window | 30 days from original message creation. At initial admission each nonterminal outbox row reserves one slot, including a message waiting for a route or contact consent. Defaults are 256 per participant and 1024 per node. Retry/import/restart cannot extend the window. |
-| Prepared copies and reservations | At most eight generations, including the first. Defaults are 64 MiB of logical prepared bytes per message and 256 MiB per node. Check the first generation reservation before publishing EML. A later generation replaces the superseded reservation. Publication atomically exchanges the active reservation for the exact retained byte count. |
+| Prepared copies and reservations | At most eight generations, including the first. Defaults are 64 MiB of logical prepared bytes per message and 256 MiB per node. Check the first generation reservation before publishing EML. A later generation replaces the superseded reservation. Publication atomically exchanges the active reservation for the exact byte count. Only nonterminal messages charge this pool. Terminal prepared history follows its own recording and retention holds. |
 | INAC results, AD records and generation keys | Through the resume window and at least 31 days after attempt completion. |
 | Receiver deduplication | For the message lifetime; after body deletion, a body-free tombstone for at least 31 days after last admission/recognized duplicate, preventing resurrection. |
 | Bulk results | At least 31 days after every item has a durable terminal result. |
@@ -1289,6 +1289,16 @@ results. Fresh retrieval reproduces that result. Scope flags are
 P076-036 zero-fetch proof concerns local evidence verification. Continued
 offline delivery, longer leases, body encryption and a full release
 candidate are outside this campaign.
+
+Premerge review found that terminal history still charged the active preparation
+pool in the qualified runtime. The reviewed implementation releases live charge
+and preparation work at terminal transition and retains the exact confirmation
+inputs. Per-owner operation capacity is 1,024 out of 4,096 node-wide. Retry
+checks run separately from outbox emission. Three failed checks return
+`recovery-check-unavailable` for that position. The 256 MiB default remains
+an engineering limit. Sizing under concurrent participants and a sustained
+wave of paused messages remains open. The original single-participant
+run and three correlated losses do not measure that workload.
 
 Convergence review reused checked capacity arithmetic between P091 and
 Messaging, exact submission binding in AD across Messaging and Whisper,

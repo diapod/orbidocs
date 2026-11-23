@@ -104,7 +104,8 @@
                     "stale-selection",
                     "generation-budget-exhausted",
                     "preparation-capacity",
-                    "authority-proof-unavailable"
+                    "authority-proof-unavailable",
+                    "recovery-check-unavailable"
                   ]
                 }
               }
