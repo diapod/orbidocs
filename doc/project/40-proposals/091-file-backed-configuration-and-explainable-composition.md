@@ -3598,3 +3598,39 @@ traces now also run against the production Flow owner and journal. The real
 daemon rejected the old launch after clearance and dispatched after a fresh
 launch. The Node audit `P091-FLOW-DESCRIPTOR-ADMISSION-REVIEW-2026-11-23`
 records the candidate, build contrasts, client verdicts and evidence custody.
+
+### Exact readback of an archival decision (P091-006/013)
+
+An authenticated local operator receives an exact result address before
+submitting approval. The result binds the owner, review reference and any
+owner-defined scope. A matching retained checkpoint establishes `committed`
+and supplies the archive reference, transaction time and approved summary.
+An export without a matching checkpoint leaves the result `unknown`. An
+unavailable or inconsistent journal produces a typed refusal. Result reads
+carry no authority to archive, recover a file write or dispatch a component.
+
+The next successful archive ends live readback of the previous checkpoint.
+Its approved summary includes `results/pruned` with the previous public
+correlation, or an explicit uncorrelated legacy marker. The old checkpoint
+remains in the next private export, and the old live GET returns `unknown`.
+A checkpoint alone cannot justify another archive. If ordinary capacity is
+exhausted and replacing this checkpoint would release nothing, report
+`archive-cannot-free-capacity`. Preserve protected facts and reservations.
+
+Standalone archiving and a middleware approval containing archiving each
+consume their review before comparing actor and exact plan. A repeated POST
+returns a stale refusal with the result address. Ordinary middleware file
+reviews retain their established journal replay. The middleware result reads
+file and checkpoint evidence from one snapshot. The top-level state describes
+the file. A checkpoint alone yields a committed archive and an unknown file
+result. An archive is `not-planned` only when the retained approval establishes
+that fact. Conflicting retained evidence produces a typed refusal.
+
+For the history owner, the SQLite commit is the irreversible prune boundary.
+Authorization and a durable export of every deleted fact precede it. A changed
+pinned snapshot between export and the write transaction refuses the prune.
+For middleware, the setting retains transactional-withheld file recovery.
+Checkpoint evidence permits readback and a fresh preview, and confers no
+authority to resume the file write. Each accepted review permits at most one
+prune, including after restart and checkpoint replacement. Reads and
+unsuccessful successor plans preserve the predecessor's live result.
