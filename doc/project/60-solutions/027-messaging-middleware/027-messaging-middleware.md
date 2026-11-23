@@ -1439,6 +1439,13 @@ Ordinary configuration activation and daemon open refuse a profile carrying
 a recovery marker. The physical inventory, the executor that sets and
 retires that marker, and the individual owners' effect guards remain open.
 
+The local cut inspection observes directory entries without following
+symlinks and associates them with configured inputs. It distinguishes
+SQLite sidecars, unexpected file types and separately held custody.
+Messaging's input follows its supervised data directory. This checkpoint
+provides an ownership diagnostic. A restorable cut still requires writer
+exclusion and verified dispositions for all in-scope owners.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
