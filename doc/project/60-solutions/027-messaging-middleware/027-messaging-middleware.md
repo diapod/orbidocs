@@ -1370,6 +1370,73 @@ reads. The INAC push/query handlers still need these operations installed before
 exposure, together with current-permission checks, typed AD outcomes and negotiated
 deduplication continuity. No runtime or browser gate is claimed by this checkpoint.
 
+## Whole-node recovery and safe exit {#whole-node-recovery}
+
+S027-010 qualifies the one-participant-per-node path from a fresh installation
+through two-way Messaging, loss of one node, and a deliberate decision to
+resume or end contact. S027-009 supplies exact historical readback and retry
+semantics. This continuation addresses the independent case where restoration
+rewinds stores and the owner can no longer attest to the missing interval.
+
+**Restored history and present authority.** Positive, exactly bound historical
+facts survive as facts. The absence of an admission, withdrawal, deletion or
+later attempt in the restored cut cannot establish that it did not occur.
+Archive views and exports identify the cut and the gap. A repeated normal
+startup preserves the current journal epoch. An independently armed restore
+establishes a new owner-local epoch before any peer can observe the receiver.
+The local restore operation ID and consent generation are separate from the
+peer-visible deduplication epoch.
+
+**Protected effects.** The host isolates a restored profile before listeners,
+advertisements, workers and replay. Each owner independently refuses effects
+unless its required restore acknowledgements and the applicable operation class
+are current. The isolated profile verifies the cut and owner fences, applies the
+restore once per owner, then requires an explicit configuration review and
+current trust material. Restored roots, revocation revisions and known
+withdrawals provide lower bounds. A newer conflicting fence or unavailable
+required proof keeps dependent operations closed.
+
+**Resumption.** Current consent requires a fresh decision, locally bound to the
+exact basis in the new consent generation. The selected Messaging-only issuer
+reconciles its full prior grant scope for the restored node and fences delayed
+registration before re-admission. A restored sender may reconcile an exact old
+attempt without payload and retain a bound positive outcome. Old preparations,
+confirmed operations, pending notifications and queued emissions have no
+execution authority. Sending again is an explicit new message with a new ID.
+
+**Custody.** A stopped profile backup inventories active owners and external
+dependencies, including keys, configured paths and fence placement. A known
+unencrypted target is refused. A target whose encryption cannot be established
+by the system adapter may be used only after explicit operator attestation and
+is ineligible for qualification. A verified durable manifest marks the copy
+as requiring restore. The qualified path restores to an empty destination and
+keeps historic payloads outside active stores, projections and automatic
+consumers. Suspected duplicate live custody or key compromise limits recovery
+to the owner's verified local archive.
+
+| Task | Status | Completion gate |
+|---|---|---|
+| S027-010-01 | in-progress | Baseline older-cut diagnostic and restart control. Freeze the inventory of owners and storage sets, fences, and protected effect boundaries with composition drift tests. |
+| S027-010-02 | todo | Bounded Lean model and Rust correspondence for effects, consent, history and recovered work, with witnesses, counterexamples and axiom audit. |
+| S027-010-03 | todo | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
+| S027-010-04 | todo | Private archive, owner-only export and deletion, explicit consent renewal and exit. Reindex, replay and other projections cannot revive historical payloads. |
+| S027-010-05 | todo | Technical qualification over WSS/INAC on independent profiles. Full delegated pair, targeted sovereign and mixed controls, and separate old-consent and old-pin observations. |
+| S027-010-06 | todo | Two people on separate hosts complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
+
+The baseline loopback diagnostic at Node `ab199232e` on 2026-11-23
+preserved the first admission on normal restart. After restoring the older cut,
+a WSS historical read for a later admission returned `unknown` while advertising
+the same pinned epoch. The journal kept the old coverage start and complete
+flag. The read left the sender generation unchanged and added no receiver
+reservation. The [Node boundary inventory](node:docs/development/S027-010-PROFILE-RESTORE.md)
+records the reproducer, observed scope and source-discovered owners. The
+composition and fence checks remain part of 010-01.
+
+The technical and operator gates have independent status. Each uses a fresh
+run at pinned sources after the end-to-end diagnostic succeeds. The operator
+gate also pins the runbook and records interventions. Neither gate establishes
+release readiness. Historical S027-009 qualifications retain their own scope.
+
 ## References
 
 - `doc/project/40-proposals/060-messaging-middleware.md`
