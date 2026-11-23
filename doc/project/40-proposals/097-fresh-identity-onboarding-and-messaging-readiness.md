@@ -561,7 +561,7 @@ dated records cannot establish Stage B enforcement.
 
 #### Planned Recipient-Consent Recovery Acceptance {#recipient-consent-recovery-acceptance}
 
-**Registered 2026-10-28; not yet implemented or measured.**
+**Registered 2026-10-28. Development results are recorded in S027.**
 [S027-009](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#consent-loss-recovery)
 owns the continuation. Keep P097's local send-readiness/authority decisions separate
 from recipient consent and historical admission. Setup, import, unlock, refresh and

@@ -1000,6 +1000,12 @@ historical admission confirms delivery. A local outbox read uses retained
 generation facts and offers checks. The worker establishes live authority and
 coverage before allocating the next generation.
 
+When a new receive consent is needed on the existing route, the receiver's
+[contact admission](../025-contact-catalog/025-contact-catalog.md#contact-request-admission)
+can create a new explicitly actionable request after confirmed consent loss.
+The previous decision remains readable. Approving the new request changes
+current receive permission and leaves the sender's paused generations in place.
+
 An explicit historical read can check an exact unresolved earlier attempt.
 A complete rejection resolves the queried attempt's execution. Only a
 rejection of the current generation changes the message's pause and retry
@@ -1231,9 +1237,12 @@ recipient reported `AlreadyPresent` with the original mailbox and read state
 preserved. The full role, failure and limits matrix remains the completion gate.
 Additional developer runs passed overlapping ordinary bulk and distinct
 uncertain confirmations. Delegated child expiry recovered on the original
-pairwise route. A later request reached INAC on the same route but retained
-the prior handled contact decision. A second explicit approval remains a
-runtime requirement.
+pairwise route. A later request had reused the prior handled contact decision.
+The contact acceptor now opens a distinct explicit approval after confirmed
+consent loss. Component tests cover retention of the prior decision, exact
+replay and competing successors. The delegated runtime rerun remains part of
+the completion gate. The default preparation byte pool is tested at exhaustion
+and after expiry releases the original unsent reservation.
 The S027-008 development rerun passed on the same binaries after the fixture
 waited for the new daemon runtime at each reload. It checked pending-fact
 capacity, idempotent Memarium replay and preservation of paused and terminal
