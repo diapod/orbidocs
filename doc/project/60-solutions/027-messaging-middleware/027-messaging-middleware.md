@@ -1489,9 +1489,18 @@ digest-bound SQLite database and WAL. A new deduplication epoch, body-free
 admission identities, unresolved ID holds and the local restore receipt commit
 together. Admission and reindex consult the unresolved holds. Repeating the
 same restore binding in the isolated directory returns the original receipt.
-Ordinary Messaging startup refuses the staged directory before opening its
-index or Maildir. Coordination with other owners and
-opening protected operations remain part of 010-03.
+The daemon's local apply operation validates the staged cut under the
+restore lease and supplies the digest-bound request to the standalone owner.
+An inconsistent receipt fails the operation while the profile stays isolated.
+Messaging also refuses direct startup inside the staged payload, including
+through a symlink to a nested data directory. Coordination with other
+owners and opening protected operations remain part of 010-03.
+
+The stopped Story-010 pair completed the owner application in a development
+run. Each restored journal kept its new epoch and exact receipt on replay.
+The receiver retained one body-free admission and the sender retained none.
+The cut remained verifiable and the restore root and nested payload remained
+closed to ordinary startup.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
