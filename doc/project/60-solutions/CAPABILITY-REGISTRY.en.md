@@ -185,7 +185,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **266** host-local / **298** total; **56** owner groups.
+Entries: **267** host-local / **299** total; **56** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -607,6 +607,7 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>memarium.forget</code> | <code>host/memarium.forget</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>memarium.index</code> | <code>host/memarium.index</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>memarium.write</code> | <code>host/memarium.write</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>messaging.delivery.capacity</code> | <code>host/messaging.delivery.capacity</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>messaging.delivery.push.check</code> | <code>host/messaging.delivery.push.check</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>messaging.delivery.push.settle</code> | <code>host/messaging.delivery.push.settle</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>middleware.rewrite.broadcast</code> | <code>host/middleware.rewrite.broadcast</code> | <code>active</code> | <code>host-local</code> | true | true | — |

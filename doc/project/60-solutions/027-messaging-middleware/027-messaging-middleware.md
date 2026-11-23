@@ -830,9 +830,8 @@ generation and single receiver push intact. Both cases are reproducible with
 the strict Story-010 recovery runner.
 
 The duplicate variant used a newly issued passport and a different signed
-envelope with the same message commitment. It staged the next generation
-in the isolated sender fixture while the recovery command in S027-009-04
-remains open. After a receiver crash, replay finalized the distinct
+envelope with the same message commitment. At that checkpoint the isolated
+sender fixture staged the next generation. After a receiver crash, replay finalized the distinct
 `AlreadyPresent` admission for the second generation. The WSS read used
 that admission and preserved the original envelope, Maildir file set,
 recording and read flag.
@@ -911,8 +910,8 @@ with zero new pushes, generations or acceptor calls. The three-peer test
 measures authenticated read isolation. The receiver commit cuts and
 duplicate case measure recovery without changing the first admission,
 mailbox or read state. The fixture stages the newer generations used in
-the duplicate and delayed-success cases. User-facing generation creation
-and browser recovery remain in S027-009-04.
+the duplicate and delayed-success cases. The 2026-11-23 S027-009-04/05
+qualification separately generates the retry through actual user choices.
 
 The shared exact-submission registry and checked digest relation cover
 both adapters. INAC's historical ledger currently has one registered
@@ -1212,13 +1211,13 @@ irreversibility contract. No shared proof may erase that difference.
 
 ### Implementation Tracker {#consent-loss-recovery-tracker}
 
-The 2026-11-22 exact-history campaign closes S027-009-01–03. Rows
-S027-009-04 and S027-009-05 remain `todo`. Dependencies below are closure
-prerequisites and contract and fixture work may overlap.
+The 2026-11-22 exact-history campaign closes S027-009-01–03. The 2026-11-23
+[delivery recovery qualification](node:docs/evidence/limited-messaging/2026-11-23-s027-delivery-recovery/README.md)
+closes S027-009-04/05. Dependencies below are closure prerequisites.
 The pure-kernel freeze required by S027-009-06 is a bounded part of S027-009-01,
 and the Lean pilot retains its separate proof scope.
-P076-036/037 and S027-008 are existing reuse/regression baselines. MSG-ONB-009/010
-are evidence cases owned by S027-009-04, not a second implementation workstream.
+P076-036/037 and S027-008 supply regression baselines. MSG-ONB-009/010
+are evidence cases owned by S027-009-04.
 
 P091 resolves the node-local `/messaging/recovery/capacity` setting for new
 allocations. The authenticated Messaging module reads the current values via
@@ -1229,12 +1228,12 @@ observations and their original deadlines. Publication spends a previously
 reserved charge. Resolution failure preserves access to local history and
 reconciliation.
 
-Development diagnostics exercised both sovereign cases on Chromium with real
+Pre-qualification diagnostics exercised both sovereign cases on Chromium with real
 WSS/INAC. The sender recovered consent on the same route through overlapping
 single and bulk actions. A lost acknowledgement reconciled without retransmission,
 and a separate deadline led to a confirmed retransmission from two tabs. The
 recipient reported `AlreadyPresent` with the original mailbox and read state
-preserved. The full role, failure and limits matrix remains the completion gate.
+preserved. The formal campaign below covers the role, failure and limits matrix.
 Additional developer runs passed overlapping ordinary bulk and distinct
 uncertain confirmations. Delegated child expiry recovered on the original
 pairwise route. A later request had reused the prior handled contact decision.
@@ -1264,18 +1263,43 @@ flow uses ordinary outbox processing on the original generation.
 | S027-009-01 | Contracts and pure transition table / Messaging with INAC and AD owners | P032; P060; current P076-036/037 and P097 contracts | done | Inventory reusable seams; freeze both commitments, prepared-attempt binding, peer-scoped read/support contracts, closed reasons/privacy mapping, allowed actions, migration refusals and profile retention. Update canonical schemas, Node mirrors and API registries at implementation time; retain refusal/replay fixtures, including acquisition-disabled versus consent-refused. |
 | S027-009-02 | Insert-once admission and immutable attempts / Messaging | S027-009-01 | done | Durable reservations before effects; exact prepared bytes/idempotency across lost submission replies; concurrent first admissions and retries preserve first envelope/path/mailbox/recording/read state. Crash between reservation, Maildir, index and outcome remains reconcilable or explicitly unknown; historical bytes stay unchanged. |
 | S027-009-03 | Historical read and typed delivery outcome / INAC and AD | S027-009-02 | done | Required ledger, peer/key/digest binding, bounded body-free reconciliation and authenticated deduplication support. Foreign/absent/mismatched lookups agree; AD preserves refusal/retry fields; local 404 creates zero new generations; failed outcome finalization cannot erase admission. Retain first actual WSS/INAC evidence. |
-| S027-009-04 | Explicit single/bulk recovery and UI / Messaging and Node UI | S027-009-03 | todo | One durable AD retry budget; distinct confirmed uncertain retry; no duplicate generation from concurrent tabs/bulk; current authority and consent before every push. UI shows stage/reason/observation/actions, keeps composer and owner/CSRF checks. Qualify [MSG-ONB-009/010](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md#recipient-consent-recovery-acceptance) on the same relationship/route; late failures cannot downgrade delivered. |
-| S027-009-05 | Retained qualification and convergence closeout / S027 owner | S027-009-04; S027-008; P076-036/037 regression | todo | Separate conformance, real host/browser and regression evidence; test retention/startup GC/capacity/tombstones, Memarium outage and restart/replay/reindex. Regress sovereign independent membership, delegated/mixed and strict Story-010; complete bounded local-proof zero-fetch and P076-037 policy tests. Pin clean sources/binaries, retain failures and qualify identically before/after extraction via `$PRIMARY_EVIDENCE_STORE`. Reconcile Node ledger/MVP, owner docs, schemas and registries; record convergence dispositions under `node:DEV-GUIDELINES.md`. |
+| S027-009-04 | Explicit single/bulk recovery and UI / Messaging and Node UI | S027-009-03 | done | One durable AD retry budget; distinct confirmed uncertain retry; no duplicate generation from concurrent tabs/bulk; current authority and consent before every push. UI shows stage/reason/observation/actions, keeps composer and owner/CSRF checks. Qualified [MSG-ONB-009/010](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md#recipient-consent-recovery-acceptance) on the same relationship/route. Late failures cannot downgrade delivered. |
+| S027-009-05 | Retained qualification and convergence closeout / S027 owner | S027-009-04; S027-008; P076-036/037 regression | done | Separate conformance, host/browser and regression evidence covers retention/startup GC/capacity/tombstones, Memarium outage and restart/replay/reindex, sovereign/delegated/mixed, strict Story-010 and P076-036/037. Clean sources and binaries are pinned. The original verdict is retained and the reviewed qualification agrees before and after retrieval and extraction via `$PRIMARY_EVIDENCE_STORE`. |
 | S027-009-06 | Bounded Lean delivery-recovery pilot / Messaging core owner | S027-009-01 pure-kernel contract freeze only; existing Rust transition/fixture baseline | done | Meet the [pilot gate](#lean-delivery-pilot): reviewed claim/assumption map, pinned checked proofs over reachable histories, positive witnesses and guard-mutation controls; bounded differential traces against the existing Rust core; source-bound report separating proof, correspondence tests and runtime obligations. Record reusable laws and intentional domain differences for P013-ADC-011. No full S027-009 runtime, browser or public-release qualification follows. |
 
-The next runtime action is S027-009-04. Its qualification uses synthetic federation and
-`a.localhost` / `b.localhost` browser sessions with explicit consent, without
-models or VMs. Correlate message ID, generations, both digests, AD ID, UI, outbox,
-domain admission and mailbox. Local-proof zero-fetch does not establish offline
-delivery. This slice reports `full_candidate_qualified=false` and
-`release_ready=false`; prior qualifications, dates, source pins and evidence bytes
-remain unchanged. P076-038 expansion, Whisper succession, longer offline leases,
-body encryption and a new full release candidate are outside this continuation.
+The retained 2026-11-23 campaign ran on Node `d6024c1f1` and Orbidocs
+`3e9a8e71`. It records 789 component tests, 208 host/browser cases, 34
+strict Story-010 phases and 67,845 Lean–Rust comparisons. The synthetic
+federation used two browser tabs in one sender session, a separate receiver
+session and explicit contact and INAC approval. Evidence correlates message
+identity, generation, signed envelope and frozen AD submission digests,
+operation receipt, AD ID, outbox, admission and mailbox. A body-free read
+caused zero new pushes, generations or acceptor calls. Explicit uncertain
+retransmission returned `AlreadyPresent` with the first mailbox content
+and flags intact. The 100-message ordinary workload used one participant,
+one established route and the native outbox worker with one message in
+flight. Clock-driven component tests cover 30/31-day boundary behavior.
+
+The first qualifier conflated a distinct submission with distinct signed
+envelope bytes. The original refusal and all original reports remain in
+the bundle. The corrected qualifier distinguishes a new authorization from
+resubmission of the same signed bytes and qualifies the unchanged runtime
+results. Fresh retrieval reproduces that result. Scope flags are
+`full_candidate_qualified=false` and `release_ready=false`. The
+P076-036 zero-fetch proof concerns local evidence verification. Continued
+offline delivery, longer leases, body encryption and a full release
+candidate are outside this campaign.
+
+Convergence review reused checked capacity arithmetic between P091 and
+Messaging, exact submission binding in AD across Messaging and Whisper,
+and owner-bound receipt, TTL and budget laws in the tests. Messaging keeps
+its durable confirmation beside its generation allocation. Its preparation
+history supplies exact original bytes, including extensions. The bounded
+owner journal also keeps the authority requirement for each future push.
+Whisper's accepted disclosure commit keeps its separate law. The INAC/AD
+owners revisit shared ledger policy registration when a second profile
+needs historical reads. P091 and Messaging keep their respective budget
+units, transaction boundaries and refusal semantics.
 
 Implementation checkpoint (2026-10-28): the first contract fragment adds the
 original-JSON message commitment, distinct attempt digest, pure transition/retry
@@ -1297,8 +1321,8 @@ confirming through that pause; generic refresh remains unable to resume it.
 `rejected` requires preserved typed refusal evidence in both schema and Rust.
 These focused tests do not yet prove authenticated own/foreign/missing INAC reads,
 mandatory transport reservation, retention/deletion writers or browser recovery.
-The original five runtime tracker rows remain `todo` until their complete gates
-are measured; the later Lean pilot has its own evidence gate.
+Those five runtime tracker rows were `todo` at this checkpoint. The later
+Lean pilot has its own evidence gate.
 
 AD now atomically binds Messaging component/key/input digest to the first resolved
 plan, recovering it without another route resolution after a lost reply or restart.
