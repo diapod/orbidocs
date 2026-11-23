@@ -1538,9 +1538,15 @@ mailbox identity to the committed original in the verified cut. A foreign
 item or a tombstone from the cut remains unavailable. A local diagnostic
 passed both real CLI binaries from a synthetic committed cut, including
 idempotent apply, both archive reads, refusal for foreign, missing and
-previously deleted items, and ordinary startup refusal. Conversation
-browsing, outgoing bodies, bulk export, removal, remaining owner gates and
-profile activation are still open.
+previously deleted items, and ordinary startup refusal. The same command
+reads an attributed outbound message when the canonical EML agrees with
+the exact cut manifest and original outbox index. The result exposes
+composition time and archived delivery state. Expired and discarded items
+remain unavailable even if EML bytes survived in the cut. The two-binary
+diagnostic also passed the outgoing read and refused a foreign row, a
+stale file, and disagreements with the header, original body digest or
+manifest. Conversation browsing, bulk export, removal, remaining owner
+gates and profile activation are still open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
