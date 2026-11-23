@@ -1462,9 +1462,13 @@ boundary. The capture API copies a complete admitted local tree under its
 source lease and checks the destination volume before writing. The macOS
 adapter distinguishes verified encryption, unencrypted physical backing
 and an unknown status. Known unencrypted media refuse. An unknown status
-requires explicit operator attestation. Source custody closure, the operator
-backup command and owner application remain open. Successful byte
-verification conveys no trust or permission to start a restored profile.
+requires explicit operator attestation. The initial restore executor binds a
+private destination to the exact verified manifest and a fresh restore ID.
+Daemon and native middleware writers refuse while either intent name exists.
+A complete interrupted intent resumes with the original ID. A mismatched
+or torn intent leaves the destination isolated. Source custody closure, the
+operator backup command, restore materialization and owner application remain
+open. Successful byte verification conveys no trust or startup permission.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
