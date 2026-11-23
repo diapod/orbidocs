@@ -1502,6 +1502,15 @@ The receiver retained one body-free admission and the sender retained none.
 The cut remained verifiable and the restore root and nested payload remained
 closed to ordinary startup.
 
+Messaging persists a sender attempt identity alongside the exact preparation.
+Terminal compaction can retire the prepared JSON while preserving that identity
+with the outbox record. The bounded historical AD query reuses the frozen
+submission digest and original key. AD owns the exact peer binding. A strict
+Story-010 development run recovered the original handle and admission over
+WSS after sender restart, removal of the AD run and detachment of the prepared
+bytes. It recorded zero additional pushes or generations for the attempt.
+Classification and gating of restored outbox work remain open.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
