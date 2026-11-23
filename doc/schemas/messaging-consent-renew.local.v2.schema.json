@@ -40,6 +40,10 @@
           "type": "string",
           "minLength": 1
         },
+        "receiver/exact": {
+          "type": "boolean",
+          "description": "When true, renew consent only for the concrete receiver context carried by the message."
+        },
         "passport-ref": {
           "type": "string",
           "minLength": 1,

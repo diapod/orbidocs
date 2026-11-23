@@ -204,8 +204,20 @@ Current implementation status:
   unavailable for this read.
   Before the first body push, AD seals the peer's admission support observed
   over the existing authenticated session in that same binding. The pin binds
-  the original exact query and receiver. Later reads can verify continuity or
-  resolve the exact historical result even when an original pin is missing.
+  the original exact query and receiver. The first possible emission time is
+  saved when AD records its first debit. The `receiver-coverage` purpose
+  requires both facts and makes one current support-only query to the original
+  authenticated peer. The ordinary historical purpose can still correlate a
+  result when coverage evidence is absent.
+  The original admission-support probe and the fresh retry check share a
+  per-peer slot and can wait for it within their original deadlines. The
+  historical point read keeps its own per-peer slot. A timeout retains a
+  typed availability result and provides no coverage evidence.
+  An uncertain retry freezes the receiver and exact earlier generations in
+  `policy.messaging/retry-coverage`. AD checks the resolved node, prior
+  execution state and retained pins against a fresh support-only observation
+  before each possible emission debit. The current contract, epoch, coverage
+  start and original resume horizon all participate in the check.
   On inbound Messaging pushes, AD carries the host-owned reservation context
   only to the Messaging acceptor. That acceptor verifies it against the host's
   active INAC reservation before applying current receive authority.
@@ -514,6 +526,16 @@ the host's recovery pass. `?mode=deferred` is the only canonical URI selector;
 boolean aliases such as `?deferred=true` are not part of the contract. This
 keeps P055 as the shared deferred response contract while Artifact Delivery
 continues to own its own delivery ledger and transport semantics.
+
+An exact submission on the standard durable ledger may request a shared
+emission budget through `policy.emission/budget`. AD retains the policy with the
+bound plan. It reserves an emission after the current execution guard and before
+adapter entry. The first debit opens the window, limited by the delivery deadline.
+All targets and subsequent recovery calls use the same durable count and cap.
+The host may impose a lower count. Support probes and historical admission
+reads incur no emission debit. Both the first support probe and a retry coverage
+check use the receiver's support-only budget, separate from exact admission
+reads. A committed debit can outlive an interrupted handoff.
 
 The solution-level shape is:
 

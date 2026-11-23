@@ -169,6 +169,19 @@ Responsibilities:
   expiry, and revocation reference;
 - on rejection, record the local decision without minting authority.
 
+An exact replay of a still-valid request returns its original contact decision.
+For the same authenticated peer, sender and recipient route, a later signed
+request can open a new explicit decision after the host confirms expiry or
+revocation of the accepted receive consent. The request's signed issue time
+must follow the previous accepted decision. Missing or stale authority
+observations leave the previous decision in place.
+
+The contact store atomically links one pending successor to the exact prior
+decision. The first successor's request and notification identity survive
+replay and restart. Prior accepted or rejected decisions remain readable by
+their original IDs. A renewed decision requires explicit operator approval
+on the existing contact. Startup and reciprocity leave it pending.
+
 Status:
 
 - `done for hard-MVP` — The daemon registers a default in-process Artifact Delivery

@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-retry-operation.local:v1",
+  "title": "Messaging retry operation",
+  "description": "Durable owner-scoped retry receipts. Only initial preview creation returns the one-time confirmation token.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#explicit-retry-operation"
+  ],
+  "$defs": {
+    "operation-item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "envelope/id",
+        "expected/generation"
+      ],
+      "properties": {
+        "envelope/id": {
+          "type": "string",
+          "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+          "maxLength": 256
+        },
+        "expected/generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "context/created-at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "context/observation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "observed/at", "outcome"],
+          "properties": {
+            "source": { "const": "recipient-admission" },
+            "observed/at": { "type": "string", "format": "date-time" },
+            "outcome": { "enum": ["accepted", "already-present", "rejected", "unknown", "unavailable"] }
+          }
+        },
+        "binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receiver/route",
+            "message/commitment"
+          ],
+          "properties": {
+            "receiver/route": {
+              "$ref": "message-envelope.v1.schema.json#/$defs/subject"
+            },
+            "message/commitment": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        "receipt": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "generation"
+              ],
+              "properties": {
+                "status": {
+                  "const": "retry-scheduled"
+                },
+                "generation": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason"
+              ],
+              "properties": {
+                "status": {
+                  "const": "refused"
+                },
+                "reason": {
+                  "enum": [
+                    "terminal-state",
+                    "resume-window-expired",
+                    "sender-authority-required",
+                    "recipient-consent-required",
+                    "prior-attempt-running",
+                    "prior-outcome-unknown",
+                    "receiver-deduplication-unavailable",
+                    "invalid-transition",
+                    "retry-deferred",
+                    "retry-forbidden",
+                    "stale-selection",
+                    "generation-budget-exhausted",
+                    "preparation-capacity",
+                    "authority-proof-unavailable",
+                    "recovery-check-unavailable"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/id",
+        "kind",
+        "phase",
+        "selection/digest",
+        "created/at",
+        "expires/at",
+        "confirmed/at",
+        "completed/at",
+        "items"
+      ],
+      "properties": {
+        "operation/id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{16,128}$"
+        },
+        "kind": {
+          "enum": [
+            "ordinary",
+            "uncertain"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "previewed",
+            "expired",
+            "confirmed",
+            "completed"
+          ]
+        },
+        "selection/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "created/at": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expires/at": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "confirmed/at": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "completed/at": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 25,
+          "items": {
+            "$ref": "#/$defs/operation-item"
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "operation"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-retry-operation.local.v1"
+    },
+    "operation": {
+      "$ref": "#/$defs/operation"
+    },
+    "confirmation/token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    }
+  },
+  "if": {
+    "required": [
+      "confirmation/token"
+    ]
+  },
+  "then": {
+    "properties": {
+      "operation": {
+        "properties": {
+          "phase": {
+            "const": "previewed"
+          },
+          "kind": {
+            "const": "uncertain"
+          }
+        }
+      }
+    }
+  }
+}
