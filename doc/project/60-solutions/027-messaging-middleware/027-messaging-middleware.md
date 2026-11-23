@@ -1419,7 +1419,7 @@ to the owner's verified local archive.
 | S027-010-01 | in-progress | Baseline older-cut diagnostic and restart control. Freeze the inventory of owners and storage sets, fences, and protected effect boundaries with composition drift tests. |
 | S027-010-02 | in-progress | Bounded Lean model and Rust correspondence for effects, consent, history and recovered work, with witnesses, counterexamples and axiom audit. |
 | S027-010-03 | in-progress | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
-| S027-010-04 | todo | Private archive, owner-only export and deletion, explicit consent renewal and exit. Reindex, replay and other projections cannot revive historical payloads. |
+| S027-010-04 | in-progress | Private archive, owner-only export and deletion, explicit consent renewal and exit. Reindex, replay and other projections cannot revive historical payloads. |
 | S027-010-05 | todo | Technical qualification over WSS/INAC on independent profiles. Full delegated pair, targeted sovereign and mixed controls, and separate old-consent and old-pin observations. |
 | S027-010-06 | todo | Two people on separate hosts complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
 
@@ -1528,8 +1528,12 @@ The stopped Story-010 sender retained two exact bindings and two queries to
 the original receiver. A separate development diagnostic loaded only the
 staged AD ledger into a disposable sender and recovered the first admission
 over WSS with prepared bytes detached, without a new push or generation.
-Protected participant access, the remaining owner gates and profile
-activation are still open.
+The local archive-outbox command re-verifies the cut and existing restore
+intent. It authenticates the participant against the archived protected key
+slot and presents a bounded page of their body-free outbox history with the
+snapshot time. The Messaging owner checks its application receipt before
+the read. Protected conversation content, export, removal, the remaining
+owner gates and profile activation are still open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
