@@ -1459,6 +1459,9 @@ The recovery inventory reads notification and embedded Seed Directory
 manifest paths from the same path definitions as startup. It also resolves
 the actual scheduler SQLite path and its sidecars. A client profile records
 Seed Directory as an independent authority.
+The resident-store catalog records the exact paths of the other bootstrap
+stores, startup credentials, and owner journal initialization locks. Model
+storage outside the profile requires a distinct custody disposition.
 
 The local cut verifier checks the committed manifest, exact recovery marker
 and complete descriptor-relative tree by size and digest. Publication of
@@ -1477,8 +1480,9 @@ command reports the isolated byte result and resumes by preserving verified
 members and discarding only unpublished scratch. The local backup command
 uses the resolved inventory and the physical observation under the stopped
 profile lease. It refuses unassigned bytes and unresolved separate custody
-before writing. Full Story-010 source custody closure and owner application
-remain open. Trust and startup permission require separate owner decisions.
+before writing. The stopped Story-010 pair passed the byte workflow with
+an embedded registry on A and a separate registry dependency on B. Trust,
+owner application and startup permission require separate owner decisions.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
