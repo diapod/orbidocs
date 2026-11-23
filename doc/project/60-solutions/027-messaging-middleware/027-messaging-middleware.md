@@ -1593,9 +1593,13 @@ The stopped recovery command can record a signed root selected by an
 independently authenticated current P076 digest. It reuses the ordinary
 signature and custody verifier and retains the archived and subsequent
 high-water marks and known service-endorsement withdrawals. The receipt
-ties that exact pack to the cut and prepared configuration. The signed
-root remains isolated while delegation status recovery, owner application
-and effect admission are pending.
+ties that exact pack to the cut and prepared configuration. The stopped
+delegation status review verifies separately supplied signed observations
+against that root and exact captured grants. It retains revision floors and
+known withdrawals, and rechecks freshness at the reported time. A change of
+root requires a new positive observation while preserving negative knowledge.
+Both receipts remain isolated while live owner application and effect admission
+are pending.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
