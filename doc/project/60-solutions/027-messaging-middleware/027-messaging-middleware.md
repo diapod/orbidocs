@@ -1518,6 +1518,19 @@ outbound attempts and one restored pause. The receiver kept one earlier
 admission. Apply replay matched on both profiles. Protected access and the
 remaining owners' effect gates stay open in the tracker.
 
+The AD apply operation binds the stopped ledger and WAL to the same restore
+ID. Its isolated owner ledger retains exact Messaging delivery identities
+and original peer queries. Runs, old receiver coverage pins and runtime
+receipts stay in the cut. AD allows a historical read of a retained binding
+and independently refuses new submission, execution and receiver-coverage
+checks for that restored attempt. Missing archive history remains unknown.
+The stopped Story-010 sender retained two exact bindings and two queries to
+the original receiver. A separate development diagnostic loaded only the
+staged AD ledger into a disposable sender and recovered the first admission
+over WSS with prepared bytes detached, without a new push or generation.
+Protected participant access, the remaining owner gates and profile
+activation are still open.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
