@@ -1300,6 +1300,29 @@ an engineering limit. Sizing under concurrent participants and a sustained
 wave of paused messages remains open. The original single-participant
 run and three correlated losses do not measure that workload.
 
+The premerge integration includes Node master `c4b5659e0` and Orbidocs main
+`2ca7625a`. On Node `2fd21cdac` (tree `e4e822269`) all 625 component,
+124 UI and 40 daemon conformance tests passed. Lean–Rust matched 67,845
+comparisons, including 9,840 generation-history rows. The integrated WSS
+browser diagnostics passed live P091 capacity (20 checks), sovereign consent
+recovery (25) and lost-reply recovery (24). The overlapping confirmations
+allocated three generations for three envelopes and one stale-selection
+receipt for the losing position. A mixed sovereign/delegated rerun passed
+31 checks and strict Story-010 passed all 34 phases on the same runtime
+binaries. The ordinary single-owner workload at Node `e0e9d0f66` delivered
+100 samples. All 100 local terminal snapshots had zero live preparation
+bytes and zero reservations, with 1,534,635 historical bytes retained at
+the last snapshot including the baseline message. Sample p99 was 120,042
+bytes. Node `3be87e4cd` supplies the stricter offline qualifier. The
+retained qualification above continues to identify runtime `d6024c1f1`.
+Fresh external retrieval reproduced its `qualified` result with the original
+requalification verifier. Integration adds the existing S027 campaign's
+21,375 governed Git bytes to the primary tree's 68,159,553 bytes. The total
+of 68,180,928 exceeds the repository limit of 68,173,824 by 7,104 bytes.
+The aggregate retention gate blocks primary integration pending a storage
+policy decision. Historical evidence and the runtime work pool have
+independent budgets.
+
 Convergence review reused checked capacity arithmetic between P091 and
 Messaging, exact submission binding in AD across Messaging and Whisper,
 and owner-bound receipt, TTL and budget laws in the tests. Messaging keeps
