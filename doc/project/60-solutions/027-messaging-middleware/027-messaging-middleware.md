@@ -1484,6 +1484,15 @@ before writing. The stopped Story-010 pair passed the byte workflow with
 an embedded registry on A and a separate registry dependency on B. Trust,
 owner application and startup permission require separate owner decisions.
 
+The Messaging admission owner can prepare an isolated journal from the cut's
+digest-bound SQLite database and WAL. A new deduplication epoch, body-free
+admission identities, unresolved ID holds and the local restore receipt commit
+together. Admission and reindex consult the unresolved holds. Repeating the
+same restore binding in the isolated directory returns the original receipt.
+Ordinary Messaging startup refuses the staged directory before opening its
+index or Maildir. Coordination with other owners and
+opening protected operations remain part of 010-03.
+
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
 expectations. The 18 theorem dependencies contain at most `propext`. This
