@@ -1467,8 +1467,9 @@ private destination to the exact verified manifest and a fresh restore ID.
 Daemon and native middleware writers refuse while either intent name exists.
 A complete interrupted intent resumes with the original ID. A mismatched
 or torn intent leaves the destination isolated. Materialized bytes go into
-a separately marked and leased payload directory. Resume preserves verified
-members and discards only the unpublished scratch member. Source custody
+a separately marked and leased payload directory. The local `restore`
+command reports the isolated byte result and resumes by preserving verified
+members and discarding only unpublished scratch. Source custody
 closure, the operator backup command and owner application remain open.
 Trust and startup permission require separate owner decisions.
 
