@@ -1599,8 +1599,11 @@ The Local Relationship apply step commits a private consent epoch bound to
 the restore ID, cut digest and operator. Exact replay retains the same epoch.
 With that epoch installed, the Messaging receive evaluator requires a fresh
 decision for an otherwise eligible local membership or verified receive
-passport. Installation into the live profile, production recording of fresh
-decisions and INAC consent enforcement still require their own verification.
+passport. The operator control route records exact admission for a new
+independent `contacts` decision after Vault commits it. The receipt survives
+restart, and a superseding projection retires it. Applicable current sovereign
+authority and local blocks still govern receipt. Live installation, fresh
+portable contact acceptance and INAC consent enforcement remain open.
 
 The stopped recovery command can record a signed root selected by an
 independently authenticated current P076 digest. It reuses the ordinary
