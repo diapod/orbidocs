@@ -1551,8 +1551,14 @@ vocabulary and orders both directions without duplicates. Exact replay
 adds the view to an older staged owner while preserving its receipt and
 epoch. The two-binary diagnostic verified owner isolation, a cursor
 between both directions and exact replay for an older staged owner.
-Contact navigation in the UI, bulk export, removal, remaining owner
-gates and profile activation are still open.
+A local archive-export command writes all selected pages with the
+index and available body text in a standalone private JSON file.
+Unavailable content remains explicit, and a validation failure aborts
+publication. The output is a separate copy outside the cut and restore
+trees. The diagnostic verified a two-page export in an independent
+JSON parser and exercised create-only publication and failure cleanup.
+Contact navigation in the UI, removal, remaining owner gates and profile
+activation are still open.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
