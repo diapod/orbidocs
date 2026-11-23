@@ -474,6 +474,11 @@ The [family matrix](../../40-proposals/013-whisper-social-signal-exchange.md#por
 also covers signals, notices, embargo proofs and case control without adding
 signatures to CIM's intentionally session-authenticated cover requests.
 
+The 2026-11-23 campaign qualified source consent and the exact auxiliary
+issuance child, installed private author readback and counting, and release
+execution on SQLite and one stock Synapse homeserver.
+See `node:docs/evidence/private-case-continuity/2026-11-23-adc-release-closeout/README.md` for the combined runtime and custody scope.
+
 Status:
 - `future`
 

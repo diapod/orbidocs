@@ -779,3 +779,11 @@ and checks custody again at handoff. No new source certificate, live count,
 executor authority or transport retry owner is introduced. This component is
 separate from the full ADC-005 custody/runtime matrix and all historical gates.
 See `node:whisper-case-service/ADC.md` and `node:daemon/docs/RELAY-DELIVERY.md`.
+
+### Qualified ADC source consent (2026-11-23)
+
+The source gate exercises exact-use issuance and the complete protected
+S026 consent through ordinary preparation and signing. The withheld and
+held profiles bind the same approved original to the signed audience
+manifests. Independent custody readback after restart verifies exact bytes
+under the admitted profile. See `node:docs/evidence/private-case-continuity/2026-11-23-adc-source-consent/README.md` for ownership and scope.
