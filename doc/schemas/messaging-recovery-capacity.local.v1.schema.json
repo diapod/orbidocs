@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-recovery-capacity.local:v1",
+  "title": "Current node-local Messaging recovery capacity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "resolution/id", "policy"],
+  "properties": {
+    "schema": { "const": "messaging-recovery-capacity.local.v1" },
+    "resolution/id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unresolved-per-participant", "unresolved-per-node", "generations-per-message",
+        "preparation-bytes-per-message", "preparation-bytes-per-node"
+      ],
+      "properties": {
+        "unresolved-per-participant": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "unresolved-per-node": { "type": "integer", "minimum": 1, "maximum": 1024 },
+        "generations-per-message": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "preparation-bytes-per-message": { "type": "integer", "minimum": 20971520, "maximum": 67108864 },
+        "preparation-bytes-per-node": { "type": "integer", "minimum": 20971520, "maximum": 268435456 }
+      }
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md"
+  ]
+}

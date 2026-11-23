@@ -1214,12 +1214,26 @@ and the Lean pilot retains its separate proof scope.
 P076-036/037 and S027-008 are existing reuse/regression baselines. MSG-ONB-009/010
 are evidence cases owned by S027-009-04, not a second implementation workstream.
 
+P091 resolves the node-local `/messaging/recovery/capacity` setting for new
+allocations. The authenticated Messaging module reads the current values via
+[the capacity contract](../../../schemas/messaging-recovery-capacity.local.v1.schema.json).
+Reduced limits can expose existing usage above capacity. They block further
+allocation of that resource and preserve existing reservations, terminal
+observations and their original deadlines. Publication spends a previously
+reserved charge. Resolution failure preserves access to local history and
+reconciliation.
+
 Development diagnostics exercised both sovereign cases on Chromium with real
 WSS/INAC. The sender recovered consent on the same route through overlapping
 single and bulk actions. A lost acknowledgement reconciled without retransmission,
 and a separate deadline led to a confirmed retransmission from two tabs. The
 recipient reported `AlreadyPresent` with the original mailbox and read state
 preserved. The full role, failure and limits matrix remains the completion gate.
+Additional developer runs passed overlapping ordinary bulk and distinct
+uncertain confirmations. Delegated child expiry recovered on the original
+pairwise route. A later request reached INAC on the same route but retained
+the prior handled contact decision. A second explicit approval remains a
+runtime requirement.
 The S027-008 development rerun passed on the same binaries after the fixture
 waited for the new daemon runtime at each reload. It checked pending-fact
 capacity, idempotent Memarium replay and preservation of paused and terminal
