@@ -1703,6 +1703,10 @@ receipt. Under the restore and candidate leases, the coordinator checks
 the prepared owners and publishes a single durable choice. Replacing the
 choice while closed requires the current selection digest. The selected
 image stays marked until its protected operation classes can be opened.
+The stopped operator can verify that exact selection by digest. Selection
+and verification keep the image leased through an issuance recheck after
+checking the installed owners. The verification preserves the image and
+selection and returns their closed state.
 Messaging enforces that isolation at the owner even for an already open
 store. Network coverage, new admission, execution and replay require
 an unmarked storage ancestry. The scoped archive retains its own access
