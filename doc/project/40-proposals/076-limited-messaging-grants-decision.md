@@ -345,6 +345,14 @@ lease. An operator inventory is local to the source, and any change after
 review requires a new signed replacement. Receiver startup and ordinary
 ownership of local consent remain with S027.
 
+On the restored node, captured grant records can contribute verified status
+evidence. The local issuance owner imports a new Messaging delegation only
+through its existing explicit possession ceremony. The first local import
+requires a replacement from the designated source. After it commits, a
+renewal must name the accepted source epoch. Both checks use the issuance
+owner's durable restore binding, and a conflicting source scope requires a
+separate decision.
+
 ## P076-037: Status acquisition policy and contact renewal
 
 **Status: decision adopted; focused implementation and host acceptance done.** A local

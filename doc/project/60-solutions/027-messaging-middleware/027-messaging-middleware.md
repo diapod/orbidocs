@@ -1678,6 +1678,15 @@ fresh review or loses to the new epoch. The local operator inventory and
 issuance ceremony are available at the source. The technical gate still
 requires this operation through the restored peer workflow.
 
+The v4 marked image now stages the issuance owner's signed observations,
+revision floors and known withdrawals. Captured delegate custody and
+pending effects stay in the cut. Explicit import on the restored owner
+requires a fresh local possession request and a registered, signed
+replacement for the designated source. A later continuation must name the
+epoch accepted by that owner. Startup requires the issuance and consent
+owners to agree on the restore binding. Historical observations remain
+bounded. No known withdrawal is dropped to meet the owner's capacity.
+
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
