@@ -1897,6 +1897,13 @@ owner receipt. A receipt from a different cut cannot satisfy activation,
 and a receipt for a previous restore ID remains stale. The selected image
 still requires the existing root and configuration checks.
 
+Artifact Delivery determines the work origin from the selected ledger and
+the exact historical marker of the delivery binding. Its execution guard
+shares the same effect predicate with Contact Store's exact generation
+adapter. Lean proves equivalence to generation matching and refuses a
+protected effect from either noncurrent origin. The extended comparison
+checks 964 decisions, eleven expectations and twenty theorem dependencies.
+
 The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
 gate also pins the runbook and records interventions. Neither gate establishes
