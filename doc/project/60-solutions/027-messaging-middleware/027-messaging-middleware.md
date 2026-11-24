@@ -1616,10 +1616,22 @@ public Vault index and authenticated exact read. After activation, the
 Vault and recording worker accept a fresh recorded message. The old
 artifact stays outside the active index and returns 404 to the private
 reader. Reindex, outbox processing and restart do not schedule the old
-recording again. Artifact Delivery egress and the technical and operator
-qualifications remain open.
+recording again.
 
 ### Historical transport results
+
+The delegated sender-cut diagnostic verifies a real active AD run with
+one debit and one INAC reservation, an independently prepared message
+without an AD binding, and a two-position bulk operation confirmed
+through the retry API's token and selection digest. The stopped cut
+contains all three. The activated sender retains the attempts in its
+archive at their original generation. The active AD binding is available
+for history. Neither archived message nor the confirmed bulk becomes
+active work after outbox processing, fresh consent or restart and
+unlock. A separately known positive admission is read through WSS on
+the restored sender without a new token in the receiver ledger. The
+owner can export both archived bodies. Technical and operator
+qualification remain open.
 
 The INAC history owner now checks the cut's exact ledger, WAL and enrolled
 identity anchor. It commits peer-bound positive results for exact Messaging
