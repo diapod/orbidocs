@@ -1892,6 +1892,11 @@ and digest against its current consent epoch. The passport binding repeats
 the check inside its transaction. Archive and transport work still have
 separate owner-local enforcement and correspondence obligations.
 
+The coordinator projects the required acknowledgements from each verified
+owner receipt. A receipt from a different cut cannot satisfy activation,
+and a receipt for a previous restore ID remains stale. The selected image
+still requires the existing root and configuration checks.
+
 The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
 gate also pins the runbook and records interventions. Neither gate establishes
