@@ -1585,8 +1585,12 @@ exact bytes with the host receive evaluator under the locally configured
 consumer binding and rechecks its own enrolled epoch in the reservation
 transaction. An ordinary authenticated historical query still reads the
 previously admitted result without evaluating current receive consent.
-Live coordination and authenticated readback of the isolated history
-remain open.
+The enrolled INAC ledger also serves the archived exact success through
+the authenticated WSS status operation. The result carries no
+deduplication coverage. Gap, foreign and mismatched lookups remain unknown
+in the absence of a matching new outcome. Enrollment commits both
+sets and their binding, and a later cut preserves the verified history.
+Live restore coordination remains open.
 
 Stopped backup now captures the effective Messaging acquisition and
 recovery capacity policies with their P091 resolution IDs, the local
