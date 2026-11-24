@@ -1910,6 +1910,15 @@ adapter. Lean proves equivalence to generation matching and refuses a
 protected effect from either noncurrent origin. The extended comparison
 checks 964 decisions, eleven expectations and twenty theorem dependencies.
 
+The subsequent offline comparison checks 1,012 decisions, including 48 at
+sixteen prefixes of an activation history. Lean runs the events and Rust uses
+the independently specified observations at each prefix. It covers both needed
+owners and a foreign owner, stale receipts, restart, trust loss and explicit
+reopening. The assumption review identifies the single active instance,
+durable receipts and verified lower-bound knowledge as external conditions.
+The existing exact-attempt pilot and the restore-specific owner and WSS fixtures
+separately check historical reads and transport coverage.
+
 Messaging's active outbox records its verified restore origin on new
 enqueues. Work from a different origin or without a restored origin remains
 ineligible for preparation, handoff, retry allocation and outbound recording
