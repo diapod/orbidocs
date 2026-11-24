@@ -1421,7 +1421,7 @@ to the owner's verified local archive.
 | S027-010-03 | in-progress | Local backup, restore, interruption and readmission checks passed. The native diagnostic at Node `09410c35d` exercised three publication cuts and all seven owner acknowledgement boundaries on each of two synthetic profiles. A restore on a fresh account or host without the previous keychain entry remains required. |
 | S027-010-04 | done | The development gate at Node `77fa0cf16` exercised private archive, owner-only export and removal, explicit consent and send-as-new. Native checks covered reindex, Maildir, full-text search, Notmuch, Memarium, Inquirium, Vault, pending notifications and the send queue. The Chromium scenario measured 34 CLI, host API and browser actions. |
 | S027-010-05 | done | Six native WSS/INAC cases and strict Story-010 passed at Node `4248f6bb8` and Orbidocs `e9e436fd`. The retained matrix covers four authority pairings, separately observed old consent and old pin, restored sender work and exact archive reconciliation. The loose and extracted outcomes agree. |
-| S027-010-06 | todo | Two people on separate hosts complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
+| S027-010-06 | todo | Both delegated role rehearsals passed with WSS and Chromium at Node `42d9c2b63`. The operator gate still requires two people on separate hosts to complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
 
 The baseline loopback diagnostic at Node `ab199232e` on 2026-11-23
 preserved the first admission on normal restart. After restoring the older cut,
@@ -1949,7 +1949,11 @@ sequence and recovery of the seven exact executable dependencies. It keeps
 the separate-account or host restore and the two-person operator exercise open.
 The [operator exercise protocol](node:tools/acceptance/story-010-operator/README.md#profile-recovery-operator-exercise)
 defines the four checkpoints, first-choice scoring and intervention classes
-for S027-010-06. Qualification still requires the two-person exercise.
+for S027-010-06. The automated rehearsal exercised two independent synthetic
+pairs and recorded 34 actions in each direction. It checked the unknown
+outcome, the exact historical acceptance, the new delivery on explicit
+consent, and archive removal without loss of the independent copies.
+Qualification still requires the two-person exercise.
 
 ## References
 
