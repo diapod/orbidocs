@@ -1726,6 +1726,12 @@ source retires that grant and registers the new delegate. After activation
 and explicit unlock, the same parties establish a fresh route with two
 separate consent decisions. The old admission remains a tombstone and
 the fresh message reaches the live mailbox under a new delegated consent.
+The ordinary pair exchanged messages in both directions before a cut.
+Its passive passport-presentation audit is captured as historical
+metadata and stays out of the active projection. After activation the
+runtime still refused a new pseudonym recovery export because the
+operator's stored mnemonic was absent from the staged Identity custody.
+Post-restore delegated exchange remains open on that owner condition.
 Independent old-consent and stale-pin refusal controls and the full
 restore role matrix remain part of the technical gate.
 Messaging enforces that isolation at the owner even for an already open
