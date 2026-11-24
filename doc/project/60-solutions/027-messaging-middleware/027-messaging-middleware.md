@@ -1715,6 +1715,13 @@ loss of the activation binding keeps protected effects closed.
 The first start still requires a current node/operator binding. The
 development diagnostic reached Messaging after creating a fresh local
 binding and then restarted with the same admission epoch.
+An authenticated WSS read from the surviving sender returned `unknown`
+for the gap and advertised the new epoch with zero pushes for that
+attempt. A fresh local address-book choice for the same peer led to a
+new message admission after explicit INAC and contact decisions. This
+measured the activated sovereign receiver through the operator API.
+Independent old-consent and stale-pin refusal controls and the full
+restore role matrix remain part of the technical gate.
 Messaging enforces that isolation at the owner even for an already open
 store. Network coverage, new admission, execution and replay require
 an ordinary or correctly activated storage ancestry. The scoped archive
