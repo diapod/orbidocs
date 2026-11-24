@@ -1958,6 +1958,9 @@ exercised two independent synthetic pairs and recorded 34 actions in each
 direction. It checked the unknown
 outcome, the exact historical acceptance, the new delivery on explicit
 consent, and archive removal without loss of the independent copies.
+The [two-host runtime preflight](node:docs/development/S027-010-PROFILE-RESTORE.md#two-host-runtime-preflight)
+verified independent first starts and an authenticated WSS session through the
+observer relay on native macOS and Linux.
 Qualification still requires the two-person exercise.
 Freeze the participant instructions in the language used for the run.
 The exercise pack provides
