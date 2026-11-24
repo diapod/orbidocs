@@ -323,6 +323,42 @@ claimed by this slice. Sequence implementation after contract freeze and owner
 review to avoid concurrent rewrites of the same handoff. S007 and S027 link here
 instead of duplicating a tracker or introducing another implementation owner.
 
+## Source-side readmission of a restored Messaging node
+
+S027-010 owns the recovery gate. P076 constrains the issuer's authority at
+the status registry. An issuer may sign an explicit `readmission` action in
+`capability-issuance-delegation.v1` for a Messaging-only scope. A `replace`
+action binds the current source epoch and exact unrevoked retained inventory.
+The existing registration transaction retires those grants, bumps their
+status revisions, and installs the replacement. A renewal may explicitly
+`continue` the epoch named by the digest of the accepted replacement grant.
+An older, never registered grant cannot enroll after the source adopts a new
+epoch. The current root and the issuer's issuance custody still authorize
+each new grant. The replacement effect also requires current revocation
+custody. For an organization, distinct revocation signatures cover the exact
+replacement before its issuance signatures bind the complete grant.
+
+The scope is one federation, issuer subject and beneficiary node at the
+designated status database. Other issuers and nym bootstrap authority retain
+their separate scopes. Previously signed observations keep their normal
+lease. An operator inventory is local to the source, and any change after
+review requires a new signed replacement. Receiver startup and ordinary
+ownership of local consent remain with S027.
+
+On the restored node, captured grant records can contribute verified status
+evidence. The local issuance owner imports a new Messaging delegation only
+through its existing explicit possession ceremony. The first local import
+requires a replacement from the designated source. After it commits, a
+renewal must name the accepted source epoch. Both checks use the issuance
+owner's durable restore binding, and a conflicting source scope requires a
+separate decision. S027 can prepare the standard signed possession request
+from verified custody while the restored profile is stopped. The encrypted
+delegate stays local. A request does not retire any source grant or
+authorize any operation by itself. The stopped profile can also import the registered
+replacement against an explicitly supplied signed status. Its local issuer
+state preserves the original possession binding and monotone observations.
+S027 owns the decision to open restored operations.
+
 ## P076-037: Status acquisition policy and contact renewal
 
 **Status: decision adopted; focused implementation and host acceptance done.** A local

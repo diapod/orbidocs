@@ -449,7 +449,7 @@ The outbound queue is deterministic and retryable:
 The service never sends unsigned artifacts. If `signer.sign` is unavailable,
 the queued row remains retryable and the service reports degraded state.
 
-### Sealed mailbox failover (S027-010) {#offline-mailbox-failover}
+### Sealed mailbox failover (S027-013) {#offline-mailbox-failover}
 
 **Planned, 2026-11-23.** [P060 defines the user-visible contract](../../40-proposals/060-messaging-middleware.md#offline-mailbox-failover).
 Ordinary send currently prepares one direct target. For an established contact
@@ -611,7 +611,10 @@ historical S027-001–008 qualifications.
 | S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: `contact-request.v1` is admitted through the schema-scoped INAC preflight/policy gate, then the receiver sees the contact-request notification and explicitly accepts the relationship before any `message-envelope.v1` delivery authority exists. It also covers local `always_accept` Attestation Service acquisition through daemon contactability endpoints, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, and a second recorded message stored as an encrypted generic artifact in Node B's Agora Vault. The old peer allowlist/preissued transport passport path and explicit INAC operator-approval path are retained only as acceptance debug/policy variants. |
 | S027-007 | User-mode messaging readiness wizard | done | Node UI has five welcome steps: participant identity, key unlock phrase, operator binding, Messaging issuance authority (sovereign or bounded grant) and Messaging. The latter two can be durably deferred to enter `/app` with visible status. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
 | S027-009 | Recipient-consent loss and duplicate-safe delivery recovery | todo | Development foundations exist; the [single-source tracker](#consent-loss-recovery-tracker) still requires complete contracts, insert-once admission, historical INAC reconciliation, explicit retry/UI and retained qualification. |
-| S027-010 | Sealed mailbox failover for offline recipients | todo | Implement the [P060 offline delivery decision](../../40-proposals/060-messaging-middleware.md#offline-mailbox-failover) on the S023 staged plan and S027-009 exact-attempt recovery. Close on the [threshold, offline shortcut, non-overlapping operation, withdrawal and ambiguity cases](#offline-mailbox-failover). |
+| S027-010 | Whole-node recovery and safe exit | todo | The [recovery tracker](#whole-node-recovery) records the technical gates and the remaining independent operator exercise. |
+| S027-011 | Open incoming messages and highlight unread conversations | todo | Browser regression covers two paths. A message mapped unambiguously to a visible conversation highlights the contact using the existing unread count. Show a separate message notification only when the contact rail cannot surface the conversation. Its **Open** action opens the exact message in the participant's authorized mailbox. Read state remains a separate operation. Contact requests and INAC invitations retain their own decision notifications. |
+| S027-012 | Retire isolated restore payload without closing the active runtime | todo | Define private custody and an explicit retirement result for the raw payload, including messages, historical key material and the Node UI audit salt. Preserve the bound activation receipts and prove the runtime remains usable after interruption and retirement. Track the verified cut, exports and peer copies as independent custody. |
+| S027-013 | Sealed mailbox failover for offline recipients | todo | Implement the [P060 offline delivery decision](../../40-proposals/060-messaging-middleware.md#offline-mailbox-failover) on the S023 staged plan and S027-009 exact-attempt recovery. Close on the [threshold, offline shortcut, non-overlapping operation, withdrawal and ambiguity cases](#offline-mailbox-failover). |
 
 ### Bounded Memarium Recovery (S027-008)
 
@@ -1435,6 +1438,648 @@ SQLite own/foreign/missing queries; they do not qualify authenticated network
 reads. The INAC push/query handlers still need these operations installed before
 exposure, together with current-permission checks, typed AD outcomes and negotiated
 deduplication continuity. No runtime or browser gate is claimed by this checkpoint.
+
+## Whole-node recovery and safe exit {#whole-node-recovery}
+
+S027-010 qualifies the one-participant-per-node path from a fresh installation
+through two-way Messaging, loss of one node, and a deliberate decision to
+resume or end contact. S027-009 supplies exact historical readback and retry
+semantics. This continuation addresses the independent case where restoration
+rewinds stores and the owner can no longer attest to the missing interval.
+
+**Restored history and present authority.** Positive, exactly bound historical
+facts survive as facts. The absence of an admission, withdrawal, deletion or
+later attempt in the restored cut cannot establish that it did not occur.
+Archive views and exports identify the cut and the gap. A repeated normal
+startup preserves the current journal epoch. An independently armed restore
+establishes a new owner-local epoch before any peer can observe the receiver.
+The local restore operation ID and consent generation are separate from the
+peer-visible deduplication epoch.
+
+**Protected effects.** The host isolates a restored profile before listeners,
+advertisements, workers and replay. Each owner independently refuses effects
+unless its required restore acknowledgements and the applicable operation class
+are current. The isolated profile verifies the cut and owner fences, applies the
+restore once per owner, then requires an explicit configuration review and
+current trust material. Restored roots, revocation revisions and known
+withdrawals provide lower bounds. A newer conflicting fence or unavailable
+required proof keeps dependent operations closed.
+
+**Resumption.** Current consent requires a fresh decision, locally bound to the
+exact basis in the new consent generation. The selected Messaging-only issuer
+reconciles its full prior grant scope for the restored node and fences delayed
+registration before re-admission. A restored sender may reconcile an exact old
+attempt without payload and retain a bound positive outcome. Old preparations,
+confirmed operations, pending notifications and queued emissions have no
+execution authority. Sending again is an explicit new message with a new ID.
+
+**Custody.** A stopped profile backup inventories active owners and external
+dependencies, including keys, configured paths and fence placement. A known
+unencrypted target is refused. A target whose encryption cannot be established
+by the system adapter may be used only after explicit operator attestation and
+is ineligible for system volume qualification. The inventory assigns the local
+audit journal, SQLite state and salt together to the Node UI owner. The cut
+can include a registered model asset store only when its effective root
+resolves inside the profile. An external root blocks backup with
+`unresolved separate custody`. The store owner can migrate the root before
+backup. A verified durable manifest marks the copy as requiring restore. The
+qualified path restores to an empty destination and keeps historic payloads
+outside active stores, projections and automatic
+consumers. Suspected duplicate live custody or key compromise limits recovery
+to the owner's verified local archive.
+
+Treating content-addressed model blobs as external dependencies remains a
+future policy decision for the model-storage owner. Such a policy needs exact
+digests, checked availability and a recovery procedure. The registry and
+other mutable owner state retain their own custody requirements.
+
+| Task | Status | Completion gate |
+|---|---|---|
+| S027-010-01 | done | The older-cut reproducer and normal restart control freeze the recovery contract. The owner inventory names storage, fences and effect boundaries. Programmatic checks cover registered storage owners, missing, foreign and duplicate activation bindings, and direct owner refusals. The native backup and activation diagnostic passed again at Node `4c0d1fb90`. |
+| S027-010-02 | done | The bounded model at Node `1cd5ac636` checks effects, consent, history and recovered work with two positive witnesses, four mutation counterexamples and a 20-theorem axiom audit. The offline Rust comparison covers 1,012 decisions. Exact history and coverage also have separate owner and WSS checks. |
+| S027-010-03 | done | Local backup, restore, interruption and readmission checks passed. Node `09410c35d` exercised three publication cuts and all seven owner acknowledgement boundaries on each of two synthetic profiles. A separate native Linux diagnostic verified, restored and activated a macOS cut using the existing password slot without the original keychain entry, and checked the archived message against its signed body. |
+| S027-010-04 | done | The development gate at Node `77fa0cf16` exercised private archive, owner-only export and removal, explicit consent and send-as-new. Native checks covered reindex, Maildir, full-text search, Notmuch, Memarium, Inquirium, Vault, pending notifications and the send queue. The Chromium scenario measured 34 CLI, host API and browser actions. |
+| S027-010-05 | done | Six native WSS/INAC cases and strict Story-010 passed at Node `4248f6bb8` and Orbidocs `e9e436fd`. The retained matrix covers four authority pairings, separately observed old consent and old pin, restored sender work and exact archive reconciliation. The loose and extracted outcomes agree. |
+| S027-010-06 | todo | Both delegated role rehearsals passed with WSS and Chromium at Node `42d9c2b63`. The operator gate still requires two people on separate hosts to complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
+
+Development diagnostics at Node `4ae9b42fc` checked the changes made after the
+above technical qualification. For S027-010-03, the cut diagnostic verified
+both profiles, replayed the stopped restore and checked replacement grant
+readmission. For S027-010-05, the delegated receiver-gap diagnostic checked
+source retirement and the late-registration fence, independent refusal of the
+old pin and consent, and delivery on fresh consent. The unresolved attempt
+survived restart with zero new emissions. The retained matrix still records
+the revisions named in its row.
+
+The operator gate accepts an encrypted mount verified independently and attested
+by its operator when the platform adapter returns `unknown`. Record that evidence
+separately from system volume qualification. Preflight the original mount path
+and snapshot passphrase. The last prompt covers the raw restored payload as well
+as the cut, export and peer copy. Keep the active runtime's bound restore control
+directory intact throughout the exercise.
+
+In the guided rehearsal, a stopped Linux profile produced a byte-verified cut
+on an operator-attested encrypted mount. The cut was remounted and verified
+again before the restored node started. Its manifest and verified bytes
+included four Node UI files, covering the historical listener marker and
+security audit. The pinned technical diagnostics did not exercise standalone
+Node UI shutdown before backup. An independent operator check of that sequence
+remains open.
+
+The historical WSS read returned `unknown` for an admission that occurred
+after the cut and refused the previous deduplication pin. The old attempt had
+zero new emissions. After separate INAC and contact approvals, a fresh
+delegated message reached the restored inbox and was marked read. These
+guided observations do not satisfy the independent two-operator gate.
+
+The issuer and the restored node use the same grant-family classification.
+Readmission applies to Messaging-only grants. A mixed grant found in the
+issuer store blocks readmission pending a separate authority decision. Issuance
+registration itself refuses mixed templates under the current contract.
+
+The baseline loopback diagnostic at Node `ab199232e` on 2026-11-23
+preserved the first admission on normal restart. After restoring the older cut,
+a WSS historical read for a later admission returned `unknown` while advertising
+the same pinned epoch. The journal kept the old coverage start and complete
+flag. The read left the sender generation unchanged and added no receiver
+reservation. The [Node boundary inventory](node:docs/development/S027-010-PROFILE-RESTORE.md)
+records the reproducer, observed scope and source-discovered owners. The
+composition and fence checks remain part of 010-01.
+
+The daemon can inspect configured owner paths without starting a profile.
+The registered storage providers supply their cut classifications, including
+whether the Seed Directory is embedded or under independent custody.
+Ordinary configuration activation and daemon open refuse a profile carrying
+a recovery marker. Composition coverage across all owners and the conditions
+for retiring that marker still require end-to-end verification.
+
+The local cut inspection observes directory entries without following
+symlinks and associates them with configured inputs. It distinguishes
+SQLite sidecars, unexpected file types and separately held custody.
+Messaging's input follows its supervised data directory. This checkpoint
+provides an ownership diagnostic. A restorable cut still requires writer
+exclusion and verified dispositions for all in-scope owners.
+
+A profile directory lease now excludes ordinary daemon writers during
+physical inspection. The command keeps it through configuration and the
+descriptor walk. Peer TLS files follow the configured transport sources.
+The native channel middleware uses the same lock independently and holds
+it until process exit. Its host-selected root binding includes the actual
+directory identity, and recovery markers refuse ordinary startup.
+Other executors, independent writers and complete custody dispositions
+remain separate requirements.
+
+The recovery inventory reads notification and embedded Seed Directory
+manifest paths from the same path definitions as startup. It also resolves
+the actual scheduler SQLite path and its sidecars. A client profile records
+Seed Directory as an independent authority.
+The resident-store catalog records the exact paths of the other bootstrap
+stores, startup credentials, and owner journal initialization locks. Model
+storage outside the profile requires a distinct custody disposition.
+
+The local cut verifier checks the committed manifest, exact recovery marker
+and complete descriptor-relative tree by size and digest. Publication of
+synthetic materialized bytes exercises the staging and durable manifest
+boundary. The capture API copies a complete admitted local tree under its
+source lease and checks the destination volume before writing. The macOS
+adapter distinguishes verified encryption, unencrypted physical backing
+and an unknown status. Known unencrypted media refuse. An unknown status
+requires explicit operator attestation. The initial restore executor binds a
+private destination to the exact verified manifest and a fresh restore ID.
+Daemon and native middleware writers refuse while either intent name exists.
+A complete interrupted intent resumes with the original ID. A mismatched
+or torn intent leaves the destination isolated. Materialized bytes go into
+a separately marked and leased payload directory. The local `restore`
+command reports the isolated byte result and resumes by preserving verified
+members and discarding only unpublished scratch. The local backup command
+uses the resolved inventory and the physical observation under the stopped
+profile lease. It refuses unassigned bytes and unresolved separate custody
+before writing. The stopped Story-010 pair passed the byte workflow with
+an embedded registry on A and a separate registry dependency on B. Trust,
+owner application and startup permission require separate owner decisions.
+
+The Messaging admission owner can prepare an isolated journal from the cut's
+digest-bound SQLite database and WAL. A new deduplication epoch, body-free
+admission identities, unresolved ID holds and the local restore receipt commit
+together. Admission and reindex consult the unresolved holds. Repeating the
+same restore binding in the isolated directory returns the original receipt.
+The daemon's local apply operation validates the staged cut under the
+restore lease and supplies the digest-bound request to the standalone owner.
+An inconsistent receipt fails the operation while the profile stays isolated.
+Messaging also refuses direct startup inside the staged payload, including
+through a symlink to a nested data directory. Coordination with other
+owners and opening protected operations remain part of 010-03.
+
+The stopped Story-010 pair completed the owner application in a development
+run. Each restored journal kept its new epoch and exact receipt on replay.
+The receiver retained one body-free admission and the sender retained none.
+The cut remained verifiable and the restore root and nested payload remained
+closed to ordinary startup.
+
+Messaging persists a sender attempt identity alongside the exact preparation.
+Terminal compaction can retire the prepared JSON while preserving that identity
+with the outbox record. The bounded historical AD query reuses the frozen
+submission digest and original key. AD owns the exact peer binding. A strict
+Story-010 development run recovered the original handle and admission over
+WSS after sender restart, removal of the AD run and detachment of the prepared
+bytes. It recorded zero additional pushes or generations for the attempt.
+The Messaging owner verifies the outbox index and WAL under the same cut
+and commits its history projection with the admission receipt. Exact bound
+confirmations preserve delivered state. Unconfirmed outbox work is marked
+`restored-from-snapshot`. The isolated stage has no live outbox, Maildir,
+retry queue or Vault jobs. The stopped Story-010 sender retained two exact
+outbound attempts and one restored pause. The receiver kept one earlier
+admission. Apply replay matched on both profiles. Protected access and the
+remaining owners' effect gates stay open in the tracker.
+
+The AD apply operation binds the stopped ledger and WAL to the same restore
+ID. Its isolated owner ledger retains exact Messaging delivery identities
+and original peer queries. Runs, old receiver coverage pins and runtime
+receipts stay in the cut. AD allows a historical read of a retained binding
+and independently refuses new submission, execution and receiver-coverage
+checks for that restored attempt. Missing archive history remains unknown.
+The stopped Story-010 sender retained two exact bindings and two queries to
+the original receiver. A separate development diagnostic loaded only the
+staged AD ledger into a disposable sender and recovered the first admission
+over WSS with prepared bytes detached, without a new push or generation.
+The local archive-outbox command re-verifies the cut and existing restore
+intent. It authenticates the participant against the archived protected key
+slot and presents a bounded page of their body-free outbox history with the
+snapshot time. The Messaging owner checks its application receipt before
+the read. An authenticated participant can also read one received inline
+message as standalone JSON. The owner compares the participant's retained
+mailbox identity to the committed original in the verified cut. A foreign
+item or a tombstone from the cut remains unavailable. A local diagnostic
+passed both real CLI binaries from a synthetic committed cut, including
+idempotent apply, both archive reads, refusal for foreign, missing and
+previously deleted items, and ordinary startup refusal. The same command
+reads an attributed outbound message when the canonical EML agrees with
+the exact cut manifest and original outbox index. The result exposes
+composition time and archived delivery state. Expired and discarded items
+remain unavailable even if EML bytes survived in the cut. The two-binary
+diagnostic also passed the outgoing read and refused a foreign row, a
+stale file, and disagreements with the header, original body digest or
+manifest. The local archive-conversation command browses a body-free
+owner-scoped page built from the cut. It uses the existing route-key
+vocabulary and orders both directions without duplicates. Exact replay
+adds the view to an older staged owner while preserving its receipt and
+epoch. The two-binary diagnostic verified owner isolation, a cursor
+between both directions and exact replay for an older staged owner.
+A local archive-export command writes all selected pages with the
+index and available body text in a standalone private JSON file.
+Unavailable content remains explicit, and a validation failure aborts
+publication. The output is a separate copy outside the cut and restore
+trees. The diagnostic verified a two-page export in an independent
+JSON parser and exercised create-only publication and failure cleanup.
+The local archive-remove command records authenticated item or whole-archive
+removal in the isolated Messaging owner. Direct reads, pages and new
+exports apply these facts across exact owner replay. The verified cut, raw
+materialization, earlier exports and peer copies retain separate custody.
+The local two-binary diagnostic verified owner isolation, idempotent
+removal, export filtering and an unchanged receipt after exact replay.
+Physical disposition of the raw profile remains open.
+
+### Restored conversation archive
+
+An activated restore links the participant's live contact conversation to
+its separate archive. The operator-only local API exposes availability at
+`GET /v1/messaging/archive` and conversation pages, message reads, delivery
+history, export and removal at `POST /v1/messaging/archive`. The daemon
+binds the exact activated restore and cut before opening the archive. The current operator
+and the snapshot passphrase establish the historical participant scope.
+The contact contributes its known route keys through the host. A separate
+participant-wide outgoing view uses the bounded archived outbox, including
+messages that used route keys absent from the live contact.
+
+An owned outgoing item in `restored-from-snapshot` offers an explicit,
+body-free historical read. The Messaging owner selects its frozen
+bindings, AD reads through the existing authenticated peer session, and
+the archive records a matching positive admission as `delivered`.
+Unavailable and unconfirmed results preserve the archived state. The
+conversation and export reflect the result recorded by the owner while
+preserving the archived message body and time.
+
+After opening an archived outgoing message, the participant can send its
+text as a new message to the selected live contact. The confirmation names
+the recipient and warns that a copy may already exist. The host verifies
+the reviewed text and current recipient, then submits to the ordinary
+Messaging authority and delivery path. It allocates new message and
+delivery identities. The old archive item and historical attempt are
+independent of the new send. The browser submits the action once.
+
+In a separate delegated-pair development run, the recipient committed the
+message while the WSS response was dropped. The restored sender's archive
+started without a confirmation. The participant operation recovered the
+exact admission, kept the receiver's push token unchanged and returned
+`delivered` again after restart. The subsequent export included the
+settled state and original body.
+
+The view states the snapshot boundary. Downloads use the existing owner
+export up to 16 MiB and create a separate plaintext copy. Explicit removal
+uses the existing archive journal. The verified cut, earlier exports and
+other nodes' copies retain their own custody.
+
+The synthetic delegated-pair development run exercised both directions
+before and after the restore. Chromium opened the archive through the
+live contact, refused an incorrect passphrase and matched the earlier
+message body digest in both the view and a native JSON download. The
+participant-wide outgoing view found an older message whose route was
+absent from the live contact. The current recipient explicitly published
+the reply route. Missing confirmation and a different reviewed body
+digest left the live outbox unchanged. The confirmed action delivered
+the same text on new message and AD identities, with the historical
+binding and receiver push reservations intact. Removing the item and
+then the local archive updated the view. The independent download
+remained readable.
+
+A second delegated-pair development scenario takes the receiver's cut
+before a later, committed admission and suppresses its WSS reply. The
+original receiver proves that exact admission and the old pin after
+restart. The managed restore returns historical `unknown` on the
+original sender generation. A separate AD coverage read refuses the
+old pin. A separate receive check refuses the old V2 consent after
+the designated source withdraws its parent. A temporary address-book
+choice makes the old route valid for this second check. Fresh delegated
+exchange, archive exit in Chromium and restart preserve the unresolved
+gap and do not debit another emission.
+
+The same diagnostic registers a grant after the cut and holds a separate
+signed grant from the old epoch. After replacement and source restart,
+the Seed Directory reports the post-cut grant revoked with a higher
+revision. Exact registration replay preserves its revoked status. First
+registration of the held grant fails with an epoch mismatch and leaves
+its status absent. The successor remains active.
+
+The delegated-pair reindex diagnostic verifies both the pre-cut and fresh
+admissions against the live message index, FTS and the EML Maildir
+projection. Native Notmuch 0.40 exercises the same Maildir with a
+disposable index outside the profile. Restore, reindex and restart keep
+the fresh admission visible and the earlier envelope absent. The exact
+IDs of previously acted-on
+notifications expose no actionable decision. The diagnostic also leaves
+one pending INAC invitation and one separate pending contact request
+in the cut. Their notification IDs and correlations do not become
+actionable after activation, reindex or restart. New requests take their
+own explicit decision paths.
+
+The mixed-role development fixture with the sovereign receiver exercises
+the active Memarium fact query, Messaging reindex and Inquirium Messaging
+context resolution. A pre-cut message copy and read flag are present in
+the source Memarium. The active profile excludes both. The fresh flag
+can be read again after restart and its exact ID crosses remote Memarium
+replay into the live Messaging projection. The old Inquirium grant is
+absent. With a newly issued context grant, the old body resolves to a
+404 from the live mailbox and the new body reaches the local policy
+decision. Both point reads are exercised after activation, reindex and
+restart. Inference is kept outside this diagnostic by requiring a
+fail-closed preview.
+
+A recorded-message variant observes the original artifact through the
+public Vault index and authenticated exact read. After activation, the
+Vault and recording worker accept a fresh recorded message. The old
+artifact stays outside the active index and returns 404 to the private
+reader. Reindex, outbox processing and restart do not schedule the old
+recording again.
+
+### Historical transport results
+
+The delegated sender-cut diagnostic verifies a real active AD run with
+one debit and one INAC reservation, an independently prepared message
+without an AD binding, and a two-position bulk operation confirmed
+through the retry API's token and selection digest. The stopped cut
+contains all three. The activated sender retains the attempts in its
+archive at their original generation. The active AD binding is available
+for history. Neither archived message nor the confirmed bulk becomes
+active work after outbox processing, fresh consent or restart and
+unlock. A separately known positive admission is read through WSS on
+the restored sender without a new token in the receiver ledger. The
+owner can export both archived bodies. Technical and operator
+qualification remain open.
+
+The INAC history owner now checks the cut's exact ledger, WAL and enrolled
+identity anchor. It commits peer-bound positive results for exact Messaging
+attempts and body-free offer identities with a receipt tied to the same
+restore. Unknown, refused and unfinished attempts provide no positive
+result. The offer identity set supports recognizing earlier requests.
+It carries no replayable invitation or active decision. The projection declares no
+deduplication coverage. Ordinary INAC ledger startup refuses the marked
+paths. The INAC owner can enroll the verified offer set in a fresh ledger
+under the exact consent epoch. The owner refuses historical keys at offer
+and standing contact writes and retains exclusions across a later cut.
+Restored contact requests require an exact approved offer and invitation
+in the current consent epoch. INAC verifies artifact bytes and the ordinary
+passport conditions before consuming an invitation on the authenticated
+peer path. The notification owner and both bridges check the expected
+epoch. Before reserving a restored Messaging envelope, INAC checks the
+exact bytes with the host receive evaluator under the locally configured
+consumer binding and rechecks its own enrolled epoch in the reservation
+transaction. An ordinary authenticated historical query still reads the
+previously admitted result without evaluating current receive consent.
+The enrolled INAC ledger also serves the archived exact success through
+the authenticated WSS status operation. The result carries no
+deduplication coverage. Gap, foreign and mismatched lookups remain unknown
+in the absence of a matching new outcome. Enrollment commits both
+sets and their binding, and a later cut preserves the verified history.
+The operator's preparation command binds a new INAC ledger to the committed
+Local Relationship consent epoch of the same restore. The ledger identity
+and history commit together. An interrupted anchor write resumes from
+that committed identity. The prepared pair remains under the recovery
+marker pending coordinated activation.
+
+Stopped backup now captures the effective Messaging acquisition and
+recovery capacity policies with their P091 resolution IDs, the local
+grant disclosure choices, and relative paths for configured owner
+inputs. The local configuration review displays these facts as of the
+cut. It can record one explicit, cut- and destination-bound choice at
+least as restrictive as the captured Messaging policy. The configuration
+preparation command applies that choice to a marked candidate through the
+normal P091 resolvers, checks the captured owner layout and uses only
+verified peer credential inputs from the cut. Destination-bound
+advisory lock paths are recomputed by their owner. The receipt covers
+the candidate configuration and the resulting resolution IDs. Live
+composition and current federation trust remain prerequisites for
+opening effects.
+
+The Identity custody apply step verifies the original node signing record
+and authenticates the cut operator through the captured protected passphrase
+slot. It stages the paired node identity and operator signing inputs. A
+recorded recovery mnemonic must derive the cut operator. Identity opens its
+exact captured seal under the cut's local Sealer custody and reseals the
+record under a fresh local AEAD key. Exact replay preserves the new custody
+files and their restore binding. The old Sealer key stays in the cut.
+Current operator binding and authority remain independent requirements for
+opening effects.
+
+The Local Relationship apply step commits a private consent epoch bound to
+the restore ID, cut digest and operator. Exact replay retains the same epoch.
+With that epoch installed, the Messaging receive evaluator requires a fresh
+decision for an otherwise eligible local membership or verified receive
+passport. The operator control route records exact admission for a new
+independent `contacts` decision after Vault commits it. The receipt survives
+restart, and a superseding projection retires it. Applicable current sovereign
+authority and local blocks still govern receipt. For portable consent the
+reserved INAC bridge binds an exact new request to the local epoch. The
+notification owner requires that ingress and an explicit operator action.
+It binds one passport and records the exact decision before handoff, including
+repair after interruption. The stopped Contact Store apply step derives
+body-free signed request identities from the verified cut database and WAL
+and binds their set to the committed consent epoch. Restored portable ingress
+requires that binding and rejects signatures known from the cut. Pending
+decisions stay in the historical cut. Live installation of the staged epoch
+and Contact Store, and INAC consent enforcement remain open.
+
+The stopped recovery command can record a signed root selected by an
+independently authenticated current P076 digest. It reuses the ordinary
+signature and custody verifier and retains the archived and subsequent
+high-water marks and known service-endorsement withdrawals. The receipt
+ties that exact pack to the cut and prepared configuration. The stopped
+delegation status review verifies separately supplied signed observations
+against that root and exact captured grants. It retains revision floors and
+known withdrawals, and rechecks freshness at the reported time. A change of
+root requires a new positive observation while preserving negative knowledge.
+Preparation for startup checks the separately confirmed current digest again
+and reevaluates status freshness. It stages the exact pinned pack and the
+daemon's matching high-water record under a recovery marker. A later reviewed
+head selects a different pair. The current trust inputs and the remaining
+owner receipts must still be checked when opening effects. Ordinary daemon
+and supervised native startup check recovery markers above the selected
+profile directory before opening mutable owner state.
+The coordinated preparation command verifies or applies Identity, Local
+Relationship, Contact Store, INAC, AD and Messaging under one restore intent
+and continuous stopped-profile leases. It rechecks issuance status freshness
+after the owner work. The individual owner receipts still govern replay.
+Configuration preparation uses the cut's verified middleware settings so
+explicit component disablement survives factory projection. The configured
+local asset root is rebound to the candidate and checked against the
+captured owner inventory.
+The coordinator installs the selected prepared files in a marked startup
+image at their runtime paths. This uses the configuration for the image's
+own root. The image receipt binds the restore, directory identity and exact
+member set and is published after verification. A committed image missing a
+member refuses replay. The v2 image verifies and installs the exact operator
+participant stream alongside key custody. Identity rebuilds the participant
+from those bounded facts. Other runtime history and queued writes stay in the
+cut. Startup preparation now also requires an explicit, restore-bound
+operator attestation that the original instance is stopped or lost. A pending
+or recorded archive-only decision prevents preparation or reuse of the image.
+The participant can still authenticate to the archive. Runtime activation and
+per-effect opening remain pending.
+The designated status registry now implements the source-side readmission
+fence. An issuer-signed replacement pins its exact current Messaging
+inventory, retires those grants, and registers the new epoch atomically.
+Later registrations need the current epoch. A concurrent renewal forces
+fresh review or loses to the new epoch. The local operator inventory and
+issuance ceremony are available at the source. The technical gate still
+requires this operation through the restored peer workflow.
+
+The v4 marked image now stages the issuance owner's signed observations,
+revision floors and known withdrawals. Captured delegate custody and
+pending effects stay in the cut. Explicit import on the restored owner
+requires a fresh local possession request and a registered, signed
+replacement for the designated source. A later continuation must name the
+epoch accepted by that owner. Startup requires the issuance and consent
+owners to agree on the restore binding. Historical observations remain
+bounded. No known withdrawal is dropped to meet the owner's capacity.
+The private restore control can now prepare and replay the signed Messaging
+possession request before the node runs. The resulting image carries only a
+newly prepared, current request and its encrypted delegate. This supports
+starting the designated issuer ceremony before opening transport effects.
+With the signed replacement and source status, the same private path
+binds the grant through the owner's normal verification rules and preserves
+its revocation floor. Staging checks current usability of this grant again.
+The image remains marked pending protected effect activation. Startup preparation can
+place the same owner image in a private directory disjoint from the cut
+and restore trees. Its retained marker binds the exact projection to the
+location and inode before any file is copied. The separate archive stays
+available. A prepared runtime candidate still refuses ordinary startup.
+The stopped operator now selects a candidate by approving its exact image
+receipt. Under the restore and candidate leases, the coordinator checks
+the prepared owners and publishes a single durable choice. Replacing the
+choice while closed requires the current selection digest. The selected
+image stays marked until its protected operation classes can be opened.
+The stopped operator can verify that exact selection by digest. Selection
+and verification keep the image leased through an issuance recheck after
+checking the installed owners. The verification preserves the image and
+selection and returns their closed state.
+Activation rechecks that selection and commits one receipt under both
+leases. The placement marker stays with the selected runtime and binds
+the private restore control directory. The original location can start
+after activation and requires exclusive runtime ownership. A copy or the
+loss of the activation binding keeps protected effects closed.
+The first start still requires a current node/operator binding. The
+development diagnostic reached Messaging after creating a fresh local
+binding and then restarted with the same admission epoch.
+An authenticated WSS read from the surviving sender returned `unknown`
+for the gap and advertised the new epoch with zero pushes for that
+attempt. A fresh local address-book choice for the same peer led to a
+new message admission after explicit INAC and contact decisions. This
+measured the activated sovereign receiver through the operator API.
+The mixed development diagnostic also restores an ordinary receiver that
+accepted a message on a delegated grant before the cut. The designated
+source retires that grant and registers the new delegate. After activation
+and explicit unlock, the same parties establish a fresh route with two
+separate consent decisions. The old admission remains a tombstone and
+the fresh message reaches the live mailbox under a new delegated consent.
+The ordinary pair exchanged messages in both directions before a cut.
+Its passive passport-presentation audit is captured as historical
+metadata and stays out of the active projection. The first activated
+image omitted the recorded mnemonic and refused the pseudonym recovery
+export. With the mnemonic verified and resealed under fresh local
+custody, the restored receiver could export its recovery state and create
+a new pseudonymous route. Both directions delivered on fresh explicit
+consents and the old admission stayed a body-free tombstone. A separate
+read through AD's exact coverage port proved the old pin in the original
+and raw older-copy controls. Managed restore refused that same pin with
+`receiver-coverage-unavailable`, without a new push or a receive-consent
+lookup. A separate host check reused one signed envelope and sovereign
+passport. The old receiver authorized it. Restoring just the route through
+an address-book choice left the passport cryptographically valid but
+ineligible without a current consent decision.
+Both the fully sovereign and complementary mixed diagnostics delivered
+to a sovereign receiver before and after capturing the cut. The original
+receiver authorized separate probes under its passport and independent
+`contacts` bases. The membership basis remained usable after ordinary
+restart. Managed restore refused both unchanged signed probes while the
+recipient remained sovereign and the original route was resolvable. The
+managed restore retained only the earlier admission as a tombstone. A new
+message delivered after fresh INAC and contact decisions.
+
+The receiver-gap diagnostic ran on the sovereign pair and both mixed roles.
+It confirmed the original admission and old pin after ordinary restart.
+The managed older cut returned `unknown` and refused that pin. Separate
+receive checks refused the old consent on a resolvable route. New consent
+and restart left the previous generation unresolved with no further push.
+The delegated diagnostic also exported both pre-cut message bodies through
+the CLI and matched their original digests in a standalone JSON reader.
+Authenticated local removal survived replay and preserved the separate export.
+Messaging enforces that isolation at the owner even for an already open
+store. Network coverage, new admission, execution and replay require
+an ordinary or correctly activated storage ancestry. The scoped archive
+retains its own access checks. A current restore acknowledgement is still required to open a
+protected operation class.
+
+
+The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
+covers 952 effect, consent and work-origin decisions plus eight named
+expectations. The 18 theorem dependencies contain at most `propext`. This
+checkpoint checks the pure decision inputs. Persistence, owner integration
+and the full specification trace matrix remain open. See the
+[model scope](node:messaging-core/lean/README.md#s027-010-restored-profile-model).
+
+The Contact Store uses the same work-origin predicate for a restored contact
+decision. It compares the durable ingress origin for the exact request ID
+and digest against its current consent epoch. The passport binding repeats
+the check inside its transaction. Archive and transport work still have
+separate owner-local enforcement and correspondence obligations.
+
+The coordinator projects the required acknowledgements from each verified
+owner receipt. A receipt from a different cut cannot satisfy activation,
+and a receipt for a previous restore ID remains stale. The selected image
+still requires the existing root and configuration checks.
+
+Composition also refuses an unregistered or duplicate runtime owner even when
+all other receipts are current. INAC refuses to continue or remove a partial
+stream when its owning profile is armed for recovery. The owner tests and the
+native diagnostic at `4c0d1fb90` check these bounds without changing the pins of
+the earlier technical matrix.
+
+Artifact Delivery determines the work origin from the selected ledger and
+the exact historical marker of the delivery binding. Its execution guard
+shares the same effect predicate with Contact Store's exact generation
+adapter. Lean proves equivalence to generation matching and refuses a
+protected effect from either noncurrent origin. The extended comparison
+checks 964 decisions, eleven expectations and twenty theorem dependencies.
+
+The subsequent offline comparison checks 1,012 decisions, including 48 at
+sixteen prefixes of an activation history. Lean runs the events and Rust uses
+the independently specified observations at each prefix. It covers both needed
+owners and a foreign owner, stale receipts, restart, trust loss and explicit
+reopening. The assumption review identifies the single active instance,
+durable receipts and verified lower-bound knowledge as external conditions.
+The existing exact-attempt pilot and the restore-specific owner and WSS fixtures
+separately check historical reads and transport coverage.
+
+Messaging's active outbox records its verified restore origin on new
+enqueues. Work from a different origin or without a restored origin remains
+ineligible for preparation, handoff, retry allocation and outbound recording
+publication. The ordinary outbox and private history retain their established
+ownership and lifecycle checks.
+
+On a stopped restore, `profile-recovery status` reads the verified recovery
+checkpoints and exposes the phase, responsible owner, typed reason, time
+and available continuation commands. JSON and static HTML use the same
+view. Commands recheck their own inputs. A matched activation record
+still leaves ordinary runtime readiness to the startup owner. The
+[operator runbook](node:docs/operations/messaging-operator-runbook.md#back-up-verify-and-stage-a-profile-cut)
+describes the local readback and the recovery commands.
+
+The technical and operator gates have independent status. Each uses a fresh
+run at pinned sources after the end-to-end diagnostic succeeds. The operator
+gate also pins the runbook and records interventions. Neither gate establishes
+release readiness. Historical S027-009 qualifications retain their own scope.
+The [S027-010-05 retained technical matrix](node:docs/evidence/limited-messaging/2026-11-24-s027-profile-restore/README.md)
+records the pinned sources, six native cases, strict regression, browser action
+sequence and recovery of the seven exact executable dependencies. Its scope
+stays unchanged. The separate
+[native second-host diagnostic](node:docs/development/S027-010-PROFILE-RESTORE.md#native-restore-on-a-second-host)
+verified the macOS cut on Linux, recovered Identity custody by the existing
+password slot, read the archived body and started the explicitly admitted
+runtime under the original node identity.
+The [operator exercise protocol](node:tools/acceptance/story-010-operator/README.md#profile-recovery-operator-exercise)
+defines the two-host fixture preflight, the four checkpoints, first-choice
+scoring and intervention classes for S027-010-06. The automated rehearsal
+exercised two independent synthetic pairs and recorded 34 actions in each
+direction. It checked the unknown
+outcome, the exact historical acceptance, the new delivery on explicit
+consent, and archive removal without loss of the independent copies.
+The [two-host runtime preflight](node:docs/development/S027-010-PROFILE-RESTORE.md#two-host-runtime-preflight)
+verified independent first starts and an authenticated WSS session through the
+observer relay on native macOS and Linux.
+Qualification still requires the two-person exercise.
+Freeze the participant instructions in the language used for the run.
+The exercise pack provides
+[English instructions](node:tools/acceptance/story-010-operator/PROFILE-RECOVERY-EXERCISE.md)
+and a [Polish sidecar](node:tools/acceptance/story-010-operator/PROFILE-RECOVERY-EXERCISE.pl.md).
 
 ## References
 

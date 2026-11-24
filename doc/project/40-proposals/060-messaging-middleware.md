@@ -700,7 +700,7 @@ routing metadata. A recorded-message copy in Agora Vault serves a separate
 archival purpose.
 
 [S023 owns the mailbox transport](../60-solutions/023-artifact-delivery/023-artifact-delivery.md#matrix-mailbox-transport-adapter).
-[S027-010](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#offline-mailbox-failover)
+[S027-013](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#offline-mailbox-failover)
 owns implementation, the single tracker entry and acceptance for this profile.
 
 ### 8. `contacts` Relationship Class
@@ -770,6 +770,13 @@ EML files in `maildir/outbox/body/`; walk the canonical inbound Maildir JSON
 tree to populate per-message rows and regenerate the disposable EML sidecar;
 rebuild the FTS5 index; surface a "reindexing" status through
 `/v1/messaging/status` until done.
+
+This reindex procedure applies to the operational index of the active
+profile. A managed restore from an older whole-profile cut follows the
+[S027 archive and readmission contract](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#restored-conversation-archive).
+The participant opens historical content through the isolated archive in
+the local UI or CLI. The active owner builds its delivery and search views
+from the new period's admitted data.
 
 MVP retention default is keep-local / no automatic purge:
 
