@@ -547,7 +547,7 @@ historical S027-001–008 qualifications.
 | S027-007 | User-mode messaging readiness wizard | done | Node UI has five welcome steps: participant identity, key unlock phrase, operator binding, Messaging issuance authority (sovereign or bounded grant) and Messaging. The latter two can be durably deferred to enter `/app` with visible status. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
 | S027-009 | Recipient-consent loss and duplicate-safe delivery recovery | todo | Development foundations exist; the [single-source tracker](#consent-loss-recovery-tracker) still requires complete contracts, insert-once admission, historical INAC reconciliation, explicit retry/UI and retained qualification. |
 | S027-011 | Open incoming messages and highlight unread conversations | todo | Browser regression covers two paths. A message mapped unambiguously to a visible conversation highlights the contact using the existing unread count. Show a separate message notification only when the contact rail cannot surface the conversation. Its **Open** action opens the exact message in the participant's authorized mailbox. Read state remains a separate operation. Contact requests and INAC invitations retain their own decision notifications. |
-| S027-012 | Retire isolated restore payload without closing the active runtime | todo | Define private custody and an explicit retirement result for the raw payload. Preserve the bound activation receipts and prove the runtime remains usable after interruption and retirement. Track the verified cut, exports and peer copies as independent custody. |
+| S027-012 | Retire isolated restore payload without closing the active runtime | todo | Define private custody and an explicit retirement result for the raw payload, including messages, historical key material and the Node UI audit salt. Preserve the bound activation receipts and prove the runtime remains usable after interruption and retirement. Track the verified cut, exports and peer copies as independent custody. |
 
 ### Bounded Memarium Recovery (S027-008)
 
@@ -1418,6 +1418,12 @@ qualified path restores to an empty destination and keeps historic payloads
 outside active stores, projections and automatic
 consumers. Suspected duplicate live custody or key compromise limits recovery
 to the owner's verified local archive.
+
+Before applying this procedure to a profile with installed model assets,
+the model-storage owner needs a policy for treating content-addressed blobs as
+external dependencies. A dependency needs exact digests, checked availability
+and a recovery procedure. The registry and other mutable owner state retain
+their own custody requirements.
 
 | Task | Status | Completion gate |
 |---|---|---|
