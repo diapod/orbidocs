@@ -1670,6 +1670,14 @@ operator attestation that the original instance is stopped or lost. A pending
 or recorded archive-only decision prevents preparation or reuse of the image.
 The participant can still authenticate to the archive. Runtime activation and
 per-effect opening remain pending.
+The designated status registry now implements the source-side readmission
+fence. An issuer-signed replacement pins its exact current Messaging
+inventory, retires those grants, and registers the new epoch atomically.
+Later registrations need the current epoch. A concurrent renewal forces
+fresh review or loses to the new epoch. The local operator inventory and
+issuance ceremony are available at the source. The technical gate still
+requires this operation through the restored peer workflow.
+
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named

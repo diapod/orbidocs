@@ -204,6 +204,84 @@
           }
         }
       }
+    },
+    "readmission": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "const": "replace"
+            },
+            "previous_epoch": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "inventory_digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            },
+            "revocation_signatures": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "alg",
+                  "key_public",
+                  "value"
+                ],
+                "properties": {
+                  "alg": {
+                    "const": "ed25519"
+                  },
+                  "key_public": {
+                    "type": "string",
+                    "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+                  },
+                  "value": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "action",
+            "previous_epoch",
+            "inventory_digest"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "const": "continue"
+            },
+            "epoch": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+            }
+          },
+          "required": [
+            "action",
+            "epoch"
+          ]
+        }
+      ]
     }
   },
   "required": [
@@ -269,6 +347,59 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "readmission"
+        ]
+      },
+      "then": {
+        "properties": {
+          "templates": {
+            "items": {
+              "properties": {
+                "template": {
+                  "enum": [
+                    "local-send",
+                    "receive-consent",
+                    "inac-consent"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "issuer_subject_ref": {
+            "pattern": "^org:did:key:"
+          },
+          "readmission": {
+            "properties": {
+              "action": {
+                "const": "replace"
+              }
+            }
+          }
+        },
+        "required": [
+          "issuer_subject_ref",
+          "readmission"
+        ]
+      },
+      "then": {
+        "properties": {
+          "readmission": {
+            "required": [
+              "revocation_signatures"
+            ]
           }
         }
       }
