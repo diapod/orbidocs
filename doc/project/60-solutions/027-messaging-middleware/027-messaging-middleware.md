@@ -1686,6 +1686,10 @@ replacement for the designated source. A later continuation must name the
 epoch accepted by that owner. Startup requires the issuance and consent
 owners to agree on the restore binding. Historical observations remain
 bounded. No known withdrawal is dropped to meet the owner's capacity.
+The private restore control can now prepare and replay the signed Messaging
+possession request before the node runs. The resulting image carries only a
+newly prepared, current request and its encrypted delegate. This supports
+starting the designated issuer ceremony before opening transport effects.
 
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison

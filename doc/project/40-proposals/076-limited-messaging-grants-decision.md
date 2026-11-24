@@ -351,7 +351,10 @@ through its existing explicit possession ceremony. The first local import
 requires a replacement from the designated source. After it commits, a
 renewal must name the accepted source epoch. Both checks use the issuance
 owner's durable restore binding, and a conflicting source scope requires a
-separate decision.
+separate decision. S027 can prepare the standard signed possession request
+from verified custody while the restored profile is stopped. The encrypted
+delegate stays local. A request does not retire any source grant or
+authorize any operation by itself.
 
 ## P076-037: Status acquisition policy and contact renewal
 
