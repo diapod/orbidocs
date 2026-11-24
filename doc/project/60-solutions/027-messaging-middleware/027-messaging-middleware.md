@@ -1569,11 +1569,26 @@ Physical disposition of the raw profile remains open.
 
 An activated restore links the participant's live contact conversation to
 its separate archive. The operator-only local API exposes availability at
-`GET /v1/messaging/archive` and conversation pages, message reads, export
-and removal at `POST /v1/messaging/archive`. The daemon binds the exact
-activated restore and cut before opening the archive. The current operator
+`GET /v1/messaging/archive` and conversation pages, message reads, delivery
+history, export and removal at `POST /v1/messaging/archive`. The daemon
+binds the exact activated restore and cut before opening the archive. The current operator
 and the snapshot passphrase establish the historical participant scope.
 The contact contributes its known route keys through the host.
+
+An owned outgoing item in `restored-from-snapshot` offers an explicit,
+body-free historical read. The Messaging owner selects its frozen
+bindings, AD reads through the existing authenticated peer session, and
+the archive records a matching positive admission as `delivered`.
+Unavailable and unconfirmed results preserve the archived state. The
+conversation and export reflect the result recorded by the owner while
+preserving the archived message body and time.
+
+In a separate delegated-pair development run, the recipient committed the
+message while the WSS response was dropped. The restored sender's archive
+started without a confirmation. The participant operation recovered the
+exact admission, kept the receiver's push token unchanged and returned
+`delivered` again after restart. The subsequent export included the
+settled state and original body.
 
 The view states the snapshot boundary. Downloads use the existing owner
 export up to 16 MiB and create a separate plaintext copy. Explicit removal

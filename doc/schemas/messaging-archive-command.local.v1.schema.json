@@ -109,6 +109,24 @@
           "additionalProperties": false,
           "required": [
             "action",
+            "envelope_id"
+          ],
+          "properties": {
+            "action": {
+              "const": "reconcile-delivery"
+            },
+            "envelope_id": {
+              "type": "string",
+              "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+              "maxLength": 512
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
             "contact"
           ],
           "properties": {
