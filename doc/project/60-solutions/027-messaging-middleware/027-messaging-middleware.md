@@ -1589,8 +1589,10 @@ download remained readable.
 
 The delegated-pair reindex diagnostic verifies both the pre-cut and fresh
 admissions against the live message index, FTS and the EML Maildir
-projection. Restore, reindex and restart keep the fresh admission visible
-and the earlier envelope absent. The exact IDs of previously acted-on
+projection. Native Notmuch 0.40 exercises the same Maildir with a
+disposable index outside the profile. Restore, reindex and restart keep
+the fresh admission visible and the earlier envelope absent. The exact
+IDs of previously acted-on
 notifications expose no actionable decision. The diagnostic also leaves
 one pending INAC invitation and one separate pending contact request
 in the cut. Their notification IDs and correlations do not become
