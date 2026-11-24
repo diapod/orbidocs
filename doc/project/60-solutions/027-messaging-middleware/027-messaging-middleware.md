@@ -1420,7 +1420,7 @@ to the owner's verified local archive.
 | S027-010-02 | done | The bounded model at Node `1cd5ac636` checks effects, consent, history and recovered work with two positive witnesses, four mutation counterexamples and a 20-theorem axiom audit. The offline Rust comparison covers 1,012 decisions. Exact history and coverage also have separate owner and WSS checks. |
 | S027-010-03 | in-progress | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
 | S027-010-04 | done | The development gate at Node `77fa0cf16` exercised private archive, owner-only export and removal, explicit consent and send-as-new. Native checks covered reindex, Maildir, full-text search, Notmuch, Memarium, Inquirium, Vault, pending notifications and the send queue. The Chromium scenario measured 34 CLI, host API and browser actions. |
-| S027-010-05 | in-progress | Technical qualification over WSS/INAC on independent profiles. The clean-source collector covers the full delegated pair, targeted sovereign and mixed controls, and separate old-consent and old-pin observations. Completion requires the measured campaign and verified retention. |
+| S027-010-05 | done | Six native WSS/INAC cases and strict Story-010 passed at Node `4248f6bb8` and Orbidocs `e9e436fd`. The retained matrix covers four authority pairings, separately observed old consent and old pin, restored sender work and exact archive reconciliation. The loose and extracted outcomes agree. |
 | S027-010-06 | todo | Two people on separate hosts complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
 
 The baseline loopback diagnostic at Node `ab199232e` on 2026-11-23
@@ -1929,6 +1929,10 @@ The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
 gate also pins the runbook and records interventions. Neither gate establishes
 release readiness. Historical S027-009 qualifications retain their own scope.
+The [S027-010-05 retained technical matrix](node:docs/evidence/limited-messaging/2026-11-24-s027-profile-restore/README.md)
+records the pinned sources, six native cases, strict regression, browser action
+sequence and recovery of the seven exact executable dependencies. It keeps
+the separate-account or host restore and the two-person operator exercise open.
 The [operator exercise protocol](node:tools/acceptance/story-010-operator/README.md#profile-recovery-operator-exercise)
 defines the four checkpoints, first-choice scoring and intervention classes
 for S027-010-06. Qualification still requires the two-person exercise.
