@@ -1591,9 +1591,12 @@ The delegated-pair reindex diagnostic verifies both the pre-cut and fresh
 admissions against the live message index, FTS and the EML Maildir
 projection. Restore, reindex and restart keep the fresh admission visible
 and the earlier envelope absent. The exact IDs of previously acted-on
-notifications expose no actionable decision. Pre-cut pending decisions,
-the broader replay and consumer surfaces, and the technical and
-operator qualifications remain open.
+notifications expose no actionable decision. The diagnostic also leaves
+one pending INAC invitation and one separate pending contact request
+in the cut. Their notification IDs and correlations do not become
+actionable after activation, reindex or restart. New requests take their
+own explicit decision paths. The broader replay and consumer surfaces
+and the technical and operator qualifications remain open.
 
 ### Historical transport results
 
