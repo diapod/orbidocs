@@ -1612,9 +1612,13 @@ opening effects.
 
 The Identity custody apply step verifies the original node signing record
 and authenticates the cut operator through the captured protected passphrase
-slot. It stages only the paired node identity and operator signing inputs and
-records an exact restore-bound receipt. Current operator binding and authority
-remain independent requirements for opening effects.
+slot. It stages the paired node identity and operator signing inputs. A
+recorded recovery mnemonic must derive the cut operator. Identity opens its
+exact captured seal under the cut's local Sealer custody and reseals the
+record under a fresh local AEAD key. Exact replay preserves the new custody
+files and their restore binding. The old Sealer key stays in the cut.
+Current operator binding and authority remain independent requirements for
+opening effects.
 
 The Local Relationship apply step commits a private consent epoch bound to
 the restore ID, cut digest and operator. Exact replay retains the same epoch.
@@ -1728,12 +1732,14 @@ separate consent decisions. The old admission remains a tombstone and
 the fresh message reaches the live mailbox under a new delegated consent.
 The ordinary pair exchanged messages in both directions before a cut.
 Its passive passport-presentation audit is captured as historical
-metadata and stays out of the active projection. After activation the
-runtime still refused a new pseudonym recovery export because the
-operator's stored mnemonic was absent from the staged Identity custody.
-Post-restore delegated exchange remains open on that owner condition.
-Independent old-consent and stale-pin refusal controls and the full
-restore role matrix remain part of the technical gate.
+metadata and stays out of the active projection. The first activated
+image omitted the recorded mnemonic and refused the pseudonym recovery
+export. With the mnemonic verified and resealed under fresh local
+custody, the restored receiver could export its recovery state and create
+a new pseudonymous route. Both directions delivered on fresh explicit
+consents and the old admission stayed a body-free tombstone. The
+complementary mixed direction and the independent old-consent and
+stale-pin controls remain part of the technical gate.
 Messaging enforces that isolation at the owner even for an already open
 store. Network coverage, new admission, execution and replay require
 an ordinary or correctly activated storage ancestry. The scoped archive
