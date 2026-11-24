@@ -1869,6 +1869,12 @@ restart. Managed restore refused both unchanged signed probes while the
 recipient remained sovereign and the original route was resolvable. The
 managed restore retained only the earlier admission as a tombstone. A new
 message delivered after fresh INAC and contact decisions.
+
+The receiver-gap diagnostic ran on the sovereign pair and both mixed roles.
+It confirmed the original admission and old pin after ordinary restart.
+The managed older cut returned `unknown` and refused that pin. Separate
+receive checks refused the old consent on a resolvable route. New consent
+and restart left the previous generation unresolved with no further push.
 The delegated diagnostic also exported both pre-cut message bodies through
 the CLI and matched their original digests in a standalone JSON reader.
 Authenticated local removal survived replay and preserved the separate export.
