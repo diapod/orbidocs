@@ -1665,7 +1665,11 @@ member set and is published after verification. A committed image missing a
 member refuses replay. The v2 image verifies and installs the exact operator
 participant stream alongside key custody. Identity rebuilds the participant
 from those bounded facts. Other runtime history and queued writes stay in the
-cut. Runtime activation and per-effect opening remain pending.
+cut. Startup preparation now also requires an explicit, restore-bound
+operator attestation that the original instance is stopped or lost. A pending
+or recorded archive-only decision prevents preparation or reuse of the image.
+The participant can still authenticate to the archive. Runtime activation and
+per-effect opening remain pending.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
