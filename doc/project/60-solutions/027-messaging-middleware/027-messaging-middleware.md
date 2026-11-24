@@ -1580,8 +1580,13 @@ Restored contact requests require an exact approved offer and invitation
 in the current consent epoch. INAC verifies artifact bytes and the ordinary
 passport conditions before consuming an invitation on the authenticated
 peer path. The notification owner and both bridges check the expected
-epoch. Live coordination, Messaging envelope permission at reservation
-and authenticated historical readback remain open.
+epoch. Before reserving a restored Messaging envelope, INAC checks the
+exact bytes with the host receive evaluator under the locally configured
+consumer binding and rechecks its own enrolled epoch in the reservation
+transaction. An ordinary authenticated historical query still reads the
+previously admitted result without evaluating current receive consent.
+Live coordination and authenticated readback of the isolated history
+remain open.
 
 Stopped backup now captures the effective Messaging acquisition and
 recovery capacity policies with their P091 resolution IDs, the local
