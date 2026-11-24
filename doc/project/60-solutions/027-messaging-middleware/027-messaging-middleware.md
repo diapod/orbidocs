@@ -1417,9 +1417,9 @@ to the owner's verified local archive.
 | Task | Status | Completion gate |
 |---|---|---|
 | S027-010-01 | in-progress | Baseline older-cut diagnostic and restart control. Freeze the inventory of owners and storage sets, fences, and protected effect boundaries with composition drift tests. |
-| S027-010-02 | in-progress | Bounded Lean model and Rust correspondence for effects, consent, history and recovered work, with witnesses, counterexamples and axiom audit. |
+| S027-010-02 | done | The bounded model at Node `1cd5ac636` checks effects, consent, history and recovered work with two positive witnesses, four mutation counterexamples and a 20-theorem axiom audit. The offline Rust comparison covers 1,012 decisions. Exact history and coverage also have separate owner and WSS checks. |
 | S027-010-03 | in-progress | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
-| S027-010-04 | in-progress | Private archive, owner-only export and deletion, explicit consent renewal and exit. Reindex, replay and other projections cannot revive historical payloads. |
+| S027-010-04 | done | The development gate at Node `77fa0cf16` exercised private archive, owner-only export and removal, explicit consent and send-as-new. Native checks covered reindex, Maildir, full-text search, Notmuch, Memarium, Inquirium, Vault, pending notifications and the send queue. The Chromium scenario measured 34 CLI, host API and browser actions. |
 | S027-010-05 | todo | Technical qualification over WSS/INAC on independent profiles. Full delegated pair, targeted sovereign and mixed controls, and separate old-consent and old-pin observations. |
 | S027-010-06 | todo | Two people on separate hosts complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
 
