@@ -1573,8 +1573,11 @@ restore. Unknown, refused and unfinished attempts provide no positive
 result. The offer identity set supports recognizing earlier requests.
 It carries no replayable invitation or active decision. The projection declares no
 deduplication coverage. Ordinary INAC ledger startup refuses the marked
-paths. Enabling a restored profile and serving this history over an
-authenticated network operation remain open.
+paths. The INAC owner can enroll the verified offer set in a fresh ledger
+under the exact consent epoch. The owner refuses historical keys at offer
+and standing contact writes and retains exclusions across a later cut.
+Live coordination, current-epoch consent checks before inbound effects,
+and serving history over an authenticated network operation remain open.
 
 Stopped backup now captures the effective Messaging acquisition and
 recovery capacity policies with their P091 resolution IDs, the local
