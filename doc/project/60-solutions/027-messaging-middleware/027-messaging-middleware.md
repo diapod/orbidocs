@@ -1720,6 +1720,12 @@ for the gap and advertised the new epoch with zero pushes for that
 attempt. A fresh local address-book choice for the same peer led to a
 new message admission after explicit INAC and contact decisions. This
 measured the activated sovereign receiver through the operator API.
+The mixed development diagnostic also restores an ordinary receiver that
+accepted a message on a delegated grant before the cut. The designated
+source retires that grant and registers the new delegate. After activation
+and explicit unlock, the same parties establish a fresh route with two
+separate consent decisions. The old admission remains a tombstone and
+the fresh message reaches the live mailbox under a new delegated consent.
 Independent old-consent and stale-pin refusal controls and the full
 restore role matrix remain part of the technical gate.
 Messaging enforces that isolation at the owner even for an already open
