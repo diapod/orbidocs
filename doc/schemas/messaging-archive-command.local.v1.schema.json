@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-archive-command.local:v1",
+  "title": "Messaging archive command",
+  "description": "Explicit local operation on the archive of the active restore. The host supplies the authenticated participant and archive source.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md#restored-conversation-archive"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "passphrase",
+    "operation"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-archive-command.local.v1"
+    },
+    "passphrase": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "writeOnly": true
+    },
+    "operation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "contact",
+            "before"
+          ],
+          "properties": {
+            "action": {
+              "const": "conversation"
+            },
+            "contact": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "before": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "at",
+                    "envelope_id",
+                    "direction"
+                  ],
+                  "properties": {
+                    "at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "envelope_id": {
+                      "type": "string",
+                      "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+                      "maxLength": 512
+                    },
+                    "direction": {
+                      "enum": [
+                        "received",
+                        "sent"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "direction",
+            "envelope_id"
+          ],
+          "properties": {
+            "action": {
+              "const": "message"
+            },
+            "direction": {
+              "enum": [
+                "received",
+                "sent"
+              ]
+            },
+            "envelope_id": {
+              "type": "string",
+              "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+              "maxLength": 512
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "contact"
+          ],
+          "properties": {
+            "action": {
+              "const": "export"
+            },
+            "contact": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "direction",
+            "envelope_id"
+          ],
+          "properties": {
+            "action": {
+              "const": "remove"
+            },
+            "direction": {
+              "enum": [
+                "received",
+                "sent"
+              ]
+            },
+            "envelope_id": {
+              "type": "string",
+              "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+              "maxLength": 512
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "confirm"
+          ],
+          "properties": {
+            "action": {
+              "const": "remove-all"
+            },
+            "confirm": {
+              "const": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1563,8 +1563,32 @@ exports apply these facts across exact owner replay. The verified cut, raw
 materialization, earlier exports and peer copies retain separate custody.
 The local two-binary diagnostic verified owner isolation, idempotent
 removal, export filtering and an unchanged receipt after exact replay.
-Contact navigation in the UI and physical disposition of the raw profile
-remain open.
+Physical disposition of the raw profile remains open.
+
+### Restored conversation archive
+
+An activated restore links the participant's live contact conversation to
+its separate archive. The operator-only local API exposes availability at
+`GET /v1/messaging/archive` and conversation pages, message reads, export
+and removal at `POST /v1/messaging/archive`. The daemon binds the exact
+activated restore and cut before opening the archive. The current operator
+and the snapshot passphrase establish the historical participant scope.
+The contact contributes its known route keys through the host.
+
+The view states the snapshot boundary. Downloads use the existing owner
+export up to 16 MiB and create a separate plaintext copy. Explicit removal
+uses the existing archive journal. The verified cut, earlier exports and
+other nodes' copies retain their own custody.
+
+The synthetic delegated-pair development run exercised both directions
+before and after the restore. Chromium opened the archive through the
+live contact, refused an incorrect passphrase and matched the earlier
+message body digest in both the view and a native JSON download. Removing
+the item and then the local archive updated the view. The independent
+download remained readable. Projection isolation and the technical and
+operator qualifications remain open.
+
+### Historical transport results
 
 The INAC history owner now checks the cut's exact ledger, WAL and enrolled
 identity anchor. It commits peer-bound positive results for exact Messaging

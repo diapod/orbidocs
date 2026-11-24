@@ -704,6 +704,7 @@ SCHEMA_WHITELIST = (
     "artifact-delivery-result.v1.schema.json",
     "artifact-delivery-status.v1.schema.json",
     "artifact-delivery-reconcile.local.v1.schema.json",
+    "messaging-archive-command.local.v1.schema.json",
     "messaging-retry-command.local.v1.schema.json",
     "messaging-retry-operation.local.v1.schema.json",
     "messaging-push-check.local.v1.schema.json",

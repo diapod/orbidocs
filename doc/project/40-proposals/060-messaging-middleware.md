@@ -745,6 +745,13 @@ tree to populate per-message rows and regenerate the disposable EML sidecar;
 rebuild the FTS5 index; surface a "reindexing" status through
 `/v1/messaging/status` until done.
 
+This reindex procedure applies to the operational index of the active
+profile. A managed restore from an older whole-profile cut follows the
+[S027 archive and readmission contract](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#restored-conversation-archive).
+The participant opens historical content through the isolated archive in
+the local UI or CLI. The active owner builds its delivery and search views
+from the new period's admitted data.
+
 MVP retention default is keep-local / no automatic purge:
 
 - Layer 1 Maildir bodies stay until an explicit user or operator delete /
