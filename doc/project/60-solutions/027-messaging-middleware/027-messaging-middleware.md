@@ -1567,10 +1567,11 @@ Contact navigation in the UI and physical disposition of the raw profile
 remain open.
 
 The INAC history owner now checks the cut's exact ledger, WAL and enrolled
-identity anchor. It commits only peer-bound positive results for exact
-Messaging attempts and a receipt tied to the same restore. Unknown,
-refused and unfinished attempts provide no positive result. The
-projection contains no replayable invitation or offer and declares no
+identity anchor. It commits peer-bound positive results for exact Messaging
+attempts and body-free offer identities with a receipt tied to the same
+restore. Unknown, refused and unfinished attempts provide no positive
+result. The offer identity set supports recognizing earlier requests.
+It carries no replayable invitation or active decision. The projection declares no
 deduplication coverage. Ordinary INAC ledger startup refuses the marked
 paths. Enabling a restored profile and serving this history over an
 authenticated network operation remain open.
