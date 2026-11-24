@@ -1590,7 +1590,11 @@ the authenticated WSS status operation. The result carries no
 deduplication coverage. Gap, foreign and mismatched lookups remain unknown
 in the absence of a matching new outcome. Enrollment commits both
 sets and their binding, and a later cut preserves the verified history.
-Live restore coordination remains open.
+The operator's preparation command binds a new INAC ledger to the committed
+Local Relationship consent epoch of the same restore. The ledger identity
+and history commit together. An interrupted anchor write resumes from
+that committed identity. The prepared pair remains under the recovery
+marker pending coordinated activation.
 
 Stopped backup now captures the effective Messaging acquisition and
 recovery capacity policies with their P091 resolution IDs, the local
