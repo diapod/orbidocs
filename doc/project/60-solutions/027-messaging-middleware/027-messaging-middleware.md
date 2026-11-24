@@ -1693,7 +1693,11 @@ starting the designated issuer ceremony before opening transport effects.
 With the signed replacement and source status, the same private path
 binds the grant through the owner's normal verification rules and preserves
 its revocation floor. Staging checks current usability of this grant again.
-The image remains marked pending protected effect activation.
+The image remains marked pending protected effect activation. Startup preparation can
+place the same owner image in a private directory disjoint from the cut
+and restore trees. Its retained marker binds the exact projection to the
+location and inode before any file is copied. The separate archive stays
+available. A prepared runtime candidate still refuses ordinary startup.
 
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
