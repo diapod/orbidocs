@@ -1602,8 +1602,12 @@ decision for an otherwise eligible local membership or verified receive
 passport. The operator control route records exact admission for a new
 independent `contacts` decision after Vault commits it. The receipt survives
 restart, and a superseding projection retires it. Applicable current sovereign
-authority and local blocks still govern receipt. Live installation, fresh
-portable contact acceptance and INAC consent enforcement remain open.
+authority and local blocks still govern receipt. For portable consent the
+reserved INAC bridge binds an exact new request to the local epoch. The
+notification owner requires that ingress and an explicit operator action.
+It binds one passport and records the exact decision before handoff, including
+repair after interruption. Live installation of the epoch and historical
+request identities and INAC consent enforcement remain open.
 
 The stopped recovery command can record a signed root selected by an
 independently authenticated current P076 digest. It reuses the ordinary
