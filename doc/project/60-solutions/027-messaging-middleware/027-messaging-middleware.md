@@ -1703,6 +1703,11 @@ receipt. Under the restore and candidate leases, the coordinator checks
 the prepared owners and publishes a single durable choice. Replacing the
 choice while closed requires the current selection digest. The selected
 image stays marked until its protected operation classes can be opened.
+Messaging enforces that isolation at the owner even for an already open
+store. Network coverage, new admission, execution and replay require
+an unmarked storage ancestry. The scoped archive retains its own access
+checks. A current restore acknowledgement is still required to open a
+protected operation class.
 
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
