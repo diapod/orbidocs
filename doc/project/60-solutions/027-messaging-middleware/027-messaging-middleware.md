@@ -1737,9 +1737,12 @@ image omitted the recorded mnemonic and refused the pseudonym recovery
 export. With the mnemonic verified and resealed under fresh local
 custody, the restored receiver could export its recovery state and create
 a new pseudonymous route. Both directions delivered on fresh explicit
-consents and the old admission stayed a body-free tombstone. The
-complementary mixed direction and the independent old-consent and
-stale-pin controls remain part of the technical gate.
+consents and the old admission stayed a body-free tombstone. A separate
+read through AD's exact coverage port proved the old pin in the original
+and raw older-copy controls. Managed restore refused that same pin with
+`receiver-coverage-unavailable`, without a new push or a receive-consent
+lookup. The complementary mixed direction and the independent
+old-consent control remain part of the technical gate.
 Messaging enforces that isolation at the owner even for an already open
 store. Network coverage, new admission, execution and replay require
 an ordinary or correctly activated storage ancestry. The scoped archive
