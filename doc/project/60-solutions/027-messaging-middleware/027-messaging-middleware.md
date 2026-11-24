@@ -1744,8 +1744,14 @@ and raw older-copy controls. Managed restore refused that same pin with
 lookup. A separate host check reused one signed envelope and sovereign
 passport. The old receiver authorized it. Restoring just the route through
 an address-book choice left the passport cryptographically valid but
-ineligible without a current consent decision. The complementary mixed
-direction remains part of the technical gate.
+ineligible without a current consent decision.
+In the complementary mixed diagnostic, an ordinary sender delivered to
+a sovereign receiver before and after capturing the cut. The managed
+restore retained only the earlier admission as a tombstone. A new message
+delivered after the restored receiver made fresh INAC and contact decisions.
+The delegated diagnostic also exported both pre-cut message bodies through
+the CLI and matched their original digests in a standalone JSON reader.
+Authenticated local removal survived replay and preserved the separate export.
 Messaging enforces that isolation at the owner even for an already open
 store. Network coverage, new admission, execution and replay require
 an ordinary or correctly activated storage ancestry. The scoped archive
