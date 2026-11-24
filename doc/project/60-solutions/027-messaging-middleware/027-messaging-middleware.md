@@ -1958,6 +1958,10 @@ pairs and recorded 34 actions in each direction. It checked the unknown
 outcome, the exact historical acceptance, the new delivery on explicit
 consent, and archive removal without loss of the independent copies.
 Qualification still requires the two-person exercise.
+Freeze the participant instructions in the language used for the run.
+The exercise pack provides
+[English instructions](node:tools/acceptance/story-010-operator/PROFILE-RECOVERY-EXERCISE.md)
+and a [Polish sidecar](node:tools/acceptance/story-010-operator/PROFILE-RECOVERY-EXERCISE.pl.md).
 
 ## References
 
