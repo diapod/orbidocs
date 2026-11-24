@@ -1650,6 +1650,15 @@ head selects a different pair. The current trust inputs and the remaining
 owner receipts must still be checked when opening effects. Ordinary daemon
 and supervised native startup check recovery markers above the selected
 profile directory before opening mutable owner state.
+The coordinated preparation command verifies or applies Identity, Local
+Relationship, Contact Store, INAC, AD and Messaging under one restore intent
+and continuous stopped-profile leases. It rechecks issuance status freshness
+after the owner work. The individual owner receipts still govern replay.
+Configuration preparation uses the cut's verified middleware settings so
+explicit component disablement survives factory projection. The configured
+local asset root is rebound to the candidate and checked against the
+captured owner inventory.
+Installation and per-effect opening remain pending.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
