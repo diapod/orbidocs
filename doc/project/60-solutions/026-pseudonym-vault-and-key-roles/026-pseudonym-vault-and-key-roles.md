@@ -797,3 +797,11 @@ complete `M_A` inventory to the same signed source, exact openings and original
 horizon. A separate isolated recipient verified the selected audience proof
 after the local WSS/INAC handoff. The grant-only notice path proves no new content
 admission. See `node:docs/evidence/portable-admission/2026-11-22-exact-use-qualified/README.md`. The ADC release tracker governs broader runtime.
+
+### Qualified ADC source consent (2026-11-23)
+
+The source gate exercises exact-use issuance and the complete protected
+S026 consent through ordinary preparation and signing. The withheld and
+held profiles bind the same approved original to the signed audience
+manifests. Independent custody readback after restart verifies exact bytes
+under the admitted profile. See `node:docs/evidence/private-case-continuity/2026-11-23-adc-source-consent/README.md` for ownership and scope.

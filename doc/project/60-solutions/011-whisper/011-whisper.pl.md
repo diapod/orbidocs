@@ -469,6 +469,11 @@ Whisper. [Macierz rodzin](../../40-proposals/013-whisper-social-signal-exchange.
 obejmuje też sygnały, powiadomienia, dowody embarga i kontrolę sprawy, bez dodawania
 podpisów do żądań osłony CIM celowo uwierzytelnianych sesyjnie.
 
+Kampania z 2026-11-23 zakwalifikowała zgodę źródła i dokładny zakres
+wydawania certyfikatu, liczenie i prywatny odczyt autora oraz wykonanie
+ujawnienia na SQLite i jednym niezmodyfikowanym homeserverze Synapse.
+Zakres i dowody opisuje `node:docs/evidence/private-case-continuity/2026-11-23-adc-release-closeout/README.md`.
+
 Status:
 - `future`
 

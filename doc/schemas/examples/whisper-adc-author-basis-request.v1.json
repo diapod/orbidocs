@@ -1,0 +1,12 @@
+{
+  "schema": "whisper-adc-author-basis-request.v1",
+  "case/anchor": "sha256:Zjh2uwYiulwjzQ8IZTfIon8r4ZUuDZOjoP9GtX6InG8",
+  "case/authority": "node:did:key:z6MkvS2fUtMaVsmMNMMgGzvgSCu7j11e1cvvykBcEvyvz3xW",
+  "exchange": "exchange:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "request/id": "1ae47df5-4b25-4561-942f-3dac8eacb594",
+  "issued/at": "2026-11-17T12:00:00.000000000Z",
+  "not-after": "2026-11-17T12:01:00.000000000Z",
+  "response/key-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "proposal/digest": "sha256:XWF5tIltUFNBDcDirfxUjO9SOr4xxYsMwBLX1oIpu_w"
+}

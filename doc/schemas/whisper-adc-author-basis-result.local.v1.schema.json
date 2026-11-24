@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-adc-author-basis-result.local:v1",
+  "title": "whisper-adc-author-basis-result.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-maximum-canonical-bytes": 6144,
+  "description": "Result of a local source-author operation. The signed observation records historical minimums. Current authorization and observed source counts are outside this surface.",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "phase"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-adc-author-basis-result.local.v1"
+        },
+        "operation/id": {
+          "$ref": "#/$defs/operation-id"
+        },
+        "phase": {
+          "enum": [
+            "prepared",
+            "transport-custody"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "operation/id",
+        "observation"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-adc-author-basis-result.local.v1"
+        },
+        "operation/id": {
+          "$ref": "#/$defs/operation-id"
+        },
+        "observation": {
+          "$ref": "whisper-adc-author-basis-reply.v1.schema.json"
+        },
+        "requirements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "proposal/required-sources",
+            "current/required-sources"
+          ],
+          "properties": {
+            "proposal/required-sources": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "current/required-sources": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "state": {
+                "const": "unavailable"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "requirements": false
+        }
+      },
+      "else": {
+        "required": [
+          "requirements"
+        ]
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "reason",
+        "retry"
+      ],
+      "properties": {
+        "schema": {
+          "const": "whisper-adc-author-basis-result.local.v1"
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 80,
+          "pattern": "^[a-z][a-z0-9-]+$"
+        },
+        "retry": {
+          "enum": [
+            "never",
+            "evidence-change",
+            "policy-change",
+            "dependency-recovery",
+            "at-deadline"
+          ]
+        },
+        "retry-at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "if": {
+        "properties": {
+          "retry": {
+            "const": "at-deadline"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "retry-at"
+        ]
+      },
+      "else": {
+        "properties": {
+          "retry-at": false
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "operation-id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "maxLength": 36
+    }
+  }
+}
