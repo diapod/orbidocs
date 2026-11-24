@@ -1629,6 +1629,13 @@ choice makes the old route valid for this second check. Fresh delegated
 exchange, archive exit in Chromium and restart preserve the unresolved
 gap and do not debit another emission.
 
+The same diagnostic registers a grant after the cut and holds a separate
+signed grant from the old epoch. After replacement and source restart,
+the Seed Directory reports the post-cut grant revoked with a higher
+revision. Exact registration replay preserves its revoked status. First
+registration of the held grant fails with an epoch mismatch and leaves
+its status absent. The successor remains active.
+
 The delegated-pair reindex diagnostic verifies both the pre-cut and fresh
 admissions against the live message index, FTS and the EML Maildir
 projection. Native Notmuch 0.40 exercises the same Maildir with a
