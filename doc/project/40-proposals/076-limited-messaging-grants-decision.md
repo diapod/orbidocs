@@ -354,7 +354,10 @@ owner's durable restore binding, and a conflicting source scope requires a
 separate decision. S027 can prepare the standard signed possession request
 from verified custody while the restored profile is stopped. The encrypted
 delegate stays local. A request does not retire any source grant or
-authorize any operation by itself.
+authorize any operation by itself. The stopped profile can also import the registered
+replacement against an explicitly supplied signed status. Its local issuer
+state preserves the original possession binding and monotone observations.
+S027 owns the decision to open restored operations.
 
 ## P076-037: Status acquisition policy and contact renewal
 

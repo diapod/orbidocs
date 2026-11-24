@@ -1690,6 +1690,10 @@ The private restore control can now prepare and replay the signed Messaging
 possession request before the node runs. The resulting image carries only a
 newly prepared, current request and its encrypted delegate. This supports
 starting the designated issuer ceremony before opening transport effects.
+With the signed replacement and source status, the same private path
+binds the grant through the owner's normal verification rules and preserves
+its revocation floor. Staging checks current usability of this grant again.
+The image remains marked pending protected effect activation.
 
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
