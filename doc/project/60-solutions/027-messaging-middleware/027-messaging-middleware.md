@@ -1511,6 +1511,14 @@ old pin and consent, and delivery on fresh consent. The unresolved attempt
 survived restart with zero new emissions. The retained matrix still records
 the revisions named in its row.
 
+The integration check at Node `4d6e97a1a` and Orbidocs `e9795211` repeated the
+profile-cut and delegated receiver-gap diagnostics on native synthetic
+profiles. Both passed. All 59 INAC host tests passed. The restored-consent
+regression observed a local transfer refusal before reservation and
+preserved the earlier exact admission. The v4 retention check passed with
+the original S027-010-05 package bytes. These checks apply to the integrated
+revision. The independent operator exercise remains open.
+
 The operator gate accepts an encrypted mount verified independently and attested
 by its operator when the platform adapter returns `unknown`. Record that evidence
 separately from system volume qualification. Preflight the original mount path
