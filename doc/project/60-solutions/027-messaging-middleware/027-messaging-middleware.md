@@ -1658,7 +1658,11 @@ Configuration preparation uses the cut's verified middleware settings so
 explicit component disablement survives factory projection. The configured
 local asset root is rebound to the candidate and checked against the
 captured owner inventory.
-Installation and per-effect opening remain pending.
+The coordinator installs the selected prepared files in a marked startup
+image at their runtime paths. This uses the configuration for the image's
+own root. The image receipt binds the restore, directory identity and exact
+member set and is published after verification. A committed image missing a
+member refuses replay. Runtime activation and per-effect opening remain pending.
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
 covers 952 effect, consent and work-origin decisions plus eight named
