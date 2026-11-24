@@ -1435,6 +1435,11 @@ and snapshot passphrase. The last prompt covers the raw restored payload as well
 as the cut, export and peer copy. Keep the active runtime's bound restore control
 directory intact throughout the exercise.
 
+In the guided rehearsal, the two hosts exchanged delegated messages and a
+stopped Linux profile produced a byte-verified cut on an operator-attested
+encrypted mount. The original profile and its WSS session reopened. Independent
+operator completion and a remount of that exact cut are still pending.
+
 The issuer and the restored node use the same grant-family classification.
 Readmission applies to Messaging-only grants. A mixed grant found in the
 issuer store blocks readmission pending a separate authority decision. Issuance
