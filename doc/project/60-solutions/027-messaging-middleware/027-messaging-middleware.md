@@ -1698,6 +1698,11 @@ place the same owner image in a private directory disjoint from the cut
 and restore trees. Its retained marker binds the exact projection to the
 location and inode before any file is copied. The separate archive stays
 available. A prepared runtime candidate still refuses ordinary startup.
+The stopped operator now selects a candidate by approving its exact image
+receipt. Under the restore and candidate leases, the coordinator checks
+the prepared owners and publishes a single durable choice. Replacing the
+choice while closed requires the current selection digest. The selected
+image stays marked until its protected operation classes can be opened.
 
 
 The bounded Restore model compiles in Lean 4.19. Its initial Rust comparison
