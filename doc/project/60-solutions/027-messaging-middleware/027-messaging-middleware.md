@@ -1597,8 +1597,20 @@ notifications expose no actionable decision. The diagnostic also leaves
 one pending INAC invitation and one separate pending contact request
 in the cut. Their notification IDs and correlations do not become
 actionable after activation, reindex or restart. New requests take their
-own explicit decision paths. The broader replay and consumer surfaces
-and the technical and operator qualifications remain open.
+own explicit decision paths.
+
+The mixed-role development fixture with the sovereign receiver exercises
+the active Memarium fact query, Messaging reindex and Inquirium Messaging
+context resolution. A pre-cut message copy and read flag are present in
+the source Memarium. The active profile excludes both. The fresh flag
+can be read again after restart and its exact ID crosses remote Memarium
+replay into the live Messaging projection. The old Inquirium grant is
+absent. With a newly issued context grant, the old body resolves to a
+404 from the live mailbox and the new body reaches the local policy
+decision. Both point reads are exercised after activation, reindex and
+restart. Inference is kept outside this diagnostic by requiring a
+fail-closed preview. Vault and Artifact Delivery egress and the technical
+and operator qualifications remain open.
 
 ### Historical transport results
 
