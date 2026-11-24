@@ -1434,6 +1434,15 @@ their own custody requirements.
 | S027-010-05 | done | Six native WSS/INAC cases and strict Story-010 passed at Node `4248f6bb8` and Orbidocs `e9e436fd`. The retained matrix covers four authority pairings, separately observed old consent and old pin, restored sender work and exact archive reconciliation. The loose and extracted outcomes agree. |
 | S027-010-06 | todo | Both delegated role rehearsals passed with WSS and Chromium at Node `42d9c2b63`. The operator gate still requires two people on separate hosts to complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
 
+Development diagnostics at Node `4ae9b42fc` checked the changes made after the
+above technical qualification. For S027-010-03, the cut diagnostic verified
+both profiles, replayed the stopped restore and checked replacement grant
+readmission. For S027-010-05, the delegated receiver-gap diagnostic checked
+source retirement and the late-registration fence, independent refusal of the
+old pin and consent, and delivery on fresh consent. The unresolved attempt
+survived restart with zero new emissions. The retained matrix still records
+the revisions named in its row.
+
 The operator gate accepts an encrypted mount verified independently and attested
 by its operator when the platform adapter returns `unknown`. Record that evidence
 separately from system volume qualification. Preflight the original mount path
