@@ -1896,6 +1896,9 @@ The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
 gate also pins the runbook and records interventions. Neither gate establishes
 release readiness. Historical S027-009 qualifications retain their own scope.
+The [operator exercise protocol](node:tools/acceptance/story-010-operator/README.md#profile-recovery-operator-exercise)
+defines the four checkpoints, first-choice scoring and intervention classes
+for S027-010-06. Qualification still requires the two-person exercise.
 
 ## References
 
