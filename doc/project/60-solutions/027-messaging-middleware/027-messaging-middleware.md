@@ -1952,9 +1952,10 @@ verified the macOS cut on Linux, recovered Identity custody by the existing
 password slot, read the archived body and started the explicitly admitted
 runtime under the original node identity.
 The [operator exercise protocol](node:tools/acceptance/story-010-operator/README.md#profile-recovery-operator-exercise)
-defines the four checkpoints, first-choice scoring and intervention classes
-for S027-010-06. The automated rehearsal exercised two independent synthetic
-pairs and recorded 34 actions in each direction. It checked the unknown
+defines the two-host fixture preflight, the four checkpoints, first-choice
+scoring and intervention classes for S027-010-06. The automated rehearsal
+exercised two independent synthetic pairs and recorded 34 actions in each
+direction. It checked the unknown
 outcome, the exact historical acceptance, the new delivery on explicit
 consent, and archive removal without loss of the independent copies.
 Qualification still requires the two-person exercise.
