@@ -1573,7 +1573,9 @@ its separate archive. The operator-only local API exposes availability at
 history, export and removal at `POST /v1/messaging/archive`. The daemon
 binds the exact activated restore and cut before opening the archive. The current operator
 and the snapshot passphrase establish the historical participant scope.
-The contact contributes its known route keys through the host.
+The contact contributes its known route keys through the host. A separate
+participant-wide outgoing view uses the bounded archived outbox, including
+messages that used route keys absent from the live contact.
 
 An owned outgoing item in `restored-from-snapshot` offers an explicit,
 body-free historical read. The Messaging owner selects its frozen
@@ -1582,6 +1584,14 @@ the archive records a matching positive admission as `delivered`.
 Unavailable and unconfirmed results preserve the archived state. The
 conversation and export reflect the result recorded by the owner while
 preserving the archived message body and time.
+
+After opening an archived outgoing message, the participant can send its
+text as a new message to the selected live contact. The confirmation names
+the recipient and warns that a copy may already exist. The host verifies
+the reviewed text and current recipient, then submits to the ordinary
+Messaging authority and delivery path. It allocates new message and
+delivery identities. The old archive item and historical attempt are
+independent of the new send. The browser submits the action once.
 
 In a separate delegated-pair development run, the recipient committed the
 message while the WSS response was dropped. The restored sender's archive
@@ -1598,9 +1608,15 @@ other nodes' copies retain their own custody.
 The synthetic delegated-pair development run exercised both directions
 before and after the restore. Chromium opened the archive through the
 live contact, refused an incorrect passphrase and matched the earlier
-message body digest in both the view and a native JSON download. Removing
-the item and then the local archive updated the view. The independent
-download remained readable.
+message body digest in both the view and a native JSON download. The
+participant-wide outgoing view found an older message whose route was
+absent from the live contact. The current recipient explicitly published
+the reply route. Missing confirmation and a different reviewed body
+digest left the live outbox unchanged. The confirmed action delivered
+the same text on new message and AD identities, with the historical
+binding and receiver push reservations intact. Removing the item and
+then the local archive updated the view. The independent download
+remained readable.
 
 The delegated-pair reindex diagnostic verifies both the pre-cut and fresh
 admissions against the live message index, FTS and the EML Maildir

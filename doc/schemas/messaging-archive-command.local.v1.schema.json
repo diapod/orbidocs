@@ -84,6 +84,31 @@
           "additionalProperties": false,
           "required": [
             "action",
+            "after"
+          ],
+          "properties": {
+            "action": {
+              "const": "sent-outbox"
+            },
+            "after": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
             "direction",
             "envelope_id"
           ],
@@ -119,6 +144,44 @@
               "type": "string",
               "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
               "maxLength": 512
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "contact",
+            "envelope_id",
+            "body_digest",
+            "recipient_digest",
+            "confirm"
+          ],
+          "properties": {
+            "action": {
+              "const": "send-as-new"
+            },
+            "contact": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "envelope_id": {
+              "type": "string",
+              "pattern": "^message-envelope:[a-z0-9][a-z0-9:-]*$",
+              "maxLength": 512
+            },
+            "body_digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "recipient_digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "confirm": {
+              "const": true
             }
           }
         },
