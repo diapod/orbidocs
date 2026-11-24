@@ -1886,6 +1886,12 @@ checkpoint checks the pure decision inputs. Persistence, owner integration
 and the full specification trace matrix remain open. See the
 [model scope](node:messaging-core/lean/README.md#s027-010-restored-profile-model).
 
+The Contact Store uses the same work-origin predicate for a restored contact
+decision. It compares the durable ingress origin for the exact request ID
+and digest against its current consent epoch. The passport binding repeats
+the check inside its transaction. Archive and transport work still have
+separate owner-local enforcement and correspondence obligations.
+
 The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
 gate also pins the runbook and records interventions. Neither gate establishes
