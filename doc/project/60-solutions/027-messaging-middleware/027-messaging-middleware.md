@@ -1585,7 +1585,14 @@ before and after the restore. Chromium opened the archive through the
 live contact, refused an incorrect passphrase and matched the earlier
 message body digest in both the view and a native JSON download. Removing
 the item and then the local archive updated the view. The independent
-download remained readable. Projection isolation and the technical and
+download remained readable.
+
+The delegated-pair reindex diagnostic verifies both the pre-cut and fresh
+admissions against the live message index, FTS and the EML Maildir
+projection. Restore, reindex and restart keep the fresh admission visible
+and the earlier envelope absent. The exact IDs of previously acted-on
+notifications expose no actionable decision. Pre-cut pending decisions,
+the broader replay and consumer surfaces, and the technical and
 operator qualifications remain open.
 
 ### Historical transport results
