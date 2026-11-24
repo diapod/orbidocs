@@ -1861,10 +1861,14 @@ lookup. A separate host check reused one signed envelope and sovereign
 passport. The old receiver authorized it. Restoring just the route through
 an address-book choice left the passport cryptographically valid but
 ineligible without a current consent decision.
-In the complementary mixed diagnostic, an ordinary sender delivered to
-a sovereign receiver before and after capturing the cut. The managed
-restore retained only the earlier admission as a tombstone. A new message
-delivered after the restored receiver made fresh INAC and contact decisions.
+Both the fully sovereign and complementary mixed diagnostics delivered
+to a sovereign receiver before and after capturing the cut. The original
+receiver authorized separate probes under its passport and independent
+`contacts` bases. The membership basis remained usable after ordinary
+restart. Managed restore refused both unchanged signed probes while the
+recipient remained sovereign and the original route was resolvable. The
+managed restore retained only the earlier admission as a tombstone. A new
+message delivered after fresh INAC and contact decisions.
 The delegated diagnostic also exported both pre-cut message bodies through
 the CLI and matched their original digests in a standalone JSON reader.
 Authenticated local removal survived replay and preserved the separate export.
