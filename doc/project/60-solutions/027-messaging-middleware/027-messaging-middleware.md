@@ -1576,8 +1576,12 @@ deduplication coverage. Ordinary INAC ledger startup refuses the marked
 paths. The INAC owner can enroll the verified offer set in a fresh ledger
 under the exact consent epoch. The owner refuses historical keys at offer
 and standing contact writes and retains exclusions across a later cut.
-Live coordination, current-epoch consent checks before inbound effects,
-and serving history over an authenticated network operation remain open.
+Restored contact requests require an exact approved offer and invitation
+in the current consent epoch. INAC verifies artifact bytes and the ordinary
+passport conditions before consuming an invitation on the authenticated
+peer path. The notification owner and both bridges check the expected
+epoch. Live coordination, Messaging envelope permission at reservation
+and authenticated historical readback remain open.
 
 Stopped backup now captures the effective Messaging acquisition and
 recovery capacity policies with their P091 resolution IDs, the local
