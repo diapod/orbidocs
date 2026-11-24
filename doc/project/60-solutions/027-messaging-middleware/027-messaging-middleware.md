@@ -1707,10 +1707,18 @@ The stopped operator can verify that exact selection by digest. Selection
 and verification keep the image leased through an issuance recheck after
 checking the installed owners. The verification preserves the image and
 selection and returns their closed state.
+Activation rechecks that selection and commits one receipt under both
+leases. The placement marker stays with the selected runtime and binds
+the private restore control directory. The original location can start
+after activation and requires exclusive runtime ownership. A copy or the
+loss of the activation binding keeps protected effects closed.
+The first start still requires a current node/operator binding. The
+development diagnostic reached Messaging after creating a fresh local
+binding and then restarted with the same admission epoch.
 Messaging enforces that isolation at the owner even for an already open
 store. Network coverage, new admission, execution and replay require
-an unmarked storage ancestry. The scoped archive retains its own access
-checks. A current restore acknowledgement is still required to open a
+an ordinary or correctly activated storage ancestry. The scoped archive
+retains its own access checks. A current restore acknowledgement is still required to open a
 protected operation class.
 
 
