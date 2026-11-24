@@ -1606,8 +1606,12 @@ authority and local blocks still govern receipt. For portable consent the
 reserved INAC bridge binds an exact new request to the local epoch. The
 notification owner requires that ingress and an explicit operator action.
 It binds one passport and records the exact decision before handoff, including
-repair after interruption. Live installation of the epoch and historical
-request identities and INAC consent enforcement remain open.
+repair after interruption. The stopped Contact Store apply step derives
+body-free signed request identities from the verified cut database and WAL
+and binds their set to the committed consent epoch. Restored portable ingress
+requires that binding and rejects signatures known from the cut. Pending
+decisions stay in the historical cut. Live installation of the staged epoch
+and Contact Store, and INAC consent enforcement remain open.
 
 The stopped recovery command can record a signed root selected by an
 independently authenticated current P076 digest. It reuses the ordinary
