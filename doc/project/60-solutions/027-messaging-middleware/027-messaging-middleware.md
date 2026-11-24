@@ -1618,6 +1618,17 @@ binding and receiver push reservations intact. Removing the item and
 then the local archive updated the view. The independent download
 remained readable.
 
+A second delegated-pair development scenario takes the receiver's cut
+before a later, committed admission and suppresses its WSS reply. The
+original receiver proves that exact admission and the old pin after
+restart. The managed restore returns historical `unknown` on the
+original sender generation. A separate AD coverage read refuses the
+old pin. A separate receive check refuses the old V2 consent after
+the designated source withdraws its parent. A temporary address-book
+choice makes the old route valid for this second check. Fresh delegated
+exchange, archive exit in Chromium and restart preserve the unresolved
+gap and do not debit another emission.
+
 The delegated-pair reindex diagnostic verifies both the pre-cut and fresh
 admissions against the live message index, FTS and the EML Maildir
 projection. Native Notmuch 0.40 exercises the same Maildir with a
