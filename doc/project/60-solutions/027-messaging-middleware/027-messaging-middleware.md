@@ -1609,8 +1609,15 @@ absent. With a newly issued context grant, the old body resolves to a
 404 from the live mailbox and the new body reaches the local policy
 decision. Both point reads are exercised after activation, reindex and
 restart. Inference is kept outside this diagnostic by requiring a
-fail-closed preview. Vault and Artifact Delivery egress and the technical
-and operator qualifications remain open.
+fail-closed preview.
+
+A recorded-message variant observes the original artifact through the
+public Vault index and authenticated exact read. After activation, the
+Vault and recording worker accept a fresh recorded message. The old
+artifact stays outside the active index and returns 404 to the private
+reader. Reindex, outbox processing and restart do not schedule the old
+recording again. Artifact Delivery egress and the technical and operator
+qualifications remain open.
 
 ### Historical transport results
 
