@@ -1411,19 +1411,20 @@ dependencies, including keys, configured paths and fence placement. A known
 unencrypted target is refused. A target whose encryption cannot be established
 by the system adapter may be used only after explicit operator attestation and
 is ineligible for system volume qualification. The inventory assigns the local
-audit journal, SQLite state and salt together to the Node UI owner. A registered
-model asset root must resolve inside the profile after any owner-controlled
-migration. A verified durable manifest marks the copy as requiring restore. The
+audit journal, SQLite state and salt together to the Node UI owner. The cut
+can include a registered model asset store only when its effective root
+resolves inside the profile. An external root blocks backup with
+`unresolved separate custody`. The store owner can migrate the root before
+backup. A verified durable manifest marks the copy as requiring restore. The
 qualified path restores to an empty destination and keeps historic payloads
 outside active stores, projections and automatic
 consumers. Suspected duplicate live custody or key compromise limits recovery
 to the owner's verified local archive.
 
-Before applying this procedure to a profile with installed model assets,
-the model-storage owner needs a policy for treating content-addressed blobs as
-external dependencies. A dependency needs exact digests, checked availability
-and a recovery procedure. The registry and other mutable owner state retain
-their own custody requirements.
+Treating content-addressed model blobs as external dependencies remains a
+future policy decision for the model-storage owner. Such a policy needs exact
+digests, checked availability and a recovery procedure. The registry and
+other mutable owner state retain their own custody requirements.
 
 | Task | Status | Completion gate |
 |---|---|---|
@@ -1450,10 +1451,19 @@ and snapshot passphrase. The last prompt covers the raw restored payload as well
 as the cut, export and peer copy. Keep the active runtime's bound restore control
 directory intact throughout the exercise.
 
-In the guided rehearsal, the two hosts exchanged delegated messages and a
-stopped Linux profile produced a byte-verified cut on an operator-attested
-encrypted mount. The original profile and its WSS session reopened. Independent
-operator completion and a remount of that exact cut are still pending.
+In the guided rehearsal, a stopped Linux profile produced a byte-verified cut
+on an operator-attested encrypted mount. The cut was remounted and verified
+again before the restored node started. Its manifest and verified bytes
+included four Node UI files, covering the historical listener marker and
+security audit. The pinned technical diagnostics did not exercise standalone
+Node UI shutdown before backup. An independent operator check of that sequence
+remains open.
+
+The historical WSS read returned `unknown` for an admission that occurred
+after the cut and refused the previous deduplication pin. The old attempt had
+zero new emissions. After separate INAC and contact approvals, a fresh
+delegated message reached the restored inbox and was marked read. These
+guided observations do not satisfy the independent two-operator gate.
 
 The issuer and the restored node use the same grant-family classification.
 Readmission applies to Messaging-only grants. A mixed grant found in the
