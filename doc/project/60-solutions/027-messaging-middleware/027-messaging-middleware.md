@@ -1904,6 +1904,12 @@ adapter. Lean proves equivalence to generation matching and refuses a
 protected effect from either noncurrent origin. The extended comparison
 checks 964 decisions, eleven expectations and twenty theorem dependencies.
 
+Messaging's active outbox records its verified restore origin on new
+enqueues. Work from a different origin or without a restored origin remains
+ineligible for preparation, handoff, retry allocation and outbound recording
+publication. The ordinary outbox and private history retain their established
+ownership and lifecycle checks.
+
 The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
 gate also pins the runbook and records interventions. Neither gate establishes
