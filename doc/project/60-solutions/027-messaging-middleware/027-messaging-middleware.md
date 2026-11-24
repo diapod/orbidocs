@@ -1416,7 +1416,7 @@ to the owner's verified local archive.
 
 | Task | Status | Completion gate |
 |---|---|---|
-| S027-010-01 | in-progress | Baseline older-cut diagnostic and restart control. Freeze the inventory of owners and storage sets, fences, and protected effect boundaries with composition drift tests. |
+| S027-010-01 | done | The older-cut reproducer and normal restart control freeze the recovery contract. The owner inventory names storage, fences and effect boundaries. Programmatic checks cover registered storage owners, missing, foreign and duplicate activation bindings, and direct owner refusals. The native backup and activation diagnostic passed again at Node `4c0d1fb90`. |
 | S027-010-02 | done | The bounded model at Node `1cd5ac636` checks effects, consent, history and recovered work with two positive witnesses, four mutation counterexamples and a 20-theorem axiom audit. The offline Rust comparison covers 1,012 decisions. Exact history and coverage also have separate owner and WSS checks. |
 | S027-010-03 | in-progress | Operational backup, verification and restore, owner-local refusal, recovery from interrupted commits and exact readmission under the restored trust and configuration policies. |
 | S027-010-04 | done | The development gate at Node `77fa0cf16` exercised private archive, owner-only export and removal, explicit consent and send-as-new. Native checks covered reindex, Maildir, full-text search, Notmuch, Memarium, Inquirium, Vault, pending notifications and the send queue. The Chromium scenario measured 34 CLI, host API and browser actions. |
@@ -1902,6 +1902,12 @@ The coordinator projects the required acknowledgements from each verified
 owner receipt. A receipt from a different cut cannot satisfy activation,
 and a receipt for a previous restore ID remains stale. The selected image
 still requires the existing root and configuration checks.
+
+Composition also refuses an unregistered or duplicate runtime owner even when
+all other receipts are current. INAC refuses to continue or remove a partial
+stream when its owning profile is armed for recovery. The owner tests and the
+native diagnostic at `4c0d1fb90` check these bounds without changing the pins of
+the earlier technical matrix.
 
 Artifact Delivery determines the work origin from the selected ledger and
 the exact historical marker of the delivery binding. Its execution guard
