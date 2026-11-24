@@ -1931,6 +1931,14 @@ ineligible for preparation, handoff, retry allocation and outbound recording
 publication. The ordinary outbox and private history retain their established
 ownership and lifecycle checks.
 
+On a stopped restore, `profile-recovery status` reads the verified recovery
+checkpoints and exposes the phase, responsible owner, typed reason, time
+and available continuation commands. JSON and static HTML use the same
+view. Commands recheck their own inputs. A matched activation record
+still leaves ordinary runtime readiness to the startup owner. The
+[operator runbook](node:docs/operations/messaging-operator-runbook.md#back-up-verify-and-stage-a-profile-cut)
+describes the local readback and the recovery commands.
+
 The technical and operator gates have independent status. Each uses a fresh
 run at pinned sources after the end-to-end diagnostic succeeds. The operator
 gate also pins the runbook and records interventions. Neither gate establishes
