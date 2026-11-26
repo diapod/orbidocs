@@ -1500,7 +1500,7 @@ other mutable owner state retain their own custody requirements.
 | S027-010-03 | done | Local backup, restore, interruption and readmission checks passed. Node `09410c35d` exercised three publication cuts and all seven owner acknowledgement boundaries on each of two synthetic profiles. A separate native Linux diagnostic verified, restored and activated a macOS cut using the existing password slot without the original keychain entry, and checked the archived message against its signed body. |
 | S027-010-04 | done | The development gate at Node `77fa0cf16` exercised private archive, owner-only export and removal, explicit consent and send-as-new. Native checks covered reindex, Maildir, full-text search, Notmuch, Memarium, Inquirium, Vault, pending notifications and the send queue. The Chromium scenario measured 34 CLI, host API and browser actions. |
 | S027-010-05 | done | Six native WSS/INAC cases and strict Story-010 passed at Node `4248f6bb8` and Orbidocs `e9e436fd`. The retained matrix covers four authority pairings, separately observed old consent and old pin, restored sender work and exact archive reconciliation. The loose and extracted outcomes agree. |
-| S027-010-06 | todo | Both delegated role rehearsals passed with WSS and Chromium at Node `42d9c2b63`. The operator gate still requires two people on separate hosts to complete the frozen runbook without blocking intervention and answer all four pre-registered questions about recovery outcomes and remaining copies. |
+| S027-010-06 | todo | The timed [guided diagnostics](node:docs/development/S027-010-PROFILE-RESTORE.md#guided-operator-diagnostics) passed both role assignments in 14 min 13 s and 9 min 52 s. Formal completion requires a fresh frozen exercise with two human participants or one human and one agent on separate hosts and accounts. Both complete both roles. Each human supplies four correct first choices, the observer verifies the agent's actions if present, and there are zero blocking interventions. |
 
 Development diagnostics at Node `4ae9b42fc` checked the changes made after the
 above technical qualification. For S027-010-03, the cut diagnostic verified
@@ -2082,8 +2082,20 @@ outcome, the exact historical acceptance, the new delivery on explicit
 consent, and archive removal without loss of the independent copies.
 The [two-host runtime preflight](node:docs/development/S027-010-PROFILE-RESTORE.md#two-host-runtime-preflight)
 verified independent first starts and an authenticated WSS session through the
-observer relay on native macOS and Linux.
-Qualification still requires the two-person exercise.
+observer relay on native macOS and Linux. The timed guided reports cover the
+complete flow in both roles on synthetic profiles. They are retained as
+private diagnostic evidence with fresh readback and account independence
+unverified. Qualification requires a fresh exercise with two humans or one
+human and one agent, an observer record, the documented issuer role and
+frozen instructions, prompts, scoring and fixture controls. Both participants
+must take both roles on separately controlled accounts and profiles. The human
+questionnaire measures each human participant's understanding. In the mixed
+variant, the observer verifies the agent's actions and the resulting technical
+facts separately. The agent acts as a participant through the documented
+operator surfaces and keeps the human's decisions, credentials and questionnaire
+under the human's control. A script-assisted qualifying run pins the runner
+and its helper bytes and records the boundary between participant actions and
+scripted execution.
 Freeze the participant instructions in the language used for the run.
 The exercise pack provides
 [English instructions](node:tools/acceptance/story-010-operator/PROFILE-RECOVERY-EXERCISE.md)
