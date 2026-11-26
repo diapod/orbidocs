@@ -238,6 +238,47 @@ by [P013](013-whisper-social-signal-exchange.md), rather than replacing that
 target with the person or resource mentioned in it. `opinion/subject-kind`
 remains an overlay-selection hint, not a substitute for the envelope reference.
 
+#### 1.3. Resource-kind hierarchies {#resource-kind-hierarchies}
+
+Design decision, 2026-11-26, deferred under [P026-013a/b](#resource-hierarchy-tracker).
+An author can review one document, an intermediate collection or a whole host.
+The selected subject always occupies `record/about[0]`. A kind descriptor governs
+how a reader finds broader contexts. The signed record carries neither a
+`resource/nested` flag nor inferred ancestors. An operator can therefore change
+the local profile without changing anyone's statement, signature or exact lookup.
+
+For every kind the node interprets, its descriptor selects a versioned `parser`
+and declares `hierarchy` as `flat` or `hierarchical`. The latter also selects a
+versioned `hierarchy/profile` defining the parent relation and its stopping point.
+Several kinds may register the same parser or profile. Flat kinds can use the
+generic opaque parser. Factory descriptors and operator overrides compose through
+[P091](091-file-backed-configuration-and-explainable-composition.md). An unknown
+kind or unavailable parser/profile leaves ordinary validation, signature
+verification and exact-pair reads available. Only hierarchy interpretation is
+unavailable.
+
+For a selected hierarchical profile, `ancestors(ref)` yields full `ResourceRef`
+pairs, nearest first, excluding the input. At the root it completes with an empty
+sequence. `top(ref)` returns the last ancestor after successful completion, or
+the input if already at the root. A repeated pair (including the input), parse
+failure or exhausted traversal budget yields an explicit incomplete result with
+a reason. A partial prefix cannot establish a root.
+
+The proposed factory HTTP(S) profile yields the following chain.
+
+| Role | Exact pair |
+|---|---|
+| Selected document | `["url", "https://orbiplex.ai/tmp/rootshell.sh"]` |
+| Intermediate path | `["url", "https://orbiplex.ai/tmp/"]` |
+| Root path of this origin | `["url", "https://orbiplex.ai/"]` |
+| Whole host, proposed terminal kind | `["web-host", "orbiplex.ai"]` |
+
+The path ancestors retain the URL scheme and effective port. Only the explicit
+`web-host` level groups HTTP(S) origins by exact hostname across schemes and
+ports. Subdomains remain distinct. These are syntactic navigation steps. A
+directory URL need not serve a page, and a shared host can serve different
+publishers. Someone reviewing the whole host selects that pair explicitly.
+
 ### 2. `resource-opinion.v1` as the MVP Artifact
 
 The MVP artifact for a participant-authored opinion is the content body
@@ -285,10 +326,9 @@ Recommended minimum fields of `resource-opinion.v1`:
 
 Ingest invariants (applied to the content body only):
 
-1. `opinion/text`, when present, MUST be a non-empty string. An
-   opinion MAY be text-less if it carries at least one of
-   `opinion/rating`, `opinion/in-reply-to`, `opinion/related`,
-   `opinion/see-also`, or a kind-specific extension key (see §2.4).
+1. The [v1 content schema](../../schemas/resource-opinion.v1.schema.json)
+   requires `opinion/text` or `opinion/rating`. Text, when present, MUST be
+   non-empty. Relations and kind-specific fields can accompany either form.
 2. `opinion/rating`, when present, MUST be an integer in the range
    `0..5`. Values `1..5` encode a five-point scale where `1` is the
    weakest and `5` the strongest positive assessment. The value `0`
@@ -379,20 +419,60 @@ Concrete overlay defined as part of this proposal family:
     suppression signal for the node's outbound propagation policy
     (proposal 013 §Operator-mediated rumor curation).
 
-Further overlays (e.g. `url-opinion.overlay.v1`,
-`public-person-opinion.overlay.v1`, `gps-location-opinion.overlay.v1`)
-may be added as separate artifacts without touching the core.
+Other candidates include `public-person-opinion.overlay.v1` and
+`gps-location-opinion.overlay.v1`.
+
+#### 2.5. Optional aspects of a URL opinion {#url-opinion-aspects}
+
+The proposed `url-opinion.overlay.v1` lets the author say *which aspect* of
+the exact URL in signed `record/about[0]` they assessed. The primary kind
+must be `url` and the optional `opinion/subject-kind` hint, if supplied, must
+agree. The content discriminator remains `resource-opinion.v1`.
+[P026-016](#url-opinion-aspects-tracker) tracks implementation.
+
+| Optional field | What a high rating expresses in the author's view |
+|---|---|
+| `url/content-credibility` | The claims published at this URL are credible. |
+| `url/vendor-reliability` | The seller fulfilled the commitments described in this offer. |
+| `url/privacy` | The handling of personal data at this URL respects privacy. |
+| `url/technical-safety` | The author considers using this page or file technically safe. |
+| `url/child-suitability` | The content is suitable for children in the context considered by the author. |
+
+Each field independently takes an integer from 1 to 5, with 1 the least
+favourable assessment. Omission means the author gave no assessment on that
+aspect. All five may be omitted. Only the author can supply an overall
+`opinion/rating` under §2.2. Clients must neither prefill aspects nor derive
+an overall score from them. For example, the following content is sufficient
+for an opinion on a particular shop offer.
+
+```json
+{
+  "schema": "resource-opinion.v1",
+  "opinion/text": "The seller delivered on time but shared my address with an advertiser.",
+  "url/vendor-reliability": 5,
+  "url/privacy": 1
+}
+```
+
+Aspects work with [hierarchy traversal](#resource-kind-hierarchies) disabled.
+A file's technical-safety rating stays on the file. A privacy rating on the
+site's root URL requires a separate opinion whose author selected that URL.
+An ancestor hint may link to that opinion after viewer admission and exposure.
+Neither direction of traversal copies or averages scores. The proposed
+`web-host` identifies a distinct subject outside this URL profile.
 
 ### 3. Verbal, Scalar, and Relational Opinion Are All First-Class
 
-An opinion MAY be:
+The author may express any of the following judgments. With a relation or
+an overlay as the only judgment, §2.2 requires the author to supply text or
+explicitly choose “no overall rating” (`opinion/rating: 0`). A client must
+not insert that choice on the author's behalf.
 
 - verbal only (text + language),
 - rating only (no text, just `opinion/rating`),
-- relational only (no text, just `opinion/in-reply-to`,
-  `opinion/related`, or `opinion/see-also`),
-- kind-specific only (no text, just overlay fields such as
-  `rumor/rejection-reason`),
+- relational (through `opinion/in-reply-to`, `opinion/related`, or
+  `opinion/see-also`),
+- kind-specific (through fields such as `rumor/rejection-reason`),
 - or any combination of the above.
 
 This avoids splitting the first schema into separate text-review,
@@ -449,6 +529,15 @@ to current MVP/alpha work. A client may compose accessible accounts, rumors,
 opinions, comments, replies and corrections around a resource: a place, company,
 public person in a particular role, or a specific action. Its purpose is shared
 social orientation and revisable memory, not a universal reputation score.
+
+**Opinions on ancestors.** A client may enable a hint for each intermediate
+resource and the root in the [selected hierarchy](#resource-kind-hierarchies).
+For example, a viewer reading a file can open "Opinions about `/tmp/`" and
+"Opinions about this host". Each link opens opinions directly about that ancestor.
+Ratings apply only to their exact subject. The host emits an
+availability hint only for an opinion this viewer may see after admission and
+exposure for that ancestor. A client may draw a path from the identifier alone.
+Record-dependent badges, links, counts and ordering obey the host's decision.
 
 **One reference, many perspectives.** Reuse envelope `record/about` with
 `ResourceRef`, the subject index, `gossip/see-also`, opinion relations and existing
@@ -1220,6 +1309,37 @@ operations at the lowest existing shared owner. Do not create a new service or
 crate merely for these helpers. Test `decode(encode(pair)) = pair`, including
 ids containing colons, and keep each carrier's validation at its boundary.
 
+### Implementing ancestor traversal and hints {#ancestor-opinion-implementation}
+
+- Resolve one local descriptor revision per traversal. A pure `parent(ref)`
+  plus a bounded iterator suffices. A parser may instead split the input once
+  and yield the same sequence. Derive `top` from that traversal. Bound both
+  depth and work and detect cycles by exact pair. No DNS, HTTP or resource discovery
+  is needed. Reuse P084's `node:bounded-http-fetch-core/src/lib.rs` parser for
+  HTTP(S) components. Its fetch normalization drops fragments. Preserve the
+  signed input and freeze grouping vectors for queries, fragments, escaped
+  separators, trailing slashes and ports before enabling the profile.
+- Reuse Agora's exact subject index and viewer-bound opinion reads for the
+  yielded pairs. Use a read-only probe for hints so that checking an ancestor
+  cannot record an encounter, skip a judgment or unlock exposure. Recheck access on opening the
+  link. Keep any derived cache scoped to the profile revision and the applicable
+  viewer/access/exposure context. Profile or access changes must not leave stale
+  hints visible.
+
+### Implementing URL aspects {#url-opinion-aspects-implementation}
+
+- Reuse the §2.4 overlay pattern and Schema Gate. Register a separate overlay
+  over the open base body. Use one list of aspect keys for authoring controls
+  and display labels, and one integer range for validation. Keep unknown
+  extensions opaque to a generic reader. Signing, relay storage and replay
+  use the ordinary opinion envelope, exact subject index and original content.
+- Extend the rumor overlay preservation test in `node:agora-projections/src/lib.rs`
+  with a URL case. Render peer aspects only from the existing viewer-bound
+  assessment projection after §6 admission and exposure. While peer ratings
+  are withheld, the API and UI must also withhold which aspects peers rated,
+  their values and derived counts or ordering. A low technical-safety rating
+  remains an opinion and cannot enter the urgent protection lane by itself.
+
 ### Projection-Key Compatibility and Recovery
 
 The authoritative lookup is the exact pair, with case-sensitive (`BINARY`)
@@ -1473,6 +1593,15 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-012c | Extend dependent Agent context and recipients | in-progress | 012b; S028; P036; P073; P066 | [Staged accepted design](026-assessment-dependent-context.md): owned streams precede unit retention/dispatch, provenance, continuation and same-viewer operator delivery. Stage 01 is done for the frozen local storage/cutover profile. Stages 02/03 are done for the [qualified local joint profile](026-assessment-dependent-context.md#p026-012c-0203-review-qualification-2026-11-01): whole-owner retention, durable S029, capsules/checkpoints and S020, with six ordinary cases and separate explicit-time component evidence after the R-01–R-17 review. Context provenance and later stages remain open. Memory/forks are separately qualified; implementation evidence is not implied by acceptance of the plan. |
 | P026-013 | Future resource perspectives client | deferred | P026-001–003; viewer admission/exposure for the selected surface; P013-AE-003 for rumor integration | Freeze the [profile](#resource-perspectives-client), including any missing role/action relation contract; reuse subject indexes, resource/opinion/comment relations and viewer-safe APIs. Offline fixtures and scoped browser evidence preserve person/role/action boundaries, competing perspectives, event/publication/revision chronology, role succession, corrections and repair, lineage and explicit incompleteness without a universal verdict or withheld-data leaks. No new MVP/alpha prerequisite. |
 
+### Resource hierarchy tasks under P026-013 {#resource-hierarchy-tracker}
+
+Both tasks are deferred with the perspectives client and add no MVP/alpha dependency.
+
+| ID | Task | Status | Dependencies | Completion gate |
+|---|---|---|---|---|
+| P026-013a | Register kind parsers and implement bounded ancestry | deferred | P026-001/002, P091 configuration | Offline vectors prove the [contract](#resource-kind-hierarchies) for flat and unknown kinds, a missing profile, a root, multiple levels, a cycle and budget exhaustion. Two nodes with different profiles verify the same signed opinion and retrieve it by the same pair. Check HTTP/HTTPS, port and subdomain boundaries. |
+| P026-013b | Show viewer-safe opinions on ancestors | deferred | P026-013a, admitted viewer-bound reads for the selected surface (P026-015 for participant reads) | Exercise the [read path](#ancestor-opinion-implementation) with opinions on a file, its directory and its host. One viewer sees both ancestor hints, another only one. Adding a hidden opinion changes no observable hint, count, link or order. Recheck after access withdrawal. With hints disabled or the profile missing, direct file lookup still works. Verify in the API and browser that each link targets the exact ancestor and no rating is inherited or averaged. |
+
 ### Participant viewer tracker — 2026-11-06
 
 [P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
@@ -1487,6 +1616,12 @@ reverse dependency on P026-007/008 completion or on P098.
 |---|---|---|---|---|---|
 | P026-014 | Freeze the participant viewer and continuation contract | todo | P024-009 | Bind the admitted participant to viewer, audience, owner projection and bounded continuation. Preserve admit/expose separation, own/protective lanes, embargo/private-correlation and absence of peer-derived counts/order/cursors/ETags while withheld. Freeze canonical read/continuation and refusal shapes, exact route/registry mapping and no raw fallback; no new round contract. Viewer binding alone records no encounter or publication; preserve owner-defined encounter transitions. | P026-015; P098-010c |
 | P026-015 | Deliver participant-safe Agora read projections | todo | P026-014; P024-010; P026-006 | Implement bounded participant list/detail/continuation and assessment projections. Prove P/Q viewer isolation, context/policy change between pages, unavailable exposure, hidden-data perturbations across order/count/links and operator-viewer regressions. Retain owner/API evidence independently of P098 rendering. The real Whisper consumer and curation/attention integration are exercised by P013-PA-003 and P098; feed their results into P013-AE-001/P026-008 without making this owner task wait for those consumers. | P013-PA-003; P098-006 |
+
+### URL opinion profile tracker {#url-opinion-aspects-tracker}
+
+| ID | Task | Status | Dependencies | Completion gate |
+|---|---|---|---|---|
+| P026-016 | Register the URL overlay and expose optional aspects | deferred | Existing opinion authoring and exact-subject projection. Participant reads use P026-015. Independent of P026-013a/b and outside the MVP/alpha gate. | Exercise the [profile](#url-opinion-aspects) and [read path](#url-opinion-aspects-implementation) offline. Round-trip a plain opinion and the two-aspect example through signing, relay and projection replay. Check values 1 and 5, omission, refusal of 0, 6, null and strings, and the base rejection of an aspect-only body. A generic reader can still read the base opinion. Check mismatched subject, file and root isolation, and absence of derived overall scores. Changing a withheld peer aspect must leave the viewer's API response and rendered view unchanged. |
 
 ## Open Questions
 

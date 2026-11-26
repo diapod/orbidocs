@@ -239,6 +239,49 @@ z [P013](013-whisper-social-signal-exchange.pl.md), zamiast zastępować ten pr
 osobą lub zasobem w niej wspomnianym. `opinion/subject-kind` pozostaje wskazówką
 wyboru overlayu, nie zamiennikiem referencji w kopercie.
 
+#### 1.3. Hierarchie rodzajów zasobów {#resource-kind-hierarchies}
+
+Decyzja projektowa z 2026-11-26. Realizację odroczono w [P026-013a/b](#resource-hierarchy-tracker).
+Autor może ocenić pojedynczy dokument, zbiór pośredni albo cały host. Wybrany
+przedmiot zawsze zajmuje pozycję `record/about[0]`. Deskryptor rodzaju określa,
+jak czytelnik może odnaleźć szerszy kontekst. Podpisany rekord nie zawiera flagi
+`resource/nested` ani wyprowadzonych przodków. Operator może więc zmienić lokalny
+profil bez zmiany czyjejkolwiek wypowiedzi, podpisu czy odczytu po dokładnej parze.
+
+Dla każdego rodzaju interpretowanego przez węzeł deskryptor wskazuje wersjonowany
+`parser` i deklaruje `hierarchy` jako `flat` albo `hierarchical`. W drugim
+przypadku wskazuje też wersjonowany `hierarchy/profile`, który określa relację
+rodzica i warunek zakończenia przejścia. Wiele rodzajów może zarejestrować ten
+sam parser lub profil. Rodzaje płaskie mogą użyć wspólnego parsera nieprzezroczystych
+identyfikatorów. Deskryptory fabryczne i nadpisania operatora składają się według
+[P091](091-file-backed-configuration-and-explainable-composition.md). Dla nieznanego
+rodzaju lub niedostępnego parsera/profilu nadal działają zwykła walidacja,
+weryfikacja podpisu i odczyt po dokładnej parze. Niedostępna jest jedynie
+interpretacja hierarchii.
+
+Dla wybranego profilu hierarchicznego `ancestors(ref)` zwraca kolejno pełne pary
+`ResourceRef` od najbliższego przodka, pomijając zasób wejściowy. Dla korzenia
+zwraca pustą sekwencję i kończy przejście. Po pomyślnym zakończeniu `top(ref)`
+zwraca ostatniego przodka albo samo wejście, jeśli już jest korzeniem. Powtórzenie
+pary (w tym powrót do wejścia), błąd parsera lub wyczerpanie budżetu przejścia
+daje jawny wynik niepełny wraz z przyczyną. Częściowa ścieżka nie wyznacza korzenia.
+
+Poniższy przykład pokazuje kolejne poziomy proponowanego profilu fabrycznego HTTP(S).
+
+| Rola | Dokładna para |
+|---|---|
+| Wybrany dokument | `["url", "https://orbiplex.ai/tmp/rootshell.sh"]` |
+| Ścieżka pośrednia | `["url", "https://orbiplex.ai/tmp/"]` |
+| Ścieżka główna tego originu | `["url", "https://orbiplex.ai/"]` |
+| Cały host, proponowany rodzaj końcowy | `["web-host", "orbiplex.ai"]` |
+
+Przodkowie wyprowadzeni ze ścieżki zachowują schemat URL-a i efektywny port.
+Dopiero jawny poziom `web-host` grupuje originy HTTP(S) według dokładnej nazwy
+hosta, niezależnie od schematu i portu. Subdomeny zachowują odrębność.
+Są to kroki nawigacji wynikające ze składni. Pod adresem katalogu nie musi
+istnieć strona, a jeden host może obsługiwać różnych wydawców. Autor oceniający
+cały host jawnie wybiera jego parę.
+
 ### 2. `resource-opinion.v1` jako artefakt MVP {#2-resource-opinionv1-as-the-mvp-artifact}
 
 Artefaktem MVP opinii autorstwa uczestnika jest treść koperty `agora-record.v1`:
@@ -283,10 +326,9 @@ Zalecane minimalne pola `resource-opinion.v1`:
 
 Inwarianty przyjęcia (stosowane tylko do treści):
 
-1. `opinion/text`, jeśli występuje, MUSI być niepustym stringiem. Opinia MOŻE
-   nie mieć tekstu, jeśli niesie co najmniej jedno z pól `opinion/rating`,
-   `opinion/in-reply-to`, `opinion/related`, `opinion/see-also` lub klucz
-   rozszerzenia specyficznego dla rodzaju (zob. §2.4).
+1. [Schemat treści v1](../../schemas/resource-opinion.v1.schema.json) wymaga
+   `opinion/text` lub `opinion/rating`. Tekst, jeśli występuje, MUSI być
+   niepusty. Relacje i pola specyficzne dla rodzaju mogą towarzyszyć obu formom.
 2. `opinion/rating`, jeśli występuje, MUSI być liczbą całkowitą w zakresie
    `0..5`. Wartości `1..5` kodują skalę pięciopunktową, w której `1` oznacza
    najsłabszą, a `5` najsilniejszą pozytywną ocenę. Wartość `0` jest jawnym
@@ -369,20 +411,60 @@ Konkretny overlay zdefiniowany w tej rodzinie propozycji:
     polityki propagacji wychodzącej węzła (propozycja 013 §Kuracja pogłosek
     za pośrednictwem operatora).
 
-Dalsze overlaye (np. `url-opinion.overlay.v1`,
-`public-person-opinion.overlay.v1`, `gps-location-opinion.overlay.v1`) można
-dodać jako osobne artefakty bez zmieniania rdzenia.
+Kolejni kandydaci to `public-person-opinion.overlay.v1`
+i `gps-location-opinion.overlay.v1`.
+
+#### 2.5. Opcjonalne aspekty opinii o URL-u {#url-opinion-aspects}
+
+Proponowany profil `url-opinion.overlay.v1` pozwala autorowi wskazać,
+*pod jakim względem* ocenia dokładny URL z podpisanego `record/about[0]`.
+Główny przedmiot musi mieć rodzaj `url`. Opcjonalna wskazówka
+`opinion/subject-kind`, jeśli ją podano, musi być z nim zgodna.
+Wyróżnikiem treści pozostaje `resource-opinion.v1`. Wdrożenie opisuje
+[P026-016](#url-opinion-aspects-tracker).
+
+| Pole opcjonalne | Co w opinii autora oznacza wysoka ocena |
+|---|---|
+| `url/content-credibility` | Twierdzenia opublikowane pod tym URL-em są wiarygodne. |
+| `url/vendor-reliability` | Sprzedawca wywiązał się ze zobowiązań opisanych w tej ofercie. |
+| `url/privacy` | Sposób przetwarzania danych osobowych pod tym URL-em szanuje prywatność. |
+| `url/technical-safety` | Autor uważa korzystanie z tej strony lub pliku za bezpieczne technicznie. |
+| `url/child-suitability` | Treść jest odpowiednia dla dzieci w kontekście rozpatrywanym przez autora. |
+
+Każde pole niezależnie przyjmuje liczbę całkowitą od 1 do 5, gdzie 1 oznacza
+najmniej przychylną ocenę. Pominięcie pola oznacza, że autor nie ocenił tego
+aspektu. Można pominąć wszystkie pięć. Tylko autor może podać ocenę ogólną
+`opinion/rating` zgodnie z §2.2. Klient nie może wstępnie wypełniać ocen
+aspektów ani wyliczać z nich oceny ogólnej. Przykładowa treść opinii
+o konkretnej ofercie sklepu:
+
+```json
+{
+  "schema": "resource-opinion.v1",
+  "opinion/text": "Sprzedawca dostarczył towar na czas, ale udostępnił mój adres reklamodawcy.",
+  "url/vendor-reliability": 5,
+  "url/privacy": 1
+}
+```
+
+Aspekty działają także przy wyłączonym [przechodzeniu po hierarchii](#resource-kind-hierarchies).
+Ocena bezpieczeństwa technicznego pliku dotyczy tego pliku. Ocena prywatności
+głównego URL-a serwisu wymaga osobnej opinii, której autor wybrał ten URL.
+Podpowiedź o przodku może do niej prowadzić po sprawdzeniu admisji i ekspozycji
+dla widza. Przejście w żadnym kierunku nie przenosi ani nie uśrednia ocen.
+Proponowany rodzaj `web-host` wskazuje odrębny przedmiot poza tym profilem URL.
 
 ### 3. Opinie słowne, skalarne i relacyjne są równoprawne {#3-verbal-scalar-and-relational-opinion-are-all-first-class}
 
-Opinia MOŻE być:
+Autor może wyrazić opinię w każdej z poniższych form. Gdy chce wyrazić
+wyłącznie relację lub ocenę specyficzną dla rodzaju, §2.2 wymaga podania tekstu
+albo jawnego wyboru „bez oceny ogólnej” (`opinion/rating: 0`).
+Klient nie może dokonać tego wyboru w imieniu autora.
 
 - wyłącznie słowna (tekst i język),
 - wyłącznie oceną (bez tekstu, tylko `opinion/rating`),
-- wyłącznie relacyjna (bez tekstu, tylko `opinion/in-reply-to`,
-  `opinion/related` lub `opinion/see-also`),
-- wyłącznie specyficzna dla rodzaju (bez tekstu, tylko pola overlayu,
-  np. `rumor/rejection-reason`),
+- relacyjna (przez `opinion/in-reply-to`, `opinion/related` lub `opinion/see-also`),
+- specyficzna dla rodzaju (przez pola takie jak `rumor/rejection-reason`),
 - dowolną kombinacją powyższych.
 
 Pozwala to uniknąć dzielenia pierwszego schematu na osobne artefakty recenzji
@@ -435,6 +517,16 @@ warunku wstępnego do bieżących prac MVP/alfa. Klient może składać dostępn
 pogłoski, opinie, komentarze, odpowiedzi i korekty wokół zasobu: miejsca, firmy,
 osoby publicznej w określonej roli albo konkretnego działania. Jego celem jest
 wspólna orientacja społeczna i korygowalna pamięć, nie uniwersalna ocena reputacji.
+
+**Opinie o przodkach.** Klient może włączyć podpowiedzi dla zasobów pośrednich
+i korzenia [wybranej hierarchii](#resource-kind-hierarchies). Przykładowo osoba
+przeglądająca plik może wybrać "Opinie o `/tmp/`" lub "Opinie o tym hoście".
+Każdy odnośnik prowadzi do opinii bezpośrednio o danym przodku. Ocena dotyczy
+wyłącznie wskazanego przedmiotu. Host zwraca podpowiedź o dostępności
+tylko dla opinii, którą temu widzowi wolno zobaczyć po admisji i sprawdzeniu
+ekspozycji dla danego przodka. Klient może wyświetlić ścieżkę na podstawie samego
+identyfikatora. Odznaki, odnośniki, liczniki i kolejność zależne od obecności
+opinii podlegają decyzji hosta.
 
 **Jedna referencja, wiele perspektyw.** Ponownie użyć `record/about` koperty
 z `ResourceRef`, indeksu przedmiotów, `gossip/see-also`, relacji opinii oraz
@@ -1266,6 +1358,40 @@ tworzyć nowej usługi ani crate’a tylko dla helperów. Testować
 `decode(encode(pair)) = pair`, również dla id zawierających dwukropki,
 i zachować walidację każdego nośnika na jego granicy.
 
+### Implementacja przejścia po przodkach i podpowiedzi {#ancestor-opinion-implementation}
+
+- Na czas przejścia wybrać jedną lokalną rewizję deskryptora. Wystarczą czysta
+  funkcja `parent(ref)` i ograniczony iterator. Parser może też raz rozłożyć
+  wejście na części i zwracać tę samą sekwencję. Wyprowadzać `top` z tego
+  przejścia. Ograniczać zarówno głębokość, jak i pracę, a cykle wykrywać po
+  dokładnych parach. Przejście nie wymaga DNS, HTTP ani wykrywania zasobów.
+  Do odczytu składników HTTP(S) użyć parsera P084 z `node:bounded-http-fetch-core/src/lib.rs`.
+  Jego normalizacja na potrzeby pobierania usuwa fragment URL-a. Zachować podpisane
+  wejście. Przed włączeniem profilu zamrozić wektory grupowania dla zapytań,
+  fragmentów, separatorów zakodowanych procentowo, końcowych ukośników i portów.
+- Dla zwróconych par użyć dokładnego indeksu przedmiotów Agory i odczytów opinii
+  związanych z widzem. Użyć sondy tylko do odczytu, aby sprawdzanie przodka
+  nie rejestrowało zetknięcia, nie pomijało własnej oceny widza ani nie odblokowywało
+  ekspozycji. Przy otwieraniu odnośnika ponownie sprawdzić dostęp. Ewentualny
+  cache pochodny ograniczyć do rewizji profilu i właściwego kontekstu widza,
+  dostępu i ekspozycji. Po zmianie profilu lub uprawnień nieaktualna podpowiedź
+  musi zniknąć.
+
+### Implementacja aspektów opinii o URL-u {#url-opinion-aspects-implementation}
+
+- Wykorzystać wzorzec overlayu z §2.4 i Schema Gate. Zarejestrować osobny
+  overlay nad otwartą treścią bazową. Kontrolki formularza i etykiety widoku
+  powinny korzystać z jednej listy kluczy aspektów, a walidacja ze wspólnego
+  zakresu liczb całkowitych. Czytnik ogólny traktuje nieznane rozszerzenia
+  jako nieprzezroczyste. Do podpisu, składowania w relayu i odtworzenia
+  wykorzystać zwykłą kopertę opinii, indeks dokładnego przedmiotu i oryginalną treść.
+- Rozszerzyć test zachowania pól overlayu pogłoski w `node:agora-projections/src/lib.rs`
+  o przypadek URL-a. Aspekty ocen innych osób wyświetlać wyłącznie z istniejącej
+  projekcji ocen dla widza, po sprawdzeniu admisji i ekspozycji z §6.
+  Gdy oceny innych są ukryte, API i UI muszą też ukrywać informację, które aspekty
+  oceniono, ich wartości oraz wynikające z nich liczniki i kolejność. Niska ocena
+  bezpieczeństwa technicznego pozostaje opinią i sama nie uruchamia ścieżki pilnej ochrony.
+
 ### Zgodność klucza projekcji i odzyskiwanie {#projection-key-compatibility-and-recovery}
 
 Autorytatywne wyszukiwanie używa dokładnej pary, z porównaniem uwzględniającym
@@ -1542,6 +1668,15 @@ otwartych przestrzeni nazw.
 | P026-012c | Rozszerzenie zależnego kontekstu Agenta i odbiorców | in-progress | 012b; S028; P036; P073; P066 | [Przyjęty projekt etapowy](026-assessment-dependent-context.md): strumienie z właścicielem poprzedzają retencję/dispatch jednostki, proweniencję, kontynuację i dostarczenie operatorskie dla tego samego widza. Etap 01 jest done dla zamrożonego lokalnego profilu magazynu/przełączenia. Etapy 02/03 są done dla [zakwalifikowanego wspólnego profilu lokalnego](026-assessment-dependent-context.md#p026-012c-0203-review-qualification-2026-11-01): retencja całego właściciela, trwałe S029, kapsuły/checkpointy i S020, z sześcioma zwykłymi przypadkami i osobnymi dowodami komponentów z jawnym czasem po przeglądzie R-01–R-17. Proweniencja kontekstu i późniejsze etapy pozostają otwarte. Pamięć/forki kwalifikuje się osobno; przyjęcie planu nie implikuje dowodów implementacji. |
 | P026-013 | Przyszły klient perspektyw dotyczących zasobu | deferred | P026-001–003; admisja/ekspozycja widza dla wybranej powierzchni; P013-AE-003 dla integracji pogłosek | Zamrozić [profil](#resource-perspectives-client), w tym brakujący kontrakt relacji rola/działanie; użyć indeksów przedmiotów, relacji zasób/opinia/komentarz i API bezpiecznych dla widza. Fixture’y offline i ograniczone dowody przeglądarkowe zachowują granice osoby/roli/działania, konkurujące perspektywy, chronologię zdarzeń/publikacji/rewizji, sukcesję ról, korekty i naprawę, pochodzenie i jawną niekompletność bez uniwersalnego werdyktu ani wycieków ukrytych danych. Bez nowego warunku wstępnego MVP/alfa. |
 
+### Zadania hierarchii zasobów w P026-013 {#resource-hierarchy-tracker}
+
+Oba zadania są odroczone wraz z klientem perspektyw. MVP i alfa mogą powstać niezależnie od nich.
+
+| ID | Zadanie | Status | Zależności | Bramka ukończenia |
+|---|---|---|---|---|
+| P026-013a | Rejestracja parserów rodzajów i ograniczone przejście po przodkach | deferred | P026-001/002, konfiguracja P091 | Wektory offline potwierdzają [kontrakt](#resource-kind-hierarchies) dla rodzaju płaskiego i nieznanego, braku profilu, korzenia, kilku poziomów, cyklu i wyczerpania budżetu. Dwa węzły z różnymi profilami weryfikują tę samą podpisaną opinię i znajdują ją po tej samej parze. Sprawdzić granice HTTP/HTTPS, portów i subdomen. |
+| P026-013b | Podpowiedzi o opiniach na temat przodków dostępnych widzowi | deferred | P026-013a, odczyty z admisją dla widza wybranej powierzchni (P026-015 dla odczytów uczestnika) | Przejść [ścieżkę odczytu](#ancestor-opinion-implementation) z opiniami o pliku, jego katalogu i hoście. Jeden widz widzi obie podpowiedzi o przodkach, drugi tylko jedną. Dodanie ukrytej opinii nie zmienia widocznych podpowiedzi, liczników, linków ani kolejności. Powtórzyć po cofnięciu dostępu. Po wyłączeniu podpowiedzi lub przy braku profilu bezpośredni odczyt opinii o pliku nadal działa. W API i przeglądarce potwierdzić dokładny cel każdego linku oraz brak dziedziczenia i uśredniania ocen. |
+
 ### Tracker widza będącego uczestnikiem – 2026-11-06 {#participant-viewer-tracker-2026-11-06}
 
 [P098 §8](098-alpha-ui.md#8-participant-access-contract-memarium-and-whisper)
@@ -1556,6 +1691,12 @@ jest odwrotną zależnością od ukończenia P026-007/008 ani P098.
 |---|---|---|---|---|---|
 | P026-014 | Zamrożenie kontraktu widza-uczestnika i kontynuacji | todo | P024-009 | Związać dopuszczonego uczestnika z widzem, audytorium, projekcją właściciela i ograniczoną kontynuacją. Zachować rozdzielenie admit/expose, strumienie własny/ochronny, embargo/private-correlation i brak liczników/porządku/kursorów/ETagów pochodzących od innych przy ukryciu. Zamrozić kanoniczne kształty odczytu/kontynuacji i odmów, dokładne mapowanie tras/rejestru i brak surowego fallbacku; bez nowego kontraktu rundy. Samo powiązanie widza nie zapisuje zetknięcia ani publikacji; zachować przejścia zetknięcia określone przez właściciela. | P026-015; P098-010c |
 | P026-015 | Dostarczenie projekcji odczytu Agory bezpiecznych dla uczestnika | todo | P026-014; P024-010; P026-006 | Wdrożyć ograniczone listy/szczegóły/kontynuację uczestnika i projekcje ocen. Dowieść izolacji widzów P/Q, zmiany kontekstu/polityki między stronami, niedostępnej ekspozycji, perturbacji ukrytych danych w porządku/licznikach/linkach i regresji widza operatorskiego. Zachować dowody właściciela/API niezależnie od renderowania P098. Rzeczywisty konsument Whisper i integracja kuracji/uwagi są ćwiczone przez P013-PA-003 i P098; przekazać wyniki do P013-AE-001/P026-008 bez uzależniania tego zadania właściciela od konsumentów. | P013-PA-003; P098-006 |
+
+### Tracker profilu opinii o URL-u {#url-opinion-aspects-tracker}
+
+| ID | Zadanie | Status | Zależności | Bramka ukończenia |
+|---|---|---|---|---|
+| P026-016 | Rejestracja overlayu URL i udostępnienie opcjonalnych aspektów | deferred | Istniejąca ścieżka tworzenia opinii i projekcja dla dokładnego przedmiotu. Odczyty uczestnika korzystają z P026-015. Zadanie niezależne od P026-013a/b, poza bramką MVP/alfy. | Sprawdzić offline [profil](#url-opinion-aspects) i [ścieżkę odczytu](#url-opinion-aspects-implementation). Przeprowadzić zwykłą opinię i przykład z dwoma aspektami przez podpis, relay i odtworzenie projekcji. Sprawdzić wartości 1 i 5, pominięcie pola, odmowę dla 0, 6, null i ciągów znaków oraz odrzucenie treści z samymi aspektami przez schemat bazowy. Czytnik ogólny nadal odczytuje opinię bazową. Sprawdzić niezgodność przedmiotu, rozdzielenie pliku i głównego URL-a oraz brak wyliczonej oceny ogólnej. Zmiana ukrytej oceny aspektu przez innego autora musi pozostawić odpowiedź API i widok tego widza bez zmian. |
 
 ## Otwarte pytania {#open-questions}
 
