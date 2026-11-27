@@ -423,6 +423,50 @@ submit a contact request, which the owner may accept, reject, or ignore.
 
 This is the safest default for public or semi-public catalogs.
 
+#### Recipient-issued contact invitations {#recipient-issued-contact-invitations}
+
+**Planned, 2026-11-27.** The recipient can share two kinds of invitation for
+first contact. The Catalog still resolves a route. The recipient's host enforces
+the invitation at request admission, including direct or previously cached routes.
+
+| What the recipient shares | What the holder can do | When the recipient decides |
+|---|---|---|
+| Reusable request code | Submit a signed `contact-request.v1` for Messaging. Each sender gets a separate decision. | On each new request, through the existing accept/reject notification. |
+| Single-use invitation with advance consent | Redeem a private, expiring token with one signed request. On successful redemption the host issues the ordinary sender-specific receive passport. | At invitation creation, for exactly one contact. [P076 owns the issuance rule](076-limited-messaging-grants-decision.md#advance-contact-consent). |
+
+**Reusable code.** Match the entire input against `[A-Za-z0-9]{3,32}`
+before folding ASCII letters to lowercase. Reject whitespace, punctuation and
+Unicode lookalikes. Offer a uniformly random 12-character code by default. A
+shorter operator-chosen code trades guessing resistance for ease of sharing.
+Apply bounded attempt limits both per authenticated peer and across peers for
+the recipient. When a code is required, a missing, wrong, expired or withdrawn
+code produces the same external refusal without creating a pending request or
+prompting the recipient.
+
+The receiver chooses an explicit policy for ordinary first-contact requests.
+With no code configured initially, retain the existing transport and block
+policy (including the user and headless defaults). Enabling **code required**
+persists that choice independently of the active code. Revoking, expiring or
+rotating the last code keeps the gate closed to the old code across restart.
+Only the recipient's explicit choice to reopen requests restores ordinary
+admission. Requests already admitted remain available for their own decisions.
+
+**Single-use invitation.** Issue a separate cryptographically random bearer
+token (at least 128 bits of randomness) for private sharing by link or QR.
+Bind its opaque `invite/ref` to the recipient, route, Messaging purpose and
+expiry. Optionally bind it to the intended sender's key. For an unbound token,
+the first eligible presenter can claim the invitation, including someone to
+whom it was forwarded. Show that consequence before issue. A valid redemption
+satisfies the invitation requirement for its own request. Both modes still
+require the applicable INAC/AD policy, block checks and signed-request validation.
+
+Keep three references distinct: the invitation's `invite/ref`, the signed
+`request/id`, and the issued passport ID. Retiring the invitation stops new
+admissions through it. Withdrawing a sender's consent targets that sender's
+passport as specified in [P060](060-messaging-middleware.md#contact-invitations-and-receive-consent).
+It leaves a reusable code available to other senders. A later request from the
+withdrawn sender through that code requires a fresh explicit decision.
+
 ### 9. Admission Policy
 
 A Contact Catalog should admit claims only after checking:
@@ -872,3 +916,5 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-019 | `selector/kind = "contact-lookup"` as a host-composed *recipient selector kind* in Artifact Delivery, normalising lookup-safe contact references into `routing-subject` / `node` targets via a configured Contact Catalog provider. | done | AD core defines `RecipientSelector::ContactLookup`, selector shape validation, `SelectorClass::ContactLookup`, `ContactLookupNodeLookup`, and selector-purpose-aware outbound allow. Daemon wires the trait to local supervised HTTP `contact-catalog-service`, consumes `contact-lookup-result.v1` route sets, rejects raw handles, supports `invitation-only`, `blinded-digest`, and `psi` lookup modes for `contact-request/messaging` with `max/nodes = 1`, uses only remote providers whose Contact Catalog passport advertises the requested lookup mode, and fails closed for `no-match`, `ambiguous`, `policy-denied`, `rate-limited`, unavailable provider, and `contact-nym/id` without a routable target. Explicitly distinguished from an `artifact/ref` resolver scheme. |
 | P058-020 | Provider-to-provider Contact Catalog sync contract without Agora: no anonymous public dumps, host-authorized direct fetch, cursor/high-water replay, tombstone/revocation handling, and loop prevention over generic catalog mechanics. | done | Decision captured in MVP decisions, §11, §12.4, and the Agora non-goal. Node exposes authenticated `GET /v1/contact-catalog/sync/claims` as a trusted-provider snapshot fetch contract, extends `RemoteContactClaimFilter` with an opaque cursor, runs trusted-provider refresh through generic `node/catalog::sync_catalog_provider(...)`, derives high-water from accepted provider records/tombstones, rejects self-originated records when the daemon injects the local node id, stores provider sync last-run counts, cumulative total counts, high-water/cursor/error/failure-class state in the service sidecar, keeps durable provider-policy audit for trust changes, requires trusted/fresh providers before remote cache participates in lookup, exports local tombstone/revocation facts, and maintains durable remote tombstone cache that hides tombstoned provider claims after restart/replay. Broader production federation matrices remain post-MVP hardening, not a hard-MVP blocker. |
 | P058-021 | Adapt trusted-provider sync to the P081 bounded replication contracts | done | Contact Catalog claim and tombstone refresh now constructs schema-gated `replication-delta-batch.v1` values, recomputes canonical artifact and sequence digests, enforces the direct provider source/origin binding, and passes every item through shared bounded apply before the existing SQLite merge. Provider authentication, private lookup policy, cursor/high-water state, tombstone dominance, redacted diagnostics, and the no-public-dump invariant remain domain-owned and unchanged. |
+| P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Exercise the [code policy](#recipient-issued-contact-invitations) with fresh and cached routes. Accept both ASCII length boundaries and mixed case. Refuse lengths 2 and 33, non-ASCII, missing, invalid and retired codes before a prompt. Rotate across restart, exercise both attempt budgets and verify redacted records. Integration gate: S027-017. |
+| P058-023 | Issue, withdraw and claim a single-use advance invitation | todo | Through the same S025 acceptor, bind a private token to its recipient, route, purpose, expiry and optional sender key. Refuse wrong sender for a bound token, wrong route, wrong purpose, expiry and withdrawal without spending a valid invitation on an invalid request. Pair with P076-039 for issuance and S027-018 for the participant journey. |

@@ -618,6 +618,27 @@ historical S027-001–008 qualifications.
 | S027-014 | Export and restore the whole node profile in the operator UI | todo | After authenticating and unlocking the required keys, the operator can select **Export profile** and receive a portable encrypted backup. **Import and restore profile** guides verification, review and activation in the UI, including when the original runtime is unavailable. Reuse the [S027-010 recovery checks](#whole-node-recovery), including the explicit original-node disposition, current trust and required owner acknowledgements. Close when an independent operator can export and restore to an empty destination without manual terminal steps, resume an interrupted restore from its recorded checkpoint, and see why an invalid backup or unsafe activation is refused. |
 | S027-015 | Archive and reopen individual messages from the conversation UI | todo | A participant can archive a single sent or received message from its conversation and reopen it from that conversation's archive. Define the boundary between this action and the [restored conversation archive](#restored-conversation-archive), including local custody and permanent removal. Close on a browser round trip in both directions of the conversation. The same message ID, original content, timestamp, read state and delivery history survive archive, restart and reopening. The action is scoped to the owning participant under current access rules and causes no resend, notification or change on the peer's node. |
 | S027-016 | Allow and add a contact from the first INAC notification | todo | For an exact `contact-request.v1` offer, retain **Allow request only** and add **Allow and add contact**. The latter records a single-use decision for the recipient, bound to the exact INAC offer and decision generation, authenticated peer and digest of the signed request. It expires at most one hour after the click, subject to shorter applicable validity limits. Add the verified sender only after the matching request arrives and passes current INAC, signature, block and receive-authority checks. Close on a browser case where one click leads to one contact and no second prompt, the request-only action still asks separately, and mismatched, expired or replayed requests cannot use the advance approval. |
+| S027-017 | Reusable request code and independent withdrawal in the participant UI | todo | P058-022. Close on the [reusable-code browser scenario](#contact-invitation-acceptance) with two senders, cached-route refusal, code rotation and individual consent withdrawal. |
+| S027-018 | Single-use invitation issued before first contact | todo | P058-023 and P076-039. Close on the [advance-consent browser and restart scenario](#contact-invitation-acceptance) with competing senders, one scoped passport and separate withdrawal. |
+
+### Contact invitation acceptance (planned) {#contact-invitation-acceptance}
+
+Extend the strict Story-010 path using the normal participant UI, signed
+request, AD/INAC admission, passport handoff and actual inbox readback. Use
+one receiver and two distinct authenticated senders. Keep these outcomes
+separate from S027-016, where the receiver already sees a concrete INAC offer
+before choosing **Allow and add contact**.
+
+| Gate | Participant action | Required observations |
+|---|---|---|
+| S027-017 · request | In a fresh user profile first exercise ordinary requests. Enable **Require code** and share one code with Alice and Bob. Both submit valid signed requests. Accept only Alice. | Without the code, even a sender who cached the route triggers no prompt. With the code each sender gets a separate pending decision. Alice's message reaches the inbox. Bob's message cannot arrive while his request is pending. |
+| S027-017 · independent withdrawal | Retire the code, restart, and use the saved route and old code again. Issue a replacement, then withdraw only Alice's receive passport. | Retirement leaves Bob's admitted request pending and Alice can still send until her consent is withdrawn. With no active code the route stays closed to new requests. The replacement still admits requests after Alice's withdrawal. Alice cannot resume delivery by presenting it. Returning to ordinary requests takes an explicit action. |
+| S027-018 · advance consent | Before either sender contacts the receiver, issue one expiring bearer invitation by link or QR. Race two distinct valid signed requests. Drop the winner's response after commit, restart and replay the same request. | Exactly one contact and one scoped child result from the invitation. The winner recovers the same outcome and can send two distinct messages without a second approval prompt. The other sender gains no consent. Check the actual receiver mailbox and child ID. |
+| S027-018 · withdrawal | Withdraw an unused invitation before redemption. In a separate case redeem first, then withdraw the resulting sender consent and repeat the redemption and send. | The first invitation yields no contact or passport. In the second case the spent token cannot restore consent. Previously accepted history, an independently authorized reverse direction and unrelated children remain available. |
+
+Use existing contact and child-withdrawal controls. Label the two actions
+**Stop using this invitation** and **Withdraw this sender's Messaging consent**
+with their distinct effects. Keep raw codes and tokens out of captured evidence.
 
 ### Bounded Memarium Recovery (S027-008)
 

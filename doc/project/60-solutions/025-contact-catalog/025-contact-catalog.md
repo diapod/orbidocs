@@ -193,6 +193,32 @@ Status:
   smoke exercises the operator notification accept path end-to-end; broader
   failure-matrix AD accept/reject tests remain post-MVP hardening.
 
+#### Admission with recipient-issued invitations (planned)
+
+Implement [P058-022/023](../../40-proposals/058-contact-catalog.md#recipient-issued-contact-invitations)
+at the existing daemon-owned `contact.request` acceptor. Keep the supervised
+Contact Catalog responsible for route discovery. Use the same validator,
+logical-request deduplication, local decision store and notification path for
+both a newly resolved and a cached route.
+
+- Bind the private presentation to the receiver, purpose and exact signed
+  request. Version and validate its carrier at Schema Gate before enabling
+  this mode. Keep secrets out of public lookup, greeting, stored request JSON,
+  notifications, URL query logs and traces. Keep a receiver-keyed verifier
+  for the short code. A public digest of a three-character code permits
+  offline guessing. A reference alone cannot redeem either kind.
+- Apply the invitation check before any user-visible first-contact prompt,
+  including an INAC approval prompt for this request. If the peer or transport
+  cannot present the required proof privately at that boundary, refuse the
+  attempt. A legacy path cannot downgrade the recipient's policy.
+- For a reusable code, persist the admitted request and offer the existing
+  accept/reject decision. For a single-use token, coordinate the local
+  invitation record with [P076-039](../../40-proposals/076-limited-messaging-grants-decision.md#advance-contact-consent)
+  using the durable decision and its exact request binding. Resume an
+  interrupted redemption from that record. After successful issuance, update
+  the private contact projection and hand off the committed passport through
+  the existing owners.
+
 ### Local Contact Store
 
 > **Ownership note (cross-reference to Solution 032):** With the

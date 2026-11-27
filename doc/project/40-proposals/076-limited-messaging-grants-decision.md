@@ -171,6 +171,37 @@ P076's historical evidence is unchanged.
 | Legacy signing proof lacks signed issuance constraints | Do not infer constrained issuance authority. |
 | Harness requests delegated path before implementation | Return `unsupported-issuer-path`; never fall back to sovereign. |
 
+### Single-use advance consent for first contact {#advance-contact-consent}
+
+**Planned (P076-039).** A [P058 reusable code](058-contact-catalog.md#recipient-issued-contact-invitations)
+still requires an explicit decision on each new sender's request. For the
+single-use mode, the authenticated recipient may instead record the explicit
+decision **when creating the invitation**, before a sender presents a request.
+The recipient authorizes one future `ReceiveConsent` issuance on an owned
+route for Messaging, within a finite redemption window and, if selected,
+for a particular sender key. For delegated issuance, record which current
+parent grant authorizes this decision. A replacement grant requires a new
+decision. No child exists at creation. Existing single-use `inac.invitation` passports
+continue to authorize a specific peer and artifact at the transport boundary.
+
+At redemption verify the exact signed request, presenting sender, token,
+current route ownership, block policy and the issuer's current authority.
+Bind the decision to the authenticated sender and wire `request/id`. For a
+delegate, use the existing constrained child issuer with the ordinary parent,
+status, unlock, freshness and child TTL checks. Issue exactly one ordinary
+`messaging-receive@v1` child. The same consent/relationship projection can
+then run without another approval click. A locked delegate requires explicit
+unlock and a fresh check before commit. Startup cannot approve a pending request.
+
+Serialize withdrawal, expiry checks and competing claims at the receiving
+owner. Use the existing durable decision/issuance key to recover across stores.
+If withdrawal wins before commit, no child may become usable. If issuance
+wins, the token is spent and the issued child has its own withdrawal action.
+After a lost response, only the same sender replaying the same signed request
+can recover the committed outcome. Recheck authority before handing off any
+usable proof. Restart, changed request bytes and replay after child withdrawal
+must never issue another child or reactivate the first one.
+
 ## Open Questions
 
 Multi-user Nodes, deeper delegation and longer offline revocation leases require
@@ -595,6 +626,7 @@ or unit test alone never closes a runtime gate.
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
 | P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Corrected local WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry and paused-scheduler diagnostics pass on clean commits; the same corrected binary passed the named second-host probe. No lease extension, cross-machine or offline delivery, full candidate or release claim |
 | P076-038 | Physical qualification | Two-host V2 renewal, bounded time skew and independent query witnesses | done | Clean, identical revisions on two physical hosts; direct WSS, recipient receipt, mode matrix, restarts/revocation, two counter witnesses and retained P074 claim. No offline delivery or release claim |
+| P076-039 | Contact invitations | [Single-use advance receive consent](#advance-contact-consent) at redemption | todo | With P058-023, race two signed requests and both withdrawal/commit orders. Interrupt before and after child persistence. Exact retry recovers at most the same child. Locked delegate, unavailable current proof, expired or revoked parent and subsequent child withdrawal cannot yield usable consent. Reuse S027-018 for the cross-node gate. |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 

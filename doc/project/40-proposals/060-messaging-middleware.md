@@ -961,6 +961,25 @@ local public-identity mappings used by inbound mailbox resolution. That
 projection is local authority state, not a network lookup performed by
 the messaging service.
 
+#### Contact invitations and receive consent {#contact-invitations-and-receive-consent}
+
+**Planned.** Both [P058 invitation modes](058-contact-catalog.md#recipient-issued-contact-invitations)
+enter through the existing signed contact request. A reusable code admits a
+request for the recipient to decide. A single-use invitation records the
+recipient's decision in advance and binds it to one verified request at
+[redemption](076-limited-messaging-grants-decision.md#advance-contact-consent).
+In both cases the outbox waits for a usable `messaging-receive@v1` passport
+before sending a message. It uses the ordinary handoff and per-message checks.
+The single use is for establishing one contact. The issued passport controls
+subsequent messages in the sender-to-recipient direction until expiry or withdrawal.
+
+Revoking an invitation closes that entry point. Revoking the specific contact
+request or its receive passport ends the derived consent. The resulting
+`contacts` projection retains its passport basis and cannot restore permission.
+An independently authorized reverse direction and previously accepted history
+keep their own semantics. [S027-017/018](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#contact-invitation-acceptance)
+own the end-to-end evidence for these distinctions.
+
 ### User and Operator Notifications (P057)
 
 The messaging service uses `notification.create` for:
@@ -1223,6 +1242,11 @@ required before implementation can proceed), `deferred` (explicitly post-MVP
 for this proposal). Status values are kept consistent with other tracker
 tables in this project (see Proposal 057 §Tracking and Proposal 058
 §Tracking for precedent).
+
+The [contact invitation continuation](#contact-invitations-and-receive-consent)
+is tracked at P058-022/023 for admission, P076-039 for advance issuance and
+S027-017/018 for the Messaging journeys. Earlier completed rows describe the
+original explicit-acceptance path.
 
 | ID | Feature | Status | Evidence |
 |---|---|---|---|
