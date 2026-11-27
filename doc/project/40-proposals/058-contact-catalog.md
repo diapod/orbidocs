@@ -364,6 +364,39 @@ Pairwise nyms improve decorrelation, but they are not a reputation reset
 mechanism. Abuse, sanctions, and recovery procedures must be able to reason
 through the private mapping under explicit policy thresholds.
 
+#### Federation-scoped contact alias {#federation-contact-alias}
+
+**Planned, 2026-11-27 (P058-024).** A participant may choose a searchable
+name such as `random:seed` without publishing or proving an email address or
+phone number. Treat `alias` as a first-class `contact/kind` alongside `email`
+and `phone`: use the same opt-in claim, exact lookup, purpose filter and
+route-set result. For an alias, proof of control comes from the current
+federation reservation. The search key includes the trusted federation ID,
+the handle kind and the canonical name. A name may belong to different
+people in different federations. Search in the selected federation only.
+
+One public name can lead to a pseudonymous invitation route. After acceptance
+each relationship can use its own `contact-nym`. Looking up the public name
+reveals neither the participant's root identity nor a list of their pairwise
+nyms. Finding a route leaves the recipient's request policy, block decisions
+and Messaging consent in force.
+
+| Operation | Rule at the federation's designated Contact Catalog allocation authority |
+|---|---|
+| Reserve | Authenticate the participant and verify their signed intent and control of the proposed route. Atomically claim the free canonical name. An exact retry returns the same allocation. A competing claimant receives an unavailable result without owner details. Two providers receiving simultaneous requests must obtain the same authoritative outcome. A disconnected replica cannot allocate. |
+| Compare and update | Use one versioned normalization profile at registration and lookup: NFC, Unicode default case folding, then NFC, with the Unicode version pinned. Preserve literal colons. Publish bounded length and allowed characters before enabling the profile. Verify changes of route or release against the active owner and allocation generation. Reserve a new name before explicitly releasing an old name on rename. |
+| Release | On authenticated owner release, stop resolving the old binding and record a durable tombstone. Freeze `reusable/at` from the authority's commit time plus the federation's configured hold (default **30 days**, each 24 hours). No participant, including the previous owner, can reserve that name before this instant. Later policy changes and replay cannot shorten a recorded hold. |
+| Reallocate | At or after `reusable/at`, the next successful reservation starts a new generation. Retain a per-name generation high-water mark after tombstone compaction. A delayed release or cached route for an older generation cannot operate on the successor. Neither contacts, codes, invitations nor consents transfer to the new owner. |
+
+Lookup stops on release at the authority. Readers must verify the current
+binding before forwarding a request or disclosing an invitation credential.
+Bind the request presentation to that recipient, federation and generation
+so a delayed request cannot be admitted by a later holder.
+If freshness cannot be established, leave the action pending or refuse.
+Use exact, rate-limited lookup without enumeration or prefix suggestions.
+Releasing an alias retires that discovery path. Existing pairwise relationships
+and independently issued receive consents keep their own lifecycle.
+
 ### 7. Local Contact Store vs Federated Contact Catalog
 
 The node should distinguish:
@@ -918,3 +951,4 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-021 | Adapt trusted-provider sync to the P081 bounded replication contracts | done | Contact Catalog claim and tombstone refresh now constructs schema-gated `replication-delta-batch.v1` values, recomputes canonical artifact and sequence digests, enforces the direct provider source/origin binding, and passes every item through shared bounded apply before the existing SQLite merge. Provider authentication, private lookup policy, cursor/high-water state, tombstone dominance, redacted diagnostics, and the no-public-dump invariant remain domain-owned and unchanged. |
 | P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Exercise the [code policy](#recipient-issued-contact-invitations) with fresh and cached routes. Accept both ASCII length boundaries and mixed case. Refuse lengths 2 and 33, non-ASCII, missing, invalid and retired codes before a prompt. Rotate across restart, exercise both attempt budgets and verify redacted records. Integration gate: S027-017. |
 | P058-023 | Issue, withdraw and claim a single-use advance invitation | todo | Through the same S025 acceptor, bind a private token to its recipient, route, purpose, expiry and optional sender key. Refuse wrong sender for a bound token, wrong route, wrong purpose, expiry and withdrawal without spending a valid invitation on an invalid request. Pair with P076-039 for issuance and S027-018 for the participant journey. |
+| P058-024 | Optional federation alias as a Contact Catalog handle | todo | Gate the [reservation lifecycle](#federation-contact-alias) through two providers: race equivalent spellings for one name, retry the winner, and reserve the same name independently in another federation. Reject a foreign release. Release at a controlled time, restart and replay stale updates. Prove refusal just before and eligibility exactly at the 30-day default and a configured alternative, including for the previous holder. A successor has a new generation and receives no prior authority. |

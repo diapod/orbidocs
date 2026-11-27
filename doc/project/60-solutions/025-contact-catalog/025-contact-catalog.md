@@ -143,6 +143,34 @@ Status:
   `/v1/contact-catalog/status` proxy; a process smoke starts the real service
   binary and verifies readiness plus projection status through that proxy.
 
+### Federation alias registration and lookup (planned) {#federation-alias-registration}
+
+[P058-024](../../40-proposals/058-contact-catalog.md#federation-contact-alias)
+extends Contact Claim Admission with an `alias` handle kind. The current
+admission path accepts email and phone control proofs and rejects `other`.
+Add the typed alias to the claim schema, admission verifier, normalized-index
+helper and lookup client together. Use domain separation for alias indexes
+over the federation ID and normalized alias. Keep the email and phone index
+domains and their existing attestation profiles intact.
+
+The federation designates a single logical writer for name allocations. Bind
+its authority to the active federation configuration. Accept an owner-signed
+reservation only once for the canonical key. Its signed allocation evidence
+binds federation, alias key, owner and generation. The owner can attach or
+rotate an eligible route through the existing signed contact claim. Verify
+that its signer controls the allocation before projecting that route. A public
+lookup returns the usual purpose-limited candidate or invitation route.
+Owner/control evidence remains on the admission side.
+
+Reuse the catalog's sequence, tombstone, replication and stale-result handling
+for read replicas. For allocation, serialize competing writes at the owner.
+Persist release time, captured policy deadline and generation together. A
+restart, delayed claim, stale writer or restored replica cannot revive a
+released name or advance the deadline. Updating the route does not release
+the name. Expiry of a route claim stops discovery until refreshed and does
+not establish that the name is free. Freeze wire shapes and positive/negative
+Schema Gate examples before enabling registration.
+
 ### Contact Request Admission
 
 Based on:
