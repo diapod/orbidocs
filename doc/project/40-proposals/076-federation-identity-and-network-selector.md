@@ -666,6 +666,13 @@ Verifier acceptance:
 3. `capability_id`/`node_id` match the service being consumed, `expires_at` is
    in the future, and `endorsement_id` is not revoked.
 
+The [planned P058 alias writer](058-contact-catalog.md#federation-contact-alias)
+uses this exact-capability check. Federation custody governs who may endorse
+the service. A separately authenticated allocation policy selected by the
+active federation configuration governs which writer and receipt proof the
+client accepts. The endorsement signers' threshold does not set a threshold
+for individual alias reservations.
+
 #### Endorsement acquisition is source-agnostic
 
 The endorsement is a self-verifying artifact, so **where a consumer got it

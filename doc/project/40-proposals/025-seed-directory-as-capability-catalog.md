@@ -125,6 +125,12 @@ independence allows:
 - independent revocation per capability,
 - partial updates without re-registering all capabilities.
 
+A planned consumer is the [P058 alias allocation role](058-contact-catalog.md#federation-contact-alias).
+The designated Contact Catalog registers a second capability (proposed ID
+`contact-alias-allocation`) alongside `contact-catalog`. This lets the
+federation endorse or revoke allocation separately, even on the same node.
+The ordinary lookup registration remains usable when only allocation is revoked.
+
 ### 2. Registration Requires a Valid Passport
 
 The `PUT /cap/{node-id}/{capability-id}` request body MUST carry:

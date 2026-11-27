@@ -193,6 +193,12 @@ Status:
   daemon API, and Artifact Delivery can admit mixed proof refresh batches via
   `capability-proof-presentation-batch.v1`.
 
+**Planned consumer, P058-024.** The [Contact Catalog writer](../025-contact-catalog/025-contact-catalog.md#alias-allocation-authority)
+uses this registration and endorsement path to publish its endpoint and service
+evidence. Seed Directory carries no alias, owner mapping or reservation
+request on this path. Agreement among queried directories concerns discovery
+only. The Contact Catalog client checks the allocation receipt.
+
 ### Revocation Feed
 
 Based on:

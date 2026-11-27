@@ -112,6 +112,14 @@ Official service status is carried by `federation-service-endorsement.v1`, not
 by capability passports alone. Consumers must verify endorsements against the
 active federation root before treating a service as official.
 
+**Planned consumer, P058-024.** For [alias allocation](../025-contact-catalog/025-contact-catalog.md#alias-allocation-authority),
+the active federation configuration must authenticate the selected allocation
+policy and its revision. The initial policy designates one writer by stable
+node identity. Its current endpoint is discovered through Seed Directory.
+The existing bootstrap entries suffice for locating that directory. P058-024
+still has to specify and test the binding between the configuration and the
+policy before clients can rely on it.
+
 Root activation is restart-only. Runtime reload may validate candidate config,
 but changing the active root fingerprint requires daemon restart so a federation
 identity switch cannot happen as an incidental hot reload.

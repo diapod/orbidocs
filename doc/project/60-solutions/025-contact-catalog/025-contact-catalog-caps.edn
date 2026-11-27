@@ -88,7 +88,20 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :federated-contact-catalog-peer-fetch
+ [{:cap/id :contact-alias-allocation
+   :title "Federation Alias Allocation"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/058-contact-catalog.md"
+              "doc/project/40-proposals/025-seed-directory-as-capability-catalog.md"]
+   :schemas ["capability-passport.v1"
+             "federation-service-endorsement.v1"]
+   :responsibilities
+   ["Allocate aliases at the single Contact Catalog designated by federation policy"
+    "Advertise the allocation role separately from contact lookup through Seed Directory"
+    "Verify the exact role endorsement and the receipt under the active allocation policy"]
+   :status :planned}
+
+  {:cap/id :federated-contact-catalog-peer-fetch
    :title "Federated Contact Catalog Peer Fetch"
    :kind :optional
    :based-on ["doc/project/40-proposals/058-contact-catalog.md"]

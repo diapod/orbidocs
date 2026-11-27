@@ -153,10 +153,10 @@ helper and lookup client together. Use domain separation for alias indexes
 over the federation ID and normalized alias. Keep the email and phone index
 domains and their existing attestation profiles intact.
 
-The federation designates a single logical writer for name allocations. Bind
-its authority to the active federation configuration. Accept an owner-signed
-reservation only once for the canonical key. Its signed allocation evidence
-binds federation, alias key, owner and generation. The owner can attach or
+The first deployment gives one Contact Catalog the writer role for alias
+allocations. Any Contact Catalog may forward an owner-signed reservation to
+that writer. An exact retry returns the same allocation. Its signed allocation
+evidence binds federation, alias key, owner and generation. The owner can attach or
 rotate an eligible route through the existing signed contact claim. Verify
 that its signer controls the allocation before projecting that route. A public
 lookup returns the usual purpose-limited candidate or invitation route.
@@ -174,6 +174,52 @@ Schema Gate examples before enabling registration.
 Consumers of [P058-025](../../40-proposals/058-contact-catalog.md#shareable-contact-text)
 pass a typed lookup. The visibility of that identifier determines whether they
 receive a current binding. Admission of the signed request remains with the receiver.
+
+#### Discovering the writer and verifying a receipt (planned) {#alias-allocation-authority}
+
+1. **Discover the endpoint through Seed Directory.** Reuse [P025 capability
+   registration](../../40-proposals/025-seed-directory-as-capability-catalog.md)
+   for a dedicated federated capability (proposed ID
+   `contact-alias-allocation`) on the existing Contact Catalog service. The
+   writer advertises this role using the existing signed advertisement and
+   `capability-passport.v1`. Seed Directory joins the registration to the
+   node's current endpoints. Ordinary `contact-catalog` registrations continue
+   to serve lookup. The federation root retains its existing Seed Directory
+   bootstrap entries. Moving the writer's endpoint requires no root edit.
+   Register the formal ID and its discovery wire name in the Node capability
+   registry before enabling public advertisement.
+2. **Verify the mandate for this role.** Reuse the [S041 official-service
+   endorsement](../041-federation-root/041-federation-root.md). The client
+   verifies a current `federation-service-endorsement.v1` for the exact
+   federation, node and allocation capability, including expiry and revocation.
+   The endorsement signs `capability_id`. An endorsement for
+   `contact-catalog` cannot promote an ordinary directory to writer, even if
+   its advertisement says `authoritative: true`. A UI may display that flag
+   as a derived result once the mandate and the policy below both verify.
+3. **Verify the allocation under the active federation policy.** The active
+   federation configuration must select an authenticated, versioned allocation
+   policy. The initial policy identifies one designated writer by stable
+   identity and defines the proof it accepts from that writer. Bind the
+   receipt to the policy revision and verify the allocation fields above.
+   Clients apply the selected proof rule without hard-coding a signature
+   count or a server key. One observed provider, agreement among discovery
+   responses, or an informational `policy_ref` on an endorsement cannot
+   select the writer. Freeze the policy binding and receipt vectors under
+   P058-024 before enabling writes. Quorum and unanimous approval are later
+   policy choices. [P058 owns the allocation decision and tracker](../../40-proposals/058-contact-catalog.md#federation-contact-alias).
+
+**Acceptance for P058-024.** Discover the writer via one Seed Directory and
+submit a signed reservation to the Contact Catalog. After an endpoint change,
+rediscover it via another Seed Directory and repeat the same request. The
+client obtains the same verifiable allocation.
+An ordinary official Contact Catalog with a self-declared writer flag cannot
+allocate. Withhold confirmation if policy is unavailable, contradictory or
+stale, or the required endorsement is expired, revoked or for another
+federation. Revoking only the allocation endorsement leaves a separately
+endorsed, current lookup registration usable. On writer replacement, fence the
+former writer and carry forward allocations, generations and release holds
+before accepting new writes.
+Replaying the old writer's receipt cannot establish a new or current binding.
 
 #### Catalog verification of a lookup ask (planned) {#catalog-ask-verifier}
 

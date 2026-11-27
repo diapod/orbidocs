@@ -381,6 +381,23 @@ reveals neither the participant's root identity nor a list of their pairwise
 nyms. Finding a route leaves the recipient's request policy, block decisions
 and Messaging consent in force.
 
+**Allocation authority (decision, 2026-11-27, implementation planned).** A
+federation may endorse several Contact Catalogs for lookup. For the first
+deployment it designates one of them to allocate aliases. That catalog
+advertises a separate capability (proposed ID `contact-alias-allocation`)
+through Seed Directory. The federation can withdraw this role independently
+of ordinary lookup. The service endpoint belongs in discovery and can move
+without updating the federation root.
+
+The client verifies the federation's endorsement for that exact node and
+capability, then checks the allocation receipt under the versioned policy
+selected by its active federation configuration. For example, if A and B
+both offer official lookup but only B has the allocation mandate, A may
+forward a reservation to B. An `authoritative` flag set by A cannot turn A's
+receipt into proof. The initial policy selects one writer by stable identity.
+Receipt verification follows the policy, so quorum or unanimous approval
+can be considered later. [S025 specifies discovery, verification and writer handover](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority).
+
 | Operation | Rule at the federation's designated Contact Catalog allocation authority |
 |---|---|
 | Reserve | Authenticate the participant and verify their signed intent and control of the proposed route. Atomically claim the free canonical name. An exact retry returns the same allocation. A competing claimant receives an unavailable result without owner details. Two providers receiving simultaneous requests must obtain the same authoritative outcome. A disconnected replica cannot allocate. |
@@ -1030,6 +1047,6 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-021 | Adapt trusted-provider sync to the P081 bounded replication contracts | done | Contact Catalog claim and tombstone refresh now constructs schema-gated `replication-delta-batch.v1` values, recomputes canonical artifact and sequence digests, enforces the direct provider source/origin binding, and passes every item through shared bounded apply before the existing SQLite merge. Provider authentication, private lookup policy, cursor/high-water state, tombstone dominance, redacted diagnostics, and the no-public-dump invariant remain domain-owned and unchanged. |
 | P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Exercise the [code policy](#recipient-issued-contact-invitations) with fresh and cached routes. Accept both ASCII length boundaries and mixed case. Refuse lengths 2 and 33, non-ASCII, missing, invalid and retired codes before a prompt. Rotate across restart, exercise both attempt budgets and verify redacted records. Integration gate: S027-017. |
 | P058-023 | Issue, withdraw and claim a single-use advance invitation | todo | Through the same S025 acceptor, bind a private token to its recipient, route, purpose, expiry and optional sender key. Refuse wrong sender for a bound token, wrong route, wrong purpose, expiry and withdrawal without spending a valid invitation on an invalid request. Pair with P076-039 for issuance and S027-018 for the participant journey. |
-| P058-024 | Optional federation alias as a Contact Catalog handle | todo | Gate the [reservation lifecycle](#federation-contact-alias) through two providers: race equivalent spellings for one name, retry the winner, and reserve the same name independently in another federation. Reject a foreign release. Release at a controlled time, restart and replay stale updates. Prove refusal just before and eligibility exactly at the 30-day default and a configured alternative, including for the previous holder. A successor has a new generation and receives no prior authority. |
+| P058-024 | Optional federation alias as a Contact Catalog handle | todo | Gate the [reservation lifecycle](#federation-contact-alias) through two providers: race equivalent spellings for one name, retry the winner, and reserve the same name independently in another federation. Reject a foreign release. Release at a controlled time, restart and replay stale updates. Prove refusal just before and eligibility exactly at the 30-day default and a configured alternative, including for the previous holder. A successor has a new generation and receives no prior authority. Also pass the [S025 writer discovery, policy-bound receipt and handover cases](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority). |
 | P058-025 | Text presentation for alias and nym contact invitations | todo | Share [codec vectors](#shareable-contact-text) for both locator kinds and both invitation modes. Round-trip leading, trailing, repeated and embedded colons. Reject lone unescaped colons, empty fields, unknown tags, malformed generations and invalid codes before lookup. Verify parsed fields, preserved token case and rejection of a superseded allocation before any credential disclosure. S027-019 owns the participant journey. |
 | P058-026 | Discovery policy and salted lookup verifier per identifier | todo | Exercise [all three visibility modes](#per-identifier-discovery) on two identifiers of the same kind and on an alias. Cover independent rotation, stale replicas and restart. For the same code on two entries, require distinct lookup hashes and stored verifiers. Refuse cross-entry proofs, replay of a stored verifier and superseded revisions. Verify equivalent negative responses across supported lookup paths and inspect requests, storage and redacted outputs for credential exposure. S027-020 owns the participant journey. |
