@@ -19,6 +19,8 @@ Draft, MVP contract seeded
 
 MVP contract update: 2026-05-16
 
+Alias and invitation design revision: 2026-11-27 (planned, P058-022–028).
+
 ## Executive Summary
 
 Contact discovery is the problem of answering:
@@ -367,8 +369,11 @@ through the private mapping under explicit policy thresholds.
 #### Federation-scoped contact alias {#federation-contact-alias}
 
 **Planned, 2026-11-27 (P058-024).** A participant may choose a searchable
-name such as `random:seed` without publishing or proving an email address or
-phone number. Treat `alias` as a first-class `contact/kind` alongside `email`
+name such as `random:seed` without publishing an email or phone claim. Reservation
+requires current federation membership and fresh federation-recognized assurance
+at least equivalent to verified email. An accepted phone or stronger attestation
+may satisfy it. Verify this privately at admission using [P061](061-contact-attestation-service.md)
+and the federation's membership policy. It proves eligibility for a name. Treat `alias` as a first-class `contact/kind` alongside `email`
 and `phone`: use the same opt-in claim, exact lookup, purpose filter and
 route-set result. For an alias, proof of control comes from the current
 federation reservation. The search key includes the trusted federation ID,
@@ -393,20 +398,80 @@ The client verifies the federation's endorsement for that exact node and
 capability, then checks the allocation receipt under the versioned policy
 selected by its active federation configuration. For example, if A and B
 both offer official lookup but only B has the allocation mandate, A may
-forward a reservation to B. An `authoritative` flag set by A cannot turn A's
+forward a reservation sealed to B after the claimant verifies its mandate.
+An `authoritative` flag set by A cannot turn A's
 receipt into proof. The initial policy selects one writer by stable identity.
 Receipt verification follows the policy, so quorum or unanimous approval
 can be considered later. [S025 specifies discovery, verification and writer handover](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority).
 
 | Operation | Rule at the federation's designated Contact Catalog allocation authority |
 |---|---|
-| Reserve | Authenticate the participant and verify their signed intent and control of the proposed route. Atomically claim the free canonical name. An exact retry returns the same allocation. A competing claimant receives an unavailable result without owner details. Two providers receiving simultaneous requests must obtain the same authoritative outcome. A disconnected replica cannot allocate. |
-| Compare and update | Use one versioned normalization profile at registration and lookup: NFC, Unicode default case folding, then NFC, with the Unicode version pinned. Preserve literal colons. Publish bounded length and allowed characters before enabling the profile. Verify changes of route or release against the active owner and allocation generation. Reserve a new name before explicitly releasing an old name on rename. |
-| Release | On authenticated owner release, stop resolving the old binding and record a durable tombstone. Freeze `reusable/at` from the authority's commit time plus the federation's configured hold (default **30 days**, each 24 hours). No participant, including the previous owner, can reserve that name before this instant. Later policy changes and replay cannot shorten a recorded hold. |
-| Reallocate | At or after `reusable/at`, the next successful reservation starts a new generation. Retain a per-name generation high-water mark after tombstone compaction. A delayed release or cached route for an older generation cannot operate on the successor. Neither contacts, codes, invitations nor consents transfer to the new owner. |
+| Reserve | Verify membership, assurance, signed intent, route control and quota at the writer. Atomically reserve both the match key and confusable skeleton. Return the original result on exact retry. Other claimants see only “unavailable”. The default quota is one live alias per member. |
+| Update or renew | Authenticate the holder of the active allocation and generation. Route rotation retains the name. Renewal extends the allocation lease. A rename needs an atomic exchange within quota or a separate free slot. |
+| Release | Commit a tombstone on authenticated release or lease expiration after the notice/grace procedure below. Freeze `reusable/at` at commit time plus the federation hold (default **30 days** of 24 hours). The hold covers both keys and applies to the former holder too. |
+| Reallocate | At or after the deadline the next allocation increments the per-name generation. Preserve its high-water mark across compaction. Earlier contact relationships, invitations and consents stay with their original peers. |
+
+The federation publishes quota, lease, notice and grace intervals. The proposed
+default lease is 12 months from allocation or the last explicit renewal. Notify the holder
+privately 30 and 7 days before expiry and allow renewal throughout this grace
+window. A route claim expiring, a node going offline, or a failed notification
+does not itself release an alias. Record the expiry transition at the writer.
+A disputed or quarantined name remains reserved pending a reasoned decision
+with notice and appeal under the federation’s [P051 procedure](051-swarm-membership-and-reputation-bootstrap.md).
+The UI explains that hidden names may still be recognized as unavailable at
+reservation. Open lookup of generation 2 or later says “This name was allocated
+again”, without identifying any earlier holder.
+
+**Alias profile v1.** Freeze the following three representations as versioned
+data before Schema Gate. Use the same profile for reservation and lookup.
+
+| Representation | Derivation and use |
+|---|---|
+| Display | NFC, locale-independent Unicode lowercase, NFC. Admit the pinned Latin allowlist (ASCII letters and an explicit selection from Latin-1 Supplement and Latin Extended-A including Polish letters), ASCII digits, and the separators `.-_:`. Pin allowed input spellings and their case/canonical equivalents. Reject fullwidth forms, other scripts, IPA lookalikes, format/bidi controls, joiners, and colons other than ASCII before any lossy mapping. Reject a remaining combining mark, including the lowercase expansion of U+0130. |
+| Match key | From the validated display spelling, case-fold, decompose accents, strip combining marks, apply the complete pinned variant table (including ł→l, ß→ss, æ→ae, ø→o, đ→d) and remove separators. Require a nonempty ASCII `[a-z0-9]+` result for every allowed spelling. Use this key for equality, indexing and the slip checksum. |
+| Confusable skeleton | Compute the pinned UTS #39 skeleton of the match key. Its collision blocks registration, including through a release hold. A skeleton never resolves a lookup. |
+
+Initial lowercase display repertoire (literal Unicode characters, spaces
+between groups for readability):
+
+```text
+abcdefghijklmnopqrstuvwxyz
+àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿß
+āăąćĉċčďđēĕėęěĝğġģĥħĩīĭįĵķĺļľłńņňōŏőœŕŗřśŝşšţťũūŭůűųŵŷźżž
+```
+
+Accept ASCII digits and the four separators separately. After NFC admit only
+these lowercase letters and their single-code-point uppercase counterparts
+(including ẞ for ß). Reject U+0130, long s and compatibility lookalikes even
+if a later fold would map them to allowed letters. For the match key, strip
+canonical accents as above and map the remaining exceptions exactly:
+æ→ae, ð→d, ø→o, þ→th, đ→d, ħ→h, ł→l, œ→oe (case folding already maps ß→ss).
+Qualify the entire repertoire and freeze its Unicode data version with vectors
+for each nontrivial mapping; unassigned characters remain invalid.
+
+Require 3–32 display code points (a federation may raise the minimum) and at
+most 128 UTF-8 bytes. Both ends must be alphanumeric, separators must occur
+singly, and at most one ASCII colon is allowed. Before stripping separators
+from the full name, compare the first colon-delimited segment under the same
+match rules against reserved locator kinds (`contact-nym`, `email`, `phone`)
+and tag families (`ask`, `once`, including decimal suffixes). Reserve official
+service names, `admin`, `support` and their confusing equivalents. Apply the
+reservation to bare reserved names too.
+
+The federation pins the exact code-point and variant tables, Unicode/confusables
+versions, limits and reserved names. Claims and receipts bind the profile revision.
+Preflight a revision against live names and holds. If old keys would merge,
+preserve both existing allocations under the old revision and block conflicting
+new allocations until an explicit resolution permits cutover. Never select a
+winner by lookup order. Include registration vectors for equivalent separators,
+a reserved service name, `pawe1` versus `pawel`, a Latin/Cyrillic mix, a fullwidth colon,
+a bidi override and an invisible joiner. Re-run those vectors on restore and
+profile migration. Adding scripts requires new script-mixing, digit and
+bidi rules with cross-script collision vectors. This restricted Latin profile
+has its own wire semantics.
 
 Lookup stops on release at the authority. Readers must verify the current
-binding before forwarding a request or disclosing an invitation credential.
+binding before forwarding a request or presenting a credential to the receiver.
 Bind the request presentation to that recipient, federation and generation
 so a delayed request cannot be admitted by a later holder.
 If freshness cannot be established, leave the action pending or refuse.
@@ -475,16 +540,34 @@ This is the safest default for public or semi-public catalogs.
 
 #### Discovery policy per contact identifier {#per-identifier-discovery}
 
-**Planned (P058-026).** The owner selects `lookup/visibility` for each
-individual email, phone or federation alias claim. It controls release of the
-purpose-limited lookup result across every supported lookup mode. It does not
-change proof of handle control, alias allocation or first-contact admission.
+**Planned (P058-026).** A *lookup code* permits a Catalog to return a route.
+A *request code* permits the receiver to consider a signed request. The slip
+tag `ask` represents a request for a decision, while `once` represents
+one advance consent redeemed privately at the receiver. Their proofs have
+different audiences. Each email, phone or alias claim has its own policy:
 
-| Visibility | What an exact lookup can return |
+| Visibility | Result for this identifier |
 |---|---|
-| `hidden` | No match, including when a previously valid `ask` is supplied. Keep the alias reservation or handle claim under its existing lifecycle. |
-| `open` | The ordinary invitation route for a live, opted-in claim, subject to existing purpose and rate limits. |
-| `ask` | The same result after the Catalog verifies a salted lookup hash of the reusable code for this identifier. A missing, wrong, expired or withdrawn credential yields the ordinary no-match result. |
+| `hidden` | No match even with an earlier valid code. The reservation or claim remains active. |
+| `open` | A current, purpose-limited route under the ordinary lookup policy. |
+| `ask` | The route only after confidential verification of the identifier-specific lookup proof. Missing, wrong, expired and withdrawn credentials yield the ordinary negative response. |
+
+**Discovery privacy contract** (what the Catalog can learn). The authenticated
+or network context can expose the caller on any path. None of these modes
+promises transport anonymity.
+
+| Query mode | Miss, including wrong code | Hit |
+|---|---|---|
+| Exact / invitation-only | The target, or a normalized index often dictionary-recoverable. The Node invitation-only profile rejects raw handles. | The matching entry. |
+| Blinded digest | A digest. For phone numbers and common emails it may identify the target if the key or a guessing oracle is available. | The matching entry. |
+| PSI, open entries only | Blinded input and protocol metadata. The queried non-member identifier stays private. | The Catalog can learn the selected entry when the client presents its match token. |
+| Code-protected lookup | The target identifier or its lookup-equivalent index, even on failure. This is an explicit exact-mode request. | The matching entry. |
+
+The sensitive observation is *who sought which entry*. Keep that association
+only for the configured rate-limit window. Entry counters aggregate across
+callers. Durable audit, status and exports must not reconstruct the pair.
+A PSI miss must never silently trigger an exact lookup. A partial PSI evaluation
+has an explicit incomplete outcome. [S025 owns both independent follow-ups](../60-solutions/025-contact-catalog/025-contact-catalog.md#lookup-privacy-follow-ups).
 
 For example, set one email to `open` and the alias to `ask`, or set both
 to `ask` with separately rotatable codes. A result for one identifier must
@@ -496,16 +579,30 @@ revision cannot authorize an open lookup.
 The Catalog can answer from a current claim, policy and verifier while the
 recipient node is offline. The caller learns a route, and can later submit
 a signed contact request. The receiving host independently enforces its own
-request policy, even on a cached route. The owner may choose the same `ask`
-value for both checks, with separate verifiers and withdrawal controls.
+request policy, even on a cached route. To issue one shareable ask slip for
+both gates, provision two purpose-separated credentials from one freshly
+generated secret. Keep the Catalog proof unusable for request admission.
+If the gates have independent secrets, ask explicitly for the second input
+at the corresponding step. A separate recipient-only code can still be short.
 Switching to hidden or rotating a lookup code affects future lookups. It
 cannot erase a route already learned or revoke an existing sender's passport.
-An unavailable alias reservation may still reveal that a name cannot be claimed.
+Offer a local emergency action to require a receiver code and hide the
+identifier. Close the receiver gate first, show which changes committed and
+allow retry if the Catalog is offline. Offer verified route rotation where
+supported and show existing consents separately. A no-match client may say
+“If you supplied a code, check it. The same result is shown for an absent
+entry and an incorrect code.”
 
 Only `ask` has a Catalog verifier. Keep `once` and all derivatives of that
 token exclusive to the recipient-side redemption flow. If a `once` invite
 names an `ask`-protected alias, obtain its route with a separate lookup
-`ask` or use an independently verified private route. A `once` token
+`ask` or use an independently verified private route to the intended recipient.
+For a hidden alias only the private path works. Before issuing paper, warn
+if the recipient could not be reached from the supplied information. A future
+self-contained hidden-alias card requires a separate Schema Gate profile with
+a fresh invitation-specific, authenticated locator resolvable by its addressee
+without prior contact or public lookup. Keep its
+routing reference separate from the redemption secret. A `once` token
 cannot unlock discovery. [S025 defines the salted verifier and its limits](../60-solutions/025-contact-catalog/025-contact-catalog.md#catalog-ask-verifier).
 
 #### Recipient-issued contact invitations {#recipient-issued-contact-invitations}
@@ -519,14 +616,20 @@ the invitation at request admission, including direct or previously cached route
 | Reusable request code | Submit a signed `contact-request.v1` for Messaging. Each sender gets a separate decision. | On each new request, through the existing accept/reject notification. |
 | Single-use invitation with advance consent | Redeem a private, expiring token with one signed request. On successful redemption the host issues the ordinary sender-specific receive passport. | At invitation creation, for exactly one contact. [P076 owns the issuance rule](076-limited-messaging-grants-decision.md#advance-contact-consent). |
 
-**Reusable code.** Match the entire input against `[A-Za-z0-9]{3,32}`
-before folding ASCII letters to lowercase. Reject whitespace, punctuation and
-Unicode lookalikes. Offer a uniformly random 12-character code by default. A
-shorter operator-chosen code trades guessing resistance for ease of sharing.
-Apply bounded attempt limits both per authenticated peer and across peers for
-the recipient. When a code is required, a missing, wrong, expired or withdrawn
-code produces the same external refusal without creating a pending request or
-prompting the recipient.
+**Reusable request code.** The recipient-only manual input accepts
+`[A-Za-z0-9]{3,32}` with ASCII lowercase comparison. Short human-chosen
+codes are confined to this private, online, rate-limited gate. Generated
+shareable codes use the [slip alphabet and limits](#shareable-contact-text).
+Never request an account password. A receiver checks the proof before any
+prompt and records only its private opaque `code/ref` and optional local
+label with an admitted request. This identifies the admission channel.
+
+Separate failed-proof work from accepted-request/prompt budgets. Bound both
+per peer and across peers, and cap admissions per code. Apply bounded delay
+and fair scheduling under pressure, with a fixed work ceiling and uniform
+responses. Invalid guesses cannot indefinitely lock an entire name. Allow
+the recipient to pause one code and coalesce private flood alerts offering
+rotation. The UI shows “New requests closed (no active code)” when applicable.
 
 The receiver chooses an explicit policy for ordinary first-contact requests.
 With no code configured initially, retain the existing transport and block
@@ -536,8 +639,9 @@ rotating the last code keeps the gate closed to the old code across restart.
 Only the recipient's explicit choice to reopen requests restores ordinary
 admission. Requests already admitted remain available for their own decisions.
 
-**Single-use invitation.** Issue a separate cryptographically random bearer
-token (at least 128 bits of randomness) for private sharing by link or QR.
+**Single-use invitation.** Issue a separate bearer token sampled uniformly
+from the [27-symbol token format](#shareable-contact-text) for private
+sharing. Apply the [P076 redemption window and renewal rules](076-limited-messaging-grants-decision.md#advance-contact-consent).
 Bind its opaque `invite/ref` to the recipient, route, Messaging purpose and
 expiry. Optionally bind it to the intended sender's key. For an unbound token,
 the first eligible presenter can claim the invitation, including someone to
@@ -554,47 +658,76 @@ withdrawn sender through that code requires a fresh explicit decision.
 
 #### Shareable contact text {#shareable-contact-text}
 
-**Planned (P058-025).** For paper, copy/paste and a future QR, render three
-fields as `locator:code-type:code`. Within a known federation the text supplies
-the inputs to propose a contact or redeem advance consent. Outside that
-context the UI asks for the intended federation before lookup or disclosure.
-An alias by itself is also a valid **search input**. Its
-[discovery policy](#per-identifier-discovery) determines whether a route is visible.
+**Planned (P058-025).** The v1 paper/copy/QR line is
+`tag:locator:credential:check`. Read the tag up to the first ASCII colon and
+split off two fields from the right. The intervening alias is literal, including
+its optional colon. This replaces the earlier escaped, locator-first draft.
+Wire and stored records carry separate typed fields. A pairwise `contact-nym`
+belongs to one existing relationship. Refuse both exporting and importing it
+on a first-contact slip and explain that sharing it would link relationships.
+Reserve typed locator prefixes for separately qualified profiles.
 
-| Example or form | Meaning |
+| Field | Canonical v1 form |
 |---|---|
-| `random::seed:ask:Warsztat7` | Search for `random:seed`. When used for protected lookup, present the Catalog-scoped salted hash. If the receiver also requires a code, present its request proof separately to the receiver. |
-| `random::seed:once:<token>` | Redeem the single-use advance invitation for that alias with one signed request. Replace the placeholder with the complete opaque alphanumeric token. |
-| `contact-nym::abc:nymask:Warsztat7` | Use `contact-nym:abc` only where the holder has a current, authorized route binding for that nym. `nymonce` selects the single-use variant. An unresolved or relationship-inappropriate nym stops the flow before disclosure. |
+| Tag | `ask` or `once` for alias generation 1. For later allocations append the decimal generation ≥2 without leading zeros. Reject unknown tags, explicit 1, overflow of the allocation counter or a suffix for a non-alias locator. |
+| Locator | The display spelling under the federation’s alias profile. `kuźnia:dźwięku`, `kuznia-dzwieku` and `KUZNIA.DZWIEKU` all yield `kuzniadzwieku`. |
+| Credential | Exchange alphabet `23456789abcdefghjkmnpqrstvwxyz` (30 symbols), lowercase on export and ASCII-case-insensitive on input. Sample uniformly with a cryptographic RNG. Export `ask` with 12–32 symbols (default 16), `once` with exactly 27 (about 132 bits). Manual request codes of 3–32 ASCII alphanumerics remain usable only at the receiver. |
+| Check | Four symbols from the exchange alphabet, including leading zero digits (symbol `2`). For each trusted candidate federation use its own pinned alias profile. |
 
-The middle field disambiguates alias and nym even when an alias looks like
-a typed nym. For aliases the bare tags `ask` and `once` select the first
-allocation (generation 1). For a reassigned name append its decimal generation
-of 2 or greater, without leading zeros, to the tag
-(e.g. `random::seed:ask2:Warsztat7`). Bind a protected lookup from a slip to
-its expected generation. The Catalog must check the current reservation before
-returning a route. The client verifies that binding before presenting any
-invitation credential to the receiver. An old slip then fails even if the
-new owner happens to choose the same short code. Exact alias searches without
-a slip may discover the current holder, and must not silently retarget a saved
-contact or conversation.
+For the check, join the UTF-8 strings `orbiplex/contact-slip/v1`, canonical
+federation ID, lowercase tag including generation, locator match key and folded
+credential with one NUL byte between fields, no terminator. Interpret the
+first four SHA-256 digest bytes as an unsigned big-endian integer, reduce
+modulo 810000, then encode in four base-30 digits, most significant first.
+This detects transcription errors (roughly one random collision in 810000).
+Use it to suggest a locally trusted federation. Require a previously selected
+trusted context or explicit selection before network access. Even a unique
+checksum match confers no federation trust. No match or ambiguous match
+requires local correction or explicit context resolution and revalidation.
 
-Double every literal colon in the locator on export. Split from the right at
-the final two colons on import, then decode each doubled colon in the locator
-as one literal colon. Reject an unpaired colon there, empty fields, unknown tags, an invalid
-generation or a credential invalid for its kind. Preserve token case and
-apply the existing ASCII fold only to a reusable code. The on-wire and stored
-model keeps federation, locator kind and value, allocation generation (for an
-alias), invitation kind and private proof separate. The presentation codec
-is confined to the UI boundary. Alias discovery sends the lookup-safe index
-and, for protected lookup, the Catalog-scoped salted `ask` hash. Nym
-resolution uses the authorized binding privately.
-A QR, when supported, carries the same text and confers the same authority
-as its paper copy. Anyone who sees a bearer invitation can present it.
+Synthetic vectors for `orbiplex-main`:
 
-For example, `a::::b:::ask:Ab3` decodes to alias `a::b:` and reusable
-code `Ab3`. Reject `a:b:ask:Ab3` (unescaped colon), `a:ask:` (empty code)
-and `a:ask01:Ab3` (noncanonical generation) before making a lookup.
+| Input | Expected |
+|---|---|
+| `ask:random:seed:k7m2qx9dfh3c:mgs4` | Alias `random:seed`, generation 1, request. |
+| `ask2:random:seed:k7m2qx9dfh3c:x6q6` | Same name, generation 2. |
+| `once:kuźnia:dźwięku:7hq2mx4kvd9cpz3wnbr8tyg5ej6:s8mj` | Generation 1, single use. Uppercase ASCII transcription with locator `KUZNIA:DZWIEKU` must verify identically. |
+
+**Import order.** Trim whitespace and the listed boundary format characters
+(ZWSP, LRM, RLM, BOM) at the two outer edges only. Validate grammar, locator
+profile, credential, checksum and trusted federation locally. Reject interior
+whitespace/format controls, unknown tags, `ask1`, `ask02`, missing fields,
+bad checksum, a second alias colon and confusable punctuation. Keep **Paste
+invitation** separate from **Search alias**. A truncated slip, even the
+plausible suffix `credential:check`, must never silently become a lookup.
+In free-form search ask for clarification locally on slip-like suffixes.
+After local validation use only the minimum lookup material. Verify the current
+holder-signed route and generation before presenting anything to the receiver.
+
+An importer may also accept a correctly checksummed `ask` line carrying a
+legacy/manual 3–32 ASCII alphanumeric request code, folded to lowercase.
+Require receiver-only mode for this input: resolve an open alias without any
+lookup credential or use an independently verified private route. Never try
+this code at the Catalog. A human-selected code cannot provision protected
+discovery even if it looks random. Export always generates an exchange-alphabet
+secret. When the mode is ambiguous, require the holder to select receiver-only
+or explicitly authorize protected lookup with a generated slip.
+
+A slip with a generated secret covering both gates still requires selection of
+the intended identifier and federation. A per-purpose lookup input may then
+go to the Catalog. A receiver presentation goes only to the verified receiver.
+For a private route accompanying an alias slip, supply current binding evidence
+independently; knowing the route string alone cannot satisfy the generation check.
+
+**Card and UI.** Print the display alias, invitation purpose and expiry with
+time zone beside the canonical line. Label an unbound token “first eligible
+presenter can redeem”. Spaces or hyphens for reading in groups of four belong
+only to a separate credential input/display. Bidi isolation is display-only.
+A QR carries exactly the line. Links carry it only in the fragment on a
+trusted import surface. Avoid history, referrers, analytics and third-party
+scripts on that surface. Never log the line, checksum or credentials or
+include them in notifications. Local syntax errors may explain the position
+and remedy. Remote denials remain uniform.
 
 ### 9. Admission Policy
 
@@ -1001,15 +1134,15 @@ The remaining open questions are post-MVP:
 
 ## Post-MVP Next Actions
 
-The hard-MVP tracker below is complete. The remaining actions are production
+The original hard-MVP rows are complete. The remaining actions are production
 hardening and privacy/federation expansion beyond the hard-MVP acceptance gate.
 
 1. Harden the daemon-managed Contact Catalog provider trust policy beyond the
    MVP trusted/uncertain/blocked cache.
 2. Exercise `contact-request.v1` accept/reject through broader failure-matrix
    Artifact Delivery tests beyond the Story 010 strict smoke.
-3. Extend focused PSI/blinded lookup coverage beyond the current runtime
-   mode/index gate.
+3. Close the independent PSI completeness and caller–entry retention gates
+   (P058-027 and P058-028) before claiming the stronger discovery guarantees.
 4. Define the production federation acceptance matrix for provider sync,
    provider trust expiry, and provider policy rotation.
 
@@ -1045,8 +1178,10 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-019 | `selector/kind = "contact-lookup"` as a host-composed *recipient selector kind* in Artifact Delivery, normalising lookup-safe contact references into `routing-subject` / `node` targets via a configured Contact Catalog provider. | done | AD core defines `RecipientSelector::ContactLookup`, selector shape validation, `SelectorClass::ContactLookup`, `ContactLookupNodeLookup`, and selector-purpose-aware outbound allow. Daemon wires the trait to local supervised HTTP `contact-catalog-service`, consumes `contact-lookup-result.v1` route sets, rejects raw handles, supports `invitation-only`, `blinded-digest`, and `psi` lookup modes for `contact-request/messaging` with `max/nodes = 1`, uses only remote providers whose Contact Catalog passport advertises the requested lookup mode, and fails closed for `no-match`, `ambiguous`, `policy-denied`, `rate-limited`, unavailable provider, and `contact-nym/id` without a routable target. Explicitly distinguished from an `artifact/ref` resolver scheme. |
 | P058-020 | Provider-to-provider Contact Catalog sync contract without Agora: no anonymous public dumps, host-authorized direct fetch, cursor/high-water replay, tombstone/revocation handling, and loop prevention over generic catalog mechanics. | done | Decision captured in MVP decisions, §11, §12.4, and the Agora non-goal. Node exposes authenticated `GET /v1/contact-catalog/sync/claims` as a trusted-provider snapshot fetch contract, extends `RemoteContactClaimFilter` with an opaque cursor, runs trusted-provider refresh through generic `node/catalog::sync_catalog_provider(...)`, derives high-water from accepted provider records/tombstones, rejects self-originated records when the daemon injects the local node id, stores provider sync last-run counts, cumulative total counts, high-water/cursor/error/failure-class state in the service sidecar, keeps durable provider-policy audit for trust changes, requires trusted/fresh providers before remote cache participates in lookup, exports local tombstone/revocation facts, and maintains durable remote tombstone cache that hides tombstoned provider claims after restart/replay. Broader production federation matrices remain post-MVP hardening, not a hard-MVP blocker. |
 | P058-021 | Adapt trusted-provider sync to the P081 bounded replication contracts | done | Contact Catalog claim and tombstone refresh now constructs schema-gated `replication-delta-batch.v1` values, recomputes canonical artifact and sequence digests, enforces the direct provider source/origin binding, and passes every item through shared bounded apply before the existing SQLite merge. Provider authentication, private lookup policy, cursor/high-water state, tombstone dominance, redacted diagnostics, and the no-public-dump invariant remain domain-owned and unchanged. |
-| P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Exercise the [code policy](#recipient-issued-contact-invitations) with fresh and cached routes. Accept both ASCII length boundaries and mixed case. Refuse lengths 2 and 33, non-ASCII, missing, invalid and retired codes before a prompt. Rotate across restart, exercise both attempt budgets and verify redacted records. Integration gate: S027-017. |
-| P058-023 | Issue, withdraw and claim a single-use advance invitation | todo | Through the same S025 acceptor, bind a private token to its recipient, route, purpose, expiry and optional sender key. Refuse wrong sender for a bound token, wrong route, wrong purpose, expiry and withdrawal without spending a valid invitation on an invalid request. Pair with P076-039 for issuance and S027-018 for the participant journey. |
-| P058-024 | Optional federation alias as a Contact Catalog handle | todo | Gate the [reservation lifecycle](#federation-contact-alias) through two providers: race equivalent spellings for one name, retry the winner, and reserve the same name independently in another federation. Reject a foreign release. Release at a controlled time, restart and replay stale updates. Prove refusal just before and eligibility exactly at the 30-day default and a configured alternative, including for the previous holder. A successor has a new generation and receives no prior authority. Also pass the [S025 writer discovery, policy-bound receipt and handover cases](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority). |
-| P058-025 | Text presentation for alias and nym contact invitations | todo | Share [codec vectors](#shareable-contact-text) for both locator kinds and both invitation modes. Round-trip leading, trailing, repeated and embedded colons. Reject lone unescaped colons, empty fields, unknown tags, malformed generations and invalid codes before lookup. Verify parsed fields, preserved token case and rejection of a superseded allocation before any credential disclosure. S027-019 owns the participant journey. |
-| P058-026 | Discovery policy and salted lookup verifier per identifier | todo | Exercise [all three visibility modes](#per-identifier-discovery) on two identifiers of the same kind and on an alias. Cover independent rotation, stale replicas and restart. For the same code on two entries, require distinct lookup hashes and stored verifiers. Refuse cross-entry proofs, replay of a stored verifier and superseded revisions. Verify equivalent negative responses across supported lookup paths and inspect requests, storage and redacted outputs for credential exposure. S027-020 owns the participant journey. |
+| P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Test 3/32 and 2/33 character manual boundaries, mixed case, cached routes, pause/rotation across restart, uniform pre-prompt refusal and private code/ref. Flood invalid proofs and valid prompts separately. A legitimate caller can progress under the documented fair budget. S027-017. |
+| P058-023 | Single-use invitation lifecycle | todo | Bind recipient, route, purpose, optional sender and commit-time expiry. Refuse invalid claims without spending the token. Exercise parent replacement, lost response, notification and separate child withdrawal with P076-039 and S027-018. |
+| P058-024 | Federation alias, verified allocation and current binding | todo | Freeze profile, portable proofs, transition and checkpoint vectors before Schema Gate. Race equivalent and skeleton-colliding claims through two providers. Check membership/assurance, quota, lease warnings, appeal, release hold immediately before and at its deadline (default and override), per-federation independence, exact retry, fork quarantine and writer handover. Pass the [S025 authority gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority). |
+| P058-025 | First-contact slip presentation | todo | Freeze the [codec vectors](#shareable-contact-text), including equivalent spellings, wrong federation, ambiguous checksum, truncated prefix/suffix, disallowed nyms and malformed generations. Observe zero network calls on local failure. S027-019 checks actual receipt and reassignment. |
+| P058-026 | Visibility and scoped lookup proof per identifier | todo | Exercise hidden/open/protected, separate lookup/request purposes, no per-entry parameter request, explicit second input and receiver-only once. Rotate at one identifier, restart and query stale replicas. Test cross-scope proof misuse, stored verifier replay, and no automatic PSI downgrade. S027-020 owns participant acceptance. |
+| P058-027 | PSI-128 bounded candidate completeness | todo | [S025 completeness gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#lookup-privacy-follow-ups). Test 127/128/129 unique eligible entries, duplicates, different insertion orders and a smaller requested limit. Require a verified hit or explicit incomplete result whenever truncation could hide it. |
+| P058-028 | Caller–entry association retention | todo | [S025 retention gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#lookup-privacy-follow-ups). Inspect existing and new audit, rate state, diagnostics and backup/restore across TTL and restart. Prove paired identifiers cannot be recovered from retained outputs and independent aggregate limits still apply. |

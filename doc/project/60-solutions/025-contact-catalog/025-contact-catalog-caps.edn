@@ -49,6 +49,7 @@
     "Return contact-lookup-result.v1 as a route candidate or invitation-required result"
     "Prefer routing-subject, contact-nym, or invitation routes and never return root participant ids by default"
     "Record redacted lookup audit for success, no-match, ambiguous, policy-denied, and rate-limited outcomes"]
+   :remaining ["P058-028: expire caller-entry pairs at the rate-limit window and migrate historical lookup audit"]
    :status :done}
 
   {:cap/id :contact-request-admission
@@ -98,7 +99,8 @@
    :responsibilities
    ["Allocate aliases at the single Contact Catalog designated by federation policy"
     "Advertise the allocation role separately from contact lookup through Seed Directory"
-    "Verify the exact role endorsement and the receipt under the active allocation policy"]
+    "Verify the exact role endorsement and the receipt under the active allocation policy"
+    "P058-024: qualify witnessed current bindings, fork quarantine and checkpoint-based writer replacement"]
    :status :planned}
 
   {:cap/id :federated-contact-catalog-peer-fetch
@@ -127,7 +129,8 @@
                  "contact-catalog-service accepts blinded-digest and psi lookup modes with matching private-mode index validation"
                  "PSI hard-MVP uses POST /v1/contact-catalog/psi/evaluate followed by lookup_mode=psi plus psi/match-token"
                  "Private lookup modes return canonical contact-lookup-result.v1 and share the same redacted audit/rate-limit boundary as invitation-only lookup"]
-   :remaining ["Broaden production PSI/federation matrices beyond hard-MVP focused tests"]
+   :remaining ["P058-027: distinguish incomplete bounded PSI evaluation from a negative lookup beyond the candidate limit"
+               "Broaden production PSI/federation matrices beyond hard-MVP focused tests"]
    :status :done}
 
   {:cap/id :contact-catalog-provider-policy-ux

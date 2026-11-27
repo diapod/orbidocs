@@ -673,6 +673,18 @@ active federation configuration governs which writer and receipt proof the
 client accepts. The endorsement signers' threshold does not set a threshold
 for individual alias reservations.
 
+For [P058-024 / S025](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority)
+that policy also authenticates the required independent witness rule, freshness
+limits and the predecessor cutoff (log sequence and checkpoint digest) on a
+writer change. Fence the old key for new mutations. A successor imports the
+verified state, including holds and disputed names, and refreshes proofs
+without reallocating names. Readers verify the new policy before use.
+Exercise an endpoint-only move, a writer/key change and a stale old-key reply
+at the same generation. A Seed Directory may distribute or, if separately
+mandated, witness opaque checkpoints. Neither role confers power to allocate.
+This planned integration is qualified under P058-024; the existing
+official-service endorsement and root bootstrap keep their original scope.
+
 #### Endorsement acquisition is source-agnostic
 
 The endorsement is a self-verifying artifact, so **where a consumer got it

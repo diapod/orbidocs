@@ -179,9 +179,19 @@ single-use mode, the authenticated recipient may instead record the explicit
 decision **when creating the invitation**, before a sender presents a request.
 The recipient authorizes one future `ReceiveConsent` issuance on an owned
 route for Messaging, within a finite redemption window and, if selected,
-for a particular sender key. For delegated issuance, record which current
+for a particular sender key. Proposed invitation window: seven days by
+default and at most 30 days, capped by the validity of the route, parent
+and other prerequisites. Show the effective expiry with time zone before
+sharing. A paper date cannot extend those prerequisites. S027-016’s
+one-hour preflight for a pending offer is a different operation.
+
+For delegated issuance, record which current
 parent grant authorizes this decision. A replacement grant requires a new
-decision. No child exists at creation. Existing single-use `inac.invitation` passports
+decision. Before routine renewal or replacement, show the recipient which
+outstanding invitations would lapse. Offer explicit reissue under the new
+parent with fresh tokens and dates. Printed originals cannot migrate. Permit
+urgent revocation immediately even when this preview is unavailable. No
+child exists at creation. Existing single-use `inac.invitation` passports
 continue to authorize a specific peer and artifact at the transport boundary.
 
 At redemption verify the exact signed request, presenting sender, token,
@@ -191,7 +201,10 @@ delegate, use the existing constrained child issuer with the ordinary parent,
 status, unlock, freshness and child TTL checks. Issue exactly one ordinary
 `messaging-receive@v1` child. The same consent/relationship projection can
 then run without another approval click. A locked delegate requires explicit
-unlock and a fresh check before commit. Startup cannot approve a pending request.
+unlock and a fresh check at the issuance commit. Use the receiving owner’s
+clock. Presentation before expiry reserves no right to issue at or after expiry.
+Recheck the invitation, grant, route, block and status after any wait. Startup
+cannot approve a pending request.
 
 Serialize withdrawal, expiry checks and competing claims at the receiving
 owner. Use the existing durable decision/issuance key to recover across stores.
@@ -201,6 +214,14 @@ After a lost response, only the same sender replaying the same signed request
 can recover the committed outcome. Recheck authority before handing off any
 usable proof. Restart, changed request bytes and replay after child withdrawal
 must never issue another child or reactivate the first one.
+
+On commit, use the durable decision ID to enqueue a private, idempotent
+redemption notification to the issuer. Identify the redeeming peer by its
+verified local contact context and the invitation by its private label/ref.
+Offer withdrawal of that exact child in one action. A crash or replay must
+produce one logical notification. An unbound token may have been forwarded.
+The child permits messages only from the redeemer to the issuer. A reply
+requires separately approved reverse consent.
 
 ## Open Questions
 
@@ -626,7 +647,7 @@ or unit test alone never closes a runtime gate.
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
 | P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Corrected local WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry and paused-scheduler diagnostics pass on clean commits; the same corrected binary passed the named second-host probe. No lease extension, cross-machine or offline delivery, full candidate or release claim |
 | P076-038 | Physical qualification | Two-host V2 renewal, bounded time skew and independent query witnesses | done | Clean, identical revisions on two physical hosts; direct WSS, recipient receipt, mode matrix, restarts/revocation, two counter witnesses and retained P074 claim. No offline delivery or release claim |
-| P076-039 | Contact invitations | [Single-use advance receive consent](#advance-contact-consent) at redemption | todo | With P058-023, race two signed requests and both withdrawal/commit orders. Interrupt before and after child persistence. Exact retry recovers at most the same child. Locked delegate, unavailable current proof, expired or revoked parent and subsequent child withdrawal cannot yield usable consent. Reuse S027-018 for the cross-node gate. |
+| P076-039 | Contact invitations | [Single-use advance receive consent](#advance-contact-consent) at redemption | todo | With P058-023, race two signed requests and both withdrawal/commit orders. Interrupt before and after child persistence. Exact retry recovers at most the same child. Present before expiry, unlock at expiry and refuse at commit. Exercise parent replacement with live paper invites, explicit reissue, old-token refusal and one logical redemption notification after restart. Missing current proof or subsequent child withdrawal cannot yield usable consent. S027-018 verifies both permission directions. |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 

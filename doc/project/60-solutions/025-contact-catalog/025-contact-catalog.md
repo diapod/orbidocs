@@ -12,8 +12,9 @@ post-MVP privacy/federation expansion)
 Date: `2026-05-16`
 
 Hard-MVP tracker status: `100% implemented`. All `Must Implement`
-capabilities in the Solution 025 sidecar and all Proposal 058 tracker rows are
-`done`; remaining work named in this document is explicitly post-MVP hardening.
+capabilities in the Solution 025 sidecar belong to that historical baseline.
+P058-022–028 below are planned extensions and corrective gates. The hard-MVP
+evidence predates them.
 
 ## Executive Summary
 
@@ -27,8 +28,8 @@ for requesting contact with the handle controller?
 The MVP profile is intentionally conservative:
 
 ```text
-authenticated caller
-  -> invitation-only lookup
+remote caller
+  -> rate-limited invitation-only digest lookup
   -> route candidate
   -> contact-request.v1 over Artifact Delivery / INAC
   -> recipient-local consent
@@ -110,7 +111,10 @@ Responsibilities:
 
 - expose `/v1/contact-catalog/lookup` or an equivalent supervised middleware
   endpoint under `catalog_kind = "contact"`;
-- require authenticated callers and rate limits before lookup execution;
+- apply rate limits before lookup execution. The baseline public invitation-only
+  surface takes digest queries. Local administration and provider sync require
+  authentication. Protected lookup additionally authenticates the Catalog
+  before transmitting a lookup credential;
 - return `contact-lookup-result.v1` as a route-set candidate or
   invitation-required result;
 - never return raw `participant:did:key` by default;
@@ -153,27 +157,31 @@ helper and lookup client together. Use domain separation for alias indexes
 over the federation ID and normalized alias. Keep the email and phone index
 domains and their existing attestation profiles intact.
 
-The first deployment gives one Contact Catalog the writer role for alias
-allocations. Any Contact Catalog may forward an owner-signed reservation to
-that writer. An exact retry returns the same allocation. Its signed allocation
-evidence binds federation, alias key, owner and generation. The owner can attach or
-rotate an eligible route through the existing signed contact claim. Verify
-that its signer controls the allocation before projecting that route. A public
-lookup returns the usual purpose-limited candidate or invitation route.
-Owner/control evidence remains on the admission side.
+Use P058’s versioned match key for the lookup index and its confusable skeleton
+only for atomic registration. Keep generation high-water, release deadline and
+conflict holds through restart and compaction. Serialize competing mutations at
+the **allocation writer**. The **alias holder** signs route and release intents.
+Check private membership, assurance, quota and lease at admission. Commit the
+name, skeleton, quota and receipt together. An expired route stops discovery
+while the allocation follows its own renewal/release lifecycle.
 
-Reuse the catalog's sequence, tombstone, replication and stale-result handling
-for read replicas. For allocation, serialize competing writes at the owner.
-Persist release time, captured policy deadline and generation together. A
-restart, delayed claim, stale writer or restored replica cannot revive a
-released name or advance the deadline. Updating the route does not release
-the name. Expiry of a route claim stops discovery until refreshed and does
-not establish that the name is free. Freeze wire shapes and positive/negative
-Schema Gate examples before enabling registration.
+Send a signed reservation directly over a confidential channel authenticated
+to the currently mandated writer, or seal the whole request to its verified,
+purpose-bound encryption key before forwarding through another Catalog. If
+encryption-key binding cannot be established, offer only a verified direct
+channel. A signing-key advertisement alone cannot authorize encryption. Bind federation,
+writer, policy revision, request ID, expiry, chosen alias control key and
+intended operation. Authenticate the response to the claimant. An intermediary
+may observe traffic timing but cannot read or alter the proposed name/route.
+A delayed duplicate returns the same decision without allocating twice.
 
-Consumers of [P058-025](../../40-proposals/058-contact-catalog.md#shareable-contact-text)
-pass a typed lookup. The visibility of that identifier determines whether they
-receive a current binding. Admission of the signed request remains with the receiver.
+The writer necessarily learns the link between participant and alias. Restrict
+that map and admission evidence to the writer’s private store during the lease
+and a bounded, published dispute period. Scope any active dispute retention and
+erase the link when its purpose ends, including from recoverable backup copies
+under a bounded expiry policy. Compromise within that window can reveal it.
+Read replicas, witnesses and the public lookup proof receive no base identity,
+membership attestations, sibling aliases or reusable participant key.
 
 #### Discovering the writer and verifying a receipt (planned) {#alias-allocation-authority}
 
@@ -208,64 +216,165 @@ receive a current binding. Admission of the signed request remains with the rece
    P058-024 before enabling writes. Quorum and unanimous approval are later
    policy choices. [P058 owns the allocation decision and tracker](../../40-proposals/058-contact-catalog.md#federation-contact-alias).
 
-**Acceptance for P058-024.** Discover the writer via one Seed Directory and
-submit a signed reservation to the Contact Catalog. After an endpoint change,
-rediscover it via another Seed Directory and repeat the same request. The
-client obtains the same verifiable allocation.
-An ordinary official Contact Catalog with a self-declared writer flag cannot
-allocate. Withhold confirmation if policy is unavailable, contradictory or
-stale, or the required endorsement is expired, revoked or for another
-federation. Revoking only the allocation endorsement leaves a separately
-endorsed, current lookup registration usable. On writer replacement, fence the
-former writer and carry forward allocations, generations and release holds
-before accepting new writes.
-Replaying the old writer's receipt cannot establish a new or current binding.
+**Portable binding and fork handling (P058-024, planned).** Freeze these
+signed inputs, canonical digests, freshness windows and size bounds before
+Schema Gate. Reuse the bounded portable-verification pattern, [P035’s signed conflict evidence](../../40-proposals/035-agora-topic-addressed-record-relay.md)
+and [P051’s review procedure](../../40-proposals/051-swarm-membership-and-reputation-bootstrap.md). Contact records remain private
+to their existing owners.
+
+| Producer | What the reader checks |
+|---|---|
+| Allocation writer | A signed transition commits federation, profile/policy revisions, alias match key, generation, operation, alias-specific control public key, log sequence and previous digest. Reserve a fresh control key for each new allocation. Distinguish exact retry and authorized control-key rotation (linked predecessor and holder authorization) from contradictory allocations. |
+| Alias holder | A binding signed by the active alias key covers the allocation reference, federation, match key, generation, digest of the selected route and its verification key, purpose, binding revision and validity. Check the route endpoint controls that key before disclosing a receiver credential. |
+| Catalog reader | After visibility admission return the permitted route plus the minimum portable evidence: allocation receipt/reference **and its verifiable material**, signed route binding and a fresh witnessed checkpoint with proofs of inclusion and current active state. Verify against locally trusted federation policy, expiry, revocations and known high-water. No fetch of the private enrollment record. A receipt reference alone cannot satisfy a first-contact read. |
+| Independent witness | An authorized replica or a separately appointed Seed Directory witnesses opaque checkpoint commitments, verifies consistency with its retained head and exchanges signed heads independently. It gains no allocation power. Use hiding commitments for low-entropy names, no public per-name feed, routes, membership maps or enumerable proof API. |
+
+The writer appends transitions and signs a checkpoint over the log and current
+state. Local policies name independent witnesses, their acceptance rule and
+maximum age. For first-contact credential disclosure require independently
+authenticated current-state evidence under that rule. A writer-only chain
+admits split views. Asynchronous gossip alone can detect a fork after exposure.
+Protection depends on an honest independent witness in the confirmation path
+and on the freshness bound. For the single-writer pilot, require at least one
+independent designated witness common to all accepted views. Before signing,
+it verifies continuity and the legal state transitions for each affected
+allocation, including holder authorization, using privately supplied openings.
+Freeze how commitments bind a stable per-name index without exposing a public
+dictionary oracle. Test a writer that appends a second allocation in the same
+history as well as two separate histories. Witnesses that merely archive
+opaque roots provide retrospective detection only. A checkpoint cannot attest the real-world identity
+of a stranger.
+
+Two valid incompatible allocations for the same federation, match key and
+generation, or incompatible signed heads at the same log position, are
+evidence. Preserve both privately, quarantine the affected name (or pause the
+unresolved branch if its extent is unknown), withhold new bindings, and notify
+federation reviewers. Resolve by an authenticated, witnessed recovery decision
+with notice/appeal. A later timestamp, majority of lookup replies or an
+unsigned complaint cannot choose a winner or freeze a name.
+
+**Writer replacement and outage.** Policy N+1 endorses the successor and
+adopts a witnessed cutoff (sequence and digest) under N. Transfer and verify
+live allocations, control keys, leases, open disputes, tombstones, holds and
+generation high-water before enabling writes. Fence the former writer.
+Reissue current proofs on demand under N+1 with the same generations. Old
+receipts prove only history unless included in the adopted state with fresh
+current proof. If the cutoff cannot be reconciled, pause mutations and
+affected reads. During an outage refuse reservations, releases and renewals.
+A replica can serve only while it can verify current visibility, binding,
+witness freshness and revocation within the selected policy.
+
+**Acceptance for P058-024.** Discover the writer via two Seed Directories
+across an endpoint move. Send the same encrypted intent through a forwarding
+Catalog and inspect its view for private inputs. Confirm exact retry, refuse
+wrong capability/expired mandate and withhold on stale policy. A separate
+lookup endorsement survives withdrawal of the write mandate. Verify first
+contact using only the returned evidence and local trust. Substitute a route,
+withhold the independent proof or replay a superseded binding: no disclosure.
+Present incompatible valid allocations to different replicas, compare signed
+heads and observe quarantine and review. An exact replay and a valid route or
+key rotation cause no quarantine. Replace the writer, then replay both sides
+of the cutoff, including writes backdated by the old key. Check an unchanged
+name, a held name and a disputed name before reopening. Exercise reads on
+both sides of the outage freshness boundary.
 
 #### Catalog verification of a lookup ask (planned) {#catalog-ask-verifier}
 
 Implement [P058-026](../../40-proposals/058-contact-catalog.md#per-identifier-discovery)
-at the route-read boundary shared by exact, blinded and PSI lookup. Reuse
-claim ownership checks for policy writes, the existing lookup index, redacted
-audit, rate limits and tombstone/sequence handling. The authorized Catalog
-is trusted with route release and salted lookup material. Keep both the raw
-code and receiver-admission proofs outside its API.
+at the existing route-read boundary. Only open, eligible entries contribute PSI
+match tokens. A protected lookup uses an explicitly selected confidential exact
+request. The returned proof and route must pass the same policy checks when
+the receiver is offline.
 
-1. **Set or rotate.** On an authenticated owner update, allocate fresh random
-   salts per identifier and code revision. The owner's client validates and
-   ASCII-folds the 3–32 character `ask`, then derives a salted lookup hash
-   using a versioned, bounded password KDF. Bind the derivation to the Catalog
-   lookup purpose, federation, identifier kind/index and an opaque revision
-   fresh for each code rotation or alias reallocation. A lookup from a saved
-   slip also supplies its expected allocation generation for the Catalog to
-   check before releasing the route. A bare alias search needs no generation. Send
-   the hash over authenticated confidential transport. The Catalog immediately
-   hashes it again with a separate storage salt. Persist only this salted
-   verifier, salts, KDF profile and policy revision. Commit the mode and
-   verifier atomically. Clearing the verifier leaves protected lookup closed.
-2. **Look up.** The client obtains the public derivation parameters, computes
-   the lookup hash locally and submits it privately. The Catalog repeats the
-   storage step and compares in constant time. The stored verifier itself
-   cannot be presented as the lookup credential. Treat the transmitted hash
-   as reusable for that lookup until rotation and exclude it from logs,
-   notifications, URLs, results and public or ordinary replication. It has
-   no authority at the receiver. Never send a raw or derived `once` value
-   to the Catalog, including during parameter discovery.
-3. **Refuse without disclosing the entry.** The parameter exchange must not
-   reveal whether an entry exists, its mode or current alias generation.
-   Use the same response shape and consistent salt behavior on repeated
-   probes for protected, hidden and absent entries. A failed lookup returns
-   no route, policy hint or identifier-specific error. Bound attempts per caller and per identifier
-   across callers, and bound KDF work. Replicas unable to enforce the current
-   policy must forward to an authorized verifier or withhold the result.
-   Apply the same visibility rule to intermediate responses, including PSI
-   match tokens that would otherwise confirm discovery before the route read.
+1. **Provision.** The issuer generates a random slip secret (12–32 exchange
+   symbols, default 16). Derive a lookup credential and a receiver credential
+   using distinct, versioned domain labels. The lookup derivation binds the
+   trusted federation, identifier kind and canonical index using unambiguous
+   framing. Its client-side salt/context is deterministic from those public
+   inputs, independent of existence, mode, code revision or salt fetched for
+   an entry. The receiver derivation binds its own audience, purpose and,
+   for alias slips, the verified allocation generation. Specify the shared
+   inputs for issuer and presenter and freeze KDF profiles and vectors before
+   Schema Gate. A separately configured manual code belongs only at the receiver.
+2. **Store and rotate.** Over an authenticated confidential channel the
+   issuer provisions only the derived lookup credential to the Catalog.
+   Immediately derive its stored verifier using a fresh random storage salt
+   for each identifier/revision and a bounded password KDF. Evaluate the
+   existing Argon2id implementation for reuse, with its own parameters and
+   work limits. Commit mode, verifier, salt and revision atomically. Rotate
+   with a **new secret** and logically withdraw the old verifier. A new
+   allocation starts without any prior verifier. Let the issuer revoke or replace either gate independently. A card
+   advertised as covering both gates is ready to share only after both updates
+   are confirmed. If one owner refuses, retain the partial status, offer
+   withdrawal/retry and avoid issuing a misleading card. Ordinary sync, diagnostics, backups
+   exposed to readers and notifications contain no presentation values.
+3. **Read.** Submit only the lookup credential under the authenticated Catalog
+   channel; treat this derived input as a bearer for this lookup until rotation.
+   Compute and compare the storage verifier in constant time. Check the expected
+   generation from a slip before returning a route. Bare alias searches use
+   the current generation. Keep the raw slip secret, receiver proof and all
+   raw or derived `once` material outside the Catalog. The stored verifier
+   is never a valid presentation. Missing, hidden, wrong-code, retired and
+   stale requests have equivalent external responses. Bound work for negative
+   lookups, including absent entries, without a per-entry parameter endpoint.
 
-Unique salts make a bulk database leak cost guesses per entry. They add no
-entropy to an individual code: a three-character case-insensitive value has
-only 46,656 possibilities. A costly KDF raises the price of each guess.
-Freeze algorithm, work limits and wire vectors at Schema Gate before rollout.
-Evaluate the existing Node crypto crate's Argon2id dependency for reuse with a
-separate lookup profile and salts, independent of Vault keys and passphrases.
+A storage salt raises the cost of bulk guessing. It adds no secret entropy.
+A three-character human code has at most 46,656 ASCII-folded possibilities.
+Such codes are refused by the issuer for Catalog provisioning and never used in a public
+challenge/response transcript. A Catalog compromise can expose routes and
+permit lookup impersonation on its own surface. Its verifier or lookup bearer
+cannot be used as receiver proof. Unknown or stale replicas forward privately
+to a current authorized verifier or withhold the route.
+
+**Acceptance.** With two identifiers and separate request gates, check
+cross-entry/cross-purpose substitution, a stolen storage verifier, rotation
+and pause across restart. A single generated slip configured at both gates
+works; the lookup input alone fails at the receiver. With independent codes,
+the UI requests the missing receiver input. Observe identical client derivation
+for hidden, absent and recently rotated identifiers without network probes.
+Wrong-code attempts have bounded work. Exercise attempted guessing separately
+from a valid-code prompt flood. Reserve bounded fair opportunities under
+pressure, coalesce owner alerts and allow private per-code pause/rotation.
+Absolute availability under total resource exhaustion is outside the guarantee.
+
+#### Lookup privacy follow-ups (planned) {#lookup-privacy-follow-ups}
+
+Use the [P058 privacy table](../../40-proposals/058-contact-catalog.md#per-identifier-discovery)
+when selecting an endpoint. The service-side observations for the proposed
+profiles are:
+
+| Surface | On a miss | On a hit |
+|---|---|---|
+| Exact / invitation-only | Target or dictionary-recoverable normalized index. Raw inputs are rejected by the existing invitation-only endpoint. | Selected entry. |
+| Blinded digest | Digest and request context. Guessability depends on the identifier space and key/oracle access. | Selected entry. |
+| Open-only PSI | Blinded elements and protocol metadata. | Selected entry on presentation of its match token. |
+| Protected lookup | Target or equivalent index even with an incorrect code. | Selected entry. |
+
+- **P058-027 (PSI-128).** In Node’s `contact-catalog-service::evaluate_psi`
+  the service takes at most 128 candidate claims before token projection. Its
+  success response does not certify completeness. Distinguish bounded
+  *incomplete* from an authoritative miss end to end. First support explicit
+  incomplete/refusal on overflow; any later pagination must be bounded,
+  snapshot-consistent, non-enumerating for restricted entries and resumable.
+  Count eligible distinct candidates, enforce current visibility, and never
+  downgrade to plaintext lookup. Test 127, 128 and 129 unique open entries,
+  a smaller client limit, duplicates and reversed insertion order. Put the
+  target beyond the initial bound. Neither client nor UI reports absence
+  unless the eligible set was covered. Check that hidden and protected entries
+  contribute no tokens or observable counts.
+- **P058-028 (caller–entry retention).** Current SQLite lookup audit rows
+  persist both `auth_fingerprint` and `contact_index_digest`. Redacting raw
+  handles leaves the pair linkable. Keep any joint key only in a bounded
+  rate store until the published limit window ends. Keep independent per-entry
+  and per-caller counters and aggregate durable audit without a joinable
+  bucket, event ID or correlated per-request trace. Expire old paired rows
+  through an explicit migration and prevent backup restore from reviving
+  expired pairs. Use a controlled clock, successful and failed lookups, restart
+  on either side of expiry, rotation and restore. Inspect the store, WAL,
+  backup lifecycle, status, logs and exports for reconstructible links. Enforce
+  the deadline after interrupted cleanup or restoring an older snapshot. Verify
+  active limits still hold within the window. Network-level anonymity is a
+  separate future decision.
 
 ### Contact Request Admission
 
@@ -329,8 +438,11 @@ both a newly resolved and a cached route.
   request. Version and validate its carrier at Schema Gate before enabling
   this mode. Keep the receiver's presentation out of Catalog lookup, greeting,
   stored request JSON, notifications, URL query logs and traces. Keep a receiver-keyed verifier
-  for the short code. A public digest of a three-character code permits
-  offline guessing. A reference alone cannot redeem either kind.
+  for the recipient-only manual code. Verify it inside the confidential,
+  authenticated request channel in constant time, bound to the signed request
+  digest, recipient and purpose. A public digest or observable HMAC transcript
+  with a human code would permit offline guessing. For generated slips use
+  only the receiver-scoped presentation with replay protection. A reference alone cannot redeem either kind.
 - Apply the invitation check before any user-visible first-contact prompt,
   including an INAC approval prompt for this request. If the peer or transport
   cannot present the required proof privately at that boundary, refuse the
@@ -494,7 +606,9 @@ Status:
   hard-MVP security boundary is the local data-dir filesystem, and the seed is
   not emitted through status, audit or sync. Broader PSI failure matrices remain
   focused lower-level tests rather than a separate top-level E2E harness;
-  Story-010 strict `ad-smoke` remains the E2E gate.
+  Story-010 strict `ad-smoke` remains the E2E gate. Completeness beyond the
+  candidate limit and caller–entry retention have [separate corrective
+  gates](#lookup-privacy-follow-ups).
 
 ## Out of Scope
 

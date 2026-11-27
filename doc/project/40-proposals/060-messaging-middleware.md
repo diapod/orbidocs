@@ -967,17 +967,23 @@ The planned [federation alias](058-contact-catalog.md#federation-contact-alias)
 is a recipient search handle alongside email and phone. Resolve it through
 Contact Catalog for `contact-request/messaging`. The [per-identifier visibility
 policy](058-contact-catalog.md#per-identifier-discovery) applies separately to
-each alias, email and phone. A Catalog-verified `ask` can disclose a route
-while the receiver is offline. At request time, a cached route, lookup hash
-or successful Catalog response supplies no admission proof. Use the receiver's
-existing signed request and any independently required receiver-side code.
-Present a single-use `once` token only to the verified receiver. When discovery
-requires its own `ask`, keep the two inputs separate in the UI and on the wire.
-[S027-020](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#per-identifier-discovery-acceptance)
-qualifies this boundary through the participant UI.
-For [pasted contact text](058-contact-catalog.md#shareable-contact-text), reuse
-the same signed request and passport handoff. Keep the pairwise contact and
-conversation bound to their verified peer across alias release or reassignment.
+each alias, email and phone. While the recipient is offline, a Catalog
+may verify the lookup credential and return a purpose-limited route with the
+[P058-024 current binding proof](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority).
+Before receiver presentation, verify the holder-signed route, authenticated
+endpoint, expected allocation generation, policy and witnessed current state.
+Keep an existing conversation pinned to its verified peer. Surface a
+reallocation warning on fresh open lookup.
+
+Import [P058 contact slips](058-contact-catalog.md#shareable-contact-text)
+locally. Reject broken slips and existing pairwise nyms before any lookup.
+A generated request slip can provision separate lookup and receiver proofs.
+When independent codes are in use, ask for the receiver input explicitly.
+A cached route or Catalog proof cannot admit a request. Redeem a `once`
+token only at the verified receiver. For hidden aliases, use an independently
+authenticated invitation route; protected discovery can alternatively take
+a separate lookup code. Warn at issue if a card alone will not suffice.
+S027-019/020 qualify the boundary through the participant UI.
 
 **Planned.** Both [P058 invitation modes](058-contact-catalog.md#recipient-issued-contact-invitations)
 enter through the existing signed contact request. A reusable code admits a
@@ -993,7 +999,13 @@ Revoking an invitation closes that entry point. Revoking the specific contact
 request or its receive passport ends the derived consent. The resulting
 `contacts` projection retains its passport basis and cannot restore permission.
 An independently authorized reverse direction and previously accepted history
-keep their own semantics. [S027-017/018](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#contact-invitation-acceptance)
+keep their own semantics. Notify the issuer once after redemption, with an
+action to withdraw the exact sender consent. Offer **Block sender** separately
+if future requests should also stop. The invitee can explicitly enable
+**Allow the inviter to message me** as a separate reverse grant, initially off.
+Preview affected outstanding invitations before routine parent renewal and
+offer explicit reissue under [P076-039](076-limited-messaging-grants-decision.md#advance-contact-consent).
+[S027-017/018](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#contact-invitation-acceptance)
 own the end-to-end evidence for these distinctions.
 
 ### User and Operator Notifications (P057)
@@ -1261,7 +1273,10 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 
 The [contact invitation continuation](#contact-invitations-and-receive-consent)
 is tracked at P058-022/023 for admission, P076-039 for advance issuance and
-S027-017/018 for the Messaging journeys. Earlier completed rows describe the
+S027-017/018 for the consent journeys. P058-024–026 and S027-019/020
+cover alias verification, local slip import and per-identifier lookup.
+P058-027/028 separately track PSI completeness and caller–entry retention.
+Earlier completed rows describe the
 original explicit-acceptance path.
 
 | ID | Feature | Status | Evidence |
