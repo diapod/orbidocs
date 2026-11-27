@@ -456,6 +456,41 @@ submit a contact request, which the owner may accept, reject, or ignore.
 
 This is the safest default for public or semi-public catalogs.
 
+#### Discovery policy per contact identifier {#per-identifier-discovery}
+
+**Planned (P058-026).** The owner selects `lookup/visibility` for each
+individual email, phone or federation alias claim. It controls release of the
+purpose-limited lookup result across every supported lookup mode. It does not
+change proof of handle control, alias allocation or first-contact admission.
+
+| Visibility | What an exact lookup can return |
+|---|---|
+| `hidden` | No match, including when a previously valid `ask` is supplied. Keep the alias reservation or handle claim under its existing lifecycle. |
+| `open` | The ordinary invitation route for a live, opted-in claim, subject to existing purpose and rate limits. |
+| `ask` | The same result after the Catalog verifies a salted lookup hash of the reusable code for this identifier. A missing, wrong, expired or withdrawn credential yields the ordinary no-match result. |
+
+For example, set one email to `open` and the alias to `ask`, or set both
+to `ask` with separately rotatable codes. A result for one identifier must
+not list the owner's other identifiers or their visibility. An absent opt-in
+stays hidden. Preserve existing explicitly published claims under their
+previous restrictions during migration. An unknown policy or stale policy
+revision cannot authorize an open lookup.
+
+The Catalog can answer from a current claim, policy and verifier while the
+recipient node is offline. The caller learns a route, and can later submit
+a signed contact request. The receiving host independently enforces its own
+request policy, even on a cached route. The owner may choose the same `ask`
+value for both checks, with separate verifiers and withdrawal controls.
+Switching to hidden or rotating a lookup code affects future lookups. It
+cannot erase a route already learned or revoke an existing sender's passport.
+An unavailable alias reservation may still reveal that a name cannot be claimed.
+
+Only `ask` has a Catalog verifier. Keep `once` and all derivatives of that
+token exclusive to the recipient-side redemption flow. If a `once` invite
+names an `ask`-protected alias, obtain its route with a separate lookup
+`ask` or use an independently verified private route. A `once` token
+cannot unlock discovery. [S025 defines the salted verifier and its limits](../60-solutions/025-contact-catalog/025-contact-catalog.md#catalog-ask-verifier).
+
 #### Recipient-issued contact invitations {#recipient-issued-contact-invitations}
 
 **Planned, 2026-11-27.** The recipient can share two kinds of invitation for
@@ -499,6 +534,50 @@ admissions through it. Withdrawing a sender's consent targets that sender's
 passport as specified in [P060](060-messaging-middleware.md#contact-invitations-and-receive-consent).
 It leaves a reusable code available to other senders. A later request from the
 withdrawn sender through that code requires a fresh explicit decision.
+
+#### Shareable contact text {#shareable-contact-text}
+
+**Planned (P058-025).** For paper, copy/paste and a future QR, render three
+fields as `locator:code-type:code`. Within a known federation the text supplies
+the inputs to propose a contact or redeem advance consent. Outside that
+context the UI asks for the intended federation before lookup or disclosure.
+An alias by itself is also a valid **search input**. Its
+[discovery policy](#per-identifier-discovery) determines whether a route is visible.
+
+| Example or form | Meaning |
+|---|---|
+| `random::seed:ask:Warsztat7` | Search for `random:seed`. When used for protected lookup, present the Catalog-scoped salted hash. If the receiver also requires a code, present its request proof separately to the receiver. |
+| `random::seed:once:<token>` | Redeem the single-use advance invitation for that alias with one signed request. Replace the placeholder with the complete opaque alphanumeric token. |
+| `contact-nym::abc:nymask:Warsztat7` | Use `contact-nym:abc` only where the holder has a current, authorized route binding for that nym. `nymonce` selects the single-use variant. An unresolved or relationship-inappropriate nym stops the flow before disclosure. |
+
+The middle field disambiguates alias and nym even when an alias looks like
+a typed nym. For aliases the bare tags `ask` and `once` select the first
+allocation (generation 1). For a reassigned name append its decimal generation
+of 2 or greater, without leading zeros, to the tag
+(e.g. `random::seed:ask2:Warsztat7`). Bind a protected lookup from a slip to
+its expected generation. The Catalog must check the current reservation before
+returning a route. The client verifies that binding before presenting any
+invitation credential to the receiver. An old slip then fails even if the
+new owner happens to choose the same short code. Exact alias searches without
+a slip may discover the current holder, and must not silently retarget a saved
+contact or conversation.
+
+Double every literal colon in the locator on export. Split from the right at
+the final two colons on import, then decode each doubled colon in the locator
+as one literal colon. Reject an unpaired colon there, empty fields, unknown tags, an invalid
+generation or a credential invalid for its kind. Preserve token case and
+apply the existing ASCII fold only to a reusable code. The on-wire and stored
+model keeps federation, locator kind and value, allocation generation (for an
+alias), invitation kind and private proof separate. The presentation codec
+is confined to the UI boundary. Alias discovery sends the lookup-safe index
+and, for protected lookup, the Catalog-scoped salted `ask` hash. Nym
+resolution uses the authorized binding privately.
+A QR, when supported, carries the same text and confers the same authority
+as its paper copy. Anyone who sees a bearer invitation can present it.
+
+For example, `a::::b:::ask:Ab3` decodes to alias `a::b:` and reusable
+code `Ab3`. Reject `a:b:ask:Ab3` (unescaped colon), `a:ask:` (empty code)
+and `a:ask01:Ab3` (noncanonical generation) before making a lookup.
 
 ### 9. Admission Policy
 
@@ -952,3 +1031,5 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Exercise the [code policy](#recipient-issued-contact-invitations) with fresh and cached routes. Accept both ASCII length boundaries and mixed case. Refuse lengths 2 and 33, non-ASCII, missing, invalid and retired codes before a prompt. Rotate across restart, exercise both attempt budgets and verify redacted records. Integration gate: S027-017. |
 | P058-023 | Issue, withdraw and claim a single-use advance invitation | todo | Through the same S025 acceptor, bind a private token to its recipient, route, purpose, expiry and optional sender key. Refuse wrong sender for a bound token, wrong route, wrong purpose, expiry and withdrawal without spending a valid invitation on an invalid request. Pair with P076-039 for issuance and S027-018 for the participant journey. |
 | P058-024 | Optional federation alias as a Contact Catalog handle | todo | Gate the [reservation lifecycle](#federation-contact-alias) through two providers: race equivalent spellings for one name, retry the winner, and reserve the same name independently in another federation. Reject a foreign release. Release at a controlled time, restart and replay stale updates. Prove refusal just before and eligibility exactly at the 30-day default and a configured alternative, including for the previous holder. A successor has a new generation and receives no prior authority. |
+| P058-025 | Text presentation for alias and nym contact invitations | todo | Share [codec vectors](#shareable-contact-text) for both locator kinds and both invitation modes. Round-trip leading, trailing, repeated and embedded colons. Reject lone unescaped colons, empty fields, unknown tags, malformed generations and invalid codes before lookup. Verify parsed fields, preserved token case and rejection of a superseded allocation before any credential disclosure. S027-019 owns the participant journey. |
+| P058-026 | Discovery policy and salted lookup verifier per identifier | todo | Exercise [all three visibility modes](#per-identifier-discovery) on two identifiers of the same kind and on an alias. Cover independent rotation, stale replicas and restart. For the same code on two entries, require distinct lookup hashes and stored verifiers. Refuse cross-entry proofs, replay of a stored verifier and superseded revisions. Verify equivalent negative responses across supported lookup paths and inspect requests, storage and redacted outputs for credential exposure. S027-020 owns the participant journey. |

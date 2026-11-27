@@ -171,6 +171,56 @@ the name. Expiry of a route claim stops discovery until refreshed and does
 not establish that the name is free. Freeze wire shapes and positive/negative
 Schema Gate examples before enabling registration.
 
+Consumers of [P058-025](../../40-proposals/058-contact-catalog.md#shareable-contact-text)
+pass a typed lookup. The visibility of that identifier determines whether they
+receive a current binding. Admission of the signed request remains with the receiver.
+
+#### Catalog verification of a lookup ask (planned) {#catalog-ask-verifier}
+
+Implement [P058-026](../../40-proposals/058-contact-catalog.md#per-identifier-discovery)
+at the route-read boundary shared by exact, blinded and PSI lookup. Reuse
+claim ownership checks for policy writes, the existing lookup index, redacted
+audit, rate limits and tombstone/sequence handling. The authorized Catalog
+is trusted with route release and salted lookup material. Keep both the raw
+code and receiver-admission proofs outside its API.
+
+1. **Set or rotate.** On an authenticated owner update, allocate fresh random
+   salts per identifier and code revision. The owner's client validates and
+   ASCII-folds the 3–32 character `ask`, then derives a salted lookup hash
+   using a versioned, bounded password KDF. Bind the derivation to the Catalog
+   lookup purpose, federation, identifier kind/index and an opaque revision
+   fresh for each code rotation or alias reallocation. A lookup from a saved
+   slip also supplies its expected allocation generation for the Catalog to
+   check before releasing the route. A bare alias search needs no generation. Send
+   the hash over authenticated confidential transport. The Catalog immediately
+   hashes it again with a separate storage salt. Persist only this salted
+   verifier, salts, KDF profile and policy revision. Commit the mode and
+   verifier atomically. Clearing the verifier leaves protected lookup closed.
+2. **Look up.** The client obtains the public derivation parameters, computes
+   the lookup hash locally and submits it privately. The Catalog repeats the
+   storage step and compares in constant time. The stored verifier itself
+   cannot be presented as the lookup credential. Treat the transmitted hash
+   as reusable for that lookup until rotation and exclude it from logs,
+   notifications, URLs, results and public or ordinary replication. It has
+   no authority at the receiver. Never send a raw or derived `once` value
+   to the Catalog, including during parameter discovery.
+3. **Refuse without disclosing the entry.** The parameter exchange must not
+   reveal whether an entry exists, its mode or current alias generation.
+   Use the same response shape and consistent salt behavior on repeated
+   probes for protected, hidden and absent entries. A failed lookup returns
+   no route, policy hint or identifier-specific error. Bound attempts per caller and per identifier
+   across callers, and bound KDF work. Replicas unable to enforce the current
+   policy must forward to an authorized verifier or withhold the result.
+   Apply the same visibility rule to intermediate responses, including PSI
+   match tokens that would otherwise confirm discovery before the route read.
+
+Unique salts make a bulk database leak cost guesses per entry. They add no
+entropy to an individual code: a three-character case-insensitive value has
+only 46,656 possibilities. A costly KDF raises the price of each guess.
+Freeze algorithm, work limits and wire vectors at Schema Gate before rollout.
+Evaluate the existing Node crypto crate's Argon2id dependency for reuse with a
+separate lookup profile and salts, independent of Vault keys and passphrases.
+
 ### Contact Request Admission
 
 Based on:
@@ -231,8 +281,8 @@ both a newly resolved and a cached route.
 
 - Bind the private presentation to the receiver, purpose and exact signed
   request. Version and validate its carrier at Schema Gate before enabling
-  this mode. Keep secrets out of public lookup, greeting, stored request JSON,
-  notifications, URL query logs and traces. Keep a receiver-keyed verifier
+  this mode. Keep the receiver's presentation out of Catalog lookup, greeting,
+  stored request JSON, notifications, URL query logs and traces. Keep a receiver-keyed verifier
   for the short code. A public digest of a three-character code permits
   offline guessing. A reference alone cannot redeem either kind.
 - Apply the invitation check before any user-visible first-contact prompt,

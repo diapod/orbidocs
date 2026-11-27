@@ -963,6 +963,22 @@ the messaging service.
 
 #### Contact invitations and receive consent {#contact-invitations-and-receive-consent}
 
+The planned [federation alias](058-contact-catalog.md#federation-contact-alias)
+is a recipient search handle alongside email and phone. Resolve it through
+Contact Catalog for `contact-request/messaging`. The [per-identifier visibility
+policy](058-contact-catalog.md#per-identifier-discovery) applies separately to
+each alias, email and phone. A Catalog-verified `ask` can disclose a route
+while the receiver is offline. At request time, a cached route, lookup hash
+or successful Catalog response supplies no admission proof. Use the receiver's
+existing signed request and any independently required receiver-side code.
+Present a single-use `once` token only to the verified receiver. When discovery
+requires its own `ask`, keep the two inputs separate in the UI and on the wire.
+[S027-020](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#per-identifier-discovery-acceptance)
+qualifies this boundary through the participant UI.
+For [pasted contact text](058-contact-catalog.md#shareable-contact-text), reuse
+the same signed request and passport handoff. Keep the pairwise contact and
+conversation bound to their verified peer across alias release or reassignment.
+
 **Planned.** Both [P058 invitation modes](058-contact-catalog.md#recipient-issued-contact-invitations)
 enter through the existing signed contact request. A reusable code admits a
 request for the recipient to decide. A single-use invitation records the

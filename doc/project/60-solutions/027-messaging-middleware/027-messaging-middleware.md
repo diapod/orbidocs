@@ -620,6 +620,8 @@ historical S027-001–008 qualifications.
 | S027-016 | Allow and add a contact from the first INAC notification | todo | For an exact `contact-request.v1` offer, retain **Allow request only** and add **Allow and add contact**. The latter records a single-use decision for the recipient, bound to the exact INAC offer and decision generation, authenticated peer and digest of the signed request. It expires at most one hour after the click, subject to shorter applicable validity limits. Add the verified sender only after the matching request arrives and passes current INAC, signature, block and receive-authority checks. Close on a browser case where one click leads to one contact and no second prompt, the request-only action still asks separately, and mismatched, expired or replayed requests cannot use the advance approval. |
 | S027-017 | Reusable request code and independent withdrawal in the participant UI | todo | P058-022. Close on the [reusable-code browser scenario](#contact-invitation-acceptance) with two senders, cached-route refusal, code rotation and individual consent withdrawal. |
 | S027-018 | Single-use invitation issued before first contact | todo | P058-023 and P076-039. Close on the [advance-consent browser and restart scenario](#contact-invitation-acceptance) with competing senders, one scoped passport and separate withdrawal. |
+| S027-019 | Find and contact a participant by federation alias or shared text | todo | Depends on P058-024/025. Exercise each invitation mode with its existing S027-017/018 flow. Close on the [alias and shared-text cases](#federation-alias-acceptance). |
+| S027-020 | Discover a contact by an independently protected identifier | todo | Depends on P058-026. Reuse Story 010 and the S027-017/018 request and redemption paths. Close on the [participant discovery cases](#per-identifier-discovery-acceptance), including lookup with an offline receiver, a cached route, independent withdrawal and receiver-only redemption. |
 
 ### Contact invitation acceptance (planned) {#contact-invitation-acceptance}
 
@@ -639,6 +641,38 @@ before choosing **Allow and add contact**.
 Use existing contact and child-withdrawal controls. Label the two actions
 **Stop using this invitation** and **Withdraw this sender's Messaging consent**
 with their distinct effects. Keep raw codes and tokens out of captured evidence.
+
+#### Federation alias and shared text (planned) {#federation-alias-acceptance}
+
+In the Story-010 participant UI, opt in to an openly searchable federation alias without an email
+or phone claim. Search by exact alias from another node. Verify the result
+offers a request route and leaves contacts, receive passports and the inbox
+unchanged until an explicit request or valid advance invitation follows.
+Use the [same presentation codec and acceptance vectors as P058](../../40-proposals/058-contact-catalog.md#shareable-contact-text).
+
+Paste the reusable-code example and observe a pending request. Repeat on
+separate contacts with a fresh single-use token and observe one scoped consent
+and actual message receipt. Exercise both an alias route and an authorized nym
+binding. Refuse an unresolved nym before presenting the credential. Release
+and reassign the alias after the hold. An old slip must stop before sending its
+credential, even if the new holder chose the same short code. A fresh lookup
+can find the new holder. The original conversation still addresses its original
+peer. Verify that open lookup sent no credential to the Catalog and the two senders' pairwise
+nyms do not become public search keys. QR rendering is a later presentation option.
+
+#### Per-identifier discovery acceptance (planned) {#per-identifier-discovery-acceptance}
+
+Use the normal participant UI, a separately running Catalog and the existing
+Story-010 receiver. Observe the Catalog result, receiver requests, notifications,
+passport issuance and inbox independently. Use synthetic credentials and retain
+only redacted observations.
+
+| Case | Required observations |
+|---|---|
+| Mixed visibility | Keep the receiver offline after publishing an open email, a hidden second email and an alias protected by `ask`. Only the open email resolves without a code. The alias resolves with its own code and discloses no sibling identifiers. Hidden, absent and protected lookups with a missing or wrong code yield the same visible no-match outcome. Lookup alone creates no request, notification or passport when the receiver returns. |
+| Two protected identifiers | Set email and alias to `ask` with distinct codes. Each resolves only with its own code. Rotate the alias code, restart the Catalog and query through a stale replica. The old value cannot resolve the alias and the email code still works. Switch the alias to hidden and verify that the new value stops working without releasing the name. |
+| Independent admission and withdrawal | With a previously discovered route, submit a signed request to a receiver requiring a different code. A Catalog lookup hash fails before any prompt. The receiver's code admits one pending request, and acceptance issues the sender's passport. Withdrawing the lookup code leaves the issued passport usable. Withdrawing that passport stops delivery even if the sender can still resolve another identifier. |
+| Single-use invitation | Paste a `once` slip for a protected alias. Without a separate lookup `ask` or a verified private route the client cannot proceed. With either, redemption runs at the receiver once. Inspect the Catalog boundary during both attempts: neither the token nor a value derived from it reaches the Catalog. |
 
 ### Bounded Memarium Recovery (S027-008)
 
