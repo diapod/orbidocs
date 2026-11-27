@@ -451,8 +451,16 @@ key. With the backup and its unlock factors, a replacement node can prove
 control of the same key. Rotation requires signatures from the current and
 replacement alias keys over the same transition. Membership or renewed control
 of an email alone cannot replace a key. If all authorized copies are lost,
-tell the holder that recovery of this generation is unavailable. The ordinary
-recovery window and hold still protect the name.
+tell the holder that recovery of this generation is unavailable. The pilot
+uses ordinary reallocation after the hold, with no former-holder priority
+or extra retention of the private member-to-alias link. Before release,
+explain that the earliest application date is not yet known. Once the
+private holder UI can verify the committed `reusable/at`, show its UTC date
+and time, for example: "From 2027-11-10 09:00 UTC you can apply again,
+without priority."
+Recheck availability, disputes, membership, contact control and quota at
+reservation. A successful application starts a new generation with a fresh
+key. Keep the existing public "unavailable" response.
 
 **Notice and outage.** Notify the holder privately 30 and 7 days before nominal
 expiry. By default an online holder node attempts one alias-key-signed renewal
@@ -464,10 +472,12 @@ The federation publishes a minimum usable renewal window (pilot default 30
 days, starting at first notice becoming due). Expiry into recovery requires
 **both** nominal expiry and that much cumulative time when the authorized
 service could commit both eligible renewals and restorations. Read elapsed
-service time from the witnessed clock in S025. Writer downtime, fencing,
-missing witnesses or unknown availability pause it. An absent holder does
-not pause it. Persist progress across restart and handover. If 10 of the
-30 notice days were unavailable, allow the remaining 10 after service resumes.
+service time from the [S025 witnessed clock](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-service-clock).
+The federation bounds the gap that can earn credit. Writer downtime, fencing,
+missing witnesses or stale membership evidence suspend credit. An absent
+holder does not pause it. Persist progress across restart and handover. If
+10 of the 30 notice days were unavailable, allow the remaining 10 after
+service resumes.
 No availability adjustment extends an expired route or signed read proof.
 
 Start a full owner-only recovery window at the committed expiry transition.
@@ -541,11 +551,18 @@ and tag families (`ask`, `once`, including decimal suffixes). Reserve official
 service names, `admin`, `support` and their confusing equivalents. Apply the
 reservation to bare reserved names too. For the finite reserved-name list,
 compare both sides using the same additional, registration-only projection:
-map `0` to `o`, both `1` and `l` to `i`, `m` to `rn`, and `w` to `vv` in one
-pass over the ASCII key. Apply this check to reserved segments in their
-original position and to reserved whole names. Refuse `adm1n`, `adrnin` and
-`supp0rt`. Ordinary names keep the narrower reservation key. The additional
-projection never enters the lookup index or slip checksum.
+map `0→o`, `1→i`, `l→i`, `3→e`, `4→a`, `5→s`, `7→t`, `m→rn` and `w→vv` in one
+pass over the ASCII key. Apply it to the whole key for reserved names and
+to the first segment for reserved locator kinds. Refuse `adm1n`, `adrnin`,
+`4dmin`, `supp0rt` and `5upport`.
+
+For a tag family, split the first segment's match key **before** projection:
+reject if it can be split into a stem projecting to `ask` or `once` and an
+empty or all-ASCII-digit suffix. Leave suffix digits untouched, including
+leading zeros. For example, `0nce1`, `4sk02:foo` and `0nc31` are reserved:
+the last splits as `0nc3` + `1`. The tag check alone admits `once1x`.
+Ordinary aliases keep the narrower reservation key. These enrollment rules
+leave slip parsing, lookup keys and checksums unchanged.
 
 **Profile compatibility gate.** Pin repertoire, casing and variant tables,
 Unicode version, reservation mapping, reserved segments and limits. Alias
@@ -1287,7 +1304,7 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-021 | Adapt trusted-provider sync to the P081 bounded replication contracts | done | Contact Catalog claim and tombstone refresh now constructs schema-gated `replication-delta-batch.v1` values, recomputes canonical artifact and sequence digests, enforces the direct provider source/origin binding, and passes every item through shared bounded apply before the existing SQLite merge. Provider authentication, private lookup policy, cursor/high-water state, tombstone dominance, redacted diagnostics, and the no-public-dump invariant remain domain-owned and unchanged. |
 | P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Test 3/32 and 2/33 character manual boundaries, mixed case, cached routes, pause/rotation across restart, uniform pre-prompt refusal and private code/ref. Flood invalid proofs and valid prompts separately. A legitimate caller can progress under the documented fair budget. S027-017. |
 | P058-023 | Single-use invitation lifecycle | todo | Bind recipient, route, purpose, optional sender and commit-time expiry. Refuse invalid claims without spending the token. Exercise parent replacement, lost response, notification and separate child withdrawal with P076-039 and S027-018. |
-| P058-024 | Federation alias, verified allocation and current binding | todo | Before Schema Gate freeze alias profile, signed lease revision and expiry, key rotation/recovery binding and witnessed service clock. Before enabling writes qualify reserved-name vectors, private assurance and per-member quota, same-key recovery on a replacement host, omission risk, departure versus exclusion, hold boundaries, fork handling and writer handover. Pass the [S025 authority gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority). |
+| P058-024 | Federation alias, verified allocation and current binding | todo | Before Schema Gate freeze the alias profile, signed lease revision and expiry, key rotation/recovery binding, tick gap and membership freshness evidence. Before enabling writes qualify reserved tag suffixes, private assurance and quota, same-key restore and reapplication without priority, selective omission, departure versus exclusion, hold boundaries, forks and handover. Pass the [S025 clock and authority cases](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority). |
 | P058-025 | First-contact slip presentation | todo | Freeze the [codec vectors](#shareable-contact-text), including manual-field isolation, 15/16-symbol boundaries, cross-revision keys and equivalent spellings, wrong federation, ambiguous checksum, truncated prefix/suffix, disallowed nyms and malformed generations. Observe zero network calls on local failure. S027-019 checks actual receipt and reassignment. |
 | P058-026 | Visibility and scoped lookup proof per identifier | todo | Freeze hidden/open/protected and reject ask as visibility. Exercise generated-secret provisioning, separate lookup/request purposes, no per-entry parameter request, explicit second input and receiver-only once. Rotate at one identifier, restart and query stale replicas. Test cross-scope proof misuse, stored verifier replay, and no automatic PSI downgrade. S027-020 owns participant acceptance. |
 | P058-027 | PSI-128 bounded candidate completeness | todo | [S025 completeness gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#lookup-privacy-follow-ups). Test 127/128/129 unique eligible entries, duplicates, different insertion orders and a smaller requested limit. Require a verified hit or explicit incomplete result whenever truncation could hide it. |

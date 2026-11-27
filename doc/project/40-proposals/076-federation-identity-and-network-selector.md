@@ -675,9 +675,11 @@ for individual alias reservations.
 
 For [P058-024 / S025](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority)
 that policy also authenticates the required witness rule (separate operator
-and key custody in the pilot), checkpoint freshness
-limits and the predecessor cutoff (log sequence and checkpoint digest) on a
-writer change. Fence the old key for new mutations. A successor imports the
+and key custody in the pilot), checkpoint freshness limits, the
+[S025 clock parameters](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-service-clock)
+(maximum tick gap and membership freshness), and the predecessor cutoff
+(log sequence and checkpoint digest) on a writer change. Fence the old key
+for new mutations. A successor imports the
 verified state, including lease revisions, the witnessed service clock and
 lease window baselines or paused credit, membership suspensions, holds and
 disputed names, and refreshes proofs

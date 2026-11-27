@@ -323,13 +323,40 @@ A replica serves a binding only with fresh evidence of visibility,
 witness confirmation, lease validity, membership and revocation. An outage
 cannot authorize local extensions of signed read validity.
 
-**One witnessed service clock.** Each checkpoint carries the cumulative
-seconds during which the authorized write path could commit both renewals and
-restorations, including the required witness. Advance only for newly evidenced
-time since the preceding checkpoint, by at most the wall time elapsed. The
-witness checks the interval evidence before signing the new clock value. Reads,
-heartbeats, unknown gaps and replayed epochs earn no credit. Carry this
-monotonic value across a fenced handover; refuse a rollback or unverified jump.
+<a id="alias-service-clock"></a>
+
+**One witnessed service clock (P058-024, freeze before Schema Gate).** Use
+the allocation checkpoint itself as the sample ("tick"). Even with no holder
+requests, the writer commits an empty transition through the same mandate,
+fencing, durable log and independent witness path as a renewal or restoration.
+It changes no lease. A read, process heartbeat, prepared write or witness
+signature on an uncommitted candidate cannot advance the clock.
+
+The allocation policy publishes the maximum gap `G` in positive whole
+seconds. Schedule idle ticks more frequently than `G`. The same policy pins
+the membership evidence and freshness limits used by both write operations.
+Each tick binds its policy revision, predecessor, UTC time, cumulative
+seconds and a commitment to the membership evidence used by the writer.
+The witness checks the authenticated source revision, federation scope and
+validity interval through a private opening. A cached proof for one member
+cannot establish readiness for the federation. If the
+writer cannot establish a fresh membership view for the served scope, the
+clock stays still. Keep member identities out of the public checkpoint.
+Each renewal or restoration still verifies the holder's current membership.
+
+For consecutive committed ticks on the same verified chain and policy,
+let `d` be the difference between their signed UTC times in whole seconds.
+The witness checks the proposed time against its clock under the policy's
+skew bound. Credit exactly `d` when `0 < d <= G`, membership evidence
+covers the interval and there is no known interruption to the write path.
+Otherwise credit zero. In particular, a gap longer than `G` earns zero
+for the whole gap. After a known outage, lapse in evidence or writer/policy
+handover, the first qualifying tick establishes a new baseline at the
+previous cumulative value. Never backfill the gap. Reject time rollback,
+a broken predecessor link or a counter inconsistent with the rule. Exact
+replay adds nothing. A tick proves availability at its instant. Crediting
+a short gap is a sampling assumption bounded by `G`; an unobserved brief
+outage or selective omission of a holder's request can escape detection.
 
 For each lease record the clock value at notice start, or at the committed
 entry into recovery for that window. If the exact notice boundary falls
@@ -371,6 +398,13 @@ Before enabling writes, exercise these P058-024 cases with a controlled clock:
 - Use two leases with different notice starts. Interrupt the writer and the
   witness in each window. Replay a checkpoint, fence and replace the writer
   and check both remaining durations. Reject clock rollback and double credit.
+- With fixture `G = 60`, qualifying ticks at seconds 0, 60, 121 and 131
+  yield cumulative values 0, 60, 60 and 70. Keep the writer and witness up
+  but let membership evidence expire after 131. A heartbeat, a failed tick
+  at 140 and the first qualifying tick at 150 leave the value at 70. At 160
+  it reaches 80. Check notice and recovery windows across the lapse. A
+  prepared tick interrupted before commit must leave the durable clock
+  unchanged after restart. Replaying its prepared bytes proves no commit.
 - Suspend for exclusion, cross the deadline during appeal, then reinstate
   with the remaining opportunity. Check stale replicas, final exclusion and
   voluntary departure directly into hold. A shared mailbox can qualify two
@@ -379,7 +413,10 @@ Before enabling writes, exercise these P058-024 cases with a controlled clock:
   unconfirmed intent and can seek review; its local copy grants no extension.
   Check auto-renew opt-out, locked-key failure and one confirmation on retry.
 - Recover on a replacement host through the [S026 alias-key gate](../026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md#alias-control-key-recovery).
-  Check ordinary and reserved-name collision vectors independently.
+  Repeat with every alias key copy missing. Verify the private UI before and
+  after witnessed release, refusal just before the hold ends and ordinary
+  competition at the boundary. Either eligible claimant can win the next
+  generation. Check ordinary and reserved-name collision vectors independently.
 
 Withhold the pilot witness past freshness and reject same-operator substitution.
 Monitor both an unauthorized intermediate change reverted before reconnect
