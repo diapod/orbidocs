@@ -376,6 +376,11 @@ reuse Contact Claim Admission's verification of `email-control@v1` or a
 federation-accepted `phone-control@v1` privately. [P061](061-contact-attestation-service.md)
 describes these passports. Its draft status adds no new issuance dependency.
 The federation may accept stronger evidence under an explicit policy.
+The pilot applies its alias quota per member. Two independently eligible
+members may control the same mailbox or phone. Each supplies fresh proof
+bound to their own membership. Contact control establishes reachability;
+it does not establish one person per address. Do not build an address
+deduplication index for alias eligibility.
 
 Treat `alias` as a first-class `contact/kind` alongside `email` and `phone`.
 Reuse the opt-in claim, exact lookup, purpose filter and route set. The current
@@ -413,11 +418,41 @@ generation. Its signed state records each deadline and the policy that set it.
 | Transition | Effect |
 |---|---|
 | Reserve a free name | Atomically check eligibility, intent, route control, quota, match key and confusable reservation key. Exact retry returns the original receipt. Other claimants see only "unavailable". Default quota: one active, recoverable or suspended allocation per member. |
-| Renew an active lease | Require the current member's alias-key signature for this generation. The default lease is 12 months. A new email/phone proof is unnecessary. Route rotation preserves the allocation. Rename within quota requires an atomic exchange or a free slot. |
+| Renew an active lease | During notice, the current member signs for the term being extended. Set the next nominal expiry to one term after the later of the old expiry and the renewal commit. |
 | Expire into recovery | After the renewal opportunity below, stop discovery and reserve the name exclusively for its existing key. Default recovery: 30 days. No other participant can claim it. |
-| Restore in recovery | Before the recovery deadline, the same current alias key and current membership can restore the same generation. Check current route, visibility and revocations before lookup resumes. No invitation or consent is reactivated. |
+| Restore in recovery | Before its exclusive end, the current member and alias key can restore the same generation. A fresh full term begins at the restore commit. |
 | Release into hold | Voluntary signed release skips recovery. Otherwise commit release after recovery is exhausted or membership loss becomes final as described below. Freeze `reusable/at` at writer commit plus the federation hold (default 30 days of 24 hours). Both reservation keys are held against everyone, including the former holder. |
 | Reallocate | At or after `reusable/at`, the next allocation increments the generation. Keep its high-water mark through compaction. Earlier contacts, invitations and consents stay with their original peers. |
+
+**Term and replay (Schema Gate).** Initial allocation and restoration set
+`lease/expires-at` to commit time plus the policy term (default 12 calendar
+months in UTC, clamping to the last valid day of the target month).
+Renewal preserves the unused part of the old term. The signed renew or
+restore intent names the operation, federation, allocation, generation and
+current `lease/revision`. The witnessed transition binds the intent digest,
+prior and next revision, commit time, term policy and resulting nominal expiry.
+At commit, check membership, current alias key, expected revision and window.
+Advance the revision, record the outcome and reset window baselines atomically.
+An exact retry returns the original receipt, even after restart. This proves
+the earlier commit only. A different intent for a consumed revision is stale.
+The next revision cannot be renewed
+until its own notice window, so early retries cannot prepay successive terms.
+Route rotation preserves the term. A rename within quota requires an atomic
+exchange or a free slot. Routine renewal requires no fresh email/phone proof.
+
+For example, for expiry on 1 September 2027 a renewal on 2 August keeps
+1 September 2028 as the next expiry. If the name instead enters recovery
+and is restored on 10 September 2027, the new expiry is 10 September 2028.
+
+**Lost device or key.** Offer inclusion of the alias-specific key in the
+holder's [sealed participant backup](../60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md#alias-control-key-recovery)
+at allocation and after rotation. Show whether a current export covers this
+key. With the backup and its unlock factors, a replacement node can prove
+control of the same key. Rotation requires signatures from the current and
+replacement alias keys over the same transition. Membership or renewed control
+of an email alone cannot replace a key. If all authorized copies are lost,
+tell the holder that recovery of this generation is unavailable. The ordinary
+recovery window and hold still protect the name.
 
 **Notice and outage.** Notify the holder privately 30 and 7 days before nominal
 expiry. By default an online holder node attempts one alias-key-signed renewal
@@ -428,30 +463,41 @@ action. The writer cannot renew on the holder's behalf.
 The federation publishes a minimum usable renewal window (pilot default 30
 days, starting at first notice becoming due). Expiry into recovery requires
 **both** nominal expiry and that much cumulative time when the authorized
-service could accept and commit eligible renewals. Count only evidenced,
-non-overlapping service intervals. Writer downtime, fencing, missing required
-witnesses or unknown availability pause this clock. An individual holder's
-absence does not. Persist progress across restart and handover. If 10 of the
+service could commit both eligible renewals and restorations. Read elapsed
+service time from the witnessed clock in S025. Writer downtime, fencing,
+missing witnesses or unknown availability pause it. An absent holder does
+not pause it. Persist progress across restart and handover. If 10 of the
 30 notice days were unavailable, allow the remaining 10 after service resumes.
 No availability adjustment extends an expired route or signed read proof.
 
 Start a full owner-only recovery window at the committed expiry transition.
-Count only time when restoration was available. Never backdate expiry and
+Measure it with the same witnessed service clock. Never backdate expiry and
 consume recovery during the same outage. At the exclusive end of recovery a
-restore is too late. The hold starts at the actual release commit. A replica with no fresh binding withholds lookup even while the
-writer must preserve the holder's right to renew or restore.
+restore is too late. The hold starts at the actual release commit. A replica
+with no fresh binding withholds lookup while the holder can still renew or restore.
 
-**Membership loss and dispute.** Verified departure or exclusion suspends
-alias discovery and blocks renewal/restoration immediately at the authority.
+Recovery or membership suspension pauses discovery, including use of a
+`protected` lookup verifier. On same-generation restoration or reinstatement,
+resume only the current visibility, verified route and still-live verifier.
+A previously printed `ask` slip can work again if its codes remain current.
+Retired verifiers stay retired. Release retires this generation's discovery
+bindings and verifiers. Cached routes, receiver request codes, single-use
+invitations and issued consents retain their own expiry and revocation rules.
+
+**Membership loss and dispute.** On final authenticated voluntary departure,
+suppress discovery and commit ordinary release into hold as soon as the
+writer can do so. The hold starts at commit. No exclusion appeal is required.
+Tell the member this before confirming departure. An existing dispute still
+bars reuse. Verified exclusion suspends discovery and blocks renewal/restoration.
 Replicas suppress on observation and withhold on stale membership evidence.
 Unknown membership also withholds reads but cannot cause permanent release.
-Reserve the name through the federation's appeal window and any pending
+For exclusion, reserve the name through the federation's appeal window and any pending
 [P051 review](051-swarm-membership-and-reputation-bootstrap.md). Pause adverse
 lease transitions during review. An unresolved appeal bars release even if
 the original lease or appeal deadline passes. Reinstatement resumes the same
-generation and remaining renewal/recovery opportunity, subject to fresh route and policy
-checks. Final loss commits release into the ordinary hold. Quarantine takes
-precedence over reuse. Alias suspension does not retarget existing pairwise
+generation and remaining renewal/recovery opportunity, subject to fresh route
+and policy checks. Final exclusion commits release into the ordinary hold.
+Quarantine takes precedence over reuse. Alias suspension does not retarget existing pairwise
 conversations or independently change a Messaging grant.
 
 The UI explains that a hidden name can still be recognized as unavailable
@@ -466,7 +512,7 @@ data before Schema Gate. Use the same profile for reservation and lookup.
 |---|---|
 | Display | NFC, locale-independent Unicode lowercase, NFC. Admit the pinned Latin allowlist (ASCII letters and an explicit selection from Latin-1 Supplement and Latin Extended-A, plus Romanian Ș/ș and Ț/ț from Latin Extended-B), ASCII digits, and the separators `.-_:`. Pin allowed input spellings and their case/canonical equivalents. Reject fullwidth forms, other scripts, IPA lookalikes, format/bidi controls, joiners, and colons other than ASCII before any lossy mapping. Reject a remaining combining mark, including the lowercase expansion of U+0130. |
 | Match key | From the validated display spelling, case-fold, decompose accents, strip combining marks, apply the complete pinned variant table (including ł→l, ß→ss, æ→ae, ø→o, đ→d) and remove separators. Require a nonempty ASCII `[a-z0-9]+` result for every allowed spelling. Use this key for equality, indexing and the slip checksum. |
-| Confusable reservation key | From the ASCII match key use the profile's explicit, versioned subset of confusables (pilot digit-letter folds `0→o`, `1→l`). Reserve atomically on collision. Other scripts are already excluded. Full UTS #39 skeleton matches can inform review but cannot alone deny a name. Lookup always uses the match key. |
+| Confusable reservation key | From the ASCII match key apply the pinned pilot folds `0→o` and `1→l`. Reserve the key atomically with the name. A collision blocks registration. Lookup uses the match key. |
 
 Initial lowercase display repertoire (literal Unicode characters, spaces
 between groups for readability):
@@ -493,7 +539,13 @@ from the full name, compare the first colon-delimited segment under the same
 match rules against reserved locator kinds (`contact-nym`, `email`, `phone`)
 and tag families (`ask`, `once`, including decimal suffixes). Reserve official
 service names, `admin`, `support` and their confusing equivalents. Apply the
-reservation to bare reserved names too.
+reservation to bare reserved names too. For the finite reserved-name list,
+compare both sides using the same additional, registration-only projection:
+map `0` to `o`, both `1` and `l` to `i`, `m` to `rn`, and `w` to `vv` in one
+pass over the ASCII key. Apply this check to reserved segments in their
+original position and to reserved whole names. Refuse `adm1n`, `adrnin` and
+`supp0rt`. Ordinary names keep the narrower reservation key. The additional
+projection never enters the lookup index or slip checksum.
 
 **Profile compatibility gate.** Pin repertoire, casing and variant tables,
 Unicode version, reservation mapping, reserved segments and limits. Alias
@@ -1235,7 +1287,7 @@ tables in this project (see Proposal 057 §Tracking for precedent).
 | P058-021 | Adapt trusted-provider sync to the P081 bounded replication contracts | done | Contact Catalog claim and tombstone refresh now constructs schema-gated `replication-delta-batch.v1` values, recomputes canonical artifact and sequence digests, enforces the direct provider source/origin binding, and passes every item through shared bounded apply before the existing SQLite merge. Provider authentication, private lookup policy, cursor/high-water state, tombstone dominance, redacted diagnostics, and the no-public-dump invariant remain domain-owned and unchanged. |
 | P058-022 | Reusable request code and receiver-owned first-contact gate | todo | Test 3/32 and 2/33 character manual boundaries, mixed case, cached routes, pause/rotation across restart, uniform pre-prompt refusal and private code/ref. Flood invalid proofs and valid prompts separately. A legitimate caller can progress under the documented fair budget. S027-017. |
 | P058-023 | Single-use invitation lifecycle | todo | Bind recipient, route, purpose, optional sender and commit-time expiry. Refuse invalid claims without spending the token. Exercise parent replacement, lost response, notification and separate child withdrawal with P076-039 and S027-018. |
-| P058-024 | Federation alias, verified allocation and current binding | todo | Freeze profile, portable proofs, transition and checkpoint vectors before Schema Gate. Race equivalent and protected digit-letter variants through two providers. Verify initial private assurance and membership-only renewal, notice availability, owner-only recovery, departure, appeal, holder monitoring and quota. Check the release hold immediately before and at its deadline (default and override), per-federation independence, exact retry, fork quarantine and writer handover. Pass the [S025 authority gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority). |
+| P058-024 | Federation alias, verified allocation and current binding | todo | Before Schema Gate freeze alias profile, signed lease revision and expiry, key rotation/recovery binding and witnessed service clock. Before enabling writes qualify reserved-name vectors, private assurance and per-member quota, same-key recovery on a replacement host, omission risk, departure versus exclusion, hold boundaries, fork handling and writer handover. Pass the [S025 authority gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority). |
 | P058-025 | First-contact slip presentation | todo | Freeze the [codec vectors](#shareable-contact-text), including manual-field isolation, 15/16-symbol boundaries, cross-revision keys and equivalent spellings, wrong federation, ambiguous checksum, truncated prefix/suffix, disallowed nyms and malformed generations. Observe zero network calls on local failure. S027-019 checks actual receipt and reassignment. |
 | P058-026 | Visibility and scoped lookup proof per identifier | todo | Freeze hidden/open/protected and reject ask as visibility. Exercise generated-secret provisioning, separate lookup/request purposes, no per-entry parameter request, explicit second input and receiver-only once. Rotate at one identifier, restart and query stale replicas. Test cross-scope proof misuse, stored verifier replay, and no automatic PSI downgrade. S027-020 owns participant acceptance. |
 | P058-027 | PSI-128 bounded candidate completeness | todo | [S025 completeness gate](../60-solutions/025-contact-catalog/025-contact-catalog.md#lookup-privacy-follow-ups). Test 127/128/129 unique eligible entries, duplicates, different insertion orders and a smaller requested limit. Require a verified hit or explicit incomplete result whenever truncation could hide it. |

@@ -169,7 +169,12 @@ Reuse the S025 contact-control passport verifier privately for initial
 eligibility. Verify issuer trust, profile, holder, validity and revocation
 without admitting a public email or phone claim. On renewal or recovery
 verify current membership and alias-key control for the same generation.
-Replaying an old signed renewal must never add another lease term.
+Use the signed expected lease revision in P058. Compare and advance it in
+the same transaction as the new nominal expiry and idempotent receipt.
+Verify normal rotation with the incumbent key's authorization and the new
+key's proof of possession over one statement bound to the allocation,
+generation, predecessor and replacement. A backup recovers the incumbent
+key under S026. The writer has no administrative key-reset transition.
 
 Send a signed reservation directly over a confidential channel authenticated
 to the currently mandated writer, or seal the whole request to its verified,
@@ -277,6 +282,17 @@ A mismatch raises a private alert with verifiable evidence for the existing
 dispute path. An unavailable proof yields "monitoring incomplete". Holder
 detection supplements mandatory witness confirmation.
 
+**Selective omission (pilot risk).** A working writer can ignore one
+holder's valid renewal while continuing to serve everyone else. The
+service clock and witnessed history cannot prove receipt of an unlogged
+intent. Keep the pending signed intent privately, retry it unchanged and
+show "renewal unconfirmed" until the holder verifies the committed receipt.
+If the name enters recovery, offer restoration and private P051 review.
+A local send timestamp gives reviewers context but cannot veto expiry.
+Record this limitation in the pilot threat model before enabling writes.
+Stronger protection would require independent, timely receipt of valid
+intents and a witness rule for outstanding receipts at expiry.
+
 A witness given openings can learn alias-to-control-key links. Restrict the
 openings to the transition check, discard them after validation and retain
 only opaque heads and necessary consistency state. If a dispute requires a
@@ -295,8 +311,9 @@ unsigned complaint cannot choose a winner or freeze a name.
 
 **Writer replacement and outage.** Policy N+1 endorses the successor and
 adopts a witnessed cutoff (sequence and digest) under N. Transfer and verify
-live allocations, control public keys, index continuity, lease state, notice and
-recovery availability counters, membership suspensions, open disputes,
+live allocations, control public keys, index continuity, lease revisions and
+nominal expiries, the service clock and each open window's baseline or
+paused credit, membership suspensions, open disputes,
 tombstones, holds and generation high-water before enabling writes. Fence the former writer.
 Reissue current proofs on demand under N+1 with the same generations. Old
 receipts prove only history unless included in the adopted state with fresh
@@ -306,13 +323,25 @@ A replica serves a binding only with fresh evidence of visibility,
 witness confirmation, lease validity, membership and revocation. An outage
 cannot authorize local extensions of signed read validity.
 
-Reuse witnessed epoch status to account for actual renewal/restoration
-availability. Persist authenticated intervals for the write path, including
-its required dependencies. A process heartbeat or a successful read alone
-cannot certify that a valid holder mutation could have committed. Unknown
-intervals earn zero credit; intersect intervals with the applicable window
-and count their union once. At recovery or handover, resume the committed
-counters and refresh proofs before advertising an adjusted deadline.
+**One witnessed service clock.** Each checkpoint carries the cumulative
+seconds during which the authorized write path could commit both renewals and
+restorations, including the required witness. Advance only for newly evidenced
+time since the preceding checkpoint, by at most the wall time elapsed. The
+witness checks the interval evidence before signing the new clock value. Reads,
+heartbeats, unknown gaps and replayed epochs earn no credit. Carry this
+monotonic value across a fenced handover; refuse a rollback or unverified jump.
+
+For each lease record the clock value at notice start, or at the committed
+entry into recovery for that window. If the exact notice boundary falls
+inside an unmeasured interval, anchor at the first witnessed reading at or
+after the boundary. Never count earlier service toward that window. Expiry
+requires nominal expiry and a clock delta of at least the configured notice
+opportunity. Release after recovery requires the full recovery delta.
+On membership suspension preserve credit already earned, and on reinstatement
+anchor the remaining opportunity at a fresh reading. A notice becoming due
+while suspended starts with zero credit on return. A new lease revision opens
+its own windows. Replay and restart use the stored baselines. Clock credit
+never refreshes read proofs.
 
 **Acceptance for P058-024.** Discover the writer via two Seed Directories
 across an endpoint move. Send the same encrypted intent through a forwarding
@@ -329,15 +358,29 @@ of the cutoff, including writes backdated by the old key. Check an unchanged
 name, a held name and a disputed name before reopening. Exercise reads on
 both sides of the outage freshness boundary.
 
-Before enabling writes, use a controlled clock to exercise the notice,
-owner-only recovery and final hold separately. Take the writer or required
-witness down during notice and again during recovery. Replay and overlap
-service intervals across restart/handover. Verify the holder gets the full
-configured opportunity, others cannot restore, and the first eligible
-reallocation increments the generation exactly once. Race renewal with expiry
-and withdrawal of membership. Cover departure, exclusion, pending appeal,
-successful reinstatement and final loss, including a stale replica. Check
-auto-renew opt-out, locked-key failure and a single confirmation on retry.
+Before enabling writes, exercise these P058-024 cases with a controlled clock:
+
+- Renew at T-30 and keep the original anniversary. Renew after nominal expiry
+  during an outage-extended notice and count a term from commit. Include a
+  leap-day expiry. Concurrent distinct intents for one revision extend once.
+  Replay the winner after restart and get the same receipt.
+- Restore on the last eligible tick. Observe the same generation and a full
+  new term from commit. At the exclusive recovery deadline refuse restore.
+  Race renewal with expiry and membership loss. Release and reallocate at the
+  hold boundary with one generation increment.
+- Use two leases with different notice starts. Interrupt the writer and the
+  witness in each window. Replay a checkpoint, fence and replace the writer
+  and check both remaining durations. Reject clock rollback and double credit.
+- Suspend for exclusion, cross the deadline during appeal, then reinstate
+  with the remaining opportunity. Check stale replicas, final exclusion and
+  voluntary departure directly into hold. A shared mailbox can qualify two
+  distinct current members with separate bound proofs. Enforce each quota.
+- Drop one renewal while other holders succeed. The holder sees an
+  unconfirmed intent and can seek review; its local copy grants no extension.
+  Check auto-renew opt-out, locked-key failure and one confirmation on retry.
+- Recover on a replacement host through the [S026 alias-key gate](../026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md#alias-control-key-recovery).
+  Check ordinary and reserved-name collision vectors independently.
+
 Withhold the pilot witness past freshness and reject same-operator substitution.
 Monitor both an unauthorized intermediate change reverted before reconnect
 and a valid holder rotation. Verify private alerts and witness-data expiry.

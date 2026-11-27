@@ -476,6 +476,26 @@ pseudonymous authorship and routing subjects; the private vault preserves the
 secret continuity needed to operate those surfaces without making participant
 linkage part of the wire protocol.
 
+## Planned alias control-key recovery {#alias-control-key-recovery}
+
+[P058-024](../../40-proposals/058-contact-catalog.md#federation-contact-alias)
+owns lease authority. S026 owns a planned alias-key entry inside the existing
+sealed participant recovery bundle. At allocation and rotation offer explicit
+inclusion of the fresh key and explain the consequence of losing all copies.
+Bind the private entry to its purpose, federation, allocation, generation and
+control public key. Keep all alias identifiers and key material inside the
+encrypted payload. A mnemonic alone cannot regenerate this random key.
+
+On a clean replacement host, import with the existing bundle factors and
+local unlock policy. Derive and check the public key, then independently
+verify the witnessed allocation, current membership and eligible lease state
+before signing a mutation. An offline import can recover key bytes only.
+Exercise same-generation restore during recovery. Repeat with an omitted
+key, wrong factors, a backup predating rotation and a reallocated name.
+None grants control of the current alias. Import must preserve newer local
+key state and cannot roll back a withdrawal or restore a Messaging consent.
+Qualify this entry under P058-024 before offering alias backup in the UI.
+
 ## Planned Whisper Case-Key Consumer
 
 [P013-LLR-006](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)

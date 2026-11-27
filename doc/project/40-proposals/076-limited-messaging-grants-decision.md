@@ -211,12 +211,28 @@ expiry and only the issuer's locked delegate prevented timely commit, deduplicat
 on the invitation and verified request; coalesce and cap private issuer
 notices per invitation. A lost response after a successful commit follows
 ordinary redemption replay instead.
-Offer **Reissue for this sender**. On an explicit issuer action, recheck
-current authority, route, block and withdrawal state and create a fresh,
-sender-bound invitation with a new token and expiry. Issue no child on this
-action. Invalid, late, blocked or withdrawn presentations produce no such
-action. A retry/restart must neither duplicate the notice nor revive the
-old token.
+The issuer has two distinct actions after this verified expiry:
+
+- If the same authenticated, signed request is independently admissible and
+  still pending under ordinary first-contact policy, offer an explicit
+  **Accept this request** decision through the existing contact acceptor.
+  Recheck request validity, peer, code policy, block, route and current
+  issuance authority at commit. Bind the decision to the exact request and
+  use the ordinary idempotent issuance and passport handoff. This can
+  complete first contact without exchanging another token. S027-016 owns
+  the earlier **Allow and add contact** action for a still-live INAC offer.
+  An expired offer or invitation cannot supply either decision.
+- **Reissue for this sender** rechecks current authority, route, block and
+  withdrawal state and creates a fresh sender-bound invitation. Issuing the
+  replacement reserves a future redemption; only redemption issues a child.
+  Tell the issuer to share the token through an independently trusted private
+  channel. Messaging is an option only with an already usable reverse grant.
+  If no such channel is available, show that the replacement has not been
+  delivered. Keep it out of Catalog traffic, notifications and automatic sends.
+
+Invalid, late, blocked or withdrawn presentations produce no recovery action.
+Either action requires a fresh issuer choice. Retry/restart must neither
+duplicate a child for the same request nor revive the expired invitation.
 
 Serialize withdrawal, expiry checks and competing claims at the receiving
 owner. Use the existing durable decision/issuance key to recover across stores.
@@ -659,7 +675,7 @@ or unit test alone never closes a runtime gate.
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
 | P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Corrected local WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry and paused-scheduler diagnostics pass on clean commits; the same corrected binary passed the named second-host probe. No lease extension, cross-machine or offline delivery, full candidate or release claim |
 | P076-038 | Physical qualification | Two-host V2 renewal, bounded time skew and independent query witnesses | done | Clean, identical revisions on two physical hosts; direct WSS, recipient receipt, mode matrix, restarts/revocation, two counter witnesses and retained P074 claim. No offline delivery or release claim |
-| P076-039 | Contact invitations | [Single-use advance receive consent](#advance-contact-consent) at redemption | todo | With P058-023, race two signed requests and both withdrawal/commit orders. Interrupt before and after child persistence. Exact retry recovers at most the same child. Present before expiry, unlock at expiry and refuse at commit. Verify one issuer notice, no automatic grant, explicit reissue bound to that sender and rejection for another sender. Exercise parent replacement with live paper invites, explicit reissue, old-token refusal and one logical redemption notification after restart. Missing current proof or subsequent child withdrawal cannot yield usable consent. S027-018 verifies both permission directions. |
+| P076-039 | Contact invitations | [Single-use advance receive consent](#advance-contact-consent) at redemption | todo | With P058-023, race competing claims and withdrawal across restart. Qualify commit-time expiry, explicit ordinary acceptance of an independently pending request, and private sender-bound reissue without reverse consent. Verify exact retry, parent replacement, old-token refusal, one issuer notice and refusal after child withdrawal or missing current proof. S027-018 verifies both permission directions. |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 

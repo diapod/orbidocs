@@ -678,8 +678,9 @@ that policy also authenticates the required witness rule (separate operator
 and key custody in the pilot), checkpoint freshness
 limits and the predecessor cutoff (log sequence and checkpoint digest) on a
 writer change. Fence the old key for new mutations. A successor imports the
-verified state, including lease recovery, availability counters, membership
-suspensions, holds and disputed names, and refreshes proofs
+verified state, including lease revisions, the witnessed service clock and
+lease window baselines or paused credit, membership suspensions, holds and
+disputed names, and refreshes proofs
 without reallocating names. Readers verify the new policy before use.
 Exercise an endpoint-only move, a writer/key change and a stale old-key reply
 at the same generation. A Seed Directory may distribute or, if separately
@@ -1311,7 +1312,7 @@ P076/release completion are separate; P076-036 remains planned.
 
 ### P076-036 bounded portable-status checkpoint — 2026-10-24
 
-[P076-036](076-limited-messaging-grants-decision.md#p076-036-measured-closeout--2026-10-24)
+[P076-036](076-limited-messaging-grants-decision.md#p076-036-measured-closeout-2026-10-24)
 is locally qualified from clean Node `9b0a613e` / Orbidocs `8523cf2b`: 264
 conformance/regression plus 12 host capsule tests, an actual authenticated
 cold-cache handoff with zero status acquisitions, and identical loose/extracted

@@ -619,7 +619,7 @@ historical S027-001–008 qualifications.
 | S027-015 | Archive and reopen individual messages from the conversation UI | todo | A participant can archive a single sent or received message from its conversation and reopen it from that conversation's archive. Define the boundary between this action and the [restored conversation archive](#restored-conversation-archive), including local custody and permanent removal. Close on a browser round trip in both directions of the conversation. The same message ID, original content, timestamp, read state and delivery history survive archive, restart and reopening. The action is scoped to the owning participant under current access rules and causes no resend, notification or change on the peer's node. |
 | S027-016 | Allow and add a contact from the first INAC notification | todo | For an exact `contact-request.v1` offer, retain **Allow request only** and add **Allow and add contact**. The latter records a single-use decision for the recipient, bound to the exact INAC offer and decision generation, authenticated peer and digest of the signed request. It expires at most one hour after the click, subject to shorter applicable validity limits. Add the verified sender only after the matching request arrives and passes current INAC, signature, block and receive-authority checks. Close on a browser case where one click leads to one contact and no second prompt, the request-only action still asks separately, and mismatched, expired or replayed requests cannot use the advance approval. |
 | S027-017 | Reusable request code and independent withdrawal in the participant UI | todo | P058-022. Close on the [reusable-code browser scenario](#contact-invitation-acceptance) with two senders, cached-route refusal, code rotation, admission-channel attribution, bounded prompts and optional sender block. |
-| S027-018 | Single-use invitation issued before first contact | todo | P058-023 and P076-039. Close on the [advance-consent browser and restart scenario](#contact-invitation-acceptance) with competing senders, one directional passport, visible reverse-consent choice, commit-time expiry, sender-bound reissue, parent replacement, private notices and separate withdrawal. |
+| S027-018 | Single-use invitation issued before first contact | todo | P058-023 and P076-039. Close on the [advance-consent browser and restart scenario](#contact-invitation-acceptance) with competing senders, one directional passport, visible reverse-consent choice, commit-time expiry, ordinary acceptance or private reissue, parent replacement, private notices and separate withdrawal. |
 | S027-019 | Find and contact a participant by federation alias or shared text | todo | Depends on P058-024/025. Exercise each invitation mode with its existing S027-017/018 flow. Close on the [alias and shared-text cases](#federation-alias-acceptance). |
 | S027-020 | Discover a contact by an independently protected identifier | todo | Depends on P058-026. Reuse Story 010 and the S027-017/018 request and redemption paths. Close on the [participant discovery cases](#per-identifier-discovery-acceptance), including offline lookup, distinct proof audiences, emergency close/hide and private receiver-only redemption. P058-027/028 qualify the Catalog's separate privacy boundaries. |
 
@@ -645,6 +645,16 @@ Use existing contact and child-withdrawal controls. Label the two actions
 **Stop using this invitation** and **Withdraw this sender's Messaging consent**
 with their distinct effects. Keep raw codes and tokens out of captured evidence.
 
+For the delegate-lock expiry case above, run two branches with reverse
+consent off. With a separately admitted, current pending request, explicitly
+accept its verified sender in the ordinary UI. Lose the response and restart:
+one child, one contact and one ordinary handoff, with no replacement token.
+With an invitation-only presentation and no ordinary admission, verify
+there is no accept action. Reissue explicitly, inspect the empty outbox
+and the private sharing instructions, then pass the token over a separate
+channel. Only the named sender can redeem it. A newly blocked peer gets
+neither action. Replay the original token in both branches and observe refusal.
+
 #### Federation alias and shared text (planned) {#federation-alias-acceptance}
 
 Use a current federation member with privately verified email-equivalent
@@ -667,6 +677,12 @@ to the new holder. A fresh open lookup displays the verified allocation month. T
 original conversation remains bound to its original peer. Repeat with stale,
 missing and contradictory binding proofs. No proof yields contact permission
 on its own. Verify that an open lookup carries no credential.
+
+With a protected alias, move the lease into recovery: yesterday's slip
+returns no route. Restore the same generation and check a still-current slip
+works. Repeat after retiring its verifier during recovery and observe no
+match. Check receiver-side expiry, spent single-use tokens and withdrawn
+grants independently, including via a previously learned route.
 
 #### Per-identifier discovery acceptance (planned) {#per-identifier-discovery-acceptance}
 

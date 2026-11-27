@@ -972,8 +972,11 @@ may verify the lookup credential and return a purpose-limited route with the
 [P058-024 current binding proof](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority).
 Before receiver presentation, verify the holder-signed route, authenticated
 endpoint, expected allocation generation, policy and witnessed current state.
-Keep an existing conversation pinned to its verified peer. On fresh open lookup show
-the verified "held since" month of the current reallocation. Expiry, recovery and membership suspension withhold discovery.
+Keep an existing conversation pinned to its verified peer. On fresh open
+lookup show the verified "held since" month of the current reallocation.
+During lease recovery or membership suspension, withhold discovery. After
+restoration verify current route, generation and visibility before using a
+saved slip. Existing receive grants continue under their own lifecycle.
 
 Import [P058 contact slips](058-contact-catalog.md#shareable-contact-text)
 locally. Reject broken slips and existing pairwise nyms before any lookup.
@@ -1004,12 +1007,17 @@ keep their own semantics. Notify the issuer once after redemption, with an
 action to withdraw the exact sender consent. Offer **Block sender** separately
 if future requests should also stop. The invitee can explicitly enable
 **Allow the inviter to message me** as a separate reverse grant, initially off.
-Offer that control at redemption and when composing the first message. If the inviter has no reverse consent,
-show "You can reply once this contact allows messages from you" at compose
-time and leave the outbox untouched. An unavailable or stale consent check
-shows its own pending/unknown state.
+Offer that control at redemption and when composing the first message. If the
+inviter has no reverse consent, show "You can reply once this contact allows
+messages from you" at compose time and leave the outbox untouched.
+An unavailable or stale consent check shows its own pending/unknown state.
 Preview affected outstanding invitations before routine parent renewal and
 offer explicit reissue under [P076-039](076-limited-messaging-grants-decision.md#advance-contact-consent).
+When a locked delegate missed expiry, show ordinary acceptance only for a
+separately admissible, still-pending signed request. Otherwise the issuer can
+share a fresh sender-bound invitation privately. Without reverse consent
+Messaging cannot deliver that token. Show the required sharing step and keep
+the outbox empty.
 [S027-017/018](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#contact-invitation-acceptance)
 own the end-to-end evidence for these distinctions.
 
@@ -1278,7 +1286,8 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 
 The [contact invitation continuation](#contact-invitations-and-receive-consent)
 is tracked at P058-022/023 for admission, P076-039 for advance issuance and
-S027-017/018 for the consent journeys. P058-024–026 and S027-019/020
+S027-017/018 for the consent journeys, including ordinary acceptance versus
+private reissue after expiry. P058-024–026 and S027-019/020
 cover alias verification, local slip import and per-identifier lookup.
 P058-027/028 separately track PSI completeness and caller–entry retention.
 Earlier completed rows describe the
