@@ -153,7 +153,7 @@ writer, workflow store, runtime admission or consumption proof. The test-local
 binding relation does not replace the host's handler selector. Existing Arca
 acquisition and record-backed controls remain unchanged; live integration and
 migration belong to P091-009 and P091-010/010a, with separate process evidence in
-P091-011. See the [P091 checkpoint](../../40-proposals/091-file-backed-configuration-and-explainable-composition.md#p091-009a-arca-non-flow-contract-checkpoint--2026-10-23)
+P091-011. See the [P091 checkpoint](../../40-proposals/091-file-backed-configuration-and-explainable-composition.md#p091-009a-arca-non-flow-contract-checkpoint-2026-10-23)
 and `node:middleware-modules/arca/docs/configuration-contract.md`; measured
 results are in `node:docs/audits/P091-009A-ARCA-NON-FLOW-2026-10-23.md`.
 

@@ -281,7 +281,7 @@ and seed content. The host owns authorized create-only materialization through
 the shared writer: existing configured modules or seed files are preserved,
 deleted fields are not refilled on update, and disabled modules may be seeded
 without starting. See
-[the P091 amendment](../../40-proposals/091-file-backed-configuration-and-explainable-composition.md#adopted-service-control-delivery-amendment--2026-10-18)
+[the P091 amendment](../../40-proposals/091-file-backed-configuration-and-explainable-composition.md#adopted-service-control-delivery-amendment-2026-10-18)
 and [Node delivery contract](https://github.com/diapod/node/blob/master/docs/integration/configuration-service-control.md).
 
 Omitted values in newly published selective sources inherit factory values;
