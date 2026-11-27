@@ -972,13 +972,14 @@ may verify the lookup credential and return a purpose-limited route with the
 [P058-024 current binding proof](../60-solutions/025-contact-catalog/025-contact-catalog.md#alias-allocation-authority).
 Before receiver presentation, verify the holder-signed route, authenticated
 endpoint, expected allocation generation, policy and witnessed current state.
-Keep an existing conversation pinned to its verified peer. Surface a
-reallocation warning on fresh open lookup.
+Keep an existing conversation pinned to its verified peer. On fresh open lookup show
+the verified "held since" month of the current reallocation. Expiry, recovery and membership suspension withhold discovery.
 
 Import [P058 contact slips](058-contact-catalog.md#shareable-contact-text)
 locally. Reject broken slips and existing pairwise nyms before any lookup.
 A generated request slip can provision separate lookup and receiver proofs.
-When independent codes are in use, ask for the receiver input explicitly.
+Accept only generated credentials in slips. When independent codes are in
+use, accept a manual request code only in the dedicated receiver input.
 A cached route or Catalog proof cannot admit a request. Redeem a `once`
 token only at the verified receiver. For hidden aliases, use an independently
 authenticated invitation route; protected discovery can alternatively take
@@ -1003,6 +1004,10 @@ keep their own semantics. Notify the issuer once after redemption, with an
 action to withdraw the exact sender consent. Offer **Block sender** separately
 if future requests should also stop. The invitee can explicitly enable
 **Allow the inviter to message me** as a separate reverse grant, initially off.
+Offer that control at redemption and when composing the first message. If the inviter has no reverse consent,
+show "You can reply once this contact allows messages from you" at compose
+time and leave the outbox untouched. An unavailable or stale consent check
+shows its own pending/unknown state.
 Preview affected outstanding invitations before routine parent renewal and
 offer explicit reissue under [P076-039](076-limited-messaging-grants-decision.md#advance-contact-consent).
 [S027-017/018](../60-solutions/027-messaging-middleware/027-messaging-middleware.md#contact-invitation-acceptance)

@@ -157,13 +157,19 @@ helper and lookup client together. Use domain separation for alias indexes
 over the federation ID and normalized alias. Keep the email and phone index
 domains and their existing attestation profiles intact.
 
-Use P058’s versioned match key for the lookup index and its confusable skeleton
-only for atomic registration. Keep generation high-water, release deadline and
+Use P058's versioned match key for the lookup index. Use its confusable
+reservation key only for atomic registration. Keep generation high-water, release deadline and
 conflict holds through restart and compaction. Serialize competing mutations at
 the **allocation writer**. The **alias holder** signs route and release intents.
 Check private membership, assurance, quota and lease at admission. Commit the
-name, skeleton, quota and receipt together. An expired route stops discovery
-while the allocation follows its own renewal/release lifecycle.
+name, reservation key, quota and receipt together. An expired route stops discovery
+while the allocation follows its
+[P058 lease and membership lifecycle](../../40-proposals/058-contact-catalog.md#federation-contact-alias).
+Reuse the S025 contact-control passport verifier privately for initial
+eligibility. Verify issuer trust, profile, holder, validity and revocation
+without admitting a public email or phone claim. On renewal or recovery
+verify current membership and alias-key control for the same generation.
+Replaying an old signed renewal must never add another lease term.
 
 Send a signed reservation directly over a confidential channel authenticated
 to the currently mandated writer, or seal the whole request to its verified,
@@ -176,8 +182,9 @@ may observe traffic timing but cannot read or alter the proposed name/route.
 A delayed duplicate returns the same decision without allocating twice.
 
 The writer necessarily learns the link between participant and alias. Restrict
-that map and admission evidence to the writer’s private store during the lease
-and a bounded, published dispute period. Scope any active dispute retention and
+that map and admission evidence to the writer's private store during the allocation, including
+owner-only recovery and membership review, followed by a bounded, published
+dispute period. Scope any active dispute retention and
 erase the link when its purpose ends, including from recoverable backup copies
 under a bounded expiry policy. Compromise within that window can reveal it.
 Read replicas, witnesses and the public lookup proof receive no base identity,
@@ -218,32 +225,65 @@ membership attestations, sibling aliases or reusable participant key.
 
 **Portable binding and fork handling (P058-024, planned).** Freeze these
 signed inputs, canonical digests, freshness windows and size bounds before
-Schema Gate. Reuse the bounded portable-verification pattern, [P035’s signed conflict evidence](../../40-proposals/035-agora-topic-addressed-record-relay.md)
-and [P051’s review procedure](../../40-proposals/051-swarm-membership-and-reputation-bootstrap.md). Contact records remain private
-to their existing owners.
+Schema Gate. Reuse portable verification, signed conflict evidence and the
+federation review procedure. Contact records remain private to their owners.
+[P035](../../40-proposals/035-agora-topic-addressed-record-relay.md)
+and [P051](../../40-proposals/051-swarm-membership-and-reputation-bootstrap.md).
 
 | Producer | What the reader checks |
 |---|---|
-| Allocation writer | A signed transition commits federation, profile/policy revisions, alias match key, generation, operation, alias-specific control public key, log sequence and previous digest. Reserve a fresh control key for each new allocation. Distinguish exact retry and authorized control-key rotation (linked predecessor and holder authorization) from contradictory allocations. |
+| Allocation writer | A signed transition commits federation, profile/policy revisions, alias match key, generation, operation, commit time, alias-specific control public key, log sequence and previous digest. Reserve a fresh control key for each new allocation. Distinguish exact retry and authorized control-key rotation (linked predecessor and holder authorization) from contradictory allocations. |
 | Alias holder | A binding signed by the active alias key covers the allocation reference, federation, match key, generation, digest of the selected route and its verification key, purpose, binding revision and validity. Check the route endpoint controls that key before disclosing a receiver credential. |
 | Catalog reader | After visibility admission return the permitted route plus the minimum portable evidence: allocation receipt/reference **and its verifiable material**, signed route binding and a fresh witnessed checkpoint with proofs of inclusion and current active state. Verify against locally trusted federation policy, expiry, revocations and known high-water. No fetch of the private enrollment record. A receipt reference alone cannot satisfy a first-contact read. |
 | Independent witness | An authorized replica or a separately appointed Seed Directory witnesses opaque checkpoint commitments, verifies consistency with its retained head and exchanges signed heads independently. It gains no allocation power. Use hiding commitments for low-entropy names, no public per-name feed, routes, membership maps or enumerable proof API. |
 
-The writer appends transitions and signs a checkpoint over the log and current
-state. Local policies name independent witnesses, their acceptance rule and
-maximum age. For first-contact credential disclosure require independently
-authenticated current-state evidence under that rule. A writer-only chain
-admits split views. Asynchronous gossip alone can detect a fork after exposure.
-Protection depends on an honest independent witness in the confirmation path
-and on the freshness bound. For the single-writer pilot, require at least one
-independent designated witness common to all accepted views. Before signing,
-it verifies continuity and the legal state transitions for each affected
-allocation, including holder authorization, using privately supplied openings.
-Freeze how commitments bind a stable per-name index without exposing a public
-dictionary oracle. Test a writer that appends a second allocation in the same
-history as well as two separate histories. Witnesses that merely archive
-opaque roots provide retrospective detection only. A checkpoint cannot attest the real-world identity
-of a stranger.
+**Key Transparency design basis.** Evaluate the CONIKS private name index,
+authenticated prefix tree, signed epochs and holder checks against the
+existing P035 evidence verifier. Compare the IETF KEYTRANS architecture and
+protocol drafts for inclusion, consistency and monitoring. Pin the proof
+suite, domain separation, index-key continuity across writer handover and
+bounded verification vectors at Schema Gate. Keep VRF evaluation and openings
+access-controlled to prevent name enumeration.
+Compare these sources before freezing the profile.
+[CONIKS](https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/melara),
+[VRFs (RFC 9381)](https://www.rfc-editor.org/rfc/rfc9381.html),
+[IETF KEYTRANS working documents](https://datatracker.ietf.org/wg/keytrans/documents/).
+
+**Witness confirmation.** Federation policy names the witnesses, their
+acceptance rule and checkpoint freshness. The pilot requires one designated
+witness common to every accepted view, under separate operator control and
+independent signing-key custody from the writer. Two keys or hosts under one
+administrator do not qualify. Before signing, the witness checks the previous
+head, valid transitions and holder authorization using private openings. It
+persists its last accepted head across restart. A witness signature confirms
+the verified allocation history. It does not establish civil identity. Without a fresh witnessed
+proof first-contact disclosure stops: the pilot has one witness availability
+dependency. Never fall back to writer-only confirmation.
+
+A future 2-of-3 rule tolerates one unavailable witness if the other two
+cooperate. Two quorums can intersect in just one dishonest signer. That rule
+alone cannot ensure fork prevention against one equivocating witness. Require
+an explicit fault model and an honest-intersection argument for any claimed
+prevention; exchanging signed heads can detect conflicts after the fact.
+
+**Private holder monitoring.** Each online holder checks its own inclusion,
+current state and consistency against the last retained, independently
+witnessed checkpoint each epoch. Compare every transition since that head to
+authorized holder intents or valid policy events (such as expiry or membership
+suspension). After an offline interval, verify the missing transitions in
+bounded batches. Retain the cursor and report incomplete history if unavailable.
+Seeing the original key again cannot clear a missing or contradictory epoch.
+A mismatch raises a private alert with verifiable evidence for the existing
+dispute path. An unavailable proof yields "monitoring incomplete". Holder
+detection supplements mandatory witness confirmation.
+
+A witness given openings can learn alias-to-control-key links. Restrict the
+openings to the transition check, discard them after validation and retain
+only opaque heads and necessary consistency state. If a dispute requires a
+specific opening, isolate it with access control and the published dispute
+deadline, including bounded removal from backups. Test access, purge and
+restore; keep the membership-to-alias enrollment map at the writer. Public
+head exchange and holder alerts must not publish the names being monitored.
 
 Two valid incompatible allocations for the same federation, match key and
 generation, or incompatible signed heads at the same log position, are
@@ -255,14 +295,24 @@ unsigned complaint cannot choose a winner or freeze a name.
 
 **Writer replacement and outage.** Policy N+1 endorses the successor and
 adopts a witnessed cutoff (sequence and digest) under N. Transfer and verify
-live allocations, control keys, leases, open disputes, tombstones, holds and
-generation high-water before enabling writes. Fence the former writer.
+live allocations, control public keys, index continuity, lease state, notice and
+recovery availability counters, membership suspensions, open disputes,
+tombstones, holds and generation high-water before enabling writes. Fence the former writer.
 Reissue current proofs on demand under N+1 with the same generations. Old
 receipts prove only history unless included in the adopted state with fresh
 current proof. If the cutoff cannot be reconciled, pause mutations and
 affected reads. During an outage refuse reservations, releases and renewals.
-A replica can serve only while it can verify current visibility, binding,
-witness freshness and revocation within the selected policy.
+A replica serves a binding only with fresh evidence of visibility,
+witness confirmation, lease validity, membership and revocation. An outage
+cannot authorize local extensions of signed read validity.
+
+Reuse witnessed epoch status to account for actual renewal/restoration
+availability. Persist authenticated intervals for the write path, including
+its required dependencies. A process heartbeat or a successful read alone
+cannot certify that a valid holder mutation could have committed. Unknown
+intervals earn zero credit; intersect intervals with the applicable window
+and count their union once. At recovery or handover, resume the committed
+counters and refresh proofs before advertising an adjusted deadline.
 
 **Acceptance for P058-024.** Discover the writer via two Seed Directories
 across an endpoint move. Send the same encrypted intent through a forwarding
@@ -272,13 +322,27 @@ lookup endorsement survives withdrawal of the write mandate. Verify first
 contact using only the returned evidence and local trust. Substitute a route,
 withhold the independent proof or replay a superseded binding: no disclosure.
 Present incompatible valid allocations to different replicas, compare signed
-heads and observe quarantine and review. An exact replay and a valid route or
+heads and observe quarantine and review. Also refuse a second incompatible
+allocation appended within a single history. An exact replay and a valid route or
 key rotation cause no quarantine. Replace the writer, then replay both sides
 of the cutoff, including writes backdated by the old key. Check an unchanged
 name, a held name and a disputed name before reopening. Exercise reads on
 both sides of the outage freshness boundary.
 
-#### Catalog verification of a lookup ask (planned) {#catalog-ask-verifier}
+Before enabling writes, use a controlled clock to exercise the notice,
+owner-only recovery and final hold separately. Take the writer or required
+witness down during notice and again during recovery. Replay and overlap
+service intervals across restart/handover. Verify the holder gets the full
+configured opportunity, others cannot restore, and the first eligible
+reallocation increments the generation exactly once. Race renewal with expiry
+and withdrawal of membership. Cover departure, exclusion, pending appeal,
+successful reinstatement and final loss, including a stale replica. Check
+auto-renew opt-out, locked-key failure and a single confirmation on retry.
+Withhold the pilot witness past freshness and reject same-operator substitution.
+Monitor both an unauthorized intermediate change reverted before reconnect
+and a valid holder rotation. Verify private alerts and witness-data expiry.
+
+#### Catalog verification for protected lookup (planned) {#catalog-ask-verifier}
 
 Implement [P058-026](../../40-proposals/058-contact-catalog.md#per-identifier-discovery)
 at the existing route-read boundary. Only open, eligible entries contribute PSI
@@ -286,7 +350,7 @@ match tokens. A protected lookup uses an explicitly selected confidential exact
 request. The returned proof and route must pass the same policy checks when
 the receiver is offline.
 
-1. **Provision.** The issuer generates a random slip secret (12–32 exchange
+1. **Provision.** The issuer generates a random slip secret (16–32 exchange
    symbols, default 16). Derive a lookup credential and a receiver credential
    using distinct, versioned domain labels. The lookup derivation binds the
    trusted federation, identifier kind and canonical index using unambiguous
@@ -298,16 +362,20 @@ the receiver is offline.
    Schema Gate. A separately configured manual code belongs only at the receiver.
 2. **Store and rotate.** Over an authenticated confidential channel the
    issuer provisions only the derived lookup credential to the Catalog.
-   Immediately derive its stored verifier using a fresh random storage salt
-   for each identifier/revision and a bounded password KDF. Evaluate the
-   existing Argon2id implementation for reuse, with its own parameters and
-   work limits. Commit mode, verifier, salt and revision atomically. Rotate
-   with a **new secret** and logically withdraw the old verifier. A new
-   allocation starts without any prior verifier. Let the issuer revoke or replace either gate independently. A card
-   advertised as covering both gates is ready to share only after both updates
-   are confirmed. If one owner refuses, retain the partial status, offer
-   withdrawal/retry and avoid issuing a misleading card. Ordinary sync, diagnostics, backups
-   exposed to readers and notifications contain no presentation values.
+   Store a fresh random salt per entry and revision, plus
+   `HMAC-SHA-256(key=lookup_credential, message=framed_context)`.
+   Frame the storage domain, federation, identifier kind and index, credential
+   revision and salt unambiguously. The key is the high-entropy client-derived
+   lookup credential. Discard that credential after computing the verifier.
+   The public storage salt is not a secret key. Reuse the existing HMAC and
+   constant-time comparison primitives. The 16-symbol minimum supplies about
+   78 bits from uniform generation and keeps lookup work bounded.
+   Commit mode, verifier, salt, profile and revision atomically. Rotate with
+   a new secret and withdraw the old verifier. Reallocation starts without
+   prior credentials. Revoke or replace each gate independently. Offer a
+   two-gate card for sharing only after both updates commit. On partial
+   failure show which update committed and offer withdrawal or retry.
+   Keep presentation values outside sync, diagnostics and notifications.
 3. **Read.** Submit only the lookup credential under the authenticated Catalog
    channel; treat this derived input as a bearer for this lookup until rotation.
    Compute and compare the storage verifier in constant time. Check the expected
@@ -320,8 +388,9 @@ the receiver is offline.
 
 A storage salt raises the cost of bulk guessing. It adds no secret entropy.
 A three-character human code has at most 46,656 ASCII-folded possibilities.
-Such codes are refused by the issuer for Catalog provisioning and never used in a public
-challenge/response transcript. A Catalog compromise can expose routes and
+Such codes can be used only in the separate receiver input. The issuer never
+provisions them for Catalog lookup or exposes a public guessing transcript.
+A Catalog compromise can expose routes and
 permit lookup impersonation on its own surface. Its verifier or lookup bearer
 cannot be used as receiver proof. Unknown or stale replicas forward privately
 to a current authorized verifier or withhold the route.
@@ -331,7 +400,11 @@ cross-entry/cross-purpose substitution, a stolen storage verifier, rotation
 and pause across restart. A single generated slip configured at both gates
 works; the lookup input alone fails at the receiver. With independent codes,
 the UI requests the missing receiver input. Observe identical client derivation
-for hidden, absent and recently rotated identifiers without network probes.
+for hidden, absent and recently rotated identifiers without parameter probes.
+Freeze HMAC vectors with independent salts, revision and cross-entry replay
+negatives. Test 15/16/32/33 symbols at the slip boundary. Type a manual code
+that looks exactly like a generated value in the request-code field: no raw
+or derived value reaches the Catalog.
 Wrong-code attempts have bounded work. Exercise attempted guessing separately
 from a valid-code prompt flood. Reserve bounded fair opportunities under
 pressure, coalesce owner alerts and allow private per-code pause/rotation.
@@ -350,7 +423,7 @@ profiles are:
 | Open-only PSI | Blinded elements and protocol metadata. | Selected entry on presentation of its match token. |
 | Protected lookup | Target or equivalent index even with an incorrect code. | Selected entry. |
 
-- **P058-027 (PSI-128).** In Node’s `contact-catalog-service::evaluate_psi`
+- **P058-027 (PSI-128).** In Node's `contact-catalog-service::evaluate_psi`
   the service takes at most 128 candidate claims before token projection. Its
   success response does not certify completeness. Distinguish bounded
   *incomplete* from an authoritative miss end to end. First support explicit

@@ -182,7 +182,7 @@ route for Messaging, within a finite redemption window and, if selected,
 for a particular sender key. Proposed invitation window: seven days by
 default and at most 30 days, capped by the validity of the route, parent
 and other prerequisites. Show the effective expiry with time zone before
-sharing. A paper date cannot extend those prerequisites. S027-016’s
+sharing. A paper date cannot extend those prerequisites. S027-016's
 one-hour preflight for a pending offer is a different operation.
 
 For delegated issuance, record which current
@@ -201,10 +201,22 @@ delegate, use the existing constrained child issuer with the ordinary parent,
 status, unlock, freshness and child TTL checks. Issue exactly one ordinary
 `messaging-receive@v1` child. The same consent/relationship projection can
 then run without another approval click. A locked delegate requires explicit
-unlock and a fresh check at the issuance commit. Use the receiving owner’s
+unlock and a fresh check at the issuance commit. Use the receiving owner's
 clock. Presentation before expiry reserves no right to issue at or after expiry.
 Recheck the invitation, grant, route, block and status after any wait. Startup
 cannot approve a pending request.
+
+If a verified, otherwise eligible sender presented the invitation before
+expiry and only the issuer's locked delegate prevented timely commit, deduplicate
+on the invitation and verified request; coalesce and cap private issuer
+notices per invitation. A lost response after a successful commit follows
+ordinary redemption replay instead.
+Offer **Reissue for this sender**. On an explicit issuer action, recheck
+current authority, route, block and withdrawal state and create a fresh,
+sender-bound invitation with a new token and expiry. Issue no child on this
+action. Invalid, late, blocked or withdrawn presentations produce no such
+action. A retry/restart must neither duplicate the notice nor revive the
+old token.
 
 Serialize withdrawal, expiry checks and competing claims at the receiving
 owner. Use the existing durable decision/issuance key to recover across stores.
@@ -647,7 +659,7 @@ or unit test alone never closes a runtime gate.
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
 | P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Corrected local WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry and paused-scheduler diagnostics pass on clean commits; the same corrected binary passed the named second-host probe. No lease extension, cross-machine or offline delivery, full candidate or release claim |
 | P076-038 | Physical qualification | Two-host V2 renewal, bounded time skew and independent query witnesses | done | Clean, identical revisions on two physical hosts; direct WSS, recipient receipt, mode matrix, restarts/revocation, two counter witnesses and retained P074 claim. No offline delivery or release claim |
-| P076-039 | Contact invitations | [Single-use advance receive consent](#advance-contact-consent) at redemption | todo | With P058-023, race two signed requests and both withdrawal/commit orders. Interrupt before and after child persistence. Exact retry recovers at most the same child. Present before expiry, unlock at expiry and refuse at commit. Exercise parent replacement with live paper invites, explicit reissue, old-token refusal and one logical redemption notification after restart. Missing current proof or subsequent child withdrawal cannot yield usable consent. S027-018 verifies both permission directions. |
+| P076-039 | Contact invitations | [Single-use advance receive consent](#advance-contact-consent) at redemption | todo | With P058-023, race two signed requests and both withdrawal/commit orders. Interrupt before and after child persistence. Exact retry recovers at most the same child. Present before expiry, unlock at expiry and refuse at commit. Verify one issuer notice, no automatic grant, explicit reissue bound to that sender and rejection for another sender. Exercise parent replacement with live paper invites, explicit reissue, old-token refusal and one logical redemption notification after restart. Missing current proof or subsequent child withdrawal cannot yield usable consent. S027-018 verifies both permission directions. |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
