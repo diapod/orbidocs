@@ -318,7 +318,9 @@ For production-trust packs, runtime verification now goes beyond schema shape:
 the daemon canonicalizes the payload excluding `signatures[]`, verifies Ed25519
 signatures, requires participant roots to be self-signed by the corresponding
 participant key, and evaluates org roots against self-contained
-`custody_policies[]` rules for `purpose = federation-root`. The schema catches
+`custody_policies[]` rules for `purpose = federation-root`. It rejects any valid
+signature that neither of those accounts for, and any custody rule that lists
+the key embedded in its own `org/id` (P076-041). The schema catches
 local shape errors such as `kind`/`id` prefix mismatch and multiple custody rules
 per policy; parity between `attestation_roots[].custody_mode` and the referenced
 policy rule mode remains a runtime invariant because portable JSON Schema cannot
@@ -609,10 +611,8 @@ Membership of `identity.sovereign_subject_refs[]` is authored in the pack's
 `attestation_roots[]` and only then signed; it is not derived from who signed.
 The reverse constraint also holds: every signature must tie back to an
 attestation root or its custody policy, with no stranger signatures. Ceremony
-tooling enforces it in `--strict` assembly and verification. The daemon loader
-currently accepts every cryptographically valid signature and counts only
-authorized keys toward the threshold; P076-041 closes that gap (checked against
-Node `e68457064`). Signing a
+tooling enforces it in `--strict` assembly and verification, and the daemon
+loader enforces it at startup (P076-041). Signing a
 pack never by itself confers standing sovereign-operator authority. A custodian
 of an org root is a fraction of that org's authority, not an independent
 sovereign subject, unless the pack also lists that identity as its own
@@ -721,25 +721,25 @@ never authority.** Org authority comes only from the custody rule for the act's
 purpose, and no custody rule may list the key embedded in its own `org/id` as a
 signer.
 
-Current state (checked against Node `e68457064`):
+Current state:
 
 - No verifier accepts the embedded key on its own. The root loader, the
   endorsement verifier and the Agora resolver evaluate org authority only
   through custody rules.
-- A custody rule may still list any key in `authorized/key_publics`, including
-  the embedded one, and its signature then counts toward the threshold. Ceremony
-  smoke tests reuse one key as both org identifier and custodian. The
-  `org-threshold` schema example did the same until it was changed to list a
-  separate custodian key.
+- The daemon loader rejects a root whose custody rule, for any purpose, lists
+  the embedded key as a bare key or as a participant id (P076-041). Endorsement
+  and alliance-half verification resolve org signers from the loaded root, so
+  they inherit the rule.
+- Ceremony tooling does not check it yet (P076-040): it can still author and
+  assemble such a pack, which the daemon then refuses. Ceremony smoke tests
+  reuse one key as both org identifier and custodian.
 - Agora `org-custody-policy.v1` has the same gap: its resolver counts any
   listed key.
 
-Enforcement follows in two steps. The ceremony tool and production profile
-reject such a rule first (P076-040). The daemon loader then rejects it too
-(P076-041). After that loader change, a deployment whose root lists the
-embedded key fails closed at startup. Its custodians must sign a new pack with
-a higher `pack_version` that drops that seat, first adding a custodian if the
-threshold would otherwise become unreachable.
+A deployment whose root lists the embedded key fails closed at startup. Its
+custodians must sign a new pack with a higher `pack_version` that drops that
+seat, first adding a custodian if the threshold would otherwise become
+unreachable.
 
 Keyed orgs created on a Node remain a separate class: the console
 `Create Organization` flow generates an org key, and the `recovery-org` signing
@@ -1096,7 +1096,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-025 | Require explicit `seed_directory_bootstrap[].enabled` | done | `federation-root.v1` schema now requires `enabled` on every `seed_directory_bootstrap[]` entry, the root-loader struct has no default for that field, and negative fixtures/tests reject omitted `enabled`. Generic layered daemon config may still keep its own compatibility defaults outside the root-pack import boundary. |
 | P076-026 | Freeze the production `orbiplex-main` ceremony shape | done | Implemented 2026-07-03 in the node ceremony tooling as an explicit `--production-orbiplex-main` profile for manifest, assemble, and verify commands. The profile requires `federation_id = orbiplex-main`, exactly one org-kind threshold attestation root, optional attestation-root `purposes[]` to include `federation-root` when present, a self-contained `federation-root` custody policy, at least a 2-of-3 unique signer-key threshold with duplicate signer refs rejected, top-level `policy_ref` using the `policy:dia-root-001@...` charter-version convention, manifest digest/threshold parity, strict deterministic assembly, threshold satisfaction before writing, and hard failure on unauthorized or invalid signatures. `federation-root.v1` has no dedicated rotation-overlap field yet, so the checker records that as `not-representable-in-federation-root.v1` rather than inventing an unofficial field. Concrete roster/keys remain governance-authored. |
 | P076-040 | Derive keyless (NUMS) identifiers for federation-root orgs | todo | Ceremony tooling gains `org-id-derive`, implementing RFC 9380 `edwards25519_XMD:SHA-512_ELL2_RO_` with the DST and message encoding from §6 "Keyless identifiers for federation-root orgs", using only the Python standard library like the rest of the tool. It passes the RFC 9380 test vectors for that suite plus project vectors for the message encoding. The ceremony manifest records `genesis_ceremony_id`. `--production-orbiplex-main` recomputes the org identifier from manifest inputs and rejects a mismatch. `root-draft-from-roster`, `assemble --strict` and `verify` reject any custody rule that lists the key embedded in its own `org/id`, in every profile. `smoke-test.sh` and `test_production_profile.py` stop reusing one key as both org identifier and custodian; where a case such as 4-of-4 depends on that key, add a custodian key rather than lowering the threshold. The HOWTO and the `DIA-ROOT-001` activation use the derived identifier. |
-| P076-041 | Reject stranger and self-listed org signers in the federation-root loader | todo | `validate_federation_root_semantics` in the daemon rejects a cryptographically valid signature whose key is neither a participant root's own key nor authorized by the `federation-root` rule of an org root in the same pack, matching ceremony `--strict`. It also rejects any custody rule, for any purpose, that lists the key embedded in its own `org/id`. The raw-digest-pinned bundled-fixture bypass stays unchanged. Negative fixtures: an otherwise valid org-threshold pack plus one valid stranger signature fails closed; so does a participant-root pack with an extra unrelated signature, and an org pack whose rule lists its own embedded key. Release notes carry the migration: such a deployment fails closed at startup and needs a new signed pack with a higher `pack_version` without that seat. Check runtime endorsement and alliance-half verification for the stranger gap and record the result; aligning Agora `org-custody-policy.v1` stays with the open org-custody generalization. |
+| P076-041 | Reject stranger and self-listed org signers in the federation-root loader | done | Implemented 2026-11-28 in the daemon loader (`daemon/src/config.rs`). `validate_federation_root_signers` runs after every attestation root validates and rejects a cryptographically valid signature whose key is neither a participant root's own key nor authorized by the `federation-root` rule of an org root in the same pack, matching ceremony `--strict`; a key authorized only for `capability-issuance` or `capability-revocation` counts as a stranger on the root. `validate_federation_root_custody_policies` rejects any custody rule, for any purpose, that lists the key embedded in its own `org/id`, in bare-key or participant-id form. The raw-digest-pinned bundled-fixture bypass is unchanged; the fixture's only signer is its participant root. Unit tests cover a stranger beside a met org threshold, an unrelated signature beside a participant self-signature, a root signature by an issuance-only custodian, the embedded key in a `federation-root` rule, as a participant id, and in a revocation rule, plus an accepted pack mixing a participant self-signature with org custodians. Runtime endorsement and alliance-half verification already reject unauthorized signers through the shared `accepted_signer_keys` (`UnauthorizedSigner`), so they had no stranger gap. The upgrade note lives in the Federation Bootstrap and Trust HOWTO §4. Agora `org-custody-policy.v1` alignment stays with the open org-custody generalization; ceremony tooling checks stay with P076-040. |
 
 ## Implementation Recommendations
 

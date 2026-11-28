@@ -102,6 +102,17 @@ Expect a consistent `federation/id`, root digest, and `pack_version`. Missing
 usable Seed Directory sources should be visible as isolated/bootstrap or
 degraded, not hidden behind an empty list.
 
+The daemon refuses to start on a root pack with a surplus signature, matching
+the ceremony tool's `--strict` assembly. Every valid signature must be a
+participant root's own self-signature or a custodian share authorized by the
+`federation-root` rule of an org root in the same pack. It also refuses any
+custody rule that lists the key embedded in its own `org/id`
+([P076-041](../../project/40-proposals/076-federation-identity-and-network-selector.md#keyless-identifiers-for-federation-root-orgs)).
+A pack signed before this check that carries either shape needs a new ceremony
+with a higher `pack_version`. Drop the surplus signature, or replace the
+org-key seat with a separate custodian key, adding a custodian first if the
+threshold would otherwise become unreachable.
+
 ## 5. Verify Seed Directory bootstrap
 
 Every active bootstrap entry should carry:

@@ -102,6 +102,17 @@ Oczekuj spójnego `federation/id`, root digest i `pack_version`. Brak usable See
 Directory powinien być widoczny jako isolated/bootstrap albo degraded, a nie
 zamaskowany pustą listą.
 
+Daemon nie wystartuje z root packiem, który ma nadmiarowy podpis, tak jak
+odrzuca go `--strict` w narzędziu ceremonii. Każdy ważny podpis musi być
+własnym podpisem participant roota albo udziałem kustosza autoryzowanym przez
+regułę `federation-root` roota organizacji z tego samego packa. Daemon odrzuca
+też każdą regułę custody, która wymienia klucz zawarty we własnym `org/id`
+([P076-041](../../project/40-proposals/076-federation-identity-and-network-selector.md#keyless-identifiers-for-federation-root-orgs)).
+Pack podpisany przed wprowadzeniem tej kontroli, który ma którykolwiek z tych
+kształtów, wymaga nowej ceremonii z wyższym `pack_version`. Usuń nadmiarowy
+podpis albo zastąp miejsce klucza organizacji osobnym kluczem kustosza; jeśli
+bez niego próg byłby nieosiągalny, najpierw dodaj kustosza.
+
 ## 5. Zweryfikuj bootstrap Seed Directory
 
 Każdy aktywny wpis bootstrap powinien mieć:
