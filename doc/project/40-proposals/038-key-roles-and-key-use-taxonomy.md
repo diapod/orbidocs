@@ -358,6 +358,14 @@ User-facing meaning:
 
 > This organization, under its declared governance model, made this assertion.
 
+**Federation-root orgs have no organization key.** The single-key profile above
+covers only keyed organizations created locally on a Node, such as the console
+`Create Organization` flow and the `recovery-org` purpose. An org that holds a
+federation root uses a keyless identifier and acts only through custodian
+signatures under the custody rules of the active root. No custody rule may list
+the key embedded in its own identifier. See
+[P076 §6](076-federation-identity-and-network-selector.md#keyless-identifiers-for-federation-root-orgs).
+
 ### 6. Proxy Key
 
 A proxy key is a delegated operational key. It acts on behalf of a principal
@@ -657,6 +665,9 @@ contracts.
 
 1. Should organization keys in MVP be single Ed25519 keys only, or should the
    first organization profile already model threshold governance?
+   Resolved for federation-root orgs by P076 §6: keyless identifier plus
+   threshold custody over custodian keys. Still open for keyed local
+   organizations.
 2. Should community key domains use pairwise X25519 wrapping first, or should
    the first protocol artifact be shaped to match future MLS concepts from the
    beginning?

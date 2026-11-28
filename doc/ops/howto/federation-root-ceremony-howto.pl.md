@@ -40,7 +40,11 @@ Uzgodnijcie te wartości zanim jakikolwiek digest zostanie zamrożony:
 
 - `federation_id`, na przykład `orbiplex-main`;
 - `pack_version`;
-- subject roota, produkcyjnie zwykle `org:did:key:...`;
+- identyfikator ceremonii genesis: ceremonii, która jako pierwsza publikuje
+  root tej federacji; ceremonie rotacji używają go ponownie;
+- subject roota: produkcyjnie root organizacji, której bezkluczowy
+  `org:did:key` wyprowadza się z `federation_id` i identyfikatora ceremonii
+  genesis (zob. krok 3);
 - referencję polityki custody, na przykład `org-custody:orbiplex-main-root:v1`;
 - próg, na przykład `2-of-3`;
 - charter albo governance `policy_ref`;
@@ -91,8 +95,23 @@ transcripcie.
 
 ## 3. Koordynator Buduje Roster
 
-Koordynator wyciąga `key_public` z rekordów publicznych i przygotowuje
-niepodpisany draft roota z jawnego rosteru governance:
+Najpierw ustalcie identyfikator organizacji. Organizacja trzymająca federation
+root nie ma własnego klucza prywatnego: jej `org:did:key` to punkt typu
+nothing-up-my-sleeve wyprowadzony z `federation_id` i identyfikatora ceremonii
+genesis, więc każdy może go przeliczyć i nikt nie może nim podpisać
+([P076 §6](../../project/40-proposals/076-federation-identity-and-network-selector.md#keyless-identifiers-for-federation-root-orgs)).
+Ceremonie rotacji biorą identyfikator z bieżącego roota i niczego nowego nie
+wyprowadzają.
+
+Planowane (P076-040): narzędzie dostanie komendę `org-id-derive`, a profil
+produkcyjny będzie przeliczał identyfikator z manifestu. Do tego czasu
+produkcyjnego roota `orbiplex-main` nie da się aktywować. Nie twórzcie
+identyfikatora organizacji przez `keygen`, przez konsolowy przepływ Node
+`Create Organization` ani żadną inną ścieżką, która wytwarza klucz prywatny
+organizacji.
+
+Następnie koordynator wyciąga `key_public` z rekordów publicznych i
+przygotowuje niepodpisany draft roota z jawnego rosteru governance:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py \
@@ -261,3 +280,21 @@ Zatrzymajcie ceremonię i zacznijcie od nowego draftu albo nowego digestu, gdy:
 
 Fakty są ważniejsze niż wygoda: jeśli zamrożone bajty się zmieniły, podpisy nad
 starymi bajtami nie nadają się do ponownego użycia.
+
+## Po Ceremonii: Działanie Jako Organizacja
+
+Kustosze działają teraz wspólnie jako organizacja i nie ma klucza organizacji,
+który trzeba by współdzielić, dzielić albo odtwarzać. Późniejszy akt organizacji
+ma dwa kroki
+([P076 §6](../../project/40-proposals/076-federation-identity-and-network-selector.md#collective-org-action-decide-then-co-sign)):
+
+1. Decyzję podejmuje się według chartera, w głosowaniu, jeśli charter go
+   wymaga.
+2. Kustosze współpodpisują powstały artefakt tymi samymi dedykowanymi
+   kluczami, których użyli tutaj. Każdy podpisuje ten sam payload niezależnie,
+   a artefakt jest ważny, gdy spełniona jest reguła custody dla jego celu.
+
+Większość albo jednomyślność to wyłącznie próg tej reguły. Klucze organizacji
+dzielone metodą Shamira nie są używane. Endorsementy oficjalnych usług idą tym
+samym wzorcem: digest, odłączone podpisy, składanie i weryfikacja, z komendami
+endorsementów opisanymi w dokumentacji narzędzia.

@@ -38,7 +38,10 @@ Agree on these values before any digest is frozen:
 
 - `federation_id`, for example `orbiplex-main`;
 - `pack_version`;
-- root subject, usually an `org:did:key:...` for production;
+- genesis ceremony id: the id of the ceremony that first publishes this
+  federation's root; rotation ceremonies reuse it;
+- root subject: for production, an org root whose keyless `org:did:key` is
+  derived from `federation_id` and the genesis ceremony id (see step 3);
 - custody policy reference, for example `org-custody:orbiplex-main-root:v1`;
 - threshold, for example `2-of-3`;
 - charter or governance `policy_ref`;
@@ -89,8 +92,22 @@ transcript.
 
 ## 3. Coordinator Builds the Roster
 
-The coordinator extracts each `key_public` from the public records and prepares
-the unsigned root draft from the explicit governance roster:
+First, settle the org identifier. A federation-root org has no private key of
+its own: its `org:did:key` is a nothing-up-my-sleeve point derived from
+`federation_id` and the genesis ceremony id, so anyone can recompute it and
+nobody can sign with it
+([P076 §6](../../project/40-proposals/076-federation-identity-and-network-selector.md#keyless-identifiers-for-federation-root-orgs)).
+Rotation ceremonies reuse the identifier from the current root and derive
+nothing new.
+
+Planned (P076-040): the tool will provide `org-id-derive`, and the production
+profile will recompute the identifier from the manifest. Until then, the
+production `orbiplex-main` root cannot be activated. Do not create the org
+identifier with `keygen`, with the Node console `Create Organization` flow, or
+with any other path that produces an org private key.
+
+The coordinator then extracts each `key_public` from the public records and
+prepares the unsigned root draft from the explicit governance roster:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py \
@@ -257,3 +274,20 @@ Stop and restart from a new draft or new digest when:
 
 Facts beat convenience: if the frozen bytes change, signatures over the old
 bytes are not reusable.
+
+## After the Ceremony: Acting as the Org
+
+The custodians now act together as the org, and there is no org key to share,
+split, or reconstruct. A later org act runs in two steps
+([P076 §6](../../project/40-proposals/076-federation-identity-and-network-selector.md#collective-org-action-decide-then-co-sign)):
+
+1. The decision is taken under the charter, by vote when the charter requires
+   one.
+2. Custodians co-sign the resulting artifact with the same dedicated keys they
+   used here. Each signs the same payload independently, and the artifact is
+   valid once the custody rule for its purpose is met.
+
+Majority or unanimity is only the threshold of that rule. Shamir-split org keys
+are not used. Official-service endorsements follow the same digest, detached
+signature, assembly and verification pattern with the endorsement commands
+described in the tool reference.

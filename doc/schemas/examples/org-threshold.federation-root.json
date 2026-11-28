@@ -23,7 +23,7 @@
           "mode": "threshold",
           "threshold/min_signers": 2,
           "authorized/key_publics": [
-            "z6Mkf8T12FuYFXTjWQLn3ZE2krGdGANs9X7ZH6aVR5R1PZ1T",
+            "z6MkgtdSAmgSHx1xHSABdZmPbAc28HESDACsJ2U4GP1xeN7f",
             "z6MkfCNJAZNYqpkxeVbHUrYx3j3PWKb4paoNqWF9UTTc8tLA"
           ],
           "authorized/participant_ids": [
@@ -37,7 +37,7 @@
   "signatures": [
     {
       "alg": "ed25519",
-      "key_public": "z6Mkf8T12FuYFXTjWQLn3ZE2krGdGANs9X7ZH6aVR5R1PZ1T",
+      "key_public": "z6MkgtdSAmgSHx1xHSABdZmPbAc28HESDACsJ2U4GP1xeN7f",
       "value": "base64url-example-signature-a"
     },
     {

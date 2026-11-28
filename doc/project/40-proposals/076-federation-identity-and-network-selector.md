@@ -607,8 +607,12 @@ trusted.
 
 Membership of `identity.sovereign_subject_refs[]` is authored in the pack's
 `attestation_roots[]` and only then signed; it is not derived from who signed.
-The loader enforces the reverse constraint (every signature must tie back to an
-attestation root or its custody policy — no stranger signatures), but signing a
+The reverse constraint also holds: every signature must tie back to an
+attestation root or its custody policy, with no stranger signatures. Ceremony
+tooling enforces it in `--strict` assembly and verification. The daemon loader
+currently accepts every cryptographically valid signature and counts only
+authorized keys toward the threshold; P076-041 closes that gap (checked against
+Node `e68457064`). Signing a
 pack never by itself confers standing sovereign-operator authority. A custodian
 of an org root is a fraction of that org's authority, not an independent
 sovereign subject, unless the pack also lists that identity as its own
@@ -623,6 +627,127 @@ length 1..M. Subject kind only sets the required signer count:
   just the single-signer case;
 - **org subject →** threshold co-signatures (`signatures[]` meeting the org's
   `federation-root` custody policy); no single custodian can vouch officially.
+
+#### Collective org action: decide, then co-sign
+
+A federation's founding circle acts as one org subject without any shared or
+composed private key. Two layers stay separate:
+
+1. **Deciding is governance.** The federation's charter (for `orbiplex-main`,
+   `DIA-ROOT-001`) fixes who decides each class of act and by what majority.
+   When a vote is needed it runs under
+   [Electum (P103)](103-electum-decision-and-voting-substrate.md). Its result is
+   a decision record, not authority.
+2. **Signing is custody.** The org performs a decided act by publishing an
+   artifact whose `signatures[]` satisfy the custody rule for that act's
+   purpose in the active root. Each custodian signs the same canonical payload,
+   with `signatures` omitted, using the dedicated custodian key listed in the
+   roster at the latest root ceremony. Nobody countersigns another signature,
+   and signature order carries no meaning; assembly sorts by `key_public`.
+
+Majority or unanimity is the threshold of the rule, not a separate mechanism.
+With `N` authorized keys, majority is `threshold/min_signers = floor(N/2) + 1`
+and unanimity is `N`. `any-authorized` lets any one authorized key act; it fits
+fail-safe acts such as revocation (`DIA-ROOT-001` §8). `orbiplex-main` needs at
+least `2-of-3` for `federation-root` custody (`DIA-ROOT-001` §3).
+
+Today `federation-root` custody covers root packs and official-service
+endorsements (above), while `capability-issuance` and `capability-revocation`
+cover limited Messaging grants (P076-033). No purpose substitutes for another.
+A new class of org act, such as signing an Electum electorate snapshot (P103
+Open Question 1), gets its own purpose through a schema revision rather than
+inheriting `federation-root` custody.
+
+The signing keys are the dedicated custodian identities (P076-013), never
+ordinary participant keys or nyms. Rotation replaces them in a new root pack
+(`DIA-ROOT-001` §7); the org identifier does not change.
+
+**Decision: multisig over attributable custodian keys, not a composed org
+key.**
+
+- *Shamir secret sharing* is rejected. Each signing reconstructs the whole key
+  on one machine, restoring the single-key compromise point that threshold
+  custody exists to remove. The signature cannot show who approved. A roster
+  change needs resharing, and old shares stay usable until the key changes.
+- *FROST/DKG threshold Schnorr* ([RFC 9591](https://www.rfc-editor.org/rfc/rfc9591))
+  avoids reconstruction but yields one signature that hides the signer set, so
+  attribution needs a separate transcript. It also needs interactive rounds and
+  resharing on rotation. It stays deferred. If adopted later, a FROST group key
+  may appear as one authorized key inside a custody rule; it never becomes the
+  org identifier.
+- Binding the org identifier to any key, composed or not, would turn every
+  roster rotation into an identity change. A keyless identifier with a
+  rotatable custody policy keeps identity and authority apart.
+
+Cost: `signatures[]` grows with the threshold, and custodian keys are public
+correlation handles. Dedicated custodian identities (P076-013) bound that cost.
+
+#### Keyless identifiers for federation-root orgs
+
+An org that holds a federation root has no private key of its own. Its
+`org:did:key` is a nothing-up-my-sleeve (NUMS) Ed25519 point, derived before
+the genesis root draft is authored:
+
+```text
+# inputs: printable ASCII, no NUL bytes
+# suite:  RFC 9380 edwards25519_XMD:SHA-512_ELL2_RO_
+# encode: RFC 8032 point encoding
+DST    = "ORBIPLEX-ORG-ID-V01-CS01-with-edwards25519_XMD:SHA-512_ELL2_RO_"
+msg    = federation_id || 0x00 || genesis_ceremony_id
+P      = hash_to_curve(msg, DST)
+org_id = "org:did:key:" || multibase_base58btc(0xed01 || encode(P))
+```
+
+- **Verifiable.** Anyone can recompute the identifier from public inputs.
+  Nobody knows the discrete logarithm of `P`, so nobody can sign with the
+  embedded key. Cofactor clearing in the `_RO_` suite yields a prime-order
+  point, which is a valid Ed25519 public key.
+- **Stable.** `genesis_ceremony_id` names the ceremony that first published
+  the root, and rotation ceremonies keep it, so the identifier survives roster
+  changes. It also separates deployments that reuse the same `federation_id`
+  string (Resolved 2026-07-01, item 5).
+- **Classical only.** A cryptographically relevant quantum computer could
+  compute the discrete logarithm of any Ed25519 point. That changes nothing
+  while the invariant below holds, because no custody rule lists the embedded
+  key ([P104](104-post-quantum-cryptographic-migration.md)).
+- **Recorded outside the pack for now.** `federation-root.v1` is closed and has
+  no field for derivation inputs. Until a later root version adds one, the
+  genesis manifest and the public ceremony transcript carry `federation_id`
+  and `genesis_ceremony_id`, and the production profile recomputes the
+  identifier from them (P076-040).
+
+**Target invariant: the key embedded in a federation-root org identifier is
+never authority.** Org authority comes only from the custody rule for the act's
+purpose, and no custody rule may list the key embedded in its own `org/id` as a
+signer.
+
+Current state (checked against Node `e68457064`):
+
+- No verifier accepts the embedded key on its own. The root loader, the
+  endorsement verifier and the Agora resolver evaluate org authority only
+  through custody rules.
+- A custody rule may still list any key in `authorized/key_publics`, including
+  the embedded one, and its signature then counts toward the threshold. Ceremony
+  smoke tests reuse one key as both org identifier and custodian. The
+  `org-threshold` schema example did the same until it was changed to list a
+  separate custodian key.
+- Agora `org-custody-policy.v1` has the same gap: its resolver counts any
+  listed key.
+
+Enforcement follows in two steps. The ceremony tool and production profile
+reject such a rule first (P076-040). The daemon loader then rejects it too
+(P076-041). After that loader change, a deployment whose root lists the
+embedded key fails closed at startup. Its custodians must sign a new pack with
+a higher `pack_version` that drops that seat, first adding a custodian if the
+threshold would otherwise become unreachable.
+
+Keyed orgs created on a Node remain a separate class: the console
+`Create Organization` flow generates an org key, and the `recovery-org` signing
+purpose uses it to sign `recovery.envelope.v1`. The single-key organization
+profile of [P038 §5](038-key-roles-and-key-use-taxonomy.md#5-organization-key)
+covers only this class. Such an org must not hold a federation root. Runtime
+verifiers cannot tell the two classes apart from the identifier alone, so the
+invariant rests on custody rules, not on identifier shape.
 
 #### `federation-service-endorsement.v1` (the single endorsement artifact)
 
@@ -970,6 +1095,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-024 | Keep federation-root activation restart-only | done | Resolved daemon config now carries the active root activation fingerprint (`federation_id`, `pack_version`, digest). Runtime reload validates candidate config but refuses to continue when that fingerprint differs from the currently running daemon, logging a specific first-activation/removal/change restart-required event and keeping the existing runtime. Operators may still validate candidate packs through config checks, but applying a different `federation-root.v1` requires restart against the selected `data-dir`. |
 | P076-025 | Require explicit `seed_directory_bootstrap[].enabled` | done | `federation-root.v1` schema now requires `enabled` on every `seed_directory_bootstrap[]` entry, the root-loader struct has no default for that field, and negative fixtures/tests reject omitted `enabled`. Generic layered daemon config may still keep its own compatibility defaults outside the root-pack import boundary. |
 | P076-026 | Freeze the production `orbiplex-main` ceremony shape | done | Implemented 2026-07-03 in the node ceremony tooling as an explicit `--production-orbiplex-main` profile for manifest, assemble, and verify commands. The profile requires `federation_id = orbiplex-main`, exactly one org-kind threshold attestation root, optional attestation-root `purposes[]` to include `federation-root` when present, a self-contained `federation-root` custody policy, at least a 2-of-3 unique signer-key threshold with duplicate signer refs rejected, top-level `policy_ref` using the `policy:dia-root-001@...` charter-version convention, manifest digest/threshold parity, strict deterministic assembly, threshold satisfaction before writing, and hard failure on unauthorized or invalid signatures. `federation-root.v1` has no dedicated rotation-overlap field yet, so the checker records that as `not-representable-in-federation-root.v1` rather than inventing an unofficial field. Concrete roster/keys remain governance-authored. |
+| P076-040 | Derive keyless (NUMS) identifiers for federation-root orgs | todo | Ceremony tooling gains `org-id-derive`, implementing RFC 9380 `edwards25519_XMD:SHA-512_ELL2_RO_` with the DST and message encoding from §6 "Keyless identifiers for federation-root orgs", using only the Python standard library like the rest of the tool. It passes the RFC 9380 test vectors for that suite plus project vectors for the message encoding. The ceremony manifest records `genesis_ceremony_id`. `--production-orbiplex-main` recomputes the org identifier from manifest inputs and rejects a mismatch. `root-draft-from-roster`, `assemble --strict` and `verify` reject any custody rule that lists the key embedded in its own `org/id`, in every profile. `smoke-test.sh` and `test_production_profile.py` stop reusing one key as both org identifier and custodian; where a case such as 4-of-4 depends on that key, add a custodian key rather than lowering the threshold. The HOWTO and the `DIA-ROOT-001` activation use the derived identifier. |
+| P076-041 | Reject stranger and self-listed org signers in the federation-root loader | todo | `validate_federation_root_semantics` in the daemon rejects a cryptographically valid signature whose key is neither a participant root's own key nor authorized by the `federation-root` rule of an org root in the same pack, matching ceremony `--strict`. It also rejects any custody rule, for any purpose, that lists the key embedded in its own `org/id`. The raw-digest-pinned bundled-fixture bypass stays unchanged. Negative fixtures: an otherwise valid org-threshold pack plus one valid stranger signature fails closed; so does a participant-root pack with an extra unrelated signature, and an org pack whose rule lists its own embedded key. Release notes carry the migration: such a deployment fails closed at startup and needs a new signed pack with a higher `pack_version` without that seat. Check runtime endorsement and alliance-half verification for the stranger gap and record the result; aligning Agora `org-custody-policy.v1` stays with the open org-custody generalization. |
 
 ## Implementation Recommendations
 

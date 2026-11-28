@@ -452,6 +452,7 @@
         "authorized/key_publics": {
           "type": "array",
           "default": [],
+          "description": "Bare multibase custodian signing keys. MUST NOT contain the key embedded in this policy's own `org/id`: a federation-root org identifier is never a signer (Proposal 076 §6). JSON Schema cannot express this cross-field rule; ceremony tooling (P076-040) and the daemon loader (P076-041) are planned to enforce it.",
           "items": {
             "type": "string",
             "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
@@ -567,7 +568,7 @@
         "key_public": {
           "type": "string",
           "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
-          "description": "Bare multibase key fingerprint (no `participant:did:key:`/`org:did:key:` prefix), mirroring the `node/id` vs `key/public` split in `node-advertisement.v1`. For a self-signed pack this is expected to equal the fingerprint suffix of one of `attestation_roots[].id` (i.e. `attestation_roots[].id` with its `participant:did:key:`/`org:did:key:` prefix stripped), not the full prefixed id itself. For a custodian-share signature under threshold custody it is one of the shares named by `custody_policy_ref`."
+          "description": "Bare multibase key fingerprint (no `participant:did:key:`/`org:did:key:` prefix), mirroring the `node/id` vs `key/public` split in `node-advertisement.v1`. For a participant root's required self-signature this equals the fingerprint suffix of that root's `participant:did:key:` id, not the full prefixed id itself. Org roots have no self-signature: each signature is a custodian share whose key the rule under `custody_policy_ref` authorizes, and that key is never the one embedded in the org's own `org:did:key` id (Proposal 076 §6)."
         },
         "value": {
           "type": "string",
