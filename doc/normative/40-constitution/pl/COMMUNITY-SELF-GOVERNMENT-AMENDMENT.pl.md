@@ -1,19 +1,17 @@
 # Projekt zmiany dotyczącej samorządności społeczności
 
-**Przedmiot decyzji.** Wniosek obejmuje przyjęcie proponowanych zasad zakresu
-obowiązywania [Konstytucji](CONSTITUTION.pl.md#const:norm.6) i poniższych przepisów
-przejściowych oraz uzgodnienie aktów wykonawczych w trybach właściwych dla każdego
-z nich. To tekst do przedłożenia. Nie odnotowano daty formalnego zgłoszenia,
-głosowania ani wejścia w życie. Podstawą porównania jest rewizja Orbidocs
-`cbe276fda89e62621bc5f0f90c9bb3fad6b1a2c2`. Rewizja repozytorium określa
-brzmienie tekstu. Każdy akt zachowuje dotychczasowy status do decyzji właściwego
-organu. Pierwotną kartę korzenia przyjęto w wersji 0.1.0.
+**Status tekstu.** DIA nie powstała jeszcze jako formalna organizacja. Zarówno
+[obecna wersja Konstytucji](CONSTITUTION.pl.md#const:norm.6), jak i tekst porównawczy
+z rewizji `cbe276fda89e62621bc5f0f90c9bb3fad6b1a2c2` są projektami.
+Przy przyjmowaniu karty korzenia 0.1.0 autor również traktował Konstytucję jako
+projekt. Decyzja o przyjęciu karty dotyczyła samej karty.
 
 **Zatwierdzenie przez autora.** 28 listopada 2026 r. Paweł Wilk zatwierdził
 proponowaną zmianę chronionego rdzenia. Oświadczył, że jest dotychczas jedynym
 autorem Konstytucji i że nie istnieje jeszcze żadna publiczna federacja.
-Oświadczenie dokumentuje jego decyzję jako autora. Tryb formalnego przyjęcia
-zmiany określono poniżej.
+Zatwierdzone brzmienie wchodzi do projektu. Pierwsze formalne przyjęcie
+Konstytucji pozostaje odrębną decyzją. Samo powstanie organizacji nie wprowadzi
+Konstytucji w życie.
 
 ## Co się zmienia i kto decyduje
 
@@ -33,7 +31,8 @@ lokalnej. Samo zacytowanie postanowienia nie tworzy obowiązku.
 
 ## Przepisy przejściowe od dnia wejścia w życie
 
-1. Właściwy organ ogłasza przyjęte wersje, zapis głosowania i datę wejścia w życie.
+1. Przy pierwszym formalnym przyjęciu właściwy organ ogłasza obie wersje językowe,
+   akt przyjęcia i datę wejścia w życie.
    Od tego dnia używanie technologii jako jedyna wskazywana podstawa nie uzasadnia
    dalszego egzekwowania obowiązku.
 2. Operator lub organ powołujący się na wcześniejsze zobowiązanie wskazuje dowód jego
@@ -55,32 +54,33 @@ lokalnej. Samo zacytowanie postanowienia nie tworzy obowiązku.
    wykazany mandat wymaga nowego aktu. Wygaśnięcie kompetencji nie unieważnia
    wcześniejszej prawidłowej decyzji ani podpisu technicznego.
 
-## Chroniony tryb przyjęcia i skutki
+## Skutki projektu i ochrona rdzenia po przyjęciu Konstytucji
 
-Zmiana kręgu adresatów materialnie zawęża dotychczasowy zasięg chronionego rdzenia,
-w szczególności progu ochrony wobec operatora z art. III.11 i kompetencji założycieli.
-Zachowanie listy klauzul rdzenia nie czyni tej poprawki redakcyjną. Stosuje się
-art. XVI.8-9, `const:core.2` i `const:core.3`,
-[klauzulę wieczności §2.2](../../50-constitutional-ops/pl/ENTRENCHMENT-CLAUSE.pl.md)
+Zmiana kręgu adresatów materialnie zawęża zasięg rdzenia przewidziany w poprzednim
+projekcie. Dotyczy to zwłaszcza ochrony użytkownika wobec operatora (art. III.11)
+i kompetencji założycieli. Zatwierdzenie tej zmiany przez autora nie otworzyło
+procedury międzyfederacyjnej ani 90-dniowego okresu refleksji.
+
+Jeżeli Konstytucja zostanie przyjęta w tym brzmieniu, późniejsze zmiany rdzenia
+będą podlegały art. XVI.8-9, `const:core.2` i `const:core.3`. Zabezpieczenia
+obejmą również przyjęcie lub osłabienie procedury obrony rdzenia.
+[Klauzula wieczności §2.2](../../50-constitutional-ops/pl/ENTRENCHMENT-CLAUSE.pl.md)
 i [zasady członkostwa i kworum §§7-8](../../50-constitutional-ops/pl/FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md)
-obowiązujące **przed** tą zmianą.
+opisują proponowany przebieg takiej późniejszej zmiany:
 
-Teksty wykonawcze noszą oznaczenia wersji roboczych. Przed otwarciem procedury należy
-wskazać właściwe akty i dowody umocowania elektoratu. Jeżeli podstawy nie da się
-wykazać, projekt oczekuje na rozpatrzenie. Samo przyjęcie procedury obrony rdzenia
-także wymaga zabezpieczeń z `const:core.3`.
-
-- Przy formalnym otwarciu ustala się skład uprawnionego elektoratu według dotychczasowych
-  reguł, grupując podmioty pod wspólną kontrolą. Przy zerowej liczbie bloków procedura
-  nie może się rozpocząć. Każdy blok z tej migawki musi oddać głos za. Głos przeciw,
-  wstrzymanie się i milczenie wykluczają przyjęcie. Projektowana zasada dobrowolności
-  nie służy do wyłączenia kogokolwiek z tego głosowania.
+- Przy otwarciu procedury ustala się skład elektoratu według zasad obowiązujących
+  przed rozpatrywaną zmianą. Federacje pod wspólną kontrolą tworzą jeden blok.
+  Otwarcie wymaga co najmniej jednego uprawnionego bloku, a przyjęcie zmiany
+  wymaga jawnego głosu za od każdego bloku z ustalonego wówczas składu.
 - Niezależny przegląd kontradyktoryjny wykonują co najmniej trzy węzły o wysokiej
   reputacji proceduralnej, niezwiązane z inicjatorami i wolne od konfliktu interesów.
   Uzasadnienie podlega publikacji. Od formalnego zgłoszenia do głosowania musi
   upłynąć co najmniej 90 dni z możliwością publicznego wniesienia kontrargumentów.
   Wniosek, analizę skutków, argumenty, głosy i uzasadnienia archiwizuje się trwale
   i publicznie. Założycieli obowiązuje ten sam tryb. Edycja pliku nie rozpoczyna biegu terminu.
+
+### Odrębne decyzje i skutki dla społeczności
+
 - Zmiana [karty korzenia (§10)](../../50-constitutional-ops/pl/ORBIPLEX-MAIN-ROOT-CHARTER.pl.md)
   wymaga osiągnięcia obowiązującego progu pieczy i nadania nowej wersji karty. Gdy
   progu nie można osiągnąć, pozostaje wersja 0.1.0. Ta odrębna decyzja nie uchwala
@@ -90,11 +90,12 @@ także wymaga zabezpieczeń z `const:core.3`.
   należnej od projektu. Ryzyka obejmują przedstawianie obowiązków usługodawcy jako
   spraw lokalnych, wymuszanie zgody warunkami usługi i porzucenie danych przy wyjściu.
   Przegląd obejmuje rzeczywiste mandaty, odmowy i bezpieczne przekazanie danych.
-  Przed głosowaniem należy przećwiczyć poniższe przypadki na fikcyjnych stronach.
+  Przed formalnym przyjęciem Konstytucji warto przećwiczyć poniższe przypadki
+  na fikcyjnych stronach.
   Przy pierwszej retrospektywie należy policzyć nieudokumentowane mandaty, niezakończone
-  zwroty i zakwestionowane decyzje, a następnie ogłosić wyniki zbiorcze. Odwrócenie
-  zmiany wymaga właściwego trybu chronionego. Późniejsza decyzja projektu nie zmienia
-  z mocą wsteczną aktu społeczności.
+  zwroty i zakwestionowane decyzje, a następnie ogłosić wyniki zbiorcze. Po wejściu Konstytucji
+  w życie zmiana przyjętego zakresu ochrony rdzenia podlega właściwemu trybowi.
+  Późniejsza decyzja projektu nie zmienia z mocą wsteczną aktu społeczności.
 
 ## Próby zastosowania proponowanych przepisów
 

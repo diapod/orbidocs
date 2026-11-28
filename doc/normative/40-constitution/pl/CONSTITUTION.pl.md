@@ -1,6 +1,6 @@
 # Distributed Intelligence Agency - Konstytucja
 
-> **Projekt zmiany.** [Wniosek i warunki przyjęcia](COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md) wskazują zmiany oczekujące na zatwierdzenie. Publikacja tego tekstu nie wprowadza ich w życie.
+> **Projekt Konstytucji.** Poprzednia i obecna wersja mają status projektu. Autor zatwierdził [zmianę dotyczącą samorządności społeczności](COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md) w obecnym projekcie. Pierwsze formalne przyjęcie Konstytucji pozostaje odrębną decyzją.
 
 ## Oficjalna tożsamość
 

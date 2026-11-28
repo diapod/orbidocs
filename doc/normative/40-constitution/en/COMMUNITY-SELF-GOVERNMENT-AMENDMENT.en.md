@@ -1,17 +1,16 @@
 # Proposed amendment on community self-government
 
-**Decision requested.** Adopt the proposed jurisdiction rules in the
-[Constitution](CONSTITUTION.en.md#const:norm.6) and the transition below. Approve
-the corresponding revisions of the implementing acts under their own procedures.
-This is a submission text, without a recorded submission date, vote or effective date.
-The comparison base is Orbidocs revision `cbe276fda89e62621bc5f0f90c9bb3fad6b1a2c2`.
-A repository revision identifies the text; each instrument retains its prior adoption status
-until its competent body acts. The initial root charter was adopted at version 0.1.0.
+**Status of the text.** DIA has yet to be formally constituted as an organization.
+Both the [current Constitution](CONSTITUTION.en.md#const:norm.6) and the text at
+revision `cbe276fda89e62621bc5f0f90c9bb3fad6b1a2c2` are drafts. The author
+also treated the Constitution as a draft when root charter 0.1.0 was adopted.
+That decision covered the charter alone.
 
 **Author's approval.** On 28 November 2026, Paweł Wilk approved the proposed
 change to the protected core. He stated that he is the Constitution's sole author
-to date and that no public federation exists yet. This statement records his
-decision as author. The procedure for formal adoption is set out below.
+to date and that no public federation exists yet. The approved wording is now
+part of the draft. Formal adoption of the first Constitution remains a separate
+decision. Forming the organization will not itself bring the Constitution into force.
 
 ## What changes and who decides
 
@@ -31,7 +30,8 @@ it exists and which local rule takes precedence. A bare citation creates no duty
 
 ## Transition on entry into force
 
-1. The competent body publishes the adopted versions, vote record and effective date.
+1. On first formal adoption, the competent body publishes both language versions,
+   the act of adoption and the effective date.
    From that date an obligation based solely on using the technology has no continuing force.
 2. Each operator or body relying on an earlier commitment identifies its evidence,
    parties, version, subject matter, duration, renewal, exit and dispute procedure.
@@ -49,29 +49,31 @@ it exists and which local rule takes precedence. A bare citation creates no duty
    appeal path. Continued cooperation beyond the established mandate needs a fresh act.
    A lapse of public authority does not undo a valid prior decision or technical signature.
 
-## Protected adoption procedure and impact
+## Impact of the draft and protection of the core after adoption
 
-Changing who is bound materially narrows the reach previously claimed for the protected
-core, including the operator floor in Article III.11 and the founders' competence. Keeping
-the core's clause list intact does not make this an editorial change. Apply Article XVI.8-9,
-`const:core.2` and `const:core.3`, the [entrenchment clause §2.2](../../50-constitutional-ops/en/ENTRENCHMENT-CLAUSE.en.md)
+Changing who is bound materially narrows the scope of the core in the previous
+draft, especially the protection users can claim from operators (Article III.11)
+and the founders' authority. The author's approval of this revision opened
+neither an inter-federation proceeding nor the 90-day reflection period.
+
+If the Constitution is adopted in this form, subsequent changes to the core
+will be governed by Article XVI.8-9, `const:core.2` and `const:core.3`. Those
+safeguards will also apply to adopting or weakening the core's defense procedure.
+The [entrenchment clause §2.2](../../50-constitutional-ops/en/ENTRENCHMENT-CLAUSE.en.md)
 and the [membership and quorum rules §§7-8](../../50-constitutional-ops/en/FEDERATION-MEMBERSHIP-AND-QUORUM.en.md)
-as applicable **before** this amendment.
+describe the proposed procedure for such a subsequent change:
 
-The operational texts carry draft version labels. Before opening the process, identify
-the applicable acts and records establishing the electorate's mandate. If that basis
-cannot be demonstrated, the proposal remains pending. Adopting the core's defense
-procedure itself requires the protections in `const:core.3`.
-
-- At formal opening freeze the eligible electorate under existing rules, grouping common
-  control. A process cannot open with zero voting blocks. All blocks in that snapshot
-  must vote yes; silence, abstention and a negative vote each prevent adoption. The
-  proposed opt-in rule cannot remove voters from this vote.
+- At formal opening, use the rules in force before the proposed change to identify
+  the electorate and group federations under common control. The process requires
+  at least one eligible block and an explicit yes from every block in that snapshot.
 - Obtain independent adversarial review by at least three nodes with high procedural
   reputation, independent of the initiators and free of conflicts; publish their rationale.
   Allow at least 90 days between formal submission and vote for public counterarguments.
   Permanently archive the submission, impact analysis, arguments, votes and reasons.
   Project founders have no exemption. No clock starts merely because a file was edited.
+
+### Separate decisions and effects on communities
+
 - Revise the [root charter §10](../../50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md)
   only with the custody threshold then in force and a new charter version. If unavailable,
   retain 0.1.0. This separate decision cannot enact the Constitution, appoint Guardians
@@ -79,11 +81,13 @@ procedure itself requires the protections in `const:core.3`.
   own authorized acts.
 - Self-government and exit become usable without loss of project protections. The risks
   are a provider relabelling its own duties as local law, coercive service terms, and
-  orphaned data on exit. Review actual mandates, refusals and safe handovers. Before
-  the vote rehearse the cases below with fictitious parties. At the first retrospective
+  orphaned data on exit. Review actual mandates, refusals and safe handovers.
+  Rehearse the cases below with fictitious parties before first formal adoption.
+  At the first retrospective
   count undocumented mandates, unresolved returns and contested decisions and publish
-  aggregate results. To reverse the change use the applicable protected procedure;
-  later project decisions cannot rewrite a community's existing act retroactively.
+  aggregate results. After the Constitution takes effect, changes to the scope of the
+  adopted core protections follow the applicable procedure. Later project decisions
+  cannot rewrite a community's existing act retroactively.
 
 ## Tests of the proposed text
 

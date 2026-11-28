@@ -1,6 +1,6 @@
 # Distributed Intelligence Agency - Constitution
 
-> **Proposed amendment.** The [submission and adoption conditions](COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md) identify the changes awaiting approval. Publication of this text does not enact them.
+> **Draft Constitution.** The previous and current versions are both drafts. The author approved the [revision on community self-government](COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md) for the current draft. Formal adoption of the first Constitution remains a separate decision.
 
 ## Official Identity
 

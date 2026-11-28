@@ -155,6 +155,9 @@ przykład `policy:dia-root-001@0.1.0#appeals`.
 
 ## 11. Status przyjęcia
 
+Przyjęcie karty 0.1.0 obejmowało samą kartę. Konstytucja wskazana w jej podstawie
+była wówczas projektem i nadal ma ten status.
+
 Przyjęto **pierwotny akt wykonawczy** (0.1.0). Jego zmiana wymaga trybu z §10. Tabela
 składu i kluczy jest celowo niewypełniona do czasu ceremonii aktywacyjnej.
 Aktywacja produkcyjna wymaga: trzech nazwanych tożsamości kluczników z

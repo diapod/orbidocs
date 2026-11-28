@@ -4,7 +4,7 @@ This directory contains constitutional operational acts that refine and operatio
 
 ## Constitutional Order
 
-[Proposed community self-government amendment](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md) (pending the protected procedure).
+[Community self-government in the draft Constitution](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md) — a revision approved by the author. The Constitution awaits its first formal adoption.
 
 - [Normative Hierarchy](NORMATIVE-HIERARCHY.en.md)
 - [Node Rights Card](NODE-RIGHTS-CARD.en.md)

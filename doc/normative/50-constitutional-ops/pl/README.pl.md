@@ -4,7 +4,7 @@ Ten katalog zbiera akty wykonawcze rozwijające Konstytucję DIA/Orbiplex.
 
 ## Porządek ustrojowy
 
-[Projekt zmiany dotyczącej samorządności społeczności](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md) (do przyjęcia w trybie chronionym).
+[Samorządność społeczności w projekcie Konstytucji](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md) — zmiana zatwierdzona przez autora. Konstytucja oczekuje na pierwsze formalne przyjęcie.
 
 - [Hierarchia normatywna](NORMATIVE-HIERARCHY.pl.md)
 - [Karta praw węzła](NODE-RIGHTS-CARD.pl.md)

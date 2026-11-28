@@ -151,6 +151,9 @@ example `policy:dia-root-001@0.1.0#appeals`.
 
 ## 11. Adoption Status
 
+Adoption of charter 0.1.0 covered the charter alone. The Constitution cited as its
+basis was a draft at the time and remains a draft.
+
 The **initial implementing act** (0.1.0) was adopted. Changes to it require §10. The roster
 and key table are deliberately unfilled until the activation ceremony.
 Production activation requires: three named Guardian identities with generated
