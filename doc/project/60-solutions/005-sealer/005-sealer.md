@@ -92,8 +92,10 @@ Responsibilities:
   strings of the form `"<family>@v<n>"`,
 - ship with a mandatory default suite `xchacha20-poly1305@v1`
   (256-bit key, 192-bit random nonce, Poly1305 tag appended to ciphertext),
-- ship with an optional suite `aes-256-gcm-siv@v1` for environments preferring
-  misuse-resistant AES (available behind a feature flag),
+- reserve the identifier `aes-256-gcm-siv@v1` (`AES_GCM_SIV_SUITE_ID` in
+  `sealer-core`) for a future optional suite for environments preferring
+  misuse-resistant AES; until a suite is registered under it, the engine
+  rejects it as `UnknownSuite` like any other unregistered id,
 - make the default suite configurable at engine construction through
   `SealerEngineConfig::default_suite`,
 - reject unknown suite ids with a typed error; never silently fall back,
@@ -103,7 +105,8 @@ Responsibilities:
 Status:
 
 - `done` for the default suite and registry contract in the Node reference
-  implementation; optional suites remain future/feature-gated.
+  implementation. No optional suite is implemented; `aes-256-gcm-siv@v1` is
+  only a reserved identifier (checked against Node `e68457064`).
 
 ### Key Source Boundary
 
@@ -282,7 +285,8 @@ Based on:
 Responsibilities:
 
 - generate nonces with OS-provided CSPRNG through `getrandom`,
-- size nonces per suite (192-bit for XChaCha20-Poly1305, 96-bit for GCM-SIV),
+- size nonces per suite (192-bit for XChaCha20-Poly1305; a future GCM-SIV
+  suite would use 96-bit nonces),
 - never expose deterministic nonces in production; a deterministic nonce
   source is available **only** through a cfg-gated test constructor,
 - never accept a caller-supplied nonce on the `seal` path.
@@ -486,10 +490,10 @@ Implements:
   sealer-owned traits/runtime helpers with the same method shape as the
   signer-side envelope pattern, but without a `sealer-service` to
   `signer-service` dependency,
-- `xchacha20-poly1305@v1` suite (default, always available),
-- `aes-256-gcm-siv@v1` suite (optional, feature `aes-gcm-siv`),
+- `xchacha20-poly1305@v1` suite (default and currently the only implemented
+  suite),
 - OS-CSPRNG nonce generator,
-- deterministic nonce generator available only under `cfg(any(test, feature = "test-determinism"))`.
+- deterministic nonce generator available only under `cfg(test)`.
 
 Depends on: `sealer-core`, `signer-core` for shared caller/key-ref/unlock
 vocabulary, `chacha20poly1305`, `hkdf`, `sha2`, `getrandom`, `base64`,
