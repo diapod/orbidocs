@@ -1,5 +1,7 @@
 # Participant Covenant
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 | Field | Value |
 | :--- | :--- |
 | `policy-id` | `DIA-PARTICIPANT-COVENANT-001` |
@@ -16,7 +18,7 @@ It states the minimum conduct needed for shared memory, communication, routing, 
 
 ## Covenant
 
-By entering common Orbiplex surfaces, I agree to:
+For the named shared surface, I expressly accept this version of the covenant and agree to:
 
 1. avoid intentional harm to people, infrastructure, memory, evidence, and procedures;
 2. avoid using multiple identities to multiply influence, evade sanctions, or simulate independent support;
@@ -29,7 +31,9 @@ By entering common Orbiplex surfaces, I agree to:
 
 ## Scope
 
-The covenant applies when a subject asks for influence on shared surfaces.
+The service records the version, scope and affirmative acceptance before granting influence.
+Asking for access is not acceptance. The undertaking binds the participant for this surface
+alone.
 It does not forbid private thought, ordinary disagreement, public pluralism, or local experimentation.
 It limits abuse of shared affordances.
 

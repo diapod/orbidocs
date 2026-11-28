@@ -1,5 +1,7 @@
 # Distributed Intelligence Agency - Konstytucja
 
+> **Projekt zmiany.** [Wniosek i warunki przyjęcia](COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md) wskazują zmiany oczekujące na zatwierdzenie. Publikacja tego tekstu nie wprowadza ich w życie.
+
 ## Oficjalna tożsamość
 
 - Organizacja parasolowa: **Distributed Intelligence Agency**
@@ -42,8 +44,10 @@ kryzysu, sukcesu i degeneracji.
     Odpowiadające im formy małoliterowe mają znaczenie opisowe i NIE MOGĄ
     samodzielnie ustanawiać obowiązku, zakazu ani uprawnienia.
 
-6. <span id="const:norm.6"></span>Konstytucja ma pierwszeństwo nad lokalnymi zasadami, interesem podmiotów finansujących,
-    presją wzrostu, wygodą implementacji i narracją marketingową.
+6. <span id="const:norm.6"></span>Konstytucja wiąże DIA, projekt Orbiplex i osoby wykonujące mandat projektu. W granicach
+    tego mandatu ma pierwszeństwo przed regułami wewnętrznymi, interesem finansujących,
+    celami wzrostu, wygodą implementacji i przekazem marketingowym. Projekt zapewnia ochronę
+    osobom, których dotyczą jego działania, także gdy nie zaciągnęły wobec niego zobowiązań.
 
 7. <span id="const:norm.7"></span>`doc/normative/30-core-values/pl/CORE-VALUES.pl.md` oraz
     `doc/normative/20-vision/pl/VISION.pl.md` są źródłami wykładni tej
@@ -69,6 +73,34 @@ kryzysu, sukcesu i degeneracji.
     przy kolejnej rewizji. Przyjęta zmiana MUSI zostać wiernie zsynchronizowana ze
     wszystkimi wersjami językowymi. Rozbieżność znaczeniowa jest luką wymagającą
     korekty, a nie lokalnym wariantem Konstytucji.
+
+12. <span id="const:norm.12"></span>Społeczność ustanawia własną konstytucję od podstaw lub według dowolnego wzorca we
+    własnym trybie. Utworzenie społeczności lub federacji technicznej, używanie
+    oprogramowania lub protokołów Orbipleksu ani uruchomienie węzła nie stanowi przyjęcia tej
+    Konstytucji. Nie wymaga się wspólnego pakietu ustrojowego ani zgody założycieli projektu.
+
+13. <span id="const:norm.13"></span>Inspiracja, cytat i odesłanie nie tworzą obowiązków. Społeczność MOŻE przyjąć wskazane
+    postanowienia, wyznaczyć je do uzupełniania określonych luk w prawie lokalnym lub przyjąć
+    cały dokument. Moc wiążąca wynika z wyraźnego aktu społeczności podjętego na podstawie
+    jej własnego mandatu.
+
+14. <span id="const:norm.14"></span>Wiążące odwołanie MUSI wskazywać, kto, co, na podstawie jakiego mandatu i kiedy przyjął,
+    wersję i postanowienia, adresatów i sprawy, pierwszeństwo w razie kolizji oraz tryb
+    zmiany i zakończenia zobowiązania. Późniejsze rewizje wiążą po odrębnym przyjęciu lub w
+    określonym trybie aktualizacji wyraźnie przyjętym w tym akcie.
+
+15. <span id="const:norm.15"></span>Dostęp do wspólnych zasobów, głosowania i uznania poświadczeń wymaga umocowania
+    właściwego danej relacji, usłudze lub operacji. Strony zapisują warunki, organy
+    rozstrzygające i odwoławcze oraz zasady wystąpienia. Wyjątki, egzekwowanie zasad i
+    rozstrzyganie sporów obejmują tylko ten mandat. Współpraca nie ustanawia ogólnego
+    zwierzchnictwa nad społecznością.
+    Warunek korzystania z usługi NIE MOŻE wymagać podporządkowania ustrojowego w innych sprawach.
+
+16. <span id="const:norm.16"></span>Prawo lokalne nie zmienia poprawności podpisu, znaczenia kontraktu protokołu ani zakresu
+    uprawnienia. Zgodność techniczna nie stanowi zgody ustrojowej ani deklaracji
+    światopoglądu. Ustrój społeczności i techniczna domena zaufania mają odrębne granice:
+    dopuszczalne jest zarówno współdzielenie korzenia przez kilka społeczności, jak i
+    działanie jednej społeczności w kilku domenach.
 
 ## Główne definicje
 
@@ -98,6 +130,8 @@ kryzysu, sukcesu i degeneracji.
     i poświadczania podstawowego ładu technicznego federacji; nie stanowi dowodu
     prawdziwości poszczególnych informacji, nie zastępuje weryfikacji artefaktów ani
     nie nadaje nieograniczonego autorytetu węzłom lub usługom.
+    Ustanowienie konstytucji społeczności nie wymaga osobnego root packa. Ustanowienie root
+    packa nie powołuje społeczności ani urzędu ustrojowego.
 
 8. <span id="const:def.8"></span>`Wyrocznia` oznacza proceduralne źródło pomiaru, obserwacji lub poświadczenia,
     które wspiera domknięcie pętli predykcji i aktualizacji modeli. Wyrocznia sama
@@ -129,6 +163,11 @@ kryzysu, sukcesu i degeneracji.
 15. <span id="const:def.15"></span>`Próg odpieczętowania` oznacza klasę proceduralną określającą, jaki zakres
     tożsamości wolno ujawnić, przy jakiej stawce, dowodach, quorum i kontroli
     konfliktu interesów.
+
+16. <span id="const:def.16"></span>Strażnicy kluczy (klucznicy lub klucznicy federacji) to osoby sprawujące pieczę nad
+    kluczami podpisującymi root pack federacji. Ich mandat obejmuje czynności przewidziane
+    procedurą pieczy. Jest odrębny od pieczy nad `root-identity` uczestnika oraz od mandatów
+    założycieli, członków rady i arbitrów.
 
 ## Rdzeń nienegocjowalny
 
@@ -289,6 +328,9 @@ kryzysu, sukcesu i degeneracji.
     poznania skutecznych ograniczeń, ich podstawy, autora, czasu obowiązywania
     i ścieżki zakwestionowania, bez automatycznego ujawniania cudzych danych
     wrażliwych.
+    Ten próg ochrony wiąże projekt w usługach własnych i powierzonych do wykonania, także
+    wobec użytkowników spoza jego grona. W pozostałych sprawach społeczność określa moc
+    wyraźnie przyjętych przez siebie postanowień.
 
 ## Artykuł IV. Organy konstytucyjne systemu
 
@@ -712,6 +754,10 @@ kryzysu, sukcesu i degeneracji.
 
 1. <span id="const:art-13.1"></span>Założyciele są architektami warstw i strażnikami kontraktów tylko o tyle, o ile
     ich rola daje się przetłumaczyć na procedury, dokumentację i implementowalne reguły.
+    Ten artykuł dotyczy założycieli i okresu założycielskiego projektu. Skopiowanie lub
+    przyjęcie tekstu nie ustanawia tych osób założycielami społeczności, nie przenosi ich
+    kompetencji ani nie uruchamia lokalnego okresu założycielskiego. Społeczność wyłania
+    własnych założycieli i organy na podstawie odrębnego mandatu.
 
 2. <span id="const:art-13.2"></span>Żadna osoba, w tym założyciel, nie jest źródłem niekwestionowanej wykładni prawdy
     ani sensu projektu.
@@ -797,7 +843,10 @@ kryzysu, sukcesu i degeneracji.
 
 ## Artykuł XV. Obywatelstwo roju: prawa i obowiązki węzła
 
-1. <span id="const:art-15.1"></span>Każdy węzeł jest obywatelem roju i posiada prawa podstawowe.
+1. <span id="const:art-15.1"></span>Obywatelstwo roju oznacza uczestnictwo we wspólnych instytucjach projektu. Uczestnikom
+    przysługują poniższe prawa, a obowiązki podejmują w granicach jawnego uczestnictwa.
+    Uruchomienie węzła nie daje głosu ani nie rodzi obowiązku członkostwa. Projekt chroni
+    osoby objęte jego działaniem zgodnie z `const:norm.6` niezależnie od członkostwa.
 
 2. <span id="const:art-15.2"></span>Prawa podstawowe obejmują: prawo do wyjścia, prawo do prywatności, prawo do
     wglądu, prawo do odwołania, prawo do bezpieczeństwa oraz prawo do lokalnej autonomii.
@@ -860,8 +909,9 @@ kryzysu, sukcesu i degeneracji.
 9. <span id="const:art-16.9"></span>Zmiany o wysokiej stawce POWINNY przejść okres próbny, mierniki skutków
     i retrospektywę.
 
-10. <span id="const:art-16.10"></span>Żadna polityka lokalna, finansowanie, partnerstwo ani decyzja implementacyjna
-    NIE MOGĄ obejść tej Konstytucji bez formalnej zmiany konstytucyjnej.
+10. <span id="const:art-16.10"></span>Projekt i jego organy NIE MOGĄ obchodzić własnych obowiązków konstytucyjnych przez
+    polityki lokalne, finansowanie, partnerstwa ani decyzje implementacyjne. Zmiana tych
+    obowiązków wymaga właściwego trybu zmiany Konstytucji.
 
 11. <span id="const:art-16.11"></span>Dokumenty z katalogu `doc/normative/50-constitutional-ops/` MOGĄ doprecyzowywać wdrażanie nowych
     osób i węzłów (ang. onboarding), hierarchię normatywną, gradient autonomii,

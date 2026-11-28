@@ -1,5 +1,7 @@
 # Distributed Intelligence Agency - Constitution
 
+> **Proposed amendment.** The [submission and adoption conditions](COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md) identify the changes awaiting approval. Publication of this text does not enact them.
+
 ## Official Identity
 
 - Umbrella organization: **Distributed Intelligence Agency**
@@ -41,8 +43,10 @@ conditions of pressure, crisis, success, and degeneration.
     have descriptive meaning and MUST NOT independently establish an obligation,
     prohibition, or permission.
 
-6. <span id="const:norm.6"></span>The Constitution takes precedence over local rules, the interests of funding parties, growth
-    pressure, implementation convenience, and marketing narrative.
+6. <span id="const:norm.6"></span>The Constitution binds DIA, the Orbiplex project and those exercising a project mandate.
+    Within that mandate it takes precedence over internal rules, funding interests, growth
+    targets, implementation convenience and marketing. The project owes its protections to
+    people affected by its acts, including people who have undertaken no duties to it.
 
 7. <span id="const:norm.7"></span>`doc/normative/30-core-values/en/CORE-VALUES.en.md` and
     `doc/normative/20-vision/en/VISION.en.md` are sources of interpretation for
@@ -67,6 +71,33 @@ conditions of pressure, crisis, success, and degeneration.
     change for a subsequent revision. An accepted change MUST be faithfully
     synchronized across all language versions. A semantic divergence is a gap
     requiring correction, not a local variant of the Constitution.
+
+12. <span id="const:norm.12"></span>A community establishes its own constitution from scratch or from any model under its own
+    procedure. Forming a community or technical federation, using Orbiplex software or
+    protocols, or running a node does not enact this Constitution. No common constitutional
+    package or permission from the project founders is required.
+
+13. <span id="const:norm.13"></span>Inspiration, quotation and citation create no duties. A community MAY adopt specified
+    provisions, designate them to fill specified gaps in local law, or adopt the entire
+    document. Binding force comes from the community's express act under its own mandate.
+
+14. <span id="const:norm.14"></span>A binding reference MUST record who adopted what, under which mandate and when, the
+    version and provisions, the persons and matters covered, precedence in a conflict, and
+    the procedure for amendment and termination. Later revisions bind only on separate
+    adoption or under a defined update procedure expressly accepted in that act.
+
+15. <span id="const:norm.15"></span>Access to shared resources, votes and recognition of attestations require authority
+    specific to that relationship, service or operation. Its parties record the terms,
+    decision and appeal bodies, and exit conditions. Exceptions, enforcement and settlement
+    of disputes extend only to that mandate. Cooperation confers no general jurisdiction over
+    a community.
+    A service condition MUST NOT require constitutional submission on unrelated matters.
+
+16. <span id="const:norm.16"></span>Local law does not alter signature validity, protocol semantics or the scope of a grant.
+    Technical compliance establishes neither constitutional assent nor adherence to a
+    worldview. Community constitutions and technical trust domains have independent
+    boundaries: several communities can use one root and one community can operate across
+    domains.
 
 ## Main Definitions
 
@@ -96,6 +127,8 @@ conditions of pressure, crisis, success, and degeneration.
     establish and attest the federation's foundational technical order; it is not
     evidence that particular information is true, does not replace artifact
     verification, and does not grant unlimited authority to nodes or services.
+    A community establishes its constitution without needing a root pack. Establishing a
+    pack creates no community or political office.
 
 8. <span id="const:def.8"></span>`Oracle` means a procedural source of measurement, observation, or attestation
     that supports closure of a prediction and model-update loop. An oracle MUST NOT
@@ -127,6 +160,11 @@ conditions of pressure, crisis, success, and degeneration.
 15. <span id="const:def.15"></span>`Unsealing threshold` means a procedural class determining what identity scope
     is permitted to be disclosed and what stakes, evidence, quorum, and
     conflict-of-interest controls are required.
+
+16. <span id="const:def.16"></span>Key Guardians (Guardians, or the federation's Guardians) are people entrusted with
+    signing keys for the federation root pack. Their mandate covers the acts authorized by
+    its custody procedure. It is distinct from custody of a participant's `root-identity` and
+    from the mandates of founders, councillors and arbiters.
 
 ## Non-Negotiable Core
 
@@ -290,6 +328,9 @@ conditions of pressure, crisis, success, and degeneration.
     II.1-3 and III.1-4 or the minimum in Article XII.12. A user MUST be able to
     inspect effective restrictions, their basis, author, duration, and challenge
     path, without automatically disclosing another person's sensitive data.
+    This floor binds the project in its own and delegated services, including toward users
+    outside its membership. Elsewhere a community determines the force of provisions it
+    expressly adopts.
 
 ## Article IV. Constitutional Organs of the System
 
@@ -714,6 +755,10 @@ conditions of pressure, crisis, success, and degeneration.
 1. <span id="const:art-13.1"></span>Founders are architects of layers and guardians of contracts only to the extent
     that their role can be translated into procedures, documentation,
     and implementable rules.
+    This article concerns the founders and founding period of the project. Copying or
+    adopting its text neither installs those founders in a community nor transfers their
+    powers or starts a local founding period. The community designates its own founders and
+    organs under a separate mandate.
 
 2. <span id="const:art-13.2"></span>No person, including a founder, is the source of unquestionable interpretation
     of truth or the project's meaning.
@@ -800,7 +845,10 @@ conditions of pressure, crisis, success, and degeneration.
 
 ## Article XV. Swarm Citizenship: Rights and Duties of the Node
 
-1. <span id="const:art-15.1"></span>Every node is a citizen of the swarm and has basic rights.
+1. <span id="const:art-15.1"></span>Swarm citizenship describes participation in the project's common institutions.
+    Participants have the following rights and undertake duties within the scope of explicit
+    participation. Running a node confers no vote and creates no duty of membership. The
+    project protects affected people under `const:norm.6` regardless of membership.
 
 2. <span id="const:art-15.2"></span>Basic rights include: the right to exit, the right to privacy, the right to
     inspect, the right to appeal, the right to safety, and the right to local autonomy.
@@ -862,8 +910,9 @@ conditions of pressure, crisis, success, and degeneration.
 9. <span id="const:art-16.9"></span>High-stakes changes SHOULD pass through a trial period, impact metrics,
     and a retrospective.
 
-10. <span id="const:art-16.10"></span>A local policy, funding arrangement, partnership, or implementation decision
-    MUST NOT bypass this Constitution without a formal constitutional amendment.
+10. <span id="const:art-16.10"></span>The project and its organs MUST NOT use local policies, funding, partnerships or
+    implementation decisions to bypass their constitutional duties. Changing those duties
+    requires the applicable constitutional amendment procedure.
 
 11. <span id="const:art-16.11"></span>Documents in the `doc/normative/50-constitutional-ops/` directory MAY refine onboarding of new
     people and nodes, the normative hierarchy, the autonomy gradient,

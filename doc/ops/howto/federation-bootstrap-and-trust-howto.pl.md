@@ -17,7 +17,7 @@ Jeżeli polecenie nie stanowi inaczej, wszystkie poniższe komendy `cargo` i
 
 | Warstwa | Pytanie, na które odpowiada |
 | :--- | :--- |
-| `federation-root.v1` | czyj autorytet i jaka polityka konstytuują federację? |
+| `federation-root.v1` | jakie podmioty i zasady pieczy wyznaczają techniczną domenę zaufania tej federacji? |
 | official-service endorsement | czy konkretna usługa jest oficjalna w tej federacji? |
 | capability passport | jaki zakres capability posiada konkretny subject? |
 | Seed Directory | jakie zaakceptowane fakty discovery są obecnie projektowane? |
@@ -33,13 +33,13 @@ peer handshake.
 
 Do disposable acceptance użyj jawnego lokalnego fixture profile. Do produkcji
 użyj org/threshold custody zgodnego z charterem federacji. Produkcyjny klucz
-custodiana powinien być passphrase-encrypted; plaintext PEM jest dozwolony
+klucznika powinien być passphrase-encrypted; plaintext PEM jest dozwolony
 wyłącznie jako jawny, krótkotrwały fixture.
 
 Przed podpisaniem ustal:
 
 - `federation/id`;
-- roster custodianów i threshold;
+- skład strażników kluczy i próg podpisu;
 - sovereign/attestation subjects;
 - endorsement policy;
 - bootstrap Seed Directory;
@@ -104,14 +104,14 @@ zamaskowany pustą listą.
 
 Daemon nie wystartuje z root packiem, który ma nadmiarowy podpis, tak jak
 odrzuca go `--strict` w narzędziu ceremonii. Każdy ważny podpis musi być
-własnym podpisem participant roota albo udziałem kustosza autoryzowanym przez
+własnym podpisem participant roota albo udziałem klucznika autoryzowanym przez
 regułę `federation-root` roota organizacji z tego samego packa. Daemon odrzuca
 też każdą regułę custody, która wymienia klucz zawarty we własnym `org/id`
 ([P076-041](../../project/40-proposals/076-federation-identity-and-network-selector.md#keyless-identifiers-for-federation-root-orgs)).
 Pack podpisany przed wprowadzeniem tej kontroli, który ma którykolwiek z tych
 kształtów, wymaga nowej ceremonii z wyższym `pack_version`. Usuń nadmiarowy
-podpis albo zastąp miejsce klucza organizacji osobnym kluczem kustosza; jeśli
-bez niego próg byłby nieosiągalny, najpierw dodaj kustosza.
+podpis albo zastąp miejsce klucza organizacji osobnym kluczem klucznika; jeśli
+bez niego próg byłby nieosiągalny, najpierw dodaj klucznika.
 
 ## 5. Zweryfikuj bootstrap Seed Directory
 

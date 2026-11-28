@@ -1,5 +1,7 @@
 # Hierarchia normatywna dokumentów DIA
 
+> **Projekt zmiany.** Zob. [tryb przyjęcia i przepisy przejściowe](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md).
+
 ## Status dokumentu
 
 | Pole | Wartość |
@@ -71,7 +73,9 @@ rozbieżności pierwszeństwo mają Konstytucja i źródła Poziomu 2.
 
 ### Poziom 3 - Ustawy wykonawcze
 
-Dokumenty operacyjne o mocy wiążącej w ramach federacji:
+Rejestr wskazuje akty projektu. Każdy stosuje się na zasadach jego przyjęcia i wejścia w
+życie, wobec projektu w granicach jego mandatu lub wobec stron w zakresie jawnie podjętego
+zobowiązania. Poza tym zakresem akt może służyć jako wzorzec.
 
 - `AUTONOMY-LEVELS.pl.md` - gradient autonomii agentów
 - `ABUSE-DISCLOSURE-PROTOCOL.pl.md` - próg, zakres i procedura warunkowej jawności
@@ -119,9 +123,11 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
   uzupełniania składu panelu ad-hoc
 - `REPUTATION-VALIDATION-PROTOCOL.pl.md` - protokół walidacji mechanizmów reputacyjnych
 - `ENTRENCHMENT-CLAUSE.pl.md` - procedura obrony konstytucyjnej i klauzula wieczności
-- inne dokumenty polityk zapisanych w kodzie (ang. `policy-as-code`) lub dokumenty
-  wykonawcze z katalogu `doc/normative/50-constitutional-ops/`, które jawnie wskazują swój typ i
-  podstawę konstytucyjną
+- `ORBIPLEX-MAIN-ROOT-CHARTER.pl.md` - przyjęta karta 0.1.0 korzenia technicznego
+  `orbiplex-main`. Zmiana karty i aktywacja produkcyjna to odrębne decyzje.
+
+Kolejne akty wpisuje się z podstawą przyjęcia i zakresem. Sam projekt, wpis lub ścieżka
+pliku nie wprowadzają aktu w życie.
 
 Ustawy wykonawcze konkretyzują Konstytucję i Źródła wykładni. MOGĄ **zaostrzać**
 wymogi, ale NIE MOGĄ osłabiać żadnego wyższego poziomu.
@@ -135,8 +141,9 @@ Parametry, konfiguracje i reguły lokalne poszczególnych federacji. Obejmują:
 - lokalne rozszerzenia ról,
 - konfiguracje trybów (normalny / kryzysowy / pomocowy).
 
-Polityki federacyjne są autonomiczne w zakresie niepokrywającym się z wyższymi
-poziomami. Federacja może je swobodnie kształtować, o ile nie naruszają Poziomów 0-3.
+Poziom 4 obejmuje lokalne wykonanie zobowiązań w granicach ich wyraźnego przyjęcia.
+Konstytucja społeczności ma własne źródło mocy i pozostaje poza tą hierarchią. O mocy i
+pierwszeństwie postanowień włączonych z zewnątrz rozstrzyga lokalny akt przyjęcia.
 
 ### Poziom 5 - Materiały pochodne i wdrożeniowe (ang. onboarding)
 
@@ -158,12 +165,13 @@ Dokument Poziomu 5:
 
 ## 3. Zasady rozstrzygania kolizji
 
-1. W razie sprzeczności między poziomami - poziom wyższy ma pierwszeństwo.
+1. Najpierw ustal zakres obowiązywania (Konstytucja, Moc normatywna 6 i 12-16). Jeżeli obie
+   reguły dotyczą tej samej sprawy projektu, pierwszeństwo ma poziom wyższy.
 2. W razie sprzeczności w ramach tego samego poziomu - stosuje się procedurę z Art.
     XIV Konstytucji (test odwracalności, proporcjonalności, jawności).
-3. W razie sprzeczności między wersjami językowymi tego samego dokumentu -
-    pierwszeństwo ma wersja polska, o ile nie wykazano, że rozbieżność wynika z błędu
-    tłumaczenia.
+3. Teksty Konstytucji mają równą moc zgodnie z `const:norm.11`. Rozbieżności wymagają
+   uzgodnienia wersji. W pozostałych aktach DIA objętych tą hierarchią pierwszeństwo ma
+   wersja polska, chyba że rozbieżność wynika z błędu tłumaczenia lub akt stanowi inaczej.
 4. Dokument niższego poziomu, który faktycznie narusza wyższy poziom, jest **nieważny
     w zakresie naruszenia** od momentu stwierdzenia naruszenia, nie od momentu
     publikacji.

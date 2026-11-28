@@ -1,5 +1,7 @@
 # DIA Exception Policy
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 ## Document Status
 
 | Field | Value |
@@ -24,6 +26,10 @@ make the exception a **first-class audit object**.
 ---
 
 ## 2. General Rule
+
+The deciding body identifies the project rule or the expressly accepted service terms
+that give it jurisdiction. An exception varies only the covered operation within the
+competence already granted. It confers no new authority over data or a community.
 
 1. An exception is permissible only when it:
     - does not violate the non-negotiable core,
@@ -180,7 +186,7 @@ An exception MUST be automatically suspended or rolled back if:
 
 ## 7. Exception Health Metrics
 
-Every federation should measure at least:
+A body applying this policy should measure at least:
 
 - the number of active exceptions per period,
 - average lifetime of an exception,

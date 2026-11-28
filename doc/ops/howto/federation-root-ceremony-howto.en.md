@@ -6,10 +6,10 @@ and running-Node diagnostics are covered by the broader
 [Federation Bootstrap and Trust HOWTO](federation-bootstrap-and-trust-howto.en.md).
 
 This HOWTO describes the key-generation path for a federation-root ceremony:
-each custodian generates a fresh ceremony key with
+each Guardian generates a fresh ceremony key with
 `tools/federation-root-ceremony/federation_root_ceremony.py keygen`. It does
 not cover importing a node participant key, using a node `data-dir`, or deriving
-an operator identity from a custodian key.
+an operator identity from a Guardian key.
 
 Related documents:
 
@@ -22,13 +22,13 @@ Related documents:
 
 - **Coordinator** prepares the governance roster, unsigned root draft, manifest,
   ceremony transcript, and final assembly.
-- **Custodian** generates one dedicated key on their own machine, verifies the
+- **Key Guardian** (Guardian) generates one dedicated key on their own machine, verifies the
   frozen digest, signs the exact root draft, and returns only public material and
   a detached signature.
 - **Verifier** independently runs manifest, assembly, and final pack checks
-  before publication. This may be the coordinator plus at least one custodian.
+  before publication. This may be the coordinator plus at least one Guardian.
 
-The coordinator never receives private key material. Custodian keys may later
+The coordinator never receives private key material. Guardian keys may later
 attest or authorize a separate operator identity through an explicit binding,
 but they are not operator identities and must not be converted into one.
 
@@ -45,7 +45,7 @@ Agree on these values before any digest is frozen:
 - custody policy reference, for example `org-custody:orbiplex-main-root:v1`;
 - threshold, for example `2-of-3`;
 - charter or governance `policy_ref`;
-- exact custodian roster and display names;
+- exact Guardian roster and display names;
 - ceremony id;
 - publication target for the final `federation-root.v1` pack;
 - redaction rules for the public transcript.
@@ -60,12 +60,14 @@ mkdir -p ceremony/keys ceremony/public ceremony/signatures ceremony/out
 ```
 
 `ceremony/keys/` is shown only for local examples. In a real ceremony, each
-custodian keeps their own private-key directory on their own machine; the
+Guardian keeps their own private-key directory on their own machine; the
 coordinator should not create or collect private keys.
 
-## 2. Each Custodian Generates Their Key
+<a id="2-each-custodian-generates-their-key"></a>
 
-Each custodian runs this locally, using their own label in file names:
+## 2. Each Guardian Generates Their Key
+
+Each Guardian runs this locally, using their own label in file names:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py keygen \
@@ -86,7 +88,7 @@ Expected local outputs:
 - `ceremony/public/alice.public.json` — public `key_public` record, safe to send
   to the coordinator.
 
-The custodian sends only `alice.public.json` to the coordinator. Do not send the
+The Guardian sends only `alice.public.json` to the coordinator. Do not send the
 PEM file, paste it into chat, attach it to tickets, or include it in the
 transcript.
 
@@ -138,7 +140,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py digest \
 ```
 
 Record the returned `sha256:...` digest in the ceremony transcript. This digest
-is the value every custodian must independently compare before signing.
+is the value every Guardian must independently compare before signing.
 
 ## 5. Coordinator Creates and Verifies the Manifest
 
@@ -161,7 +163,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py manifest-verify 
   --manifest ceremony/manifest.json
 ```
 
-Send the following to each custodian:
+Send the following to each Guardian:
 
 - `ceremony/unsigned.federation-root.json`;
 - `ceremony/manifest.json`;
@@ -170,9 +172,11 @@ Send the following to each custodian:
 
 Do not send private keys because the coordinator must not have them.
 
-## 6. Each Custodian Verifies Before Signing
+<a id="6-each-custodian-verifies-before-signing"></a>
 
-Each custodian verifies the digest locally:
+## 6. Each Guardian Verifies Before Signing
+
+Each Guardian verifies the digest locally:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py digest \
@@ -182,7 +186,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py digest \
 They compare the output with the digest recorded by the coordinator. If it does
 not match, stop the ceremony. Do not sign a "nearly identical" root draft.
 
-Each custodian should also inspect at least:
+Each Guardian should also inspect at least:
 
 - `federation_id`;
 - `pack_version`;
@@ -193,9 +197,11 @@ Each custodian should also inspect at least:
 - `policy_ref`;
 - bootstrap and Seed Directory entries.
 
-## 7. Each Custodian Signs the Frozen Root
+<a id="7-each-custodian-signs-the-frozen-root"></a>
 
-Each custodian signs with their local private key:
+## 7. Each Guardian Signs the Frozen Root
+
+Each Guardian signs with their local private key:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py sign \
@@ -208,7 +214,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py sign \
 The passphrase unlocks only the local encrypted PEM. It is not written to the
 signature record, manifest, transcript, or root pack.
 
-The custodian sends only `alice.sig.json` back to the coordinator. The detached
+The Guardian sends only `alice.sig.json` back to the coordinator. The detached
 signature is public ceremony material; the private key remains local.
 
 ## 8. Coordinator Assembles the Root Pack
@@ -230,7 +236,7 @@ Strict assembly rejects invalid and unauthorized signatures. For production
 
 ## 9. Everyone Verifies the Final Pack
 
-The coordinator and at least one custodian verify the final artifact:
+The coordinator and at least one Guardian verify the final artifact:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py verify \
@@ -247,24 +253,24 @@ Publish:
 
 - `ceremony/out/federation-root.v1.json`;
 - the redacted ceremony transcript;
-- public custodian records;
+- public Guardian records;
 - manifest and final digest.
 
 Archive privately:
 
-- each custodian's encrypted private key, controlled only by that custodian;
+- each Guardian's encrypted private key, controlled only by that Guardian;
 - local machine notes needed for future rotation/recovery;
 - any non-public incident notes.
 
 Never archive private keys in the repository, public transcript, issue tracker,
 chat, or shared backup. A backup of the encrypted PEM is acceptable only when
-the backup and passphrase are managed as separate secrets for that custodian.
+the backup and passphrase are managed as separate secrets for that Guardian.
 
 ## Failure Rules
 
 Stop and restart from a new draft or new digest when:
 
-- any custodian receives a different digest;
+- any Guardian receives a different digest;
 - the manifest no longer verifies;
 - the roster is wrong or incomplete;
 - the threshold is wrong;
@@ -277,13 +283,13 @@ bytes are not reusable.
 
 ## After the Ceremony: Acting as the Org
 
-The custodians now act together as the org, and there is no org key to share,
+For an act authorized by the custody policy, the Guardians sign for the org, and there is no org key to share,
 split, or reconstruct. A later org act runs in two steps
 ([P076 §6](../../project/40-proposals/076-federation-identity-and-network-selector.md#collective-org-action-decide-then-co-sign)):
 
 1. The decision is taken under the charter, by vote when the charter requires
    one.
-2. Custodians co-sign the resulting artifact with the same dedicated keys they
+2. Guardians co-sign the resulting artifact with the same dedicated keys they
    used here. Each signs the same payload independently, and the artifact is
    valid once the custody rule for its purpose is met.
 

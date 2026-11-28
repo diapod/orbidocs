@@ -1,5 +1,7 @@
 # Protokół walidacji mechanizmów reputacyjnych DIA
 
+> **Projekt zmiany.** Zob. [tryb przyjęcia i przepisy przejściowe](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md).
+
 ## Status dokumentu
 
 | Pole | Wartość |
@@ -54,7 +56,8 @@ reputacyjnej `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`:
 
 ### 3.1. Metryki podstawowe (obowiązkowe)
 
-Każda federacja wdrażająca mechanizmy reputacyjne MUSI mierzyć i raportować
+Projekt oraz operatorzy, którzy wyraźnie przyjęli ten protokół dla danej usługi reputacyjnej,
+MUSZĄ mierzyć i raportować
 następujące metryki w cyklach nie dłuższych niż 30 dni.
 
 #### M1: Współczynnik koncentracji reputacji (Gini)

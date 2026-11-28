@@ -1,5 +1,7 @@
 # DIA Federation Membership and Quorum
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 ## Document Status
 
 | Field | Value |
@@ -30,6 +32,14 @@ rights.
 ---
 
 ## 2. General Principles
+
+These are the conditions for joining DIA's shared governance procedure. Record the
+participant's express decision, competent representative, version, scope and exit terms
+before determining voting eligibility. A root pack, interoperability or a shared service
+alone establishes none of these. A representative votes only for those who authorized that
+mandate. A community using the same root acquires no additional vote. Leaving this
+arrangement ends future participation under its rules and does not dissolve the community or
+revoke its technical root.
 
 1. In inter-federation governance, only **voting-eligible federations** count.
 2. **One active voting-eligible federation = one vote**. Capital, node count,

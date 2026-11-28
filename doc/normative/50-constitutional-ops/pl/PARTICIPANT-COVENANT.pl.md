@@ -1,5 +1,7 @@
 # Przymierze uczestnika
 
+> **Projekt zmiany.** Zob. [tryb przyjęcia i przepisy przejściowe](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md).
+
 | Pole | Wartość |
 | :--- | :--- |
 | `policy-id` | `DIA-PARTICIPANT-COVENANT-001` |
@@ -16,7 +18,7 @@ Określa minimum zachowania potrzebne, aby wspólna pamięć, komunikacja, routi
 
 ## Przymierze
 
-Wchodząc na wspólne powierzchnie Orbipleksu, zobowiązuję się:
+Dla wskazanej wspólnej usługi wyraźnie przyjmuję tę wersję przymierza i zobowiązuję się:
 
 1. nie szkodzić intencjonalnie ludziom, infrastrukturze, pamięci, dowodom i procedurom;
 2. nie używać wielu tożsamości do mnożenia wpływu, obchodzenia sankcji albo symulowania niezależnego poparcia;
@@ -29,7 +31,8 @@ Wchodząc na wspólne powierzchnie Orbipleksu, zobowiązuję się:
 
 ## Zakres
 
-Przymierze działa wtedy, gdy podmiot prosi o wpływ na wspólne powierzchnie.
+Usługa rejestruje wersję, zakres i wyraźne przyjęcie przed nadaniem uprawnienia. Sam wniosek
+o dostęp nie jest przyjęciem. Zobowiązanie wiąże uczestnika wyłącznie w tej usłudze.
 Nie zakazuje prywatnej myśli, zwykłej niezgody, publicznego pluralizmu ani lokalnego eksperymentu.
 Ogranicza nadużywanie wspólnych możliwości.
 

@@ -434,6 +434,13 @@ w wielu językach.
 
 ## Governance bez kapłanów: zasady zamiast autorytetu
 
+Orbiplex ma pomóc rozszerzyć zasięg lokalnej samorządności na współpracę w skali kraju i
+świata. Niezależne społeczności mogą na przykład wspólnie organizować pomoc w kryzysie
+dzięki federacjom, które uzgodniły protokoły zgłaszania potrzeb, udzielania uprawnień i ich
+cofania. Ludzie o różnych poglądach mogą realizować ten sam praktyczny cel i zmieniać
+narzędzia, gdy te zaczynają im ten cel dyktować. Taka współpraca przeciwdziała odwrotnej
+adaptacji bez skupiania władzy politycznej w jednym miejscu.
+
 Największym ryzykiem decentralizacji jest nowa forma oligarchii: strażnicy
 repozytoriów, operatorzy infrastruktury, ekosystemy dostawców.
 

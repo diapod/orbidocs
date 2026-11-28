@@ -1459,9 +1459,9 @@ defined governance process - not by personal authority.
 
 ## Node Rights and Duties - Swarm Citizenship
 
-A node in DIA is a "citizen of the swarm": it has rights that protect its autonomy,
-and duties that protect the community from Sybil attacks, abuse, and cognitive
-degradation. Minimum rights include:
+The project protects the autonomy of people using its nodes. In its shared institutions,
+swarm citizenship carries the duties expressly undertaken by participants to protect others
+against abuse, Sybil attacks and cognitive degradation. Minimum rights include:
 
 - the right to exit (ability to disconnect without coercion and without losing access to one's own data),
 - the right to privacy (data minimization, disclosure control, readable policies),
@@ -1479,9 +1479,10 @@ Minimum duties include:
 
 Enforcement is graduated: from warnings and permission limits, through reputational
 quarantine, up to routing cutoff - always with a decision log, appeal possibility, and
-a return path after remediation. Each federation may tighten these rules in
-"CORP_COMPLIANT", but may not weaken fundamental rights nor bypass dignity and safety
-as the non-negotiable layer.
+a return path after remediation.
+In the project's services, `CORP_COMPLIANT` can tighten safeguards while preserving
+fundamental rights, dignity and safety. Each community determines its own institutions and
+which obligations to undertake.
 
 ## System Architecture and Craft
 

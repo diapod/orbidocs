@@ -1,5 +1,7 @@
 # Normative Hierarchy of DIA Documents
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 ## Document Status
 
 | Field | Value |
@@ -73,7 +75,9 @@ Constitution and Level 2 sources prevail.
 
 ### Level 3 - Implementing Acts
 
-Operational documents with binding force within federations:
+The registry identifies acts of the project. Each applies under its own adoption and
+commencement rules, to the project within its mandate, or to parties within the terms they
+have expressly undertaken. Outside that scope an act can serve as a model.
 
 - `AUTONOMY-LEVELS.en.md` - agent autonomy gradient
 - `ABUSE-DISCLOSURE-PROTOCOL.en.md` - threshold, scope, and procedure of
@@ -123,9 +127,11 @@ Operational documents with binding force within federations:
   mechanisms
 - `ENTRENCHMENT-CLAUSE.en.md` - constitutional defense procedure and entrenchment
   clause
-- other `policy-as-code` documents or implementing documents under
-  `doc/normative/50-constitutional-ops/` that explicitly declare their type and constitutional
-  basis
+- `ORBIPLEX-MAIN-ROOT-CHARTER.en.md` - the adopted 0.1.0 charter for the technical root of
+  `orbiplex-main`. Its revision and production activation are separate decisions.
+
+Enter further acts with their adoption record and scope. A proposal, listing or file path
+alone does not bring an act into force.
 
 Implementing acts concretize the Constitution and the Sources of Interpretation.
 They MAY **tighten** requirements but MUST NOT weaken any higher level.
@@ -140,8 +146,9 @@ include:
 - local role extensions,
 - mode configurations (normal / crisis / support).
 
-Federation policies are autonomous in the areas not covered by higher levels. A
-federation may shape them freely as long as it does not violate Levels 0-3.
+Level 4 covers local implementation of obligations within their expressly accepted scope. A
+community constitution has its own source of authority and sits outside this hierarchy. For
+provisions it incorporates, its act of adoption specifies their force and precedence.
 
 ### Level 5 - Derived and Onboarding Materials
 
@@ -164,12 +171,13 @@ A Level 5 document:
 
 ## 3. Conflict Resolution Rules
 
-1. In case of conflict between levels, the higher level prevails.
+1. Establish jurisdiction first (Constitution, Normative Force 6 and 12-16). Where both rules
+   govern the same project matter, the higher level prevails.
 2. In case of conflict within the same level, the procedure from Constitution Art.
     XIV applies (tests of reversibility, proportionality, and publicity).
-3. In case of conflict between language versions of the same document, the Polish
-    version prevails unless it is shown that the difference results from a
-    translation error.
+3. The constitutional texts have equal force under `const:norm.11`. Resolve divergences by
+   synchronizing them. For other DIA instruments in this hierarchy the Polish version
+   prevails unless the difference is a translation error or the instrument provides otherwise.
 4. A lower-level document that in fact violates a higher level is **invalid to the
     extent of the violation** from the moment the violation is established, not
     from the moment of publication.

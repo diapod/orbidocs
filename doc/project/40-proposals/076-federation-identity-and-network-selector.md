@@ -327,7 +327,7 @@ policy rule mode remains a runtime invariant because portable JSON Schema cannot
 express that cross-array reference cleanly. Runtime threshold evaluation counts
 unique authorized signing keys, not real-world people, orgs, or custody seats;
 governance process must ensure that the signer roster maps to actually separate
-custodians.
+Key Guardians.
 
 The bundled `orbiplex-main` pack is a dev-bootstrap hard-MVP fixture gated by
 `federation.allow_bundled_fixture_root`. The daemon default is fail-closed
@@ -626,26 +626,29 @@ length 1..M. Subject kind only sets the required signer count:
 - **participant subject →** one signature (`M = 1`) — not a different artifact,
   just the single-signer case;
 - **org subject →** threshold co-signatures (`signatures[]` meeting the org's
-  `federation-root` custody policy); no single custodian can vouch officially.
+  `federation-root` custody policy); no single Guardian can vouch officially.
 
 #### Collective org action: decide, then co-sign
 
-A federation's founding circle acts as one org subject without any shared or
-composed private key. Two layers stay separate:
+Key Guardians are the people entrusted with the federation root-pack signing
+keys. They can sign for an org subject under its custody policy without a
+shared or composed private key. Holding a key does not appoint its holder
+as a founder or community representative. Two layers stay separate:
 
 1. **Deciding is governance.** The federation's charter (for `orbiplex-main`,
-   `DIA-ROOT-001`) fixes who decides each class of act and by what majority.
+   `DIA-ROOT-001`) fixes who decides each act within its scope and by what majority.
    When a vote is needed it runs under
    [Electum (P103)](103-electum-decision-and-voting-substrate.md). Its result is
    a decision record, not authority.
 2. **Signing is custody.** The org performs a decided act by publishing an
    artifact whose `signatures[]` satisfy the custody rule for that act's
-   purpose in the active root. Each custodian signs the same canonical payload,
+   purpose in the active root. Each Guardian signs the same canonical payload,
    with `signatures` omitted, using the dedicated custodian key listed in the
    roster at the latest root ceremony. Nobody countersigns another signature,
    and signature order carries no meaning; assembly sorts by `key_public`.
 
-Majority or unanimity is the threshold of the rule, not a separate mechanism.
+For signature verification, majority and unanimity count authorized keys. A separate
+governance mandate determines who decides; satisfying the signing threshold does not prove a vote.
 With `N` authorized keys, majority is `threshold/min_signers = floor(N/2) + 1`
 and unanimity is `N`. `any-authorized` lets any one authorized key act; it fits
 fail-safe acts such as revocation (`DIA-ROOT-001` §8). `orbiplex-main` needs at
@@ -737,8 +740,8 @@ Current state:
   listed key.
 
 A deployment whose root lists the embedded key fails closed at startup. Its
-custodians must sign a new pack with a higher `pack_version` that drops that
-seat, first adding a custodian if the threshold would otherwise become
+Guardians must sign a new pack with a higher `pack_version` that drops that
+seat, first adding a Guardian if the threshold would otherwise become
 unreachable.
 
 Keyed orgs created on a Node remain a separate class: the console
@@ -1071,7 +1074,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P076-001 | Define `federation-root.v1` schema | done | `doc/schemas/federation-root.v1.schema.json` is accepted; covers exactly `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, `identity.sovereign_subject_refs[]`, the participant-only compatibility projection `identity.sovereign_participant_ids[]`, plus `federation_id`, `pack_version`, attestation-root/custody refs, self-contained `custody_policies[]`, explicit `seed_directory_bootstrap[].enabled`, optional inline `seed_directory_bootstrap[].endorsement` as the bootstrap official-status proof, and optional `seed_directory_bootstrap[].tls_certificate_sha256` for transport pinning; `additionalProperties: false` at every level; `kind` constrains attestation-root id prefixes; custody policy v1 requires one `federation-root` rule and P076-033 adds an explicit paired issuance/revocation policy; `tls_certificate_sha256` and `key_public` patterns matched to the real runtime formats (base64url digest, bare multibase fingerprint); wired into `scripts/validate-json-schemas.sh` (`*.federation-root.json` mapping, next to `*.seed-directory-trust.json`); `make validate-schemas` passes. Positive examples now cover participant-root, org-threshold, and inline bootstrap endorsement shapes; negative schema-shape fixtures cover missing custody, unsigned/unknown fields, bad inline endorsement shape, forbidden redundant `official`, missing `enabled`, and malformed Seed Directory TLS pins; signature-validity, referenced-policy mode parity, endorsement verification, custody-threshold failures, including threshold-not-met, and TLS pin transport enforcement are covered by node runtime tests because JSON Schema cannot express cryptographic truth, clean cross-array references, or live transport evidence. The org-threshold example is mirrored into `node/protocol/contracts` and exercised by `schema-gate/tests/federation_root_contracts.rs`. |
 | P076-002 | Promote `federation_id` from per-entry tag to node-wide config | done | Node runtime now has a node-wide `federation.federation_id` config surface and includes it in the daemon config snapshot. Config-selected non-default federation ids must match the loaded `federation-root.v1`, so `federation_id` is no longer only an attribute of individual Seed Directory trust entries. |
 | P076-003 | Load `federation-root.v1` from `data-dir` at daemon startup | done | Node startup now schema-gates and loads `<data-dir>/federation-root.v1.json` when present. If no explicit file exists, startup fails closed unless the local operator explicitly enables the bundled `orbiplex-main` dev fixture. Accepted packs project seed peers, Seed Directory bootstrap/trust, and sovereign identity roots into daemon config. Explicit data-dir packs require real Ed25519 signatures over canonical payloads, participant roots must be self-signed, org roots are evaluated against self-contained `custody_policies[]`, inline bootstrap endorsements are verified against the active root before a Seed Directory is projected as `federation-endorsed`, invalid inline endorsements fail closed for the whole root pack, and the loader fails closed on schema/semantic/signature/custody errors plus state downgrade/mismatch. Bootstrap entries without inline endorsement remain advisory/community, never official. |
-| P076-004 | Ship a signed `orbiplex-main` default federation pack | partial | Node ships a bundled `orbiplex-main` federation-root fixture that exercises the runtime path and populates the four surfaces, but it is not trusted by default. Treat it as a development/demo bootstrap fixture, not production root authority, until the adopted root charter is activated through concrete custodians, concrete keys, final signer roster, and a signed production pack. The charter is now an adopted initial implementing act: `doc/normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md` (`DIA-ROOT-001`, 0.1.0, with a PL twin); roster/keys remain deliberately unfilled until the activation ceremony. The threshold-root ceremony shape is frozen in this proposal, but the production roster and signed pack remain governance-authored activation work. |
+| P076-004 | Ship a signed `orbiplex-main` default federation pack | partial | Node ships a bundled `orbiplex-main` federation-root fixture that exercises the runtime path and populates the four surfaces, but it is not trusted by default. Treat it as a development/demo bootstrap fixture, not production root authority, until the adopted root charter is activated through named Key Guardians, concrete keys, final signer roster, and a signed production pack. The charter is now an adopted initial implementing act: `doc/normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md` (`DIA-ROOT-001`, 0.1.0, with a PL twin); roster/keys remain deliberately unfilled until the activation ceremony. The threshold-root ceremony shape is frozen in this proposal, but the production roster and signed pack remain governance-authored activation work. |
 | P076-005 | Add a startup guard against overlapping `data-dir`/storage paths | done | Node writes a local `federation-root.state.v1.json` under the selected `data-dir` and rejects startup if the stored federation differs, if the root digest changes unexpectedly, or if the accepted `pack_version` would roll back. This preserves the "one federation per `data-dir`" invariant. The state file is an operational guard, not tamper-proof storage against a local actor who can write the data-dir. |
 | P076-006 | Cross-reference Room's `federation-local`/`cross-federation` exposure docs with this proposal's node-level definition | done | Solution 036 now explicitly grounds Room `federation-local`, `cross-federation`, and `global` exposure in the active `federation_id` selected from `federation-root.v1`, while preserving Room's carrier-neutral boundary. |
 | P076-007 | Update Proposal 075's "Federated Homeserver Deployment" framing | done | Renamed to "Matrix as an Inter-Federation Carrier"; Executive Summary and Non-Goals now state explicitly that Matrix's homeserver-to-homeserver federation protocol is a separate mechanism from Orbiplex's own federation identity, and that adopting it is not a goal. |
@@ -1390,7 +1393,7 @@ the channel carries signatures — never authority.
 
 1. Complete the activation package under the adopted `orbiplex-main` root
    charter (`doc/normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md`,
-   `DIA-ROOT-001`, 0.1.0): name custodians, generate keys, fill the roster,
+   `DIA-ROOT-001`, 0.1.0): name Guardians, generate keys, fill the roster,
    confirm the ≥2-of-3 threshold, and record the appeal process before treating
    the default federation as production-trustworthy.
 2. Replace the bundled hard-MVP fixture with a real `orbiplex-main` signed pack

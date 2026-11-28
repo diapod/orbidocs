@@ -1,5 +1,7 @@
 # DIA Reputation Mechanism Validation Protocol
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 ## Document Status
 
 | Field | Value |
@@ -51,7 +53,8 @@ reputation section of `doc/normative/30-core-values/en/CORE-VALUES.en.md`:
 
 ### 3.1. Core Metrics (Mandatory)
 
-Every federation deploying reputation mechanisms MUST measure and report the
+The project, and operators that expressly adopt this protocol for a reputation service,
+MUST measure and report the
 following metrics in cycles no longer than 30 days.
 
 #### M1: Reputation Concentration Coefficient (Gini)

@@ -1463,9 +1463,9 @@ osoby.
 
 ## Prawa i obowiązki węzła – obywatelstwo roju
 
-Węzeł w DIA jest "obywatelem roju": ma prawa, które chronią jego autonomię,
-i obowiązki, które chronią wspólnotę przed Sybilem, nadużyciami i degradacją
-poznawczą.
+Projekt chroni autonomię osób korzystających z jego węzłów. We wspólnych instytucjach
+projektu z obywatelstwem roju wiążą się jawnie podjęte obowiązki uczestników służące
+ochronie innych przed nadużyciami, atakami Sybila i degradacją poznawczą.
 
 Prawa minimalne obejmują:
 
@@ -1496,9 +1496,10 @@ Obowiązki minimalne obejmują:
 
 Egzekwowanie jest stopniowalne: od ostrzeżeń i ograniczeń uprawnień, przez
 kwarantannę reputacyjną, po odcięcie routingu – zawsze z logiem decyzji, możliwością
-odwołania i ścieżką powrotu po naprawie. Każda federacja może zaostrzyć te zasady
-w "CORP_COMPLIANT", ale nie może osłabić praw podstawowych ani obejść godności
-i bezpieczeństwa jako warstwy nienegocjowalnej.
+odwołania i ścieżką powrotu po naprawie.
+W usługach projektu tryb `CORP_COMPLIANT` pozwala wzmacniać zabezpieczenia przy zachowaniu
+praw podstawowych, godności i bezpieczeństwa. Każda społeczność sama ustanawia swoje
+instytucje i wybiera zobowiązania, które podejmuje.
 
 ## Architektura i rzemiosło systemu
 

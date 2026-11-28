@@ -63,6 +63,7 @@ plugins:
                 - Vision: doc/normative/20-vision/VISION.md
                 - Core Values: doc/normative/30-core-values/CORE-VALUES.md
                 - Constitution: doc/normative/40-constitution/CONSTITUTION.md
+                - Proposed community self-government amendment: doc/normative/40-constitution/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.md
                 - Constitutional Ops:
                     - doc/normative/50-constitutional-ops/README.md
                     - Abuse Disclosure Protocol: doc/normative/50-constitutional-ops/ABUSE-DISCLOSURE-PROTOCOL.md
@@ -172,6 +173,7 @@ plugins:
                 - Vize: doc/normative/20-vision/VISION.md
                 - Základní hodnoty: doc/normative/30-core-values/CORE-VALUES.md
                 - Konstituce: doc/normative/40-constitution/CONSTITUTION.md
+                - Návrh změny o samosprávě společenství: doc/normative/40-constitution/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.md
                 - Prováděcí akty:
                     - doc/normative/50-constitutional-ops/README.md
                     - Abuse Disclosure Protocol: doc/normative/50-constitutional-ops/ABUSE-DISCLOSURE-PROTOCOL.md
@@ -235,6 +237,7 @@ plugins:
                 - Wizja: doc/normative/20-vision/VISION.md
                 - Wartości podstawowe: doc/normative/30-core-values/CORE-VALUES.md
                 - Konstytucja: doc/normative/40-constitution/CONSTITUTION.md
+                - Projekt zmiany dotyczącej samorządności społeczności: doc/normative/40-constitution/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.md
                 - Akty wykonawcze:
                     - doc/normative/50-constitutional-ops/README.md
                     - Abuse Disclosure Protocol: doc/normative/50-constitutional-ops/ABUSE-DISCLOSURE-PROTOCOL.md

@@ -422,6 +422,13 @@ v mnoha jazycích.
 
 ## Governance bez kněží: pravidla místo autority
 
+Orbiplex má umožnit místním samosprávným společenstvím spolupracovat v celostátním i
+celosvětovém měřítku. Nezávislá společenství mohou například koordinovat pomoc v krizi
+prostřednictvím federací, které se dohodly na protokolech pro sdělování potřeb,
+udělování oprávnění a jejich odvolání. Lidé s různými názory mohou sledovat stejný
+praktický cíl a změnit nástroje, pokud jim začnou určovat samotný cíl. Taková spolupráce
+brání zpětné adaptaci bez soustředění politické moci.
+
 Největším rizikem decentralizace je nová forma oligarchie: strážci repozitářů,
 operátoři infrastruktury, ekosystémy dodavatelů.
 

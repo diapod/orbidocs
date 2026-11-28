@@ -1,5 +1,7 @@
 # Polityka wyjątków DIA
 
+> **Projekt zmiany.** Zob. [tryb przyjęcia i przepisy przejściowe](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md).
+
 ## Status dokumentu
 
 | Pole | Wartość |
@@ -25,6 +27,10 @@ wyjątku **obiektem pierwszej kategorii audytu**.
 ---
 
 ## 2. Zasada ogólna
+
+Organ wskazuje regułę projektu lub jawnie przyjęte warunki usługi, z których wynika
+jego właściwość. Wyjątek dotyczy określonej operacji w granicach już udzielonej
+kompetencji. Nie nadaje nowych uprawnień do danych ani wobec społeczności.
 
 1. Wyjątek jest dopuszczalny wyłącznie wtedy, gdy:
     - nie narusza rdzenia nienegocjowalnego,
@@ -183,7 +189,7 @@ Wyjątek MUSI zostać automatycznie zawieszony albo cofnięty, jeżeli:
 
 ## 7. Metryki zdrowia wyjątków
 
-Każda federacja powinna mierzyć co najmniej:
+Organ stosujący tę politykę powinien mierzyć co najmniej:
 
 - liczbę aktywnych wyjątków per okres,
 - średni czas życia wyjątku,

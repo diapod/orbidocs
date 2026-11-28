@@ -1,5 +1,7 @@
 # Członkostwo federacji i quorum DIA
 
+> **Projekt zmiany.** Zob. [tryb przyjęcia i przepisy przejściowe](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md).
+
 ## Status dokumentu
 
 | Pole | Wartość |
@@ -28,6 +30,14 @@ i veta.
 ---
 
 ## 2. Zasady ogólne
+
+Są to warunki udziału we wspólnej procedurze decyzyjnej DIA. Przed ustaleniem prawa głosu
+odnotowuje się wyraźną decyzję uczestnika, umocowanego przedstawiciela, wersję, zakres i
+warunki wystąpienia. Sam root pack, interoperacyjność ani wspólna usługa nie ustanawiają
+takiego udziału. Przedstawiciel głosuje tylko w granicach udzielonego mandatu. Współdzielenie
+korzenia nie daje społeczności dodatkowego głosu. Wystąpienie kończy przyszły udział na
+zasadach porozumienia, bez rozwiązania społeczności ani unieważnienia jej technicznego
+korzenia.
 
 1. W ładzie międzyfederacyjnym (ang. governance) liczą się wyłącznie **federacje
     uprawnione do głosu**.

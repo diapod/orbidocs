@@ -1,5 +1,7 @@
 # Entrenchment Clause and Constitutional Defense Procedure of DIA
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 ## Document Status
 
 | Field | Value |
@@ -24,6 +26,12 @@ central organ.
 ## 2. Entrenchment Clause
 
 ### 2.1. Non-Negotiable Core
+
+The core binds the project whenever it exercises power, including through a partner. Its
+protected procedure governs a material change to whom those guarantees cover. A community's
+exercise of its independent constituent authority is outside the panel's jurisdiction. Where
+parties expressly entrust a dispute to the panel, its remedy is limited to their agreed
+relationship.
 
 The canonical source for the composition of the core is the Constitution's
 "Non-Negotiable Core" section together with the machine-readable
@@ -74,7 +82,7 @@ The entrenchment clause does not prevent:
 
 - amendment of Constitution articles **outside** the non-negotiable core
   (procedure from Art. XVI),
-- tightening the core (adding new guarantees),
+- adding guarantees, subject to §2.2 if the composition or protection of the core changes,
 - **expansive** reinterpretation of the scope of protection,
 - creation of new articles so long as they do not weaken the core.
 
@@ -98,7 +106,7 @@ act or on consent from the organ whose authority expires.
 Every federation, every node with the status of swarm citizen (Art. XV), and
 every public-trust role may submit a **constitutional challenge** against:
 
-- a federation policy,
+- a federation policy insofar as it implements a project duty or a mandate accepted by the parties,
 - a governance decision,
 - an implementing act,
 - an action of a node, agent, or role,

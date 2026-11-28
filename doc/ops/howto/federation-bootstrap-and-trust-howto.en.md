@@ -17,7 +17,7 @@ from the root of the `node/` workspace.
 
 | Layer | Question it answers |
 | :--- | :--- |
-| `federation-root.v1` | whose authority and policy constitute the federation? |
+| `federation-root.v1` | which subjects and custody policy anchor this federation's technical trust domain? |
 | official-service endorsement | is this service official in this federation? |
 | capability passport | which capability scope belongs to this subject? |
 | Seed Directory | which accepted discovery facts are currently projected? |
@@ -33,13 +33,13 @@ not a peer handshake.
 
 Use an explicit local fixture profile for disposable acceptance. Use
 org/threshold custody conforming to the federation charter for production. A
-production custodian key should be passphrase-encrypted; plaintext PEM is only
+production root signing key should be passphrase-encrypted; plaintext PEM is only
 for an explicit short-lived fixture.
 
 Before signing, establish:
 
 - `federation/id`;
-- custodian roster and threshold;
+- Key Guardian roster and signing threshold;
 - sovereign/attestation subjects;
 - endorsement policy;
 - Seed Directory bootstrap;
@@ -110,7 +110,7 @@ custody rule that lists the key embedded in its own `org/id`
 ([P076-041](../../project/40-proposals/076-federation-identity-and-network-selector.md#keyless-identifiers-for-federation-root-orgs)).
 A pack signed before this check that carries either shape needs a new ceremony
 with a higher `pack_version`. Drop the surplus signature, or replace the
-org-key seat with a separate custodian key, adding a custodian first if the
+org-key seat with a separate Guardian key, adding a Guardian first if the
 threshold would otherwise become unreachable.
 
 ## 5. Verify Seed Directory bootstrap

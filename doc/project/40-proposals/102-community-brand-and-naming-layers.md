@@ -69,7 +69,7 @@ the second names software.
 **Fact.** P076 defines `federation_id` as a node-wide, pre-runtime network selector,
 explicitly analogous to `mainnet` and `testnet`.
 
-**Fact.** Per `DIA-ROOT-001` section 1, until the custodian roster and key table are
+**Fact.** Per `DIA-ROOT-001` section 1, until the roster of Key Guardians and the key table are
 filled, a production `federation-root.v1` pack is signed and production packaging
 disables the bundled fixture, `orbiplex-main` remains a development bootstrap fixture
 and MUST NOT be treated as production root authority (P076-004).
@@ -97,6 +97,11 @@ Orbiplex, not a new name for all Orbiplex installations or federations. The
 federation's operational identity remains governed by P076 and S041; its public
 name does not replace the selector or root pack. The project site remains
 `orbiplex.ai`, and technical documentation remains at `docs.orbiplex.ai`.
+
+The public name identifies Emergat; it says nothing about which constitution its
+community has adopted. The [proposed constitutional amendment](../../normative/40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md)
+distinguishes that decision from selecting `orbiplex-main`. Other communities
+can use the same infrastructure on agreed terms and retain their own institutions.
 
 ### 2.2 Canonical orthography
 

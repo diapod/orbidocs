@@ -1,5 +1,7 @@
 # Karta Praw i Obowiązków Węzła DIA
 
+> **Projekt zmiany.** Zob. [tryb przyjęcia i przepisy przejściowe](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md).
+
 ## Status dokumentu
 
 | Pole | Wartość |
@@ -12,6 +14,9 @@
 ---
 
 ## Twoje prawa jako węzła
+
+Karta opisuje gwarancje projektu wobec osób objętych jego działaniem i obowiązki uczestników
+jawnie wybranych usług (art. XV.1). Samo prowadzenie węzła nie czyni nikogo członkiem.
 
 | Prawo | Co oznacza | Konstytucja |
 | :--- | :--- | :--- |
@@ -175,4 +180,4 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | 26 | Ktoś proponuje wyjątek od reguły | XIV.3, XIV.4 | Wyjątek wymaga: policy-id, reason, risk-level, expiry, owner, stanu bezpiecznego domknięcia (ang. fail-closed) |
 | 27 | Wyjątek generuje sygnały krzywdy lub nadużycia | XIV.5 | Automatyczne zawieszenie wyjątku do wyjaśnienia |
 | 28 | Propozycja zmiany Konstytucji | XIII.7-XIII.12, XVI.8, XVI.9, XVI.13 | Jawne uzasadnienie, analiza skutków i odwracalność; wpływ założycieli wygasa automatycznie i nie obejmuje obejścia rdzenia |
-| 29 | Polityka lokalna próbuje obejść Konstytucję | XVI.10 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |
+| 29 | Organ projektu próbuje obejść własne obowiązki konstytucyjne przez politykę lokalną | XVI.10 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |

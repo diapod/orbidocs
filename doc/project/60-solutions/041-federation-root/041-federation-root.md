@@ -43,7 +43,7 @@ Production trust in `orbiplex-main` is additionally gated by governance, not
 only code: the root charter (`DIA-ROOT-001`,
 `doc/normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md`)
 is adopted at version 0.1.0, but production activation still requires a filled
-custodian roster and keys before the bundled fixture is replaced by a
+Guardian roster and keys before the bundled fixture is replaced by a
 production pack and `federation.allow_bundled_fixture_root` is disabled
 (P076-004).
 
@@ -56,6 +56,12 @@ production pack and `federation.allow_bundled_fixture_root` is disabled
 Federation Root and Network Selector defines the local trust anchor that binds a
 node to one federation's identity, official service policy, Seed Directory
 bootstrap set, and routing/discovery defaults.
+
+Key Guardians hold the keys that sign the federation root pack under its custody
+policy. Verifying the pack establishes the technical trust domain. A community's
+constitution, its membership and the mandate to represent it require separate
+evidence. The active selector and root cannot serve as a record of constitutional
+adoption (see the [proposed jurisdiction rule](../../../normative/40-constitution/en/CONSTITUTION.en.md#const:norm.13)).
 
 The root does not make remote facts true by itself. It defines which local
 policy material may be used to evaluate official-service endorsements,
@@ -261,13 +267,13 @@ Responsibilities:
   commands for root and endorsement artifacts;
 - enforce the production `orbiplex-main` ceremony profile for manifest,
   assembly, and verification;
-- generate passphrase-encrypted PEM custodian keys by default, with plaintext
+- generate passphrase-encrypted PEM Guardian keys by default, with plaintext
   PEM output limited to explicit disposable fixtures;
 - allow participant mnemonic, data-dir, and key-record signing variants;
 - reject unknown or unauthorized signers in strict mode;
 - keep org-governed issuance ceremony-bound rather than pretending one
-  custodian can issue.
-- keep custodian identity and operator identity stratified: a custodian key may
+  Guardian can issue.
+- keep Guardian identity and operator identity stratified: a Guardian key may
   attest or authorize a separate operator identity through an explicit binding,
   but tooling MUST NOT convert, promote, or derive that key into a full operator
   identity.
@@ -348,7 +354,7 @@ Status:
   itself;
 - switching active federation roots during hot reload;
 - making capability passports official without endorsements;
-- deriving full operator identities from federation-root custodian keys;
+- deriving full operator identities from federation-root signing keys;
 - enforcing consumer-specific cross-federation admission; Proposal 079 defines
   the minimal alliance policy contract plus runtime verifier/resolver
   foundation, while Room/Whisper/Corpus/AD/INAC/Agora hooks remain future

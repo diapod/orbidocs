@@ -4,6 +4,8 @@ This directory contains constitutional operational acts that refine and operatio
 
 ## Constitutional Order
 
+[Proposed community self-government amendment](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md) (pending the protected procedure).
+
 - [Normative Hierarchy](NORMATIVE-HIERARCHY.en.md)
 - [Node Rights Card](NODE-RIGHTS-CARD.en.md)
 - [Autonomy Levels](AUTONOMY-LEVELS.en.md)
@@ -13,6 +15,7 @@ This directory contains constitutional operational acts that refine and operatio
 ## Federation and Identity
 
 - [Federation Membership and Quorum](FEDERATION-MEMBERSHIP-AND-QUORUM.en.md)
+- [Orbiplex-Main Root Charter](ORBIPLEX-MAIN-ROOT-CHARTER.en.md)
 - [FIP Membership and Quorum](FIP-MEMBERSHIP-AND-QUORUM.en.md)
 - [Root Identity and Nyms](ROOT-IDENTITY-AND-NYMS.en.md)
 - [Identity Attestation and Recovery](IDENTITY-ATTESTATION-AND-RECOVERY.en.md)

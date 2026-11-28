@@ -1,5 +1,7 @@
 # Klauzula wieczności i procedura obrony Konstytucji DIA
 
+> **Projekt zmiany.** Zob. [tryb przyjęcia i przepisy przejściowe](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md).
+
 ## Status dokumentu
 
 | Pole | Wartość |
@@ -23,6 +25,11 @@ niekonstytucyjności i rozstrzygnięcia sprawy bez tworzenia stałego organu cen
 ## 2. Klauzula wieczności (ang. entrenchment clause)
 
 ### 2.1. Rdzeń nienegocjowalny
+
+Rdzeń wiąże projekt przy każdym wykonywaniu jego władzy, również przez partnera. Materialna
+zmiana kręgu adresatów ochrony wymaga trybu zmiany rdzenia. Stanowienie własnego ustroju
+przez społeczność pozostaje poza właściwością panelu. Jeżeli strony wyraźnie powierzyły mu
+spór, jego rozstrzygnięcie dotyczy tylko uzgodnionej relacji.
 
 Kanonicznym źródłem składu rdzenia jest sekcja "Rdzeń nienegocjowalny" Konstytucji
 oraz maszynowy `constitution-index.v1.json`. Ten akt odwołuje się do klauzul przez
@@ -73,7 +80,7 @@ Klauzula wieczności nie uniemożliwia:
 
 - zmiany artykułów Konstytucji **spoza** rdzenia nienegocjowalnego (procedura z Art.
   XVI),
-- zaostrzania rdzenia (dodawania nowych gwarancji),
+- dodawania gwarancji, z zachowaniem §2.2 w razie zmiany składu lub ochrony rdzenia,
 - reinterpretacji **rozszerzającej** zakres ochrony,
 - tworzenia nowych artykułów, o ile nie osłabiają rdzenia.
 
@@ -97,7 +104,7 @@ zależeć od wydania aktu kończącego ani od zgody organu, którego uprawnienia
 Każda federacja, każdy węzeł o statusie obywatela roju (Art. XV) oraz każda rola
 zaufania publicznego może zgłosić **zarzut niekonstytucyjności** wobec:
 
-- polityki federacyjnej,
+- polityki federacyjnej w zakresie wykonywania obowiązku projektu lub mandatu przyjętego przez strony,
 - decyzji dotyczącej ładu organizacyjnego (ang. governance),
 - ustawy wykonawczej,
 - działania węzła, agenta lub roli,

@@ -1,5 +1,7 @@
 # DIA Orbiplex-Main Root Charter
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 ## Document Status
 
 | Field | Value |
@@ -7,7 +9,7 @@
 | `policy-id` | `DIA-ROOT-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | 0.1.0 |
-| `status` | Adopted governance act; production activation pending |
+| `status` | 0.1.0 adopted; amendments shown here proposed; production activation pending |
 | `basis` | DIA Constitution (root-of-trust and appeal principles); `ENTRENCHMENT-CLAUSE.en.md`; `PANEL-SELECTION-PROTOCOL.en.md`; `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`; `doc/project/40-proposals/076-federation-identity-and-network-selector.md` (§4, §6, P076-004/013/014/026) |
 
 ---
@@ -17,7 +19,7 @@
 Proposal 076 defines the *shape* of the `orbiplex-main` federation root (an
 org-kind threshold root carried by `federation-root.v1`) and explicitly
 excludes from its scope the governance deliverables that make that root
-production-trustworthy: the concrete custodian roster, the concrete signing
+production-trustworthy: the concrete Guardian roster, the concrete signing
 keys, the final custody threshold, the rotation procedure, and the appeal
 body. This charter is the adopted governance home for those deliverables. Its
 adoption makes the rules real, but it does not by itself activate production
@@ -28,9 +30,16 @@ MUST NOT be treated as production root authority (P076-004).
 
 ## 2. Scope and Authority Boundary
 
-This charter governs: custodian eligibility and roster, custody keys,
+Key Guardians (Guardians, or the federation's Guardians) are the people entrusted with the
+federation root-pack signing keys. Their signatures exercise the specific custody powers
+below. A founder, councillor or arbiter holds a separate mandate, even when the same person
+serves in both roles. The charter governs the technical trust domain selected by
+`orbiplex-main`. It neither enacts a constitution for Emergat nor governs every community
+using the root. A participant's `root-identity` belongs to a separate identity contract.
+
+This charter governs: Guardian eligibility and roster, custody keys,
 threshold, root-pack ceremony conduct, rotation and succession, emergency
-custodian removal, official-service endorsement issuance, and the appeal
+Guardian removal, official-service endorsement issuance, and the appeal
 path. It does not define schema mechanics (Proposal 076), runtime
 verification (the Node loader and `capability-binding`), or federation
 membership at large (`FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`).
@@ -47,11 +56,13 @@ appeal runs. Appeals change *who decides next*, never *what verifies now*.
 - The custody threshold is **`2-of-3` at minimum**. An amendment may raise
   it; no amendment may lower it below `2-of-3`. Threshold semantics follow
   Proposal 076: M-of-N unique authorized signing keys, not M-of-N people.
-- The roster size MUST be at least 3 custodian keys at all times.
+- The roster size MUST be at least 3 Guardian keys at all times.
 
-## 4. Custodian Roster
+<a id="4-custodian-roster"></a>
 
-| Seat | Custodian identity (`participant:did:key:...`) | Key fingerprint (`z...`) | Since |
+## 4. Guardian Roster
+
+| Seat | Guardian identity (`participant:did:key:...`) | Key fingerprint (`z...`) | Since |
 | :--- | :--- | :--- | :--- |
 | 1 | *TBD — governance appointment pending* | *TBD* | — |
 | 2 | *TBD — governance appointment pending* | *TBD* | — |
@@ -59,29 +70,29 @@ appeal runs. Appeals change *who decides next*, never *what verifies now*.
 
 Eligibility (per P076-013):
 
-- a custodian identity is a **dedicated operational identity** used only for
+- a Guardian identity is a **dedicated operational identity** used only for
   root-pack approval, rotation, and recovery ceremonies,
 - it MUST NOT be a nym, an ordinary operator identity, or a day-to-day
-  participant key, and it lives in a **separate custodian `data-dir`**,
-- a custodian key MAY attest or authorize a separate operator identity through
+  participant key, and it lives in a **separate Guardian `data-dir`**,
+- a Guardian key MAY attest or authorize a separate operator identity through
   an explicit binding artifact, but it MUST NOT be converted, promoted, or
   derived into a full operator identity,
-- no single natural person or organization may control a number of custodian
+- no single natural person or organization may control a number of Guardian
   keys sufficient to meet the threshold alone,
-- a custodian seat is vacated by resignation, by confirmed key compromise, or
+- a Guardian seat is vacated by resignation, by confirmed key compromise, or
   by removal decided under §7.
 
 ## 5. Keys
 
-- Custodian keys are dedicated Ed25519 keys generated during a ceremony using
+- Guardian keys are dedicated Ed25519 keys generated during a ceremony using
   the P076-014 tooling; they are never reused for any other key role.
-- Private key material is stored only as encrypted custodian-controlled secret
+- Private key material is stored only as encrypted Guardian-controlled secret
   material: an encrypted ceremony PEM generated by the P076-014 tooling, or an
-  encrypted custodian `data-dir` flow. Passphrases are supplied through a
+  encrypted Guardian `data-dir` flow. Passphrases are supplied through a
   prompt or stdin path, never as shell arguments, and any passphrase file used
   for offline automation must be private, short-lived, and handled separately
   from the encrypted key.
-- Suspected compromise of any custodian key triggers §7 without waiting for
+- Suspected compromise of any Guardian key triggers §7 without waiting for
   proof of misuse — rotation is cheap, standing compromise is not.
 
 ## 6. Ceremony
@@ -91,7 +102,7 @@ pack → manifest digest → independent verification of the digest by every
 signer → detached signatures collected offline → deterministic assembly →
 verification → publication. `pack_version` increases monotonically; loaders
 reject rollback and same-version digest swaps. Every signer verifies the
-exact bytes they sign; no custodian signs a digest they have not derived
+exact bytes they sign; no Guardian signs a digest they have not derived
 themselves.
 
 ## 7. Rotation, Succession, and Emergency Removal
@@ -100,7 +111,7 @@ themselves.
   transitional pack during an overlap window, then the incoming roster signs
   the next pack alone. Overlap length is set per rotation and recorded in the
   pack's `policy_ref` document.
-- **Emergency removal** (compromise or incapacity): the remaining custodians,
+- **Emergency removal** (compromise or incapacity): the remaining Guardians,
   meeting the threshold without the affected key, sign a new pack that
   removes it. If the threshold cannot be met without the affected key, the
   appeal body (§9) convenes an extraordinary re-seating.
@@ -113,14 +124,14 @@ themselves.
 The roster acts as the sovereign org subject of `orbiplex-main` for
 `federation-service-endorsement.v1` issuance (Proposal 076 §6): issuance
 requires the custody threshold (ceremony per P076-018); **revocation is
-deliberately asymmetric** — any single authorized custodian key may revoke,
+deliberately asymmetric** — any single authorized Guardian key may revoke,
 because unilateral withdrawal narrows trust and is fail-safe.
 
 ## 9. Appeal Path
 
 - The appeal body is drawn using `PANEL-SELECTION-PROTOCOL.en.md`, with the
   conflict-of-interest rules applied against the current roster (no sitting
-  custodian, nor an identity operationally tied to one, may sit on a panel
+  Guardian, nor an identity operationally tied to one, may sit on a panel
   reviewing that roster's decision).
 - Appealable matters: contested rotation or removal, refusal to issue or
   revoke an official-service endorsement, and contested custody-policy
@@ -140,9 +151,9 @@ example `policy:dia-root-001@0.1.0#appeals`.
 
 ## 11. Adoption Status
 
-This document is an **adopted initial implementing act** (0.1.0). The roster
+The **initial implementing act** (0.1.0) was adopted. Changes to it require §10. The roster
 and key table are deliberately unfilled until the activation ceremony.
-Production activation requires: three named custodian identities with generated
+Production activation requires: three named Guardian identities with generated
 keys, a signed production `federation-root.v1` pack replacing the bundled
 fixture, and production packaging that disables
 `federation.allow_bundled_fixture_root` (Proposal 076, Next Actions 1–2).

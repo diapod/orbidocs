@@ -5,11 +5,11 @@ Instalację, Seed Directory bootstrap, endorsements, TLS evidence, rotację i
 diagnostykę uruchomionego węzła opisuje nadrzędny
 [Federation Bootstrap and Trust HOWTO](federation-bootstrap-and-trust-howto.pl.md).
 
-Ten HOWTO opisuje ścieżkę ceremonii federation-root, w której każdy kustosz
+Ten HOWTO opisuje ścieżkę ceremonii federation-root, w której każdy klucznik
 generuje świeży klucz narzędziem
 `tools/federation-root-ceremony/federation_root_ceremony.py keygen`. Nie opisuje
 importu klucza uczestnika z node'a, użycia node `data-dir` ani wyprowadzania
-tożsamości operatora z klucza kustosza.
+tożsamości operatora z klucza klucznika.
 
 Powiązane dokumenty:
 
@@ -22,14 +22,14 @@ Powiązane dokumenty:
 
 - **Koordynator** przygotowuje roster governance, niepodpisany draft roota,
   manifest, transcript ceremonii i finalne złożenie.
-- **Kustosz** generuje jeden dedykowany klucz na własnej maszynie, weryfikuje
+- **Strażnik kluczy** (klucznik) generuje jeden dedykowany klucz na własnej maszynie, weryfikuje
   zamrożony digest, podpisuje dokładnie ten draft roota i zwraca tylko materiał
   publiczny oraz podpis odłączony.
 - **Weryfikator** niezależnie uruchamia kontrole manifestu, złożenia i finalnego
   packa przed publikacją. Może to być koordynator plus co najmniej jeden
-  kustosz.
+  klucznik.
 
-Koordynator nigdy nie dostaje prywatnego materiału kluczy. Klucze kustoszy mogą
+Koordynator nigdy nie dostaje prywatnego materiału kluczy. Klucze kluczników mogą
 później atestować albo autoryzować oddzielną tożsamość operatora przez jawne
 wiązanie, ale nie są tożsamościami operatorów i nie wolno ich w takie
 tożsamości konwertować.
@@ -48,7 +48,7 @@ Uzgodnijcie te wartości zanim jakikolwiek digest zostanie zamrożony:
 - referencję polityki custody, na przykład `org-custody:orbiplex-main-root:v1`;
 - próg, na przykład `2-of-3`;
 - charter albo governance `policy_ref`;
-- dokładny roster kustoszy i nazwy wyświetlane;
+- dokładny roster kluczników i nazwy wyświetlane;
 - identyfikator ceremonii;
 - miejsce publikacji finalnego packa `federation-root.v1`;
 - reguły redakcji publicznego transcriptu.
@@ -63,12 +63,14 @@ mkdir -p ceremony/keys ceremony/public ceremony/signatures ceremony/out
 ```
 
 `ceremony/keys/` jest pokazany tylko dla lokalnych przykładów. W prawdziwej
-ceremonii każdy kustosz trzyma własny katalog kluczy prywatnych na własnej
+ceremonii każdy klucznik trzyma własny katalog kluczy prywatnych na własnej
 maszynie; koordynator nie powinien tworzyć ani zbierać kluczy prywatnych.
 
-## 2. Każdy Kustosz Generuje Swój Klucz
+<a id="2-kazdy-kustosz-generuje-swoj-klucz"></a>
 
-Każdy kustosz uruchamia lokalnie, używając własnej etykiety w nazwach plików:
+## 2. Każdy Klucznik Generuje Swój Klucz
+
+Każdy klucznik uruchamia lokalnie, używając własnej etykiety w nazwach plików:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py keygen \
@@ -89,7 +91,7 @@ Oczekiwane lokalne wyjścia:
 - `ceremony/public/alice.public.json` — publiczny rekord `key_public`, można
   wysłać koordynatorowi.
 
-Kustosz wysyła koordynatorowi tylko `alice.public.json`. Nie wysyłaj pliku PEM,
+Klucznik wysyła koordynatorowi tylko `alice.public.json`. Nie wysyłaj pliku PEM,
 nie wklejaj go do czatu, nie załączaj do ticketów i nie umieszczaj w
 transcripcie.
 
@@ -142,7 +144,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py digest \
 ```
 
 Zapisz zwrócony digest `sha256:...` w transcripcie ceremonii. To jest wartość,
-którą każdy kustosz musi niezależnie porównać przed podpisaniem.
+którą każdy klucznik musi niezależnie porównać przed podpisaniem.
 
 ## 5. Koordynator Tworzy i Weryfikuje Manifest
 
@@ -165,7 +167,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py manifest-verify 
   --manifest ceremony/manifest.json
 ```
 
-Wyślij każdemu kustoszowi:
+Wyślij każdemu klucznikowi:
 
 - `ceremony/unsigned.federation-root.json`;
 - `ceremony/manifest.json`;
@@ -174,9 +176,11 @@ Wyślij każdemu kustoszowi:
 
 Nie wysyłaj kluczy prywatnych, bo koordynator nie powinien ich posiadać.
 
-## 6. Każdy Kustosz Weryfikuje Przed Podpisem
+<a id="6-kazdy-kustosz-weryfikuje-przed-podpisem"></a>
 
-Każdy kustosz lokalnie sprawdza digest:
+## 6. Każdy Klucznik Weryfikuje Przed Podpisem
+
+Każdy klucznik lokalnie sprawdza digest:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py digest \
@@ -186,7 +190,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py digest \
 Porównuje wynik z digestem zapisanym przez koordynatora. Jeśli wynik się nie
 zgadza, zatrzymajcie ceremonię. Nie podpisujcie draftu "prawie takiego samego".
 
-Każdy kustosz powinien też sprawdzić co najmniej:
+Każdy klucznik powinien też sprawdzić co najmniej:
 
 - `federation_id`;
 - `pack_version`;
@@ -197,9 +201,11 @@ Każdy kustosz powinien też sprawdzić co najmniej:
 - `policy_ref`;
 - wpisy bootstrap i Seed Directory.
 
-## 7. Każdy Kustosz Podpisuje Zamrożony Root
+<a id="7-kazdy-kustosz-podpisuje-zamrozony-root"></a>
 
-Każdy kustosz podpisuje swoim lokalnym kluczem prywatnym:
+## 7. Każdy Klucznik Podpisuje Zamrożony Root
+
+Każdy klucznik podpisuje swoim lokalnym kluczem prywatnym:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py sign \
@@ -212,7 +218,7 @@ node/tools/federation-root-ceremony/federation_root_ceremony.py sign \
 Passphrase odblokowuje wyłącznie lokalny zaszyfrowany PEM. Nie jest zapisywana
 do rekordu podpisu, manifestu, transcriptu ani root-packa.
 
-Kustosz odsyła koordynatorowi tylko `alice.sig.json`. Podpis odłączony jest
+Klucznik odsyła koordynatorowi tylko `alice.sig.json`. Podpis odłączony jest
 publicznym materiałem ceremonii; klucz prywatny zostaje lokalnie.
 
 ## 8. Koordynator Składa Root Pack
@@ -234,7 +240,7 @@ Strict assembly odrzuca niepoprawne i nieautoryzowane podpisy. Dla produkcyjnego
 
 ## 9. Wszyscy Weryfikują Finalny Pack
 
-Koordynator i co najmniej jeden kustosz weryfikują finalny artefakt:
+Koordynator i co najmniej jeden klucznik weryfikują finalny artefakt:
 
 ```sh
 node/tools/federation-root-ceremony/federation_root_ceremony.py verify \
@@ -251,26 +257,26 @@ Opublikujcie:
 
 - `ceremony/out/federation-root.v1.json`;
 - zredagowany transcript ceremonii;
-- publiczne rekordy kustoszy;
+- publiczne rekordy kluczników;
 - manifest i finalny digest.
 
 Zarchiwizujcie prywatnie:
 
-- zaszyfrowany prywatny klucz każdego kustosza, kontrolowany wyłącznie przez
-  tego kustosza;
+- zaszyfrowany prywatny klucz każdego klucznika, kontrolowany wyłącznie przez
+  tego klucznika;
 - lokalne notatki maszynowe potrzebne do przyszłej rotacji albo odzyskiwania;
 - niepubliczne notatki incydentowe.
 
 Nigdy nie archiwizuj kluczy prywatnych w repozytorium, publicznym transcripcie,
 issue trackerze, czacie ani współdzielonym backupie. Kopia zaszyfrowanego PEM-a
 jest dopuszczalna tylko wtedy, gdy backup i passphrase są zarządzane jako
-oddzielne sekrety danego kustosza.
+oddzielne sekrety danego klucznika.
 
 ## Reguły Przerwania
 
 Zatrzymajcie ceremonię i zacznijcie od nowego draftu albo nowego digestu, gdy:
 
-- którykolwiek kustosz otrzyma inny digest;
+- którykolwiek klucznik otrzyma inny digest;
 - manifest przestaje się weryfikować;
 - roster jest błędny albo niepełny;
 - próg jest błędny;
@@ -283,14 +289,14 @@ starymi bajtami nie nadają się do ponownego użycia.
 
 ## Po Ceremonii: Działanie Jako Organizacja
 
-Kustosze działają teraz wspólnie jako organizacja i nie ma klucza organizacji,
+W sprawach objętych polityką pieczy klucznicy podpisują w imieniu organizacji i nie ma klucza organizacji,
 który trzeba by współdzielić, dzielić albo odtwarzać. Późniejszy akt organizacji
 ma dwa kroki
 ([P076 §6](../../project/40-proposals/076-federation-identity-and-network-selector.md#collective-org-action-decide-then-co-sign)):
 
 1. Decyzję podejmuje się według chartera, w głosowaniu, jeśli charter go
    wymaga.
-2. Kustosze współpodpisują powstały artefakt tymi samymi dedykowanymi
+2. Klucznicy współpodpisują powstały artefakt tymi samymi dedykowanymi
    kluczami, których użyli tutaj. Każdy podpisuje ten sam payload niezależnie,
    a artefakt jest ważny, gdy spełniona jest reguła custody dla jego celu.
 

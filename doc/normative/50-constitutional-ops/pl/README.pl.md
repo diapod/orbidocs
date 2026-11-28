@@ -4,6 +4,8 @@ Ten katalog zbiera akty wykonawcze rozwijające Konstytucję DIA/Orbiplex.
 
 ## Porządek ustrojowy
 
+[Projekt zmiany dotyczącej samorządności społeczności](../../40-constitution/pl/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.pl.md) (do przyjęcia w trybie chronionym).
+
 - [Hierarchia normatywna](NORMATIVE-HIERARCHY.pl.md)
 - [Karta praw węzła](NODE-RIGHTS-CARD.pl.md)
 - [Poziomy autonomii](AUTONOMY-LEVELS.pl.md)
@@ -13,6 +15,7 @@ Ten katalog zbiera akty wykonawcze rozwijające Konstytucję DIA/Orbiplex.
 ## Federacje i tożsamość
 
 - [Członkostwo i quorum federacji](FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md)
+- [Karta korzenia Orbiplex-Main](ORBIPLEX-MAIN-ROOT-CHARTER.pl.md)
 - [Członkostwo i quorum FIP](FIP-MEMBERSHIP-AND-QUORUM.pl.md)
 - [Tożsamość główna i nymy](ROOT-IDENTITY-AND-NYMS.pl.md)
 - [Atestacja i odzyskiwanie tożsamości](IDENTITY-ATTESTATION-AND-RECOVERY.pl.md)

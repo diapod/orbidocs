@@ -430,6 +430,13 @@ in many languages.
 
 ## Governance Without Priests: Rules Instead of Authority
 
+Orbiplex aims to extend the reach of local self-government to national and global
+cooperation. Independent communities can coordinate aid in a crisis, for example, through
+federations with agreed protocols for requests, permissions and withdrawal. People with
+different views can pursue that practical goal together and change the tools when the tools
+start dictating the goal. This is one way to resist reverse adaptation without
+concentrating political authority.
+
 The biggest decentralization risk is a new oligarchy: repository gatekeepers,
 infrastructure operators, vendor ecosystems.
 

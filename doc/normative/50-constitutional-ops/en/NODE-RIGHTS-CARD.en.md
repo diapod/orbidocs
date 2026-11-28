@@ -1,5 +1,7 @@
 # DIA Node Rights and Duties Card
 
+> **Proposed revision.** See [adoption and transition](../../40-constitution/en/COMMUNITY-SELF-GOVERNMENT-AMENDMENT.en.md).
+
 ## Document Status
 
 | Field | Value |
@@ -12,6 +14,10 @@
 ---
 
 ## Your Rights as a Node
+
+This card describes the project's guarantees to affected people and the duties of
+participants in expressly joined services (Art. XV.1). Operating a node alone does not make
+anyone a member.
 
 | Right | What it means | Constitution |
 | :--- | :--- | :--- |
@@ -169,4 +175,4 @@ not replace reading the Constitution, but it helps locate the right norm quickly
 | 26 | Someone proposes an exception to a rule | XIV.3, XIV.4 | An exception requires: policy-id, reason, risk-level, expiry, owner, fail-closed |
 | 27 | An exception generates signals of harm or abuse | XIV.5 | Automatic suspension of the exception until clarification |
 | 28 | A proposal to amend the Constitution | XIII.7-XIII.12, XVI.8, XVI.9, XVI.13 | Explicit rationale, impact analysis, and reversibility; founder influence expires automatically and does not bypass the core |
-| 29 | A local policy tries to bypass the Constitution | XVI.10 | Impermissible without a formal constitutional amendment |
+| 29 | A project body uses a local policy to bypass its own constitutional duties | XVI.10 | Impermissible without a formal constitutional amendment |

@@ -1413,8 +1413,9 @@ přednost, důkazy mají přednost před narativem a rozhodnutí přijímá defi
 
 ## Práva a povinnosti uzlu – občanství roje
 
-Uzel v DIA je „občanem roje“: má práva, která chrání jeho autonomii, a povinnosti,
-které chrání komunitu před Sybilem, zneužitím a poznávací degradací.
+Projekt chrání autonomii lidí, kteří používají jeho uzly. Ve společných institucích
+projektu zahrnuje občanství roje výslovně přijaté povinnosti účastníků chránit ostatní před
+zneužíváním, útoky typu Sybil a kognitivní degradací.
 
 Minimální práva zahrnují:
 
@@ -1445,9 +1446,10 @@ Minimální povinnosti zahrnují:
 
 Vymáhání je škálovatelné: od varování a omezení oprávnění přes reputační karanténu
 až po odpojení routingu – vždy s logem rozhodnutí, možností odvolání a cestou
-návratu po nápravě. Každá federace může tato pravidla zpřísnit v `CORP_COMPLIANT`,
-ale nesmí oslabit základní práva ani obejít důstojnost a bezpečnost jako
-nevyjednatelnou vrstvu.
+návratu po nápravě.
+Ve službách projektu umožňuje režim `CORP_COMPLIANT` zpřísnit ochranu při zachování
+základních práv, důstojnosti a bezpečí. Každé společenství si samo ustavuje instituce a
+rozhoduje, které závazky přijme.
 
 ## Architektura a řemeslo systému
 
