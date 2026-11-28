@@ -242,7 +242,12 @@ Current implementation status:
 - Matrix mailbox is a carrier, not an authority. Outbound mailbox delivery
   requires explicit INAC authorization in the target addressing, seals the
   `inac-control.v1` frame as `artifact-mailbox-sealed.v1` to the recipient
-  node, and posts it as a Matrix event. The receiver unseals, revalidates size
+  node, and posts it as a Matrix event. The current suite
+  `node-static-x25519+a256gcm` uses one static key per node pair; P104-005
+  replaces it with the forward-secret hybrid `x25519-mlkem768+a256gcm@v1` and
+  keeps v1 readable for a dated window (see
+  [P104](../../40-proposals/104-post-quantum-cryptographic-migration.md)).
+  The receiver unseals, revalidates size
   and `sha256:*`, feeds the frame through the same INAC/Artifact Delivery
   admission path used by WSS, including the same explicit
   invitation/capability/custody passport modes, and only caches inline payload

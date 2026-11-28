@@ -108,6 +108,10 @@ Status:
   implementation. No optional suite is implemented; `aes-256-gcm-siv@v1` is
   only a reserved identifier (checked against Node `e68457064`).
 
+[P104](../../40-proposals/104-post-quantum-cryptographic-migration.md)
+classifies the Sealer suites as `keep`: 256-bit symmetric keys remain adequate
+against quantum search, so no suite migration is planned.
+
 ### Key Source Boundary
 
 Based on:

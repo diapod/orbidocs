@@ -89,6 +89,9 @@ boundaries. The MVP recorded-message writer may emit `key-wrap =
 "dev-key-commitment"`; that value is a non-recoverable development custody
 commitment to the discarded symmetric key, not recipient key wrapping. Durable
 recipient recovery requires `x25519-hkdf-sha256+xchacha20-poly1305`.
+P104-006 ([P104](../../40-proposals/104-post-quantum-cryptographic-migration.md))
+adds the hybrid wrap `x25519-mlkem768-hkdf-sha256+xchacha20-poly1305@v1` for
+new entries and keeps the X25519-only wrap readable for a dated window.
 
 The public lookup surface is:
 

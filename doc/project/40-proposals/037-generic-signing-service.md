@@ -426,6 +426,11 @@ undo its effect or grant permission to repeat it. Node's code-coupled boundary i
 `node:daemon/docs/MIDDLEWARE-INSTANCES.md`. This extension does not change any
 artifact signature framing or independently qualify its consumers.
 
+[P104](104-post-quantum-cryptographic-migration.md) adds ML-KEM-768 keys under
+the signer and a `decapsulate` operation that mirrors `derive_shared_secret`
+and its `DomainTag` policy, so callers of the hybrid KEM never hold the private
+key (P104-004). Signature algorithms stay Ed25519 until P104-009 opens.
+
 ### `signer-service` crate
 
 Contains the engine. This is where policy, audit, and unlock cache live. The

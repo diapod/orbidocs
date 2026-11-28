@@ -204,6 +204,10 @@ Properties:
 - controlled by the local daemon installation,
 - not a human consent key.
 
+[P104](104-post-quantum-cryptographic-migration.md) keeps this key Ed25519 and
+binds post-quantum ML-KEM keys, and later ML-DSA keys, to it through a signed
+`pq-key-binding.v1` record; the canonical subject id does not change.
+
 What it must not be used for:
 
 - issuing participant consent,

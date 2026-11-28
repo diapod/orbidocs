@@ -251,6 +251,11 @@ The core invariant is:
 - multiple role-specific derivation contexts,
 - no informal “private key A becomes private key B” chaining.
 
+[P104](104-post-quantum-cryptographic-migration.md) adds ML-KEM-768 role keys
+derived from the same root under new purposes, beside the existing `…/dh`
+purposes (P104-008). Recovery from the mnemonic then reproduces them; no new
+mnemonic is needed and v1 purposes keep their meaning.
+
 ### 3. Participant roles
 
 The minimum role model is:

@@ -473,6 +473,12 @@ This means:
 - and reconnect should assume a fresh transport plus a fresh signed handshake,
   not protocol continuity derived from TLS session resumption.
 
+[P104](104-post-quantum-cryptographic-migration.md) makes the carrier a
+post-quantum hybrid: X25519MLKEM768 (RFC 10024) is required between Orbiplex
+nodes and offered first elsewhere (P104-002). A later `session-v2` adds
+ML-KEM-768 to the handshake's 3DH schedule (P104-007). TLS still authenticates
+only the endpoint, and `node-id` stays an Ed25519 `did:key`.
+
 For public `wss://` endpoints, the client should validate the presented server
 certificate against the hostname carried in the advertised endpoint URL using
 normal WebPKI rules.
